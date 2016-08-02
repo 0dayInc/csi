@@ -20,7 +20,7 @@ case $csi_deploy_type in
     fi
     ;;
   "ruby-gem")
-    ./vagrant/install/rvm.sh
+    export rvmsudo_secure_path=0
     rubyv=$(cat .ruby-version)
     gemset=$(cat .ruby-gemset)
     source /etc/profile.d/rvm.sh
@@ -30,6 +30,9 @@ case $csi_deploy_type in
     rvm use --default ${ruby_version}@${gemset}
     gem install bundler
     # TODO: identify os installed on & determine if proper postgres packages are installed for 'pg' gem
+    if [[ $(uname -s) -eq "Darwin" ]]; then
+      bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
+    fi
     bundle install
     ./build_csi_gem.sh
     ;;
