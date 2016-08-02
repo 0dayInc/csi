@@ -25,6 +25,7 @@ gem 'msfrpc-client', '1.0.3'       # Metasploit API - Per Rapid7 this is the pre
 gem 'net-openvpn', '0.8.7'         # Used for OpenVPN connectivity
 gem 'nexpose', '5.0.0'             # Vuln Scan all the Things!
 gem 'nokogiri', '1.6.8'            # Parse HTML & XML Documents
+gem 'owasp_zap', '0.0.95'          # A ruby client to access the HTTP API w/in Zap Proxy
 gem 'pdf-reader', '1.4.0'          # Parsing PDF Reports
 gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Access Object ***6/28/16
 gem 'pry', '0.10.4'                # More feature-filled irb alternative
@@ -34,6 +35,7 @@ gem 'rainbow', '2.1.0'             # Colorize csi_cli ;)
 gem 'rbvmomi', '1.8.2'             # Required for VMware-Fu ***12/15/15
 gem 'rest-client', '1.8.0'         # Required for REST API Testing ***6/28/16
 gem 'rex', '2.0.10'                # Rex provides a variety of classes useful for security testing and exploit development
+gem 'ruby-nmap', '0.9.1'           # A Ruby interface to nmap, the exploration tool and security / port scanner
 gem 'ruby-saml', '1.3.0'           # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin)
 gem 'rvm', '1.11.3.9'              # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***6/28/16
 gem 'net-ldap', '0.14.0'           # Required for Querying Active Directory Domain Controllers/LDAP Servers
