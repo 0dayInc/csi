@@ -20,7 +20,7 @@ case $csi_deploy_type in
     fi
     ;;
   "ruby-gem")
-    rubyv=$(cat .ruby-version)
+    ruby_version=$(cat .ruby-version)
     gemset=$(cat .ruby-gemset)
     source /etc/profile.d/rvm.sh
     rvm install ${ruby_version}
