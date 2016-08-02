@@ -17,7 +17,7 @@ module CSI
         begin
           if $browser
             @@logger.info("leveraging existing $browser object...")
-            @@logger.info("run $browser.close to end session.")
+            @@logger.info("run #{self}.close to end session.")
           else
             if opts[:browser_type].nil? 
               browser_type = :firefox
