@@ -9,9 +9,9 @@ module CSI
       #   :port_range => 'optional - array containing range of ports e.g. [1..65535]'
       # )
       public
-      def self.port_scan(opts={})
-        Nmap::Program.scan do
-          yield
+      def self.port_scan
+        Nmap::Program.scan do |nmap|
+          yield(nmap)
         end
       end
 
