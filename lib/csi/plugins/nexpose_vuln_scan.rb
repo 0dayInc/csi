@@ -1,0 +1,356 @@
+require 'nexpose'
+
+module CSI
+  module Plugins
+    # This plugin is used for interacting w/ Nexpose using the Nexpose API.
+    module NexposeVulnScan
+
+      @@logger = CSI::Plugins::CSILogger.create()
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.login(
+      #   :console_ip => 'required host/ip of Nexpose Console (server)', 
+      #   :username => 'required username', 
+      #   :password => 'optional password (will prompt if nil)'
+      # )
+      public
+      def self.login(opts = {})
+        console_ip = opts[:console_ip]
+        username = opts[:username].to_s
+
+        if opts[:password].nil?
+          password = CSI::Plugins::AuthenticationHelper.mask_password
+        else
+          password = opts[:password].to_s
+        end
+
+        begin
+          nsc_obj = Nexpose::Connection.new(console_ip, username, password)
+          nsc_obj.login
+          config = Nexpose::Console.load(nsc_obj)
+          config.session_timeout = 21600
+          #config.save(nsc_obj) # This will change the global sesion timeout config in the console
+          return nsc_obj
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.list_all_individual_site_assets(
+      #  :nsc_obj => 'required nsc_obj returned from login method',
+      #  :site_name => 'required Nexpose site name to update (case-sensitive)'
+      # )
+      public
+      def self.list_all_individual_site_assets(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        site_name = opts[:site_name]
+
+        site_id = -1
+        nsc_obj.list_sites.each do |site|
+          if site.name == site_name
+            site_id = site.id
+          end
+        end
+
+        all_individual_site_assets_arr = []
+        if site_id > -1
+          @@logger.info("Listing All Assets from #{site_name} (site id: #{site_id}):")
+          nsc_obj.filter(Nexpose::Search::Field::SITE_ID, Nexpose::Search::Operator::IN, site_id).each do |asset| 
+            @@logger.info("#{asset.id}|#{asset.ip}|#{asset.last_scan}")
+            all_individual_site_assets_arr.push(asset.ip)
+          end
+        else
+          @@logger.error("Site: #{site_name} Not Found.  Please check the spelling and try again.")
+        end
+
+        return all_individual_site_assets_arr
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.update_site_assets(
+      #  :nsc_obj => 'required nsc_obj returned from login method',
+      #  :site_name => 'required Nexpose site name to update (case-sensitive),
+      #  :assets => 'required array of hashes containing a key, :ip with value being IP address. WARNING: All IPs not included in the :assets parameter will be removed in the Nexpose site configuration!'
+      # )
+      public
+      def self.update_site_assets(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        site_name = opts[:site_name]
+        assets = opts[:assets]
+       
+        nsc_obj.list_sites.each do |site|
+          if site.name == site_name
+            # Load Site
+            site_id = site.id
+            refresh_site = Nexpose::Site.load(nsc_obj, site_id)
+
+            # Obtain Current List of Assets for Given Site & Remove Old List of Assets from Given Site (if applicable)
+            @@logger.info("Removing the Following Assets:")
+            current_site_assets = nsc_obj.filter(Nexpose::Search::Field::SITE_ID, Nexpose::Search::Operator::IN, site_id)
+            new_site_assets = []
+            assets.each {|ip_host_hash| new_site_assets.push(ip_host_hash[:ip].to_s.scrub.strip.chomp) }
+            current_site_assets.each do |current_site_asset|
+              unless new_site_assets.include?(current_site_asset.ip)
+                @@logger.info("Removing #{current_site_asset.ip}")
+                #refresh_site.remove_included_asset(current_asset) # This should work and be less invasive but no worky :(
+                nsc_obj.delete_asset(current_site_asset.id) # So we completely remove the asset from Nexpose altogether :/
+              end
+            end
+            @@logger.info("Complete.")
+
+            # Add New List of Assets to Given Site
+            @@logger.info("Adding the Following Assets to #{site.name} (site id: #{site_id}):")
+            assets.each do |ip_host_hash|
+              begin
+                current_ip = IPAddr.new(ip_host_hash[:ip].to_s.scrub.strip.chomp)
+                unless current_ip =~ /^255/ #|| current_ip =~ /^[224-239]/ # Multicast?
+                  # TODO: try to reverse DNS word to see if an IP s available as well
+                  @@logger.info("Adding #{current_ip}")
+                  refresh_site.include_asset(current_ip)
+                end
+              rescue
+                next
+              end
+            end
+            refresh_site.save(nsc_obj)
+            @@logger.info("Complete.")
+          end
+        end
+
+        return nsc_obj
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.delete_site_assets_older_than(
+      #  :nsc_obj => 'required nsc_obj returned from login method',
+      #  :site_name => 'required Nexpose site name to update (case-sensitive),
+      #  :days => 'required assets to remove older than number of days in this parameter'
+      # )
+      public
+      def self.delete_site_assets_older_than(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        site_name = opts[:site_name]
+        days = opts[:days].to_i
+
+        site_id = -1
+        nsc_obj.list_sites.each do |site|
+          if site.name == site_name
+            site_id = site.id
+          end
+        end
+
+        if site_id > -1
+          @@logger.info("Removing the Following Assets from #{site.name} (site id: #{site_id}) Older than #{days} Days:")
+          nsc_obj.filter(Nexpose::Search::Field::SCAN_DATE, Nexpose::Search::Operator::EARLIER_THAN, days).each do |asset| 
+            if asset.site_id == site_id
+              @@logger.info("#{asset.id}|#{asset.ip}|#{asset.last_scan}")
+              nsc_obj.delete_asset(asset.id)
+            end
+          end
+        else
+          @@logger.error("Site: #{site_name} Not Found.  Please check the spelling and try again.")
+        end
+
+        return nsc_obj
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.scan_site_by_name(
+      #  :nsc_obj => 'required nsc_obj returned from login method',
+      #  :site_name => 'required Nexpose site name to scan (case-sensitive),
+      #  :poll_interval => 'optional poll interval to check the completion status of the scan (defaults to 3 minutes)
+      # )
+      public
+      def self.scan_site_by_name(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        site_name = opts[:site_name].to_s
+        site_id = nil
+
+        if opts[:poll_interval].nil?
+          poll_interval = 60
+        else
+          poll_interval = opts[:poll_interval].to_i
+        end
+
+        # Find the site and kick off the scan
+        nsc_obj.list_sites.each do |site|
+          if site.name == site_name
+            nsc_obj.scan_site(site.id)
+            @@logger.info("Scan Started for #{site_name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
+            site_id = site.id
+          end
+        end
+
+        # Periodically check the status of the scan
+        #unless site_id.nil?
+        if site_id != ""
+          @@logger.info("Info: Checking status for an interval of #{poll_interval} seconds until completion.")
+          loop do
+            scan_status = nil
+            nsc_obj.scan_activity.each {|scan| scan_status = scan.status if scan.site_id == site_id }
+            if scan_status == "running"
+              print "~" # Seeing progress is good :)
+              sleep poll_interval # Sleep and check the status again...
+            else
+              @@logger.info("Scan Completed for #{site_name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
+              break
+            end
+          end
+        else
+          return @logger.error("Site name: #{site_name} does not exist as a site in Nexpose.  Please check your spelling and try again.")
+        end
+   
+        return nsc_obj
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.generate_report_via_existing_config(
+      #   :nsc_obj => 'required nsc_obj returned from login method',
+      #   :config_id => 'relevant r.config_id returned when invoking the block nsc_obj.reports.each {|r| puts "#{r.name} => #{r.config_id}"}',
+      # )
+      public
+      def self.generate_report_via_existing_config(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        config_id = opts[:config_id].to_i
+
+        existing_report_config = Nexpose::ReportConfig.load(nsc_obj, config_id)
+        existing_report_config.generate(nsc_obj)
+
+        return nsc_obj
+      end
+  
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.download_recurring_report(
+      #   :nsc_obj => 'required nsc_obj returned from login method',
+      #   :report_names => 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
+      #   :poll_interval => 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
+      # )
+      public
+      def self.download_recurring_report(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        report_names = opts[:report_names].to_s.scrub.split(",")
+        @@logger.info("Generating #{report_names.count} Report(s): #{report_names.inspect}...")
+
+        if opts[:poll_interval].nil?
+          poll_interval = 60
+        else
+          poll_interval = opts[:poll_interval].to_i
+        end
+
+        report_arr = []
+        report_status_arr = []
+        until report_status_arr.count == report_names.count
+          nsc_obj.reports.each do |report|
+            report_names.each do |requested_report|
+              this_report_name = requested_report.to_s.strip.chomp.gsub(/"/, '')
+              if report.name == this_report_name 
+                @@logger.info("Generating Recurring Report: #{report.name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}..Current Report Status: #{report.status}")
+                if report.status == "Failed"
+                  @@logger.info("Report Generation for #{report.name} failed...re-generating now...")
+                  # Re-generate report from pre-existing config.
+                  nsc_obj = generate_report_via_existing_config(:nsc_obj => nsc_obj, :config_id => report.config_id)          
+                end
+
+                report_hash = {}
+                report_hash[:report_name] = report.name
+                report_hash[:report_status] = report.status
+                report_hash[:report_uri] = report.uri
+                report_arr.push(report_hash)
+                report_status_arr = report_arr.uniq.select{|this_report| this_report[:report_status] == "Generated"}
+              end
+            end
+          end
+          #TODO: Ensure report_names are available within nsc_obj.reports (thus making it worthwhile to loop vs saying report !found).
+          @@logger.info("Total Reports Generated So Far: #{report_status_arr.count}...")
+          sleep poll_interval # Sleep and check the status again...
+        end
+ 
+        #@@logger.info(report_arr.inspect)
+        #@@logger.info(report_status_arr.inspect)
+        report_status_arr.each do |report_hash|
+          this_file_extention = File.extname(report_hash[:report_uri])
+          @@logger.info("\nDownloading #{report_hash[:report_name]}#{this_file_extention} from #{report_hash[:report_uri]}...")
+          nsc_obj.download(report_hash[:report_uri], "#{report_hash[:report_name]}#{this_file_extention}")
+        end
+        @@logger.info("complete.")
+
+        return nsc_obj
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NexposeVulnScan.logout(
+      #   :nsc_obj => 'required nsc_obj returned from login method'
+      # )
+      public
+      def self.logout(opts = {})
+        nsc_obj = opts[:nsc_obj]
+        begin
+          #config = Nexpose::Console.load(nsc_obj)
+          #config.session_timeout = 600 # This is the default session timeout in the console
+          #config.save(nsc_obj) # This will change the global sesion timeout config in the console
+          nsc_obj.logout
+          return "logged out"
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+      public
+      def self.authors
+        authors = %Q{AUTHOR(S):
+          Jacob Hoopes <jake.hoopes@gmail.com>
+        }
+
+        return authors
+      end
+
+      # Display Usage for this Module
+      public
+      def self.help
+        puts %Q{USAGE:
+          nsc_obj = #{self}.login(
+            :console_ip => 'required host/ip of Nexpose Console (server)', 
+            :username => 'required username', 
+            :password => 'optional password (will prompt if nil)'
+          )
+          puts nsc_obj.public_methods"
+
+          all_individual_site_assets_arr = #{self}.list_all_individual_site_assets(
+            :nsc_obj => 'required nsc_obj returned from login method',
+            :site_name => 'required Nexpose site name to update (case-sensitive)'
+          )
+
+          nsc_obj = #{self}.update_site_assets(
+            :nsc_obj => 'required nsc_obj returned from login method',
+            :site_name => 'required Nexpose site name to update (case-sensitive),
+            :assets => 'required array of hashes containing a key, :ip with value being IP address. WARNING: All IPs not included in the :assets parameter will be removed in the Nexpose site configuration!'
+          )
+
+          nsc_obj = #{self}.delete_site_assets_older_than(
+            :nsc_obj => 'required nsc_obj returned from login method',
+            :site_name => 'required Nexpose site name to update (case-sensitive),
+            :days => 'required assets to remove older than number of days in this parameter'
+          )
+
+          nsc_obj = #{self}.scan_site_by_name(
+            :nsc_obj => 'required nsc_obj returned from login method',
+            :site_name => 'required Nexpose site name to scan (case-sensitive),
+            :poll_interval => 'optional poll interval to check the completion status of the scan (defaults to 60 seconds)
+          )
+
+          #{self}.download_recurring_report(
+            :nsc_obj => 'required nsc_obj returned from login method',
+            :report_names => 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
+            :poll_interval => 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
+          )
+
+          #{self}.logout(:nsc_obj => 'required nsc_obj returned from login method')
+
+          #{self}.authors
+        }
+      end
+    end
+  end
+end

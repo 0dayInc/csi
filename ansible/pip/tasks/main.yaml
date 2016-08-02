@@ -1,0 +1,4 @@
+- name: install epel-release pip dependency
+  yum: name=epel-release state=latest
+- name: install pip
+  yum: name=python-pip state=latest

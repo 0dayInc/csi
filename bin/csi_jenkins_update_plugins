@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = %Q{USAGE:
+    #{$0} [opts]
+  }
+
+  options.on("-sIP", "--jenkins_ip=IP", "<Required - Jenkins Server IP>") {|s| opts[:jenkins_ip] = s }
+  options.on("-UUSER", "--username=USER", "<Required - Jenkins Username>") do |user| 
+    opts[:username] = user
+  end
+  options.on("-PPASS", "--password=PASS", "<Required - Jenkins Password>") do |pass| 
+    opts[:password] = pass
+  end
+
+  options.on("-R", "--[no-]restart-jenkins", "<Restart Jenkins - Defaults to true>") do |restart_bool|
+    opts[:restart_jenkins] = restart_bool
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$0} --help`
+  exit 1
+end 
+
+jenkins_ip = opts[:jenkins_ip].to_s.scrub
+username = opts[:username]
+password = opts[:password]
+if opts[:restart_jenkins].nil?
+  restart_jenkins = true
+else
+  restart_jenkins = opts[:restart_jenkins]
+end
+
+jenkins_obj = CSI::Plugins::Jenkins.connect(
+  :jenkins_ip => jenkins_ip,
+  :username => username,
+  :password => password
+)
+
+jenkins_obj.plugin.list_updates.keys.each do |plugin| 
+  jenkins_obj.plugin.update(plugin)
+end
+
+#until jenkins_obj.plugin.restart_required?
+#  print "."
+#  sleep 1
+#end
+
+jenkins_obj.system.restart if restart_jenkins
+
+CSI::Plugins::Jenkins.disconnect(:jenkins_obj => jenkins_obj)

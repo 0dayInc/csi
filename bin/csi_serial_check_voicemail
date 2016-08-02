@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = %Q{USAGE:
+    #{$0} [opts]
+  }
+
+  options.on("-vNUM", "--voicemail_num=num", "<Required - Number to Voicemail Service>") do |num| 
+    opts[:voicemail_num] = num
+  end
+  options.on("-pPIN", "--voicemail_pin=PIN", "<Optional - Voicemail Pin (Prompts if Ommitted>") do |pin| 
+    opts[:voicemail_pin] = pin
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$0} --help`
+  exit 1
+end 
+
+voicemail_num = opts[:voicemail_num].to_s.scrub.strip.chomp.gsub('-', '').gsub('.', '').to_i
+
+if opts[:voicemail_pin].nil?
+  voicemail_pin = CSI::Plugins::AuthenticationHelper.mask_password.to_s.scrub
+else
+  voicemail_pin = opts[:voicemail_pin].to_s.scrub
+end
+
+serial_obj = CSI::Plugins::Serial.connect
+
+CSI::Plugins::Serial.request(
+  :serial_obj => serial_obj,
+  :request => "ATDT#{voicemail_num};\r\n"
+)
+
+# TODO: Loop until data received indicates call picked up instead of sleep
+sleep 13
+
+voicemail_pin.each_char do |pin_char|
+  CSI::Plugins::Serial.request(
+    :serial_obj => serial_obj,
+    :request => "AT+VTS=#{pin_char}\r\n"
+  )
+end
+
+CSI::Plugins::Serial.request(
+  :serial_obj => serial_obj,
+  :request => "AT+VTS=#\r\n"
+)
+
+CSI::Plugins::Serial.request(
+  :serial_obj => serial_obj,
+  :request => "AT+CHUP;\r\n"
+)
+
+session_data = CSI::Plugins::Serial.dump_session_data
+puts "~"*200
+puts session_data
+puts "~"*200
+
+CSI::Plugins::Serial.disconnect(:serial_obj => serial_obj)
+
+
+

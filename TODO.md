@@ -1,0 +1,6 @@
+- Create QualysGuard Vulnerability SP Plugin
+- Create an HP WebInspect Plugin/Driver for Web Application Vuln Scans
+- Create http://www.arachni-scanner.com/ webapp scanner SP plugin
+- Create OpenVAS Vulnerability Scanning Plugin
+- Add more comprehensive tests in RSpec to account for changes to gems in Gemfile, ruby, etc when upgrading components w/in the framwork.  Examples of tests would be ensuring that each method within every CSI module has not been deprecated, removed, and/or changed.
+- Add custom OS build on Atlas Hashicorp & AWS AMI for faster deployment for others.

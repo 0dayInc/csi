@@ -1,0 +1,4 @@
+goto(target_url)
+text_field(:id => 'username').when_present.set('<target username>')
+text_field(:id => 'password').when_present.set('<target passsword>')
+button(:name => 'login').when_present.click

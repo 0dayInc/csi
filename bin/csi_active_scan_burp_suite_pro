@@ -1,0 +1,110 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = %Q{USAGE:
+    #{$0} [opts]
+  }
+
+  options.on("-bBPATH", "--burp_path=BPATH", "<Required - Path to Burp Suite Pro Jar File>") do |b| 
+    opts[:burp_jar_path] = b 
+  end
+
+  options.on("-h", "--[no-]headless", "<Optional - Run Burp and Browser Headless>") do |h| 
+    opts[:headless] = h 
+  end
+
+  options.on("-tTARGET", "--target_url=TARGET", "<Required - Target URI to Scan>") do |t| 
+    opts[:target_url] = t 
+  end
+
+  options.on("-oPATH", "--report_output_path=PATH", "<Required - Output Path for Active Scan Issues>") do |o| 
+    opts[:output_path] = o
+  end
+
+  options.on("-rRTYPE", "--report_type=RTYPE", "<Required - Report Type html|xml>") do |r| 
+    opts[:report_type] = r
+  end
+
+  options.on("-IINST", "--navigation_instruct=INST", "<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>") do |i| 
+    opts[:navigation_instruct] = i
+  end
+
+
+  # TODO: Headless
+end.parse!
+
+if opts.empty?
+  puts `#{$0} --help`
+  exit 1
+end 
+
+begin
+  logger = CSI::Plugins::CSILogger.create()
+
+  burp_jar_path = opts[:burp_jar_path].to_s.scrub
+  headless = opts[:headless]
+  target_url = opts[:target_url].to_s.scrub
+  output_path = opts[:output_path].to_s.scrub
+  report_type = opts[:report_type].to_sym
+
+  navigation_instruct = opts[:navigation_instruct]
+  raise "Invalid path to browser instructions.  Please check your spelling and try again." unless File.exists?(navigation_instruct)
+
+  # ------
+  # Open Burp
+  if headless
+    burp_obj = CSI::Plugins::BurpSuite.start(
+      :burp_jar_path => burp_jar_path,
+      :headless => true,
+      :browser_type => :headless
+    )
+  else
+    burp_obj = CSI::Plugins::BurpSuite.start(
+      :burp_jar_path => burp_jar_path,
+      :browser_type => :firefox
+    )
+  end
+
+  logger.info(burp_obj)
+  # Disable Proxy Intercepting Capabilities for this Driver
+  CSI::Plugins::BurpSuite.disable_proxy(:burp_obj => burp_obj)
+
+  # Use a headless browser w/ JavaScript Support to Load Our Target
+  # and Optionally Authenticate to Provide the Capability to Conduct
+  # a Burp Active Scan in a Post-AuthN state.  Since our browsers 
+  # support JavaScript, DOM-based XSS vuln attempts are
+  # possible as well since we have a DOM to interact w/ 
+  # (Burp's DOM-XSS checks are based on static code analysis)
+  navb = burp_obj[:burp_browser]
+  File.read(navigation_instruct).each_line do |instruction|
+    prep_instruct = "navb.#{instruction.chomp}"
+    # Yeozahh...there must be a better way.
+    # This all happens locally, however, # this 
+    # can present risk in multi-user environments 
+    # if one neglects to consider who/how the i
+    # instructions are writter/read
+    eval(prep_instruct) 
+  end
+  sleep 60 # Sleep for now so everythign loads the way we expect - blech.
+
+  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(:burp_obj => burp_obj, :target_url => target_url)
+
+  # Dump a list of scan issues from Active Scan result
+  #scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
+  #puts scan_issues
+
+  # TODO: Generate HTML REPORT
+  CSI::Plugins::BurpSuite.generate_scan_report(
+    :burp_obj => burp_obj, 
+    :report_type => report_type, 
+    :output_path => output_path
+  )
+
+  CSI::Plugins::BurpSuite.stop(:burp_obj => burp_obj)
+rescue => e
+  raise e
+  CSI::Plugins::BurpSuite.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+end

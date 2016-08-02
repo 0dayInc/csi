@@ -1,0 +1,10 @@
+- hosts: dev_servers
+  user: centos
+  become: true
+  become_method: sudo
+  roles:
+  - os_update
+  - git
+  - python
+  - pip
+  - virtualenv

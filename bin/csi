@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'pry'
+require 'rainbow'
+
+begin
+  line = ->(pry) { pry.input_array.size }
+  prompt_arrow = Rainbow("\u00bb").green
+  Pry.config.prompt = [ 
+    ->(object, level, pry) do 
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} "
+    end, ->(object, level, pry) do
+       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * "
+    end
+  ]
+  Pry.start
+ensure
+  if $browser
+    $browser = CSI::Plugins::TransparentBrowser.close(
+      :browser_obj => $browser
+    )
+  end
+end

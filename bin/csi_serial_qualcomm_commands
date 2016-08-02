@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'csi'
+
+serial_obj = CSI::Plugins::Serial.connect
+
+CSI::Plugins::Serial.request(
+  :serial_obj => serial_obj,
+  :request => "AT+CLAC\r\n"
+)
+
+session_data = CSI::Plugins::Serial.dump_session_data
+puts session_data
+
+CSI::Plugins::Serial.disconnect(:serial_obj => serial_obj)
+

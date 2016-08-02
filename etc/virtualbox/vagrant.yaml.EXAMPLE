@@ -1,0 +1,3 @@
+memory: 2048
+hostname: csi.local
+diskMB: 20480

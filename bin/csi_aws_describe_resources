@@ -1,0 +1,269 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'optparse'
+require 'spreadsheet'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = %Q{USAGE:
+    #{$0} [opts]
+  }
+
+  options.on("-aARN", "--sts_role_arn=ARN", "<Required - STS Role ARN>") do |sts_role_arn| 
+    opts[:sts_role_arn] = sts_role_arn
+  end
+
+  options.on("-nRNAME", "--sts_role_name=RNAME", "<Required - STS Role Name>") do |sts_role_name| 
+    opts[:sts_role_name] = sts_role_name
+  end
+
+  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Optional - STS Expiration (Defaults to 900 Seconds)>") do |sts_expiration| 
+    opts[:sts_expiration] = sts_expiration
+  end
+
+  options.on("-xMSEXCEL", "--excel_results=MSEXCEL", "<Optional - Path to Save MSExcel Results (Defaults to ./results.xls)>") do |excel_results| 
+    opts[:excel_results] = excel_results
+  end
+
+end.parse!
+
+if opts.empty?
+  puts `#{$0} --help`
+  exit 1
+end 
+
+logger = CSI::Plugins::CSILogger.create()
+
+sts_region = 'us-west-1' # We just need this long enough to connect and retrieve a list of all regions
+sts_role_arn = opts[:sts_role_arn].to_s.scrub
+sts_role_name = opts[:sts_role_name].to_s.scrub
+
+if opts[:sts_expiration].nil?
+  sts_expiration = 900
+else
+  sts_expiration = opts[:sts_expiration].to_i
+end
+
+if opts[:excel_results].nil?
+  excel_results = './results.xls'
+else
+  excel_results = opts[:excel_results].to_s.scrub
+end
+
+credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
+  :region => sts_region,
+  :role_arn => sts_role_arn,
+  :role_session_name => sts_role_name,
+  :duration_seconds => sts_expiration
+)
+
+compute_obj = CSI::Plugins::AWSCompute.connect(
+  :region => 'us-east-1', 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+
+# Begin working w/ XLS document...
+Spreadsheet.client_encoding = 'UTF-8'
+book = Spreadsheet::Workbook.new
+
+aws_regions = CSI::Plugins::AWSCompute.regions(:compute_obj => compute_obj)
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "EC2 Instances")
+worksheet.update_row(current_row, "EC2 Instances")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating EC2 Instances in AWS region: #{region}...\n")
+
+  compute_obj = CSI::Plugins::AWSCompute.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  ec2_instances_res = CSI::Plugins::AWSCompute.ec2_instances(:compute_obj => compute_obj)
+  if ec2_instances_res.class == Array
+    ec2_instances_res.each do |ec2_instance|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, ec2_instance.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSCompute.disconnect(:compute_obj => compute_obj)
+
+  logger.info("Enumerating EC2 Instances AWS region: #{region}...complete.\n\n\n")
+end
+
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "Elastic Block Stores")
+worksheet.update_row(current_row, "Elastic Block Stores")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating Elastic Block Stores in AWS region: #{region}...\n")
+
+  compute_obj = CSI::Plugins::AWSCompute.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  ebs_res = CSI::Plugins::AWSCompute.elastic_block_stores(:compute_obj => compute_obj)
+  if ebs_res.class == Array
+    ebs_res.each do |ebs|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, ebs.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSCompute.disconnect(:compute_obj => compute_obj)
+
+  logger.info("Enumerating Elastic Block Stores AWS region: #{region}...complete.\n\n\n")
+end
+
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "Security Groups")
+worksheet.update_row(current_row, "Security Groups")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating Security Groups in AWS region: #{region}...\n")
+
+  compute_obj = CSI::Plugins::AWSCompute.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  security_group_res = CSI::Plugins::AWSCompute.security_groups(:compute_obj => compute_obj)
+  if security_group_res.class == Array
+    security_group_res.each do |security_group|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, security_group.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSCompute.disconnect(:compute_obj => compute_obj)
+
+  logger.info("Enumerating Security Groups AWS region: #{region}...complete.\n\n\n")
+end
+
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "Elastic Beanstalk")
+worksheet.update_row(current_row, "Elastic Beanstalk Environments")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating Elastic Beanstalk Environments in AWS region: #{region}...\n")
+
+  eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  eb_environments_res = CSI::Plugins::AWSElasticBeanstalk.environments(:eb_obj => eb_obj)
+  if eb_environments_res.class == Array
+    eb_environments_res.each do |eb_environments|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, eb_environments.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
+
+  logger.info("Enumerating Elastic Beanstalk Environments AWS region: #{region}...complete.\n\n\n")
+end
+
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "Lambda")
+worksheet.update_row(current_row, "Lambda Functions")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating Lambda Functions in AWS region: #{region}...\n")
+
+  lamb_obj = CSI::Plugins::AWSLambda.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  lamb_functions_res = CSI::Plugins::AWSLambda.functions(:lamb_obj => lamb_obj)
+  if lamb_functions_res.class == Array
+    lamb_functions_res.each do |lamb_function|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, lamb_function.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSLambda.disconnect(:lamb_obj => lamb_obj)
+
+  logger.info("Enumerating Lambda Functions AWS region: #{region}...complete.\n\n\n")
+end
+
+
+current_row = 0
+worksheet = book.create_worksheet(:name => "S3")
+worksheet.update_row(current_row, "S3 Directories")
+current_row+=2
+worksheet.update_row(current_row, 'Region Name', 'Region URI', 'S3 Directory', 'Directory Creation Timestamp', 'Raw Data')
+aws_regions.each do |region_hash| 
+  region = region_hash["regionName"].to_s.scrub
+  region_uri = region_hash["regionEndpoint"].to_s.scrub
+
+  logger.info("Enumerating S3 Directories in AWS region: #{region}...\n")
+
+  s3_obj = CSI::Plugins::AWSS3.connect(
+    :region => region, 
+    :access_key_id => credentials.access_key_id, 
+    :secret_access_key => credentials.secret_access_key, 
+    :sts_session_token => credentials.session_token
+  )
+
+  s3_directories_res = CSI::Plugins::AWSS3.directories(:s3_obj => s3_obj)
+  if s3_directories_res.class == Fog::Storage::AWS::Directories
+    s3_directories_res.each do |s3_directory|
+      current_row+=1
+      worksheet.update_row(current_row, region, region_uri, s3_directory.key, s3_directory.creation_date, s3_directory.inspect.to_s)
+    end
+  end
+
+  CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)
+
+  logger.info("Enumerating S3 Directories AWS region: #{region}...complete.\n\n\n")
+end
+# Save Spreadsheet to path defined by -x flag
+book.write(excel_results)
+
+# Now create a confluence markup file to embed the XLS attachment (handled via Jenkins Confluence Publisher plugin)
+File.open('./confluence.markup', 'w') do |f|
+  f.puts "Embedding markup for XLS attachment (found on this page) goes here..."
+end
