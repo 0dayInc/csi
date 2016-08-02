@@ -27,6 +27,7 @@ module CSI
     autoload :MailAgent, 'csi/plugins/mail_agent'
     autoload :Metasploit, 'csi/plugins/metasploit'
     autoload :NexposeVulnScan, 'csi/plugins/nexpose_vuln_scan'
+    autoload :NmapIt, 'csi/plugins/nmap_it'
     autoload :OAuth2, 'csi/plugins/oauth2'
     autoload :OpenVASVulnScan, 'csi/plugins/openvas_vuln_scan'
     autoload :PDFParse, 'csi/plugins/pdf_parse'
