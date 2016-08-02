@@ -44,7 +44,7 @@ Vagrant.configure(API_VERSION) do |config|
     yaml_config = YAML.load_file('./etc/aws/vagrant.yaml')
     hostname = yaml_config["hostname"]
 
-    aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:ubuntu !requiretty' >> /etc/sudoers"
+    #aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:ubuntu !requiretty' >> /etc/sudoers"
 
     aws.access_key_id = yaml_config["access_key_id"]
     aws.secret_access_key = yaml_config["secret_access_key"]
@@ -63,7 +63,7 @@ Vagrant.configure(API_VERSION) do |config|
     aws.security_groups = yaml_config["security_groups"]
     aws.tags = yaml_config["tags"]
     # Hack for dealing w/ images that require a pty when using sudo and changing hostname
-    aws.user_data = aws_init_script
+    #aws.user_data = aws_init_script
   
     override.ssh.username = yaml_config["ssh_username"]
     override.ssh.private_key_path = yaml_config["ssh_private_key_path"]
@@ -71,6 +71,7 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   # install packages after csi image has booted
+  config.vm.provision :shell, path: "./vagrant/install/init_env.sh", args: "#{hostname}", privileged: false
   config.vm.provision :shell, path: "./vagrant/update/linux_distribution.sh", args: "", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/rvm.sh", args: "head", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/ruby.sh", args: "", privileged: false
