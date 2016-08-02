@@ -34,6 +34,7 @@ case $csi_deploy_type in
     fi
     bundle install
     ./build_csi_gem.sh
+    cd .. && cd -
     ;;
   "virtualbox"|"virtualbox-gui")
     if [[ -e "./etc/virtualbox/vagrant.yaml" ]]; then
