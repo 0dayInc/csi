@@ -7,7 +7,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::Plugins::Synack.open(
+      # CSI::WWW::Synack.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -67,7 +67,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Synack.login(
+      # CSI::WWW::Synack.login(
       #   :yaml_config => 'required - path of yaml file to encrypt',
       #   :vpassfile => 'required - path of ansible-vault pass file'
       # )
@@ -114,12 +114,21 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # CSI::WWW::Synack.logout
       public
       def self.logout
         if $browser
           $browser.img(:class => 'navbar-avatar-img').click
           $browser.button(:text => 'Logout').click
         end
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Synack.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -148,7 +157,7 @@ module CSI
             :vpassfile => 'required - ansible-vault pass file'
           )
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }

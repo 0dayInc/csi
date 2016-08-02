@@ -3,7 +3,7 @@ module CSI
     # This plugin supports Torch (Tor Search Engine) actions.
     module Torch
       # Supported Method Parameters::
-      # CSI::Plugins::Torch.open(
+      # CSI::WWW::Torch.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -74,7 +74,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Torch.open(
+      # CSI::WWW::Torch.open(
       #   :q => 'required search string'
       # )
       public
@@ -90,7 +90,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Torch.onion
+      # CSI::WWW::Torch.onion
       public
       def self.onion
         puts %Q{Be sure the $browser object has the following parameters set:
@@ -105,6 +105,13 @@ module CSI
           $browser.goto('http://xmh57jrzrnw6insl.onion')
           CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
         end
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Torch.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -134,7 +141,7 @@ module CSI
 
           #{self}.onion 
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }

@@ -5,7 +5,7 @@ module CSI
     # This plugin supports Checkip actions.
     module Checkip
       # Supported Method Parameters::
-      # CSI::Plugins::Checkip.open(
+      # CSI::WWW::Checkip.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -73,6 +73,13 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # CSI::WWW::Checkip.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -94,7 +101,7 @@ module CSI
           )
           puts "$browser.public_methods"
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }

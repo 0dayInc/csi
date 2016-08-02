@@ -3,7 +3,7 @@ module CSI
     # This plugin supports Pastebin actions.
     module Pastebin
       # Supported Method Parameters::
-      # CSI::Plugins::Pastebin.open(
+      # CSI::WWW::Pastebin.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -66,7 +66,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Pastebin.onion
+      # CSI::WWW::Pastebin.onion
       public
       def self.onion
         puts %Q{Be sure the $browser object has the following parameters set:
@@ -81,6 +81,13 @@ module CSI
           $browser.goto('http://lw4ipk5choakk5ze.onion')
           CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
         end
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Pastebin.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -106,7 +113,7 @@ module CSI
 
           #{self}.onion
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }

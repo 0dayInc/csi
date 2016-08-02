@@ -3,7 +3,7 @@ module CSI
     # This plugin supports Youtube actions.
     module Youtube
       # Supported Method Parameters::
-      # CSI::Plugins::Youtube.open(
+      # CSI::WWW::Youtube.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -66,7 +66,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Google.search(
+      # CSI::WWW::Google.search(
       #   :q => 'required search string'
       # )
       public
@@ -79,6 +79,13 @@ module CSI
           sleep 3 # Cough: <hack>
           CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
         end
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Youtube.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -106,7 +113,7 @@ module CSI
             :q => 'required search string'
           )
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }

@@ -3,7 +3,7 @@ module CSI
     # This plugin supports Duckduckgo actions.
     module Duckduckgo
       # Supported Method Parameters::
-      # CSI::Plugins::Duckduckgo.open(
+      # CSI::WWW::Duckduckgo.open(
       #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
@@ -66,7 +66,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Duckduckgo.search(
+      # CSI::WWW::Duckduckgo.search(
       #   :q => 'required search string'
       # )
       public
@@ -86,7 +86,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Duckduckgo.onion
+      # CSI::WWW::Duckduckgo.onion
       public
       def self.onion
         puts %Q{Be sure the $browser object has the following parameters set:
@@ -98,6 +98,13 @@ module CSI
           )
         }
         $browser.goto('http://3g2upl4pq6kufc4m.onion') if $browser
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Duckduckgo.close
+      public
+      def self.close
+        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -127,7 +134,7 @@ module CSI
 
           #{self}.onion 
 
-          $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+          #{self}.close
 
           #{self}.authors
         }
