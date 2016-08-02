@@ -30,7 +30,7 @@ case $csi_deploy_type in
     rvm use --default ${ruby_version}@${gemset}
     gem install bundler
     # TODO: identify os installed on & determine if proper postgres packages are installed for 'pg' gem
-    if [[ $(uname -s) -eq "Darwin" ]]; then
+    if [[ $(uname -s) == "Darwin" ]]; then
       bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
     fi
     bundle install
