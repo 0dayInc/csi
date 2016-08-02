@@ -5,6 +5,8 @@ require 'yaml'
 API_VERSION = "2"
 vbox_gui = ENV['VAGRANT_VBOX_GUI'] if ENV['VAGRANT_VBOX_GUI']
 Vagrant.configure(API_VERSION) do |config|
+  hostname = ""
+
   # rsync local csi folder on csi image
   config.vm.synced_folder(
     ".", 
