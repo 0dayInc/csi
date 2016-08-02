@@ -10,7 +10,7 @@ module CSI
       # )
       public
       def self.port_scan(opts={})
-        Nmap::Program.scan do |nmap|
+        Nmap::Program.scan do
           yield
         end
       end
