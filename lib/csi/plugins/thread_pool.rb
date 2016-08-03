@@ -15,7 +15,8 @@ module CSI
       #            # <do more stuff>
       #          end
       public
-      def self.fill(opts = {}, &block)
+      def self.fill(opts = {})
+      #def self.fill(opts = {}, &block)
         enumerable_array = opts[:enumerable_array]
 
         if opts[:max_threads].nil?
@@ -29,7 +30,8 @@ module CSI
         threads = max_threads.times.map do
           Thread.new do
             until (test_case = queue.pop) == :END
-              block.call(test_case)
+              #block.call(test_case)
+              yield test_case
             end
           end
         end
