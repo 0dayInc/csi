@@ -46,7 +46,7 @@ gem 'slack-ruby-client', '0.7.5'   # Used for interacting w/ Slack via bots
 gem 'socksify', '1.7.0'            # Used for connecting to SOCKS proxies (e.g. tor)
 gem 'spreadsheet', '1.1.2'         # Generate Excel Spreadsheets (.xls files) ***6/28/16
 gem 'sqlite3', '1.3.11'            # Required Sqlite3 Gem for Sqlite3 Data Access Object ***6/28/16
-gem 'tesseract', '0.1.0'           # Gem for image ocr (e.g. decoding captchas)
+gem 'rtesseract', '2.0.1'          # Gem for image ocr (e.g. decoding captchas)
 gem 'thin', '1.7.0'                # Light HTTP Server Used for Serving Up Sinatra Web Applications
 gem 'watir-webdriver', '0.9.1'     # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***6/28/16
 gem 'wicked_pdf', '1.0.6'          # Convert HTML to PDF Documents
