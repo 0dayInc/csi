@@ -42,11 +42,15 @@ which is also recommended :)
 ### **Install in VirtualBox (Recommended if Testing in an Air Gapped Network)** ###
   # Without GUI:
 
- `$ cd /opt/csi && sudo ./install.sh virtualbox`
+  ```
+  $ sudo cp /opt/csi/etc/virtualbox/vagrant.yaml.EXAMPLE /opt/csi/etc/virtualbox/vagrant.yaml
+  $ cd /opt/csi && sudo ./install.sh virtualbox
+  ```
 
   # With GUI:
 
   ```
+  $ sudo cp /opt/csi/etc/virtualbox/vagrant.yaml.EXAMPLE /opt/csi/etc/virtualbox/vagrant.yaml
   $ cd /opt/csi && sudo ./install.sh virtualbox-gui
   $ sudo vagrant ssh
   ubuntu@csi:~$ sudo passwd ubuntu <create new password and authenticate in lxdm VirtualBox window>
@@ -58,20 +62,20 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.91]:001 » CSI.help
-  csi[v0.1.91]:002 » CSI::Plugins.help
-  csi[v0.1.91]:003 » CSI::WWW.help
-  csi[v0.1.91]:004 » CSI::WWW::Google.help
-  csi[v0.1.91]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.91]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.91]:007 » $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+  csi[v0.1.92]:001 » CSI.help
+  csi[v0.1.92]:002 » CSI::Plugins.help
+  csi[v0.1.92]:003 » CSI::WWW.help
+  csi[v0.1.92]:004 » CSI::WWW::Google.help
+  csi[v0.1.92]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.92]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.92]:007 » $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
   ```
 
   it's important to note that some modules may require root access to run properly (e.g. CSI::Plugins::NmapIt when certain flags are set)
 
   ```
   # csi
-  csi[v0.1.91]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.92]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -87,13 +91,13 @@ which is also recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.91]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.91]:2 *   nmap.syn_scan = true
-  csi[v0.1.91]:2 *   nmap.service_scan = true
-  csi[v0.1.91]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.91]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.91]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.91]:2 * end  
+  csi[v0.1.92]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.92]:2 *   nmap.syn_scan = true
+  csi[v0.1.92]:2 *   nmap.service_scan = true
+  csi[v0.1.92]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.92]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.92]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.92]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -104,7 +108,7 @@ which is also recommended :)
   because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.91]:3 » hist
+  csi[v0.1.92]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -113,7 +117,7 @@ which is also recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.91]:4 » hist -r 2..8
+  csi[v0.1.92]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -127,7 +131,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.91]:001 » CSI.help
+  csi[v0.1.92]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -138,7 +142,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.91]:001 » CSI.help
+  csi[v0.1.92]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -149,5 +153,5 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.91]:001 » CSI.help
+  csi[v0.1.92]:001 » CSI.help
   ```
