@@ -54,8 +54,11 @@ module CSI
               ip_info_rest_call(:ip => ip)
             )
           end
-
-          return host_resp_json
+          if host_resp_json.length == 1
+            return host_resp_json[0]
+          else
+            return host_resp_json
+          end
         end
       end
 
