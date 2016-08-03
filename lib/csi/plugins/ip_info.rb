@@ -12,7 +12,7 @@ module CSI
       #   :proxy => 'optional - use a proxy'
       # )
       private
-      def self.ip_info_rest_call
+      def self.ip_info_rest_call(opts={})
         ip = opts[:ip].to_s.scrub.strip.chomp
         proxy = opts[:proxy]
 
