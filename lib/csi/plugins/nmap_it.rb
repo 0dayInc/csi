@@ -30,13 +30,14 @@ module CSI
       def self.help
         puts %Q{USAGE:
           #{self}.port_scan do |nmap|
+            puts nmap.public_methods
             nmap.syn_scan = true
             nmap.service_scan = true
             nmap.os_fingerprint = true
             nmap.verbose = true
             nmap.ports = [1..1024,1337]
             nmap.targets = '127.0.0.1'
-            puts nmap.public_methods
+            nmap.xml = '~/nmap_port_scan_res.xml'
           end
 
           #{self}.authors
