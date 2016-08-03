@@ -1,4 +1,5 @@
 require 'ipaddress'
+require 'resolv'
 
 module CSI
   module Plugins

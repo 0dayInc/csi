@@ -62,20 +62,20 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.106]:001 » CSI.help
-  csi[v0.1.106]:002 » CSI::Plugins.help
-  csi[v0.1.106]:003 » CSI::WWW.help
-  csi[v0.1.106]:004 » CSI::WWW::Google.help
-  csi[v0.1.106]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.106]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.106]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.106]:008 » CSI::WWW::Google.close
+  csi[v0.1.107]:001 » CSI.help
+  csi[v0.1.107]:002 » CSI::Plugins.help
+  csi[v0.1.107]:003 » CSI::WWW.help
+  csi[v0.1.107]:004 » CSI::WWW::Google.help
+  csi[v0.1.107]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.107]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.107]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.107]:008 » CSI::WWW::Google.close
   ```
   
   You say you want to write post-authentication security tests for your own website?  That's cool friend, here's how:
   
   ```
-  csi[v0.1.106]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.107]:1 » CSI::Plugins::TransparentBrowser.help
   USAGE:
           browser_obj1 = CSI::Plugins::TransparentBrowser.open(
             :browser_type => :firefox|:chrome|:headless|:rest, 
@@ -100,7 +100,7 @@ which is also recommended :)
 
   ```
   # csi
-  csi[v0.1.106]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.107]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -116,13 +116,13 @@ which is also recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.106]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.106]:2 *   nmap.syn_scan = true
-  csi[v0.1.106]:2 *   nmap.service_scan = true
-  csi[v0.1.106]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.106]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.106]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.106]:2 * end  
+  csi[v0.1.107]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.107]:2 *   nmap.syn_scan = true
+  csi[v0.1.107]:2 *   nmap.service_scan = true
+  csi[v0.1.107]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.107]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.107]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.107]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -133,7 +133,7 @@ which is also recommended :)
   because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.106]:3 » hist
+  csi[v0.1.107]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -142,7 +142,7 @@ which is also recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.106]:4 » hist -r 2..8
+  csi[v0.1.107]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -156,7 +156,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.106]:001 » CSI.help
+  csi[v0.1.107]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -167,7 +167,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.106]:001 » CSI.help
+  csi[v0.1.107]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -178,7 +178,7 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.106]:001 » CSI.help
+  csi[v0.1.107]:001 » CSI.help
   ```
 
 You thinkin' there's only a csi prototyping driver to run automation?  Wait, there's more!  The csi prototyping driver was used to create these other drivers, located in https://github.com/ninp0/csi/tree/master/bin ... use these examples to build your own drivers!  If it's awesome, submit a pull request, pass our sanity checks, and we'll merge it for the community to use:
