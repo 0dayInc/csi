@@ -20,7 +20,7 @@ if opts.empty?
 end   
       
 dir_path = opts[:dir_path].to_s.scrub
-raise "CSI Error: Invalid Directory #{dir_path}" unless File.directory?(dir_path)
+raise "ERROR: Invalid Directory #{dir_path}" unless File.directory?(dir_path)
 git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
 max_threads = opts[:max_threads]
 
