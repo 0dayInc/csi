@@ -58,13 +58,13 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.88]:001 » CSI.help
-  csi[v0.1.88]:002 » CSI::Plugins.help
-  csi[v0.1.88]:003 » CSI::WWW.help
-  csi[v0.1.88]:004 » CSI::WWW::Google.help
-  csi[v0.1.88]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.88]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.88]:007 » $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+  csi[v0.1.89]:001 » CSI.help
+  csi[v0.1.89]:002 » CSI::Plugins.help
+  csi[v0.1.89]:003 » CSI::WWW.help
+  csi[v0.1.89]:004 » CSI::WWW::Google.help
+  csi[v0.1.89]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.89]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.89]:007 » $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
   ```
 
 ### **Begin Prototyping Automation in AWS EC2 and VirtualBox => (Coming soon - Docker and ElasticBeanstalk)** ###
@@ -73,7 +73,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.88]:001 » CSI.help
+  csi[v0.1.89]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -84,7 +84,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.88]:001 » CSI.help
+  csi[v0.1.89]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -95,5 +95,5 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.88]:001 » CSI.help
+  csi[v0.1.89]:001 » CSI.help
   ```

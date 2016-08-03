@@ -37,7 +37,7 @@ module CSI
             nmap.verbose = true
             nmap.ports = [1..1024,1337]
             nmap.targets = '127.0.0.1'
-            nmap.xml = '~/nmap_port_scan_res.xml'
+            nmap.xml = '/tmp/nmap_port_scan_res.xml'
           end
 
           #{self}.authors
