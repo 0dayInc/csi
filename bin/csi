@@ -13,6 +13,8 @@ begin
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * "
     end
   ]
+  Pry.config.input = STDIN
+  Pry.config.output = STDOUT
   Pry.start
 ensure
   if $browser
