@@ -35,6 +35,7 @@ gem 'rainbow', '2.1.0'             # Colorize csi_cli ;)
 gem 'rbvmomi', '1.8.2'             # Required for VMware-Fu ***12/15/15
 gem 'rest-client', '1.8.0'         # Required for REST API Testing ***6/28/16
 gem 'rex', '2.0.10'                # Rex provides a variety of classes useful for security testing and exploit development
+gem 'rmagick', '2.15.4'            # Image processing gem
 gem 'ruby-nmap', '0.9.1'           # A Ruby interface to nmap, the exploration tool and security / port scanner
 gem 'ruby-saml', '1.3.0'           # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin)
 gem 'rvm', '1.11.3.9'              # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***6/28/16
