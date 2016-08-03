@@ -10,7 +10,7 @@ module CSI
       #   :ip => 'required - IP to lookup'
       # )
       public
-      def self.get
+      def self.get(opts={})
         ip = IPAddr.new(opts[:ip].to_s.scrub.strip.chomp)
         proxy = opts[:proxy]
 
