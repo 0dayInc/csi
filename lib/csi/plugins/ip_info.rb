@@ -49,7 +49,7 @@ module CSI
           return ip_resp_json
         else
           host_resp_json = []
-          Resolv::DNS.new.each_address(ip_or_host).each do |ip| 
+          Resolv::DNS.new.each_address(ip_or_host) do |ip| 
             host_resp_json.push(
               ip_info_rest_call(:ip => ip)
             )
