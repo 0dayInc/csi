@@ -1,4 +1,4 @@
-require 'ipaddr'
+require 'ipaddress'
 
 module CSI
   module Plugins
@@ -7,14 +7,15 @@ module CSI
     module IPInfo
       # Supported Method Parameters::
       # CSI::Plugins::IPInfo.get(
-      #   :ip => 'required - IP to lookup'
+      #   :ip => 'required - IP or Host to lookup',
+      #   :proxy => 'optional - use a proxy'
       # )
-      public
-      def self.get(opts={})
-        ip = IPAddr.new(opts[:ip].to_s.scrub.strip.chomp)
+      private
+      def self.ip_info_rest_call
+        ip = opts[:ip].to_s.scrub.strip.chomp
         proxy = opts[:proxy]
 
-        if ip.ipv4? || ip.ipv6?
+        if IPAddress.valid?(ip)
           if proxy
             rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest, :proxy => proxy)
           else
@@ -24,6 +25,36 @@ module CSI
           ip_resp_json = JSON.parse(ip_resp_str)
 
           return ip_resp_json
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::IPInfo.get(
+      #   :ip_or_host => 'required - IP or Host to lookup',
+      #   :proxy => 'optional - use a proxy'
+      # )
+      public
+      def self.get(opts={})
+        ip_or_host = opts[:ip_or_host].to_s.scrub.strip.chomp
+        proxy = opts[:proxy]
+
+        if IPAddress.valid?(ip_or_host)
+          if proxy
+            ip_resp_json = ip_info_rest_call(:ip => ip_or_host, :proxy => proxy)
+          else
+            ip_resp_json = ip_info_rest_call(:ip => ip_or_host)
+          end
+
+          return ip_resp_json
+        else
+          host_resp_json = []
+          Resolv::DNS.new.each_address(ip_or_host).each do |ip| 
+            host_resp_json.push(
+              ip_info_rest_call(:ip => ip)
+            )
+          end
+
+          return host_resp_json
         end
       end
 
@@ -42,7 +73,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
           #{self}.get(
-            :ip => 'required - IP to lookup',
+            :ip_or_host => 'required - IP or Host to lookup',
             :proxy => 'optional - use a proxy'
           )
 
