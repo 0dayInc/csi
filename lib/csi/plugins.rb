@@ -30,6 +30,7 @@ module CSI
     autoload :NexposeVulnScan, 'csi/plugins/nexpose_vuln_scan'
     autoload :NmapIt, 'csi/plugins/nmap_it'
     autoload :OAuth2, 'csi/plugins/oauth2'
+    autoload :OCR, 'csi/plugins/ocr'
     autoload :OpenVASVulnScan, 'csi/plugins/openvas_vuln_scan'
     autoload :PDFParse, 'csi/plugins/pdf_parse'
     autoload :RabbitMQHole, 'csi/plugins/rabbit_mq_hole'

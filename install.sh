@@ -20,6 +20,9 @@ case $csi_deploy_type in
     fi
     ;;
   "ruby-gem")
+    # TODO: Install dependecies such as imagemagick, tesseract, & postgresql
+    # also wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz into 
+    # /opt/local/share/tessdata/ & gunzip it for proper tesseract image OCR'ing
     ruby_version=$(cat .ruby-version)
     gemset=$(cat .ruby-gemset)
     source /etc/profile.d/rvm.sh
