@@ -22,6 +22,7 @@ module CSI
     autoload :Git, 'csi/plugins/git'
     autoload :Google, 'csi/plugins/google'
     autoload :IBMAppscan, 'csi/plugins/ibm_appscan'
+    autoload :IPInfo, 'csi/plugins/ip_info'
     autoload :Jenkins, 'csi/plugins/jenkins'
     autoload :JSONPathify, 'csi/plugins/json_pathify'
     autoload :MailAgent, 'csi/plugins/mail_agent'
