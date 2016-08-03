@@ -62,30 +62,44 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.96]:001 » CSI.help
-  csi[v0.1.96]:002 » CSI::Plugins.help
-  csi[v0.1.96]:003 » CSI::WWW.help
-  csi[v0.1.96]:004 » CSI::WWW::Google.help
-  csi[v0.1.96]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.96]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.96]:007 » CSI::WWW::Google.close
+  csi[v0.1.97]:001 » CSI.help
+  csi[v0.1.97]:002 » CSI::Plugins.help
+  csi[v0.1.97]:003 » CSI::WWW.help
+  csi[v0.1.97]:004 » CSI::WWW::Google.help
+  csi[v0.1.97]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.97]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.97]:007 » CSI::WWW::Google.close
   ```
   
   you want to write automation for your own website?  that's cool bro, here's how:
   
   ```
-  csi[v0.1.96]:001 » .tor &
-  csi[v0.1.96]:002 » CSI::Plugin::TransparentBrowser.help
-  csi[v0.1.96]:003 » b1 = CSI::Plugins::TransparentBrowser(:browser_type => :headless, :proxy => 'sock://127.0.0.1:9050')
-  csi[v0.1.96]:004 » b1.goto("http://checkip.amazonaws.com")
-  csi[v0.1.96]:005 »b1 = CSI::Plugins::TransparentBrowser.close(:browser_obj => b1)
+  csi[v0.1.97]:1 » CSI::Plugins::TransparentBrowser.help
+  USAGE:
+          browser_obj1 = CSI::Plugins::TransparentBrowser.open(
+            :browser_type => :firefox|:chrome|:headless|:rest, 
+            :proxy => 'optional http(s)://proxy_host:port',
+            :with_tor => 'optional boolean (defaults to false)'
+          )
+          puts "browser_obj1.public_methods"
+
+          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => browser_obj1)
+
+          CSI::Plugins::TransparentBrowser.type_as_human(
+            :q => 'required - query string to randomize',
+            :rand_sleep_float => 'optional - float timing in between keypress (defaults to 0.09)'
+          ) {|char| browser_obj1.text_field(:name => "q").send_keys(char) }
+
+          browser_obj1 = CSI::Plugins::TransparentBrowser.close(:browser_obj => browser_obj1)
+
+          CSI::Plugins::TransparentBrowser.authors
   ```
 
   it's important to note that some modules may require root access to run properly (e.g. CSI::Plugins::NmapIt when certain flags are set)
 
   ```
   # csi
-  csi[v0.1.96]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.97]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -101,13 +115,13 @@ which is also recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.96]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.96]:2 *   nmap.syn_scan = true
-  csi[v0.1.96]:2 *   nmap.service_scan = true
-  csi[v0.1.96]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.96]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.96]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.96]:2 * end  
+  csi[v0.1.97]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.97]:2 *   nmap.syn_scan = true
+  csi[v0.1.97]:2 *   nmap.service_scan = true
+  csi[v0.1.97]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.97]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.97]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.97]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -118,7 +132,7 @@ which is also recommended :)
   because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.96]:3 » hist
+  csi[v0.1.97]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -127,7 +141,7 @@ which is also recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.96]:4 » hist -r 2..8
+  csi[v0.1.97]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -141,7 +155,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.96]:001 » CSI.help
+  csi[v0.1.97]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -152,7 +166,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.96]:001 » CSI.help
+  csi[v0.1.97]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -163,5 +177,5 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.96]:001 » CSI.help
+  csi[v0.1.97]:001 » CSI.help
   ```
