@@ -1,5 +1,6 @@
 #!/bin/bash
 csi_deploy_type=$1
+os=$(uname -s)
 
 # TODO: Check that all configs exist
 # MAKE .EXAMPLE and actual file the same
@@ -20,21 +21,70 @@ case $csi_deploy_type in
     fi
     ;;
   "ruby-gem")
-    # TODO: Install dependecies such as imagemagick, tesseract, & postgresql
-    # also wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz into 
-    # /opt/local/share/tessdata/ & gunzip it for proper tesseract image OCR'ing
-    ruby_version=$(cat .ruby-version)
-    gemset=$(cat .ruby-gemset)
-    source /etc/profile.d/rvm.sh
-    rvm install ${ruby_version}
-    rvm use ${ruby_version}
-    rvm gemset create ${gemset}
-    rvm use --default ${ruby_version}@${gemset}
-    gem install bundler
-    # Identify os to determine if proper 'pg' gem installation needs additional flags
-    if [[ $(uname -s) == "Darwin" ]]; then
-      bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
-    fi
+    case $os in
+      "Darwin")
+        ruby_version=$(cat .ruby-version)
+        gemset=$(cat .ruby-gemset)
+        source /etc/profile.d/rvm.sh
+        rvm install ${ruby_version}
+        rvm use ${ruby_version}
+        rvm gemset create ${gemset}
+        rvm use --default ${ruby_version}@${gemset}
+        gem install bundler
+        bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
+    
+        echo "Installing wget to retrieve tesseract trained data..."
+        port install wget
+
+        echo "Installing Postgres Libraries for pg gem..."
+        port install postgresql96-server
+
+        echo "Installing libpcap Libraries..."
+        port install libpcap
+
+        echo "Installing ImageMagick..."
+        port install imagemagick
+
+        echo "Installing Tesseract OCR..."
+        port install tesseract
+        cd /opt/local/share/tessdata && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz
+        ;;
+      "Linux")
+        apt-get --version
+        if [[ $? == 0 ]]; then
+          ruby_version=$(cat .ruby-version)
+          gemset=$(cat .ruby-gemset)
+          source /etc/profile.d/rvm.sh
+          rvm install ${ruby_version}
+          rvm use ${ruby_version}
+          rvm gemset create ${gemset}
+          rvm use --default ${ruby_version}@${gemset}
+          gem install bundler
+          
+          echo "Installing wget to retrieve tesseract trained data..."
+          apt-get install wget
+
+          echo "Installing Postgres Libraries for pg gem..."
+          apt-get install postgresql-server-dev-all
+
+          echo "Installing libpcap Libraries..."
+          apt-get install libpcap-dev
+
+          echo "Installing ImageMagick..."
+          apt-get install libmagickwand-dev imagemagick
+
+          echo "Installing Tesseract OCR..."
+          apt-get install tesseract-ocr-all
+          cd /usr/share/tesseract-ocr && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz
+        else
+          echo "A Linux Distro was Detected, however, CSI currently only supports OSX & Ubuntu for now...yucky-yuck, I know."
+        fi
+        ;;
+      *)
+        echo "${os} not currently supported."
+        exit 1
+    esac
+
     bundle install
     ./build_csi_gem.sh
     ;;
@@ -52,7 +102,6 @@ case $csi_deploy_type in
     fi
     ;;
   *)
-    #echo $"Usage: $0 <android (c. soon)|aws|docker(c. soon)|elasticbeanstalk(c. soon)|iphone (c. soon)|ruby-gem|virtualbox|virtualbox-gui>"
     echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui>"
     exit 1
 esac
