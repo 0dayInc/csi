@@ -20,7 +20,7 @@ module CSI
           headless = false
         end
 
-        zab_obj = Zap.new(:target => target)
+        zap_obj = Zap.new(:target => target)
 
         if opts[:zap_bin_path]
           zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
@@ -29,7 +29,7 @@ module CSI
 
           case underlying_os
             when :osx
-              zab_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+              zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
           else
             raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
             exit 1
