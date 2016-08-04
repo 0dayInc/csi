@@ -7,7 +7,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::DetectOS.type
       public
-      def self.type(opts={})
+      def self.type
         return :linux if OS.linux?
         return :osx if OS.osx?
         return :cygwin if OS.cygwin?

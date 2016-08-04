@@ -106,7 +106,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::BurpSuite.disable_proxy(
+      # CSI::Plugins::BurpSuite.enable_proxy(
       #   :burp_obj => 'required - burp_obj returned by #start method'
       # )
       public
