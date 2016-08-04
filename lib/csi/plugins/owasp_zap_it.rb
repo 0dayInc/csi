@@ -71,7 +71,7 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          #{self}.start(
+          zap_obj = #{self}.start(
             :target => 'required - target URL to test',
             :headless => 'optional - run zap headless if set to true'
           )
