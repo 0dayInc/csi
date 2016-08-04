@@ -75,6 +75,8 @@ Vagrant.configure(API_VERSION) do |config|
   # install packages after csi image has booted
   config.vm.provision :shell, path: "./vagrant/install/init_env.sh", args: "#{hostname}", privileged: false
   config.vm.provision :shell, path: "./vagrant/update/linux_distribution.sh", args: "", privileged: false
+  config.vm.provision :shell, path: "./vagrant/install/imagemagick.sh", privileged: false
+  config.vm.provision :shell, path: "./vagrant/install/tesseract.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/rvm.sh", args: "head", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/ruby.sh", args: "", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/csi.rb", privileged: false
@@ -114,8 +116,6 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: "./vagrant/install/sslyze.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/ssllabs-scan.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/dnsrecon.sh", privileged: false
-  config.vm.provision :shell, path: "./vagrant/install/imagemagick.sh", privileged: false
-  config.vm.provision :shell, path: "./vagrant/install/tesseract.sh", privileged: false
 
   # TODO: Convert Scripts Above into Ansible Playbooks
   #config.vm.provision :ansible do |ansible|
