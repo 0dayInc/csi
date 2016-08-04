@@ -47,7 +47,7 @@ case $csi_deploy_type in
 
         echo "Installing Tesseract OCR..."
         port install tesseract
-        cd /opt/local/share/tessdata && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz
+        cd /opt/local/share/tessdata && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz && cd -
         ;;
       "Linux")
         apt-get --version
@@ -75,7 +75,7 @@ case $csi_deploy_type in
 
           echo "Installing Tesseract OCR..."
           apt-get install tesseract-ocr-all
-          cd /usr/share/tesseract-ocr && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz
+          cd /usr/share/tesseract-ocr && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz && cd -
         else
           echo "A Linux Distro was Detected, however, CSI currently only supports OSX & Ubuntu for now...yucky-yuck, I know."
         fi
