@@ -14,6 +14,11 @@ module CSI
       public
       def self.start(opts={})
         target = opts[:target].to_s.scrub.strip.chomp
+        if opts[:headless]
+          headless = true
+        else
+          headless = false
+        end
 
         zab_obj = Zap.new(:target => target)
 
