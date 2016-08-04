@@ -50,7 +50,7 @@ case $csi_deploy_type in
         cd /opt/local/share/tessdata && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz && cd -
         ;;
       "Linux")
-        apt-get --version
+        apt-get --version > /dev/null 2>&1
         if [[ $? == 0 ]]; then
           ruby_version=$(cat .ruby-version)
           gemset=$(cat .ruby-gemset)
