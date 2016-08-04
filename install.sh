@@ -77,7 +77,7 @@ case $csi_deploy_type in
           apt-get install tesseract-ocr-all
           cd /usr/share/tesseract-ocr && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz && cd -
         else
-          echo "A Linux Distro was Detected, however, CSI currently only supports OSX & Ubuntu for now...yucky-yuck, I know."
+          echo "A Linux Distro was Detected, however, ${0} currently only supports OSX & Ubuntu for now...feel free to install manually."
         fi
         ;;
       *)
