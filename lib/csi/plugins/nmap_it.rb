@@ -33,7 +33,6 @@ module CSI
             puts nmap.public_methods
             nmap.connect_scan = true
             nmap.service_scan = true
-            nmap.os_fingerprint = true
             nmap.verbose = true
             nmap.ports = [1..1024,1337]
             nmap.targets = '127.0.0.1'
