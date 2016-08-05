@@ -107,7 +107,7 @@ All installation methods are recommended :)
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.166]:001 » CSI.help
+  csi[v0.1.167]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -118,7 +118,7 @@ All installation methods are recommended :)
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.166]:001 » CSI.help
+  csi[v0.1.167]:001 » CSI.help
   ```
 
 
@@ -151,37 +151,38 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.1.166]:001 » CSI.help
-  csi[v0.1.166]:002 » CSI::Plugins.help
-  csi[v0.1.166]:003 » CSI::WWW.help
-  csi[v0.1.166]:004 » CSI::WWW::Google.help
-  csi[v0.1.166]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.166]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.166]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.166]:008 » CSI::WWW::Google.close
+  csi[v0.1.167]:001 » CSI.help
+  csi[v0.1.167]:002 » CSI::Plugins.help
+  csi[v0.1.167]:003 » CSI::WWW.help
+  csi[v0.1.167]:004 » CSI::WWW::Google.help
+  csi[v0.1.167]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.167]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.167]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.167]:008 » CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.1.166]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.167]:1 » CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.1.166]:2 » CSI::Plugins::BurpSuite.help
+  csi[v0.1.167]:2 » CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.1.166]:3 » CSI::Plugins::OwaspZapIt.help
+  csi[v0.1.167]:3 » CSI::Plugins::OwaspZapIt.help
     USAGE:
       ...
   ```
+  If you want more context around using CSI::Plugins::TransparentBrowser for your own browser automation, checkout the CSI::WWW modules (they were all built using CSI::Plugins::TransparentBrowser): https://github.com/ninp0/csi/tree/master/lib/csi/www
 
   It's important to note that some modules may require root access to run properly (e.g. CSI::Plugins::NmapIt when certain flags are set)
 
   ```
   # csi
-  csi[v0.1.166]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.167]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -197,13 +198,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.166]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.166]:2 *   nmap.syn_scan = true
-  csi[v0.1.166]:2 *   nmap.service_scan = true
-  csi[v0.1.166]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.166]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.166]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.166]:2 * end  
+  csi[v0.1.167]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.167]:2 *   nmap.syn_scan = true
+  csi[v0.1.167]:2 *   nmap.service_scan = true
+  csi[v0.1.167]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.167]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.167]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.167]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -214,7 +215,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.166]:3 » hist
+  csi[v0.1.167]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -223,7 +224,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.166]:4 » hist -r 2..8
+  csi[v0.1.167]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -250,10 +251,10 @@ All installation methods are recommended :)
 ### **CSI Modules Can be Mixed and Matched to Produce Your Own Drivers** ###
   ```
   $ csi
-  csi[v0.1.166]:1 » CSI.help
+  csi[v0.1.167]:1 » CSI.help
   => [:ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.166]:2 » CSI::Plugins.help
+  csi[v0.1.167]:2 » CSI::Plugins.help
   => [:AWSCompute,
    :AWSElasticBeanstalk,
    :AWSLambda,
@@ -292,10 +293,10 @@ All installation methods are recommended :)
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.166]:3 » CSI::WWW.help
+  csi[v0.1.167]:3 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
   ```
 
 
 
-  I hope you enjoy CSI and remember...be sure to always get permission prior to carrying out any sort of automated hacktivities.  Cheers!
+  I hope you enjoy CSI and remember...ensure you always have permission prior to carrying out any sort of automated hacktivities.  Now - go automate all the things!
