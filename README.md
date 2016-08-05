@@ -1,17 +1,38 @@
+### **Table of Contents** ###
+1. [Intro](#intro)
+2. [Call to Arms](#call-to-arms)
+3. [Clone CSI](#clone-csi)
+4. [Supported OSs and Deployment Scenarios](#supported-oss-and-deployment-scenarios)
+5. [CSI Installation Dependencies](#csi-installation-dependencies)
+6. [Installation](#installation)
+7. [General Usage](#general-usage)
+8. [CSI Modules Can be Mixed and Matched to Produce Your Own Drivers](#csi-modules-can-be-mixed-and-matched-to-produce-your-own-drivers)
+
+
 ### **Intro** ###
 It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated applications should be open to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  Introducing CSI (Continuous Security Integration) - a security automation framework that aims to stand on the shoulders of security giants.
+
+
 
 ### **Call to Arms** ###
 If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM me as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.
 
-### **Installation** ###
+
+
+### **Clone CSI** ###
+
+ `$ sudo git clone https://github.com/ninp0/csi.git /opt/csi`
+
+
+
+### **Supported OSs and Deployment Scenarios** ###
 **Supported Operating Systems:** Ubuntu & OSX
 
 Think of the cloned CSI repo as the root folder for your security automation...you can install CSI leveraging the following methods:
 
   - AWS EC2
   - Docker (Coming Soon)
-  - Locally on your Box as a Ruby Gem
+  - Locally on your Box
   - VirtualBox
 
 All installation methods are recommended :)
@@ -60,11 +81,9 @@ All installation methods are recommended :)
 
 
 
-### **Clone the repo** ###
-
- `$ sudo git clone https://github.com/ninp0/csi.git /opt/csi`
-
-### **Install CSI in AWS (Be Sure to Take a Look at the AWS Acceptable Use Policy: https://aws.amazon.com/aup )** ###
+### **Installation** ###
+#### **Install CSI in AWS EC2** ####
+  # Be Sure to Take a Look at the AWS Acceptable Use Policy: https://aws.amazon.com/aup
 
   `$ sudo cp /opt/csi/etc/aws/vagrant.yaml.EXAMPLE /opt/csi/etc/aws/vagrant.yaml`
   
@@ -74,7 +93,35 @@ All installation methods are recommended :)
 
 
 
-### **Install in VirtualBox (Recommended if Testing in an Air Gapped Network)** ###
+#### **Install in Docker Container (Coming Soon)** ####
+
+
+
+#### **Install Locally on your Box** ####
+
+  ```
+  $ sudo su -
+  # cd /opt/csi
+  # ./install.sh ruby-gem
+  # exit
+  $ cd /opt/csi && csi
+  csi[v0.1.163]:001 » CSI.help
+  ```
+
+  # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
+
+  ```
+  $ sudo port install postgresql96-server
+  $ sudo su -
+  # cd /opt/csi && ./install.sh ruby-gem
+  # exit
+  $ cd /opt/csi && csi
+  csi[v0.1.163]:001 » CSI.help
+  ```
+
+
+
+#### **Install in VirtualBox (Recommended if Testing in an Air Gapped Network)** ####
   # Without GUI:
 
   ```
@@ -97,20 +144,23 @@ All installation methods are recommended :)
 
   ```
   $ csi
-  csi[v0.1.162]:001 » CSI.help
-  csi[v0.1.162]:002 » CSI::Plugins.help
-  csi[v0.1.162]:003 » CSI::WWW.help
-  csi[v0.1.162]:004 » CSI::WWW::Google.help
-  csi[v0.1.162]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.162]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.162]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.162]:008 » CSI::WWW::Google.close
+  csi[v0.1.163]:001 » CSI.help
+  csi[v0.1.163]:002 » CSI::Plugins.help
+  csi[v0.1.163]:003 » CSI::WWW.help
+  csi[v0.1.163]:004 » CSI::WWW::Google.help
+  csi[v0.1.163]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.163]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.163]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.163]:008 » CSI::WWW::Google.close
   ```
   
+
+
+### **General Usage** ###
   You say you want to write post-authentication security tests for your own website?  That's cool friend, here's how:
   
   ```
-  csi[v0.1.162]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.163]:1 » CSI::Plugins::TransparentBrowser.help
   USAGE:
           browser_obj1 = CSI::Plugins::TransparentBrowser.open(
             :browser_type => :firefox|:chrome|:headless|:rest, 
@@ -131,11 +181,11 @@ All installation methods are recommended :)
           CSI::Plugins::TransparentBrowser.authors
   ```
 
-  it's important to note that some modules may require root access to run properly (e.g. CSI::Plugins::NmapIt when certain flags are set)
+  It's important to note that some modules may require root access to run properly (e.g. CSI::Plugins::NmapIt when certain flags are set)
 
   ```
   # csi
-  csi[v0.1.162]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.163]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -151,13 +201,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.162]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.162]:2 *   nmap.syn_scan = true
-  csi[v0.1.162]:2 *   nmap.service_scan = true
-  csi[v0.1.162]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.162]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.162]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.162]:2 * end  
+  csi[v0.1.163]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.163]:2 *   nmap.syn_scan = true
+  csi[v0.1.163]:2 *   nmap.service_scan = true
+  csi[v0.1.163]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.163]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.163]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.163]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -165,10 +215,10 @@ All installation methods are recommended :)
   ...
   ```
 
-  because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
+  Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.162]:3 » hist
+  csi[v0.1.163]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -177,7 +227,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.162]:4 » hist -r 2..8
+  csi[v0.1.163]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -185,60 +235,29 @@ All installation methods are recommended :)
   ...
   ```
 
-
-
-### **Begin Prototyping Automation in AWS EC2 and VirtualBox => (Coming soon - Docker and ElasticBeanstalk)** ###
-  # In order to Leverage Core Modules in Your Own CSI Environments:
-
-  ```
-  $ cd /opt/csi && sudo vagrant ssh
-  ubuntu@csi:~$ csi
-  csi[v0.1.162]:001 » CSI.help
-  ```
+  At this point you may be thinkin', "there's only a csi prototyping driver to run automation?"  Definitely no, there's much more!  The CSI prototyping driver was used to create these other drivers: https://github.com/ninp0/csi/tree/master/bin
   
-Install Gem Only (Expert):
+  Use these examples to build your own drivers!  If they're awesome, submit a pull request, pass our sanity checks, and we'll merge it for the community to use:
 
   ```
-  $ sudo su -
-  # cd /opt/csi
-  # ./install.sh ruby-gem
-  # exit
-  $ cd /opt/csi && csi
-  csi[v0.1.162]:001 » CSI.help
+  $ csi<tab><tab>
+  csi                             csi_ibm_appscan_enterprise      csi_jenkins_useradd             csi_serial_check_voicemail
+  csi_active_scan_burp_suite_pro  csi_jenkins_install_plugin      csi_msf_postgres_login          csi_serial_qualcomm_commands
+  csi_autoinc_version             csi_jenkins_thinBackup_aws_s3   csi_nexpose                     csi_web_app_scapm
+  csi_aws_describe_resources      csi_jenkins_update_plugins      csi_scapm 
   ```
 
-  # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
+  Type the name of each driver above individually for command usage.
 
+
+
+### **CSI Modules Can be Mixed and Matched to Produce Your Own Drivers** ###
   ```
-  $ sudo port install postgresql96-server
-  $ sudo su -
-  # cd /opt/csi && ./install.sh ruby-gem
-  # exit
-  $ cd /opt/csi && csi
-  csi[v0.1.162]:001 » CSI.help
-  ```
-
-You thinkin' there's only a csi prototyping driver to run automation?  Wait, there's more!  The csi prototyping driver was used to create these other drivers, located in https://github.com/ninp0/csi/tree/master/bin ... use these examples to build your own drivers!  If it's awesome, submit a pull request, pass our sanity checks, and we'll merge it for the community to use:
-
-```
-$ csi<tab><tab>
-csi                             csi_ibm_appscan_enterprise      csi_jenkins_useradd             csi_serial_check_voicemail
-csi_active_scan_burp_suite_pro  csi_jenkins_install_plugin      csi_msf_postgres_login          csi_serial_qualcomm_commands
-csi_autoinc_version             csi_jenkins_thinBackup_aws_s3   csi_nexpose                     csi_web_app_scapm
-csi_aws_describe_resources      csi_jenkins_update_plugins      csi_scapm 
-```
-
-Type the name of each driver above individually for command usage.
-
-
-
-### **The Following Modules Can be Mixed and Matched to Produce Your Own Drivers** ###
-```
   $ csi
-  csi[v0.1.162]:1 » CSI.help
+  csi[v0.1.163]:1 » CSI.help
   => [:ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.162]:2 » CSI::Plugins.help
+  csi[v0.1.163]:2 » CSI::Plugins.help
   => [:AWSCompute,
    :AWSElasticBeanstalk,
    :AWSLambda,
@@ -277,10 +296,10 @@ Type the name of each driver above individually for command usage.
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.162]:3 » CSI::WWW.help
+  csi[v0.1.163]:3 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
-```
+  ```
 
 
 
-I hope you enjoy CSI and remember...be sure to always get permission prior to carrying out any sort of automated hack-tivities.  Cheers!
+  I hope you enjoy CSI and remember...be sure to always get permission prior to carrying out any sort of automated hack-tivities.  Cheers!
