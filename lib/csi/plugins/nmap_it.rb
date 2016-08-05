@@ -31,7 +31,7 @@ module CSI
         puts %Q{USAGE:
           #{self}.port_scan do |nmap|
             puts nmap.public_methods
-            nmap.syn_scan = true
+            nmap.connect_scan = true
             nmap.service_scan = true
             nmap.os_fingerprint = true
             nmap.verbose = true
