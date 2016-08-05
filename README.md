@@ -1,5 +1,5 @@
 ### **Intro** ###
-It's easy to agree that while corporate automation is a collection of proprietary source code, the core in which automation is produced should be be open to promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  Introducing CSI (Continuous Security Integration) - a security automation framework that aims to stand on the shoulders of security giants.
+It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated applications should be open to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  Introducing CSI (Continuous Security Integration) - a security automation framework that aims to stand on the shoulders of security giants.
 
 ### **Call to Arms** ###
 If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM me as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.
@@ -76,20 +76,20 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.155]:001 » CSI.help
-  csi[v0.1.155]:002 » CSI::Plugins.help
-  csi[v0.1.155]:003 » CSI::WWW.help
-  csi[v0.1.155]:004 » CSI::WWW::Google.help
-  csi[v0.1.155]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.155]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.155]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.155]:008 » CSI::WWW::Google.close
+  csi[v0.1.156]:001 » CSI.help
+  csi[v0.1.156]:002 » CSI::Plugins.help
+  csi[v0.1.156]:003 » CSI::WWW.help
+  csi[v0.1.156]:004 » CSI::WWW::Google.help
+  csi[v0.1.156]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.156]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.156]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.156]:008 » CSI::WWW::Google.close
   ```
   
   You say you want to write post-authentication security tests for your own website?  That's cool friend, here's how:
   
   ```
-  csi[v0.1.155]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.156]:1 » CSI::Plugins::TransparentBrowser.help
   USAGE:
           browser_obj1 = CSI::Plugins::TransparentBrowser.open(
             :browser_type => :firefox|:chrome|:headless|:rest, 
@@ -114,7 +114,7 @@ which is also recommended :)
 
   ```
   # csi
-  csi[v0.1.155]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.156]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -130,13 +130,13 @@ which is also recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.155]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.155]:2 *   nmap.syn_scan = true
-  csi[v0.1.155]:2 *   nmap.service_scan = true
-  csi[v0.1.155]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.155]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.155]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.155]:2 * end  
+  csi[v0.1.156]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.156]:2 *   nmap.syn_scan = true
+  csi[v0.1.156]:2 *   nmap.service_scan = true
+  csi[v0.1.156]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.156]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.156]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.156]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -147,7 +147,7 @@ which is also recommended :)
   because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.155]:3 » hist
+  csi[v0.1.156]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -156,7 +156,7 @@ which is also recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.155]:4 » hist -r 2..8
+  csi[v0.1.156]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -170,7 +170,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.155]:001 » CSI.help
+  csi[v0.1.156]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -181,7 +181,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.155]:001 » CSI.help
+  csi[v0.1.156]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -192,7 +192,7 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.155]:001 » CSI.help
+  csi[v0.1.156]:001 » CSI.help
   ```
 
 You thinkin' there's only a csi prototyping driver to run automation?  Wait, there's more!  The csi prototyping driver was used to create these other drivers, located in https://github.com/ninp0/csi/tree/master/bin ... use these examples to build your own drivers!  If it's awesome, submit a pull request, pass our sanity checks, and we'll merge it for the community to use:
@@ -210,10 +210,10 @@ Type the name of each driver above individually for command usage.
 ### **The Following Modules Can be Mixed and Matched to Produce Your Own Drivers** ###
 ```
   $ csi
-  csi[v0.1.155]:1 » CSI.help
+  csi[v0.1.156]:1 » CSI.help
   => [:ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.155]:2 » CSI::Plugins.help
+  csi[v0.1.156]:2 » CSI::Plugins.help
   => [:AWSCompute,
    :AWSElasticBeanstalk,
    :AWSLambda,
@@ -252,7 +252,7 @@ Type the name of each driver above individually for command usage.
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.155]:3 » CSI::WWW.help
+  csi[v0.1.156]:3 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
 ```
 
