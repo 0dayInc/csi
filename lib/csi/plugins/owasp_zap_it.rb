@@ -54,7 +54,55 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.close(
+      # CSI::Plugins::OwaspZapIt.spider(
+      #   :zap_obj => 'required - zap_obj returned from #open method'
+      # )
+      public
+      def self.spider(opts={})
+        zap_obj = opts[:zap_obj]
+        
+        begin
+          zap_obj.spider.start
+        rescue => e
+          raise e.message
+          return -1
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZapIt.active_scan(
+      #   :zap_obj => 'required - zap_obj returned from #open method'
+      # )
+      public
+      def self.active_scan(opts={})
+        zap_obj = opts[:zap_obj]
+        
+        begin
+          zap_obj.ascan.start
+        rescue => e
+          raise e.message
+          return -1
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZapIt.alerts(
+      #   :zap_obj => 'required - zap_obj returned from #open method'
+      # )
+      public
+      def self.alerts(opts={})
+        zap_obj = opts[:zap_obj]
+        
+        begin
+          return zap_obj.alerts.view
+        rescue => e
+          raise e.message
+          return -1
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZapIt.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
       public
@@ -88,8 +136,21 @@ module CSI
             :headless => 'optional - run zap headless if set to true',
             :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
           )
+          puts zap_obj.public_methods
 
-          #{self}.close(
+          #{self}.spider(
+            :zap_obj => 'required - zap_obj returned from #open method'
+          )
+
+          #{self}.active_scan(
+            :zap_obj => 'required - zap_obj returned from #open method'
+          )
+
+          json_alerts = #{self}.alerts(
+            :zap_obj => 'required - zap_obj returned from #open method'
+          )
+
+          #{self}.stop(
             :zap_obj => 'required - zap_obj returned from #open method'
           )
 
