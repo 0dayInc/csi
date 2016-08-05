@@ -38,20 +38,20 @@ which is also recommended :)
     * Ansible
 
     * postgresql dev libraries
-      * Ubuntu: sudo apt-get install postgresql-server-dev-all
-      * OSX: sudo port install postgresql96-server
+      * Ubuntu: `sudo apt-get install postgresql-server-dev-all`
+      * OSX: `sudo port install postgresql96-server`
 
     * libpcap dev libraries
-      * Ubuntu: sudo apt-get install libpcap-dev
-      * OSX: sudo port install libpcap
+      * Ubuntu: `sudo apt-get install libpcap-dev`
+      * OSX: `sudo port install libpcap`
 
     * ImageMagick 
-      * Ubuntu: sudo apt-get install libmagickwand-dev imagemagick
-      * OSX: sudo port install imagemagick
+      * Ubuntu: `sudo apt-get install libmagickwand-dev imagemagick`
+      * OSX: `sudo port install imagemagick`
 
     * Tesseract (OCR) ;)
-      * Ubuntu: sudo apt-get install tesseract-ocr-all
-      * OSX: sudo port install tesseract
+      * Ubuntu: `sudo apt-get install tesseract-ocr-all`
+      * OSX: `sudo port install tesseract`
 
   - VirtualBox Deployment
     * Vagrant
@@ -97,20 +97,20 @@ which is also recommended :)
 
   ```
   $ csi
-  csi[v0.1.158]:001 » CSI.help
-  csi[v0.1.158]:002 » CSI::Plugins.help
-  csi[v0.1.158]:003 » CSI::WWW.help
-  csi[v0.1.158]:004 » CSI::WWW::Google.help
-  csi[v0.1.158]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.158]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.158]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.158]:008 » CSI::WWW::Google.close
+  csi[v0.1.159]:001 » CSI.help
+  csi[v0.1.159]:002 » CSI::Plugins.help
+  csi[v0.1.159]:003 » CSI::WWW.help
+  csi[v0.1.159]:004 » CSI::WWW::Google.help
+  csi[v0.1.159]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.159]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.159]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.159]:008 » CSI::WWW::Google.close
   ```
   
   You say you want to write post-authentication security tests for your own website?  That's cool friend, here's how:
   
   ```
-  csi[v0.1.158]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.159]:1 » CSI::Plugins::TransparentBrowser.help
   USAGE:
           browser_obj1 = CSI::Plugins::TransparentBrowser.open(
             :browser_type => :firefox|:chrome|:headless|:rest, 
@@ -135,7 +135,7 @@ which is also recommended :)
 
   ```
   # csi
-  csi[v0.1.158]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.159]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -151,13 +151,13 @@ which is also recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.158]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.158]:2 *   nmap.syn_scan = true
-  csi[v0.1.158]:2 *   nmap.service_scan = true
-  csi[v0.1.158]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.158]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.158]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.158]:2 * end  
+  csi[v0.1.159]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.159]:2 *   nmap.syn_scan = true
+  csi[v0.1.159]:2 *   nmap.service_scan = true
+  csi[v0.1.159]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.159]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.159]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.159]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -168,7 +168,7 @@ which is also recommended :)
   because pry is used in the csi prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.158]:3 » hist
+  csi[v0.1.159]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -177,7 +177,7 @@ which is also recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.158]:4 » hist -r 2..8
+  csi[v0.1.159]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -193,7 +193,7 @@ which is also recommended :)
   ```
   $ cd /opt/csi && sudo vagrant ssh
   ubuntu@csi:~$ csi
-  csi[v0.1.158]:001 » CSI.help
+  csi[v0.1.159]:001 » CSI.help
   ```
   
 Install Gem Only (Expert):
@@ -204,7 +204,7 @@ Install Gem Only (Expert):
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.158]:001 » CSI.help
+  csi[v0.1.159]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -215,7 +215,7 @@ Install Gem Only (Expert):
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.158]:001 » CSI.help
+  csi[v0.1.159]:001 » CSI.help
   ```
 
 You thinkin' there's only a csi prototyping driver to run automation?  Wait, there's more!  The csi prototyping driver was used to create these other drivers, located in https://github.com/ninp0/csi/tree/master/bin ... use these examples to build your own drivers!  If it's awesome, submit a pull request, pass our sanity checks, and we'll merge it for the community to use:
@@ -235,10 +235,10 @@ Type the name of each driver above individually for command usage.
 ### **The Following Modules Can be Mixed and Matched to Produce Your Own Drivers** ###
 ```
   $ csi
-  csi[v0.1.158]:1 » CSI.help
+  csi[v0.1.159]:1 » CSI.help
   => [:ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.158]:2 » CSI::Plugins.help
+  csi[v0.1.159]:2 » CSI::Plugins.help
   => [:AWSCompute,
    :AWSElasticBeanstalk,
    :AWSLambda,
@@ -277,7 +277,7 @@ Type the name of each driver above individually for command usage.
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.158]:3 » CSI::WWW.help
+  csi[v0.1.159]:3 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
 ```
 
