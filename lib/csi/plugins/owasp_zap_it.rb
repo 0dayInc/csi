@@ -25,8 +25,7 @@ module CSI
           headless = false
         end
 
-        zap_obj = Zap.new(:target => target)
-        zap_obj.api_key = api_key
+        zap_obj = Zap.new(:api_key => api_key, :target => target)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
