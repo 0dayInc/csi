@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
+gem 'ai4r', '1.13'                 # Artifical Intelligence for Ruby
 gem 'authy', '2.6.2'               # MFA API Access into Authy service
 gem 'aws-sdk', '2.3.17'            # Amazon AWS SDK (Works better than fog for STS)
 gem 'activesupport', '4.2.6'       # Required to properly build csi via rake w/in ruby-2.3.0

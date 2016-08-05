@@ -1,15 +1,16 @@
+require 'ai4r' # Learn how to process harder-to-read images
 require 'rtesseract'
 
 module CSI
   module Plugins
-    # This plugin converts images to readable text
+    # This plugin processes images into readable text
     module OCR
       # Supported Method Parameters::
-      # CSI::Plugins::OCR.convert(
+      # CSI::Plugins::OCR.process(
       #   :file => 'required - path to image file',
       # )
       public
-      def self.convert(opts={})
+      def self.process(opts={})
         file = opts[:file].to_s.scrub.strip.chomp if File.exists?(opts[:file].to_s.scrub.strip.chomp)
         image = RTesseract.new(file)
         text = image.to_s
@@ -31,7 +32,7 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          #{self}.convert(
+          #{self}.process(
             :file => 'required - path to image file'
           )
 
