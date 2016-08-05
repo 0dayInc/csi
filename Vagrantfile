@@ -85,7 +85,7 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: "./vagrant/install/burpsuite.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/apache2.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/sipp.sh", privileged: false
-  config.vm.provision :shell, path: "./vagrant/install/owasp_zap.rb", privileged: false
+  #config.vm.provision :shell, path: "./vagrant/install/owasp_zap.rb", privileged: false
 
   #TODO: populate vbox_gui via etc/virtualbox/vagrant.yaml
   case vbox_gui
