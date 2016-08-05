@@ -52,4 +52,3 @@ gem 'rtesseract', '2.0.1'          # Gem for image ocr (e.g. decoding captchas)
 gem 'thin', '1.7.0'                # Light HTTP Server Used for Serving Up Sinatra Web Applications
 gem 'watir-webdriver', '0.9.1'     # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***6/28/16
 gem 'wicked_pdf', '1.0.6'          # Convert HTML to PDF Documents
-gem 'wirble', '0.1.3'              # Colorize csi_cli ;) ***12/15/15

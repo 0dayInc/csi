@@ -3,7 +3,7 @@ require 'yaml'
 # vi: set ft=ruby :
 
 API_VERSION = "2"
-vbox_gui = ENV['VAGRANT_VBOX_GUI'] if ENV['VAGRANT_VBOX_GUI']
+vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 Vagrant.configure(API_VERSION) do |config|
   hostname = ""
 
@@ -18,7 +18,7 @@ Vagrant.configure(API_VERSION) do |config|
 
   config.vm.provider(:virtualbox) do |vb, override|
     override.vm.box = "ubuntu/xenial64"
-    if vbox_gui == "gui"
+    if vagrant_gui == "gui"
       vb.gui = true
     else
       vb.gui = false
@@ -37,6 +37,42 @@ Vagrant.configure(API_VERSION) do |config|
     #end
 
     #vb.customize ["modifyhd", "#{disk_uuid}", "--resize", "#{diskMB}"]
+  end
+
+  config.vm.provider(:vmware_fusion) do |vm, override|
+    override.vm.box = "ubuntu/xenial64"
+    if vagrant_gui == "gui"
+      vm.gui = true
+    else
+      vm.gui = false
+    end
+
+    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+    vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
+    vm.memory = yaml_config["memory"]
+    hostname = yaml_config["hostname"]
+    diskMB = yaml_config["diskMB"]
+    override.vm.hostname = hostname
+
+    puts `vagrant plugin license vagrant-vmware-fusion #{vagrant_vmware_license}`
+  end
+
+  config.vm.provider(:vmware_workstation) do |vm, override|
+    override.vm.box = "ubuntu/xenial64"
+    if vagrant_gui == "gui"
+      vm.gui = true
+    else
+      vm.gui = false
+    end
+
+    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+    vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
+    vm.memory = yaml_config["memory"]
+    hostname = yaml_config["hostname"]
+    diskMB = yaml_config["diskMB"]
+    override.vm.hostname = hostname
+
+    puts `vagrant plugin license vagrant-vmware-workstation #{vagrant_vmware_license}`
   end
 
   config.vm.provider(:aws) do |aws, override|
@@ -87,8 +123,8 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: "./vagrant/install/sipp.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/owasp_zap.rb", privileged: false
 
-  #TODO: populate vbox_gui via etc/virtualbox/vagrant.yaml
-  case vbox_gui
+  #TODO: populate vagrant_gui via etc/virtualbox/vagrant.yaml
+  case vagrant_gui
     # VirtualBox Section
     when "gui" # GUI
       #TODO: enable devices (e.g. cdrom)

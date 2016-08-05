@@ -32,5 +32,6 @@ etc/letsencrypt/letsencrypt.yaml
 etc/metasploit/msfrpcd.yaml
 etc/synack/
 etc/virtualbox/vagrant.yaml
+etc/vmware/vagrant.yaml
 ansible/site.retry
 ubuntu-*-cloudimg-console.log
