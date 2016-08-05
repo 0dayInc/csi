@@ -8,7 +8,6 @@ module CSI
     module OwaspZapIt
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.start(
-      #   :api_key => 'required - api key generated w/in locally installed zap (found under preferences=>api)',
       #   :target => 'required - target URL to test',
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)',
@@ -16,7 +15,7 @@ module CSI
       # )
       public
       def self.start(opts={})
-        api_key = opts[:api_key].to_s.scrub.strip.chomp
+        #api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
 
         target = opts[:target].to_s.scrub.strip.chomp
         if opts[:headless]
@@ -28,9 +27,11 @@ module CSI
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
-          zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+          #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+          zap_obj = Zap.new(:target => target, :base => proxy)
         else
-          zap_obj = Zap.new(:api_key => api_key, :target => target)
+          #zap_obj = Zap.new(:api_key => api_key, :target => target)
+          zap_obj = Zap.new(:target => target)
         end
 
         if opts[:zap_bin_path]
@@ -49,9 +50,11 @@ module CSI
         end
 
         if headless
-          zap_obj.start(:api_key => true, :daemon => true)
+          #zap_obj.start(:api_key => true, :daemon => true)
+          zap_obj.start(:daemon => true)
         else
-          zap_obj.start(:api_key => true)
+          #zap_obj.start(:api_key => true)
+          zap_obj.start
         end
 
         return zap_obj
@@ -136,7 +139,6 @@ module CSI
       def self.help
         puts %Q{USAGE:
           zap_obj = #{self}.start(
-            :api_key => 'required - api key generated w/in locally installed zap (found under preferences=>api)',
             :target => 'required - target URL to test',
             :headless => 'optional - run zap headless if set to true',
             :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
