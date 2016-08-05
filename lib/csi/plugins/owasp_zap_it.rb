@@ -10,7 +10,8 @@ module CSI
       # CSI::Plugins::OwaspZapIt.start(
       #   :target => 'required - target URL to test',
       #   :headless => 'optional - run zap headless if set to true',
-      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
+      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)',
+      #   :zap_bin_path => 'required - path to zap.sh file'
       # )
       public
       def self.start(opts={})
@@ -30,6 +31,7 @@ module CSI
 
         if opts[:zap_bin_path]
           zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+          zap_obj.zap_bin = zap_bin_path
         else
           underlying_os = CSI::Plugins::DetectOS.type
 

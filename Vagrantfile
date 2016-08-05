@@ -39,41 +39,41 @@ Vagrant.configure(API_VERSION) do |config|
     #vb.customize ["modifyhd", "#{disk_uuid}", "--resize", "#{diskMB}"]
   end
 
-  config.vm.provider(:vmware_fusion) do |vm, override|
-    override.vm.box = "ubuntu/xenial64"
-    if vagrant_gui == "gui"
-      vm.gui = true
-    else
-      vm.gui = false
-    end
+  #config.vm.provider(:vmware_fusion) do |vm, override|
+  #  override.vm.box = "ubuntu/xenial64"
+  #  if vagrant_gui == "gui"
+  #    vm.gui = true
+  #  else
+  #    vm.gui = false
+  #  end
 
-    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-    vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
-    vm.memory = yaml_config["memory"]
-    hostname = yaml_config["hostname"]
-    diskMB = yaml_config["diskMB"]
-    override.vm.hostname = hostname
+  #  yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #  vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
+  #  vm.memory = yaml_config["memory"]
+  #  hostname = yaml_config["hostname"]
+  #  diskMB = yaml_config["diskMB"]
+  #  override.vm.hostname = hostname
 
-    puts `vagrant plugin license vagrant-vmware-fusion #{vagrant_vmware_license}`
-  end
+  #  puts `vagrant plugin license vagrant-vmware-fusion #{vagrant_vmware_license}`
+  #end
 
-  config.vm.provider(:vmware_workstation) do |vm, override|
-    override.vm.box = "ubuntu/xenial64"
-    if vagrant_gui == "gui"
-      vm.gui = true
-    else
-      vm.gui = false
-    end
+  #config.vm.provider(:vmware_workstation) do |vm, override|
+  #  override.vm.box = "ubuntu/xenial64"
+  #  if vagrant_gui == "gui"
+  #    vm.gui = true
+  #  else
+  #    vm.gui = false
+  #  end
 
-    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-    vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
-    vm.memory = yaml_config["memory"]
-    hostname = yaml_config["hostname"]
-    diskMB = yaml_config["diskMB"]
-    override.vm.hostname = hostname
+  #  yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #  vagrant_vmware_license = yaml_config["vagrant_vmware_license"]
+  #  vm.memory = yaml_config["memory"]
+  #  hostname = yaml_config["hostname"]
+  #  diskMB = yaml_config["diskMB"]
+  #  override.vm.hostname = hostname
 
-    puts `vagrant plugin license vagrant-vmware-workstation #{vagrant_vmware_license}`
-  end
+  #  puts `vagrant plugin license vagrant-vmware-workstation #{vagrant_vmware_license}`
+  #end
 
   config.vm.provider(:aws) do |aws, override|
 
