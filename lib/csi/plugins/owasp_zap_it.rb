@@ -25,11 +25,12 @@ module CSI
           headless = false
         end
 
-        zap_obj = Zap.new(:api_key => api_key, :target => target)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
-          zap_obj.base = proxy
+          zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+        else
+          zap_obj = Zap.new(:api_key => api_key, :target => target)
         end
 
         if opts[:zap_bin_path]
