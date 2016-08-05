@@ -9,7 +9,8 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.start(
       #   :target => 'required - target URL to test',
-      #   :headless => 'optional - run zap headless if set to true'
+      #   :headless => 'optional - run zap headless if set to true',
+      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
       # )
       public
       def self.start(opts={})
@@ -21,6 +22,11 @@ module CSI
         end
 
         zap_obj = Zap.new(:target => target)
+
+        if opts[:proxy]
+          proxy = opts[:proxy].to_s.scrub.strip.chomp
+          zap_obj.base = proxy
+        end
 
         if opts[:zap_bin_path]
           zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
@@ -35,7 +41,6 @@ module CSI
             exit 1
           end
         end
-
 
         if headless
           zap_obj.start(:daemon => true)
@@ -78,7 +83,8 @@ module CSI
         puts %Q{USAGE:
           zap_obj = #{self}.start(
             :target => 'required - target URL to test',
-            :headless => 'optional - run zap headless if set to true'
+            :headless => 'optional - run zap headless if set to true',
+            :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
           )
 
           #{self}.close(
