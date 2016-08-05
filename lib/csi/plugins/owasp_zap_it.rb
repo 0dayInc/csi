@@ -8,6 +8,7 @@ module CSI
     module OwaspZapIt
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.start(
+      #   :api_key => 'required - api key generated w/in locally installed zap (found under preferences=>api)',
       #   :target => 'required - target URL to test',
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)',
@@ -15,6 +16,8 @@ module CSI
       # )
       public
       def self.start(opts={})
+        api_key = opts[:api_key].to_s.scrub.strip.chomp
+
         target = opts[:target].to_s.scrub.strip.chomp
         if opts[:headless]
           headless = true
@@ -23,6 +26,7 @@ module CSI
         end
 
         zap_obj = Zap.new(:target => target)
+        zap_obj.api_key = api_key
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
@@ -45,9 +49,9 @@ module CSI
         end
 
         if headless
-          zap_obj.start(:daemon => true)
+          zap_obj.start(:api_key => true, :daemon => true)
         else
-          zap_obj.start
+          zap_obj.start(:api_key => true)
         end
 
         return zap_obj
@@ -132,6 +136,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
           zap_obj = #{self}.start(
+            :api_key => 'required - api key generated w/in locally installed zap (found under preferences=>api)',
             :target => 'required - target URL to test',
             :headless => 'optional - run zap headless if set to true',
             :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
