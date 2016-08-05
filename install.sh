@@ -100,35 +100,40 @@ case $csi_deploy_type in
       echo "Use ./etc/virtualbox/vagrant.yaml.EXAMPLE as a Template to Create ./etc/virtualbox/vagrant.yaml"
     fi
     ;;
-  "vmware-fusion"|"vmware-fusion-gui")
-    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
-      if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
-        export VAGRANT_GUI="gui"
-      else
-        export VAGRANT_GUI="headless"
-      fi
-      vagrant plugin install vagrant-vmware-fusion
-      vagrant up --provider=vmware_fusion
-    else
-      echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
-    fi
-    ;;
-  "vmware-workstation"|"vmware-workstation-gui")
-    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
-      if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
-        export VAGRANT_GUI="gui"
-      else
-        export VAGRANT_GUI="headless"
-      fi
-      vagrant plugin install vagrant-vmware-workstation
-      vagrant up --provider=vmware
-    else
-      echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
-    fi
-    ;;
+#  "vmware-fusion"|"vmware-fusion-gui")
+#    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
+#      if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
+#        export VAGRANT_GUI="gui"
+#      else
+#        export VAGRANT_GUI="headless"
+#      fi
+#      vagrant plugin install vagrant-vmware-fusion
+#      license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
+#      vagrant plugin license vagrant-vmware-fusion $license_file
+#      vagrant up --provider=vmware_fusion
+#    else
+#      echo "ERROR: Missing vagrant.yaml Config"
+#      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
+#    fi
+#    ;;
+#  "vmware-workstation"|"vmware-workstation-gui")
+#    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
+#      if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
+#        export VAGRANT_GUI="gui"
+#      else
+#        export VAGRANT_GUI="headless"
+#      fi
+#      vagrant plugin install vagrant-vmware-workstation
+#      license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
+#      vagrant plugin license vagrant-vmware-workstation $license_file
+#      vagrant up --provider=vmware_workstation
+#    else
+#      echo "ERROR: Missing vagrant.yaml Config"
+#      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
+#    fi
+#    ;;
   *)
-    echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui>"
+    #echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui>"
+    echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui>"
     exit 1
 esac
