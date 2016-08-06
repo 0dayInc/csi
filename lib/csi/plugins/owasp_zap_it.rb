@@ -24,7 +24,7 @@ module CSI
           loop do                    # inifinite loop
             changes = file.read
             unless changes.empty?    # file.read returns "" if there is not more data to read
-              break if changes.include?(/#{pattern}/)
+              break if changes.include?(pattern)
             end
             sleep 1        # sleep for a second; without it script would use 100% of processor
           end
