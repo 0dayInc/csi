@@ -23,7 +23,9 @@ module CSI
           file.seek(0, IO::SEEK_END) # rewinds file to the end
           loop do                    # inifinite loop
             changes = file.read
-            unless changes.empty?    # file.read returns "" if there is not more data to read
+            puts changes.include?(pattern)
+            # file.read returns "" if there is not more data to read
+            unless changes.empty?
               break if changes.include?(pattern)
             end
             sleep 1        # sleep for a second; without it script would use 100% of processor
