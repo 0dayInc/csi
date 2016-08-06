@@ -120,6 +120,12 @@ module CSI
         
         begin
           zap_obj.spider.start
+          callback_when_pattern_in(
+            :file => @output_path, 
+            :pattern => 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
+          )
+
+          return zap_obj
         rescue => e
           raise e.message
           return 1
@@ -136,6 +142,12 @@ module CSI
         
         begin
           zap_obj.ascan.start
+          callback_when_pattern_in(
+            :file => @output_path, 
+            :pattern => 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
+          )
+
+          return zap_obj
         rescue => e
           raise e.message
           return 1
