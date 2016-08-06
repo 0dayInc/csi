@@ -53,7 +53,12 @@ module CSI
           headless = false
         end
 
-        output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+        if opts[:output_path]
+          output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+        else
+          output_path = '/tmp/owasp_zap.output'
+        end
+
         FileUtils.touch(output_path) unless File.exists?(output_path)
 
         if opts[:proxy]
