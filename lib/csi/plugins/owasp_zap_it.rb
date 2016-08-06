@@ -8,10 +8,39 @@ module CSI
     module OwaspZapIt
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.start(
-      #   :target => 'required - target URL to test',
-      #   :headless => 'optional - run zap headless if set to true',
-      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)',
       #   :zap_bin_path => 'required - path to zap.sh file'
+      #   :target => 'required - target URL to test',
+      #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
+      #   :headless => 'optional - run zap headless if set to true',
+      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
+      # )
+      private 
+      def self.callback_when_pattern_in(opts={})
+        file = opts[:file]
+        pattern = opts[:pattern]
+
+        f = File.open(file,"r")
+
+        # Since this file exists and is growing, seek to the end of the most recent entry
+        f.seek(0,IO::SEEK_END)
+
+        while true
+          select([f])
+          if f.gets =~ pattern
+            break
+          end
+        end
+
+        return
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZapIt.start(
+      #   :zap_bin_path => 'required - path to zap.sh file'
+      #   :target => 'required - target URL to test',
+      #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
+      #   :headless => 'optional - run zap headless if set to true',
+      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
       public
       def self.start(opts={})
@@ -24,18 +53,16 @@ module CSI
           headless = false
         end
 
-        #output_path = "/tmp/owasp_zap.output"
-        #FileUtils.touch(output_path) unless File.exists?(output_path)
+        output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+        FileUtils.touch(output_path) unless File.exists?(output_path)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
           #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          #zap_obj = Zap.new(:target => target, :base => proxy, :output => output_path)
-          zap_obj = Zap.new(:target => target, :base => proxy)
+          zap_obj = Zap.new(:target => target, :base => proxy, :output => output_path)
         else
           #zap_obj = Zap.new(:api_key => api_key, :target => target)
-          #zap_obj = Zap.new(:target => target, :output => output_path)
-          zap_obj = Zap.new(:target => target)
+          zap_obj = Zap.new(:target => target, :output => output_path)
         end
 
         if opts[:zap_bin_path]
@@ -60,6 +87,11 @@ module CSI
           #zap_obj.start(:api_key => true)
           zap_obj.start
         end
+        
+        callback_when_pattern_in(
+          :file => output_path, 
+          :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
+        )
 
         return zap_obj
       end
@@ -122,6 +154,11 @@ module CSI
         
         begin
           zap_obj.shutdown
+
+          callback_when_pattern_in(
+            :file => output_path, 
+            :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
+          )
         rescue => e
           raise e.message
           return -1
@@ -143,9 +180,11 @@ module CSI
       def self.help
         puts %Q{USAGE:
           zap_obj = #{self}.start(
+            :zap_bin_path => 'required - path to zap.sh file',
             :target => 'required - target URL to test',
+            :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
             :headless => 'optional - run zap headless if set to true',
-            :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1)'
+            :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)'
           )
           puts zap_obj.public_methods
 
