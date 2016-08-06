@@ -59,15 +59,15 @@ module CSI
           @output_path = '/tmp/owasp_zap.output'
         end
 
-        FileUtils.touch(output_path) unless File.exists?(output_path)
+        FileUtils.touch(@output_path) unless File.exists?(@output_path)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
           #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          zap_obj = Zap.new(:target => target, :base => proxy, :output => output_path)
+          zap_obj = Zap.new(:target => target, :base => proxy, :output => @output_path)
         else
           #zap_obj = Zap.new(:api_key => api_key, :target => target)
-          zap_obj = Zap.new(:target => target, :output => output_path)
+          zap_obj = Zap.new(:target => target, :output => @output_path)
         end
 
         if opts[:zap_bin_path]
@@ -94,7 +94,7 @@ module CSI
         end
         
         callback_when_pattern_in(
-          :file => output_path, 
+          :file => @output_path, 
           :pattern => 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
         )
 
@@ -166,7 +166,7 @@ module CSI
           zap_obj.shutdown
 
           callback_when_pattern_in(
-            :file => output_path, 
+            :file => @output_path, 
             :pattern => 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
           )
 
