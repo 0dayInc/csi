@@ -22,12 +22,12 @@ module CSI
         f = File.open(file,"r")
 
         # Since this file exists and is growing, seek to the end of the most recent entry
-        f.seek(0,IO::SEEK_END)
 
         while true
-          select([f])
-          if f.gets =~ pattern
+          if f.grep(pattern)
             break
+          else
+            sleep 1
           end
         end
 
@@ -93,10 +93,10 @@ module CSI
           zap_obj.start
         end
         
-        callback_when_pattern_in(
-          :file => output_path, 
-          :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
-        )
+        #callback_when_pattern_in(
+        #  :file => output_path, 
+        #  :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
+        #)
 
         return zap_obj
       end
@@ -160,10 +160,10 @@ module CSI
         begin
           zap_obj.shutdown
 
-          callback_when_pattern_in(
-            :file => output_path, 
-            :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
-          )
+          #callback_when_pattern_in(
+          #  :file => output_path, 
+          #  :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
+          #)
         rescue => e
           raise e.message
           return -1
