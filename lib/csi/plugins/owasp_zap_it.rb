@@ -22,9 +22,9 @@ module CSI
         File.open(file, 'r') do |file|
           file.seek(0, IO::SEEK_END) # rewinds file to the end
           loop do                    # inifinite loop
-            #changes = file.read
-            #puts changes
+            changes = file.read
             if file.read.include?(pattern)
+              puts changes
               break
             end
             sleep 1
