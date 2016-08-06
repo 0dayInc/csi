@@ -100,8 +100,7 @@ module CSI
           )
 
           return zap_obj
-        rescue SystemExit, Interrupt => e
-          raise e.message
+        rescue SystemExit, Interrupt
           File.unlink(@output_path)
           exit 1
         rescue => e
