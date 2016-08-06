@@ -25,6 +25,7 @@ module CSI
             changes = file.read
             unless changes.empty?
               print changes
+              break if changes.include?(pattern)
             end
             sleep 1
           end
