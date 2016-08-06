@@ -23,13 +23,12 @@ module CSI
           file.seek(0, IO::SEEK_END) # rewinds file to the end
           loop do                    # inifinite loop
             changes = file.read
-            # file.read returns "" if there is not more data to read
+            puts changes
             if changes.include?(pattern)
               puts changes
               break
             end
-   
-            sleep 1        # sleep for a second; without it script would use 100% of processor
+            sleep 1
           end
         end
 
