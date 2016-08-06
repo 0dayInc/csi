@@ -19,15 +19,14 @@ module CSI
         file = opts[:file]
         pattern = opts[:pattern]
 
-        f = File.open(file,"r")
-
-        # Since this file exists and is growing, seek to the end of the most recent entry
-
-        while true
-          if f.grep(pattern)
-            break
-          else
-            sleep 1
+        File.open(file, 'r') do |file|
+          file.seek(0, IO::SEEK_END) # rewinds file to the end
+          loop do                    # inifinite loop
+            changes = file.read
+            unless changes.empty?    # file.read returns "" if there is not more data to read
+              break if changes.include?(/#{pattern}/)
+            end
+            sleep 1        # sleep for a second; without it script would use 100% of processor
           end
         end
 
@@ -93,10 +92,10 @@ module CSI
           zap_obj.start
         end
         
-        #callback_when_pattern_in(
-        #  :file => output_path, 
-        #  :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
-        #)
+        callback_when_pattern_in(
+          :file => output_path, 
+          :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
+        )
 
         return zap_obj
       end
@@ -160,10 +159,10 @@ module CSI
         begin
           zap_obj.shutdown
 
-          #callback_when_pattern_in(
-          #  :file => output_path, 
-          #  :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
-          #)
+          callback_when_pattern_in(
+            :file => output_path, 
+            :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
+          )
         rescue => e
           raise e.message
           return -1
