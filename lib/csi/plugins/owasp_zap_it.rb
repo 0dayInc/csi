@@ -28,10 +28,10 @@ module CSI
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
           #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          zap_obj = Zap.new(:target => target, :base => proxy)
+          zap_obj = Zap.new(:target => target, :base => proxy, :output => "")
         else
           #zap_obj = Zap.new(:api_key => api_key, :target => target)
-          zap_obj = Zap.new(:target => target)
+          zap_obj = Zap.new(:target => target, :output => "")
         end
 
         if opts[:zap_bin_path]
