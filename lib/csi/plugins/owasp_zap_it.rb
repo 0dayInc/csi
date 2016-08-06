@@ -21,11 +21,10 @@ module CSI
 
         File.open(file, 'r') do |file|
           file.seek(0, IO::SEEK_END) # rewinds file to the end
-          loop do                    # inifinite loop
+          loop do
             changes = file.read
-            if file.read.include?(pattern)
-              puts changes
-              break
+            unless changes.empty?
+              print changes
             end
             sleep 1
           end
