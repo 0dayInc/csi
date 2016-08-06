@@ -43,6 +43,7 @@ module CSI
       # )
       public
       def self.start(opts={})
+        begin
         #api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
 
         target = opts[:target].to_s.scrub.strip.chomp
@@ -53,9 +54,9 @@ module CSI
         end
 
         if opts[:output_path]
-          output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
         else
-          output_path = '/tmp/owasp_zap.output'
+          @output_path = '/tmp/owasp_zap.output'
         end
 
         FileUtils.touch(output_path) unless File.exists?(output_path)
@@ -94,10 +95,15 @@ module CSI
         
         callback_when_pattern_in(
           :file => output_path, 
-          :pattern => /INFO hsqldb\.db\.\.ENGINE  \- dataFileCache open end/
+          :pattern => 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
         )
 
         return zap_obj
+        rescue => e
+          raise e.message
+          File.unlink(@output_path)
+          exit 1
+        end
       end
 
       # Supported Method Parameters::
@@ -161,8 +167,10 @@ module CSI
 
           callback_when_pattern_in(
             :file => output_path, 
-            :pattern => /INFO org\.zaproxy\.zap\.extension\.api\.CoreAPI  \- OWASP ZAP.+terminated/
+            :pattern => 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
           )
+
+          File.unlink(@output_path)
         rescue => e
           raise e.message
           return -1
