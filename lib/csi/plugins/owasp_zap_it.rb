@@ -45,61 +45,65 @@ module CSI
       public
       def self.start(opts={})
         begin
-        #api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
+          #api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
 
-        target = opts[:target].to_s.scrub.strip.chomp
-        if opts[:headless]
-          headless = true
-        else
-          headless = false
-        end
-
-        if opts[:output_path]
-          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
-        else
-          @output_path = '/tmp/owasp_zap.output'
-        end
-
-        FileUtils.touch(@output_path) unless File.exists?(@output_path)
-
-        if opts[:proxy]
-          proxy = opts[:proxy].to_s.scrub.strip.chomp
-          #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          zap_obj = Zap.new(:target => target, :base => proxy, :output => @output_path)
-        else
-          #zap_obj = Zap.new(:api_key => api_key, :target => target)
-          zap_obj = Zap.new(:target => target, :output => @output_path)
-        end
-
-        if opts[:zap_bin_path]
-          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
-          zap_obj.zap_bin = zap_bin_path
-        else
-          underlying_os = CSI::Plugins::DetectOS.type
-
-          case underlying_os
-            when :osx
-              zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+          target = opts[:target].to_s.scrub.strip.chomp
+          if opts[:headless]
+            headless = true
           else
-            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
-            exit 1
+            headless = false
           end
-        end
 
-        if headless
-          #zap_obj.start(:api_key => true, :daemon => true)
-          zap_obj.start(:daemon => true)
-        else
-          #zap_obj.start(:api_key => true)
-          zap_obj.start
-        end
+          if opts[:output_path]
+            @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+          else
+            @output_path = '/tmp/owasp_zap.output'
+          end
+
+          FileUtils.touch(@output_path) unless File.exists?(@output_path)
+
+          if opts[:proxy]
+            proxy = opts[:proxy].to_s.scrub.strip.chomp
+            #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+            zap_obj = Zap.new(:target => target, :base => proxy, :output => @output_path)
+          else
+            #zap_obj = Zap.new(:api_key => api_key, :target => target)
+            zap_obj = Zap.new(:target => target, :output => @output_path)
+          end
+
+          if opts[:zap_bin_path]
+            zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+            zap_obj.zap_bin = zap_bin_path
+          else
+            underlying_os = CSI::Plugins::DetectOS.type
+
+            case underlying_os
+              when :osx
+                zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+            else
+              raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
+              exit 1
+            end
+          end
+
+          if headless
+            #zap_obj.start(:api_key => true, :daemon => true)
+            zap_obj.start(:daemon => true)
+          else
+            #zap_obj.start(:api_key => true)
+            zap_obj.start
+          end
         
-        callback_when_pattern_in(
-          :file => @output_path, 
-          :pattern => 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
-        )
+          callback_when_pattern_in(
+            :file => @output_path, 
+            :pattern => 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
+          )
 
-        return zap_obj
+          return zap_obj
+        rescue SignalException => e
+          raise e.message
+          File.unlink(@output_path)
+          exit 1
         rescue => e
           raise e.message
           File.unlink(@output_path)
