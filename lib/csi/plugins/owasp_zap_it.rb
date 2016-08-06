@@ -24,16 +24,18 @@ module CSI
           headless = false
         end
 
-        output_path = "/tmp/owasp_zap.output"
-        FileUtils.touch(output_path) unless File.exists?(output_path)
+        #output_path = "/tmp/owasp_zap.output"
+        #FileUtils.touch(output_path) unless File.exists?(output_path)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
           #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          zap_obj = Zap.new(:target => target, :base => proxy, :output => output_path)
+          #zap_obj = Zap.new(:target => target, :base => proxy, :output => output_path)
+          zap_obj = Zap.new(:target => target, :base => proxy)
         else
           #zap_obj = Zap.new(:api_key => api_key, :target => target)
-          zap_obj = Zap.new(:target => target, :output => output_path)
+          #zap_obj = Zap.new(:target => target, :output => output_path)
+          zap_obj = Zap.new(:target => target)
         end
 
         if opts[:zap_bin_path]
