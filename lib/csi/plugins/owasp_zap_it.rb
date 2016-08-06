@@ -96,7 +96,7 @@ module CSI
         
           callback_when_pattern_in(
             :file => @output_path, 
-            :pattern => 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
+            :pattern => 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
           )
 
           return zap_obj
