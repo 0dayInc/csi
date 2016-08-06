@@ -122,7 +122,7 @@ module CSI
           zap_obj.spider.start
         rescue => e
           raise e.message
-          return -1
+          return 1
         end
       end
 
@@ -138,7 +138,7 @@ module CSI
           zap_obj.ascan.start
         rescue => e
           raise e.message
-          return -1
+          return 1
         end
       end
 
@@ -154,7 +154,7 @@ module CSI
           return zap_obj.alerts.view
         rescue => e
           raise e.message
-          return -1
+          return 1
         end
       end
 
@@ -177,7 +177,8 @@ module CSI
           File.unlink(@output_path)
         rescue => e
           raise e.message
-          return -1
+          File.unlink(@output_path)
+          return 1
         end
       end
 
