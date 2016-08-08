@@ -39,7 +39,7 @@ module CSI
       def self.parse_xml_results(opts={})
         xml_file = opts[:xml_file].to_s.scrub.strip.chomp if File.exists?(opts[:xml_file].to_s.scrub.strip.chomp)
 
-        Nmap::XML.new do |xml|
+        Nmap::XML.new(xml_file) do |xml|
           yield(xml)
         end
       end
