@@ -6,7 +6,7 @@ module CSI
     module NmapIt
       # Supported Method Parameters::
       # CSI::Plugins::NmapIt.port_scan do |nmap|
-          puts nmap.public_methods
+      #   puts nmap.public_methods
       # end
       public
       def self.port_scan
@@ -17,7 +17,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::NmapIt.parse_xml_results(:xml_file => 'required - path to nmap xml results') do |xml|
-          puts xml.public_methods
+      #   puts xml.public_methods
       # end
       public
       def self.parse_xml_results(opts={})
