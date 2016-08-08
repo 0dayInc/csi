@@ -8,9 +8,9 @@ begin
   prompt_arrow = Rainbow("\u00bb").green
   Pry.config.prompt = [ 
     ->(object, level, pry) do 
-      "\001#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \002"
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
     end, ->(object, level, pry) do
-       "\001#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \002"
+       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
   Pry.start
