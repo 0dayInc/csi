@@ -5,13 +5,26 @@ module CSI
     # This plugin is used as an  interface to nmap, the exploration tool and security / port scanner.
     module NmapIt
       # Supported Method Parameters::
-      # CSI::Plugins::NmapIt.port_scan(
-      #   :port_range => 'optional - array containing range of ports e.g. [1..65535]'
-      # )
+      # CSI::Plugins::NmapIt.port_scan do |nmap|
+          puts nmap.public_methods
+      # end
       public
       def self.port_scan
         Nmap::Program.scan do |nmap|
           yield(nmap)
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::NmapIt.parse_xml_results(:xml_file => 'required - path to nmap xml results') do |xml|
+          puts xml.public_methods
+      # end
+      public
+      def self.parse_xml_results(opts={})
+        xml_file = opts[:xml_file].to_s.scrub.strip.chomp if File.exists?(opts[:xml_file].to_s.scrub.strip.chomp)
+
+        Nmap::XML.new do |xml|
+          yield(xml)
         end
       end
 
