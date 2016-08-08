@@ -18,6 +18,22 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::NmapIt.parse_xml_results(:xml_file => 'required - path to nmap xml results') do |xml|
       #   puts xml.public_methods
+      #   xml.each_host do |host|
+      #     puts "[#{host.ip}]"
+      #
+      #     host.scripts.each do |name,output|
+      #       output.each_line { |line| puts "  #{line}" }
+      #     end
+      #
+      #     host.each_port do |port|
+      #       puts "  [#{port.number}/#{port.protocol}]"
+      #
+      #       port.scripts.each do |name,output|
+      #         puts "    [#{name}]"
+      #         output.each_line { |line| puts "      #{line}" }
+      #       end
+      #     end
+      #   end
       # end
       public
       def self.parse_xml_results(opts={})
@@ -50,6 +66,25 @@ module CSI
             nmap.ports = [1..1024,1337]
             nmap.targets = '127.0.0.1'
             nmap.xml = '/tmp/nmap_port_scan_res.xml'
+          end
+
+          #{self}.parse_xml_results(:xml_file => 'required - path to nmap xml results') do |xml|
+            xml.each_host do |host|
+              puts host.ip
+
+              host.scripts.each do |name,output|
+                output.each_line { |line| puts line }
+              end
+
+              host.each_port do |port|
+                puts port
+
+                port.scripts.each do |name,output|
+                  puts name
+                  output.each_line { |line| puts line }
+                end
+              end
+            end
           end
 
           #{self}.authors
