@@ -20,6 +20,7 @@ sudo a2enmod headers
 # Disable Version Headers
 sudo /bin/bash --login -c "cp /csi/etc/apache2/*.conf /etc/apache2/sites-enabled/"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/apache2/sites-enabled/*.conf" 
+sudo /etc/init.d/jenkins restart
 sudo /etc/init.d/apache2 restart
 
 printf "Sleeping 120s While Jenkins Daemon Wakes Up ********************************************"
