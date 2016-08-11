@@ -149,6 +149,7 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: "./vagrant/install/sslyze.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/ssllabs-scan.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/dnsrecon.sh", privileged: false
+  config.vm.provision :shell, path: "./vagrant/install/exim4.sh", privileged: false
 
   # TODO: Convert Scripts Above into Ansible Playbooks
   #config.vm.provision :ansible do |ansible|

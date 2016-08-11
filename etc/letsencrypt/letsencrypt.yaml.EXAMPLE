@@ -1,5 +1,5 @@
 domains: 
-  - DOMAIN1
-  - DOMAIN2
-  - DOMAIN3
-  - etc
+  - csi.DOMAIN
+  - openvas.DOMAIN
+  - scapm.DOMAIN
+email: youremail@domain.com
