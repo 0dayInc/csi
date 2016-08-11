@@ -28,7 +28,7 @@ etc/aws/vagrant.yaml
 etc/burpsuite/navigation.instruct
 etc/jenkins/jenkins_admin_user.yaml
 etc/jenkins/thinBackup
-etc/letsencrypt/letsencrypt.yaml
+etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
 etc/synack/
 etc/virtualbox/vagrant.yaml

@@ -133,7 +133,7 @@ Vagrant.configure(API_VERSION) do |config|
       config.vm.provision :shell, path: "./vagrant/install/drozer.sh", privileged: false
   else
     # AWS Section
-    config.vm.provision :shell, path: "./vagrant/install/letsencrypt.sh", args: "head", privileged: false
+    config.vm.provision :shell, path: "./vagrant/install/letsencrypt.rb", args: "head", privileged: false
     config.vm.provision :shell, path: "./vagrant/install/openvas.sh", privileged: false
   end
 
