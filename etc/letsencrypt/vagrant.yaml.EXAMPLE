@@ -2,4 +2,4 @@ domains:
   - csi.DOMAIN
   - openvas.DOMAIN
   - scapm.DOMAIN
-email: youremail@domain.com
+email: youremail@DOMAIN
