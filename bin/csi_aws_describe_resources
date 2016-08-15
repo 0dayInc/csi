@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = %Q{USAGE:
+    #{$0} [opts]
+  }
+
+  options.on("-rREGION", "--sts_region=REGION", "<Required - Region to Retrieve STS Credentials>") do |sts_region| 
+    opts[:sts_region] = sts_region
+  end
+
+  options.on("-aARN", "--sts_role_arn=ARN", "<Required - STS Role ARN>") do |sts_role_arn| 
+    opts[:sts_role_arn] = sts_role_arn
+  end
+
+  options.on("-nRNAME", "--sts_role_name=RNAME", "<Required - STS Role Name>") do |sts_role_name| 
+    opts[:sts_role_name] = sts_role_name
+  end
+
+  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Optional - STS Expiration (Defaults to 900 Seconds)>") do |sts_expiration| 
+    opts[:sts_expiration] = sts_expiration
+  end
+
+end.parse!
+
+if opts.empty?
+  puts `#{$0} --help`
+  exit 1
+end 
+
+logger = CSI::Plugins::CSILogger.create()
+
+sts_region = opts[:sts_region].to_s.scrub
+sts_role_arn = opts[:sts_role_arn].to_s.scrub
+sts_role_name = opts[:sts_role_name].to_s.scrub
+
+if opts[:sts_expiration].nil?
+  sts_expiration = 900
+else
+  sts_expiration = opts[:sts_expiration].to_i
+end
+
+if opts[:excel_results].nil?
+  excel_results = './results.xls'
+else
+  excel_results = opts[:excel_results].to_s.scrub
+end
+
+credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
+  :region => sts_region,
+  :role_arn => sts_role_arn,
+  :role_session_name => sts_role_name,
+  :duration_seconds => sts_expiration
+)
+
+compute_obj = CSI::Plugins::AWSCompute.connect(
+  :region => 'us-east-1', 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts compute_obj.public_methods
+CSI::Plugins::AWSCompute.disconnect(:compute_obj => compute_obj)
+
+eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts eb_obj.public_methods
+CSI::Plugins::ElasticBeanstalk.disconnect(:eb_obj => eb_obj)
+
+lamb_obj = CSI::Plugins::AWSLambda.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts lamb_obj.public_methods
+CSI::Plugins::AWSLambda.disconnect(:lamb_obj => lamb_obj)
+
+s3_obj = CSI::Plugins::AWSS3.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts s3_obj.public_methods
+CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)

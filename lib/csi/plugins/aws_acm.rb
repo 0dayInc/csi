@@ -2,12 +2,12 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin was initially created to support retrieval of Compute resources created w/in AWS.
-    module AWSCompute
+    # This plugin provides a client for making API requests to AWS Certificate Manager.
+    module AWSACM
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.connect(
+      # CSI::Plugins::AWSACM.connect(
       #   :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
       #   :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
       #   :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
@@ -21,15 +21,15 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info("Connecting to AWS Compute...")
+          @@logger.info("Connecting to AWS ACM...")
           if sts_session_token == ""
-            compute_obj = Aws::EC2::Client.new(
+            acm_obj = Aws::ACM::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key
             )
           else
-            compute_obj = Aws::EC2::Client.new(
+            acm_obj = Aws::EC2::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key,
@@ -38,24 +38,24 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return compute_obj  
+          return acm_obj  
         rescue => e
           return e.message
         end
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.disconnect(
-      #   :compute_obj => 'required - compute_obj returned from #connect method'
+      # CSI::Plugins::AWSACM.disconnect(
+      #   :acm_obj => 'required - acm_obj returned from #connect method'
       # )
       public
       def self.disconnect(opts = {})
-        compute_obj = opts[:compute_obj]
+        acm_obj = opts[:acm_obj]
         @@logger.info("Disconnecting...")
-        compute_obj = nil
+        acm_obj = nil
         @@logger.info("complete.\n")
 
-        return compute_obj
+        return acm_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -72,16 +72,16 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          compute_obj = #{self}.connect(
+          acm_obj = #{self}.connect(
             :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-          puts compute_obj.public_methods
+          puts acm_obj.public_methods
 
           #{self}.disconnect(
-            :compute_obj => 'required - compute_obj returned from #connect method'
+            :acm_obj => 'required - acm_obj returned from #connect method'
           )
 
           #{self}.authors

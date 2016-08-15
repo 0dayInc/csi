@@ -7,6 +7,7 @@ module CSI
     autoload :AuthenticationHelper, 'csi/plugins/authentication_helper'
     autoload :AWSCompute, 'csi/plugins/aws_compute'
     autoload :AWSElasticBeanstalk, 'csi/plugins/aws_elastic_beanstalk'
+    autoload :AWSACM, 'csi/plugins/aws_acm'
     autoload :AWSLambda, 'csi/plugins/aws_lambda'
     autoload :AWSRoute53, 'csi/plugins/aws_route53'
     autoload :AWSS3, 'csi/plugins/aws_s3'
