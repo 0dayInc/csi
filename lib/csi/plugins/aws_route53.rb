@@ -22,14 +22,14 @@ module CSI
           @@logger.info("Logging into AWS Route53...")
           if sts_session_token == ""
             r53_obj = Aws::Route53::Client.new(
-              :aws_access_key_id => access_key_id,
-              :aws_secret_access_key => secret_access_key
+              :access_key_id => access_key_id,
+              :secret_access_key => secret_access_key
             ) 
           else
             r53_obj = Aws::Route53::Client.new(
-              :aws_access_key_id => access_key_id,
-              :aws_secret_access_key => secret_access_key,
-              :aws_session_token => sts_session_token
+              :access_key_id => access_key_id,
+              :secret_access_key => secret_access_key,
+              :session_token => sts_session_token
             ) 
           end
           @@logger.info("complete.\n")
