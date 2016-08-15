@@ -1,4 +1,4 @@
-require 'fog'
+require 'aws-sdk'
 
 module CSI
   module Plugins
@@ -23,17 +23,17 @@ module CSI
         begin
           @@logger.info("Connecting to AWS Storage...")
           if sts_session_token == ""
-            s3_obj = Fog::Storage::AWS.new(
+            s3_obj = Aws::S3::Client.new(
               :region => region,
-              :aws_access_key_id => access_key_id,
-              :aws_secret_access_key => secret_access_key
+              :access_key_id => access_key_id,
+              :secret_access_key => secret_access_key
             )
           else
-            s3_obj = Fog::Storage::AWS.new(
+            s3_obj = Aws::S3::Client.new(
               :region => region,
-              :aws_access_key_id => access_key_id,
-              :aws_secret_access_key => secret_access_key,
-              :aws_session_token => sts_session_token
+              :access_key_id => access_key_id,
+              :secret_access_key => secret_access_key,
+              :session_token => sts_session_token
             )
           end
           @@logger.info("complete.\n")

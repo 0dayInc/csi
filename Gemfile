@@ -8,13 +8,13 @@ gemspec
 
 gem 'ai4r', '1.13'                 # Artifical Intelligence for Ruby
 gem 'authy', '2.6.2'               # MFA API Access into Authy service
-gem 'aws-sdk', '2.3.17'            # Amazon AWS SDK (Works better than fog for STS)
+gem 'aws-sdk', '2.3.17'            # Amazon AWS SDK
 gem 'activesupport', '4.2.6'       # Required to properly build csi via rake w/in ruby-2.3.0
 gem 'bettercap', '1.5.5'           # MITM framework
 gem 'brakeman', '3.3.2'            # Rails Security Scanner
 gem 'bunny', '2.4.0'               # RabbitMQ
 gem 'bson', '4.1.1'                # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/
-gem 'fog', '1.38.0'                # Amazon AWS & Other Cloud Provider Support
+gem 'fog', '1.38.0'                # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS)
 gem 'highline', '1.7.8'            # Masking Authentication Credential Input ***6/28/16
 gem 'htmlentities', '4.3.4'        # Encode raw strings/input to HTML entity encoded data ***6/28/16
 gem 'jenkins_api_client', '1.4.3'  # Support Jenkins Continuous Integration Automation
