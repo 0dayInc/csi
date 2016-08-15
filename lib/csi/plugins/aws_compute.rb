@@ -45,46 +45,6 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.ec2_instances(
-      #   :compute_obj => 'required - compute_obj returned from #connect method'
-      # )
-      public
-      def self.ec2_instances(opts = {})
-        compute_obj = opts[:compute_obj]
-        return compute_obj.describe_instances.data[:body]["reservationSet"]
-      end
-
-      # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.elastic_block_stores(
-      #   :compute_obj => 'required - compute_obj returned from #connect method'
-      # )
-      public
-      def self.elastic_block_stores(opts = {})
-        compute_obj = opts[:compute_obj]
-        return compute_obj.describe_volumes.data[:body]["volumeSet"]
-      end
-
-      # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.regions(
-      #   :compute_obj => 'required - compute_obj returned from #connect method'
-      # )
-      public
-      def self.regions(opts = {})
-        compute_obj = opts[:compute_obj]
-        return compute_obj.describe_regions.data[:body]["regionInfo"]
-      end
-
-      # Supported Method Parameters::
-      # CSI::Plugins::AWSCompute.security_groups(
-      #   :compute_obj => 'required - compute_obj returned from #connect method'
-      # )
-      public
-      def self.security_groups(opts = {})
-        compute_obj = opts[:compute_obj]
-        return compute_obj.describe_security_groups.data[:body]["securityGroupInfo"]
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::AWSCompute.disconnect(
       #   :compute_obj => 'required - compute_obj returned from #connect method'
       # )
@@ -118,22 +78,7 @@ module CSI
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-
-          #{self}.ec2_instances(
-            :compute_obj => 'required - compute_obj returned from #connect method'
-          )
-
-          #{self}.elastic_block_stores(
-            :compute_obj => 'required - compute_obj returned from #connect method'
-          )
-
-          #{self}.regions(
-            :compute_obj => 'required - compute_obj returned from #connect method'
-          )
-
-          #{self}.security_groups(
-            :compute_obj => 'required - compute_obj returned from #connect method'
-          )
+          puts compute_obj.public_methods
 
           #{self}.disconnect(
             :compute_obj => 'required - compute_obj returned from #connect method'

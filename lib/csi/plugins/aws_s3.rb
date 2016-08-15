@@ -45,17 +45,6 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSS3.directories(
-      #   :s3_obj => 'required - s3_obj returned from #connect method'
-      # )
-      public
-      def self.directories(opts = {})
-        s3_obj = opts[:s3_obj]
-
-        return s3_obj.directories
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::AWSS3.disconnect(
       #   :s3_obj => 'required - s3_obj returned from #connect method'
       # )
@@ -89,22 +78,7 @@ module CSI
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key', 
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-
-          #{self}.ec2_instances(
-            :s3_obj => 'required - s3_obj returned from #connect method'
-          )
-
-          #{self}.elastic_block_stores(
-            :s3_obj => 'required - s3_obj returned from #connect method'
-          )
-
-          #{self}.regions(
-            :s3_obj => 'required - s3_obj returned from #connect method'
-          )
-
-          #{self}.security_groups(
-            :s3_obj => 'required - s3_obj returned from #connect method'
-          )
+          puts s3_obj.public_methods
 
           #{self}.disconnect(
             :s3_obj => 'required - s3_obj returned from #connect method'

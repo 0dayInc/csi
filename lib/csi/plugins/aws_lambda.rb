@@ -45,21 +45,6 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSLambda.functions(
-      #   :lamb_obj => 'required - lamb_obj returned from #connect method'
-      # )
-      public
-      def self.functions(opts = {})
-        lamb_obj = opts[:lamb_obj]
-        begin
-          functions = lamb_obj.list_functions.data[:body]["Functions"]
-          return functions
-        rescue Excon::Errors::SocketError, Fog::AWS::Lambda::Error
-          return []
-        end
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::AWSLambda.disconnect(
       #   :lamb_obj => 'required - lamb_obj returned from #connect method'
       # )
@@ -93,10 +78,7 @@ module CSI
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-
-          #{self}.environments(
-            :lamb_obj => 'required - lamb_obj returned from #connect method'
-          )
+          puts lamb_obj.public_methods
 
           #{self}.disconnect(
             :lamb_obj => 'required - lamb_obj returned from #connect method'

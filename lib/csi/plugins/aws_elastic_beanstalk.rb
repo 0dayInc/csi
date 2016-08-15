@@ -45,16 +45,6 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSElasticBeanstalk.environments(
-      #   :eb_obj => 'required - eb_obj returned from #connect method'
-      # )
-      public
-      def self.environments(opts = {})
-        eb_obj = opts[:eb_obj]
-        return eb_obj.describe_environments.data[:body]["DescribeEnvironmentsResult"]["Environments"]
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::AWSElasticBeanstalk.disconnect(
       #   :eb_obj => 'required - eb_obj returned from #connect method'
       # )
@@ -88,10 +78,7 @@ module CSI
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-
-          #{self}.environments(
-            :eb_obj => 'required - eb_obj returned from #connect method'
-          )
+          puts eb_obj.public_methods
 
           #{self}.disconnect(
             :eb_obj => 'required - eb_obj returned from #connect method'

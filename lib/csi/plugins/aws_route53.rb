@@ -43,41 +43,6 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSRoute53.zones(
-      #   :r53_obj => 'required - r53_obj returned from #connect method'
-      # )
-      public
-      def self.zones(opts = {})
-        r53_obj = opts[:r53_obj]
-        @@logger.info("Retrieving a List of Zones from AWS Route53...")
-        r53_zones = r53_obj.zones[0]
-
-        r53_zones_hash = {}
-        r53_zones_hash[:id] = r53_zones.id
-        r53_zones_hash[:caller_reference] = r53_zones.caller_reference
-        r53_zones_hash[:change_info] = r53_zones.change_info
-        r53_zones_hash[:description] = r53_zones.description
-        r53_zones_hash[:domain] = r53_zones.domain
-        r53_zones_hash[:nameservers] = r53_zones.nameservers
-
-        return r53_zones_hash
-      end
-
-      # Supported Method Parameters::
-      # CSI::Plugins::AWSRoute53.records(
-      #   :r53_obj => 'required - r53_obj returned from #connect method'
-      #   :zone_id => 'required - zone id returned from #zones method'
-      # )
-      public
-      def self.records(opts = {})
-        r53_obj = opts[:r53_obj]
-        zone_id = opts[:zone_id].to_s.scrub.strip.chomp
-        @@logger.info("Retrieving a List of Records from AWS Route53...")
-        r53_records = r53_obj.list_resource_record_sets(zone_id).data
-        return r53_records
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::AWSRoute53.disconnect(
       #   :r53_obj => 'required - r53_obj returned from #connect method'
       # )
@@ -108,15 +73,7 @@ module CSI
             :secret_access_key => 'required - AWS Secret Access Key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-
-          r53_zones = #{self}.zones(
-            :r53_obj => 'required - r53_obj returned from #connect method'
-          )
-
-          r53_records = #{self}.records(
-            :r53_obj => 'required - r53_obj returned from #connect method'
-            :zone_id => 'required - zone id returned from #zones method'
-          )
+          puts r53_obj.public_methods
 
           #{self}.disconnect(
             :r53_obj => 'required - r53_obj returned from #connect method'
