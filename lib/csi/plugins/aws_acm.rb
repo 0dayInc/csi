@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin provides a client for making API requests to AWS Certificate Manager.
+    # This module provides a client for making API requests to AWS Certificate Manager.
     module AWSACM
       @@logger = CSI::Plugins::CSILogger.create()
 
@@ -29,7 +29,7 @@ module CSI
               :secret_access_key => secret_access_key
             )
           else
-            acm_obj = Aws::EC2::Client.new(
+            acm_obj = Aws::ACM::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key,

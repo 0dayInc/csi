@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin was initially created to support retrieval of Elastic Beanstalk resources created w/in AWS.
+    # This module provides a client for making API requests to AWS Elastic Beanstalk.
     module AWSElasticBeanstalk
       @@logger = CSI::Plugins::CSILogger.create()
 

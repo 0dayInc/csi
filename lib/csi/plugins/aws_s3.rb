@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin was initially created to support retrieval of S3 resources created w/in AWS.
+    # This module provides a client for making API requests to Amazon Simple Storage Service.
     module AWSS3
       @@logger = CSI::Plugins::CSILogger.create()
 

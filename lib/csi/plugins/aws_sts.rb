@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin was initially created to support retrieving temporary access key id & secret access keys to avoid the need to share authN artifacts
+    # This module provides a client for making API requests to AWS Security Token Service.
     module AWSSTS
       @@logger = CSI::Plugins::CSILogger.create()
 

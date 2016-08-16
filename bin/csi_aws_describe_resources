@@ -56,14 +56,14 @@ credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
   :duration_seconds => sts_expiration
 )
 
-compute_obj = CSI::Plugins::AWSCompute.connect(
+ec2_obj = CSI::Plugins::AWSEC2.connect(
   :region => 'us-east-1', 
   :access_key_id => credentials.access_key_id, 
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts compute_obj.public_methods
-CSI::Plugins::AWSCompute.disconnect(:compute_obj => compute_obj)
+puts ec2_obj.public_methods
+CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
 
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 

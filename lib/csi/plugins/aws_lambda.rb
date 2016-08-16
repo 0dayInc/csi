@@ -2,7 +2,7 @@ require 'aws-sdk'
 
 module CSI
   module Plugins
-    # This plugin was initially created to support retrieval of Lambda resources created w/in AWS.
+    # This module provides a client for making API requests to AWS Lambda.
     module AWSLambda
       @@logger = CSI::Plugins::CSILogger.create()
 
@@ -23,13 +23,13 @@ module CSI
         begin
           @@logger.info("Connecting to AWS Lambda...")
           if sts_session_token == ""
-            lamb_obj = Aws::Lambda::Client.new(
+            lambda_obj = Aws::Lambda::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key
             )
           else
-            lamb_obj = Aws::Lambda::Client.new(
+            lambda_obj = Aws::Lambda::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key,
@@ -38,7 +38,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return lamb_obj  
+          return lambda_obj  
         rescue => e
           return e.message
         end
@@ -46,16 +46,16 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AWSLambda.disconnect(
-      #   :lamb_obj => 'required - lamb_obj returned from #connect method'
+      #   :lambda_obj => 'required - lambda_obj returned from #connect method'
       # )
       public
       def self.disconnect(opts = {})
-        lamb_obj = opts[:lamb_obj]
+        lambda_obj = opts[:lambda_obj]
         @@logger.info("Disconnecting...")
-        lamb_obj = nil
+        lambda_obj = nil
         @@logger.info("complete.\n")
 
-        return lamb_obj
+        return lambda_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -72,16 +72,16 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          lamb_obj = #{self}.connect(
+          lambda_obj = #{self}.connect(
             :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-          puts lamb_obj.public_methods
+          puts lambda_obj.public_methods
 
           #{self}.disconnect(
-            :lamb_obj => 'required - lamb_obj returned from #connect method'
+            :lambda_obj => 'required - lambda_obj returned from #connect method'
           )
 
           #{self}.authors
