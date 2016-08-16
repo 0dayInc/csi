@@ -3,11 +3,11 @@ require 'aws-sdk'
 module CSI
   module Plugins
     # This module provides a client for making API requests to Amazon Elastic MapReduce.
-    module AWSElasticMapReduce
+    module AWSEMR
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSElasticMapReduce.connect(
+      # CSI::Plugins::AWSEMR.connect(
       #   :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
       #   :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
       #   :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
@@ -21,15 +21,15 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info("Connecting to AWS ElasticMapReduce...")
+          @@logger.info("Connecting to AWS EMR...")
           if sts_session_token == ""
-            emr_obj = Aws::ElasticMapReduce::Client.new(
+            emr_obj = Aws::EMR::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key
             )
           else
-            emr_obj = Aws::ElasticMapReduce::Client.new(
+            emr_obj = Aws::EMR::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key,
@@ -45,7 +45,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AWSElasticMapReduce.disconnect(
+      # CSI::Plugins::AWSEMR.disconnect(
       #   :emr_obj => 'required - emr_obj returned from #connect method'
       # )
       public
