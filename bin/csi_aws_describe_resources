@@ -43,12 +43,6 @@ else
   sts_expiration = opts[:sts_expiration].to_i
 end
 
-if opts[:excel_results].nil?
-  excel_results = './results.xls'
-else
-  excel_results = opts[:excel_results].to_s.scrub
-end
-
 credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
   :region => sts_region,
   :role_arn => sts_role_arn,
