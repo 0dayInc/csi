@@ -4,7 +4,7 @@ require "csi/version"
 # Your Source for Source Code Analysis, Vulnerability Scanning, Exploitation, 
 # & General Security Testing in a Continuous Integration Environment
 module CSI
-  attr_accessor(:toggle_pager)
+  mattr_accessor(:toggle_pager)
 
   STDOUT.sync = true # < Ensure that all print statements output progress in realtime
   STDOUT.flush       # < Ensure that all print statements output progress in realtime
