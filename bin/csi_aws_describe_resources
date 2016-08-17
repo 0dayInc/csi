@@ -8,20 +8,28 @@ OptionParser.new do |options|
     #{$0} [opts]
   }
 
-  options.on("-rREGION", "--sts_region=REGION", "<Required - Region to Retrieve STS Credentials>") do |sts_region| 
+  options.on("-AAKI", "--access_key_id=AKI", "<Common - AWS Access Key ID>") do |aki| 
+    opts[:aki] = aki
+  end
+
+  options.on("-SSAK", "--secret_access_key=SAK", "<Common - Secret Access Key>") do |sak| 
+    opts[:sak] = sak
+  end
+
+  options.on("-rREGION", "--sts_region=REGION", "<Preferred to Common - Region to Retrieve STS Credentials>") do |sts_region| 
     opts[:sts_region] = sts_region
   end
 
-  options.on("-aARN", "--sts_role_arn=ARN", "<Required - STS Role ARN>") do |sts_role_arn| 
+  options.on("-aARN", "--sts_role_arn=ARN", "<Preferred to Common - STS Role ARN>") do |sts_role_arn| 
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on("-nRNAME", "--sts_role_name=RNAME", "<Required - STS Role Name>") do |sts_role_name| 
+  options.on("-nRNAME", "--sts_role_name=RNAME", "<Preferred to Common - STS Role Name>") do |sts_role_name| 
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Optional - STS Expiration (Defaults to 900 Seconds)>") do |sts_expiration| 
-    opts[:sts_expiration] = sts_expiration
+  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Preferred to Common - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
+    opts[:sts_exp] = sts_exp
   end
 
 end.parse!
@@ -33,22 +41,28 @@ end
 
 logger = CSI::Plugins::CSILogger.create()
 
+access_key_id = opts[:aki].to_s.scrub
+secret_access_key = opts[:sak].to_s.scrub
+
 sts_region = opts[:sts_region].to_s.scrub
 sts_role_arn = opts[:sts_role_arn].to_s.scrub
 sts_role_name = opts[:sts_role_name].to_s.scrub
 
-if opts[:sts_expiration].nil?
-  sts_expiration = 900
+if opts[:sts_exp].nil?
+  sts_exp = 900
 else
-  sts_expiration = opts[:sts_expiration].to_i
+  sts_exp = opts[:sts_exp].to_i
 end
 
-credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
-  :region => sts_region,
-  :role_arn => sts_role_arn,
-  :role_session_name => sts_role_name,
-  :duration_seconds => sts_expiration
-)
+if access_key_id == "" && secret_access_key == "" 
+  credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
+    :region => sts_region,
+    :role_arn => sts_role_arn,
+    :role_session_name => sts_role_name,
+    :duration_seconds => sts_exp
+  )
+else
+end
 
 ec2_obj = CSI::Plugins::AWSEC2.connect(
   :region => 'us-east-1', 
