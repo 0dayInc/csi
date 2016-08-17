@@ -4,17 +4,32 @@ require 'pry'
 require 'rainbow'
 
 begin
+  class CSISession
+    def intialize(opts={})
+      @pry_obj = opts[:pry_obj]
+    end
+
+    def toggle_pager(opts={})
+      if @pry_obj.config.pager
+        @pry_obj.config.pager = false
+      else
+        @pry_obj.config.pager = true
+      end
+    end
+  end
+
   line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green
-  Pry.config.prompt = [ 
+  pry_obj = Pry
+  pry_obj.config.prompt = [ 
     ->(object, level, pry) do 
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
     end, ->(object, level, pry) do
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  CSI.toggle_pager = Pry.config.pager
-  Pry.start
+  csi = CSISession.new(:pry_obj => pry_obj)
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
