@@ -5,8 +5,7 @@ require 'rainbow'
 
 begin
   class CSISession
-    attr_reader :pry_obj
-    def intialize(opts={})
+    def initialize(opts={})
       @pry_obj = opts[:pry_obj]
     end
 
@@ -21,15 +20,16 @@ begin
 
   line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green
-  Pry.config.prompt = [ 
+  pry_obj = Pry
+  pry_obj.config.prompt = [ 
     ->(object, level, pry) do 
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
     end, ->(object, level, pry) do
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  csi = CSISession.new(:pry_obj => Pry)
-  Pry.start
+  csi = CSISession.new(:pry_obj => pry_obj)
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
