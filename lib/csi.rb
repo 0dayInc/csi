@@ -18,4 +18,13 @@ module CSI
   def self.help
     return self.constants.sort
   end
+
+  public
+  def self.toggle_pager
+    if _pry_.config.pager
+      _pry_.config.pager = false
+    else
+      _pry_.config.pager = true
+    end
+  end
 end
