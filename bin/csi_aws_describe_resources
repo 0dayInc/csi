@@ -62,6 +62,18 @@ if access_key_id == "" && secret_access_key == ""
     :duration_seconds => sts_exp
   )
 else
+  SelectOption = Struct.new(:display, :value) do
+    def to_ary
+      [display, value]
+    end
+  end
+
+  option_struct = SelectOption.new("Canada (CAD)", :cad)
+
+  puts option_struct.display
+  # Canada (CAD)
+  puts option_struct.to_ary.inspect
+  # ["Canada (CAD)", :cad]
 end
 
 ec2_obj = CSI::Plugins::AWSEC2.connect(

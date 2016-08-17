@@ -4,6 +4,8 @@ require "csi/version"
 # Your Source for Source Code Analysis, Vulnerability Scanning, Exploitation, 
 # & General Security Testing in a Continuous Integration Environment
 module CSI
+  attr_accessor(:toggle_pager)
+
   STDOUT.sync = true # < Ensure that all print statements output progress in realtime
   STDOUT.flush       # < Ensure that all print statements output progress in realtime
   autoload :ExploitModules, 'csi/exploit_modules'
@@ -17,14 +19,5 @@ module CSI
   public
   def self.help
     return self.constants.sort
-  end
-
-  public
-  def self.toggle_pager
-    if _pry_.config.pager
-      _pry_.config.pager = false
-    else
-      _pry_.config.pager = true
-    end
   end
 end
