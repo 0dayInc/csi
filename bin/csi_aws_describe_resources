@@ -591,7 +591,6 @@ redshift_obj = CSI::Plugins::AWSRedshift.connect(
 #puts redshift_obj.public_methods
 CSI::Plugins::AWSRedshift.disconnect(:redshift_obj => redshift_obj)
 
-#:AWSRoute53,
 r53_obj = CSI::Plugins::AWSRoute53.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -602,6 +601,14 @@ r53_obj = CSI::Plugins::AWSRoute53.connect(
 CSI::Plugins::AWSRoute53.disconnect(:r53_obj => r53_obj)
 
 #:AWSRoute53Domains,
+r53_domains_obj = CSI::Plugins::AWSRoute53Domains.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts r53_domains_obj.public_methods
+CSI::Plugins::AWSRoute53Domains.disconnect(:r53_domains_obj => r53_domains_obj)
 
 s3_obj = CSI::Plugins::AWSS3.connect(
   :region => region, 
