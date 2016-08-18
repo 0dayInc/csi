@@ -528,7 +528,6 @@ lambda_obj = CSI::Plugins::AWSLambda.connect(
 #puts lambda_obj.public_methods
 CSI::Plugins::AWSLambda.disconnect(:lambda_obj => lambda_obj)
 
-#:AWSLambdaPreview,
 lambda_preview_obj = CSI::Plugins::AWSLambdaPreview.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -538,7 +537,15 @@ lambda_preview_obj = CSI::Plugins::AWSLambdaPreview.connect(
 #puts lambda_preview_obj.public_methods
 CSI::Plugins::AWSLambdaPreview.disconnect(:lambda_preview_obj => lambda_preview_obj)
 
-#:AWSMachineLearning,
+machine_learning_obj = CSI::Plugins::AWSMachineLearning.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts machine_learning_obj.public_methods
+CSI::Plugins::AWSMachineLearning.disconnect(:machine_learning_obj => machine_learning_obj)
+
 #:AWSMarketplaceCommerceAnalytics,
 #:AWSMarketplaceMetering,
 #:AWSOpsWorks,
