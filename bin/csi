@@ -5,17 +5,10 @@ require 'rainbow'
 
 begin
   class CSISession
+    attr_reader :pry_obj
     def initialize(opts={})
       @pry_obj = opts[:pry_obj]
       @pry_obj.start
-    end
-
-    def toggle_pager
-      if _pry_.config.pager
-        _pry_.config.pager = false
-      else
-        _pry_.config.pager = true
-      end
     end
   end
 
