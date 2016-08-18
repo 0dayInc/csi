@@ -141,7 +141,15 @@ cloud_hsm_obj = CSI::Plugins::AWSCloudHSM.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudHSM.disconnect(:cloud_hsm_obj => cloud_hsm_obj)
 
-#:AWSCloudSearch,
+cloud_search_obj = CSI::Plugins::AWSCloudSearch.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudSearch.disconnect(:cloud_search_obj => cloud_search_obj)
+
 #:AWSCloudSearchDomain,
 #:AWSCloudTrail,
 #:AWSCloudWatch,
