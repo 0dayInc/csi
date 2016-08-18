@@ -105,7 +105,15 @@ app_discover_svc_obj = CSI::Plugins::AWSApplicationDiscoveryService.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSApplicationDiscoveryService.disconnect(:app_discover_svc_obj => app_discover_svc_obj)
 
-#:AWSAutoScaling,
+auto_scaling_obj = CSI::Plugins::AWSAutoScaling.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSAutoScaling.disconnect(:auto_scaling_obj => auto_scaling_obj)
+
 #:AWSCloudFormation,
 #:AWSCloudFront,
 #:AWSCloudHSM,
