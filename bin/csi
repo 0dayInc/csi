@@ -11,10 +11,10 @@ begin
     end
 
     def toggle_pager
-      if @pry_obj.config.pager
-        @pry_obj.config.pager = false
+      if _pry_.config.pager
+        _pry_.config.pager = false
       else
-        @pry_obj.config.pager = true
+        _pry_.config.pager = true
       end
     end
   end
