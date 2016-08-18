@@ -357,8 +357,24 @@ efs_obj = CSI::Plugins::AWSEFS.connect(
 #puts ec2_obj.public_methods
 CSI::Plugins::AWSEFS.disconnect(:efs_obj => efs_obj)
 
-# :AWSEMR,
-# :AWSElastiCache,
+emr_obj = CSI::Plugins::AWSEMR.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ec2_obj.public_methods
+CSI::Plugins::AWSEMR.disconnect(:emr_obj => emr_obj)
+
+elasti_cache_obj = CSI::Plugins::AWSElastiCache.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ec2_obj.public_methods
+CSI::Plugins::AWSElastiCache.disconnect(:elasti_cache_obj => elasti_cache_obj)
+
 
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 
