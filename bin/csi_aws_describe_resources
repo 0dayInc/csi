@@ -10,31 +10,31 @@ OptionParser.new do |options|
     #{$0} [opts]
   }
 
-  options.on("-cYAML", "--aws_yaml=YAML", "<Default - Path to YAML Config (Defaults to etc/aws/vagrant.yaml>") do |yaml| 
-    opts[:yaml] = yaml
-  end
-
-  options.on("-AAKI", "--access_key_id=AKI", "<Alternative over Default - AWS Access Key ID>") do |aki| 
-    opts[:aki] = aki
-  end
-
-  options.on("-SSAK", "--secret_access_key=SAK", "<Alternative over Default - Secret Access Key>") do |sak| 
-    opts[:sak] = sak
-  end
-
-  options.on("-rREGION", "--region=REGION", "<More Secure than Default or Alt - Region to Retrieve STS Credentials>") do |region| 
+  options.on("-rREGION", "--region=REGION", "<Required - Region to Describe>") do |region| 
     opts[:region] = region
   end
 
-  options.on("-aARN", "--sts_role_arn=ARN", "<More Secure than Default or Alt - STS Role ARN>") do |sts_role_arn| 
+  options.on("-cYAML", "--aws_yaml=YAML", "<Quickest - Path to YAML Config>") do |yaml| 
+    opts[:yaml] = yaml
+  end
+
+  options.on("-AAKI", "--access_key_id=AKI", "<Alternative over Quickest - AWS Access Key ID>") do |aki| 
+    opts[:aki] = aki
+  end
+
+  options.on("-SSAK", "--secret_access_key=SAK", "<Alternative over Quickest - Secret Access Key>") do |sak| 
+    opts[:sak] = sak
+  end
+
+  options.on("-aARN", "--sts_role_arn=ARN", "<More Secure than Quickest or Alt - STS Role ARN>") do |sts_role_arn| 
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on("-nRNAME", "--sts_role_name=RNAME", "<More Secure than Default or Alt - STS Role Name>") do |sts_role_name| 
+  options.on("-nRNAME", "--sts_role_name=RNAME", "<More Secure than Quickest or Alt - STS Role Name>") do |sts_role_name| 
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<More Secure than Default or Alt - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
+  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<More Secure than Quickest or Alt - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
     opts[:sts_exp] = sts_exp
   end
 
@@ -77,7 +77,14 @@ else
   credentials = Aws::Credentials.new(access_key_id, secret_access_key)
 end
 
-#:AWSAPIGateway,
+api_gateway_obj = CSI::Plugins::AWSAPIGateway.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts api_gateway_obj.public_methods
+CSI::Plugins::AWSAPIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
 #:AWSApplicationAutoScaling,
 #:AWSApplicationDiscoveryService,
 #:AWSAutoScaling,
