@@ -646,7 +646,15 @@ sqs_obj = CSI::Plugins::AWSSQS.connect(
 #puts sqs_obj.public_methods
 CSI::Plugins::AWSSQS.disconnect(:sqs_obj => sqs_obj)
 
-#:AWSSSM,
+ssm_obj = CSI::Plugins::AWSSSM.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ssm_obj.public_methods
+CSI::Plugins::AWSSSM.disconnect(:ssm_obj => ssm_obj)
+
 #:AWSSTS,
 #:AWSSWF,
 #:AWSServiceCatalog,
