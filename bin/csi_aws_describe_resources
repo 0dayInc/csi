@@ -501,8 +501,24 @@ kms_obj = CSI::Plugins::AWSKMS.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSKMS.disconnect(:kms_obj => kms_obj)
 
-#:AWSKinesis,
-#:AWSKinesisAnalytics,
+kinesis_obj = CSI::Plugins::AWSKinesis.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSKinesis.disconnect(:kinesis_obj => kinesis_obj)
+
+kinesis_analytics_obj = CSI::Plugins::AWSKinesisAnalytics.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSKinesisAnalytics.disconnect(:kinesis_analytics_obj => kinesis_analytics_obj)
+
 
 lambda_obj = CSI::Plugins::AWSLambda.connect(
   :region => region, 
