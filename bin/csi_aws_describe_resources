@@ -303,7 +303,15 @@ directory_service_obj = CSI::Plugins::AWSDirectoryService.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSDirectoryService.disconnect(:directory_service_obj => directory_service_obj)
 
-#:AWSDynamoDB,
+dynamo_db_obj = CSI::Plugins::AWSDynamoDB.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDynamoDB.disconnect(:dynamo_db_obj => dynamo_db_obj)
+
 #:AWSDynamoDBStreams,
 
 ec2_obj = CSI::Plugins::AWSEC2.connect(
