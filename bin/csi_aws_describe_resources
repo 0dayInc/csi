@@ -186,8 +186,24 @@ cloud_watch_events_obj = CSI::Plugins::AWSCloudWatchEvents.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudWatchEvents.disconnect(:cloud_watch_events_obj => cloud_watch_events_obj)
 
-#:AWSCloudWatchLogs,
-#:AWSCodeCommit,
+cloud_watch_logs_obj = CSI::Plugins::AWSCloudWatchLogs.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudWatchLogs.disconnect(:cloud_watch_logs_obj => cloud_watch_logs_obj)
+
+code_commit_obj = CSI::Plugins::AWSCodeCommit.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCodeCommit.disconnect(:code_commit_obj => code_commit_obj)
+
 #:AWSCodeDeploy,
 #:AWSCodePipeline,
 #:AWSCognitoIdentity,
