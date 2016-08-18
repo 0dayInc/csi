@@ -673,7 +673,15 @@ service_catalog_obj = CSI::Plugins::AWSServiceCatalog.connect(
 #puts service_catalog_obj.public_methods
 CSI::Plugins::AWSServiceCatalog.disconnect(:service_catalog_obj => service_catalog_obj)
 
-#:AWSSimpleDB,
+simple_db_obj = CSI::Plugins::AWSSimpleDB.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts simple_db_obj.public_methods
+CSI::Plugins::AWSSimpleDB.disconnect(:simple_db_obj => simple_db_obj)
+
 #:AWSSnowball,
 #:AWSStorageGateway,
 #:AWSSupport,
