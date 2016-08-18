@@ -7,6 +7,7 @@ begin
   class CSISession
     def initialize(opts={})
       @pry_obj = opts[:pry_obj]
+      @pry_obj.start
     end
 
     def toggle_pager
@@ -29,7 +30,6 @@ begin
     end
   ]
   csi = CSISession.new(:pry_obj => pry_obj)
-  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
