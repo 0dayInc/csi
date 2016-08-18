@@ -77,6 +77,7 @@ else
   credentials = Aws::Credentials.new(access_key_id, secret_access_key)
 end
 
+# Begin Describing Region
 api_gateway_obj = CSI::Plugins::AWSAPIGateway.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -85,6 +86,7 @@ api_gateway_obj = CSI::Plugins::AWSAPIGateway.connect(
 )
 puts api_gateway_obj.public_methods
 CSI::Plugins::AWSAPIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
+
 #:AWSApplicationAutoScaling,
 #:AWSApplicationDiscoveryService,
 #:AWSAutoScaling,
@@ -111,6 +113,7 @@ CSI::Plugins::AWSAPIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
 #:AWSDirectoryService,
 #:AWSDynamoDB,
 #:AWSDynamoDBStreams,
+
 ec2_obj = CSI::Plugins::AWSEC2.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -119,11 +122,13 @@ ec2_obj = CSI::Plugins::AWSEC2.connect(
 )
 puts ec2_obj.public_methods
 CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
+
 # :AWSECR,
 # :AWSECS,
 # :AWSEFS,
 # :AWSEMR,
 # :AWSElastiCache,
+
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -132,6 +137,7 @@ eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
 )
 puts eb_obj.public_methods
 CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
+
 #:AWSElasticLoadBalancing,
 #:AWSElasticLoadBalancingV2,
 #:AWSElasticTranscoder,
@@ -147,14 +153,16 @@ CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
 #:AWSKMS,
 #:AWSKinesis,
 #:AWSKinesisAnalytics,
-lamb_obj = CSI::Plugins::AWSLambda.connect(
+
+lambda_obj = CSI::Plugins::AWSLambda.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts lamb_obj.public_methods
-CSI::Plugins::AWSLambda.disconnect(:lamb_obj => lamb_obj)
+puts lambda_obj.public_methods
+CSI::Plugins::AWSLambda.disconnect(:lambda_obj => lambda_obj)
+
 #:AWSLambdaPreview,
 #:AWSMachineLearning,
 #:AWSMarketplaceCommerceAnalytics,
@@ -164,6 +172,7 @@ CSI::Plugins::AWSLambda.disconnect(:lamb_obj => lamb_obj)
 #:AWSRedshift,
 #:AWSRoute53,
 #:AWSRoute53Domains,
+
 s3_obj = CSI::Plugins::AWSS3.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -172,6 +181,7 @@ s3_obj = CSI::Plugins::AWSS3.connect(
 )
 puts s3_obj.public_methods
 CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)
+
 #:AWSSES,
 #:AWSSNS,
 #:AWSSQS,
@@ -184,5 +194,4 @@ CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)
 #:AWSStorageGateway,
 #:AWSSupport,
 #:AWSWAF,
-#:AWSWorkspaces,
-#:AnsibleVault,
+#:AWSWorkspaces
