@@ -492,7 +492,15 @@ iot_data_plane_obj = CSI::Plugins::AWSIoTDataPlane.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSIoTDataPlane.disconnect(:iot_data_plane_obj => iot_data_plane_obj)
 
-#:AWSKMS,
+kms_obj = CSI::Plugins::AWSKMS.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSKMS.disconnect(:kms_obj => kms_obj)
+
 #:AWSKinesis,
 #:AWSKinesisAnalytics,
 
