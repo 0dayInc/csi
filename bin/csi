@@ -4,32 +4,6 @@ require 'pry'
 require 'rainbow'
 
 begin
-  module CSISession
-    refine Pry do 
-      class Command::TogglePager < Pry::ClassCommand
-        match 'toggle-pager'
-        group 'Misc'
-        description 'Toggle session pager.'
-
-        banner <<-'BANNER'
-          Usage: toggle-pager
-
-          Toggle sesion pager.
-        BANNER
-      
-        def process
-          _pry_.config.pager = pager_toggle
-          output.puts "Session pager #{_pry_.config.pager ? "on":"off"}"
-        end
-
-        def pager_toggle
-          !_pry_.config.pager
-        end
-      end
-    end
-  end
-
-  using CSISession
   line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green
   pry_obj = Pry
