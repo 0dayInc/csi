@@ -547,6 +547,15 @@ machine_learning_obj = CSI::Plugins::AWSMachineLearning.connect(
 CSI::Plugins::AWSMachineLearning.disconnect(:machine_learning_obj => machine_learning_obj)
 
 #:AWSMarketplaceCommerceAnalytics,
+marketplace_commerce_analytics_obj = CSI::Plugins::AWSMarketplaceCommerceAnalytics.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts marketplace_commerce_analytics_obj.public_methods
+CSI::Plugins::AWSMarketplaceCommerceAnalytics.disconnect(:marketplace_commerce_analytics_obj => marketplace_commerce_analytics_obj)
+
 #:AWSMarketplaceMetering,
 #:AWSOpsWorks,
 #:AWSRDS,
