@@ -276,7 +276,15 @@ db_migration_svc_obj = CSI::Plugins::AWSDatabaseMigrationService.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSDatabaseMigrationService.disconnect(:db_migration_svc_obj => db_migration_svc_obj)
 
-#:AWSDeviceFarm,
+device_farm_obj = CSI::Plugins::AWSDeviceFarm.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDeviceFarm.disconnect(:device_farm_obj => device_farm_obj)
+
 #:AWSDirectConnect,
 #:AWSDirectoryService,
 #:AWSDynamoDB,
