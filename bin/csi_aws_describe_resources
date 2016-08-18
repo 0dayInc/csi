@@ -124,7 +124,7 @@ eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :sts_session_token => credentials.session_token
 )
 puts eb_obj.public_methods
-CSI::Plugins::ElasticBeanstalk.disconnect(:eb_obj => eb_obj)
+CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
 #:AWSElasticLoadBalancing,
 #:AWSElasticLoadBalancingV2,
 #:AWSElasticTranscoder,
