@@ -240,7 +240,15 @@ cognito_identity_prov_obj = CSI::Plugins::AWSCognitoIdentityProvider.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCognitoIdentityProvider.disconnect(:cognito_identity_prov_obj => cognito_identity_prov_obj)
 
-#:AWSCognitoSync,
+cognito_sync_obj = CSI::Plugins::AWSCognitoSync.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCognitoSync.disconnect(:cognito_sync_obj => cognito_sync_obj)
+
 #:AWSConfigService,
 #:AWSDataPipeline,
 #:AWSDatabaseMigrationService,
