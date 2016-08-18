@@ -375,7 +375,6 @@ elasti_cache_obj = CSI::Plugins::AWSElastiCache.connect(
 #puts ec2_obj.public_methods
 CSI::Plugins::AWSElastiCache.disconnect(:elasti_cache_obj => elasti_cache_obj)
 
-
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -385,7 +384,15 @@ eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
 
-#:AWSElasticLoadBalancing,
+elastic_load_balancing_obj = CSI::Plugins::AWSElasticLoadBalancing.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSElasticLoadBalancing.disconnect(:elastic_load_balancing_obj => elastic_load_balancing_obj)
+
 #:AWSElasticLoadBalancingV2,
 #:AWSElasticTranscoder,
 #:AWSElasticsearchService,
