@@ -411,7 +411,6 @@ elastic_transcoder_obj = CSI::Plugins::AWSElasticTranscoder.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSElasticTranscoder.disconnect(:elastic_transcoder_obj => elastic_transcoder_obj)
 
-#:AWSElasticsearchService,
 elasticsearch_service_obj = CSI::Plugins::AWSElasticsearchService.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -421,7 +420,15 @@ elasticsearch_service_obj = CSI::Plugins::AWSElasticsearchService.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSElasticsearchService.disconnect(:elasticsearch_service_obj => elasticsearch_service_obj)
 
-#:AWSFirehose,
+firehose_obj = CSI::Plugins::AWSFirehose.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSFirehose.disconnect(:firehose_obj => firehose_obj)
+
 #:AWSGameLift,
 #:AWSGlacier,
 #:AWSIAM,
