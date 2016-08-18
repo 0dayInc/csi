@@ -123,7 +123,15 @@ cloud_formation_obj = CSI::Plugins::AWSCloudFormation.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudFormation.disconnect(:cloud_formation_obj => cloud_formation_obj)
 
-#:AWSCloudFront,
+cloud_front_obj = CSI::Plugins::AWSCloudFront.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudFront.disconnect(:cloud_front_obj => cloud_front_obj)
+
 #:AWSCloudHSM,
 #:AWSCloudSearch,
 #:AWSCloudSearchDomain,
