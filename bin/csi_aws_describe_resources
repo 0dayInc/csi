@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'csi'
+require 'aws-sdk'
 require 'optparse'
 require 'yaml'
 
