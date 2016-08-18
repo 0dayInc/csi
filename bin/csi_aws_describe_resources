@@ -348,7 +348,15 @@ ecs_obj = CSI::Plugins::AWSECS.connect(
 #puts ec2_obj.public_methods
 CSI::Plugins::AWSECS.disconnect(:ecs_obj => ecs_obj)
 
-# :AWSEFS,
+efs_obj = CSI::Plugins::AWSEFS.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ec2_obj.public_methods
+CSI::Plugins::AWSEFS.disconnect(:efs_obj => efs_obj)
+
 # :AWSEMR,
 # :AWSElastiCache,
 
