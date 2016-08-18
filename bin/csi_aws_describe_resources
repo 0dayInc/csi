@@ -150,8 +150,24 @@ cloud_search_obj = CSI::Plugins::AWSCloudSearch.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudSearch.disconnect(:cloud_search_obj => cloud_search_obj)
 
-#:AWSCloudSearchDomain,
-#:AWSCloudTrail,
+cloud_search_domain_obj = CSI::Plugins::AWSCloudSearchDomain.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudSearchDomain.disconnect(:cloud_search_domain_obj => cloud_search_domain_obj)
+
+cloud_trail_obj = CSI::Plugins::AWSCloudTrail.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudTrail.disconnect(:cloud_trail_obj => cloud_trail_obj)
+
 #:AWSCloudWatch,
 #:AWSCloudWatchEvents,
 #:AWSCloudWatchLogs,
