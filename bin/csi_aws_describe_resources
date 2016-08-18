@@ -474,8 +474,24 @@ inspector_obj = CSI::Plugins::AWSInspector.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSInspector.disconnect(:inspector_obj => inspector_obj)
 
-#:AWSIoT,
-#:AWSIoTDataPlane,
+iot_obj = CSI::Plugins::AWSIoT.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSIoT.disconnect(:iot_obj => iot_obj)
+
+iot_data_plane_obj = CSI::Plugins::AWSIoTDataPlane.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSIoTDataPlane.disconnect(:iot_data_plane_obj => iot_data_plane_obj)
+
 #:AWSKMS,
 #:AWSKinesis,
 #:AWSKinesisAnalytics,
