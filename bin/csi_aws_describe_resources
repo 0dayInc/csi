@@ -110,11 +110,11 @@ ec2_obj = CSI::Plugins::AWSEC2.connect(
 )
 puts ec2_obj.public_methods
 CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
- :AWSECR,
- :AWSECS,
- :AWSEFS,
- :AWSEMR,
- :AWSElastiCache,
+# :AWSECR,
+# :AWSECS,
+# :AWSEFS,
+# :AWSEMR,
+# :AWSElastiCache,
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
