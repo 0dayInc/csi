@@ -22,8 +22,8 @@ OptionParser.new do |options|
     opts[:sak] = sak
   end
 
-  options.on("-rREGION", "--sts_region=REGION", "<More Secure than Default or Alt - Region to Retrieve STS Credentials>") do |sts_region| 
-    opts[:sts_region] = sts_region
+  options.on("-rREGION", "--region=REGION", "<More Secure than Default or Alt - Region to Retrieve STS Credentials>") do |region| 
+    opts[:region] = region
   end
 
   options.on("-aARN", "--sts_role_arn=ARN", "<More Secure than Default or Alt - STS Role ARN>") do |sts_role_arn| 
@@ -56,7 +56,7 @@ else
   secret_access_key = opts[:sak].to_s.scrub
 end
 
-sts_region = opts[:sts_region].to_s.scrub
+region = opts[:region].to_s.scrub
 sts_role_arn = opts[:sts_role_arn].to_s.scrub
 sts_role_name = opts[:sts_role_name].to_s.scrub
 
@@ -68,7 +68,7 @@ end
 
 if access_key_id == "" && secret_access_key == "" 
   credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
-    :region => sts_region,
+    :region => region,
     :role_arn => sts_role_arn,
     :role_session_name => sts_role_name,
     :duration_seconds => sts_exp
@@ -105,7 +105,7 @@ end
 #:AWSDynamoDB,
 #:AWSDynamoDBStreams,
 ec2_obj = CSI::Plugins::AWSEC2.connect(
-  :region => 'us-east-1', 
+  :region => region, 
   :access_key_id => credentials.access_key_id, 
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
