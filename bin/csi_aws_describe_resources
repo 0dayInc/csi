@@ -285,8 +285,24 @@ device_farm_obj = CSI::Plugins::AWSDeviceFarm.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSDeviceFarm.disconnect(:device_farm_obj => device_farm_obj)
 
-#:AWSDirectConnect,
-#:AWSDirectoryService,
+direct_connect_obj = CSI::Plugins::AWSDirectConnect.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDirectConnect.disconnect(:direct_connect_obj => direct_connect_obj)
+
+directory_service_obj = CSI::Plugins::AWSDirectoryService.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDirectoryService.disconnect(:directory_service_obj => directory_service_obj)
+
 #:AWSDynamoDB,
 #:AWSDynamoDBStreams,
 
