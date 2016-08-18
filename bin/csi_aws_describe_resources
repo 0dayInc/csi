@@ -429,7 +429,6 @@ firehose_obj = CSI::Plugins::AWSFirehose.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSFirehose.disconnect(:firehose_obj => firehose_obj)
 
-#:AWSGameLift,
 game_lift_obj = CSI::Plugins::AWSGameLift.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -439,8 +438,24 @@ game_lift_obj = CSI::Plugins::AWSGameLift.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSGameLift.disconnect(:game_lift_obj => game_lift_obj)
 
-#:AWSGlacier,
-#:AWSIAM,
+glacier_obj = CSI::Plugins::AWSGlacier.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSGlacier.disconnect(:glacier_obj => glacier_obj)
+
+iam_obj = CSI::Plugins::AWSIAM.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSIAM.disconnect(:iam_obj => iam_obj)
+
 #:AWSImportExport,
 #:AWSInspector,
 #:AWSIoT,
