@@ -628,7 +628,15 @@ ses_obj = CSI::Plugins::AWSSES.connect(
 #puts ses_obj.public_methods
 CSI::Plugins::AWSSES.disconnect(:ses_obj => ses_obj)
 
-#:AWSSNS,
+sns_obj = CSI::Plugins::AWSSNS.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts sns_obj.public_methods
+CSI::Plugins::AWSSNS.disconnect(:sns_obj => sns_obj)
+
 #:AWSSQS,
 #:AWSSSM,
 #:AWSSTS,
