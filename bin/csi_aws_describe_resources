@@ -393,7 +393,15 @@ elastic_load_balancing_obj = CSI::Plugins::AWSElasticLoadBalancing.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSElasticLoadBalancing.disconnect(:elastic_load_balancing_obj => elastic_load_balancing_obj)
 
-#:AWSElasticLoadBalancingV2,
+elastic_lb_v2_obj = CSI::Plugins::AWSElasticLoadBalancingV2.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSElasticLoadBalancingV2.disconnect(:elastic_lb_v2_obj => elastic_lb_v2_obj)
+
 #:AWSElasticTranscoder,
 #:AWSElasticsearchService,
 #:AWSFirehose,
