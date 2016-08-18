@@ -168,7 +168,15 @@ cloud_trail_obj = CSI::Plugins::AWSCloudTrail.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudTrail.disconnect(:cloud_trail_obj => cloud_trail_obj)
 
-#:AWSCloudWatch,
+cloud_watch_obj = CSI::Plugins::AWSCloudWatch.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudWatch.disconnect(:cloud_watch_obj => cloud_watch_obj)
+
 #:AWSCloudWatchEvents,
 #:AWSCloudWatchLogs,
 #:AWSCodeCommit,
