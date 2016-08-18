@@ -249,7 +249,15 @@ cognito_sync_obj = CSI::Plugins::AWSCognitoSync.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCognitoSync.disconnect(:cognito_sync_obj => cognito_sync_obj)
 
-#:AWSConfigService,
+config_service_obj = CSI::Plugins::AWSConfigService.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSConfigService.disconnect(:config_service_obj => config_service_obj)
+
 #:AWSDataPipeline,
 #:AWSDatabaseMigrationService,
 #:AWSDeviceFarm,
