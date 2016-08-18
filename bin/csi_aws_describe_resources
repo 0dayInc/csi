@@ -339,7 +339,15 @@ ecr_obj = CSI::Plugins::AWSECR.connect(
 #puts ec2_obj.public_methods
 CSI::Plugins::AWSECR.disconnect(:ecr_obj => ecr_obj)
 
-# :AWSECS,
+ecs_obj = CSI::Plugins::AWSECS.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ec2_obj.public_methods
+CSI::Plugins::AWSECS.disconnect(:ecs_obj => ecs_obj)
+
 # :AWSEFS,
 # :AWSEMR,
 # :AWSElastiCache,
