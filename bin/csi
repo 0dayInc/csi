@@ -4,11 +4,31 @@ require 'pry'
 require 'rainbow'
 
 begin
-  class CSISession
-    attr_reader :pry_obj
+  class CSISession < Pry
+    class Command::TogglePager < Pry::ClassCommand
+      match 'toggle-pager'
+      group 'Misc'
+      description 'Toggle session pager.'
+
+      banner <<-'BANNER'
+        Usage: toggle-pager
+
+        Toggle sesion pager.
+      BANNER
+      
+      def process
+        _pry_.config.pager = pager_toggle
+        output.puts "Session pager #{_pry_.config.pager ? "on":"off"}"
+      end
+
+      def pager_toggle
+        !_pry_.config.pager
+      end
+    end
+
     def initialize(opts={})
-      @pry_obj = opts[:pry_obj]
-      @pry_obj.start
+      pry_obj = opts[:pry_obj]
+      pry_obj.start
     end
   end
 
