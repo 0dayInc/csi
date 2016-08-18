@@ -664,7 +664,15 @@ swf_obj = CSI::Plugins::AWSSWF.connect(
 #puts swf_obj.public_methods
 CSI::Plugins::AWSSWF.disconnect(:swf_obj => swf_obj)
 
-#:AWSServiceCatalog,
+service_catalog_obj = CSI::Plugins::AWSServiceCatalog.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts service_catalog_obj.public_methods
+CSI::Plugins::AWSServiceCatalog.disconnect(:service_catalog_obj => service_catalog_obj)
+
 #:AWSSimpleDB,
 #:AWSSnowball,
 #:AWSStorageGateway,
