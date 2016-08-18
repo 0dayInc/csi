@@ -312,7 +312,14 @@ dynamo_db_obj = CSI::Plugins::AWSDynamoDB.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSDynamoDB.disconnect(:dynamo_db_obj => dynamo_db_obj)
 
-#:AWSDynamoDBStreams,
+dynamo_db_streams_obj = CSI::Plugins::AWSDynamoDBStreams.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDynamoDBStreams.disconnect(:dynamo_db_streams_obj => dynamo_db_streams_obj)
 
 ec2_obj = CSI::Plugins::AWSEC2.connect(
   :region => region, 
@@ -323,7 +330,15 @@ ec2_obj = CSI::Plugins::AWSEC2.connect(
 #puts ec2_obj.public_methods
 CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
 
-# :AWSECR,
+ecr_obj = CSI::Plugins::AWSECR.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts ec2_obj.public_methods
+CSI::Plugins::AWSECR.disconnect(:ecr_obj => ecr_obj)
+
 # :AWSECS,
 # :AWSEFS,
 # :AWSEMR,
