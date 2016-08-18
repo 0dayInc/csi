@@ -456,7 +456,15 @@ iam_obj = CSI::Plugins::AWSIAM.connect(
 #puts eb_obj.public_methods
 CSI::Plugins::AWSIAM.disconnect(:iam_obj => iam_obj)
 
-#:AWSImportExport,
+import_export_obj = CSI::Plugins::AWSImportExport.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSImportExport.disconnect(:import_export_obj => import_export_obj)
+
 #:AWSInspector,
 #:AWSIoT,
 #:AWSIoTDataPlane,
