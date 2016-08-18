@@ -23,13 +23,13 @@ module CSI
         begin
           @@logger.info("Connecting to AWS ElasticsearchService...")
           if sts_session_token == ""
-            ec2_obj = Aws::ElasticsearchService::Client.new(
+            elasticsearch_service_obj = Aws::ElasticsearchService::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key
             )
           else
-            ec2_obj = Aws::ElasticsearchService::Client.new(
+            elasticsearch_service_obj = Aws::ElasticsearchService::Client.new(
               :region => region,
               :access_key_id => access_key_id,
               :secret_access_key => secret_access_key,
@@ -38,7 +38,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return ec2_obj  
+          return elasticsearch_service_obj  
         rescue => e
           return e.message
         end
@@ -46,16 +46,16 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AWSElasticsearchService.disconnect(
-      #   :ec2_obj => 'required - ec2_obj returned from #connect method'
+      #   :elasticsearch_service_obj => 'required - elasticsearch_service_obj returned from #connect method'
       # )
       public
       def self.disconnect(opts = {})
-        ec2_obj = opts[:ec2_obj]
+        elasticsearch_service_obj = opts[:elasticsearch_service_obj]
         @@logger.info("Disconnecting...")
-        ec2_obj = nil
+        elasticsearch_service_obj = nil
         @@logger.info("complete.\n")
 
-        return ec2_obj
+        return elasticsearch_service_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -72,16 +72,16 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          ec2_obj = #{self}.connect(
+          elasticsearch_service_obj = #{self}.connect(
             :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
             :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
           )
-          puts ec2_obj.public_methods
+          puts elasticsearch_service_obj.public_methods
 
           #{self}.disconnect(
-            :ec2_obj => 'required - ec2_obj returned from #connect method'
+            :elasticsearch_service_obj => 'required - elasticsearch_service_obj returned from #connect method'
           )
 
           #{self}.authors
