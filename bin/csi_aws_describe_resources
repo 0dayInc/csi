@@ -710,4 +710,13 @@ support_obj = CSI::Plugins::AWSSupport.connect(
 CSI::Plugins::AWSSupport.disconnect(:support_obj => support_obj)
 
 #:AWSWAF,
+waf_obj = CSI::Plugins::AWSWAF.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts waf_obj.public_methods
+CSI::Plugins::AWSWAF.disconnect(:waf_obj => waf_obj)
+
 #:AWSWorkspaces
