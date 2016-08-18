@@ -7,7 +7,7 @@ begin
   pry_obj = Pry
 
   pry_obj::Commands.instance_eval do
-    command "toggle-pager", "" do
+    command("toggle-pager", "") do
       if _pry_.config.pager
         _pry_.config.pager = false
       else

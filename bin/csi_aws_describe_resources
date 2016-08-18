@@ -62,20 +62,36 @@ if access_key_id == "" && secret_access_key == ""
     :duration_seconds => sts_exp
   )
 else
-  SelectOption = Struct.new(:display, :value) do
-    def to_ary
-      [display, value]
-    end
-  end
-
-  option_struct = SelectOption.new("Canada (CAD)", :cad)
-
-  puts option_struct.display
-  # Canada (CAD)
-  puts option_struct.to_ary.inspect
-  # ["Canada (CAD)", :cad]
+  credentials = Aws::Credentials.new(access_key_id, secret_access_key)
 end
 
+#:AWSAPIGateway,
+#:AWSApplicationAutoScaling,
+#:AWSApplicationDiscoveryService,
+#:AWSAutoScaling,
+#:AWSCloudFormation,
+#:AWSCloudFront,
+#:AWSCloudHSM,
+#:AWSCloudSearch,
+#:AWSCloudSearchDomain,
+#:AWSCloudTrail,
+#:AWSCloudWatch,
+#:AWSCloudWatchEvents,
+#:AWSCloudWatchLogs,
+#:AWSCodeCommit,
+#:AWSCodeDeploy,
+#:AWSCodePipeline,
+#:AWSCognitoIdentity,
+#:AWSCognitoIdentityProvider,
+#:AWSCognitoSync,
+#:AWSConfigService,
+#:AWSDataPipeline,
+#:AWSDatabaseMigrationService,
+#:AWSDeviceFarm,
+#:AWSDirectConnect,
+#:AWSDirectoryService,
+#:AWSDynamoDB,
+#:AWSDynamoDBStreams,
 ec2_obj = CSI::Plugins::AWSEC2.connect(
   :region => 'us-east-1', 
   :access_key_id => credentials.access_key_id, 
@@ -84,7 +100,11 @@ ec2_obj = CSI::Plugins::AWSEC2.connect(
 )
 puts ec2_obj.public_methods
 CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
-
+ :AWSECR,
+ :AWSECS,
+ :AWSEFS,
+ :AWSEMR,
+ :AWSElastiCache,
 eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -93,7 +113,21 @@ eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
 )
 puts eb_obj.public_methods
 CSI::Plugins::ElasticBeanstalk.disconnect(:eb_obj => eb_obj)
-
+#:AWSElasticLoadBalancing,
+#:AWSElasticLoadBalancingV2,
+#:AWSElasticTranscoder,
+#:AWSElasticsearchService,
+#:AWSFirehose,
+#:AWSGameLift,
+#:AWSGlacier,
+#:AWSIAM,
+#:AWSImportExport,
+#:AWSInspector,
+#:AWSIoT,
+#:AWSIoTDataPlane,
+#:AWSKMS,
+#:AWSKinesis,
+#:AWSKinesisAnalytics,
 lamb_obj = CSI::Plugins::AWSLambda.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -102,7 +136,15 @@ lamb_obj = CSI::Plugins::AWSLambda.connect(
 )
 puts lamb_obj.public_methods
 CSI::Plugins::AWSLambda.disconnect(:lamb_obj => lamb_obj)
-
+#:AWSLambdaPreview,
+#:AWSMachineLearning,
+#:AWSMarketplaceCommerceAnalytics,
+#:AWSMarketplaceMetering,
+#:AWSOpsWorks,
+#:AWSRDS,
+#:AWSRedshift,
+#:AWSRoute53,
+#:AWSRoute53Domains,
 s3_obj = CSI::Plugins::AWSS3.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -111,3 +153,17 @@ s3_obj = CSI::Plugins::AWSS3.connect(
 )
 puts s3_obj.public_methods
 CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)
+#:AWSSES,
+#:AWSSNS,
+#:AWSSQS,
+#:AWSSSM,
+#:AWSSTS,
+#:AWSSWF,
+#:AWSServiceCatalog,
+#:AWSSimpleDB,
+#:AWSSnowball,
+#:AWSStorageGateway,
+#:AWSSupport,
+#:AWSWAF,
+#:AWSWorkspaces,
+#:AnsibleVault,
