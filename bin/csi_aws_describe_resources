@@ -204,7 +204,6 @@ code_commit_obj = CSI::Plugins::AWSCodeCommit.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCodeCommit.disconnect(:code_commit_obj => code_commit_obj)
 
-#:AWSCodeDeploy,
 code_deploy_obj = CSI::Plugins::AWSCodeDeploy.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
@@ -214,9 +213,33 @@ code_deploy_obj = CSI::Plugins::AWSCodeDeploy.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCodeDeploy.disconnect(:code_deploy_obj => code_deploy_obj)
 
-#:AWSCodePipeline,
-#:AWSCognitoIdentity,
-#:AWSCognitoIdentityProvider,
+code_pipeline_obj = CSI::Plugins::AWSCodePipeline.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCodePipeline.disconnect(:code_pipeline_obj => code_pipeline_obj)
+
+cognito_identity_obj = CSI::Plugins::AWSCognitoIdentity.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCognitoIdentity.disconnect(:cognito_identity_obj => cognito_identity_obj)
+
+cognito_identity_prov_obj = CSI::Plugins::AWSCognitoIdentityProvider.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCognitoIdentityProvider.disconnect(:cognito_identity_prov_obj => cognito_identity_prov_obj)
+
 #:AWSCognitoSync,
 #:AWSConfigService,
 #:AWSDataPipeline,
