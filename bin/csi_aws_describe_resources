@@ -655,8 +655,15 @@ ssm_obj = CSI::Plugins::AWSSSM.connect(
 #puts ssm_obj.public_methods
 CSI::Plugins::AWSSSM.disconnect(:ssm_obj => ssm_obj)
 
-#:AWSSTS,
-#:AWSSWF,
+swf_obj = CSI::Plugins::AWSSWF.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts swf_obj.public_methods
+CSI::Plugins::AWSSWF.disconnect(:swf_obj => swf_obj)
+
 #:AWSServiceCatalog,
 #:AWSSimpleDB,
 #:AWSSnowball,
