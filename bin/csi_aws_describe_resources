@@ -430,6 +430,15 @@ firehose_obj = CSI::Plugins::AWSFirehose.connect(
 CSI::Plugins::AWSFirehose.disconnect(:firehose_obj => firehose_obj)
 
 #:AWSGameLift,
+game_lift_obj = CSI::Plugins::AWSGameLift.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSGameLift.disconnect(:game_lift_obj => game_lift_obj)
+
 #:AWSGlacier,
 #:AWSIAM,
 #:AWSImportExport,
