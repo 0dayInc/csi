@@ -25,6 +25,11 @@ begin
         !_pry_.config.pager
       end
     end
+
+    def initialize(opts={})
+      pry_obj = opts[:pry_obj]
+      pry_obj.start
+    end
   end
 
   line = ->(pry) { pry.input_array.size }
@@ -37,7 +42,7 @@ begin
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  pry_obj.start
+  Pry.new(:pry_obj => pry_obj)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
