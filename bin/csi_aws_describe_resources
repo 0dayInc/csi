@@ -132,7 +132,15 @@ cloud_front_obj = CSI::Plugins::AWSCloudFront.connect(
 #puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSCloudFront.disconnect(:cloud_front_obj => cloud_front_obj)
 
-#:AWSCloudHSM,
+cloud_hsm_obj = CSI::Plugins::AWSCloudHSM.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCloudHSM.disconnect(:cloud_hsm_obj => cloud_hsm_obj)
+
 #:AWSCloudSearch,
 #:AWSCloudSearchDomain,
 #:AWSCloudTrail,
