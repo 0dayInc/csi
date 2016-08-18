@@ -77,14 +77,14 @@ else
   credentials = Aws::Credentials.new(access_key_id, secret_access_key)
 end
 
-# Begin Describing Region
+# BEGIN Describing Region ***
 api_gateway_obj = CSI::Plugins::AWSAPIGateway.connect(
   :region => region, 
   :access_key_id => credentials.access_key_id, 
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts api_gateway_obj.public_methods
+#puts api_gateway_obj.public_methods
 CSI::Plugins::AWSAPIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
 
 app_auto_scale_obj = CSI::Plugins::AWSApplicationAutoScaling.connect(
@@ -93,10 +93,18 @@ app_auto_scale_obj = CSI::Plugins::AWSApplicationAutoScaling.connect(
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts app_auto_scale_obj.public_methods
+#puts app_auto_scale_obj.public_methods
 CSI::Plugins::AWSApplicationAutoScaling.disconnect(:app_auto_scale_obj => app_auto_scale_obj)
 
-#:AWSApplicationDiscoveryService,
+app_discover_svc_obj = CSI::Plugins::AWSApplicationDiscoveryService.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSApplicationDiscoveryService.disconnect(:app_discover_svc_obj => app_discover_svc_obj)
+
 #:AWSAutoScaling,
 #:AWSCloudFormation,
 #:AWSCloudFront,
@@ -128,7 +136,7 @@ ec2_obj = CSI::Plugins::AWSEC2.connect(
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts ec2_obj.public_methods
+#puts ec2_obj.public_methods
 CSI::Plugins::AWSEC2.disconnect(:ec2_obj => ec2_obj)
 
 # :AWSECR,
@@ -143,7 +151,7 @@ eb_obj = CSI::Plugins::AWSElasticBeanstalk.connect(
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts eb_obj.public_methods
+#puts eb_obj.public_methods
 CSI::Plugins::AWSElasticBeanstalk.disconnect(:eb_obj => eb_obj)
 
 #:AWSElasticLoadBalancing,
@@ -168,7 +176,7 @@ lambda_obj = CSI::Plugins::AWSLambda.connect(
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts lambda_obj.public_methods
+#puts lambda_obj.public_methods
 CSI::Plugins::AWSLambda.disconnect(:lambda_obj => lambda_obj)
 
 #:AWSLambdaPreview,
@@ -187,7 +195,7 @@ s3_obj = CSI::Plugins::AWSS3.connect(
   :secret_access_key => credentials.secret_access_key, 
   :sts_session_token => credentials.session_token
 )
-puts s3_obj.public_methods
+#puts s3_obj.public_methods
 CSI::Plugins::AWSS3.disconnect(:s3_obj => s3_obj)
 
 #:AWSSES,
