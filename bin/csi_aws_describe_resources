@@ -403,6 +403,15 @@ elastic_lb_v2_obj = CSI::Plugins::AWSElasticLoadBalancingV2.connect(
 CSI::Plugins::AWSElasticLoadBalancingV2.disconnect(:elastic_lb_v2_obj => elastic_lb_v2_obj)
 
 #:AWSElasticTranscoder,
+elastic_transcoder_obj = CSI::Plugins::AWSElasticTranscoder.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts eb_obj.public_methods
+CSI::Plugins::AWSElasticTranscoder.disconnect(:elastic_transcoder_obj => elastic_transcoder_obj)
+
 #:AWSElasticsearchService,
 #:AWSFirehose,
 #:AWSGameLift,
