@@ -205,6 +205,15 @@ code_commit_obj = CSI::Plugins::AWSCodeCommit.connect(
 CSI::Plugins::AWSCodeCommit.disconnect(:code_commit_obj => code_commit_obj)
 
 #:AWSCodeDeploy,
+code_deploy_obj = CSI::Plugins::AWSCodeDeploy.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSCodeDeploy.disconnect(:code_deploy_obj => code_deploy_obj)
+
 #:AWSCodePipeline,
 #:AWSCognitoIdentity,
 #:AWSCognitoIdentityProvider,
