@@ -573,8 +573,24 @@ ops_works_obj = CSI::Plugins::AWSOpsWorks.connect(
 #puts ops_works_obj.public_methods
 CSI::Plugins::AWSOpsWorks.disconnect(:ops_works_obj => ops_works_obj)
 
-#:AWSRDS,
-#:AWSRedshift,
+rds_obj = CSI::Plugins::AWSRDS.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts rds_obj.public_methods
+CSI::Plugins::AWSRDS.disconnect(:rds_obj => rds_obj)
+
+redshift_obj = CSI::Plugins::AWSRedshift.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts redshift_obj.public_methods
+CSI::Plugins::AWSRedshift.disconnect(:redshift_obj => redshift_obj)
+
 #:AWSRoute53,
 #:AWSRoute53Domains,
 
