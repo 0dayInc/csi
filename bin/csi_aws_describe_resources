@@ -691,7 +691,15 @@ snowball_obj = CSI::Plugins::AWSSnowball.connect(
 #puts snowball_obj.public_methods
 CSI::Plugins::AWSSnowball.disconnect(:snowball_obj => snowball_obj)
 
-#:AWSStorageGateway,
+storage_gateway_obj = CSI::Plugins::AWSStorageGateway.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts storage_gateway_obj.public_methods
+CSI::Plugins::AWSStorageGateway.disconnect(:storage_gateway_obj => storage_gateway_obj)
+
 #:AWSSupport,
 #:AWSWAF,
 #:AWSWorkspaces
