@@ -8,27 +8,31 @@ OptionParser.new do |options|
     #{$0} [opts]
   }
 
-  options.on("-AAKI", "--access_key_id=AKI", "<Common - AWS Access Key ID>") do |aki| 
+  options.on("-cYAML", "--aws_yaml=YAML", "<Default - Path to YAML Config (Defaults to etc/aws/vagrant.yaml>") do |yaml| 
+    opts[:yaml] = yaml
+  end
+
+  options.on("-AAKI", "--access_key_id=AKI", "<Alternative over Default - AWS Access Key ID>") do |aki| 
     opts[:aki] = aki
   end
 
-  options.on("-SSAK", "--secret_access_key=SAK", "<Common - Secret Access Key>") do |sak| 
+  options.on("-SSAK", "--secret_access_key=SAK", "<Alternative over Default - Secret Access Key>") do |sak| 
     opts[:sak] = sak
   end
 
-  options.on("-rREGION", "--sts_region=REGION", "<Preferred to Common - Region to Retrieve STS Credentials>") do |sts_region| 
+  options.on("-rREGION", "--sts_region=REGION", "<More Secure than Default or Alt - Region to Retrieve STS Credentials>") do |sts_region| 
     opts[:sts_region] = sts_region
   end
 
-  options.on("-aARN", "--sts_role_arn=ARN", "<Preferred to Common - STS Role ARN>") do |sts_role_arn| 
+  options.on("-aARN", "--sts_role_arn=ARN", "<More Secure than Default or Alt - STS Role ARN>") do |sts_role_arn| 
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on("-nRNAME", "--sts_role_name=RNAME", "<Preferred to Common - STS Role Name>") do |sts_role_name| 
+  options.on("-nRNAME", "--sts_role_name=RNAME", "<More Secure than Default or Alt - STS Role Name>") do |sts_role_name| 
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Preferred to Common - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
+  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<More Secure than Default or Alt - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
     opts[:sts_exp] = sts_exp
   end
 
@@ -41,8 +45,14 @@ end
 
 logger = CSI::Plugins::CSILogger.create()
 
-access_key_id = opts[:aki].to_s.scrub
-secret_access_key = opts[:sak].to_s.scrub
+if opts[:yaml]
+  yaml = YAML.load_file(opts[:yaml]) if File.exists?(opts[:yaml])
+  access_key_id = yaml["access_key_id"].to_s.scrub.strip.chomp
+  secret_access_key = yaml["secret_access_key"].to_s.scrub.strip.chomp
+else
+  access_key_id = opts[:aki].to_s.scrub
+  secret_access_key = opts[:sak].to_s.scrub
+end
 
 sts_region = opts[:sts_region].to_s.scrub
 sts_role_arn = opts[:sts_role_arn].to_s.scrub
