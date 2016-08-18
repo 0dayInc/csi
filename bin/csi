@@ -4,7 +4,7 @@ require 'pry'
 require 'rainbow'
 
 begin
-  class CSISession < Pry
+  class Pry
     class Command::TogglePager < Pry::ClassCommand
       match 'toggle-pager'
       group 'Misc'
@@ -25,11 +25,6 @@ begin
         !_pry_.config.pager
       end
     end
-
-    def initialize(opts={})
-      pry_obj = opts[:pry_obj]
-      pry_obj.start
-    end
   end
 
   line = ->(pry) { pry.input_array.size }
@@ -42,7 +37,7 @@ begin
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  csi = CSISession.new(:pry_obj => pry_obj)
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
