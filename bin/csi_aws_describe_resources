@@ -682,7 +682,15 @@ simple_db_obj = CSI::Plugins::AWSSimpleDB.connect(
 #puts simple_db_obj.public_methods
 CSI::Plugins::AWSSimpleDB.disconnect(:simple_db_obj => simple_db_obj)
 
-#:AWSSnowball,
+snowball_obj = CSI::Plugins::AWSSnowball.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts snowball_obj.public_methods
+CSI::Plugins::AWSSnowball.disconnect(:snowball_obj => snowball_obj)
+
 #:AWSStorageGateway,
 #:AWSSupport,
 #:AWSWAF,
