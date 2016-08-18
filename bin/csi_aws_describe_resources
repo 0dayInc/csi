@@ -259,6 +259,15 @@ config_service_obj = CSI::Plugins::AWSConfigService.connect(
 CSI::Plugins::AWSConfigService.disconnect(:config_service_obj => config_service_obj)
 
 #:AWSDataPipeline,
+data_pipeline_obj = CSI::Plugins::AWSDataPipeline.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSDataPipeline.disconnect(:data_pipeline_obj => data_pipeline_obj)
+
 #:AWSDatabaseMigrationService,
 #:AWSDeviceFarm,
 #:AWSDirectConnect,
