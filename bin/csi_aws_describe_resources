@@ -700,6 +700,14 @@ storage_gateway_obj = CSI::Plugins::AWSStorageGateway.connect(
 #puts storage_gateway_obj.public_methods
 CSI::Plugins::AWSStorageGateway.disconnect(:storage_gateway_obj => storage_gateway_obj)
 
-#:AWSSupport,
+support_obj = CSI::Plugins::AWSSupport.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+#puts support_obj.public_methods
+CSI::Plugins::AWSSupport.disconnect(:support_obj => support_obj)
+
 #:AWSWAF,
 #:AWSWorkspaces
