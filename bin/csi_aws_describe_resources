@@ -87,7 +87,15 @@ api_gateway_obj = CSI::Plugins::AWSAPIGateway.connect(
 puts api_gateway_obj.public_methods
 CSI::Plugins::AWSAPIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
 
-#:AWSApplicationAutoScaling,
+app_auto_scale_obj = CSI::Plugins::AWSApplicationAutoScaling.connect(
+  :region => region, 
+  :access_key_id => credentials.access_key_id, 
+  :secret_access_key => credentials.secret_access_key, 
+  :sts_session_token => credentials.session_token
+)
+puts app_auto_scale_obj.public_methods
+CSI::Plugins::AWSApplicationAutoScaling.disconnect(:app_auto_scale_obj => app_auto_scale_obj)
+
 #:AWSApplicationDiscoveryService,
 #:AWSAutoScaling,
 #:AWSCloudFormation,
