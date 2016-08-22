@@ -62,13 +62,13 @@ case $csi_deploy_type in
           gem install bundler
           
           echo "Installing wget to retrieve tesseract trained data..."
-          apt-get install wget
+          apt-get install -y wget
 
           echo "Installing Postgres Libraries for pg gem..."
-          apt-get install postgresql-server-dev-all
+          apt-get install -y postgresql-server-dev-all
 
           echo "Installing libpcap Libraries..."
-          apt-get install libpcap-dev
+          apt-get install -y libpcap-dev
 
           echo "Installing ImageMagick..."
           ./vagrant/install/imagemagick.sh
