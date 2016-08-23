@@ -60,13 +60,13 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.open_app(
       #   :adb_path => 'required - path to adb binary',
-      #   :intent => 'required - application intent to run (i.e. open an android app)',
+      #   :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
       public
       def self.open_app(opts={})
         adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        intent = opts[:intent].to_s.scrub
+        app = opts[:app].to_s.scrub
 
         if opts[:as_root]
           as_root = true
@@ -76,7 +76,7 @@ module CSI
 
         begin
           `#{adb_path} root` if as_root
-          app_response = `#{adb_path} shell am start -n #{intent}/#{intent}.MainActivity` 
+          app_response = `#{adb_path} shell monkey -p #{app} -c android.intent.category.LAUNCHER 1` 
 
           return app_response
         rescue => e
@@ -112,8 +112,8 @@ module CSI
 
           app_response = #{self}.open_app(
             :adb_path => 'required - path to adb binary',
-            :intent => 'required - application intent to run (i.e. open an android app)',
-            :as_root => 'optional - boolean (defaults to false)',
+            :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
+            :as_root => 'optional - boolean (defaults to false)'
           )
 
           #{self}.authors
