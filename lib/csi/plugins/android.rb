@@ -84,6 +84,33 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.close_app(
+      #   :adb_path => 'required - path to adb binary',
+      #   :app => 'required - application app to close (i.e. open an android app returned from #list_install_apps method)',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.close_app(opts={})
+        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        app = opts[:app].to_s.scrub
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{adb_path} root` if as_root
+          app_response = `#{adb_path} am force-stop #{app}` 
+
+          return app_response
+        rescue => e
+          return e.message
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -111,6 +138,12 @@ module CSI
           )
 
           app_response = #{self}.open_app(
+            :adb_path => 'required - path to adb binary',
+            :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
+            :as_root => 'optional - boolean (defaults to false)'
+          )
+
+          app_response = #{self}.close_app(
             :adb_path => 'required - path to adb binary',
             :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
             :as_root => 'optional - boolean (defaults to false)'
