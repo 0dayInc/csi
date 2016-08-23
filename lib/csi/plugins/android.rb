@@ -33,6 +33,31 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.list_installed_apps(
+      #   :adb_path => 'required - path to adb binary',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.list_installed_apps(opts={})
+        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{adb_path} root` if as_root
+          app_response = `#{adb_path} shell mm list packages` 
+
+          return app_response
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.open_app(
       #   :adb_path => 'required - path to adb binary',
       #   :intent => 'required - application intent to run (i.e. open an android app)',
@@ -80,7 +105,12 @@ module CSI
             :as_root => 'optional - boolean (defaults to false)',
           )
 
-          intent = #{self}.open_app(
+          installed_apps = #{self}.list_installed_apps(
+            :adb_path => 'required - path to adb binary',
+            :as_root => 'optional - boolean (defaults to false)',
+          )
+
+          app_response = #{self}.open_app(
             :adb_path => 'required - path to adb binary',
             :intent => 'required - application intent to run (i.e. open an android app)',
             :as_root => 'optional - boolean (defaults to false)',
