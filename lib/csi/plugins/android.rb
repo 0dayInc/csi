@@ -12,7 +12,7 @@ module CSI
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
       public
-      def self.adb(opts={})
+      def self.adb_sh(opts={})
         adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         command = opts[:command].to_s.scrub
 
@@ -24,7 +24,7 @@ module CSI
 
         begin
           `#{adb_path} root` if as_root
-          adb_response = `#{adb_path} #{command}` 
+          adb_response = `#{adb_path} shell #{command}` 
 
           return adb_response
         rescue => e
@@ -51,7 +51,7 @@ module CSI
 
         begin
           `#{adb_path} root` if as_root
-          app_response = `#{adb_path} am start -n #{intent}/#{intent}.MainActivity` 
+          app_response = `#{adb_path} shell am start -n #{intent}/#{intent}.MainActivity` 
 
           return app_response
         rescue => e
@@ -74,7 +74,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
 
-          adb_response = #{self}.adb(
+          adb_response = #{self}.adb_sh(
             :adb_path => 'required - path to adb binary',
             :command => 'adb command to execute'
             :as_root => 'optional - boolean (defaults to false)',
