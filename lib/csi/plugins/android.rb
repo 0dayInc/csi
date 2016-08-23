@@ -49,7 +49,7 @@ module CSI
 
         begin
           `#{adb_path} root` if as_root
-          app_response = `#{adb_path} shell mm list packages` 
+          app_response = `#{adb_path} shell pm list packages` 
 
           return app_response
         rescue => e
