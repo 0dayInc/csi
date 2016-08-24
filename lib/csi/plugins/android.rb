@@ -134,9 +134,10 @@ module CSI
 
         begin
           `#{adb_path} root` if as_root
-          app_response = `#{adb_path} shell pm list packages` 
+          app_resp = `#{adb_path} shell pm list packages` 
+          app_resp_arr = app_resp.gsub("\npackage:" , "\n").split("\r\n")
 
-          return app_response
+          return app_resp_arr
         rescue => e
           return e.message
         end
@@ -237,7 +238,7 @@ module CSI
             :as_root => 'optional - boolean (defaults to true)'
           )
 
-          installed_apps = #{self}.list_installed_apps(
+          installed_apps_arr = #{self}.list_installed_apps(
             :adb_path => 'required - path to adb binary',
             :as_root => 'optional - boolean (defaults to false)',
           )
