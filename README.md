@@ -2,6 +2,9 @@
 
 ### **Table of Contents** ###
 1. [Intro](#intro)
+  * [Why](#why)
+  * [How](#how)
+  * [What is CSI](#whats-is-csi)
 2. [Call to Arms](#call-to-arms)
 3. [Clone CSI](#clone-csi)
 4. [Supported OSs and Deployment Scenarios](#supported-oss-and-deployment-scenarios)
@@ -12,7 +15,14 @@
 
 
 ### **Intro** ###
-It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated solutions should be open for all eyes to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  Introducing CSI (Continuous Security Integration) - a security automation framework that aims to stand on the shoulders of security giants.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
+#### **Why** ####
+It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated solutions should be open for all eyes to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  
+
+#### **How** ####
+Leveraging various pre-built modules, you can mix-and-match to produce your own custom security automation, "drivers."
+
+#### **What is CSI** ####
+CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
 
 [![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
 
@@ -113,7 +123,7 @@ All installation methods are recommended :)
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.329]:001 » CSI.help
+  csi[v0.1.330]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -124,7 +134,7 @@ All installation methods are recommended :)
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.329]:001 » CSI.help
+  csi[v0.1.330]:001 » CSI.help
   ```
 
 
@@ -157,28 +167,28 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.1.329]:001 » CSI.help
-  csi[v0.1.329]:002 » CSI::Plugins.help
-  csi[v0.1.329]:003 » CSI::WWW.help
-  csi[v0.1.329]:004 » CSI::WWW::Google.help
-  csi[v0.1.329]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.329]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.329]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.329]:008 » CSI::WWW::Google.close
+  csi[v0.1.330]:001 » CSI.help
+  csi[v0.1.330]:002 » CSI::Plugins.help
+  csi[v0.1.330]:003 » CSI::WWW.help
+  csi[v0.1.330]:004 » CSI::WWW::Google.help
+  csi[v0.1.330]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.330]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.330]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.330]:008 » CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.1.329]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.330]:1 » CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.1.329]:2 » CSI::Plugins::BurpSuite.help
+  csi[v0.1.330]:2 » CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.1.329]:3 » CSI::Plugins::OwaspZapIt.help
+  csi[v0.1.330]:3 » CSI::Plugins::OwaspZapIt.help
     USAGE:
       ...
   ```
@@ -188,7 +198,7 @@ All installation methods are recommended :)
 
   ```
   # csi
-  csi[v0.1.329]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.330]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -204,13 +214,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.329]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.329]:2 *   nmap.syn_scan = true
-  csi[v0.1.329]:2 *   nmap.service_scan = true
-  csi[v0.1.329]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.329]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.329]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.329]:2 * end  
+  csi[v0.1.330]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.330]:2 *   nmap.syn_scan = true
+  csi[v0.1.330]:2 *   nmap.service_scan = true
+  csi[v0.1.330]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.330]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.330]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.330]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -221,7 +231,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.329]:3 » hist
+  csi[v0.1.330]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -230,7 +240,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.329]:4 » hist -r 2..8
+  csi[v0.1.330]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -258,10 +268,10 @@ All installation methods are recommended :)
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
   ```
   $ csi
-  csi[v0.1.329]:1 » CSI.help
+  csi[v0.1.330]:1 » CSI.help
   => [:ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.329]:2 » CSI::Plugins.help
+  csi[v0.1.330]:2 » CSI::Plugins.help
   => [:AWSACM,
   :AWSAPIGateway,
   :AWSApplicationAutoScaling,
@@ -369,7 +379,7 @@ All installation methods are recommended :)
   :TransparentBrowser,
   :UTF8]
 
-  csi[v0.1.329]:3 » CSI::WWW.help
+  csi[v0.1.330]:3 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
   ```
 
