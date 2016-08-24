@@ -94,7 +94,7 @@ module CSI
       # CSI::Plugins::AndroidADB.take_screenshot(
       #   :adb_path => 'required - path to adb binary',
       #   :dest => 'required - destination path to save screenshot file',
-      #   :as_root => 'optional - boolean (defaults to false)',
+      #   :as_root => 'optional - boolean (defaults to true)'
       # )
       public
       def self.take_screenshot(opts={})
@@ -102,9 +102,9 @@ module CSI
         dest = opts[:dest].to_s.scrub
 
         if opts[:as_root]
-          as_root = true
-        else
           as_root = false
+        else
+          as_root = true
         end
 
         begin
@@ -215,6 +215,26 @@ module CSI
             :adb_path => 'required - path to adb binary',
             :command => 'adb command to execute'
             :as_root => 'optional - boolean (defaults to false)',
+          )
+
+          #{self}.adb_push(
+            :adb_path => 'required - path to adb binary',
+            :file => 'required - source file to push',
+            :dest => 'required - destination path to push file',
+            :as_root => 'optional - boolean (defaults to false)',
+          )
+
+          #{self}.adb_pull(
+            :adb_path => 'required - path to adb binary',
+            :file => 'required - source file to pull',
+            :dest => 'required - destination path to pull file',
+            :as_root => 'optional - boolean (defaults to false)',
+          )
+
+          #{self}.take_screenshot(
+            :adb_path => 'required - path to adb binary',
+            :dest => 'required - destination path to save screenshot file',
+            :as_root => 'optional - boolean (defaults to true)'
           )
 
           installed_apps = #{self}.list_installed_apps(
