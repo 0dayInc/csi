@@ -6,7 +6,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb(
+      # CSI::Plugins::AndroidADB.adb_sh(
       #   :adb_path => 'required - path to adb binary',
       #   :command => 'adb command to execute'
       #   :as_root => 'optional - boolean (defaults to false)',
@@ -27,6 +27,91 @@ module CSI
           adb_response = `#{adb_path} shell #{command}` 
 
           return adb_response
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.adb_push(
+      #   :adb_path => 'required - path to adb binary',
+      #   :file => 'required - source file to push',
+      #   :dest => 'required - destination path to push file',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.adb_push(opts={})
+        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        file = opts[:file].to_s.scrub if File.exists?(opts[:file].to_s.scrub)
+        dest = opts[:dest].to_s.scrub
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{adb_path} root` if as_root
+          adb_push_response = `#{adb_path} push #{file} #{dest}` 
+
+          return adb_push_response
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.adb_pull(
+      #   :adb_path => 'required - path to adb binary',
+      #   :file => 'required - source file to pull',
+      #   :dest => 'required - destination path to pull file',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.adb_pull(opts={})
+        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        file = opts[:file].to_s.scrub 
+        dest = opts[:dest].to_s.scrub if Dir.exists?(opts[:dest].to_s.scrub)
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{adb_path} root` if as_root
+          adb_pull = `#{adb_path} pull #{file} #{dest}` 
+
+          return adb_pull
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.take_screenshot(
+      #   :adb_path => 'required - path to adb binary',
+      #   :dest => 'required - destination path to save screenshot file',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.take_screenshot(opts={})
+        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        dest = opts[:dest].to_s.scrub
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{adb_path} root` if as_root
+          adb_pull = `#{adb_path} shell screencap -p #{dest}` 
+
+          return adb_pull
         rescue => e
           return e.message
         end
