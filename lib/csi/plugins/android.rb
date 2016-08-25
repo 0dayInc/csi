@@ -265,7 +265,7 @@ module CSI
                 `#{adb_path} shell input keyevent 56` 
               when " "
                 `#{adb_path} shell input keyevent 62` 
-              when "`"
+              when '`'
                 `#{adb_path} shell input keyevent 68` 
               when "-"
                 `#{adb_path} shell input keyevent 69` 
@@ -275,7 +275,7 @@ module CSI
                 `#{adb_path} shell input keyevent 71` 
               when "]"
                 `#{adb_path} shell input keyevent 72` 
-              when "\"
+              when "\\"
                 `#{adb_path} shell input keyevent 73` 
               when ";"
                 `#{adb_path} shell input keyevent 74` 
