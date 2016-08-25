@@ -311,7 +311,7 @@ module CSI
         string = opts[:string].to_s.scrub
 
         begin
-          case string
+          case string.to_sym
             when :unknown
               `#{adb_path} shell input keyevent 0` 
             when :menu
