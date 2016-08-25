@@ -306,7 +306,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.type_special_key(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
-      #   :string => 'required - special string to type (:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end)'
+      #   :string => 'required - special string to type (:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock, :ro, :prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
       # )
       public
       def self.type_special_key(opts={})
@@ -315,6 +315,66 @@ module CSI
 
         begin
           case string
+            when :tv_antenna_cable
+              `#{$adb_path} shell input keyevent KEYCODE_TV_ANTENNA_CABLE` 
+            when :tv
+              `#{$adb_path} shell input keyevent KEYCODE_TV` 
+            when :sysrq
+              `#{$adb_path} shell input keyevent KEYCODE_SYSRQ` 
+            when :switch_charset
+              `#{$adb_path} shell input keyevent KEYCODE_SWITCH_CHARSET` 
+            when :stem_primary
+              `#{$adb_path} shell input keyevent KEYCODE_STEM_PRIMARY` 
+            when :stem1
+              `#{$adb_path} shell input keyevent KEYCODE_STEM_1` 
+            when :stem2
+              `#{$adb_path} shell input keyevent KEYCODE_STEM_2` 
+            when :stem3
+              `#{$adb_path} shell input keyevent KEYCODE_STEM_3` 
+            when :stb_power
+              `#{$adb_path} shell input keyevent KEYCODE_STB_POWER` 
+            when :stb_input
+              `#{$adb_path} shell input keyevent KEYCODE_STB_INPUT` 
+            when :sleep
+              `#{$adb_path} shell input keyevent KEYCODE_SLEEP` 
+            when :settings
+              `#{$adb_path} shell input keyevent KEYCODE_SETTINGS` 
+            when :scroll_lock
+              `#{$adb_path} shell input keyevent KEYCODE_SCROLL_LOCK` 
+            when :ro
+              `#{$adb_path} shell input keyevent KEYCODE_RO` 
+            when :prog_blue
+              `#{$adb_path} shell input keyevent KEYCODE_PROG_BLUE` 
+            when :prog_green
+              `#{$adb_path} shell input keyevent KEYCODE_PROG_GREEN` 
+            when :prog_red
+              `#{$adb_path} shell input keyevent KEYCODE_PROG_RED` 
+            when :prog_yellow
+              `#{$adb_path} shell input keyevent KEYCODE_PROG_YELLOW` 
+            when :pairing
+              `#{$adb_path} shell input keyevent KEYCODE_PARING` 
+            when :num_lock
+              `#{$adb_path} shell input keyevent KEYCODE_NUM_LOCK` 
+            when :numpad_subtract
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_SUBTRACT` 
+            when :numpad_multiply
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_MULTIPLY` 
+            when :numpad_left_paren
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_LEFT_PAREN` 
+            when :numpad_right_paren
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_RIGHT_PAREN` 
+            when :numpad_equals
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_EQUALS` 
+            when :numpad_enter
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_ENTER` 
+            when :numpad_dot
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_DOT` 
+            when :numpad_divide
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_DIVIDE` 
+            when :numpad_comma
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_COMMA` 
+            when :numpad_add
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_ADD` 
             when :numpad0
               `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_0` 
             when :numpad1
