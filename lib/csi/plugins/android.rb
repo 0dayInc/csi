@@ -7,7 +7,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.adb_sh(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :command => 'required - adb command to execute'
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
@@ -35,7 +35,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.adb_push(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :file => 'required - source file to push',
       #   :dest => 'required - destination path to push file',
       #   :as_root => 'optional - boolean (defaults to false)',
@@ -64,7 +64,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.adb_pull(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :file => 'required - source file to pull',
       #   :dest => 'required - destination path to pull file',
       #   :as_root => 'optional - boolean (defaults to false)',
@@ -93,7 +93,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.take_screenshot(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :dest => 'required - destination path to save screenshot file',
       #   :as_root => 'optional - boolean (defaults to true)'
       # )
@@ -120,7 +120,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.list_installed_apps(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
       public
@@ -146,7 +146,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.open_app(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
@@ -173,7 +173,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.type_string(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :string => 'required - string to type'
       # )
       public
@@ -303,7 +303,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.type_special_key(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :string => 'required - special string to type (:unknown|:soft_left|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end)'
       # )
       public
@@ -413,7 +413,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.close_app(
-      #   :adb_path => 'required - path to adb binary',
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :app => 'required - application app to close (i.e. open an android app returned from #list_install_apps method)',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
@@ -438,6 +438,30 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.invoke_event_listener(
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
+      #   :as_root => 'optional - boolean (defaults to false)',
+      # )
+      public
+      def self.invoke_event_listener(opts={})
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        app = opts[:app].to_s.scrub
+
+        if opts[:as_root]
+          as_root = true
+        else
+          as_root = false
+        end
+
+        begin
+          `#{$adb_path} root` if as_root
+          `#{$adb_path} shell get event -l` 
+        rescue => e
+          return e.message
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -454,56 +478,61 @@ module CSI
         puts %Q{USAGE:
 
           adb_response = #{self}.adb_sh(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :command => 'adb command to execute'
             :as_root => 'optional - boolean (defaults to false)',
           )
 
           #{self}.adb_push(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :file => 'required - source file to push',
             :dest => 'required - destination path to push file',
             :as_root => 'optional - boolean (defaults to false)',
           )
 
           #{self}.adb_pull(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :file => 'required - source file to pull',
             :dest => 'required - destination path to pull file',
             :as_root => 'optional - boolean (defaults to false)',
           )
 
           #{self}.take_screenshot(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :dest => 'required - destination path to save screenshot file',
             :as_root => 'optional - boolean (defaults to true)'
           )
 
           installed_apps_arr = #{self}.list_installed_apps(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :as_root => 'optional - boolean (defaults to false)',
           )
 
           app_response = #{self}.open_app(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
             :as_root => 'optional - boolean (defaults to false)'
           )
 
           #{self}.type_string(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :string => 'required - string to type'
           )
 
           #{self}.type_special_key(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
           )
 
           app_response = #{self}.close_app(
-            :adb_path => 'required - path to adb binary',
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
             :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
             :as_root => 'optional - boolean (defaults to false)'
+          )
+
+          #{self}.invoke_event_listener(
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
+            :as_root => 'optional - boolean (defaults to false)',
           )
 
           #{self}.authors
