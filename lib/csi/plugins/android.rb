@@ -6,6 +6,32 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.adb_net_connect(
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
+      #   :target => 'required - target host or IP to connect',
+      #   :port => 'optional - defaults to tcp 5555'
+      # )
+      public
+      def self.adb_net_connect(opts={})
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        target = opts[:target].to_s.scrub
+        if opts[:port]
+          port = opts[:port].to_i
+        else
+          port = 5555
+        end
+
+        begin
+          `#{$adb_path} root` if as_root
+          adb_response = `#{$adb_path} connect #{target}:#{port}` 
+
+          return adb_response
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.adb_sh(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :command => 'required - adb command to execute'
@@ -834,6 +860,32 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.adb_net_disconnect(
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
+      #   :target => 'required - target host or IP to disconnect',
+      #   :port => 'optional - defaults to tcp 5555'
+      # )
+      public
+      def self.adb_net_disconnect(opts={})
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        target = opts[:target].to_s.scrub
+        if opts[:port]
+          port = opts[:port].to_i
+        else
+          port = 5555
+        end
+
+        begin
+          `#{$adb_path} root` if as_root
+          adb_response = `#{$adb_path} disconnect #{target}:#{port}` 
+
+          return adb_response
+        rescue => e
+          return e.message
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -849,6 +901,12 @@ module CSI
       def self.help
         puts %Q{USAGE:
 
+          #{self}.adb_net_connect(
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
+            :target => 'required - target host or IP to connect',
+            :port => 'optional - defaults to tcp 5555'
+          )
+ 
           adb_response = #{self}.adb_sh(
             :adb_path => 'required - path to adb binary (unless already set by another method)',
             :command => 'adb command to execute'
@@ -907,6 +965,12 @@ module CSI
             :as_root => 'optional - boolean (defaults to false)',
           )
 
+          #{self}.adb_net_disconnect(
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
+            :target => 'required - target host or IP to connect',
+            :port => 'optional - defaults to tcp 5555'
+          )
+ 
           #{self}.authors
         }
       end
