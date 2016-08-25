@@ -306,7 +306,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.type_special_key(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
-      #   :string => 'required - special string to type (:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock, :ro, :prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
+      #   :string => 'required - special string to type (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock, :ro, :prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
       # )
       public
       def self.type_special_key(opts={})
@@ -315,6 +315,78 @@ module CSI
 
         begin
           case string
+            when :zoom_in
+              `#{$adb_path} shell input keyevent KEYCODE_ZOOM_IN` 
+            when :zoom_out
+              `#{$adb_path} shell input keyevent KEYCODE_ZOOM_OUT` 
+            when :zenkaku_hankaku
+              `#{$adb_path} shell input keyevent KEYCODE_ZENKAKU_HANKAKU` 
+            when :yen
+              `#{$adb_path} shell input keyevent KEYCODE_YEN` 
+            when :window
+              `#{$adb_path} shell input keyevent KEYCODE_WINDOW` 
+            when :wakeup
+              `#{$adb_path} shell input keyevent KEYCODE_WAKEUP` 
+            when :voice_assist
+              `#{$adb_path} shell input keyevent KEYCODE_VOICE_ASSIST` 
+            when :tv_zoom_mode
+              `#{$adb_path} shell input keyevent KEYCODE_TV_ZOOM_MODE` 
+            when :tv_timer_programming
+              `#{$adb_path} shell input keyevent KEYCODE_TV_TIMER_PROGRAMMING` 
+            when :tv_terrestrial_digital
+              `#{$adb_path} shell input keyevent KEYCODE_TV_TERRESTRIAL_DIGITAL` 
+            when :tv_terrestrial_analog
+              `#{$adb_path} shell input keyevent KEYCODE_TV_TERRESTRIAL_ANALOG` 
+            when :tv_satellite_teletext
+              `#{$adb_path} shell input keyevent KEYCODE_TV_SATELLITE_TELETEXT` 
+            when :tv_satellite_service
+              `#{$adb_path} shell input keyevent KEYCODE_TV_SATELLITE_SERVICE` 
+            when :tv_satellite_bs
+              `#{$adb_path} shell input keyevent KEYCODE_TV_SATELLITE_BS` 
+            when :tv_satellite_cs
+              `#{$adb_path} shell input keyevent KEYCODE_TV_SATELLITE_CS` 
+            when :tv_satellite
+              `#{$adb_path} shell input keyevent KEYCODE_TV_SATELLITE` 
+            when :tv_radio_service
+              `#{$adb_path} shell input keyevent KEYCODE_TV_RADIO_SERVICE` 
+            when :tv_power
+              `#{$adb_path} shell input keyevent KEYCODE_TV_POWER` 
+            when :tv_number_entry
+              `#{$adb_path} shell input keyevent KEYCODE_TV_NUMBER_ENTRY` 
+            when :tv_network
+              `#{$adb_path} shell input keyevent KEYCODE_TV_NETWORK` 
+            when :tv_media_context_menu
+              `#{$adb_path} shell input keyevent KEYCODE_TV_MEDIA_CONTEXT_MENU` 
+            when :tv_input_vga_1
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_VGA_1` 
+            when :tv_input_hdmi_1
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_HDMI_1` 
+            when :tv_input_hdmi_2
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_HDMI_2` 
+            when :tv_input_hdmi_3
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_HDMI_3` 
+            when :tv_input_hdmi_4
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_HDMI_4` 
+            when :tv_input_composite_1
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_COMPOSITE_1` 
+            when :tv_input_composite_2
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_COMPOSITE_2` 
+            when :tv_input_component_1
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_COMPONENT_1` 
+            when :tv_input_component_2
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT_COMPONENT_2` 
+            when :tv_input
+              `#{$adb_path} shell input keyevent KEYCODE_TV_INPUT` 
+            when :tv_data_service
+              `#{$adb_path} shell input keyevent KEYCODE_TV_DATA_SERVICE` 
+            when :tv_contents_menu
+              `#{$adb_path} shell input keyevent KEYCODE_TV_CONTENTS_MENU` 
+            when :tv_audio_desc
+              `#{$adb_path} shell input keyevent KEYCODE_TV_AUDIO_DESCRIPTION` 
+            when :tv_audio_desc_mix_up
+              `#{$adb_path} shell input keyevent KEYCODE_TV_AUDIO_DESCRIPTION_MIX_UP` 
+            when :tv_audio_desc_mix_down
+              `#{$adb_path} shell input keyevent KEYCODE_TV_AUDIO_DESCRIPTION_MIX_DOWN` 
             when :tv_antenna_cable
               `#{$adb_path} shell input keyevent KEYCODE_TV_ANTENNA_CABLE` 
             when :tv
