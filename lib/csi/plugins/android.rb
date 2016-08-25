@@ -185,111 +185,113 @@ module CSI
           string.each_char do |char|
             case char
               when "0"
-                `#{$adb_path} shell input keyevent 7` 
+                `#{$adb_path} shell input keyevent KEYCODE_0` 
               when "1"
-                `#{$adb_path} shell input keyevent 8` 
+                `#{$adb_path} shell input keyevent KEYCODE_1` 
               when "2"
-                `#{$adb_path} shell input keyevent 9` 
+                `#{$adb_path} shell input keyevent KEYCODE_2` 
               when "3"
-                `#{$adb_path} shell input keyevent 10` 
+                `#{$adb_path} shell input keyevent KEYCODE_3` 
               when "4"
-                `#{$adb_path} shell input keyevent 11` 
+                `#{$adb_path} shell input keyevent KEYCODE_4` 
               when "5"
-                `#{$adb_path} shell input keyevent 12` 
+                `#{$adb_path} shell input keyevent KEYCODE_5` 
               when "6"
-                `#{$adb_path} shell input keyevent 13` 
+                `#{$adb_path} shell input keyevent KEYCODE_6` 
               when "7"
-                `#{$adb_path} shell input keyevent 14` 
+                `#{$adb_path} shell input keyevent KEYCODE_7` 
               when "8"
-                `#{$adb_path} shell input keyevent 15` 
+                `#{$adb_path} shell input keyevent KEYCODE_8` 
               when "9"
-                `#{$adb_path} shell input keyevent 16` 
+                `#{$adb_path} shell input keyevent KEYCODE_9` 
               when "*"
-                `#{$adb_path} shell input keyevent 17` 
+                `#{$adb_path} shell input keyevent KEYCODE_STAR` 
               when "#"
-                `#{$adb_path} shell input keyevent 18` 
+                `#{$adb_path} shell input keyevent KEYCODE_POUND` 
               when "a"
-                `#{$adb_path} shell input keyevent 29` 
+                `#{$adb_path} shell input keyevent KEYCODE_A` 
               when "b"
-                `#{$adb_path} shell input keyevent 30` 
+                `#{$adb_path} shell input keyevent KEYCODE_B` 
               when "c"
-                `#{$adb_path} shell input keyevent 31` 
+                `#{$adb_path} shell input keyevent KEYCODE_C` 
               when "d"
-                `#{$adb_path} shell input keyevent 32` 
+                `#{$adb_path} shell input keyevent KEYCODE_D` 
               when "e"
-                `#{$adb_path} shell input keyevent 33` 
+                `#{$adb_path} shell input keyevent KEYCODE_E` 
               when "f"
-                `#{$adb_path} shell input keyevent 34` 
+                `#{$adb_path} shell input keyevent KEYCODE_F` 
               when "g"
-                `#{$adb_path} shell input keyevent 35` 
+                `#{$adb_path} shell input keyevent KEYCODE_G` 
               when "h"
-                `#{$adb_path} shell input keyevent 36` 
+                `#{$adb_path} shell input keyevent KEYCODE_H` 
               when "i"
-                `#{$adb_path} shell input keyevent 37` 
+                `#{$adb_path} shell input keyevent KEYCODE_I` 
               when "j"
-                `#{$adb_path} shell input keyevent 38` 
+                `#{$adb_path} shell input keyevent KEYCODE_J` 
               when "k"
-                `#{$adb_path} shell input keyevent 39` 
+                `#{$adb_path} shell input keyevent KEYCODE_K` 
               when "l"
-                `#{$adb_path} shell input keyevent 40` 
+                `#{$adb_path} shell input keyevent KEYCODE_L` 
               when "m"
-                `#{$adb_path} shell input keyevent 41` 
+                `#{$adb_path} shell input keyevent KEYCODE_M` 
               when "n"
-                `#{$adb_path} shell input keyevent 42` 
+                `#{$adb_path} shell input keyevent KEYCODE_N` 
               when "o"
-                `#{$adb_path} shell input keyevent 43` 
+                `#{$adb_path} shell input keyevent KEYCODE_O` 
               when "p"
-                `#{$adb_path} shell input keyevent 44` 
+                `#{$adb_path} shell input keyevent KEYCODE_P` 
               when "q"
-                `#{$adb_path} shell input keyevent 45` 
+                `#{$adb_path} shell input keyevent KEYCODE_Q` 
               when "r"
-                `#{$adb_path} shell input keyevent 46` 
+                `#{$adb_path} shell input keyevent KEYCODE_R` 
               when "s"
-                `#{$adb_path} shell input keyevent 47` 
+                `#{$adb_path} shell input keyevent KEYCODE_S` 
               when "t"
-                `#{$adb_path} shell input keyevent 48` 
+                `#{$adb_path} shell input keyevent KEYCODE_T` 
               when "u"
-                `#{$adb_path} shell input keyevent 49` 
+                `#{$adb_path} shell input keyevent KEYCODE_U` 
               when "v"
-                `#{$adb_path} shell input keyevent 50` 
+                `#{$adb_path} shell input keyevent KEYCODE_V` 
               when "w"
-                `#{$adb_path} shell input keyevent 51` 
+                `#{$adb_path} shell input keyevent KEYCODE_W` 
               when "x"
-                `#{$adb_path} shell input keyevent 52` 
+                `#{$adb_path} shell input keyevent KEYCODE_X` 
               when "y"
-                `#{$adb_path} shell input keyevent 53` 
+                `#{$adb_path} shell input keyevent KEYCODE_Y` 
               when "z"
-                `#{$adb_path} shell input keyevent 54` 
+                `#{$adb_path} shell input keyevent KEYCODE_Z` 
               when ","
-                `#{$adb_path} shell input keyevent 55` 
+                `#{$adb_path} shell input keyevent KEYCODE_COMMA` 
               when "."
-                `#{$adb_path} shell input keyevent 56` 
+                `#{$adb_path} shell input keyevent KEYCODE_PERIOD` 
               when " "
-                `#{$adb_path} shell input keyevent 62` 
+                `#{$adb_path} shell input keyevent KEYCODE_SPACE` 
               when '`'
-                `#{$adb_path} shell input keyevent 68` 
+                `#{$adb_path} shell input keyevent KEYCODE_GRAVE` 
               when "-"
-                `#{$adb_path} shell input keyevent 69` 
+                `#{$adb_path} shell input keyevent KEYCODE_MINUS` 
               when "="
-                `#{$adb_path} shell input keyevent 70` 
+                `#{$adb_path} shell input keyevent KEYCODE_EQUALS` 
               when "["
-                `#{$adb_path} shell input keyevent 71` 
+                `#{$adb_path} shell input keyevent KEYCODE_LEFT_BRACKET` 
               when "]"
-                `#{$adb_path} shell input keyevent 72` 
+                `#{$adb_path} shell input keyevent KEYCODE_RIGHT_BRACKET` 
               when "\\"
-                `#{$adb_path} shell input keyevent 73` 
+                `#{$adb_path} shell input keyevent KEYCODE_BACKSLASH` 
               when ";"
-                `#{$adb_path} shell input keyevent 74` 
+                `#{$adb_path} shell input keyevent KEYCODE_SEMICOLON` 
               when "'"
-                `#{$adb_path} shell input keyevent 75` 
+                `#{$adb_path} shell input keyevent KEYCODE_APOSTROPHE` 
               when "/"
-                `#{$adb_path} shell input keyevent 76` 
+                `#{$adb_path} shell input keyevent KEYCODE_SLASH` 
               when "@"
-                `#{$adb_path} shell input keyevent 77` 
-              when "#"
-                `#{$adb_path} shell input keyevent 78` 
+                `#{$adb_path} shell input keyevent KEYCODE_AT` 
               when "+"
-                `#{$adb_path} shell input keyevent 81` 
+                `#{$adb_path} shell input keyevent KEYCODE_PLUS` 
+              when "("
+                `#{$adb_path} shell input keyevent KEYCODE_LEFT_PAREN` 
+              when ")"
+                `#{$adb_path} shell input keyevent KEYCODE_RIGHT_PAREN` 
             else
               raise "ERROR: unknown char: #{char}"
               return 1
@@ -304,7 +306,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.type_special_key(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
-      #   :string => 'required - special string to type (:unknown|:soft_left|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end)'
+      #   :string => 'required - special string to type (:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end)'
       # )
       public
       def self.type_special_key(opts={})
@@ -313,94 +315,330 @@ module CSI
 
         begin
           case string
+            when :numpad0
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_0` 
+            when :numpad1
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_1` 
+            when :numpad2
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_2` 
+            when :numpad3
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_3` 
+            when :numpad4
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_4` 
+            when :numpad5
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_5` 
+            when :numpad6
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_6` 
+            when :numpad7
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_7` 
+            when :numpad8
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_8` 
+            when :numpad9
+              `#{$adb_path} shell input keyevent KEYCODE_NUMPAD_9` 
+            when :num
+              `#{$adb_path} shell input keyevent KEYCODE_NUM` 
+            when :nav_in
+              `#{$adb_path} shell input keyevent KEYCODE_NAVIGATE_IN` 
+            when :nav_next
+              `#{$adb_path} shell input keyevent KEYCODE_NAVIGATE_NEXT` 
+            when :nav_out
+              `#{$adb_path} shell input keyevent KEYCODE_NAVIGATE_OUT` 
+            when :nav_previous
+              `#{$adb_path} shell input keyevent KEYCODE_NAVIGATE_PREVIOUS` 
+            when :music
+              `#{$adb_path} shell input keyevent KEYCODE_MUSIC` 
+            when :muhenkan
+              `#{$adb_path} shell input keyevent KEYCODE_MUHENKAN` 
+            when :meta_left
+              `#{$adb_path} shell input keyevent KEYCODE_META_LEFT` 
+            when :meta_right
+              `#{$adb_path} shell input keyevent KEYCODE_META_RIGHT` 
+            when :media_top_menu
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_TOP_MENU` 
+            when :media_step_forward
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_STEP_FORWARD` 
+            when :media_step_back
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_STEP_BACKWARD` 
+            when :media_skip_forward
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_SKIP_FORWARD` 
+            when :media_skip_back
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_SKIP_BACKWARD` 
+            when :media_record
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_RECORD` 
+            when :media_play
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_PLAY` 
+            when :media_pause
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_PAUSE` 
+            when :media_eject
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_EJECT` 
+            when :media_close
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_CLOSE` 
+            when :media_audio_track
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_AUDIO_TRACK` 
+            when :manner_mode
+              `#{$adb_path} shell input keyevent KEYCODE_MANNER_MODE` 
+            when :last_channel
+              `#{$adb_path} shell input keyevent KEYCODE_LAST_CHANNEL` 
+            when :language_switch
+              `#{$adb_path} shell input keyevent KEYCODE_LANGUAGE_SWITCH` 
+            when :katakana_hiragana
+              `#{$adb_path} shell input keyevent KEYCODE_KATAKANA_HIRAGANA` 
+            when :kana
+              `#{$adb_path} shell input keyevent KEYCODE_KANA` 
+            when :insert
+              `#{$adb_path} shell input keyevent KEYCODE_INSERT` 
+            when :info
+              `#{$adb_path} shell input keyevent KEYCODE_INFO` 
+            when :henkan
+              `#{$adb_path} shell input keyevent KEYCODE_HENKAN` 
+            when :help
+              `#{$adb_path} shell input keyevent KEYCODE_HELP` 
+            when :guide
+              `#{$adb_path} shell input keyevent KEYCODE_GUIDE` 
+            when :function
+              `#{$adb_path} shell input keyevent KEYCODE_FUNCTION` 
+            when :forward_del
+              `#{$adb_path} shell input keyevent KEYCODE_FORWARD_DEL` 
+            when :f1
+              `#{$adb_path} shell input keyevent KEYCODE_F1` 
+            when :f2
+              `#{$adb_path} shell input keyevent KEYCODE_F2` 
+            when :f3
+              `#{$adb_path} shell input keyevent KEYCODE_F3` 
+            when :f4
+              `#{$adb_path} shell input keyevent KEYCODE_F4` 
+            when :f5
+              `#{$adb_path} shell input keyevent KEYCODE_F5` 
+            when :f6
+              `#{$adb_path} shell input keyevent KEYCODE_F6` 
+            when :f7
+              `#{$adb_path} shell input keyevent KEYCODE_F7` 
+            when :f8
+              `#{$adb_path} shell input keyevent KEYCODE_F8` 
+            when :f9
+              `#{$adb_path} shell input keyevent KEYCODE_F9` 
+            when :f10
+              `#{$adb_path} shell input keyevent KEYCODE_F10` 
+            when :f11
+              `#{$adb_path} shell input keyevent KEYCODE_F11` 
+            when :f12
+              `#{$adb_path} shell input keyevent KEYCODE_F12` 
+            when :escape
+              `#{$adb_path} shell input keyevent KEYCODE_ESCAPE` 
+            when :eisu
+              `#{$adb_path} shell input keyevent KEYCODE_EISU` 
+            when :dvr
+              `#{$adb_path} shell input keyevent KEYCODE_DVR` 
+            when :ctrl_left
+              `#{$adb_path} shell input keyevent KEYCODE_CTRL_LEFT` 
+            when :ctrl_right
+              `#{$adb_path} shell input keyevent KEYCODE_CTRL_RIGHT` 
+            when :cut
+              `#{$adb_path} shell input keyevent KEYCODE_CUT` 
+            when :copy
+              `#{$adb_path} shell input keyevent KEYCODE_COPY` 
+            when :paste
+              `#{$adb_path} shell input keyevent KEYCODE_PASTE` 
+            when :contacts
+              `#{$adb_path} shell input keyevent KEYCODE_CONTACTS` 
+            when :chan_down
+              `#{$adb_path} shell input keyevent KEYCODE_CHANNEL_DOWN` 
+            when :chan_up
+              `#{$adb_path} shell input keyevent KEYCODE_CHANNEL_UP` 
+            when :captions
+              `#{$adb_path} shell input keyevent KEYCODE_CAPTIONS` 
+            when :caps_lock
+              `#{$adb_path} shell input keyevent KEYCODE_CAPS_LOCK` 
+            when :calendar
+              `#{$adb_path} shell input keyevent KEYCODE_CALENDAR` 
+            when :calculator
+              `#{$adb_path} shell input keyevent KEYCODE_CALCULATOR` 
+            when :gamepad_1
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_1` 
+            when :gamepad_2
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_2` 
+            when :gamepad_3
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_3` 
+            when :gamepad_4
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_4` 
+            when :gamepad_5
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_5` 
+            when :gamepad_6
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_6` 
+            when :gamepad_7
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_7` 
+            when :gamepad_8
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_8` 
+            when :gamepad_9
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_9` 
+            when :gamepad_10
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_10` 
+            when :gamepad_11
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_11` 
+            when :gamepad_12
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_12` 
+            when :gamepad_13
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_13` 
+            when :gamepad_14
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_14` 
+            when :gamepad_15
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_15` 
+            when :gamepad_16
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_16` 
+            when :gamepad_16
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_16` 
+            when :gamepad_a
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_A` 
+            when :gamepad_b
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_B` 
+            when :gamepad_c
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_C` 
+            when :gamepad_l1
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_L1` 
+            when :gamepad_l2
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_L2` 
+            when :gamepad_mode
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_MODE` 
+            when :gamepad_r1
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_R1` 
+            when :gamepad_r2
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_R2` 
+            when :gamepad_select
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_SELECT` 
+            when :gamepad_start
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_START` 
+            when :gamepad_thumbl
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_THUMBL` 
+            when :gamepad_thumbr
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_THUMBR` 
+            when :gamepad_x
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_X` 
+            when :gamepad_y
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_Y` 
+            when :gamepad_z
+              `#{$adb_path} shell input keyevent KEYCODE_BUTTON_Z` 
+            when :brightness_up
+              `#{$adb_path} shell input keyevent KEYCODE_BRIGHTNESS_UP` 
+            when :brightness_down
+              `#{$adb_path} shell input keyevent KEYCODE_BRIGHTNESS_DOWN` 
+            when :break
+              `#{$adb_path} shell input keyevent KEYCODE_BREAK` 
+            when :bookmark
+              `#{$adb_path} shell input keyevent KEYCODE_BOOKMARK` 
+            when :avr_power
+              `#{$adb_path} shell input keyevent KEYCODE_AVR_POWER` 
+            when :avr_input
+              `#{$adb_path} shell input keyevent KEYCODE_AVR_INPUT` 
+            when :assist
+              `#{$adb_path} shell input keyevent KEYCODE_ASSIST` 
+            when :app_switch
+              `#{$adb_path} shell input keyevent KEYCODE_APP_SWITCH` 
+            when :threeDmode
+              `#{$adb_path} shell input keyevent KEYCODE_3D_MODE` 
+            when :eleven
+              `#{$adb_path} shell input keyevent KEYCODE_11` 
+            when :twelve
+              `#{$adb_path} shell input keyevent KEYCODE_12` 
             when :unknown
-              `#{$adb_path} shell input keyevent 0` 
+              `#{$adb_path} shell input keyevent KEYCODE_UNKNOWN` 
             when :soft_left
-              `#{$adb_path} shell input keyevent 1` 
+              `#{$adb_path} shell input keyevent KEYCODE_SOFT_LEFT` 
             when :soft_right
-              `#{$adb_path} shell input keyevent 2` 
+              `#{$adb_path} shell input keyevent KEYCODE_SOFT_RIGHT` 
+            when :soft_sleep
+              `#{$adb_path} shell input keyevent KEYCODE_SOFT_SLEEP` 
             when :home
-              `#{$adb_path} shell input keyevent 3` 
+              `#{$adb_path} shell input keyevent KEYCODE_HOME` 
+            when :forward
+              `#{$adb_path} shell input keyevent KEYCODE_FORWARD` 
             when :back
-              `#{$adb_path} shell input keyevent 4` 
+              `#{$adb_path} shell input keyevent KEYCODE_BACK` 
             when :call
-              `#{$adb_path} shell input keyevent 5` 
+              `#{$adb_path} shell input keyevent KEYCODE_CALL` 
             when :endcall
-              `#{$adb_path} shell input keyevent 6` 
+              `#{$adb_path} shell input keyevent KEYCODE_ENDCALL` 
             when :dpad_up
-              `#{$adb_path} shell input keyevent 19` 
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_UP` 
             when :dpad_down
-              `#{$adb_path} shell input keyevent 20` 
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_DOWN` 
             when :dpad_left
-              `#{$adb_path} shell input keyevent 21` 
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_LEFT` 
             when :dpad_right
-              `#{$adb_path} shell input keyevent 22` 
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_RIGHT` 
+            when :dpad_down_left
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_DOWN_LEFT` 
+            when :dpad_down_right
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_DOWN_RIGHT` 
+            when :dpad_up_left
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_UP_LEFT` 
+            when :dpad_up_right
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_UP_RIGHT` 
             when :dpad_center
-              `#{$adb_path} shell input keyevent 23` 
+              `#{$adb_path} shell input keyevent KEYCODE_DPAD_CENTER` 
             when :volume_up
-              `#{$adb_path} shell input keyevent 24` 
+              `#{$adb_path} shell input keyevent KEYCODE_VOLUME_UP` 
             when :volume_down
-              `#{$adb_path} shell input keyevent 25` 
+              `#{$adb_path} shell input keyevent KEYCODE_VOLUME_DOWN` 
             when :power
-              `#{$adb_path} shell input keyevent 26` 
+              `#{$adb_path} shell input keyevent KEYCODE_POWER` 
             when :camera
-              `#{$adb_path} shell input keyevent 27` 
+              `#{$adb_path} shell input keyevent KEYCODE_CAMERA` 
             when :clear
-              `#{$adb_path} shell input keyevent 28` 
+              `#{$adb_path} shell input keyevent KEYCODE_CLEAR` 
             when :alt_left
-              `#{$adb_path} shell input keyevent 57` 
+              `#{$adb_path} shell input keyevent KEYCODE_ALT_LEFT` 
             when :alt_right
-              `#{$adb_path} shell input keyevent 58` 
+              `#{$adb_path} shell input keyevent KEYCODE_ALT_RIGHT` 
             when :shift_left
-              `#{$adb_path} shell input keyevent 59` 
+              `#{$adb_path} shell input keyevent KEYCODE_SHIFT_LEFT` 
             when :shift_right
-              `#{$adb_path} shell input keyevent 60` 
+              `#{$adb_path} shell input keyevent KEYCODE_SHIFT_RIGHT` 
             when :tab
-              `#{$adb_path} shell input keyevent 61` 
+              `#{$adb_path} shell input keyevent KEYCODE_TAB` 
             when :sym
-              `#{$adb_path} shell input keyevent 63` 
+              `#{$adb_path} shell input keyevent KEYCODE_SYM` 
             when :explorer
-              `#{$adb_path} shell input keyevent 64` 
+              `#{$adb_path} shell input keyevent KEYCODE_EXPLORER` 
             when :envelope
-              `#{$adb_path} shell input keyevent 65` 
+              `#{$adb_path} shell input keyevent KEYCODE_ENVELOPE` 
             when :enter
-              `#{$adb_path} shell input keyevent 66` 
+              `#{$adb_path} shell input keyevent KEYCODE_ENTER` 
             when :del
-              `#{$adb_path} shell input keyevent 67` 
-            when :headset_hook
-              `#{$adb_path} shell input keyevent 79` 
+              `#{$adb_path} shell input keyevent KEYCODE_DEL` 
+            when :headsethook
+              `#{$adb_path} shell input keyevent KEYCODE_HEADSETHOOK` 
             when :focus
-              `#{$adb_path} shell input keyevent 80` 
+              `#{$adb_path} shell input keyevent KEYCODE_FOCUS` 
             when :menu
-              `#{$adb_path} shell input keyevent 82` 
+              `#{$adb_path} shell input keyevent KEYCODE_MENU` 
             when :notification
-              `#{$adb_path} shell input keyevent 83` 
+              `#{$adb_path} shell input keyevent KEYCODE_NOTIFICATION` 
             when :search
-              `#{$adb_path} shell input keyevent 84` 
+              `#{$adb_path} shell input keyevent KEYCODE_SEARCH` 
             when :media_play_pause
-              `#{$adb_path} shell input keyevent 85` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_PLAY_PAUSE` 
             when :media_stop
-              `#{$adb_path} shell input keyevent 86` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_STOP` 
             when :media_next
-              `#{$adb_path} shell input keyevent 87` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_NEXT` 
             when :media_previous
-              `#{$adb_path} shell input keyevent 88` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_PREVIOUS` 
             when :media_rewind
-              `#{$adb_path} shell input keyevent 89` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_REWIND` 
             when :media_fast_forward
-              `#{$adb_path} shell input keyevent 90` 
+              `#{$adb_path} shell input keyevent KEYCODE_MEDIA_FAST_FORWARD` 
             when :mute
-              `#{$adb_path} shell input keyevent 91` 
+              `#{$adb_path} shell input keyevent KEYCODE_MUTE` 
             when :page_up
-              `#{$adb_path} shell input keyevent 92` 
+              `#{$adb_path} shell input keyevent KEYCODE_PAGE_UP` 
             when :page_down
-              `#{$adb_path} shell input keyevent 93` 
+              `#{$adb_path} shell input keyevent KEYCODE_PAGE_DOWN` 
             when :pictsymbols
-              `#{$adb_path} shell input keyevent 94` 
+              `#{$adb_path} shell input keyevent KEYCODE_PICTSYMBOLS` 
             when :move_home
-              `#{$adb_path} shell input keyevent 122` 
+              `#{$adb_path} shell input keyevent KEYCODE_MOVE_HOME` 
             when :move_end
-              `#{$adb_path} shell input keyevent 123` 
+              `#{$adb_path} shell input keyevent KEYCODE_MOVE_END` 
           else
             raise "ERROR: unknown special string: #{string}"
             return 1
@@ -521,7 +759,7 @@ module CSI
 
           #{self}.type_special_key(
             :adb_path => 'required - path to adb binary (unless already set by another method)',
-            :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
+            :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
           )
 
           app_response = #{self}.close_app(
