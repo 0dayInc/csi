@@ -302,12 +302,12 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.type_special_string(
+      # CSI::Plugins::AndroidADB.type_special_key(
       #   :adb_path => 'required - path to adb binary',
-      #   :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
+      #   :string => 'required - special string to type (:unknown|:soft_left|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end)'
       # )
       public
-      def self.type_special_string(opts={})
+      def self.type_special_key(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub.to_sym
 
@@ -315,7 +315,7 @@ module CSI
           case string
             when :unknown
               `#{$adb_path} shell input keyevent 0` 
-            when :menu
+            when :soft_left
               `#{$adb_path} shell input keyevent 1` 
             when :soft_right
               `#{$adb_path} shell input keyevent 2` 
@@ -371,14 +371,36 @@ module CSI
               `#{$adb_path} shell input keyevent 79` 
             when :focus
               `#{$adb_path} shell input keyevent 80` 
-            when :menu2
+            when :menu
               `#{$adb_path} shell input keyevent 82` 
             when :notification
               `#{$adb_path} shell input keyevent 83` 
             when :search
               `#{$adb_path} shell input keyevent 84` 
-            when :tag_last_keycode
+            when :media_play_pause
               `#{$adb_path} shell input keyevent 85` 
+            when :media_stop
+              `#{$adb_path} shell input keyevent 86` 
+            when :media_next
+              `#{$adb_path} shell input keyevent 87` 
+            when :media_previous
+              `#{$adb_path} shell input keyevent 88` 
+            when :media_rewind
+              `#{$adb_path} shell input keyevent 89` 
+            when :media_fast_forward
+              `#{$adb_path} shell input keyevent 90` 
+            when :mute
+              `#{$adb_path} shell input keyevent 91` 
+            when :page_up
+              `#{$adb_path} shell input keyevent 92` 
+            when :page_down
+              `#{$adb_path} shell input keyevent 93` 
+            when :pictsymbols
+              `#{$adb_path} shell input keyevent 94` 
+            when :move_home
+              `#{$adb_path} shell input keyevent 122` 
+            when :move_end
+              `#{$adb_path} shell input keyevent 123` 
           else
             raise "ERROR: unknown special string: #{string}"
             return 1
@@ -473,7 +495,7 @@ module CSI
             :string => 'required - string to type'
           )
 
-          #{self}.type_special_string(
+          #{self}.type_special_key(
             :adb_path => 'required - path to adb binary',
             :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
           )
