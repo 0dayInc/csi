@@ -22,7 +22,6 @@ module CSI
         end
 
         begin
-          `#{$adb_path} root` if as_root
           adb_response = `#{$adb_path} connect #{target}:#{port}` 
 
           return adb_response
@@ -877,7 +876,6 @@ module CSI
         end
 
         begin
-          `#{$adb_path} root` if as_root
           adb_response = `#{$adb_path} disconnect #{target}:#{port}` 
 
           return adb_response
