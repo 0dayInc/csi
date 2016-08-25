@@ -308,10 +308,10 @@ module CSI
       public
       def self.type_special_string(opts={})
         adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        string = opts[:string].to_s.scrub
+        string = opts[:string].to_s.scrub.to_sym
 
         begin
-          case string.to_sym
+          case string
             when :unknown
               `#{adb_path} shell input keyevent 0` 
             when :menu
