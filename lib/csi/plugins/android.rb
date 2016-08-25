@@ -13,7 +13,8 @@ module CSI
       # )
       public
       def self.adb_sh(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+          
         command = opts[:command].to_s.scrub
 
         if opts[:as_root]
@@ -23,8 +24,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          adb_response = `#{adb_path} shell #{command}` 
+          `#{$adb_path} root` if as_root
+          adb_response = `#{$adb_path} shell #{command}` 
 
           return adb_response
         rescue => e
@@ -41,7 +42,7 @@ module CSI
       # )
       public
       def self.adb_push(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         file = opts[:file].to_s.scrub if File.exists?(opts[:file].to_s.scrub)
         dest = opts[:dest].to_s.scrub
 
@@ -52,8 +53,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          adb_push_response = `#{adb_path} push #{file} #{dest}` 
+          `#{$adb_path} root` if as_root
+          adb_push_response = `#{$adb_path} push #{file} #{dest}` 
 
           return adb_push_response
         rescue => e
@@ -70,7 +71,7 @@ module CSI
       # )
       public
       def self.adb_pull(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         file = opts[:file].to_s.scrub 
         dest = opts[:dest].to_s.scrub if Dir.exists?(opts[:dest].to_s.scrub)
 
@@ -81,8 +82,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          adb_pull = `#{adb_path} pull #{file} #{dest}` 
+          `#{$adb_path} root` if as_root
+          adb_pull = `#{$adb_path} pull #{file} #{dest}` 
 
           return adb_pull
         rescue => e
@@ -98,7 +99,7 @@ module CSI
       # )
       public
       def self.take_screenshot(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         dest = opts[:dest].to_s.scrub
 
         if opts[:as_root]
@@ -108,8 +109,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          adb_pull = `#{adb_path} shell screencap -p #{dest}` 
+          `#{$adb_path} root` if as_root
+          adb_pull = `#{$adb_path} shell screencap -p #{dest}` 
 
           return adb_pull
         rescue => e
@@ -124,7 +125,7 @@ module CSI
       # )
       public
       def self.list_installed_apps(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
 
         if opts[:as_root]
           as_root = true
@@ -133,8 +134,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          app_resp = `#{adb_path} shell pm list packages` 
+          `#{$adb_path} root` if as_root
+          app_resp = `#{$adb_path} shell pm list packages` 
           app_resp_arr = app_resp.gsub("\npackage:" , "\n").split("\r\n")
 
           return app_resp_arr
@@ -151,7 +152,7 @@ module CSI
       # )
       public
       def self.open_app(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         app = opts[:app].to_s.scrub
 
         if opts[:as_root]
@@ -161,8 +162,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          app_response = `#{adb_path} shell monkey -p #{app} -c android.intent.category.LAUNCHER 1` 
+          `#{$adb_path} root` if as_root
+          app_response = `#{$adb_path} shell monkey -p #{app} -c android.intent.category.LAUNCHER 1` 
 
           return app_response
         rescue => e
@@ -177,118 +178,118 @@ module CSI
       # )
       public
       def self.type_string(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub
 
         begin
           string.each_char do |char|
             case char
               when "0"
-                `#{adb_path} shell input keyevent 7` 
+                `#{$adb_path} shell input keyevent 7` 
               when "1"
-                `#{adb_path} shell input keyevent 8` 
+                `#{$adb_path} shell input keyevent 8` 
               when "2"
-                `#{adb_path} shell input keyevent 9` 
+                `#{$adb_path} shell input keyevent 9` 
               when "3"
-                `#{adb_path} shell input keyevent 10` 
+                `#{$adb_path} shell input keyevent 10` 
               when "4"
-                `#{adb_path} shell input keyevent 11` 
+                `#{$adb_path} shell input keyevent 11` 
               when "5"
-                `#{adb_path} shell input keyevent 12` 
+                `#{$adb_path} shell input keyevent 12` 
               when "6"
-                `#{adb_path} shell input keyevent 13` 
+                `#{$adb_path} shell input keyevent 13` 
               when "7"
-                `#{adb_path} shell input keyevent 14` 
+                `#{$adb_path} shell input keyevent 14` 
               when "8"
-                `#{adb_path} shell input keyevent 15` 
+                `#{$adb_path} shell input keyevent 15` 
               when "9"
-                `#{adb_path} shell input keyevent 16` 
+                `#{$adb_path} shell input keyevent 16` 
               when "*"
-                `#{adb_path} shell input keyevent 17` 
+                `#{$adb_path} shell input keyevent 17` 
               when "#"
-                `#{adb_path} shell input keyevent 18` 
+                `#{$adb_path} shell input keyevent 18` 
               when "a"
-                `#{adb_path} shell input keyevent 29` 
+                `#{$adb_path} shell input keyevent 29` 
               when "b"
-                `#{adb_path} shell input keyevent 30` 
+                `#{$adb_path} shell input keyevent 30` 
               when "c"
-                `#{adb_path} shell input keyevent 31` 
+                `#{$adb_path} shell input keyevent 31` 
               when "d"
-                `#{adb_path} shell input keyevent 32` 
+                `#{$adb_path} shell input keyevent 32` 
               when "e"
-                `#{adb_path} shell input keyevent 33` 
+                `#{$adb_path} shell input keyevent 33` 
               when "f"
-                `#{adb_path} shell input keyevent 34` 
+                `#{$adb_path} shell input keyevent 34` 
               when "g"
-                `#{adb_path} shell input keyevent 35` 
+                `#{$adb_path} shell input keyevent 35` 
               when "h"
-                `#{adb_path} shell input keyevent 36` 
+                `#{$adb_path} shell input keyevent 36` 
               when "i"
-                `#{adb_path} shell input keyevent 37` 
+                `#{$adb_path} shell input keyevent 37` 
               when "j"
-                `#{adb_path} shell input keyevent 38` 
+                `#{$adb_path} shell input keyevent 38` 
               when "k"
-                `#{adb_path} shell input keyevent 39` 
+                `#{$adb_path} shell input keyevent 39` 
               when "l"
-                `#{adb_path} shell input keyevent 40` 
+                `#{$adb_path} shell input keyevent 40` 
               when "m"
-                `#{adb_path} shell input keyevent 41` 
+                `#{$adb_path} shell input keyevent 41` 
               when "n"
-                `#{adb_path} shell input keyevent 42` 
+                `#{$adb_path} shell input keyevent 42` 
               when "o"
-                `#{adb_path} shell input keyevent 43` 
+                `#{$adb_path} shell input keyevent 43` 
               when "p"
-                `#{adb_path} shell input keyevent 44` 
+                `#{$adb_path} shell input keyevent 44` 
               when "q"
-                `#{adb_path} shell input keyevent 45` 
+                `#{$adb_path} shell input keyevent 45` 
               when "r"
-                `#{adb_path} shell input keyevent 46` 
+                `#{$adb_path} shell input keyevent 46` 
               when "s"
-                `#{adb_path} shell input keyevent 47` 
+                `#{$adb_path} shell input keyevent 47` 
               when "t"
-                `#{adb_path} shell input keyevent 48` 
+                `#{$adb_path} shell input keyevent 48` 
               when "u"
-                `#{adb_path} shell input keyevent 49` 
+                `#{$adb_path} shell input keyevent 49` 
               when "v"
-                `#{adb_path} shell input keyevent 50` 
+                `#{$adb_path} shell input keyevent 50` 
               when "w"
-                `#{adb_path} shell input keyevent 51` 
+                `#{$adb_path} shell input keyevent 51` 
               when "x"
-                `#{adb_path} shell input keyevent 52` 
+                `#{$adb_path} shell input keyevent 52` 
               when "y"
-                `#{adb_path} shell input keyevent 53` 
+                `#{$adb_path} shell input keyevent 53` 
               when "z"
-                `#{adb_path} shell input keyevent 54` 
+                `#{$adb_path} shell input keyevent 54` 
               when ","
-                `#{adb_path} shell input keyevent 55` 
+                `#{$adb_path} shell input keyevent 55` 
               when "."
-                `#{adb_path} shell input keyevent 56` 
+                `#{$adb_path} shell input keyevent 56` 
               when " "
-                `#{adb_path} shell input keyevent 62` 
+                `#{$adb_path} shell input keyevent 62` 
               when '`'
-                `#{adb_path} shell input keyevent 68` 
+                `#{$adb_path} shell input keyevent 68` 
               when "-"
-                `#{adb_path} shell input keyevent 69` 
+                `#{$adb_path} shell input keyevent 69` 
               when "="
-                `#{adb_path} shell input keyevent 70` 
+                `#{$adb_path} shell input keyevent 70` 
               when "["
-                `#{adb_path} shell input keyevent 71` 
+                `#{$adb_path} shell input keyevent 71` 
               when "]"
-                `#{adb_path} shell input keyevent 72` 
+                `#{$adb_path} shell input keyevent 72` 
               when "\\"
-                `#{adb_path} shell input keyevent 73` 
+                `#{$adb_path} shell input keyevent 73` 
               when ";"
-                `#{adb_path} shell input keyevent 74` 
+                `#{$adb_path} shell input keyevent 74` 
               when "'"
-                `#{adb_path} shell input keyevent 75` 
+                `#{$adb_path} shell input keyevent 75` 
               when "/"
-                `#{adb_path} shell input keyevent 76` 
+                `#{$adb_path} shell input keyevent 76` 
               when "@"
-                `#{adb_path} shell input keyevent 77` 
+                `#{$adb_path} shell input keyevent 77` 
               when "#"
-                `#{adb_path} shell input keyevent 78` 
+                `#{$adb_path} shell input keyevent 78` 
               when "+"
-                `#{adb_path} shell input keyevent 81` 
+                `#{$adb_path} shell input keyevent 81` 
             else
               raise "ERROR: unknown char: #{char}"
               return 1
@@ -307,77 +308,77 @@ module CSI
       # )
       public
       def self.type_special_string(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub.to_sym
 
         begin
           case string
             when :unknown
-              `#{adb_path} shell input keyevent 0` 
+              `#{$adb_path} shell input keyevent 0` 
             when :menu
-              `#{adb_path} shell input keyevent 1` 
+              `#{$adb_path} shell input keyevent 1` 
             when :soft_right
-              `#{adb_path} shell input keyevent 2` 
+              `#{$adb_path} shell input keyevent 2` 
             when :home
-              `#{adb_path} shell input keyevent 3` 
+              `#{$adb_path} shell input keyevent 3` 
             when :back
-              `#{adb_path} shell input keyevent 4` 
+              `#{$adb_path} shell input keyevent 4` 
             when :call
-              `#{adb_path} shell input keyevent 5` 
+              `#{$adb_path} shell input keyevent 5` 
             when :endcall
-              `#{adb_path} shell input keyevent 6` 
+              `#{$adb_path} shell input keyevent 6` 
             when :dpad_up
-              `#{adb_path} shell input keyevent 19` 
+              `#{$adb_path} shell input keyevent 19` 
             when :dpad_down
-              `#{adb_path} shell input keyevent 20` 
+              `#{$adb_path} shell input keyevent 20` 
             when :dpad_left
-              `#{adb_path} shell input keyevent 21` 
+              `#{$adb_path} shell input keyevent 21` 
             when :dpad_right
-              `#{adb_path} shell input keyevent 22` 
+              `#{$adb_path} shell input keyevent 22` 
             when :dpad_center
-              `#{adb_path} shell input keyevent 23` 
+              `#{$adb_path} shell input keyevent 23` 
             when :volume_up
-              `#{adb_path} shell input keyevent 24` 
+              `#{$adb_path} shell input keyevent 24` 
             when :volume_down
-              `#{adb_path} shell input keyevent 25` 
+              `#{$adb_path} shell input keyevent 25` 
             when :power
-              `#{adb_path} shell input keyevent 26` 
+              `#{$adb_path} shell input keyevent 26` 
             when :camera
-              `#{adb_path} shell input keyevent 27` 
+              `#{$adb_path} shell input keyevent 27` 
             when :clear
-              `#{adb_path} shell input keyevent 28` 
+              `#{$adb_path} shell input keyevent 28` 
             when :alt_left
-              `#{adb_path} shell input keyevent 57` 
+              `#{$adb_path} shell input keyevent 57` 
             when :alt_right
-              `#{adb_path} shell input keyevent 58` 
+              `#{$adb_path} shell input keyevent 58` 
             when :shift_left
-              `#{adb_path} shell input keyevent 59` 
+              `#{$adb_path} shell input keyevent 59` 
             when :shift_right
-              `#{adb_path} shell input keyevent 60` 
+              `#{$adb_path} shell input keyevent 60` 
             when :tab
-              `#{adb_path} shell input keyevent 61` 
+              `#{$adb_path} shell input keyevent 61` 
             when :sym
-              `#{adb_path} shell input keyevent 63` 
+              `#{$adb_path} shell input keyevent 63` 
             when :explorer
-              `#{adb_path} shell input keyevent 64` 
+              `#{$adb_path} shell input keyevent 64` 
             when :envelope
-              `#{adb_path} shell input keyevent 65` 
+              `#{$adb_path} shell input keyevent 65` 
             when :enter
-              `#{adb_path} shell input keyevent 66` 
+              `#{$adb_path} shell input keyevent 66` 
             when :del
-              `#{adb_path} shell input keyevent 67` 
+              `#{$adb_path} shell input keyevent 67` 
             when :headset_hook
-              `#{adb_path} shell input keyevent 79` 
+              `#{$adb_path} shell input keyevent 79` 
             when :focus
-              `#{adb_path} shell input keyevent 80` 
+              `#{$adb_path} shell input keyevent 80` 
             when :menu2
-              `#{adb_path} shell input keyevent 82` 
+              `#{$adb_path} shell input keyevent 82` 
             when :notification
-              `#{adb_path} shell input keyevent 83` 
+              `#{$adb_path} shell input keyevent 83` 
             when :search
-              `#{adb_path} shell input keyevent 84` 
+              `#{$adb_path} shell input keyevent 84` 
             when :tag_last_keycode
-              `#{adb_path} shell input keyevent 85` 
+              `#{$adb_path} shell input keyevent 85` 
           else
             raise "ERROR: unknown special string: #{string}"
             return 1
@@ -396,7 +397,7 @@ module CSI
       # )
       public
       def self.close_app(opts={})
-        adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         app = opts[:app].to_s.scrub
 
         if opts[:as_root]
@@ -406,8 +407,8 @@ module CSI
         end
 
         begin
-          `#{adb_path} root` if as_root
-          app_response = `#{adb_path} shell am force-stop #{app}` 
+          `#{$adb_path} root` if as_root
+          app_response = `#{$adb_path} shell am force-stop #{app}` 
 
           return app_response
         rescue => e
