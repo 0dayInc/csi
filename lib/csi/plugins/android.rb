@@ -306,7 +306,7 @@ module CSI
       #   :string => 'required - special string to type (:unknown|:menu|:soft_right|:home|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headset_hook|:focus|:menu2|:notification|:search|:tag_last_keycode)'
       # )
       public
-      def self.type_string(opts={})
+      def self.type_specail_string(opts={})
         adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub
 
