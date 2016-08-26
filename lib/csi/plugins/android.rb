@@ -851,7 +851,7 @@ module CSI
 
         begin
           `#{$adb_path} root` if as_root
-          yield `#{$adb_path} shell getevent -l` 
+          `#{$adb_path} shell getevent -l` 
         rescue => e
           return e.message
         end
