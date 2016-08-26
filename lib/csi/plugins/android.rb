@@ -210,6 +210,7 @@ module CSI
 
         begin
           (from..to).each do |n| 
+            @@logger.info("invoking keyevent: #{n}")
 	    puts `#{$adb_path} shell input keyevent #{n}` 
             gets
           end
@@ -961,6 +962,12 @@ module CSI
             :adb_path => 'required - path to adb binary (unless already set by another method)',
             :app => 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
             :as_root => 'optional - boolean (defaults to false)'
+          )
+
+          #{self}.find_hidden_codes(
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
+            :from => 'required - start at keycode #'
+            :to => 'required - end at keycode #'
           )
 
           #{self}.input(
