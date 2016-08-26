@@ -62,13 +62,13 @@ module CSI
       # CSI::Plugins::AndroidADB.adb_push(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :file => 'required - source file to push',
-      #   :dest => 'required - destination path to push file',
+      #   :dest => 'required - destination path to save pushed file',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
       public
       def self.adb_push(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        file = opts[:file].to_s.scrub if File.exists?(opts[:file].to_s.scrub)
+        file = opts[:file].to_s.scrub
         dest = opts[:dest].to_s.scrub
 
         if opts[:as_root]
@@ -91,14 +91,14 @@ module CSI
       # CSI::Plugins::AndroidADB.adb_pull(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :file => 'required - source file to pull',
-      #   :dest => 'required - destination path to pull file',
+      #   :dest => 'required - destination path to save pulled file',
       #   :as_root => 'optional - boolean (defaults to false)',
       # )
       public
       def self.adb_pull(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         file = opts[:file].to_s.scrub 
-        dest = opts[:dest].to_s.scrub if Dir.exists?(opts[:dest].to_s.scrub)
+        dest = opts[:dest].to_s.scrub
 
         if opts[:as_root]
           as_root = true
