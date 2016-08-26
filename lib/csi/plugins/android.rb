@@ -197,6 +197,29 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.find_hidden_codes(
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
+      #   :from => 'required - start at keycode #'
+      #   :to => 'required - end at keycode #'
+      # )
+      public
+      def self.find_hidden_codes(opts={})
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        from = opts[:from].to_i
+        to = opts[:to].to_i
+
+        begin
+          (from..to).each do |n| 
+	    puts `#{$adb_path} shell input keyevent #{n}` 
+            gets
+          end
+          return
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.input(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :string => 'required - string to type'
