@@ -197,12 +197,12 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.type_string(
+      # CSI::Plugins::AndroidADB.input(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
       #   :string => 'required - string to type'
       # )
       public
-      def self.type_string(opts={})
+      def self.input(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub
 
@@ -263,8 +263,6 @@ module CSI
               when "n"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_N` 
               when "o"
-                char_resp << `#{$adb_path} shell input keyevent KEYCODE_O` 
-              when "p"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_P` 
               when "q"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_Q` 
@@ -330,18 +328,18 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.type_special_key(
+      # CSI::Plugins::AndroidADB.input_special(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
-      #   :string => 'required - special string to type (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock|:ro|:prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
+      #   :keycode => 'required - special keycode to type (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock|:ro|:prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
       # )
       public
-      def self.type_special_key(opts={})
+      def self.input_special(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        string = opts[:string].to_s.scrub.to_sym
+        keycode = opts[:keycode].to_s.scrub.to_sym
 
         begin
           str_resp = ""
-          case string
+          case keycode
             when :zoom_in
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_ZOOM_IN` 
             when :zoom_out
@@ -799,7 +797,7 @@ module CSI
             when :move_end
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_MOVE_END` 
           else
-            raise "ERROR: unknown special string: #{string}"
+            raise "ERROR: unknown special keycode: #{keycode}"
             return 1
           end
           return str_resp.to_s.scrub
@@ -942,14 +940,14 @@ module CSI
             :as_root => 'optional - boolean (defaults to false)'
           )
 
-          #{self}.type_string(
+          #{self}.input(
             :adb_path => 'required - path to adb binary (unless already set by another method)',
             :string => 'required - string to type'
           )
 
-          #{self}.type_special_key(
+          #{self}.input_special(
             :adb_path => 'required - path to adb binary (unless already set by another method)',
-            :string => 'required - special string to type (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock|:ro|:prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
+            :keycode => 'required - special keycode to type (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock|:ro|:prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:forward_del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:del|:headsethook|:focus|:menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
           )
 
           app_response = #{self}.close_app(
