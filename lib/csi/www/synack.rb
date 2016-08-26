@@ -157,6 +157,8 @@ module CSI
             :vpassfile => 'required - ansible-vault pass file'
           )
 
+          #{self}.logout
+
           #{self}.close
 
           #{self}.authors
