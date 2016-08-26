@@ -51,8 +51,9 @@ module CSI
         begin
           `#{$adb_path} root` if as_root
           adb_response = `#{$adb_path} shell #{command}` 
+          `#{$adb_path} shell #{yield}` 
 
-          return adb_response
+          #return adb_response
         rescue => e
           return e.message
         end
