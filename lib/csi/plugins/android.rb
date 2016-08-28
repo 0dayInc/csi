@@ -268,6 +268,84 @@ module CSI
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_STAR` 
               when "#"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_POUND` 
+              when '"'
+                char_resp << `#{$adb_path} shell input text '\"'` 
+              when "?"
+                char_resp << `#{$adb_path} shell input text "\?"` 
+              when "<"
+                char_resp << `#{$adb_path} shell input text "\<"` 
+              when ">"
+                char_resp << `#{$adb_path} shell input text "\>"` 
+              when "%"
+                char_resp << `#{$adb_path} shell input text '%'` 
+              when ":"
+                char_resp << `#{$adb_path} shell input text ':'` 
+              when "$"
+                char_resp << `#{$adb_path} shell input text '$'` 
+              when "!"
+                char_resp << `#{$adb_path} shell input text "\!"` 
+              when "~"
+                char_resp << `#{$adb_path} shell input text '~'` 
+              when "|"
+                char_resp << `#{$adb_path} shell input text "\|"` 
+              when "&"
+                char_resp << `#{$adb_path} shell input text "\&"` 
+              when "^"
+                char_resp << `#{$adb_path} shell input text '^'` 
+              when "_"
+                char_resp << `#{$adb_path} shell input text '_'` 
+              when "A"
+                char_resp << `#{$adb_path} shell input text 'A'` 
+              when "B"
+                char_resp << `#{$adb_path} shell input text 'B'` 
+              when "C"
+                char_resp << `#{$adb_path} shell input text 'C'` 
+              when "D"
+                char_resp << `#{$adb_path} shell input text 'D'` 
+              when "E"
+                char_resp << `#{$adb_path} shell input text 'E'` 
+              when "F"
+                char_resp << `#{$adb_path} shell input text 'F'` 
+              when "G"
+                char_resp << `#{$adb_path} shell input text 'G'` 
+              when "H"
+                char_resp << `#{$adb_path} shell input text 'H'` 
+              when "I"
+                char_resp << `#{$adb_path} shell input text 'I'` 
+              when "J"
+                char_resp << `#{$adb_path} shell input text 'J'` 
+              when "K"
+                char_resp << `#{$adb_path} shell input text 'K'` 
+              when "L"
+                char_resp << `#{$adb_path} shell input text 'L'` 
+              when "M"
+                char_resp << `#{$adb_path} shell input text 'M'` 
+              when "N"
+                char_resp << `#{$adb_path} shell input text 'N'` 
+              when "O"
+                char_resp << `#{$adb_path} shell input text 'O'` 
+              when "P"
+                char_resp << `#{$adb_path} shell input text 'P'` 
+              when "Q"
+                char_resp << `#{$adb_path} shell input text 'Q'` 
+              when "R"
+                char_resp << `#{$adb_path} shell input text 'R'` 
+              when "S"
+                char_resp << `#{$adb_path} shell input text 'S'` 
+              when "T"
+                char_resp << `#{$adb_path} shell input text 'T'` 
+              when "U"
+                char_resp << `#{$adb_path} shell input text 'U'` 
+              when "V"
+                char_resp << `#{$adb_path} shell input text 'V'` 
+              when "W"
+                char_resp << `#{$adb_path} shell input text 'W'` 
+              when "X"
+                char_resp << `#{$adb_path} shell input text 'X'` 
+              when "Y"
+                char_resp << `#{$adb_path} shell input text 'Y'` 
+              when "Z"
+                char_resp << `#{$adb_path} shell input text 'Z'` 
               when "a"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_A` 
               when "b"
