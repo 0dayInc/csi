@@ -279,21 +279,20 @@ module CSI
         direction = opts[:direction].to_s.scrub.to_sym
 
         begin
-          char_resp = ""
-            case direction
-              when :up
-                char_resp << `#{$adb_path} shell input touchscreen swipe 300 900 300 0 100` 
-              when :down
-                char_resp << `#{$adb_path} shell input touchscreen swipe 600 600 600 1500 100` 
-              when :left
-                char_resp << `#{$adb_path} shell input touchscreen swipe 1000 1000 90 1000 100` 
-              when :right
-                char_resp << `#{$adb_path} shell input touchscreen swipe 90 1000 1000 1000 100` 
-            else
-              raise "ERROR: unknown direction to swipe: #{direction}"
-            end
+          case direction
+            when :up
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 300 900 300 0 100` 
+            when :down
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 600 600 600 1500 100` 
+            when :left
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 1000 1000 90 1000 100` 
+            when :right
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 90 1000 1000 1000 100` 
+          else
+            raise "ERROR: unknown direction to swipe: #{direction}"
+          end
 
-          return char_resp.to_s.scrub
+          return swipe_resp.to_s.scrub
         rescue => e
           return e.message
         end
@@ -955,6 +954,8 @@ module CSI
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_FOCUS` 
             when :menu
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_MENU` 
+            when :top_menu
+              str_resp = `#{adb_path} shell input touchscreen swipe 0 0 0 1500 100`
             when :notification
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_NOTIFICATION` 
             when :search
