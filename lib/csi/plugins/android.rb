@@ -119,13 +119,18 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AndroidADB.take_screenshot(
       #   :adb_path => 'required - path to adb binary (unless already set by another method)',
-      #   :dest => 'required - destination path to save screenshot file',
+      #   :dest => 'optional - destination path to save screenshot file (defaults to /sdcard/screen.png)',
       #   :as_root => 'optional - boolean (defaults to true)'
       # )
       public
       def self.take_screenshot(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        dest = opts[:dest].to_s.scrub
+
+        if opts[:dest]
+          dest = opts[:dest].to_s.scrub
+        else
+          dest = '/sdcard/screen.png'
+        end
 
         if opts[:as_root]
           as_root = false
@@ -136,6 +141,38 @@ module CSI
         begin
           `#{$adb_path} root` if as_root
           adb_pull = `#{$adb_path} shell screencap -p #{dest}` 
+
+          return adb_pull
+        rescue => e
+          return e.message
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::AndroidADB.screen_record(
+      #   :adb_path => 'required - path to adb binary (unless already set by another method)',
+      #   :dest => 'optional - destination path to save screen record file (defaults to /sdcard/screen.mp4)',
+      #   :as_root => 'optional - boolean (defaults to true)'
+      # )
+      public
+      def self.screen_record(opts={})
+        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+
+        if opts[:dest]
+          dest = opts[:dest].to_s.scrub
+        else
+          dest = '/sdcard/screen.mp4'
+        end
+
+        if opts[:as_root]
+          as_root = false
+        else
+          as_root = true
+        end
+
+        begin
+          `#{$adb_path} root` if as_root
+          adb_pull = `#{$adb_path} shell screenrecord #{dest}` 
 
           return adb_pull
         rescue => e
@@ -1043,7 +1080,13 @@ module CSI
 
           #{self}.take_screenshot(
             :adb_path => 'required - path to adb binary (unless already set by another method)',
-            :dest => 'required - destination path to save screenshot file',
+            :dest => 'optional - destination path to save screenshot file (defaults to /sdcard/screen.png)',
+            :as_root => 'optional - boolean (defaults to true)'
+          )
+
+          #{self}.screen_record(
+            :adb_path => 'required - path to adb binary (unless already set by another method)',
+            :dest => 'optional - destination path to save screen record file (defaults to /sdcard/screen.mp4)',
             :as_root => 'optional - boolean (defaults to true)'
           )
 
