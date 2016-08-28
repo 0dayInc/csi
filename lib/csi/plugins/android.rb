@@ -268,6 +268,10 @@ module CSI
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_STAR` 
               when "#"
                 char_resp << `#{$adb_path} shell input keyevent KEYCODE_POUND` 
+              when '}'
+                char_resp << `#{$adb_path} shell input text '\\}'` 
+              when '{'
+                char_resp << `#{$adb_path} shell input text '\\{'` 
               when '"'
                 char_resp << `#{$adb_path} shell input text '\\"'` 
               when "?"
