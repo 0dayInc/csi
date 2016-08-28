@@ -171,6 +171,7 @@ module CSI
         end
 
         begin
+          @@logger.info("Press CTRL+C to complete...")
           `#{$adb_path} root` if as_root
           adb_pull = `#{$adb_path} shell screenrecord #{dest}` 
 
