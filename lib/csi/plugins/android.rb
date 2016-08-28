@@ -271,11 +271,11 @@ module CSI
               when '"'
                 char_resp << `#{$adb_path} shell input text '\"'` 
               when "?"
-                char_resp << `#{$adb_path} shell input text "\?"` 
+                char_resp << `#{$adb_path} shell input text '\?'` 
               when "<"
-                char_resp << `#{$adb_path} shell input text "\<"` 
+                char_resp << `#{$adb_path} shell input text '\<'` 
               when ">"
-                char_resp << `#{$adb_path} shell input text "\>"` 
+                char_resp << `#{$adb_path} shell input text '\>'` 
               when "%"
                 char_resp << `#{$adb_path} shell input text '%'` 
               when ":"
@@ -283,13 +283,13 @@ module CSI
               when "$"
                 char_resp << `#{$adb_path} shell input text '$'` 
               when "!"
-                char_resp << `#{$adb_path} shell input text "\!"` 
+                char_resp << `#{$adb_path} shell input text '\!'` 
               when "~"
                 char_resp << `#{$adb_path} shell input text '~'` 
               when "|"
-                char_resp << `#{$adb_path} shell input text "\|"` 
+                char_resp << `#{$adb_path} shell input text '\|'` 
               when "&"
-                char_resp << `#{$adb_path} shell input text "\&"` 
+                char_resp << `#{$adb_path} shell input text '\&'` 
               when "^"
                 char_resp << `#{$adb_path} shell input text '^'` 
               when "_"
