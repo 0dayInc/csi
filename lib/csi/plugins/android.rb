@@ -282,13 +282,13 @@ module CSI
           char_resp = ""
             case direction
               when :up
-                char_resp << `#{$adb_path} shell input touchscreen swipe 300 700 300 0 300` 
+                char_resp << `#{$adb_path} shell input touchscreen swipe 300 900 300 0 100` 
               when :down
-                char_resp << `#{$adb_path} shell input touchscreen swipe 300 2000 300 2000 300` 
+                char_resp << `#{$adb_path} shell input touchscreen swipe 600 600 600 1500 100` 
               when :left
-                char_resp << `#{$adb_path} shell input touchscreen swipe 1000 1000 90 1000 300` 
+                char_resp << `#{$adb_path} shell input touchscreen swipe 1000 1000 90 1000 100` 
               when :right
-                char_resp << `#{$adb_path} shell input touchscreen swipe 90 1000 1000 1000 300` 
+                char_resp << `#{$adb_path} shell input touchscreen swipe 90 1000 1000 1000 100` 
             else
               raise "ERROR: unknown direction to swipe: #{direction}"
             end
