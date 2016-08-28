@@ -281,9 +281,9 @@ module CSI
         begin
           case direction
             when :up
-              swipe_resp = `#{$adb_path} shell input touchscreen swipe 300 900 300 0 100` 
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 300 1500 300 600 100` 
             when :down
-              swipe_resp = `#{$adb_path} shell input touchscreen swipe 600 600 600 1500 100` 
+              swipe_resp = `#{$adb_path} shell input touchscreen swipe 300 600 300 1500 100` 
             when :left
               swipe_resp = `#{$adb_path} shell input touchscreen swipe 1000 1000 90 1000 100` 
             when :right
