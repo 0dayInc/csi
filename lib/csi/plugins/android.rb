@@ -521,11 +521,11 @@ module CSI
       public
       def self.input_special(opts={})
         $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
-        keycode = opts[:keycode].to_s.scrub.to_sym
+        event = opts[:event].to_s.scrub.to_sym
 
         begin
           str_resp = ""
-          case keycode
+          case event
             when :zoom_in
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_ZOOM_IN` 
             when :zoom_out
@@ -985,7 +985,7 @@ module CSI
             when :move_end
               str_resp = `#{$adb_path} shell input keyevent KEYCODE_MOVE_END` 
           else
-            raise "ERROR: unknown special event: #{keycode}"
+            raise "ERROR: unknown special event: #{event}"
             return 1
           end
           return str_resp.to_s.scrub
