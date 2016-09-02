@@ -30,8 +30,7 @@ gem 'os', '0.9.6'                  # Detect underlying operating system
 gem 'owasp_zap', '0.0.95'          # A ruby client to access the HTTP API w/in Zap Proxy
 gem 'pdf-reader', '1.4.0'          # Parsing PDF Reports
 gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Access Object ***6/28/16
-#gem 'pry', '0.10.4'                # More feature-filled irb alternative
-gem 'pry', :git => 'https://github.com/pry/pry.git' # More feature-filled irb alternative
+gem 'pry', '0.10.4'                # More feature-filled irb alternative
 gem 'pony', '1.11'                 # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***12/15/15
 gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation 
 gem 'rainbow', '2.1.0'             # Colorize csi_cli ;)
