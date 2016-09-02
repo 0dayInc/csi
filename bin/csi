@@ -20,17 +20,15 @@ begin
 
   line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-  #pry_obj.config.prompt = [ 
-  #  ->(object, nest_level, pry) do 
-  #    #"#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
-  #    "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level} #{prompt_arrow} \e[0m"
-  #  end, 
-  #  ->(object, nest_level, pry) do
-  #     #"#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
-  #     "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level} * \e[0m"
-  #  end
-  #]
-  pry_obj.start(:prompt => [ proc { "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line} #{prompt_arrow} \e[0m" }, proc { "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line+=1} * \e[0m" } ])
+  pry_obj.config.prompt = [ 
+    ->(object, nest_level, pry) do 
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
+    end, 
+    ->(object, nest_level, pry) do
+       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
+    end
+  ]
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
