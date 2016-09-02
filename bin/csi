@@ -22,10 +22,12 @@ begin
   #pry_obj.config.prompt = [ 
   prompt = [ 
     proc do |object, nest_level, pry|
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{pry.input_array.size} #{prompt_arrow} \e[0m"
-    end, 
+      line_no = __LINE__
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m"
+    end,
     proc do |object, nest_level, pry|
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{pry.input_array.size} * \e[0m"
+      line_no = __LINE__
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} * \e[0m"
     end
   ]
   pry_obj.start(self, :prompt => prompt)
