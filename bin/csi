@@ -23,6 +23,9 @@ begin
     ->(object, nest_level, pry) do 
       line = ->(pry) { pry.input_array.size }
       line_no = line.(pry)
+      puts object
+      puts nest_level
+      puts pry
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line_no} #{prompt_arrow} \e[0m"
     end, 
     ->(object, nest_level, pry) do
