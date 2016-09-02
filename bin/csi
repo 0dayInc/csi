@@ -19,7 +19,8 @@ begin
   end
 
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-  pry_obj.config.prompt = [ 
+  #pry_obj.config.prompt = [ 
+  prompt = [ 
     proc do |object, nest_level, pry|
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{pry.input_array.size} #{prompt_arrow} \e[0m"
     end, 
@@ -27,7 +28,7 @@ begin
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{pry.input_array.size} * \e[0m"
     end
   ]
-  pry_obj.start
+  pry_obj.start(self, :prompt => prompt)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
