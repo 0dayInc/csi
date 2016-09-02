@@ -6,7 +6,7 @@ require 'rainbow'
 begin
   pry_obj = Pry
 
-  csi_command_set = pry_obj::CommandSet.new do
+  pry_obj::Commands.instance_eval do
     command("toggle-pager", "") do
       if _pry_.config.pager
         _pry_.config.pager = false
@@ -25,7 +25,7 @@ begin
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  pry_obj.start(binding, :commands => csi_command_set)
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
