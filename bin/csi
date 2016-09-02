@@ -18,16 +18,18 @@ begin
     end
   end
 
+  line = proc {|pry| pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-  pry_obj.config.prompt = [ 
+  #pry_obj.config.prompt = [ 
+  prompt = [ 
     proc do |object, nest_level, pry|
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{__LINE__} #{prompt_arrow} \e[0m"
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{__LINE__.to_s} #{prompt_arrow} \e[0m"
     end, 
     proc do |object, nest_level, pry|
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{__LINE__} * \e[0m"
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{__LINE__.to_s} * \e[0m"
     end
   ]
-  pry_obj.start
+  pry_obj.start(:prompt => prompt)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
