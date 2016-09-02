@@ -18,18 +18,6 @@ begin
     end
   end
 
-  pry_obj::Commands.create_command "replay-session" do
-    description "Toggle less on returned objects surpassing the terminal."
-
-    def process
-      if _pry_.config.pager
-        _pry_.config.pager = false
-      else
-        _pry_.config.pager = true
-      end
-    end
-  end
-
   # Custom Main & Wait (Multi-Line) Prompts
   prompt = [ 
     proc do |target_self, nest_level, pry|
