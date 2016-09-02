@@ -1,5 +1,4 @@
 require 'csi/version'
-require 'bundler/setup' # This is for gems in Gemfile Referencing a Github URI
 
 # Thank you for choosing the Continuous Security Integrtion Framework!
 # Your Source for Source Code Analysis, Vulnerability Scanning, Exploitation, 
