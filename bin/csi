@@ -30,16 +30,7 @@ begin
   #     "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level} * \e[0m"
   #  end
   #]
-  pry_obj.start(
-    :prompt => [
-      proc { 
-       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line} #{prompt_arrow} \e[0m"
-      }, 
-      proc { 
-        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line+=1} * \e[0m"
-      }
-    ]
-  )
+  pry_obj.start(:prompt => [ proc { "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line} #{prompt_arrow} \e[0m" }, proc { "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line+=1} * \e[0m" } ])
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
