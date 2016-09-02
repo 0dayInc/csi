@@ -22,10 +22,13 @@ begin
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
   pry_obj.config.prompt = [ 
     ->(object, nest_level, pry) do 
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
+      line_no = line.(pry)
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line_no} #{prompt_arrow} \e[0m"
     end, 
     ->(object, nest_level, pry) do
-       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)+=1} * \e[0m"
+      line_no = line.(pry)
+      line_no+=1
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line_no} * \e[0m"
     end
   ]
   pry_obj.start
