@@ -27,7 +27,8 @@ begin
     end,
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} * \e[0m"
+      splat = Rainbow("*").yellow
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m"
     end
   ]
   pry_obj.start(self, :prompt => prompt)
