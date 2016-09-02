@@ -17,7 +17,7 @@ begin
   #end
 
   pry_obj::Commands.instance_eval do
-    command("toggle-pager", "") do
+    command("toggle-pager", "Toggle less on returned objects surpassing the terminal") do
       if _pry_.config.pager
         _pry_.config.pager = false
       else
@@ -28,14 +28,14 @@ begin
 
   line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-  __pry__.config.prompt = [ 
+  pry_obj.config.prompt = [ 
     ->(object, level, pry) do 
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
     end, ->(object, level, pry) do
        "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} * \e[0m"
     end
   ]
-  pry_obj.start(binding)
+  pry_obj.start
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
