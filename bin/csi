@@ -19,7 +19,6 @@ begin
   end
 
   line = proc {|pry| pry.input_array.size }
-  #line = ->(pry) { pry.input_array.size }
   prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
   pry_obj.config.prompt = [ 
     proc do |object, nest_level, pry|
@@ -28,7 +27,7 @@ begin
     end, 
     proc do |object, nest_level, pry|
       line_no = line.(pry)
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line_no} * \e[0m"
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]: * \e[0m"
     end
   ]
   pry_obj.start
