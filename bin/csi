@@ -23,12 +23,12 @@ begin
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
       prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m" + __LINE__.to_s
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m"
     end,
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
       splat = Rainbow("*").yellow
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m" + __LINE__.to_s
+      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m"
     end
   ]
   pry_obj.start(self, :prompt => prompt)
