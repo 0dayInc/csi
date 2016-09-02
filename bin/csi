@@ -6,8 +6,8 @@ require 'rainbow'
 begin
   pry_obj = Pry
 
-  csi_command_set = pry_obj::CommandSet.new do
-    command("toggle-pager", "") do
+  csi_command_set = Pry::CommandSet.new do
+    command("toggle-pager") do
       if _pry_.config.pager
         _pry_.config.pager = false
       else
@@ -17,7 +17,7 @@ begin
   end
 
   line = ->(pry) { pry.input_array.size }
-  prompt_arrow = Rainbow("\u00bb").green
+  prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
   pry_obj.config.prompt = [ 
     ->(object, level, pry) do 
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{line.(pry)} #{prompt_arrow} \e[0m"
