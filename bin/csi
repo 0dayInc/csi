@@ -6,8 +6,18 @@ require 'rainbow'
 begin
   pry_obj = Pry
 
-  csi_command_set = Pry::CommandSet.new do
-    command("toggle-pager") do
+  #csi_command_set = Pry::CommandSet.new do
+  #  command("toggle-pager") do
+  #    if _pry_.config.pager
+  #      _pry_.config.pager = false
+  #    else
+  #      _pry_.config.pager = true
+  #    end
+  #  end
+  #end
+
+  pry_obj::Commands.instance_eval do
+    command("toggle-pager", "") do
       if _pry_.config.pager
         _pry_.config.pager = false
       else
