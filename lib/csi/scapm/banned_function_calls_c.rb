@@ -11,7 +11,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::SCAPM::CmdExecutionJava.scan(
+      # CSI::SCAPM::BannedFunctionCallsC.scan(
       #   :dir_path => 'optional path to dir defaults to .'
       #   :git_repo_root_uri => 'optional http uri of git repo scanned'
       # )
@@ -127,7 +127,7 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          cmd_execution_java_arr = #{self}.scan(
+          banned_function_calls_c_arr = #{self}.scan(
             :dir_path => 'optional path to dir defaults to .',
             :git_repo_root_uri => 'optional http uri of git repo scanned'
           )
