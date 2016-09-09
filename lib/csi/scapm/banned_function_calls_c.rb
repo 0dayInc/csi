@@ -28,8 +28,56 @@ module CSI
             filename_arr = []
             test_case_filter = %Q{
               grep -Fn \
+              -e 'strcpy' \
+              -e 'strcpyA' \
+              -e 'strcpyW' \
+              -e 'wcscpy' \
+              -e '_tcscpy' \
+              -e '_mbscpy' \
+              -e 'StrCpy' \
+              -e 'StrCpyA' \
+              -e 'StrCpyW' \
+              -e 'lstrcpy' \
+              -e 'lstrcpyA' \
+              -e 'lstrcpyW' \
+              -e '_tccpy' \
+              -e '_mbccpy' \
+              -e '_ftcscpy' \
+              -e 'strncpy' \
+              -e 'wcsncpy' \
+              -e '_tcsncpy' \
+              -e '_mbsncpy' \
+              -e '_mbsnbcpy' \
+              -e 'StrCpyN' \
+              -e 'StrCpyNA' \
+              -e 'StrCpyNW' \
+              -e 'StrNCpy' \
+              -e 'strcpynA' \
+              -e 'StrNCpyA' \
+              -e 'StrNCpyW' \
+              -e 'lstrcpyn' \
+              -e 'lstrcpynA' \
+              -e 'lstrcpynW' \
+              -e 'strcat' \
+              -e 'strcatA' \
+              -e 'strcatW' \
+              -e 'wcscat' \
+              -e '_tcscat' \
+              -e '_mbscat' \
+              -e 'StrCat' \
+              -e 'StrCatA' \
+              -e 'StrCatW' \
+              -e 'lstrcat' \
+              -e 'lstrcatA' \
+              -e 'lstrcatW' \
+              -e 'StrCatBuff' \
+              -e 'StrCatBuffA' \
+              -e 'StrCatBuffW' \
+              -e 'StrCatChainW' \
+              -e '_tccat' \
+              -e '_mbccat' \
+              -e '_ftcscat' \
               -e 'strncat' \
-              -e 'wcsncat' \
               -e 'wcsncat' \
               -e '_tcsncat' \
               -e '_mbsncat' \
@@ -44,7 +92,71 @@ module CSI
               -e 'lstrcatnA' \
               -e 'lstrcatnW' \
               -e 'lstrcatn' \
-              -e '_fstrncat' #{entry}
+              -e 'sprintfW' \
+              -e 'sprintfA' \
+              -e 'wsprintf' \
+              -e 'wsprintfW' \
+              -e 'wsprintfA' \
+              -e 'sprintf' \
+              -e 'swprintf' \
+              -e '_stprintf' \
+              -e 'wvsprintf' \
+              -e 'wvsprintfA' \
+              -e 'wvsprintfW' \
+              -e 'vsprintf' \
+              -e '_vstprintf' \
+              -e 'vswprintf' \
+              -e 'wvsprintf' \
+              -e 'wvsprintfA' \
+              -e 'wvsprintfW' \
+              -e 'vsprintf' \
+              -e '_vstprintf' \
+              -e 'vswprintf' \
+              -e 'strncpy' \
+              -e 'wcsncpy' \
+              -e '_tcsncpy' \
+              -e '_mbsncpy' \
+              -e '_mbsnbcpy' \
+              -e 'StrCpyN' \
+              -e 'StrCpyNA' \
+              -e 'StrCpyNW' \
+              -e 'StrNCpy' \
+              -e 'strcpynA' \
+              -e 'StrNCpyA' \
+              -e 'StrNCpyW' \
+              -e 'lstrcpyn' \
+              -e 'lstrcpynA' \
+              -e 'lstrcpynW' \
+              -e '_fstrncpy' \
+              -e 'strncat' \
+              -e 'wcsncat' \
+              -e '_tcsncat' \
+              -e '_mbsncat' \
+              -e '_mbsnbcat' \
+              -e 'StrCatN' \
+              -e 'StrCatNA' \
+              -e 'StrCatNW' \
+              -e 'StrNCat' \
+              -e 'StrNCatA' \
+              -e 'StrNCatW' \
+              -e 'lstrncat' \
+              -e 'lstrcatnA' \
+              -e 'lstrcatnW' \
+              -e 'lstrcatn' \
+              -e '_fstrncat' \
+              -e 'gets' \
+              -e '_getts' \
+              -e '_gettws' \
+              -e 'IsBadWritePtr' \
+              -e 'IsBadHugeWritePtr' \
+              -e 'IsBadReadPtr' \
+              -e 'IsBadHugeReadPtr' \
+              -e 'IsBadCodePtr' \
+              -e 'IsBadStringPtr' \
+              -e 'memcpy' \
+              -e 'RtlCopyMemory' \
+              -e 'CopyMemory' \
+              -e 'wmemcpy' #{entry}
             }
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
