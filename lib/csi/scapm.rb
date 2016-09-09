@@ -7,6 +7,7 @@ module CSI
     autoload :ApacheFileSystemUtilAPI, 'csi/scapm/apache_file_system_util_api'
     autoload :AMQPConnectAsGuest, 'csi/scapm/amqp_connect_as_guest'
     autoload :AWS, 'csi/scapm/aws'
+    autoload :BannedFunctionCallsC, 'csi/scapm/banned_function_calls_c'
     autoload :Base64, 'csi/scapm/base64'
     autoload :BeefHook, 'csi/scapm/beef_hook'
     autoload :CmdExecutionJava, 'csi/scapm/cmd_execution_java'

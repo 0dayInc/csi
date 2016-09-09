@@ -29,6 +29,7 @@ test_cases = [
   :ApacheFileSystemUtilAPI,
   :AMQPConnectAsGuest,
   :AWS,
+  :BannedFunctionCallsC,
   :Base64,
   :BeefHook,
   :CmdExecutionJava,
