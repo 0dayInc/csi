@@ -23,7 +23,6 @@ module CSI
     autoload :Password, 'csi/scapm/password'
     autoload :PomVersion, 'csi/scapm/pom_version'
     autoload :Port, 'csi/scapm/port'
-    autoload :Input, 'csi/scapm/input.rb'
     autoload :Redirect, 'csi/scapm/redirect'
     autoload :SQL, 'csi/scapm/sql'
     autoload :SSL, 'csi/scapm/ssl'

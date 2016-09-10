@@ -45,7 +45,6 @@ test_cases = [
   :Password,
   :PomVersion,
   :Port,
-  :Input,
   :Redirect,
   :SQL,
   :SSL,
