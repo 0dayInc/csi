@@ -55,7 +55,7 @@ module CSI
           end
 
           if opts[:output_path]
-            @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(opts[:output_path].to_s.scrub.strip.chomp)
+            @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
           else
             @output_path = '/tmp/owasp_zap.output'
           end
