@@ -25,6 +25,7 @@ module CSI
     autoload :PomVersion, 'csi/scapm/pom_version'
     autoload :Port, 'csi/scapm/port'
     autoload :Redirect, 'csi/scapm/redirect'
+    autoload :ReDOS, 'csi/scapm/redos'
     autoload :SQL, 'csi/scapm/sql'
     autoload :SSL, 'csi/scapm/ssl'
     autoload :TaskTag, 'csi/scapm/task_tag'

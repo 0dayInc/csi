@@ -3,15 +3,15 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify any innerHTML function/method 
-    # declarations within source code in an effort to 
-    # determine if arbitrary command/code execution is possible
-    module InnerHTML
+    # SCAPM Module used to identify Regular Expression DOS
+    # within source code.  For more information, see:
+    # https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS
+    module ReDOS
 
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::SCAPM::InnerHTML.scan(
+      # CSI::SCAPM::ReDOS.scan(
       #   :dir_path => 'optional path to dir defaults to .'
       #   :git_repo_root_uri => 'optional http uri of git repo scanned'
       # )
@@ -27,7 +27,7 @@ module CSI
             line_no_and_contents_arr = []
             filename_arr = []
             entry_beautified = false
-            
+
             if File.extname(entry) == ".js" && (`wc -l #{entry}`.split.first.to_i < 20 || entry.include?(".min.js") || entry.include?("-all.js"))
               js_beautify = `js-beautify #{entry} > #{entry}.JS-BEAUTIFIED`.to_s.scrub
               entry = "#{entry}.JS-BEAUTIFIED"
@@ -35,7 +35,14 @@ module CSI
             end
 
             test_case_filter = %Q{
-              grep -n 'innerHTML' #{entry}
+              grep -in \
+              -e '(a+)+' \
+              -e '([a-zA-Z]+)*' \
+              -e '(a|aa)+' \
+              -e '(a|a?)+' \
+              -e '(([a-z])' \
+              -e '([a-zA-Z0-9])' \
+              -e '(.*a){' #{entry}
             }
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
@@ -73,7 +80,7 @@ module CSI
                   :author => author
                 })
 
-                current_count+=2 
+                current_count+=2
               end
               result_arr.push(hash_line)
               logger_results << "x" # Catching bugs is good :)
@@ -142,8 +149,8 @@ module CSI
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
           :sp_module => self,
-          :section => "MALICIOUS CODE PROTECTION",
-          :nist_800_53_uri => "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SI-3"
+          :section => "PROTECTION OF INFORMATION AT REST",
+          :nist_800_53_uri => "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28"
         }
         return nist_800_53_requirements
       end
@@ -162,7 +169,7 @@ module CSI
       public
       def self.help
         puts %Q{USAGE:
-          port_arr = #{self}.scan(
+          password_arr = #{self}.scan(
             :dir_path => 'optional path to dir defaults to .',
             :git_repo_root_uri => 'optional http uri of git repo scanned'
           )

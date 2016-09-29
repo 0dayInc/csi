@@ -47,6 +47,7 @@ test_cases = [
   :PomVersion,
   :Port,
   :Redirect,
+  :ReDOS,
   :SQL,
   :SSL,
   :TaskTag,
