@@ -18,6 +18,7 @@ module CSI
     autoload :Eval, 'csi/scapm/eval'
     autoload :Factory, 'csi/scapm/factory'
     autoload :FilePermission, 'csi/scapm/file_permission'
+    autoload :InnerHTML, 'csi/scapm/inner_html'
     autoload :Keystore, 'csi/scapm/keystore'
     autoload :Logger, 'csi/scapm/logger'
     autoload :Password, 'csi/scapm/password'

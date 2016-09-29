@@ -38,6 +38,7 @@ test_cases = [
   :CmdExecutionScala,
   :Emoticon,
   :Eval,
+  :InnerHTML,
   :FilePermission,
   :Factory,
   :Logger,
