@@ -35,14 +35,14 @@ module CSI
             end
 
             test_case_filter = %Q{
-              grep -in \
+              grep -Fin \
               -e '(a+)+' \
               -e '([a-zA-Z]+)*' \
               -e '(a|aa)+' \
               -e '(a|a?)+' \
               -e '(([a-z])' \
               -e '([a-zA-Z0-9])' \
-              -e '(.*a){' #{entry}
+              -e '(.*a)\{' #{entry}
             }
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
