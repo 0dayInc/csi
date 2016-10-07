@@ -170,6 +170,7 @@ module CSI
                     { 
                       "data": "test_case",
                       "render": function (data, type, row, meta) {
+                        // convert camel-cased scapm modules to use underscore naming instead to ensure the test case can resolve to the proper csi github url in the report
                         return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + data['sp_module'].replace(/::/g, "/").toLowerCase() + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
                       }
                     },
