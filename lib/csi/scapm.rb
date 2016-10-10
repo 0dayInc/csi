@@ -14,6 +14,7 @@ module CSI
     autoload :CmdExecutionPython, 'csi/scapm/cmd_execution_python'
     autoload :CmdExecutionRuby, 'csi/scapm/cmd_execution_ruby'
     autoload :CmdExecutionScala, 'csi/scapm/cmd_execution_scala'
+    autoload :CSRF, 'csi/scapm/csrf'
     autoload :Emoticon, 'csi/scapm/emoticon'
     autoload :Eval, 'csi/scapm/eval'
     autoload :Factory, 'csi/scapm/factory'

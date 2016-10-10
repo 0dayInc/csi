@@ -36,6 +36,7 @@ test_cases = [
   :CmdExecutionPython,
   :CmdExecutionRuby,
   :CmdExecutionScala,
+  :CSRF,
   :Emoticon,
   :Eval,
   :InnerHTML,
