@@ -95,7 +95,7 @@ module CSI
               response = rest_client.execute(
                 :method => :get,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => { :token => api_token }
+                :token => api_token
               )
 
             when :post
@@ -110,7 +110,11 @@ module CSI
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
             exit
           end
-          return response
+ponse = rest_client.execute(
+                :method => :get,
+                :url => "#{base_beef_api_uri}/#{rest_call}",
+                :headers => { :token => api_token }
+              )         return response
         rescue => e
           raise e.message
           exit
