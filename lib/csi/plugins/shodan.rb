@@ -26,7 +26,7 @@ module CSI
         rest_call = opts[:rest_call].to_s.scrub
         http_body = opts[:http_body].to_s.scrub
         base_shodan_api_uri = "https://api.shodan.io"
-        api_key = shodan_obj[:api_key]
+        api_key = opts[:api_key]
         
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
@@ -65,14 +65,14 @@ module CSI
       # Supported Method Parameters::
       # services_by_ips = CSI::Plugins::Shodan.services_by_ips(
       #   :api_key => 'required shodan api key',
-      #   :target_ips => 'required - array of ip addresses to target'
+      #   :target_ips => 'required - comma-delimited list of ip addresses to target'
       # )
       public
       def self.services_by_ips(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
 
-        #begin
+        begin
           services_by_ips = []
           target_ips.each do |target_ip|
             response = shodan_rest_call(
@@ -82,10 +82,10 @@ module CSI
             services_by_ips.push(JSON.parse(response))
           end
           return services_by_ips
-        #rescue => e
-        #  raise e.message
-        #  exit
-        #end
+        rescue => e
+          raise e.message
+          exit
+        end
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -104,7 +104,7 @@ module CSI
         puts %Q{USAGE:
           services_by_ips = #{self}.services_by_ips(
             :api_key => 'required - shodan api key',
-            :target_ips => 'required - array of ip addresses to target'
+            :target_ips => 'required - comma-delimited list of ip addresses to target'
           )
 
           #{self}.authors
