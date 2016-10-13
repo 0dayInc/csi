@@ -82,7 +82,7 @@ module CSI
           target_ips.each do |target_ip|
             response = shodan_rest_call(
               :api_key => api_key, 
-              :rest_call => "shodan/host/#{target_ip}" 
+              :rest_call => "shodan/host/#{target_ip}",
               :params => params
             )
             services_by_ips.push(JSON.parse(response))
