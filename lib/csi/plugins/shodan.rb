@@ -70,7 +70,7 @@ module CSI
       public
       def self.services_by_ips(opts = {})
         api_key = opts[:api_key].to_s.scrub
-        target_ips = opts[:target_ips]
+        target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
 
         begin
           services_by_ips = []
