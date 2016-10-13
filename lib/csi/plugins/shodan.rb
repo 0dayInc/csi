@@ -283,6 +283,29 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # my_pub_ip = CSI::Plugins::Shodan.my_pub_ip(
+      #   :api_key => 'required shodan api key'
+      # )
+      public
+      def self.my_pub_ip(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+
+        begin
+          params = { :key => api_key }
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "tools/myip",
+            :params => params
+          )
+          services_shodan_crawls = JSON.parse(response)
+          return services_shodan_crawls
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # api_info = CSI::Plugins::Shodan.api_info(
       #   :api_key => 'required shodan api key'
       # )
@@ -350,6 +373,10 @@ module CSI
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
+            :api_key => 'required shodan api key'
+          )
+
+          my_pub_ip = #{self}.my_pub_ip(
             :api_key => 'required shodan api key'
           )
 
