@@ -176,8 +176,8 @@ module CSI
               :params => params
             )
           end
-          query_result_totals = JSON.parse(response)
-          return query_result_totals
+          search_results = JSON.parse(response)
+          return search_results
         rescue => e
           raise e.message
           exit
@@ -205,8 +205,8 @@ module CSI
             :rest_call => "shodan/host/search/tokens",
             :params => params
           )
-          query_result_totals = JSON.parse(response)
-          return query_result_totals
+          tokens_result = JSON.parse(response)
+          return tokens_result
         rescue => e
           raise e.message
           exit
@@ -251,8 +251,8 @@ module CSI
             :rest_call => "shodan/protocols",
             :params => params
           )
-          ports_shodan_crawls = JSON.parse(response)
-          return ports_shodan_crawls
+          protocols = JSON.parse(response)
+          return protocols
         rescue => e
           raise e.message
           exit
@@ -274,8 +274,31 @@ module CSI
             :rest_call => "shodan/services",
             :params => params
           )
-          ports_shodan_crawls = JSON.parse(response)
-          return ports_shodan_crawls
+          services_shodan_crawls = JSON.parse(response)
+          return services_shodan_crawls
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # api_info = CSI::Plugins::Shodan.api_info(
+      #   :api_key => 'required shodan api key'
+      # )
+      public
+      def self.api_info(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+
+        begin
+          params = { :key => api_key }
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "api-info",
+            :params => params
+          )
+          services_shodan_crawls = JSON.parse(response)
+          return services_shodan_crawls
         rescue => e
           raise e.message
           exit
@@ -327,6 +350,10 @@ module CSI
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
+            :api_key => 'required shodan api key'
+          )
+
+          api_info = #{self}.api_info(
             :api_key => 'required shodan api key'
           )
 
