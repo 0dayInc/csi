@@ -147,7 +147,7 @@ module CSI
         beef_obj = opts[:beef_obj]
         browser_session = opts[:browser_session].to_s.scrub
 
-        @@logger.info("Retrieving Browser Information...")
+        @@logger.info("Retrieving Browser Info...")
         begin
           response = beef_rest_call(
             :beef_obj => beef_obj, 
@@ -169,7 +169,7 @@ module CSI
       public
       def self.logs(opts = {})
         beef_obj = opts[:beef_obj]
-        @@logger.info("Retrieving BeEF Hooks...")
+        @@logger.info("Retrieving BeEF Logs...")
         begin
           response = beef_rest_call(
             :beef_obj => beef_obj, 
@@ -216,7 +216,7 @@ module CSI
       public
       def self.modules(opts = {})
         beef_obj = opts[:beef_obj]
-        @@logger.info("Retrieving BeEF Hooks...")
+        @@logger.info("Retrieving BeEF Modules...")
         begin
           response = beef_rest_call(
             :beef_obj => beef_obj, 
@@ -241,7 +241,7 @@ module CSI
         beef_obj = opts[:beef_obj]
         module_id = opts[:module_id].to_i
 
-        @@logger.info("Retrieving Browser Logs...")
+        @@logger.info("Retrieving Module Info...")
         begin
           response = beef_rest_call(
             :beef_obj => beef_obj, 
