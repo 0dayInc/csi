@@ -95,7 +95,7 @@ module CSI
               response = rest_client.execute(
                 :method => :get,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :params => { :token => api_token }
+                :headers => {:params => { :token => api_token }}
               )
 
             when :post
