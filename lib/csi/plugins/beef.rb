@@ -19,9 +19,9 @@ module CSI
       def self.login(opts = {})
         beef_ip = opts[:beef_ip]
         if opts[:beef_port]
-          beef_ip = opts[:beef_port].to_i
+          beef_port = opts[:beef_port].to_i
         else
-          beef_ip = 3000
+          beef_port = 3000
         end
 
         username = opts[:username].to_s.scrub
@@ -163,6 +163,7 @@ module CSI
         puts %Q{USAGE:
           beef_obj = #{self}.login(
             :beef_ip => 'required host/ip of Nexpose Console (server)', 
+            :beef_port => 'optional - port of BeEF server (defaults to 3000)',
             :username => 'required username', 
             :password => 'optional password (will prompt if nil)'
           )
