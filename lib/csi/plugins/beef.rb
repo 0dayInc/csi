@@ -49,21 +49,24 @@ module CSI
           # Return array containing the post-authenticated BeEF REST API token
           json_response = JSON.parse(response)
           beef_success = json_response["success"]
-          beef_token = json_response["token"]
+          api_token = json_response["token"]
           beef_obj = {}
+          beef_obj[:beef_ip] = beef_ip
+          beef_obj[:beef_port] = beef_port
           beef_obj[:success] = beef_success
-          beef_obj[:token] = beef_token
+          beef_obj[:api_token] = api_token
           beef_obj[:raw_response] = response
 
           return beef_obj
         rescue => e
-          return e.message
+          raise e.message
+          exit
         end
       end
 
       # Supported Method Parameters::
       # beef_rest_call(
-      #   :beef_obj => 'required beef_obj returned from login method',
+      #   :beef_obj => 'required beef_obj returned from #login method',
       #   :http_method => 'optional HTTP method (defaults to GET)
       #   :rest_call => 'required rest call to make per the schema',
       #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
@@ -78,11 +81,11 @@ module CSI
         end
         rest_call = opts[:rest_call].to_s.scrub
         http_body = opts[:http_body].to_s.scrub
+        beef_success = beef_obj[:beef_success].to_s.scrub
         beef_ip = beef_obj[:beef_ip].to_s.scrub
-        beef_cookie = beef_obj[:cookie]
-        base_beef_api_uri = "https://#{beef_ip}/ase/services".to_s.scrub
+        beef_port = beef_obj[:beef_port].to_i
+        base_beef_api_uri = "http://#{beef_ip}:#{beef_port}/api".to_s.scrub
         api_token = opts[:api_token]
-        retry_count = 3
         
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
@@ -92,59 +95,55 @@ module CSI
               response = rest_client.execute(
                 :method => :get,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => { :cookie => beef_cookie },
-                :verify_ssl => false
+                :headers => { :token => api_token }
               )
 
             when :post
               response = rest_client.execute(
                 :method => :post,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => { :cookie => beef_cookie },
-                :payload => http_body,
-                :verify_ssl => false
+                :headers => { :token => api_token },
+                :payload => http_body
               )
 
           else
-            return @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
+            raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
+            exit
           end
           return response
         rescue => e
-          if e.message == "401 Unauthorized" and retry_count > 0 and beef_obj[:logged_in]
-            # Try logging back in to refresh the connection
-            @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
-            n_beef_obj = self.login(
-              :beef_ip => beef_obj[:beef_ip],
-              :username => beef_obj[:username],
-              :password => Base64.decode64(beef_obj[:password])
-            )
-            beef_cookie = n_beef_obj[:cookie]
-            # "copy" the new app obj over the old app obj
-            beef_obj.keys.each do |k|
-              beef_obj[k] = n_beef_obj[k]
-            end
-            retry_count-=1
-            retry
-          end
-          return e.message
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::BeEF.hooks(
+      #   :beef_obj => 'required beef_obj returned from #login method'
+      # )
+      public
+      def self.hooks(opts = {})
+        beef_obj = opts[:beef_obj]
+        @@logger.info("Retrieving BeEF Hooks...")
+        begin
+          response = beef_rest_call(:beef_obj => beef_obj, :rest_call => "hooks")
+          hooks = JSON.parse(response)
+          return hooks
+        rescue => e
+          raise e.message
+          exit
         end
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::BeEF.logout(
-      #   :beef_obj => 'required beef_obj returned from login method'
+      #   :beef_obj => 'required beef_obj returned from #login method'
       # )
       public
       def self.logout(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info("Logging out...")
-        response = beef_rest_call(:beef_obj => beef_obj, :rest_call => "logout")
-        if response == ""
-          beef_obj[:logged_in] = false
-          return "logout successful"
-        else
-          return response
-        end
+        beef_obj = nil
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -168,8 +167,12 @@ module CSI
             :password => 'optional password (will prompt if nil)'
           )
 
+          #{self}.hooks(
+            :beef_obj => 'required beef_obj returned from #login method'
+          )
+
           #{self}.logout(
-            :beef_obj => 'required beef_obj returned from login method'
+            :beef_obj => 'required beef_obj returned from #login method'
           )
 
           #{self}.authors
