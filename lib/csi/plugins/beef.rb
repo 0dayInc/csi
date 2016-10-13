@@ -126,7 +126,12 @@ module CSI
         beef_obj = opts[:beef_obj]
         @@logger.info("Retrieving BeEF Hooks...")
         begin
-          response = beef_rest_call(:beef_obj => beef_obj, :rest_call => "hooks")
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :http_method => :get, 
+            :rest_call => "hooks"
+          )
+
           hooks = JSON.parse(response)
           return hooks
         rescue => e
