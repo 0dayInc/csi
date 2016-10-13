@@ -367,7 +367,7 @@ module CSI
           target_ips.each do |target_ip|
             response = shodan_rest_call(
               :api_key => api_key, 
-              :rest_call => "shodan/host/#{target_ip}",
+              :rest_call => "labs/honeyscore/#{target_ip}",
               :params => params
             )
             honeypot_probability_scores.push("#{target_ip} => #{response}")
