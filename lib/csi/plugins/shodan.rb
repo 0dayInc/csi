@@ -283,6 +283,29 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # my_profile = CSI::Plugins::Shodan.my_profile(
+      #   :api_key => 'required shodan api key'
+      # )
+      public
+      def self.my_profile(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+
+        begin
+          params = { :key => api_key }
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "account/profile",
+            :params => params
+          )
+          my_profile = JSON.parse(response)
+          return my_profile
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # my_pub_ip = CSI::Plugins::Shodan.my_pub_ip(
       #   :api_key => 'required shodan api key'
       # )
@@ -373,6 +396,10 @@ module CSI
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
+            :api_key => 'required shodan api key'
+          )
+
+          my_profile = #{self}.my_profile(
             :api_key => 'required shodan api key'
           )
 
