@@ -184,6 +184,35 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # tokens_result = CSI::Plugins::Shodan.tokens(
+      #   :api_key => 'required shodan api key',
+      #   :query => 'required - shodan search query',
+      # )
+      public
+      def self.tokens(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        query = opts[:query].to_s.scrub
+
+        begin
+          params = { 
+            :key => api_key,
+            :query => query
+          }
+
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "shodan/host/search/tokens",
+            :params => params
+          )
+          query_result_totals = JSON.parse(response)
+          return query_result_totals
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -213,6 +242,11 @@ module CSI
             :api_key => 'required shodan api key',
             :query => 'required - shodan search query',
             :facets => 'optional - comma-separated list of properties to get summary information'
+          )
+
+          tokens_result = #{self}.tokens(
+            :api_key => 'required shodan api key',
+            :query => 'required - shodan search query',
           )
 
           #{self}.authors
