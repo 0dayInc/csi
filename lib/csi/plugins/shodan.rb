@@ -79,7 +79,7 @@ module CSI
               :api_key => api_key, 
               :rest_call => "shodan/host/#{target_ip}" 
             )
-            services_by_ips.push(response)
+            services_by_ips.push(JSON.parse(response))
           end
           return services_by_ips
         rescue => e
