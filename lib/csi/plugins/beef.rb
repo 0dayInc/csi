@@ -163,6 +163,100 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # logs = CSI::Plugins::BeEF.logs(
+      #   :beef_obj => 'required beef_obj returned from #login method'
+      # )
+      public
+      def self.logs(opts = {})
+        beef_obj = opts[:beef_obj]
+        @@logger.info("Retrieving BeEF Hooks...")
+        begin
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :rest_call => 'logs'
+          )
+
+          logs = JSON.parse(response)
+          return logs
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # hooked_browser_logs = CSI::Plugins::BeEF.hooked_browser_logs(
+      #   :beef_obj => 'required beef_obj returned from #login method',
+      #   :browser_session => 'required - browser session id returned from #hooks method'
+      # )
+      public
+      def self.hooked_browser_logs(opts = {})
+        beef_obj = opts[:beef_obj]
+        browser_session = opts[:browser_session].to_s.scrub
+
+        @@logger.info("Retrieving Browser Logs...")
+        begin
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :rest_call => "logs/#{browser_session}"
+          )
+
+          hooked_browser_logs = JSON.parse(response)
+          return hooked_browser_logs
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # modules = CSI::Plugins::BeEF.modules(
+      #   :beef_obj => 'required beef_obj returned from #login method'
+      # )
+      public
+      def self.modules(opts = {})
+        beef_obj = opts[:beef_obj]
+        @@logger.info("Retrieving BeEF Hooks...")
+        begin
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :rest_call => 'modules'
+          )
+
+          logs = JSON.parse(response)
+          return logs
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # module_info = CSI::Plugins::BeEF.module_info(
+      #   :beef_obj => 'required beef_obj returned from #login method',
+      #   :module_id => 'required - module id returned from #modules method'
+      # )
+      public
+      def self.module_info(opts = {})
+        beef_obj = opts[:beef_obj]
+        module_id = opts[:module_id].to_i
+
+        @@logger.info("Retrieving Browser Logs...")
+        begin
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :rest_call => "modules/#{module_id}"
+          )
+
+          module_info = JSON.parse(response)
+          return module_info
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::BeEF.logout(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
@@ -201,6 +295,24 @@ module CSI
           hooked_browser_info = #{self}.hooked_browser_info(
             :beef_obj => 'required beef_obj returned from #login method',
             :browser_session => 'required - browser session id returned from #hooks method'
+          )
+
+          logs = #{self}.logs(
+            :beef_obj => 'required beef_obj returned from #login method'
+          )
+
+          hooked_browser_logs = #{self}.hooked_browser_logs(
+            :beef_obj => 'required beef_obj returned from #login method',
+            :browser_session => 'required - browser session id returned from #hooks method'
+          )
+
+          modules = #{self}.modules(
+            :beef_obj => 'required beef_obj returned from #login method'
+          )
+
+          module_info = #{self}.module_info(
+            :beef_obj => 'required beef_obj returned from #login method',
+            :module_id => 'required - module id returned from #modules method'
           )
 
           beef_obj = #{self}.logout(
