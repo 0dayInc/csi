@@ -351,6 +351,34 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # honeypot_probability_scores = CSI::Plugins::Shodan.honeypot_probability_scores(
+      #   :api_key => 'required shodan api key',
+      #   :target_ips => 'required - comma-delimited list of ip addresses to target'
+      # )
+      public
+      def self.honeypot_probability_scores(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
+
+        begin
+          honeypot_probability_scores = []
+          params = { :key => api_key }
+          target_ips.each do |target_ip|
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/#{target_ip}",
+              :params => params
+            )
+            honeypot_probability_scores.push("#{target_ip} => #{response}")
+          end
+          return honeypot_probability_scores
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -409,6 +437,11 @@ module CSI
 
           api_info = #{self}.api_info(
             :api_key => 'required shodan api key'
+          )
+
+          honeypot_probability_scores = #{self}.honeypot_probability_scores(
+            :api_key => 'required shodan api key',
+            :target_ips => 'required - comma-delimited list of ip addresses to target'
           )
 
           #{self}.authors
