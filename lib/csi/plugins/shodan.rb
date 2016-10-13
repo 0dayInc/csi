@@ -213,6 +213,29 @@ module CSI
         end
       end
 
+      # Supported Method Parameters::
+      # ports_shodan_crawls = CSI::Plugins::Shodan.ports_shodan_crawls(
+      #   :api_key => 'required shodan api key'
+      # )
+      public
+      def self.ports_shodan_crawls(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+
+        begin
+          params = { :key => api_key }
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "shodan/ports",
+            :params => params
+          )
+          ports_shodan_crawls = JSON.parse(response)
+          return ports_shodan_crawls
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -247,6 +270,10 @@ module CSI
           tokens_result = #{self}.tokens(
             :api_key => 'required shodan api key',
             :query => 'required - shodan search query',
+          )
+
+          ports_shodan_crawls = #{self}.ports_shodan_crawls(
+            :api_key => 'required shodan api key'
           )
 
           #{self}.authors
