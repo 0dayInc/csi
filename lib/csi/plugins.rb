@@ -81,6 +81,7 @@ module CSI
     autoload :AWSWAF, 'csi/plugins/aws_waf'
     autoload :AWSWorkspaces, 'csi/plugins/aws_workspaces'
     autoload :BasicAuth, 'csi/plugins/basic_auth'
+    autoload :BeEF, 'csi/plugins/beef'
     autoload :BurpSuite, 'csi/plugins/burp_suite'
     autoload :CSILogger, 'csi/plugins/csi_logger'
     autoload :DAOLDAP, 'csi/plugins/dao_ldap'
