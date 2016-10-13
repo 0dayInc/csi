@@ -95,13 +95,13 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # search_result_counts = CSI::Plugins::Shodan.search_result_counts(
+      # query_result_totals = CSI::Plugins::Shodan.query_result_totals(
       #   :api_key => 'required shodan api key',
       #   :query => 'required - shodan search query',
       #   :facets => 'optional - comma-separated list of properties to get summary information'
       # )
       public
-      def self.search_result_counts(opts = {})
+      def self.query_result_totals(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
         facets = opts[:facets].to_s.scrub
@@ -131,8 +131,53 @@ module CSI
               :params => params
             )
           end
-          search_result_counts = JSON.parse(response)
-          return search_result_counts
+          query_result_totals = JSON.parse(response)
+          return query_result_totals
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # search_results = CSI::Plugins::Shodan.search(
+      #   :api_key => 'required shodan api key',
+      #   :query => 'required - shodan search query',
+      #   :facets => 'optional - comma-separated list of properties to get summary information'
+      # )
+      public
+      def self.search(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        query = opts[:query].to_s.scrub
+        facets = opts[:facets].to_s.scrub
+
+        begin
+          if facets
+            params = { 
+              :key => api_key,
+              :query => query,
+              :facets => facets
+            }
+
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/search",
+              :params => params
+            )
+          else
+            params = { 
+              :key => api_key,
+              :query => query
+            }
+
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/search",
+              :params => params
+            )
+          end
+          query_result_totals = JSON.parse(response)
+          return query_result_totals
         rescue => e
           raise e.message
           exit
@@ -158,7 +203,13 @@ module CSI
             :target_ips => 'required - comma-delimited list of ip addresses to target'
           )
 
-          search_result_counts = CSI::Plugins::Shodan.search_result_counts(
+          query_result_totals = CSI::Plugins::Shodan.query_result_totals(
+            :api_key => 'required shodan api key',
+            :query => 'required - shodan search query',
+            :facets => 'optional - comma-separated list of properties to get summary information'
+          )
+
+          search_results = #{self}.search(
             :api_key => 'required shodan api key',
             :query => 'required - shodan search query',
             :facets => 'optional - comma-separated list of properties to get summary information'
