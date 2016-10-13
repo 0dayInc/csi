@@ -102,7 +102,6 @@ module CSI
               response = rest_client.execute(
                 :method => :post,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => { :token => api_token },
                 :payload => http_body
               )
 
