@@ -4,6 +4,8 @@ module CSI
   module Plugins
     # This plugin is used for interacting w/ Shodan's REST API using
     # the 'rest' browser type of CSI::Plugins::TransparentBrowser.
+    #  This is based on the following Shodan API Specification:
+    # https://developer.shodan.io/api
     module Shodan
 
       @@logger = CSI::Plugins::CSILogger.create()
@@ -13,6 +15,7 @@ module CSI
       #   :api_key => 'required - shodan api key',
       #   :http_method => 'optional HTTP method (defaults to GET)
       #   :rest_call => 'required rest call to make per the schema',
+      #   :params => 'optional params passed in the URI or HTTP Headers',
       #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
       private
@@ -24,6 +27,7 @@ module CSI
           http_method = opts[:http_method].to_s.scrub.to_sym
         end
         rest_call = opts[:rest_call].to_s.scrub
+        params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
         base_shodan_api_uri = "https://api.shodan.io"
         api_key = opts[:api_key]
@@ -38,7 +42,7 @@ module CSI
                 :url => "#{base_shodan_api_uri}/#{rest_call}",
                 :headers => {
                   :content_type => "application/json; charset=UTF-8",
-                  :params => { :key => api_key }
+                  :params => params
                 }
               )
 
@@ -74,14 +78,61 @@ module CSI
 
         begin
           services_by_ips = []
+          params = { :key => api_key }
           target_ips.each do |target_ip|
             response = shodan_rest_call(
               :api_key => api_key, 
               :rest_call => "shodan/host/#{target_ip}" 
+              :params => params
             )
             services_by_ips.push(JSON.parse(response))
           end
           return services_by_ips
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # search_result_counts = CSI::Plugins::Shodan.search_result_counts(
+      #   :api_key => 'required shodan api key',
+      #   :query => 'required - shodan search query',
+      #   :facets => 'optional - comma-separated list of properties to get summary information'
+      # )
+      public
+      def self.search_result_counts(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        query = opts[:query].to_s.scrub
+        facets = opts[:facets].to_s.scrub
+
+        begin
+          if facets
+            params = { 
+              :key => api_key,
+              :query => query,
+              :facets => facets
+            }
+
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/count",
+              :params => params
+            )
+          else
+            params = { 
+              :key => api_key,
+              :query => query
+            }
+
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/count",
+              :params => params
+            )
+          end
+          search_result_counts = JSON.parse(response)
+          return search_result_counts
         rescue => e
           raise e.message
           exit
@@ -105,6 +156,12 @@ module CSI
           services_by_ips = #{self}.services_by_ips(
             :api_key => 'required - shodan api key',
             :target_ips => 'required - comma-delimited list of ip addresses to target'
+          )
+
+          search_result_counts = CSI::Plugins::Shodan.search_result_counts(
+            :api_key => 'required shodan api key',
+            :query => 'required - shodan search query',
+            :facets => 'optional - comma-separated list of properties to get summary information'
           )
 
           #{self}.authors
