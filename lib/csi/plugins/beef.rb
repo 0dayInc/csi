@@ -9,7 +9,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
-      # CSI::Plugins::BeEF.login(
+      # beef_obj = CSI::Plugins::BeEF.login(
       #   :beef_ip => 'required - host/ip of IBM Appscan Server', 
       #   :beef_port => 'optional - port of BeEF server (defaults to 3000)',
       #   :username => 'required - username', 
@@ -116,7 +116,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::BeEF.hooks(
+      # hooks = CSI::Plugins::BeEF.hooks(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
       public
@@ -131,6 +131,31 @@ module CSI
 
           hooks = JSON.parse(response)
           return hooks
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # hooked_browser_info = CSI::Plugins::BeEF.hooked_browser_info(
+      #   :beef_obj => 'required beef_obj returned from #login method',
+      #   :browser_session => 'required - browser session id returned from #hooks method'
+      # )
+      public
+      def self.hooked_browser_info(opts = {})
+        beef_obj = opts[:beef_obj]
+        browser_session = opts[:browser_session].to_s.scrub
+
+        @@logger.info("Retrieving Browser Information...")
+        begin
+          response = beef_rest_call(
+            :beef_obj => beef_obj, 
+            :rest_call => "hooks/#{browser_session}"
+          )
+
+          hooked_browser_info = JSON.parse(response)
+          return hooked_browser_info
         rescue => e
           raise e.message
           exit
@@ -169,11 +194,16 @@ module CSI
             :password => 'optional password (will prompt if nil)'
           )
 
-          #{self}.hooks(
+          hooks = #{self}.hooks(
             :beef_obj => 'required beef_obj returned from #login method'
           )
 
-          #{self}.logout(
+          hooked_browser_info = #{self}.hooked_browser_info(
+            :beef_obj => 'required beef_obj returned from #login method',
+            :browser_session => 'required - browser session id returned from #hooks method'
+          )
+
+          beef_obj = #{self}.logout(
             :beef_obj => 'required beef_obj returned from #login method'
           )
 
