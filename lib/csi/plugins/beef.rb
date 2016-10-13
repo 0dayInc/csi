@@ -53,7 +53,7 @@ module CSI
           beef_obj = {}
           beef_obj[:beef_ip] = beef_ip
           beef_obj[:beef_port] = beef_port
-          beef_obj[:success] = beef_success
+          beef_obj[:beef_success] = beef_success
           beef_obj[:api_token] = api_token
           beef_obj[:raw_response] = response
 
@@ -85,7 +85,7 @@ module CSI
         beef_ip = beef_obj[:beef_ip].to_s.scrub
         beef_port = beef_obj[:beef_port].to_i
         base_beef_api_uri = "http://#{beef_ip}:#{beef_port}/api".to_s.scrub
-        api_token = opts[:api_token]
+        api_token = beef_obj[:api_token]
         
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
@@ -128,8 +128,7 @@ module CSI
         begin
           response = beef_rest_call(
             :beef_obj => beef_obj, 
-            :http_method => :get, 
-            :rest_call => "hooks"
+            :rest_call => 'hooks'
           )
 
           hooks = JSON.parse(response)
