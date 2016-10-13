@@ -72,7 +72,7 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
 
-        begin
+        #begin
           services_by_ips = []
           target_ips.each do |target_ip|
             response = shodan_rest_call(
@@ -82,10 +82,10 @@ module CSI
             services_by_ips.push(JSON.parse(response))
           end
           return services_by_ips
-        rescue => e
-          raise e.message
-          exit
-        end
+        #rescue => e
+        #  raise e.message
+        #  exit
+        #end
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
