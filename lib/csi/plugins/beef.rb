@@ -95,13 +95,19 @@ module CSI
               response = rest_client.execute(
                 :method => :get,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => {:params => { :token => api_token }}
+                :headers => {
+                  :content_type => "application/json; charset=UTF-8",
+                  :params => { :token => api_token }
+                }
               )
 
             when :post
               response = rest_client.execute(
                 :method => :post,
                 :url => "#{base_beef_api_uri}/#{rest_call}",
+                :headers => {
+                  :content_type => "application/json; charset=UTF-8"
+                },
                 :payload => http_body
               )
 
