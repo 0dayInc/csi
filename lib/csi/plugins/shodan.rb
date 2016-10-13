@@ -297,8 +297,8 @@ module CSI
             :rest_call => "tools/myip",
             :params => params
           )
-          services_shodan_crawls = JSON.parse(response)
-          return services_shodan_crawls
+          my_pub_ip = response
+          return my_pub_ip
         rescue => e
           raise e.message
           exit
@@ -320,8 +320,8 @@ module CSI
             :rest_call => "api-info",
             :params => params
           )
-          services_shodan_crawls = JSON.parse(response)
-          return services_shodan_crawls
+          api_info = JSON.parse(response)
+          return api_info
         rescue => e
           raise e.message
           exit
