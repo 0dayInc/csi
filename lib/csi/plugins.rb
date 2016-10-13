@@ -106,6 +106,7 @@ module CSI
     autoload :PDFParse, 'csi/plugins/pdf_parse'
     autoload :RabbitMQHole, 'csi/plugins/rabbit_mq_hole'
     autoload :Serial, 'csi/plugins/serial'
+    autoload :Shodan, 'csi/plugins/shodan'
     autoload :SlackClient, 'csi/plugins/slack_client'
     autoload :ThreadPool, 'csi/plugins/thread_pool'
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
