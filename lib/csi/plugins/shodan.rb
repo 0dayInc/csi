@@ -380,6 +380,40 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # saved_search_queries_result = CSI::Plugins::Shodan.saved_search_queries(
+      #   :api_key => 'required shodan api key',
+      #   :page => 'optional - page number to iterate over results (each page contains 10 items)',
+      #   :sort => 'optional - sort results by available parameters :votes|:timestamp',
+      #   :order => 'optional - sort :asc|:desc (ascending or descending)'
+      # )
+      public
+      def self.saved_search_queries(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        page = opts[:page].to_i
+        sort = opts[:sort].to_sym
+        order = opts[:order].to_sym
+
+        begin
+          params = { 
+            :key => api_key,
+            :page => page,
+            :sort => sort.to_s,
+            :order => order.to_s
+          }
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "shodan/query",
+            :params => params
+          )
+          services_shodan_crawls = JSON.parse(response)
+          return services_shodan_crawls
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # most_popular_tags_result = CSI::Plugins::Shodan.most_popular_tags(
       #   :api_key => 'required shodan api key',
       #   :result_count => 'optional - number of results to return (defaults to 10)'
@@ -387,7 +421,7 @@ module CSI
       public
       def self.most_popular_tags(opts = {})
         api_key = opts[:api_key].to_s.scrub
-        result_count = opts[:result_count]
+        result_count = opts[:result_count].to_i
 
         begin
           if result_count
@@ -571,6 +605,13 @@ module CSI
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
             :api_key => 'required shodan api key'
+          )
+
+          saved_search_queries_result = #{self}.saved_search_queries(
+            :api_key => 'required shodan api key',
+            :page => 'optional - page number to iterate over results (each page contains 10 items)',
+            :sort => 'optional - sort results by available parameters :votes|:timestamp',
+            :order => 'optional - sort :asc|:desc (ascending or descending)'
           )
 
           most_popular_tags_result = #{self}.most_popular_tags(
