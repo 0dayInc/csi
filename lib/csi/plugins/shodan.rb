@@ -280,7 +280,7 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "")
 
-        begin
+        #begin
           params = { :key => api_key }
           http_body = "ips=#{target_ips}"
           response = shodan_rest_call(
@@ -292,10 +292,10 @@ module CSI
           )
           scan_response = JSON.parse(response)
           return scan_response
-        rescue => e
-          raise e.message
-          exit
-        end
+        #rescue => e
+        #  raise e.message
+        #  exit
+        #end
       end
 
       # Supported Method Parameters::
