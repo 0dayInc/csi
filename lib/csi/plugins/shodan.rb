@@ -271,11 +271,10 @@ module CSI
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "")
 
         begin
-          services_by_ips = []
           params = { :key => api_key }
           http_body = target_ips
           response = shodan_rest_call(
-            :http_method => :post
+            :http_method => :post,
             :api_key => api_key, 
             :rest_call => "shodan/host/#{target_ip}",
             :params => params,
