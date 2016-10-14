@@ -103,7 +103,7 @@ module CSI
                 when"404 Resource Not Found"
                   next
               else
-                raise "#{e.message}: #{e.response}"
+                raise e.message
                 exit
               end
             end
