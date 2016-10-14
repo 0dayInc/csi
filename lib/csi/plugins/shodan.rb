@@ -63,9 +63,17 @@ module CSI
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
             exit
           end
+          return response
         rescue => e
-          raise "#{e.message}: #{e.response}"
-          exit
+          case e.message
+            when"404 Resource Not Found"
+              return "#{e.message}: #{e.response}"
+            when "400 Bad Request"
+              return "#{e.message}: #{e.response}"
+          else
+            raise "#{e.message}: #{e.response}"
+            exit
+          end
         end
       end
 
