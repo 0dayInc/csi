@@ -271,16 +271,16 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # scan_response = CSI::Plugins::Shodan.scan(
+      # scan__networkresponse = CSI::Plugins::Shodan.scan_network(
       #   :api_key => 'required shodan api key',
       #   :target_ips => 'required - comma-delimited list of ip addresses to target'
       # )
       public
-      def self.scan(opts = {})
+      def self.scan_network(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "")
 
-        #begin
+        begin
           params = { :key => api_key }
           http_body = "ips=#{target_ips}"
           response = shodan_rest_call(
@@ -290,12 +290,42 @@ module CSI
             :params => params,
             :http_body => http_body
           )
-          scan_response = JSON.parse(response)
-          return scan_response
-        #rescue => e
-        #  raise e.message
-        #  exit
-        #end
+          scan_network_response = JSON.parse(response)
+          return scan_network_response
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
+      # scan_internet_response = CSI::Plugins::Shodan.scan_internet(
+      #   :api_key => 'required shodan api key',
+      #   :port => 'required - port to scan (see #ports_shodan_crawls for list)',
+      #   :protocol => 'required - supported shodan protocol (see #list_on_demand_scan_protocols for list)'
+      # )
+      public
+      def self.scan_internet(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        port = opts[:port].to_i
+        protocol = opts[:protocol].to_s.scrub
+
+        begin
+          params = { :key => api_key }
+          http_body = "port=#{port}&protocol=#{protocol}"
+          response = shodan_rest_call(
+            :http_method => :post,
+            :api_key => api_key, 
+            :rest_call => "shodan/scan/internet",
+            :params => params,
+            :http_body => http_body
+          )
+          scan_internet_response = JSON.parse(response)
+          return scan_internet_response
+        rescue => e
+          raise e.message
+          exit
+        end
       end
 
       # Supported Method Parameters::
@@ -462,9 +492,15 @@ module CSI
             :api_key => 'required shodan api key'
           )
 
-          scan_response = #{self}.scan(
+          scan_network_response = #{self}.scan_network(
             :api_key => 'required shodan api key',
             :target_ips => 'required - comma-delimited list of ip addresses to target'
+          )
+
+          scan_internet_response = #{self}.scan_internet(
+            :api_key => 'required shodan api key',
+            :port => 'required - port to scan (see #ports_shodan_crawls for list)',
+            :protocol => 'required - supported shodan protocol (see #list_on_demand_scan_protocols for list)'
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
