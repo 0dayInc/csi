@@ -51,7 +51,8 @@ module CSI
                 :method => :post,
                 :url => "#{base_shodan_api_uri}/#{rest_call}",
                 :headers => {
-                  :content_type => "application/json; charset=UTF-8"
+                  :content_type => "application/json; charset=UTF-8",
+                  :params => params
                 },
                 :payload => http_body
               )
@@ -260,6 +261,35 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # scan_response = CSI::Plugins::Shodan.scan(
+      #   :api_key => 'required shodan api key',
+      #   :target_ips => 'required - comma-delimited list of ip addresses to target'
+      # )
+      public
+      def self.scan(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "")
+
+        begin
+          services_by_ips = []
+          params = { :key => api_key }
+          http_body = target_ips
+          response = shodan_rest_call(
+            :http_method => :post
+            :api_key => api_key, 
+            :rest_call => "shodan/host/#{target_ip}",
+            :params => params,
+            :http_body => http_body
+          )
+          scan_response = JSON.parse(response)
+          return scan_response
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # services_shodan_crawls = CSI::Plugins::Shodan.services_shodan_crawls(
       #   :api_key => 'required shodan api key'
       # )
@@ -421,6 +451,11 @@ module CSI
 
           protocols = #{self}.list_on_demand_scan_protocols(
             :api_key => 'required shodan api key'
+          )
+
+          scan_response = #{self}.scan(
+            :api_key => 'required shodan api key',
+            :target_ips => 'required - comma-delimited list of ip addresses to target'
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
