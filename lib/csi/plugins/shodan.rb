@@ -272,7 +272,7 @@ module CSI
 
         begin
           params = { :key => api_key }
-          http_body = target_ips
+          http_body = "ips=#{target_ips}"
           response = shodan_rest_call(
             :http_method => :post,
             :api_key => api_key, 
