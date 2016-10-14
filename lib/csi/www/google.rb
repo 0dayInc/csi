@@ -65,7 +65,6 @@ module CSI
         end
       end
 
-
       # Supported Method Parameters::
       # CSI::WWW::Google.search(
       #   :q => 'required search string'
@@ -73,6 +72,23 @@ module CSI
       public
       def self.search(opts = {})
         q = opts[:q].to_s
+
+        if $browser
+          $browser.text_field(:name => 'q').when_present.set(q)
+          $browser.button(:name => 'btnG').when_present.click
+          sleep 3 # Cough: <hack>
+          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+        end
+      end
+
+      # Supported Method Parameters::
+      # CSI::WWW::Google.search_linkedin_for_employees_by_company(
+      #   :company => 'required - company string'
+      # )
+      public
+      def self.search_linkedin_for_employees_by_company(opts = {})
+        company = opts[:company].to_s.scrub
+        q = "site:linkedin.com inurl:in intext:\"#{company}\""
 
         if $browser
           $browser.text_field(:name => 'q').when_present.set(q)
@@ -112,6 +128,10 @@ module CSI
 
           #{self}.search(
             :q => 'required search string'
+          )
+
+          #{self}.search_linkedin_for_employees_by_company(
+            :company => 'required - company string'
           )
 
           #{self}.close
