@@ -43,7 +43,8 @@ module CSI
                 :headers => {
                   :content_type => "application/json; charset=UTF-8",
                   :params => params
-                }
+                },
+                :verify_ssl => false
               )
 
             when :post
@@ -54,7 +55,8 @@ module CSI
                   :content_type => "application/json; charset=UTF-8",
                   :params => params
                 },
-                :payload => http_body
+                :payload => http_body,
+                :verify_ssl => false
               )
 
           else
