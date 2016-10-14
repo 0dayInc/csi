@@ -276,7 +276,7 @@ module CSI
           response = shodan_rest_call(
             :http_method => :post,
             :api_key => api_key, 
-            :rest_call => "shodan/host/#{target_ip}",
+            :rest_call => "shodan/scan",
             :params => params,
             :http_body => http_body
           )
