@@ -285,7 +285,11 @@ module CSI
           scan_response = JSON.parse(response)
           return scan_response
         rescue => e
-          raise e.message
+          if e.message == "400 Bad Request"
+            raise "#{e.message}: #{scan_response}"
+          else
+            raise e.message
+          end
           exit
         end
       end
