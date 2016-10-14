@@ -101,7 +101,7 @@ module CSI
           return services_by_ips
         rescue => e
           raise e.message
-          exit
+          #exit
         end
       end
 
