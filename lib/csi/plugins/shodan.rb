@@ -380,6 +380,39 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # most_popular_tags_result = CSI::Plugins::Shodan.most_popular_tags(
+      #   :api_key => 'required shodan api key',
+      #   :result_count => 'optional - number of results to return (defaults to 10)'
+      # )
+      public
+      def self.most_popular_tags(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        result_count = opts[:result_count]
+
+        begin
+          if result_count
+            params = {
+              :key => api_key,
+              :size => result_count
+            }
+          else
+            params = { :key => api_key }
+          end
+
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "shodan/query/tags",
+            :params => params
+          )
+          most_popular_tags_result = JSON.parse(response)
+          return most_popular_tags_result
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # my_profile = CSI::Plugins::Shodan.my_profile(
       #   :api_key => 'required shodan api key'
       # )
@@ -538,6 +571,11 @@ module CSI
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
             :api_key => 'required shodan api key'
+          )
+
+          most_popular_tags_result = #{self}.most_popular_tags(
+            :api_key => 'required shodan api key',
+            :result_count => 'optional - number of results to return (defaults to 10)'
           )
 
           my_profile = #{self}.my_profile(
