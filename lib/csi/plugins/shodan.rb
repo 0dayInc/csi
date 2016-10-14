@@ -65,7 +65,7 @@ module CSI
           end
         rescue => e
           if e.message == "400 Bad Request"
-            raise "#{e.message}: #{response}"
+            raise "#{e.message}: #{e.response}"
           else
             raise e.message
           end
