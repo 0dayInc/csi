@@ -87,27 +87,22 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
 
-        begin
           services_by_ips = []
           params = { :key => api_key }
           target_ips.each do |target_ip|
-            begin
-              response = shodan_rest_call(
-                :api_key => api_key, 
-                :rest_call => "shodan/host/#{target_ip}",
-                :params => params
-              )
-              services_by_ips.push(JSON.parse(response))
-            rescue => e
-              services_by_ips.push(e.message)
-              next
-            end
+          begin
+            response = shodan_rest_call(
+              :api_key => api_key, 
+              :rest_call => "shodan/host/#{target_ip}",
+              :params => params
+            )
+            services_by_ips.push(JSON.parse(response))
+          rescue => e
+            services_by_ips.push({:error => e.message})
+            next
           end
-          return services_by_ips
-        rescue => e
-          raise e.message
-          exit
         end
+        return services_by_ips
       end
 
       # Supported Method Parameters::
