@@ -92,7 +92,7 @@ module CSI
           end
           return services_by_ips
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -137,7 +137,7 @@ module CSI
           query_result_totals = JSON.parse(response)
           return query_result_totals
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -182,7 +182,7 @@ module CSI
           search_results = JSON.parse(response)
           return search_results
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -211,7 +211,7 @@ module CSI
           tokens_result = JSON.parse(response)
           return tokens_result
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -234,7 +234,7 @@ module CSI
           ports_shodan_crawls = JSON.parse(response)
           return ports_shodan_crawls
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -257,7 +257,7 @@ module CSI
           protocols = JSON.parse(response)
           return protocols
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -285,7 +285,7 @@ module CSI
           scan_response = JSON.parse(response)
           return scan_response
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -308,7 +308,7 @@ module CSI
           services_shodan_crawls = JSON.parse(response)
           return services_shodan_crawls
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -331,7 +331,7 @@ module CSI
           my_profile = JSON.parse(response)
           return my_profile
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -354,7 +354,7 @@ module CSI
           my_pub_ip = response
           return my_pub_ip
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -377,7 +377,7 @@ module CSI
           api_info = JSON.parse(response)
           return api_info
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
@@ -405,7 +405,7 @@ module CSI
           end
           return honeypot_probability_scores
         rescue => e
-          raise e.message
+          raise "#{e.message}: #{e.response}"
           exit
         end
       end
