@@ -329,6 +329,34 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # scan_status_result = CSI::Plugins::Shodan.scan_status(
+      #   :api_key => 'required shodan api key',
+      #   :scan_id => 'required - unique ID returned by #scan_network',
+      # )
+      public
+      def self.scan_status(opts = {})
+        api_key = opts[:api_key].to_s.scrub
+        scan_id = opts[:scan_id].to_s.scrub
+
+        begin
+          params = { 
+            :key => api_key
+          }
+
+          response = shodan_rest_call(
+            :api_key => api_key, 
+            :rest_call => "shodan/scan/status/#{scan_id}",
+            :params => params
+          )
+          scan_status_result = JSON.parse(response)
+          return scan_status_result
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # services_shodan_crawls = CSI::Plugins::Shodan.services_shodan_crawls(
       #   :api_key => 'required shodan api key'
       # )
@@ -501,6 +529,11 @@ module CSI
             :api_key => 'required shodan api key',
             :port => 'required - port to scan (see #ports_shodan_crawls for list)',
             :protocol => 'required - supported shodan protocol (see #list_on_demand_scan_protocols for list)'
+          )
+
+          scan_status_result = #{self}.scan_status(
+            :api_key => 'required shodan api key',
+            :scan_id => 'required - unique ID returned by #scan_network',
           )
 
           services_shodan_crawls = #{self}.services_shodan_crawls(
