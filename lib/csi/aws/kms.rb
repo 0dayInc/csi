@@ -4,7 +4,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to AWS Key Management Service.
     module KMS
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::KMS.connect(

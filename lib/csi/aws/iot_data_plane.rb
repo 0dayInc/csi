@@ -4,7 +4,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to AWS IoT Data Plane.
     module IoTDataPlane
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::IoTDataPlane.connect(

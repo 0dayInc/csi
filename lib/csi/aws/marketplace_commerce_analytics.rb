@@ -4,7 +4,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to AWS Marketplace Commerce Analytics.
     module MarketplaceCommerceAnalytics
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::MarketplaceCommerceAnalytics.connect(

@@ -4,7 +4,7 @@ module CSI
   module AWS
     # Returns a client suitable for making requests against a CloudSearch domain.
     module CloudSearchDomain
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::CloudSearchDomain.connect(

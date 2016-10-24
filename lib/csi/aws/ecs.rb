@@ -4,7 +4,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon EC2 Container Service.
     module ECS
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::ECS.connect(

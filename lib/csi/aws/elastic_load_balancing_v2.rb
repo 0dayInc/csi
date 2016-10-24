@@ -4,7 +4,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Elastic Load Balancing.
     module ElasticLoadBalancingV2
-      @@logger = CSI::AWS::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::AWS::ElasticLoadBalancingV2.connect(
