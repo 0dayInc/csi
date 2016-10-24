@@ -270,7 +270,7 @@ All installation methods are recommended :)
   ```
   $ csi
   csi[v0.1.494]:1 » CSI.help
-  => [:AWS, :ExploitModules, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
+  => [:AWS, :MSF, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
   csi[v0.1.494]:2 » CSI::AWS.help
   => [:ACM,

@@ -9,7 +9,7 @@ logger = CSI::Plugins::CSILogger.create()
 
 logger.info("MSF Postgres Login for " << rhosts)
 
-results = CSI::ExploitModules::MsfPostgresLogin.exploit(
+results = CSI::MSF::PostgresLogin.exploit(
   :msfrpcd_yaml_conf => msfrpcd_yaml_conf,
   :rhosts => rhosts,
   :rport => rport
