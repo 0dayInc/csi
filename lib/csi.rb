@@ -6,6 +6,7 @@ require 'csi/version'
 module CSI
   STDOUT.sync = true # < Ensure that all print statements output progress in realtime
   STDOUT.flush       # < Ensure that all print statements output progress in realtime
+  autoload :AWS, 'csi/aws'
   autoload :ExploitModules, 'csi/exploit_modules'
   autoload :Plugins, 'csi/plugins'
   autoload :Reports, 'csi/reports'

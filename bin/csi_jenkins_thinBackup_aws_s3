@@ -58,7 +58,7 @@ else
 end
 
 
-credentials = CSI::Plugins::AWSSTS.get_temp_credentials(
+credentials = CSI::AWS::STS.get_temp_credentials(
   :region => sts_region,
   :role_arn => sts_role_arn,
   :role_session_name => sts_role_name,
