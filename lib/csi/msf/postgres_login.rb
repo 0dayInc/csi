@@ -1,9 +1,9 @@
 module CSI
-  module ExploitModules
+  module MSF
     # This exploit module checks whether Postgres daemons have default passwords in use.
-    module MsfPostgresLogin
+    module PostgresLogin
       # Supported Method Parameters::
-      # CSI::ExploitModules::MsfPostgresLogin.exploit(
+      # CSI::MSF::PostgresLogin.exploit(
       #   :msfrpcd_yaml_conf => '/path/to/yaml/conf/file',
       #   :blank_passwords => 'optional try blank passwords for all users',
       #   :bruteforce_speed => 'required how fast to bruteforce, from 0 to 5 (defaults to 5)',
@@ -24,7 +24,7 @@ module CSI
       #   :user_as_pass => 'optional try the username as the password for all users (defaults to false)',
       #   :user_file => 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
       # )
-      #e.g. result = CSI::ExploitModules::MsfPostgresLogin.exploit(
+      #e.g. result = CSI::MSF::PostgresLogin.exploit(
       #                :msfrpcd_yaml_conf => '/usr/local/etc/msfrpcd.yaml',
       #                :rhosts => '<domain_name>',
       #                :rport => 5432
