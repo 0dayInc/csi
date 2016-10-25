@@ -118,6 +118,7 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: "./vagrant/install/apache2.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/sipp.sh", privileged: false
   config.vm.provision :shell, path: "./vagrant/install/owasp_zap.rb", privileged: false
+  #config.vm.provision :shell, path: "./vagrant/install/dnsrecon.sh", privileged: false
 
   #TODO: populate vagrant_gui via etc/virtualbox/vagrant.yaml
   case vagrant_gui
