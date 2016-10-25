@@ -26,32 +26,32 @@ sudo /bin/bash --login -c "cd ${opernvas_root} && svn --non-interactive --trust-
 
 # Update OpenVas SMB
 printf "Updating OpenVas SMB..."
-sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-smb/build && cd ${openvas_root}/openvas-smb/build && sudo cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-smb/build && cd ${openvas_root}/openvas-smb/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Update OpenVas Libraries First...
 printf "Updating OpenVas Libraries..."
-sudo /bin/bash --login -c "cd ${openvas_root}/openvas-libraries && mkdir -p ${openvas_root}/openvas-libraries/build && cd ${openvas_root}/openvas-libraries/build && cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root}/openvas-libraries && mkdir -p ${openvas_root}/openvas-libraries/build && cd ${openvas_root}/openvas-libraries/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Update OpenVas Scanner
 printf "Updating OpenVas Scanner..."
-sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-scanner/build && cd ${openvas_root}/openvas-scanner/build && cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-scanner/build && cd ${openvas_root}/openvas-scanner/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Update OpenVas Manager
 printf "Updating OpenVas Manager..."
-sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-manager/build && cd ${openvas_root}/openvas-manager/build && cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-manager/build && cd ${openvas_root}/openvas-manager/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Update Greenbone Security Assistant
 printf "Updating Greenbone Security Assistant..."
-sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/gsa/build && cd ${openvas_root}/gsa/build && sudo cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/gsa/build && cd ${openvas_root}/gsa/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Update OpenVas Cli
 printf "Updating OpenVas CLI..."
-sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-cli/build && cd ${openvas_root}/openvas-cli/build && sudo cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build-3.8/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
+sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-cli/build && cd ${openvas_root}/openvas-cli/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 echo "complete."
 
 # Reload Libraries, Automatically set up default infrastructure for OpenVAS, Sync NVTs, & Start openvasmd/openvassd 
