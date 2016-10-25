@@ -19,7 +19,7 @@ build_clang="/usr/share/clang/scan-build-3.8/" # TODO: Make this dynamic (no ver
 scan_build_path="/usr/local/libexec/ccc-analyzer"
 
 # Install Dependencies
-sudo apt-get install -y subversion autoconf bison devscripts quilt libpcre3-dev libpth-dev libwrap0-dev libgmp-dev libgmp3-dev libassuan-dev dpatch pkg-config cmake flex doxygen xmltoman sqlfairy libgnutls-dev libgcrypt20 zlibc uuid-dev libfreeradius-client2 libsnmp-dev libglib2.0-dev libssh-dev libhiredis-dev libgpgme11-dev libksba-dev libldap2-dev clang gnupg xsltproc texlive-latex-base texlive-latex-recommended texlive-latex-extra gnutls-bin python-setuptools python-paramiko redis-server libgcrypt20-dev libpcap-dev libsqlite3-dev libxml2-dev libmicrohttpd-dev libxslt-dev tcl alien nsis wamerican perl-base libpopt-dev g++-mingw-w64-i686 samba python-polib smbclient nikto wapiti heimdal-dev heimdal-multidev libgss-dev
+sudo apt-get install -y subversion autoconf bison devscripts quilt libpcre3-dev libpth-dev libwrap0-dev libgmp-dev libgmp3-dev libassuan-dev dpatch pkg-config cmake flex doxygen xmltoman sqlfairy libgnutls-dev libgcrypt20 zlibc uuid-dev libfreeradius-client2 libsnmp-dev libglib2.0-dev libssh-dev libhiredis-dev libgpgme11-dev libksba-dev libldap2-dev clang gnupg xsltproc texlive-latex-base texlive-latex-recommended texlive-latex-extra gnutls-bin python-setuptools python-paramiko redis-server libgcrypt20-dev libpcap-dev libsqlite3-dev libxml2-dev libmicrohttpd-dev libxslt-dev tcl alien nsis wamerican perl-base libpopt-dev g++-mingw-w64-i686 samba python-polib smbclient nikto wapiti heimdal-dev heimdal-multidev libgss-dev haveged
 
 # TODO: Stop smbd daemon and disable automatic startup following reboot
 
@@ -57,7 +57,7 @@ printf "Installing OpenVas CLI *************************************************
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-cli/build && cd ${openvas_root}/openvas-cli/build && sudo cmake -DCMAKE_C_COMPILER=${scan_build_path} .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 
 # Reload Libraries, Automatically set up default infrastructure for OpenVAS, Sync NVTs, & Start openvasmd/openvassd 
-sudo /bin/bash --login -c "ldconfig && openvas-manage-certs -av && openvas-nvt-sync && openvasmd --listen=127.0.0.1 && openvassd --listen=127.0.0.1"
+sudo /bin/bash --login -c "mkdir -p /usr/local/var/lib/openvas/openvasmd/gnupg && ldconfig && openvas-manage-certs -av && openvas-nvt-sync && openvasmd --listen=127.0.0.1 && openvassd --listen=127.0.0.1"
 wait_for_openvassd
 
 # Get SCAP/Cert Feeds, Initialize the openvasmd DB w/ latest NVTs, retrieve auto-generated password and display at end of deployment
