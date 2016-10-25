@@ -6,6 +6,7 @@ require 'csi/version'
 module CSI
   STDOUT.sync = true # < Ensure that all print statements output progress in realtime
   STDOUT.flush       # < Ensure that all print statements output progress in realtime
+  # TODO: Determine best balance for namespace naming conventions
   autoload :AWS, 'csi/aws'
   autoload :MSF, 'csi/msf'
   autoload :Plugins, 'csi/plugins'
