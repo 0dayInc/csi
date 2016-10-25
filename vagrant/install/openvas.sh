@@ -57,7 +57,7 @@ printf "Installing OpenVas CLI *************************************************
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-cli/build && cd ${openvas_root}/openvas-cli/build && sudo cmake -DCMAKE_C_COMPILER=${scan_build_path} .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
 
 # Reload Libraries, Automatically set up default infrastructure for OpenVAS, Sync NVTs, & Start openvasmd/openvassd 
-sudo /bin/bash --login -c "mkdir -p /usr/local/var/lib/openvas/openvasmd/gnupg && ldconfig && openvas-manage-certs -av && openvas-nvt-sync && openvasmd --listen=127.0.0.1 && openvassd --listen=127.0.0.1"
+sudo /bin/bash --login -c "mkdir -p /usr/local/var/lib/openvas/openvasmd/gnupg && ldconfig && openvas-manage-certs -av && openvas-nvt-sync && openvasmd --listen=127.0.0.1 && openvassd"
 wait_for_openvassd
 
 # Get SCAP/Cert Feeds, Initialize the openvasmd DB w/ latest NVTs, retrieve auto-generated password and display at end of deployment

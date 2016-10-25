@@ -59,7 +59,7 @@ sudo /bin/bash --login -c "killall -15 openvassd; killall -15 openvasmd; killall
 sleep 3
 sudo openvasmd --listen=127.0.0.1
 sleep 3
-sudo openvassd --listen=127.0.0.1
+sudo openvassd
 wait_for_openvassd
 
 # Get SCAP/Cert Feeds, Initialize the openvasmd DB w/ latest NVTs, retrieve auto-generated password and display at end of deployment
