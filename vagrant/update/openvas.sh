@@ -73,7 +73,7 @@ echo "OpenVas Update Complete."
 
 printf "Restarting OpenVAS..."
 sudo systemctl stop openvas.service
-sleep 9
+sleep 3
 sudo systemctl start openvas.service
 echo "complete."
 
