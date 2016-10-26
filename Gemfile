@@ -12,6 +12,7 @@ gem 'aws-sdk', '2.3.17'            # Amazon AWS SDK
 gem 'activesupport', '4.2.6'       # Required to properly build csi via rake w/in ruby-2.3.0
 gem 'bettercap', '1.5.5'           # MITM framework
 gem 'brakeman', '3.3.2'            # Rails Security Scanner
+gem 'bundler-audit', '0.5.0'       # Checks for vulnerable versions of gems
 gem 'bunny', '2.4.0'               # RabbitMQ
 gem 'bson', '4.1.1'                # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/
 gem 'fog', '1.38.0'                # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS)
