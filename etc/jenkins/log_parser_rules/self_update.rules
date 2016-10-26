@@ -1,7 +1,7 @@
 #ok /not really/
 
 # match line containing 'error', case-insensitive
-error /(?i)error(:|\s)/
+error /(?i)(^|\s)error(:|\s)/
 
 # match line containing 'warning', case-insensitive
 warning /(?i)warning/
