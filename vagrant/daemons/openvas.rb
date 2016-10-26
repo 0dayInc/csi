@@ -20,7 +20,7 @@ end
 action = opts[:action].to_s.scrub.to_sym
 
 private def start
-  system("/bin/bash --login -c 'openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only'")
+  `/bin/bash --login -c "openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only"`
 end
 
 private def reload
