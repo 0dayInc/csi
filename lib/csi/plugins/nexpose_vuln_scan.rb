@@ -71,7 +71,7 @@ module CSI
       # CSI::Plugins::NexposeVulnScan.update_site_assets(
       #  :nsc_obj => 'required nsc_obj returned from login method',
       #  :site_name => 'required Nexpose site name to update (case-sensitive),
-      #  :assets => 'required array of hashes containing a key, :ip with value being IP address. WARNING: All IPs not included in the :assets parameter will be removed in the Nexpose site configuration!'
+      #  :assets => 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
       # )
       public
       def self.update_site_assets(opts = {})
@@ -325,7 +325,7 @@ module CSI
           nsc_obj = #{self}.update_site_assets(
             :nsc_obj => 'required nsc_obj returned from login method',
             :site_name => 'required Nexpose site name to update (case-sensitive),
-            :assets => 'required array of hashes containing a key, :ip with value being IP address. WARNING: All IPs not included in the :assets parameter will be removed in the Nexpose site configuration!'
+            :assets => 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
           )
 
           nsc_obj = #{self}.delete_site_assets_older_than(
