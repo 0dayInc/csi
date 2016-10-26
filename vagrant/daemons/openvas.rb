@@ -20,19 +20,23 @@ end
 action = opts[:action].to_s.scrub.to_sym
 
 private def start
-  `openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only`
+  openvas = fork do
+    exec "openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only"
+  end
+  Process.detach(openvas)
 end
 
 private def reload
   stop
-  sleep 9
+  sleep 3
   start
 end
 
 private def stop
-  `killall -9 gsad`
-  `killall -9 openvassd`
-  `killall -9 openvasmd`
+  openvas = fork do 
+    exec "killall -9 gsad && killall -9 openvassd && killall -9 openvasmd"
+  end
+  Process.detach(openvas)
 end
 
 case action
