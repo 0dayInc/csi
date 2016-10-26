@@ -124,7 +124,7 @@ All installation methods are recommended :)
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.512]:001 » CSI.help
+  csi[v0.1.513]:001 » CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -135,7 +135,7 @@ All installation methods are recommended :)
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.512]:001 » CSI.help
+  csi[v0.1.513]:001 » CSI.help
   ```
 
 
@@ -168,28 +168,28 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.1.512]:001 » CSI.help
-  csi[v0.1.512]:002 » CSI::Plugins.help
-  csi[v0.1.512]:003 » CSI::WWW.help
-  csi[v0.1.512]:004 » CSI::WWW::Google.help
-  csi[v0.1.512]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.512]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.512]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.512]:008 » CSI::WWW::Google.close
+  csi[v0.1.513]:001 » CSI.help
+  csi[v0.1.513]:002 » CSI::Plugins.help
+  csi[v0.1.513]:003 » CSI::WWW.help
+  csi[v0.1.513]:004 » CSI::WWW::Google.help
+  csi[v0.1.513]:005 » CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.513]:006 » CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.513]:007 » CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.513]:008 » CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.1.512]:1 » CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.513]:1 » CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.1.512]:2 » CSI::Plugins::BurpSuite.help
+  csi[v0.1.513]:2 » CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.1.512]:3 » CSI::Plugins::OwaspZapIt.help
+  csi[v0.1.513]:3 » CSI::Plugins::OwaspZapIt.help
     USAGE:
       ...
   ```
@@ -199,7 +199,7 @@ All installation methods are recommended :)
 
   ```
   # csi
-  csi[v0.1.512]:1 » CSI::Plugins::NmapIt.help
+  csi[v0.1.513]:1 » CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -215,13 +215,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.512]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.512]:2 *   nmap.syn_scan = true
-  csi[v0.1.512]:2 *   nmap.service_scan = true
-  csi[v0.1.512]:2 *   nmap.os_fingerprint = true
-  csi[v0.1.512]:2 *   nmap.ports = [1..1024,1337]
-  csi[v0.1.512]:2 *   nmap.targets = '127.0.0.1'
-  csi[v0.1.512]:2 * end  
+  csi[v0.1.513]:2 » CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.513]:2 *   nmap.syn_scan = true
+  csi[v0.1.513]:2 *   nmap.service_scan = true
+  csi[v0.1.513]:2 *   nmap.os_fingerprint = true
+  csi[v0.1.513]:2 *   nmap.ports = [1..1024,1337]
+  csi[v0.1.513]:2 *   nmap.targets = '127.0.0.1'
+  csi[v0.1.513]:2 * end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -232,7 +232,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.512]:3 » hist
+  csi[v0.1.513]:3 » hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -241,7 +241,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.512]:4 » hist -r 2..8
+  csi[v0.1.513]:4 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -269,10 +269,10 @@ All installation methods are recommended :)
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
   ```
   $ csi
-  csi[v0.1.512]:1 » CSI.help
+  csi[v0.1.513]:1 » CSI.help
   => [:AWS, :MSF, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.512]:2 » CSI::AWS.help
+  csi[v0.1.513]:2 » CSI::AWS.help
   => [:ACM,
    :APIGateway,
    :ApplicationAutoScaling,
@@ -348,7 +348,7 @@ All installation methods are recommended :)
    :WAF,
    :Workspaces]
 
-  csi[v0.1.512]:3 » CSI::Plugins.help
+  csi[v0.1.513]:3 » CSI::Plugins.help
   => [:Android,
    :AnsibleVault,
    :AuthenticationHelper,
@@ -384,7 +384,7 @@ All installation methods are recommended :)
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.512]:0.4 » CSI::SCAPM.help
+  csi[v0.1.513]:0.4 » CSI::SCAPM.help
   => [:AMQPConnectAsGuest,
    :AWS,
    :ApacheFileSystemUtilAPI,
@@ -412,7 +412,7 @@ All installation methods are recommended :)
    :Token,
    :Version]
  
-  csi[v0.1.512]:5 » CSI::WWW.help
+  csi[v0.1.513]:5 » CSI::WWW.help
   => [:Bing, :Checkip, :Duckduckgo, :Google, :Hackerone, :Pastebin, :Synack, :Torch, :Youtube]
   ```
 
