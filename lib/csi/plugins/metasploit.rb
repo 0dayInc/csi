@@ -52,14 +52,13 @@ module CSI
         end
       end
 
-
       # Supported Method Parameters::
       # results = CSI::Plugins::Metasploit.exec(
       #   :msfrpcd_conn => msfrpcd_conn1,
       #   :msf_module => "required msf module name",
       #   :msf_module_opts => msf_module_opts
       # )l
-      #TODO - Better error handling
+      # TODO - Better error handling
       def self.exec(opts ={})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s

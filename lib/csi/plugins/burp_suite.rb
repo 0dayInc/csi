@@ -79,12 +79,12 @@ module CSI
               when "127.0.0.4"
                 burp_obj[:request_response_port] = "#{this_localhost}:#{this_port}"
             else
-              raise %Q{Proxy/API/WebSocket ERROR: 
+              raise %(Proxy/API/WebSocket FAILURE:
                       Invalid localhost reference #{this_localhost}
                       did the command:
                       #{lsof_cmd}
                       change its response output?"
-                    }
+                    )
             end
           end
 
