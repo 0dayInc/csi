@@ -1,11 +1,10 @@
-ok /not really/
+#ok /not really/
 
-# match line starting with 'error ', case-insensitive
-error /(?i)^error /
+# match line containing 'error', case-insensitive
+error /(?i)error/
 
-# list of warnings here...
-warning /[Ww]arning/
-warning /WARNING/
+# match line containing 'warning', case-insensitive
+warning /(?i)warning/
 
 # create a quick access link to lines in the report containing 'INFO'
 info /INFO/
