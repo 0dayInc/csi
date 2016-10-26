@@ -4,7 +4,7 @@
 error /(?i)(^|\s)error(:|\s)/
 
 # match line containing 'warning', case-insensitive
-warning /(?i)warning/
+warning /(?i)(^|\s)warning(:|\s)/
 
 # create a quick access link to lines in the report containing 'INFO'
 info /INFO/
