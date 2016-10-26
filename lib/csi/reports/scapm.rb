@@ -126,6 +126,7 @@ module CSI
               console.log("To see the contents of the sp_zfn_results collection, run 'sp_zfn_results.data' from the console.");
               // will return the data inserted from the csi_scan_git_source.json file.
 
+              var line_entry_uri;
               $(document).ready(function() {
                 var oldStart = 0;
                 var table = $('#csi_scan_git_source_results').DataTable( {
@@ -178,7 +179,8 @@ module CSI
                       "data": "filename",
                       "render": function (data, type, row, meta) {
                         for (var i = 0; i < data.length; i++) {
-                          return '<table class="squish"><tr style="background-color:#F2F5A9;"><td style="width:150px;" align="left"><a href="' + data[i]['git_repo_root_uri'] + '/' + data[i]['entry'] + '" target="_blank">' + data[i]['entry'] + '</a></td></tr></table>';
+                          line_entry_uri = data[i]['git_repo_root_uri'] + '/' + data[i]['entry'];
+                          return '<table class="squish"><tr style="background-color:#F2F5A9;"><td style="width:150px;" align="left"><a href="' + line_entry_uri + '" target="_blank">' + data[i]['entry'] + '</a></td></tr></table>';
 
                         }
                       }
@@ -220,7 +222,8 @@ module CSI
 
                          var canned_email = email.replace("&lt;", "").replace("&gt;", "") + '?subject=Potential%20Bug%20within%20Source%20File:%20'+ encodeURIComponent(row.filename) +'&body=Greetings,%0A%0AThe%20following%20information%20likely%20represents%20a%20bug%20discovered%20through%20automated%20security%20testing%20initiatives:%0A%0A' + encodeURIComponent(canned_email_results) + 'Is%20this%20something%20that%20can%20be%20addressed%20immediately%20or%20would%20filing%20a%20bug%20be%20more%20appropriate?%20%20Please%20let%20us%20know%20at%20your%20earliest%20convenience%20to%20ensure%20we%20can%20meet%20security%20expectations%20for%20this%20release.%20%20Thanks%20and%20have%20a%20great%20day!';
 
-                          csi_rows = csi_rows.concat('<tr class="' + tr_class + '"><td style="width:90px" align="left">' + data[i]['line_no'] + ':&nbsp;</td><td style="width:300px" align="left"><a href="' + data[i]['git_repo_root_uri'] + '/' + data[i]['entry'] + '/L#' + data[i]['line_no'] + '" target="_blank">' + data[i]['contents'] + '</a></td><td style="width:200px" align="right"><a href="mailto:' + canned_email + '">' + data[i]['author'] + '</a></td></tr>'); 
+                          to_line_number = line_entry_uri + '/#L' + data[i]['line_no'];
+                          csi_rows = csi_rows.concat('<tr class="' + tr_class + '"><td style="width:90px" align="left">' + data[i]['line_no'] + ':&nbsp;</td><td style="width:300px" align="left"><a href="' + to_line_number + '" target="_blank">' + data[i]['contents'] + '</a></td><td style="width:200px" align="right"><a href="mailto:' + canned_email + '">' + data[i]['author'] + '</a></td></tr>'); 
                         }
                         csi_rows = csi_rows.concat('</tbody></table></td>');
                         return csi_rows;
