@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 printf "Installing CSI Dependencies ***********************************************************"
 `sudo apt-get install -y fontconfig postgresql-server-dev-all`
 

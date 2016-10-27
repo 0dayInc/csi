@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CSI
   module Plugins
     # This plugin is used for interacting w/ OpenVAS using OMP (OpenVAS Management Protocol).

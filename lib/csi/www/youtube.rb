@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CSI
   module WWW
     # This plugin supports Youtube actions.

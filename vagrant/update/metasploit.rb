@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 print "Updating Metasploit..."
 metasploit_root = "/opt/metasploit-framework-dev/"
 puts `sudo /bin/bash --login -c "cd #{metasploit_root} && git pull"`

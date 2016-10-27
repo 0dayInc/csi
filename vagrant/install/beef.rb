@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 # Install BeEF from Source
 printf "Installing BeEF ***********************************************************************"
 Dir.chdir("/opt")

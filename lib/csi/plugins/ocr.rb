@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'ai4r' # Learn how to process harder-to-read images
 require 'rtesseract'
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module CSI
   module Plugins
     # This plugin makes the creation of a thread pool much simpler.
