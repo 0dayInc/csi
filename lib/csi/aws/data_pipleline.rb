@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to AWS Data Pipeline.
     module DataPipeline
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::DataPipeline.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::DataPipeline.disconnect(
       #   data_pipeline_obj: 'required - data_pipeline_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         data_pipeline_obj = opts[:data_pipeline_obj]
         @@logger.info('Disconnecting...')
         data_pipeline_obj = nil
         @@logger.info("complete.\n")
 
-        return data_pipeline_obj
+        data_pipeline_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           data_pipeline_obj = #{self}.connect(

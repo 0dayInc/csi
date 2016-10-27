@@ -6,7 +6,7 @@ msfrpcd_yaml_conf = ARGV[0].to_s.strip.chomp
 rhosts = ARGV[1].to_s.strip.chomp
 rport = ARGV[2].to_s.strip.chomp
 
-logger = CSI::Plugins::CSILogger.create()
+logger = CSI::Plugins::CSILogger.create
 
 logger.info('MSF Postgres Login for ' << rhosts)
 
@@ -22,4 +22,4 @@ if results['data'].include? '- LOGIN SUCCESSFUL:'
   logger.error("Successful Postgres AuthN!!!  See #{rhosts}_msf_postgres_login.txt for more information.")
 end
 
-#TODO - Publish as HTML
+# TODO: - Publish as HTML

@@ -18,7 +18,6 @@ links.each do |link|
   end
 end
 
-
 unless File.exists?(phantomjs_tar_bz2)
   puts `sudo wget -O #{phantomjs_tar_bz2} #{phantomjs_linux_download}`
 end

@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Elastic Load Balancing.
     module ElasticLoadBalancingV2
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::ElasticLoadBalancingV2.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::ElasticLoadBalancingV2.disconnect(
       #   :elastic_lb_v2_obj: 'required - elastic_lb_v2_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         elastic_lb_v2_obj = opts[:elastic_lb_v2_obj]
         @@logger.info('Disconnecting...')
         elastic_lb_v2_obj = nil
         @@logger.info("complete.\n")
 
-        return elastic_lb_v2_obj
+        elastic_lb_v2_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           elastic_lb_v2_obj = #{self}.connect(

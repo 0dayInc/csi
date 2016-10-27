@@ -8,7 +8,7 @@ require 'yaml'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
   options.on('-rREGION', '--region=REGION', '<Required - Region to Describe>') do |region|
@@ -38,15 +38,14 @@ OptionParser.new do |options|
   options.on('-eEXPIRES', '--sts_expiration=EXPIRES', '<More Secure than Quickest or Alt - STS Expiration (Defaults to 900 Seconds)>') do |sts_exp|
     opts[:sts_exp] = sts_exp
   end
-
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
-logger = CSI::Plugins::CSILogger.create()
+logger = CSI::Plugins::CSILogger.create
 
 if opts[:yaml]
   yaml = YAML.load_file(opts[:yaml]) if File.exists?(opts[:yaml])
@@ -61,11 +60,11 @@ region = opts[:region].to_s.scrub
 sts_role_arn = opts[:sts_role_arn].to_s.scrub
 sts_role_name = opts[:sts_role_name].to_s.scrub
 
-if opts[:sts_exp].nil?
-  sts_exp = 900
-else
-  sts_exp = opts[:sts_exp].to_i
-end
+sts_exp = if opts[:sts_exp].nil?
+            900
+          else
+            opts[:sts_exp].to_i
+          end
 
 if access_key_id == '' && secret_access_key == ''
   credentials = CSI::AWS::STS.get_temp_credentials(

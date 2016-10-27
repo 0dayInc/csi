@@ -12,8 +12,10 @@ module CSI
       #   :ip => 'required - IP or Host to lookup',
       #   :proxy => 'optional - use a proxy'
       # )
+
       private
-      def self.ip_info_rest_call(opts={})
+
+      def self.ip_info_rest_call(opts = {})
         ip = opts[:ip].to_s.scrub.strip.chomp
         proxy = opts[:proxy]
 
@@ -35,8 +37,10 @@ module CSI
       #   :ip_or_host => 'required - IP or Host to lookup',
       #   :proxy => 'optional - use a proxy'
       # )
+
       public
-      def self.get(opts={})
+
+      def self.get(opts = {})
         ip_or_host = opts[:ip_or_host].to_s.scrub.strip.chomp
         proxy = opts[:proxy]
 
@@ -64,17 +68,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.get(

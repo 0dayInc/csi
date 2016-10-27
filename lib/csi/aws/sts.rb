@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to AWS Security Token Service.
     module STS
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::STS.get_temp_credentials(
@@ -14,7 +14,9 @@ module CSI
       #   role_session_name: 'required - the name of the instance profile role',
       #   duration_seconds: 'required - seconds in which sts credentials will expire'
       # )
+
       public
+
       def self.get_temp_credentials(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         role_arn = opts[:role_arn].to_s.scrub.chomp.strip
@@ -38,17 +40,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           credentials = #{self}.get_temp_credentials(

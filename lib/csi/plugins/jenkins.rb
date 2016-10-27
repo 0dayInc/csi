@@ -6,7 +6,7 @@ module CSI
     # This plugin is used to interact w/ the Jenkins API and can be
     # used to carry out tasks when certain events occur w/in Jenkins.
     module Jenkins
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.connect(
@@ -17,27 +17,29 @@ module CSI
       #   :identity_file => 'optional ssh private key path to AuthN w/ Jenkins PREFERRED over username/password',
       #   :ssl => 'optional connect over TLS (defaults to true)
       # )
+
       public
+
       def self.connect(opts = {})
         jenkins_ip = opts[:jenkins_ip]
-        if opts[:port]
-          port = opts[:port].to_i
-        else
-          port = 8080
-        end
+        port = if opts[:port]
+                 opts[:port].to_i
+               else
+                 8080
+               end
         username = opts[:username].to_s.scrub
         base_jenkins_api_uri = "https://#{jenkins_ip}/ase/services".to_s.scrub
         password = opts[:password].to_s.scrub
         identity_file = opts[:identity_file].to_s.scrub
-        if opts[:ssl] == true
-          ssl_bool = opts[:ssl]
-        else
-          ssl_bool = false
-        end
+        ssl_bool = if opts[:ssl] == true
+                     opts[:ssl]
+                   else
+                     false
+                   end
 
         begin
           @@logger.info("Logging into Jenkins Server: #{jenkins_ip}")
-          if username == ''  && password == ''
+          if username == '' && password == ''
             if identity_file == ''
               jenkins_obj = JenkinsApi::Client.new(
                 server_ip: jenkins_ip,
@@ -76,7 +78,9 @@ module CSI
       # CSI::Plugins::Jenkins.get_all_job_git_repos(
       #   :jenkins_obj => 'required jenkins_obj returned from login method'
       # )
+
       public
+
       def self.get_all_job_git_repos(opts = {})
         jenkins_obj = opts[:jenkins_obj]
 
@@ -88,20 +92,19 @@ module CSI
           this_config = Nokogiri::XML(jenkins_obj.job.get_config(job['name']))
           this_git_repo = this_config.xpath('//scm/userRemoteConfigs/hudson.plugins.git.UserRemoteConfig/url').text
           this_git_branch = this_config.xpath('//scm/branches/hudson.plugins.git.BranchSpec/name').text
-          unless this_git_repo == ''
-            # Obtain all jobs' git repos
-            job_git_repo = {}
-            job_git_repo[:name] = job['name']
-            job_git_repo[:url] = job['url']
-            job_git_repo[:job_state] = job['color']
-            job_git_repo[:git_repo] = this_git_repo
-            job_git_repo[:git_branch] = this_git_branch
-            job_git_repo[:config_xml_response] = this_config
-            git_repo_arr.push(job_git_repo)
-          end
+          next if this_git_repo == ''
+          # Obtain all jobs' git repos
+          job_git_repo = {}
+          job_git_repo[:name] = job['name']
+          job_git_repo[:url] = job['url']
+          job_git_repo[:job_state] = job['color']
+          job_git_repo[:git_repo] = this_git_repo
+          job_git_repo[:git_branch] = this_git_branch
+          job_git_repo[:config_xml_response] = this_config
+          git_repo_arr.push(job_git_repo)
         end
 
-        return git_repo_arr
+        git_repo_arr
       end
 
       # Supported Method Parameters::
@@ -109,14 +112,16 @@ module CSI
       #   :jenkins_obj => 'required jenkins_obj returned from login method',
       #   :view_path => 'required view path to list jobs'
       # )
+
       public
+
       def self.list_nested_jobs(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
         nested_jobs_arr = nested_view_resp['jobs']
 
-        return nested_jobs_arr
+        nested_jobs_arr
       end
 
       # Supported Method Parameters::
@@ -124,14 +129,16 @@ module CSI
       #   :jenkins_obj => 'required jenkins_obj returned from login method',
       #   :view_path => 'required view path list sub-views'
       # )
+
       public
+
       def self.list_nested_views(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
         nested_views_arr = nested_view_resp['views']
 
-        return nested_views_arr
+        nested_views_arr
       end
 
       # CSI::Plugins::Jenkins.create_nested_view(
@@ -139,13 +146,15 @@ module CSI
       #   :view_path => 'required view path create',
       #   :create_in_view_path => 'optional creates nested view within an existing nested view, defaults to / views'
       # )
+
       public
+
       def self.create_nested_view(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_name = opts[:view_name].to_s.scrub
         create_in_view_path = opts[:create_in_view_path].to_s.scrub
         # TODO: pass parameter for modes and use case statement to build dynamically post_body
-        #mode = 'hudson.plugins.nested_view.NestedView' # Requires Jenkins Nested View Plugin to Work Properly
+        # mode = 'hudson.plugins.nested_view.NestedView' # Requires Jenkins Nested View Plugin to Work Properly
         mode = 'hudson.model.ListView'
 
         post_body = {
@@ -202,7 +211,7 @@ module CSI
         view_path = opts[:view_path].to_s.scrub
         job_name = opts[:job_name].to_s.scrub
         resp = jenkins_obj.api_post_request("#{view_path}/addJobToView?name=#{job_name}")
-        return resp
+        resp
       end
 
       # Supported Method Parameters::
@@ -211,7 +220,9 @@ module CSI
       #   :existing_job_name => 'required existing job to copt to new job',
       #   :new_job_name => 'required name of new job'
       # )
+
       public
+
       def self.copy_job_no_fail_on_exist(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         existing_job_name = opts[:existing_job_name]
@@ -234,7 +245,9 @@ module CSI
       #   :jenkins_obj => 'required jenkins_obj returned from login method',
       #   :regex => 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
+
       public
+
       def self.disable_jobs_by_regex(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
@@ -253,7 +266,9 @@ module CSI
       #   :jenkins_obj => 'required jenkins_obj returned from login method',
       #   :regex => 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
+
       public
+
       def self.delete_jobs_by_regex(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
@@ -271,7 +286,9 @@ module CSI
       # CSI::Plugins::Jenkins.clear_build_queue(
       #   :jenkins_obj => 'required jenkins_obj returned from login method',
       # )
+
       public
+
       def self.clear_build_queue(opts = {})
         jenkins_obj = opts[:jenkins_obj]
 
@@ -281,33 +298,38 @@ module CSI
         end
       end
 
-
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.disconnect(
       #   :jenkins_obj => 'required jenkins_obj returned from login method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         @@logger.info('Disconnecting from Jenkins...')
         jenkins_obj = nil
-        return 'complete'
+        'complete'
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
-        puts %Q{USAGE:
+        puts %{USAGE:
           jenkins_obj = #{self}.connect(
             :jenkins_ip => 'required host/ip of Jenkins Server',
             :port => 'optional tcp port (defaults to 8080),

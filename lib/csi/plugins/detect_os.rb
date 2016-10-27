@@ -7,7 +7,9 @@ module CSI
     module DetectOS
       # Supported Method Parameters::
       # CSI::Plugins::DetectOS.type
+
       public
+
       def self.type
         return :linux if OS.linux?
         return :osx if OS.osx?
@@ -16,17 +18,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.type

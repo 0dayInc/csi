@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon Elasticsearch Service.
     module ElasticsearchService
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::ElasticsearchService.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::ElasticsearchService.disconnect(
       #   elasticsearch_service_obj: 'required - elasticsearch_service_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         elasticsearch_service_obj = opts[:elasticsearch_service_obj]
         @@logger.info('Disconnecting...')
         elasticsearch_service_obj = nil
         @@logger.info("complete.\n")
 
-        return elasticsearch_service_obj
+        elasticsearch_service_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           elasticsearch_service_obj = #{self}.connect(

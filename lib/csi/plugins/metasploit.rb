@@ -16,8 +16,10 @@ module CSI
       #   :username => 'optional username for msfrpcd',
       #   :password => 'optional password for msfrpcd'
       # )
+
       public
-      def self.connect(opts={})
+
+      def self.connect(opts = {})
         msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exists?(opts[:msfrpcd_yaml_conf])
 
         if msfrpcd_yaml_conf
@@ -29,11 +31,11 @@ module CSI
         else
           msfrpcd_host = opts[:msfrpcd_host].to_s
 
-          if opts[:port].nil?
-            port = 55553
-          else
-            port = opts[:port].to_i
-          end
+          port = if opts[:port].nil?
+                   55_553
+                 else
+                   opts[:port].to_i
+                 end
 
           username = opts[:username].to_s
           password = opts[:password].to_s
@@ -60,26 +62,26 @@ module CSI
       #   :msf_module_opts => msf_module_opts
       # )l
       # TODO - Better error handling
-      def self.exec(opts ={})
+      def self.exec(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s
         msf_module_opts = opts[:msf_module_opts]
 
         console_cmd = "use #{msf_module} \n"
-        msf_module_opts.each{|option, value| console_cmd << " set #{option} #{value}\n"}
+        msf_module_opts.each { |option, value| console_cmd << " set #{option} #{value}\n" }
         console_cmd << "run\n"
 
-        print "Executing #{console_cmd}" #DEBUG Print
+        print "Executing #{console_cmd}" # DEBUG Print
 
-        #Create the Console and write the console_cmd to it
+        # Create the Console and write the console_cmd to it
         console = msfrpcd_conn.call('console.create')
-        msfrpcd_conn.call('console.read', "#{console['id']}")
-        msfrpcd_conn.call('console.write', "#{console['id']}", console_cmd)
+        msfrpcd_conn.call('console.read', (console['id']).to_s)
+        msfrpcd_conn.call('console.write', (console['id']).to_s, console_cmd)
         results = {}
 
         loop do
           sleep(1)
-          results = msfrpcd_conn.call('console.read', "#{console['id']}")
+          results = msfrpcd_conn.call('console.read', (console['id']).to_s)
 
           if results['busy'] == true
             print 'Busy, trying again \n'
@@ -88,23 +90,24 @@ module CSI
           break
         end
 
-        #print "Results #{results}"
-        msfrpcd_conn.call('console.destroy', "#{console['id']}")
+        # print "Results #{results}"
+        msfrpcd_conn.call('console.destroy', (console['id']).to_s)
 
-        return results
+        results
       end
-
 
       # Supported Method Parameters::
       # auxiliary = CSI::Plugins::Metasploit.show_auxiliary(
       #   :msfrpc_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_auxiliary(opts={})
+
+      def self.show_auxiliary(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         auxiliary = msfrpcd_conn.call('module.auxiliary')
 
-        return auxiliary
+        auxiliary
       end
 
       # Supported Method Parameters::
@@ -112,49 +115,57 @@ module CSI
       #   :msfrpcd_conn => msfrpcd_conn1,
       #   :msf_module = "required msf module name"
       # )
+
       public
-      def self.show_compatible_payloads(opts={})
+
+      def self.show_compatible_payloads(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s
         compat_payloads = msfrpcd_conn.call('module.compatible_payloads', msf_module)
 
-        return compat_payloads
+        compat_payloads
       end
 
       # Supported Method Parameters::
       # encoders = CSI::Plugins::Metasploit.show_encoders(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_encoders(opts={})
+
+      def self.show_encoders(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         encoders = msfrpcd_conn.call('module.encoders')
 
-        return encoders
+        encoders
       end
 
       # Supported Method Parameters::
       # exploits = CSI::Plugins::Metasploit.show_exploits(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_exploits(opts={})
+
+      def self.show_exploits(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         exploits = msfrpcd_conn.call('module.exploits')
 
-        return exploits
+        exploits
       end
 
       # Supported Method Parameters::
       # nops = CSI::Plugins::Metasploit.show_nops(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_nops(opts={})
+
+      def self.show_nops(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         nops = msfrpcd_conn.call('module.nops')
 
-        return nops
+        nops
       end
 
       # Supported Method Parameters::
@@ -163,57 +174,67 @@ module CSI
       #   :msf_module_type => "required msf module type (:exploit, :auxiliary, :post, :payload, :encoder, :nop)",
       #   :msf_module = "required msf module name"
       # )
+
       public
-      def self.show_options(opts={})
+
+      def self.show_options(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module_type = opts[:msf_module_type].to_s
         msf_module = opts[:msf_module].to_s
         options = msfrpcd_conn.call('module.options', msf_module_type, msf_module)
 
-        return options
+        options
       end
 
       # Supported Method Parameters::
       # payloads = CSI::Plugins::Metasploit.show_payloads(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_payloads(opts={})
+
+      def self.show_payloads(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         payloads = msfrpcd_conn.call('module.payloads')
 
-        return payloads
+        payloads
       end
 
       # Supported Method Parameters::
       # post = CSI::Plugins::Metasploit.show_post(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_post(opts={})
+
+      def self.show_post(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('module.post')
 
-        return post
+        post
       end
 
       # Supported Method Parameters::
       # version = CSI::Plugins::Metasploit.show_version(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
-      def self.show_version(opts={})
+
+      def self.show_version(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('core.version')
 
-        return post
+        post
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Metasploit.disconnect(
       #   :msfrpcd_conn => msfrpcd_conn1
       # )
+
       public
+
       def self.disconnect(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
@@ -221,17 +242,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           msfrpcd_conn1 = #{self}.connect(

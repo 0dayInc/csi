@@ -6,19 +6,19 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
   # Nexpose Flags
-  options.on('-CIP', '--console_ip=IP', '<Required - Nexpose Console IP>') {|c| opts[:console_ip] = c }
-  options.on('-UCUSER', '--console_username=CUSER', '<Required - Nexpose Console Username>') {|cu| opts[:console_username] = cu }
-  options.on('-PCPASS', '--console_password=CPASS', '<Required - Nexpose Console Password>') {|cp| opts[:console_password] = cp }
-  options.on('-SSITE', '--site_name=SITE', '<Required - Nexpose Site Name>') {|s| opts[:site_name] = s }
-  options.on('-RREPORTS', '--report_names=REPORTS', '<Required - Comma Delimited String of Report Names>') {|r| opts[:report_names] = r }
+  options.on('-CIP', '--console_ip=IP', '<Required - Nexpose Console IP>') { |c| opts[:console_ip] = c }
+  options.on('-UCUSER', '--console_username=CUSER', '<Required - Nexpose Console Username>') { |cu| opts[:console_username] = cu }
+  options.on('-PCPASS', '--console_password=CPASS', '<Required - Nexpose Console Password>') { |cp| opts[:console_password] = cp }
+  options.on('-SSITE', '--site_name=SITE', '<Required - Nexpose Site Name>') { |s| opts[:site_name] = s }
+  options.on('-RREPORTS', '--report_names=REPORTS', '<Required - Comma Delimited String of Report Names>') { |r| opts[:report_names] = r }
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 

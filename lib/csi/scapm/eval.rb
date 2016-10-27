@@ -8,15 +8,16 @@ module CSI
     # declarations within source code in an effort to
     # determine if arbitrary command/code execution is possible
     module Eval
-
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::SCAPM::Eval.scan(
       #   :dir_path => 'optional path to dir defaults to .'
       #   :git_repo_root_uri => 'optional http uri of git repo scanned'
       # )
+
       public
+
       def self.scan(opts = {})
         dir_path = opts[:dir_path]
         git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
@@ -24,7 +25,7 @@ module CSI
         logger_results = ''
 
         CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
-          if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ )
+          if File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/
             line_no_and_contents_arr = []
             filename_arr = []
             entry_beautified = false
@@ -41,14 +42,14 @@ module CSI
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 
-            if str.to_s.length > 0
+            if !str.to_s.empty?
               # If str length is >= 64 KB do not include results. (Due to Mongo Document Size Restrictions)
-              str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
+              str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64_000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}",
-                test_case: self.nist_800_53_requirements,
-                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),
+                timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s,
+                test_case: nist_800_53_requirements,
+                filename: filename_arr.push(git_repo_root_uri: git_repo_root_uri, entry: entry),
                 line_no_and_contents: '',
                 raw_content: str,
                 test_case_filter: HTMLEntities.new.encode(test_case_filter)
@@ -68,13 +69,11 @@ module CSI
                   target_file: entry,
                   entry_beautified: entry_beautified
                 )
-                hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                  line_no: line_no,
-                  contents: contents,
-                  author: author
-                })
+                hash_line[:line_no_and_contents] = line_no_and_contents_arr.push(line_no: line_no,
+                                                                                 contents: contents,
+                                                                                 author: author)
 
-                current_count+=2
+                current_count += 2
               end
               result_arr.push(hash_line)
               logger_results << 'x' # Catching bugs is good :)
@@ -83,13 +82,13 @@ module CSI
             end
           end
         end
-         logger_banner = "http://#{Socket.gethostname}:8808/doc_root/csi-#{CSI::VERSION.to_s.scrub}/#{self.to_s.scrub.gsub('::', '/')}.html"
+        logger_banner = "http://#{Socket.gethostname}:8808/doc_root/csi-#{CSI::VERSION.to_s.scrub}/#{to_s.scrub.gsub('::', '/')}.html"
         if logger_results.empty?
           @@logger.info("#{logger_banner}: No files applicable to this test case.\n")
         else
           @@logger.info("#{logger_banner} => #{logger_results}complete.\n")
         end
-        return result_arr
+        result_arr
       end
 
       # Supported Method Parameters::
@@ -100,7 +99,9 @@ module CSI
       #   :target_file => entry,
       #   :entry_beautified => entry_beautified
       # )
+
       private
+
       def self.get_author(opts = {})
         repo_root = opts[:repo_root]
         from_line = opts[:from_line]
@@ -117,50 +118,59 @@ module CSI
           target_file_line_length = 1 if target_file_line_length < 1 # wc -l doesn't count line is \n is missing
 
           author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
-            repo_root: repo_root,
-            from_line: 1,
-            to_line: target_file_line_length,
-            target_file: target_file
+                                             repo_root: repo_root,
+                                             from_line: 1,
+                                             to_line: target_file_line_length,
+                                             target_file: target_file
           ))
         else
-          from_line, to_line = 1, 1 if from_line.to_i && to_line.to_i < 1
+          if from_line.to_i && to_line.to_i < 1
+            from_line = 1
+            to_line = 1
+          end
           author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
-            repo_root: repo_root,
-            from_line: from_line,
-            to_line: to_line,
-            target_file: target_file
+                                             repo_root: repo_root,
+                                             from_line: from_line,
+                                             to_line: to_line,
+                                             target_file: target_file
           ))
         end
 
-        return author
+        author
       end
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
       # https://web.nvd.nist.gov/view/800-53/Rev4/impact?impactName=HIGH
       # to CSI Exploit & Static Code Anti-Pattern Matching Modules to
       # Determine the level of Testing Coverage w/ CSI.
+
       public
+
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
           section: 'MALICIOUS CODE PROTECTION',
           nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SI-3'
         }
-        return nist_800_53_requirements
+        nist_800_53_requirements
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           port_arr = #{self}.scan(

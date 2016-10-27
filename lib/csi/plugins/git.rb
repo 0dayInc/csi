@@ -9,20 +9,22 @@ module CSI
     # html diff to be sent via email (deprecated).  In the future this
     # plugin may be used to expand upon capabilities required w/ Git.
     module Git
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
       # Supported Method Parameters::
       # CSI::Plugins::Git.gen_html_diff(
       #   :repo => 'required git repo name',
       #   :branch => 'required git repo branch (e.g. master, develop, etc)',
       #   :since => 'optional date, otherwise default to last pull'
       # )
+
       public
-      def self.gen_html_diff(opts={})
+
+      def self.gen_html_diff(opts = {})
         git_repo_name = opts[:repo].to_s
         git_repo_branch = opts[:branch].to_s
         since_date = opts[:since]
 
-        git_pull_output =  '<div style="background-color:#CCCCCC; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">'
+        git_pull_output = '<div style="background-color:#CCCCCC; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">'
         if since_date
           git_pull_output << "<h3>#{git_repo_name}->#{git_repo_branch} Diff Summary Since #{since_date}</h3>"
           git_entity = HTMLEntities.new.encode(`git log --since #{since_date} --stat-width=65535 --graph`.to_s.scrub)
@@ -36,7 +38,7 @@ module CSI
         git_pull_output << '</div>'
         git_pull_output << '<br />'
 
-        return git_pull_output
+        git_pull_output
       end
 
       # Supported Method Parameters::
@@ -46,13 +48,15 @@ module CSI
       #   :to_line => 'required line number to stop in range',
       #   :target_file => 'require file in which line range is queried'
       # )
+
       public
+
       def self.get_author_by_line_range(opts = {})
-        if opts[:repo_root].nil?
-          repo_root = '.'
-        else
-          repo_root = opts[:repo_root].to_s
-        end
+        repo_root = if opts[:repo_root].nil?
+                      '.'
+                    else
+                      opts[:repo_root].to_s
+                    end
         from_line = opts[:from_line].to_i
         to_line = opts[:to_line].to_i
         target_file = opts[:target_file].to_s
@@ -65,33 +69,38 @@ module CSI
         end
       end
 
-
       # Supported Method Parameters::
       # CSI::Plugins::Git.dump_all_repo_branches(
       #   :git_url => 'required git repo url'
       # )
+
       public
+
       def self.dump_all_repo_branches(opts = {})
         git_url = opts[:git_url].to_s.scrub
         all_repo_branches = `git ls-remote #{git_url}`.to_s.scrub
 
-        return all_repo_branches
+        all_repo_branches
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
-        puts %Q{USAGE:
+        puts %{USAGE:
           git_html_resp = #{self}.gen_html_diff(
             :repo => 'required git repo name',
             :branch => 'required git repo branch (e.g. master, develop, etc)',

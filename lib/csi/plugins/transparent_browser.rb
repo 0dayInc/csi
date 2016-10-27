@@ -20,131 +20,133 @@ module CSI
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
       # )
+
       public
+
       def self.open(opts = {})
-        begin
-          this_browser = nil
-          browser_type = opts[:browser_type]
-          proxy = opts[:proxy].to_s unless opts[:proxy].nil?
-          if opts[:with_tor]
-            with_tor = true
-          else
-            with_tor = false
-          end
+        this_browser = nil
+        browser_type = opts[:browser_type]
+        proxy = opts[:proxy].to_s unless opts[:proxy].nil?
+        with_tor = if opts[:with_tor]
+                     true
+                   else
+                     false
+                   end
 
-          # Let's crank up the default timeout from 30 seconds to 15 min for slow sites
-          Watir.default_timeout = 900
+        # Let's crank up the default timeout from 30 seconds to 15 min for slow sites
+        Watir.default_timeout = 900
 
-          case browser_type
-            when :firefox
-              this_profile = Selenium::WebDriver::Firefox::Profile.new
-              this_profile.native_events = false
-              this_profile.proxy = Selenium::WebDriver::Proxy.new(no_proxy: true)
+        case browser_type
+        when :firefox
+          this_profile = Selenium::WebDriver::Firefox::Profile.new
+          this_profile.native_events = false
+          this_profile.proxy = Selenium::WebDriver::Proxy.new(no_proxy: true)
 
-              if proxy
-                if with_tor
-                  this_profile['javascript.enabled'] = false
-                  this_profile.proxy = Selenium::WebDriver::Proxy.new(
-                    socks: "#{URI(proxy).host}:#{URI(proxy).port}"
-                  )
-                else
-                  this_profile.proxy = Selenium::WebDriver::Proxy.new(
-                    http: "#{URI(proxy).host}:#{URI(proxy).port}",
-                    ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
-                  )
-                end
-              end
-
-              this_browser = Watir::Browser.new(
-                :firefox,
-                profile: this_profile
+          if proxy
+            if with_tor
+              this_profile['javascript.enabled'] = false
+              this_profile.proxy = Selenium::WebDriver::Proxy.new(
+                socks: "#{URI(proxy).host}:#{URI(proxy).port}"
               )
-            when :chrome
-              this_profile = Selenium::WebDriver::Chrome::Profile.new
-              this_profile['download.prompt_for_download'] = false
-              this_profile['download.default_directory'] = '~/Downloads'
-
-              if proxy
-                if with_tor
-                  this_browser = Watir::Browser.new(
-                    :chrome,
-                    switches: [
-                      "--proxy-server=#{proxy}",
-                      "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                    ]
-                  )
-                else
-                  this_browser = Watir::Browser.new(
-                    :chrome,
-                    switches: ["--proxy-server=#{proxy}"]
-                  )
-                end
-              else
-                this_browser = Watir::Browser.new(:chrome)
-
-              end
-            when :headless
-              if proxy
-                if with_tor
-                  this_browser = Watir::Browser.new(
-                    :phantomjs,
-                    args: [
-                      '--proxy-type=socks5',
-                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-                      '--ignore-ssl-errors=true',
-                      '--ssl-protocol=any',
-                      '--web-security=false'
-                    ]
-                  )
-                else
-                  this_browser = Watir::Browser.new(
-                    :phantomjs,
-                    args: [
-                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-                      '--ignore-ssl-errors=true',
-                      '--ssl-protocol=any',
-                      '--web-security=false'
-                    ]
-                  )
-                end
-              else
-                this_browser = Watir::Browser.new(
-                  :phantomjs,
-                  args: [
-                    '--ignore-ssl-errors=true',
-                    '--ssl-protocol=any',
-                    '--web-security=false'
-                  ]
-                )
-              end
-            when :rest
-              this_browser = RestClient
-              if proxy
-                if with_tor
-                  TCPSocket.socks_server = URI(proxy).host
-                  TCPSocket.socks_port = URI(proxy).port
-                else
-                  this_browser.proxy = proxy
-                end
-              end
-
-          else
-            puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
-            return nil
+            else
+              this_profile.proxy = Selenium::WebDriver::Proxy.new(
+                http: "#{URI(proxy).host}:#{URI(proxy).port}",
+                ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
+              )
+            end
           end
 
-          return this_browser
-        rescue => e
-          puts "Error: #{e.message}"
+          this_browser = Watir::Browser.new(
+            :firefox,
+            profile: this_profile
+          )
+        when :chrome
+          this_profile = Selenium::WebDriver::Chrome::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
+          if proxy
+            if with_tor
+              this_browser = Watir::Browser.new(
+                :chrome,
+                switches: [
+                  "--proxy-server=#{proxy}",
+                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+                ]
+              )
+            else
+              this_browser = Watir::Browser.new(
+                :chrome,
+                switches: ["--proxy-server=#{proxy}"]
+              )
+            end
+          else
+            this_browser = Watir::Browser.new(:chrome)
+
+          end
+        when :headless
+          if proxy
+            if with_tor
+              this_browser = Watir::Browser.new(
+                :phantomjs,
+                args: [
+                  '--proxy-type=socks5',
+                  "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
+                  '--ignore-ssl-errors=true',
+                  '--ssl-protocol=any',
+                  '--web-security=false'
+                ]
+              )
+            else
+              this_browser = Watir::Browser.new(
+                :phantomjs,
+                args: [
+                  "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
+                  '--ignore-ssl-errors=true',
+                  '--ssl-protocol=any',
+                  '--web-security=false'
+                ]
+              )
+            end
+          else
+            this_browser = Watir::Browser.new(
+              :phantomjs,
+              args: [
+                '--ignore-ssl-errors=true',
+                '--ssl-protocol=any',
+                '--web-security=false'
+              ]
+            )
+          end
+        when :rest
+          this_browser = RestClient
+          if proxy
+            if with_tor
+              TCPSocket.socks_server = URI(proxy).host
+              TCPSocket.socks_port = URI(proxy).port
+            else
+              this_browser.proxy = proxy
+            end
+          end
+
+        else
+          puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
           return nil
         end
+
+        return this_browser
+      rescue => e
+        puts "Error: #{e.message}"
+        return nil
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.linkout(
       #   :browser_obj => browser_obj1
       # )
+
       public
+
       def self.linkout(opts = {})
         this_browser_obj = opts[:browser_obj]
 
@@ -165,15 +167,17 @@ module CSI
       #   :q => 'required - query string to randomize',
       #   :rand_sleep_float => 'optional - float timing in between keypress (defaults to 0.09)'
       # )
+
       public
+
       def self.type_as_human(opts = {})
         query_string = opts[:q].to_s
 
-        if opts[:rand_sleep_float]
-          rand_sleep_float = opts[:rand_sleep_float].to_f
-        else
-          rand_sleep_float = 0.09
-        end
+        rand_sleep_float = if opts[:rand_sleep_float]
+                             opts[:rand_sleep_float].to_f
+                           else
+                             0.09
+                           end
 
         begin
           query_string.each_char do |char|
@@ -190,7 +194,9 @@ module CSI
       # CSI::Plugins::TransparentBrowser.close(
       #   :browser_obj => browser_obj1
       # )
+
       public
+
       def self.close(opts = {})
         this_browser_obj = opts[:browser_obj]
         begin
@@ -205,19 +211,23 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
-        puts %Q{USAGE:
+        puts %{USAGE:
           browser_obj1 = #{self}.open(
             :browser_type => :firefox|:chrome|:headless|:rest,
             :proxy => 'optional http(s)://proxy_host:port',

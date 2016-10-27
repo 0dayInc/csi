@@ -26,11 +26,11 @@ Vagrant.configure(API_VERSION) do |config|
 
   config.vm.provider(:virtualbox) do |vb, override|
     override.vm.box = 'ubuntu/xenial64'
-    if vagrant_gui == 'gui'
-      vb.gui = true
-    else
-      vb.gui = false
-    end
+    vb.gui = if vagrant_gui == 'gui'
+               true
+             else
+               false
+             end
 
     yaml_config = YAML.load_file('./etc/virtualbox/vagrant.yaml')
     vb.memory = yaml_config['memory']
@@ -80,7 +80,6 @@ Vagrant.configure(API_VERSION) do |config|
   # end
 
   config.vm.provider(:aws) do |aws, override|
-
     override.vm.box = 'dummy'
 
     yaml_config = YAML.load_file('./etc/aws/vagrant.yaml')
@@ -126,20 +125,20 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/install/sipp.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/install/owasp_zap.rb', privileged: false
-  #config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
+  # config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
 
   # TODO: populate vagrant_gui via etc/virtualbox/vagrant.yaml
   case vagrant_gui
     # VirtualBox Section
-    when 'gui' # GUI
-      # TODO: enable devices (e.g. cdrom)
-      config.vm.provision :shell, path: './vagrant/install/terminator.sh', privileged: false
-      config.vm.provision :shell, path: './vagrant/install/firefox.sh', privileged: false
-      config.vm.provision :shell, path: './vagrant/install/chrome.sh', privileged: false
-      config.vm.provision :shell, path: './vagrant/install/lxde.sh', privileged: false
-      config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
-    when 'headless' # Headless
-      config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
+  when 'gui' # GUI
+    # TODO: enable devices (e.g. cdrom)
+    config.vm.provision :shell, path: './vagrant/install/terminator.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/install/firefox.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/install/chrome.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/install/lxde.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
+  when 'headless' # Headless
+    config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
   else
     # AWS Section
     config.vm.provision :shell, path: './vagrant/install/letsencrypt.rb', args: 'head', privileged: false
@@ -161,11 +160,11 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: './vagrant/install/exim4.sh', privileged: false
 
   # TODO: Convert Scripts Above into Ansible Playbooks
-  #config.vm.provision :ansible do |ansible|
+  # config.vm.provision :ansible do |ansible|
   #  ansible.playbook = './ansible/site.yaml'
   #  ansible.verbose = 'vvvv' # Useful for debugging
   #  ansible.groups = {
   #      'dev_servers' => ['default']
   #  }
-  #end
+  # end
 end

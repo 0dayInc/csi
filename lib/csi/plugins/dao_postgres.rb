@@ -17,49 +17,51 @@ module CSI
       #   :tty => 'optional tty',
       #   :sslmode => :disable|:allow|:prefer|:require
       # )
+
       public
+
       def self.connect(opts = {})
         host = opts[:host].to_s
 
-        if opts[:port].nil? || opts[:port] == 0
-          port = 5432
-        else
-          port = opts[:port].to_i
-        end
+        port = if opts[:port].nil? || opts[:port] == 0
+                 5432
+               else
+                 opts[:port].to_i
+               end
 
         dbname = opts[:dbname].to_s
         user = opts[:user].to_s
 
-        if opts[:password].nil?
-          password = CSI::Plugins::AuthenticationHelper.mask_password
-        else
-          password = opts[:password].to_s
-        end
+        password = if opts[:password].nil?
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password].to_s
+                   end
 
-        if opts[:connect_timeout].nil?
-          connect_timeout = 60
-        else
-          connect_timeout = opts[:connect_timeout].to_i
-        end
+        connect_timeout = if opts[:connect_timeout].nil?
+                            60
+                          else
+                            opts[:connect_timeout].to_i
+                          end
 
         options = opts[:options]
         tty = opts[:tty]
 
         case opts[:sslmode]
-          when :disable
-            sslmode = 'disable'
-          when :allow
-            sslmode = 'allow'
-          when :prefer
-            sslmode = 'prefer'
-          when :require
-            sslmode = 'require'
+        when :disable
+          sslmode = 'disable'
+        when :allow
+          sslmode = 'allow'
+        when :prefer
+          sslmode = 'prefer'
+        when :require
+          sslmode = 'require'
         else
           raise "Error: Invalid :sslmode => #{opts[:sslmode]}. Valid params are :disable, :allow, :prefer, or :require"
         end
-        #krbsrvname = opts[:krbsrvname] # << Not supported by pg 0.17.1
-        #gsslib = opts[:gsslib] # << Not supported by pg 0.17.1
-        #service = opts[:service] # << Not supported by pg 0.17.1
+        # krbsrvname = opts[:krbsrvname] # << Not supported by pg 0.17.1
+        # gsslib = opts[:gsslib] # << Not supported by pg 0.17.1
+        # service = opts[:service] # << Not supported by pg 0.17.1
 
         begin
           pg_conn = PG::Connection.new(
@@ -87,8 +89,10 @@ module CSI
       #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1',
       #   :statement_params => ['Active']
       # )
+
       public
-      def self.sql_statement(opts ={})
+
+      def self.sql_statement(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
@@ -98,11 +102,11 @@ module CSI
         end
 
         begin
-          if statement_params.nil?
-            res = pg_conn.exec(prepared_statement)
-          else
-            res = pg_conn.exec(prepared_statement, statement_params)
-          end
+          res = if statement_params.nil?
+                  pg_conn.exec(prepared_statement)
+                else
+                  pg_conn.exec(prepared_statement, statement_params)
+                end
           return res
         rescue => e
           return e.message
@@ -111,23 +115,26 @@ module CSI
 
       # Supported Method Parameters::
       # Method Parameters Not Implemented
+
       public
+
       def self.list_all_schemas_by_host(opts = {})
-
       end
 
       # Supported Method Parameters::
       # Method Parameters Not Implemented
+
       public
+
       def self.list_all_databases_by_schema(opts = {})
-
       end
 
       # Supported Method Parameters::
       # Method Parameters Not Implemented
-      public
-      def self.list_all_tables_by_database(opts = {})
 
+      public
+
+      def self.list_all_tables_by_database(opts = {})
       end
 
       # Supported Method Parameters::
@@ -136,7 +143,9 @@ module CSI
       #   :schema => 'required schema name',
       #   :table_name => 'required table name'
       # )
+
       public
+
       def self.list_all_columns_by_table(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
@@ -156,14 +165,16 @@ module CSI
           statement_params: [table_schema, table_name]
         )
 
-        return res
+        res
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.disconnect(
       #   :pg_conn => pg_conn
       # )
+
       public
+
       def self.disconnect(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
@@ -178,8 +189,10 @@ module CSI
       # validate_pg_conn(
       #   :pg_conn => pg_conn
       # )
+
       private
-      def self.validate_pg_conn(opts ={})
+
+      def self.validate_pg_conn(opts = {})
         pg_conn = opts[:pg_conn]
         unless pg_conn.class == PG::Connection
           raise "Error: Invalid pg_conn Object #{pg_conn}"
@@ -187,17 +200,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           pg_conn = #{self}.connect(

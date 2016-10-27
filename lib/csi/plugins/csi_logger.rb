@@ -8,9 +8,11 @@ module CSI
     module CSILogger
       # Supported Method Parameters::
       # CSI::Plugins::CSILogger.create(
-      #)
+      # )
+
       public
-      def self.create(opts={})
+
+      def self.create(opts = {})
         logger = Logger.new(STDOUT)
         logger.level = Logger::INFO
         logger.datetime_format = '%Y-%m-%d %H:%M:%S'
@@ -19,20 +21,24 @@ module CSI
           "[#{severity}] #{msg}\n"
         end
 
-        return logger
+        logger
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = 'AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         '
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           logger = #{self}.create()

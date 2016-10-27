@@ -5,14 +5,15 @@ module CSI
   module Plugins
     # This plugin is used for interacting w/ Slack over the Web API.
     module SlackClient
-
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::Plugins::SlackClient.login(
       #   :api_token => 'required slack api token'
       # )
+
       public
+
       def self.login(opts = {})
         api_token = opts[:api_token]
 
@@ -40,7 +41,9 @@ module CSI
       #   :channel => 'required #channel to post message',
       #   :message => 'required message to post'
       # )
+
       public
+
       def self.post_message(opts = {})
         slack_obj = opts[:slack_obj]
         channel = opts[:channel].to_s.scrub
@@ -63,7 +66,9 @@ module CSI
       # CSI::Plugins::SlackClient.logout(
       #   :slack_obj => 'required slack_obj returned from login method'
       # )
+
       public
+
       def self.logout(opts = {})
         slack_obj = opts[:slack_obj]
         @@logger.info('Logging out...')
@@ -73,17 +78,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           slack_obj = #{self}.login(

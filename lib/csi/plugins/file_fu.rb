@@ -3,7 +3,6 @@ require 'shellwords'
 require 'rubygems/package'
 require 'zlib'
 
-
 module CSI
   module Plugins
     # This plugin is primarily used for interacting with files and directories
@@ -15,8 +14,10 @@ module CSI
       # CSI::Plugins::FileFu.recurse_dir(
       #   :dir_path => 'optional path to dir defaults to .'
       # )
+
       public
-      def self.recurse_dir(opts={})
+
+      def self.recurse_dir(opts = {})
         if opts[:dir_path].nil?
           dir_path = '.'
         else
@@ -25,7 +26,7 @@ module CSI
         end
         # Execute this like this:
         # recurse_dir(:dir_path => 'path to dir') {|entry| puts entry}
-        Dir.glob("#{dir_path}/**/*").each {|entry| yield Shellwords.escape(entry) }
+        Dir.glob("#{dir_path}/**/*").each { |entry| yield Shellwords.escape(entry) }
       end
 
       # Supported Method Parameters::
@@ -33,27 +34,33 @@ module CSI
       #   :tar_gz_file => 'required - path to .tar.gz file',
       #   :destination => 'required - destination folder to save extracted contents'
       # )
+
       public
-      def self.untar_gz_file(opts={})
+
+      def self.untar_gz_file(opts = {})
         tar_gz_file = opts[:tar_gz_file].to_s.scrub if File.exists?(opts[:tar_gz_file].to_s.scrub)
         destination = opts[:destination].to_s.scrub if Dir.exists?(File.dirname(tar_gz_file))
         puts `tar -xzvf #{tar_gz_file} -C #{destination}`
 
-        return
+        nil
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.recurse_dir(:dir_path => 'optional path to dir defaults to .') {|entry| puts entry}

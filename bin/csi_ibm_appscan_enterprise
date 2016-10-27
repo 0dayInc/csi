@@ -6,19 +6,19 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-SIP', '--appscan_ip=IP', '<Required - IBM Appscan Enterprise Server IP>') {|s| opts[:appscan_ip] = s }
-  options.on('-UUSER', '--ase_username=USER', '<Required - IBM Appscan Enterprise Username>') {|u| opts[:ase_username] = u }
-  options.on('-PPASS', '--ase_password=PASS', '<Required - IBM Appscan Enterprise Password>') {|p| opts[:ase_password] = p }
+  options.on('-SIP', '--appscan_ip=IP', '<Required - IBM Appscan Enterprise Server IP>') { |s| opts[:appscan_ip] = s }
+  options.on('-UUSER', '--ase_username=USER', '<Required - IBM Appscan Enterprise Username>') { |u| opts[:ase_username] = u }
+  options.on('-PPASS', '--ase_password=PASS', '<Required - IBM Appscan Enterprise Password>') { |p| opts[:ase_password] = p }
   options.on('-tTARGET', '--target_name=TARGET', '<Required - Target Folder Item Name to Initiate Scan>') do |t|
     opts[:target_name] = t
   end
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
@@ -44,7 +44,6 @@ folder_items[:xml_response].xpath('//xmlns:content-scan-job').each do |node|
 end
 # Exit Driver if Folder Item (Target Name) Isn't Found
 raise "ERROR: Target Name: #{target_name} Not Found.  Please Check the Spelling." if folder_item_id == -1
-
 
 # Run Scan
 scan_action = CSI::Plugins::IBMAppscan.folder_item_scan_action(
@@ -80,35 +79,34 @@ pdf_gen_timestamp = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')
 reports_to_download.each do |report_to_download|
   report_collection[:xml_response].xpath('//xmlns:report').each do |report|
     # We found the report id by name of report
-    if report.xpath('xmlns:name').text == report_to_download
-      report_id = report.xpath('xmlns:id').text
+    next unless report.xpath('xmlns:name').text == report_to_download
+    report_id = report.xpath('xmlns:id').text
 
-      # Get Report Schema
-      report_schema = CSI::Plugins::IBMAppscan.get_single_report_schema(
-        appscan_obj: appscan_obj,
-        report_id: report_id
-      )
+    # Get Report Schema
+    report_schema = CSI::Plugins::IBMAppscan.get_single_report_schema(
+      appscan_obj: appscan_obj,
+      report_id: report_id
+    )
 
-      # Get General Report
-      report = CSI::Plugins::IBMAppscan.get_single_report(
-        appscan_obj: appscan_obj,
-        report_id: report_id
-      )
+    # Get General Report
+    report = CSI::Plugins::IBMAppscan.get_single_report(
+      appscan_obj: appscan_obj,
+      report_id: report_id
+    )
 
-      # Get Report Data
-      report_data = CSI::Plugins::IBMAppscan.get_single_report_data(
-        appscan_obj: appscan_obj,
-        report_id: report_id
-      )
+    # Get Report Data
+    report_data = CSI::Plugins::IBMAppscan.get_single_report_data(
+      appscan_obj: appscan_obj,
+      report_id: report_id
+    )
 
-      # Get Issue Collection
-      issue_collection = CSI::Plugins::IBMAppscan.get_issue_collection(
-        appscan_obj: appscan_obj,
-        report_id: report_id
-      )
+    # Get Issue Collection
+    issue_collection = CSI::Plugins::IBMAppscan.get_issue_collection(
+      appscan_obj: appscan_obj,
+      report_id: report_id
+    )
 
-      puts '~'*33 # Easier for the Eyes in Console
-    end
+    puts '~' * 33 # Easier for the Eyes in Console
   end
 end
 

@@ -7,9 +7,11 @@ module CSI
     autoload :SCAPM, 'csi/web_app/scapm'
 
     # Display a List of Every CSI Web Application
+
     public
+
     def self.help
-      return self.constants.sort
+      constants.sort
     end
   end
 end

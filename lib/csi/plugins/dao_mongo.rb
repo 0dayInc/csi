@@ -12,21 +12,23 @@ module CSI
       #   :port => 'optional port defaults to 27017',
       #   :database => 'optional database name'
       # )
+
       public
+
       def self.connect(opts = {})
         # Set host
-        if opts[:host].nil?
-          host = '127.0.0.1' # Defaults to localhost
-        else
-          host = opts[:host].to_s
-        end
+        host = if opts[:host].nil?
+                 '127.0.0.1' # Defaults to localhost
+               else
+                 opts[:host].to_s
+               end
 
         # Set port
-        if opts[:port].nil?
-          port = 27017 # Defaults to TCP port 27017
-        else
-          port = opts[:port].to_i
-        end
+        port = if opts[:port].nil?
+                 27_017 # Defaults to TCP port 27017
+               else
+                 opts[:port].to_i
+               end
 
         database = opts[:database].to_s.scrub
 
@@ -37,14 +39,16 @@ module CSI
         end
 
         validate_mongo_conn(mongo_conn: mongo_conn)
-        return mongo_conn
+        mongo_conn
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOMongo.disconnect(
       #   :mongo_conn => mongo_conn
       # )
+
       public
+
       def self.disconnect(opts = {})
         mongo_conn = opts[:mongo_conn]
         validate_mongo_conn(mongo_conn: mongo_conn)
@@ -59,8 +63,10 @@ module CSI
       # validate_mongo_conn(
       #   :mongo_conn => mongo_conn
       # )
+
       private
-      def self.validate_mongo_conn(opts ={})
+
+      def self.validate_mongo_conn(opts = {})
         mongo_conn = opts[:mongo_conn]
         unless mongo_conn.class == Mongo::Client
           raise "Error: Invalid mongo_conn Object #{mongo_conn}"
@@ -68,17 +74,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           mongo_conn = #{self}.connect(

@@ -6,15 +6,14 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-aACTION', '--action=ACTION', '<Required - Daemon Action start|reload|stop>') {|a| opts[:action] = a }
-
+  options.on('-aACTION', '--action=ACTION', '<Required - Daemon Action start|reload|stop>') { |a| opts[:action] = a }
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
@@ -41,13 +40,13 @@ private def stop
 end
 
 case action
-  when :start
-    start
-  when :reload
-    reload
-  when :stop
-    stop
+when :start
+  start
+when :reload
+  reload
+when :stop
+  stop
 else
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end

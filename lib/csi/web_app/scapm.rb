@@ -9,6 +9,7 @@ module CSI
       # Main Class that Comprises the Entire Web Application
       class Application < Sinatra::Base
         private
+
         def saml_settings
           idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
           # Returns OneLogin::RubySaml::Settings prepopulated with idp metadata
@@ -20,7 +21,7 @@ module CSI
           # Optional for most SAML IdPs
           settings.authn_context = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
 
-          return settings
+          settings
         end
 
         configure do
@@ -57,7 +58,9 @@ module CSI
       # CSI::Plugins::WebServer.start(
       #   No Method Parameters Implemented.
       # )
+
       public
+
       def self.start(opts = {})
         self::Application.run!
       end
@@ -66,23 +69,29 @@ module CSI
       # CSI::Plugins::WebServer.stop(
       #   No Method Parameters Implemented.
       # )
+
       public
+
       def self.stop(opts = {})
         # Stop spear phishing server ;)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.start

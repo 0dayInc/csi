@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon CloudHSM.
     module CloudHSM
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::CloudHSM.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::CloudHSM.disconnect(
       #   cloud_hsm_obj: 'required - cloud_hsm_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         cloud_hsm_obj = opts[:cloud_hsm_obj]
         @@logger.info('Disconnecting...')
         cloud_hsm_obj = nil
         @@logger.info("complete.\n")
 
-        return cloud_hsm_obj
+        cloud_hsm_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           cloud_hsm_obj = #{self}.connect(

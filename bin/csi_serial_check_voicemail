@@ -6,7 +6,7 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
   options.on('-vNUM', '--voicemail_num=num', '<Required - Number to Voicemail Service>') do |num|
@@ -18,11 +18,11 @@ OptionParser.new do |options|
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
-voicemail_num = opts[:voicemail_num].to_s.scrub.strip.chomp.gsub('-', '').gsub('.', '').to_i
+voicemail_num = opts[:voicemail_num].to_s.scrub.strip.chomp.delete('-').delete('.').to_i
 
 if opts[:voicemail_pin].nil?
   voicemail_pin = CSI::Plugins::AuthenticationHelper.mask_password.to_s.scrub
@@ -58,8 +58,8 @@ CSI::Plugins::Serial.request(
 )
 
 session_data = CSI::Plugins::Serial.dump_session_data
-puts '~'*200
+puts '~' * 200
 puts session_data
-puts '~'*200
+puts '~' * 200
 
 CSI::Plugins::Serial.disconnect(serial_obj: serial_obj)

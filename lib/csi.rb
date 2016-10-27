@@ -17,8 +17,10 @@ module CSI
   autoload :WWW, 'csi/www'
 
   # Display Usage for the CSI Framework ~
+
   public
+
   def self.help
-    return self.constants.sort
+    constants.sort
   end
 end

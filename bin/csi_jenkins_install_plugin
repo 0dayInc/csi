@@ -6,10 +6,10 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
+  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') { |s| opts[:jenkins_ip] = s }
 
   options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user|
     opts[:username] = user
@@ -29,7 +29,7 @@ OptionParser.new do |options|
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
@@ -37,12 +37,11 @@ jenkins_ip = opts[:jenkins_ip].to_s.scrub
 username = opts[:username]
 password = opts[:password]
 plugins = opts[:plugins].to_s.scrub
-if opts[:restart_jenkins].nil?
-  restart_jenkins = true
-else
-  restart_jenkins = opts[:restart_jenkins]
-end
-
+restart_jenkins = if opts[:restart_jenkins].nil?
+                    true
+                  else
+                    opts[:restart_jenkins]
+                  end
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
   jenkins_ip: jenkins_ip,
@@ -57,10 +56,10 @@ end
 
 jenkins_obj.plugin.install(plugin_arr)
 
-#until jenkins_obj.plugin.restart_required?
+# until jenkins_obj.plugin.restart_required?
 #  print "."
 #  sleep 1
-#end
+# end
 
 jenkins_obj.system.restart if restart_jenkins
 

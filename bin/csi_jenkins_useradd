@@ -6,10 +6,10 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
+  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') { |s| opts[:jenkins_ip] = s }
 
   options.on('-UAUSER', '--admin-username=AUSER', '<Required - Jenkins Admin Username>') do |auser|
     opts[:admin_username] = auser
@@ -26,7 +26,7 @@ OptionParser.new do |options|
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 

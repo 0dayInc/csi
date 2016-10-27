@@ -23,8 +23,6 @@ links.each do |link|
   end
 end
 
-
-
 # TODO: Convert to CSI::Core Module - Now download file
 unless File.exists?(nightly_tar_gz)
   `sudo wget -O #{nightly_tar_gz} #{nightly_linux_download}`

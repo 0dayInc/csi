@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon GameLift.
     module GameLift
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::GameLift.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::GameLift.disconnect(
       #   game_lift_obj: 'required - game_lift_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         game_lift_obj = opts[:game_lift_obj]
         @@logger.info('Disconnecting...')
         game_lift_obj = nil
         @@logger.info("complete.\n")
 
-        return game_lift_obj
+        game_lift_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           game_lift_obj = #{self}.connect(

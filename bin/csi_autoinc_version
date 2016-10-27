@@ -10,16 +10,16 @@ minor = placeholder_arr[1].to_i
 hotfix = placeholder_arr[2].to_i
 
 if hotfix < 999
-  hotfix+=1
+  hotfix += 1
   placeholder_arr[2] = hotfix.to_s
 else
   placeholder_arr[2] = '0'
   if minor < 9
-    minor+=1
+    minor += 1
     placeholder_arr[1] = minor.to_s
   else
     placeholder_arr[1] = '0'
-    major+=1
+    major += 1
     placeholder_arr[0] = major.to_s
   end
 end

@@ -15,9 +15,11 @@ module CSI
     autoload :Youtube, 'csi/www/youtube'
 
     # Display a List of Every CSI WWW module
+
     public
+
     def self.help
-      return self.constants.sort
+      constants.sort
     end
   end
 end

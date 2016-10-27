@@ -3,8 +3,7 @@ module CSI
   module Plugins
     # This plugin is used for interacting w/ OpenVAS using OMP (OpenVAS Management Protocol).
     module OpenVASVulnScan
-
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
       @@omp_bin = '/usr/local/bin/omp'
 
       # Supported Method Parameters::
@@ -14,21 +13,23 @@ module CSI
       #   :username => 'required username',
       #   :password => 'optional password (will prompt if nil)'
       # )
+
       public
+
       def self.login(opts = {})
         openvas_ip = opts[:openvas_ip].to_s.scrub
-        if opts[:openvas_port].nil?
-          openvas_port = 9390
-        else
-          openvas_port = opts[:openvas_port].to_i
-        end
+        openvas_port = if opts[:openvas_port].nil?
+                         9390
+                       else
+                         opts[:openvas_port].to_i
+                       end
         username = opts[:username].to_s.scrub
 
-        if opts[:password].nil?
-          password = CSI::Plugins::AuthenticationHelper.mask_password
-        else
-          password = opts[:password].to_s.scrub
-        end
+        password = if opts[:password].nil?
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password].to_s.scrub
+                   end
 
         begin
           openvas_obj = {}
@@ -45,7 +46,9 @@ module CSI
       # CSI::Plugins::OpenVASVulnScan.logout(
       #   :openvas_obj => 'required openvas_obj returned from login method'
       # )
+
       public
+
       def self.logout(opts = {})
         openvas_obj = opts[:openvas_obj]
         begin
@@ -57,17 +60,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           openvas_obj = #{self}.login(

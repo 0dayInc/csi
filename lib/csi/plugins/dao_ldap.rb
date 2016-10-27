@@ -15,7 +15,9 @@ module CSI
       #   :username => 'required username (e.g. jake.hoopes@gmail.com)',
       #   :password => 'optional (prompts if left blank)',
       # )
+
       public
+
       def self.connect(opts = {})
         host = opts[:host].to_s
         port = opts[:port].to_i
@@ -25,11 +27,11 @@ module CSI
 
         username = opts[:username].to_s
 
-        if opts[:password].nil?
-          password = CSI::Plugins::AuthenticationHelper.mask_password
-        else
-          password = opts[:password].to_s
-        end
+        password = if opts[:password].nil?
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password].to_s
+                   end
 
         begin
           if encryption
@@ -70,8 +72,10 @@ module CSI
       #   :ldap_obj => 'required ldap_obj returned from #connect method',
       #   :username => 'required username of employee to retrieve from LDAP server'
       # )
-     public
-     def self.get_employee_by_username(opts = {})
+
+      public
+
+      def self.get_employee_by_username(opts = {})
         ldap_obj = opts[:ldap_obj]
         username = opts[:username].to_s.scrub
         treebase = ldap_obj.base
@@ -84,13 +88,15 @@ module CSI
         rescue => e
           return e.message
         end
-     end
+      end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOLDAP.disconnect(
       #   :ldap_obj => ldap_obj
       # )
+
       public
+
       def self.disconnect(opts = {})
         ldap_obj = opts[:ldap_obj]
         begin
@@ -101,17 +107,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           ldap_obj = #{self}.connect(

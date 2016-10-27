@@ -11,40 +11,48 @@ module CSI
       #   :username => 'optional',
       #   :password => 'optional'
       # )
+
       public
-      def self.open(opts={})
+
+      def self.open(opts = {})
         host = opts[:hostname].to_s
         user = opts[:username].to_s
         pass = opts[:password].to_s
 
         this_amqp_obj = Bunny.new("amqp://#{user}:#{pass}@#{host}")
-        return this_amqp_obj.start
+        this_amqp_obj.start
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::RabbitMQHole.close(
       #   :amqp_oject => amqp_conn1
       # )
+
       public
-      def self.close(opts={})
+
+      def self.close(opts = {})
         this_amqp_obj = opts[:amqp_obj]
         this_amqp_obj.close_connection
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
-        puts %Q{USAGE:
+        puts %{USAGE:
           amqp_conn1 = #{self}.open(
             :hostname => 'required',
             :username => 'optional',

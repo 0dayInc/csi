@@ -6,8 +6,7 @@ module CSI
     # This plugin is used for interacting w/ BeEF's REST API using
     # the 'rest' browser type of CSI::Plugins::TransparentBrowser.
     module BeEF
-
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # beef_obj = CSI::Plugins::BeEF.login(
@@ -16,23 +15,25 @@ module CSI
       #   :username => 'required - username',
       #   :password => 'optional - password (will prompt if nil)'
       # )
+
       public
+
       def self.login(opts = {})
         beef_ip = opts[:beef_ip]
-        if opts[:beef_port]
-          beef_port = opts[:beef_port].to_i
-        else
-          beef_port = 3000
-        end
+        beef_port = if opts[:beef_port]
+                      opts[:beef_port].to_i
+                    else
+                      3000
+                    end
 
         username = opts[:username].to_s.scrub
         base_beef_api_uri = "http://#{beef_ip}:#{beef_port}/api".to_s.scrub
 
-        if opts[:password].nil?
-          password = CSI::Plugins::AuthenticationHelper.mask_password
-        else
-          password = opts[:password].to_s.scrub
-        end
+        password = if opts[:password].nil?
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password].to_s.scrub
+                   end
 
         begin
           auth_payload = {}
@@ -72,14 +73,16 @@ module CSI
       #   :rest_call => 'required rest call to make per the schema',
       #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
+
       private
+
       def self.beef_rest_call(opts = {})
         beef_obj = opts[:beef_obj]
-        if opts[:http_method].nil?
-          http_method = :get
-        else
-          http_method = opts[:http_method].to_s.scrub.to_sym
-        end
+        http_method = if opts[:http_method].nil?
+                        :get
+                      else
+                        opts[:http_method].to_s.scrub.to_sym
+                      end
         rest_call = opts[:rest_call].to_s.scrub
         http_body = opts[:http_body].to_s.scrub
         beef_success = beef_obj[:beef_success].to_s.scrub
@@ -92,25 +95,25 @@ module CSI
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method
-            when :get
-              response = rest_client.execute(
-                method: :get,
-                url: "#{base_beef_api_uri}/#{rest_call}",
-                headers: {
-                  content_type: 'application/json; charset=UTF-8',
-                  params: { token: api_token }
-                }
-              )
+          when :get
+            response = rest_client.execute(
+              method: :get,
+              url: "#{base_beef_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8',
+                params: { token: api_token }
+              }
+            )
 
-            when :post
-              response = rest_client.execute(
-                method: :post,
-                url: "#{base_beef_api_uri}/#{rest_call}",
-                headers: {
-                  content_type: 'application/json; charset=UTF-8'
-                },
-                payload: http_body
-              )
+          when :post
+            response = rest_client.execute(
+              method: :post,
+              url: "#{base_beef_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8'
+              },
+              payload: http_body
+            )
 
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
@@ -126,7 +129,9 @@ module CSI
       # hooks = CSI::Plugins::BeEF.hooks(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
+
       public
+
       def self.hooks(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Hooks...')
@@ -149,7 +154,9 @@ module CSI
       #   :beef_obj => 'required beef_obj returned from #login method',
       #   :browser_session => 'required - browser session id returned from #hooks method'
       # )
+
       public
+
       def self.hooked_browser_info(opts = {})
         beef_obj = opts[:beef_obj]
         browser_session = opts[:browser_session].to_s.scrub
@@ -173,7 +180,9 @@ module CSI
       # logs = CSI::Plugins::BeEF.logs(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
+
       public
+
       def self.logs(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Logs...')
@@ -196,7 +205,9 @@ module CSI
       #   :beef_obj => 'required beef_obj returned from #login method',
       #   :browser_session => 'required - browser session id returned from #hooks method'
       # )
+
       public
+
       def self.hooked_browser_logs(opts = {})
         beef_obj = opts[:beef_obj]
         browser_session = opts[:browser_session].to_s.scrub
@@ -220,7 +231,9 @@ module CSI
       # modules = CSI::Plugins::BeEF.modules(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
+
       public
+
       def self.modules(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Modules...')
@@ -243,7 +256,9 @@ module CSI
       #   :beef_obj => 'required beef_obj returned from #login method',
       #   :module_id => 'required - module id returned from #modules method'
       # )
+
       public
+
       def self.module_info(opts = {})
         beef_obj = opts[:beef_obj]
         module_id = opts[:module_id].to_i
@@ -267,7 +282,9 @@ module CSI
       # CSI::Plugins::BeEF.logout(
       #   :beef_obj => 'required beef_obj returned from #login method'
       # )
+
       public
+
       def self.logout(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Logging out...')
@@ -275,17 +292,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           beef_obj = #{self}.login(

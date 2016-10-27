@@ -15,44 +15,50 @@ module CSI
       #            sleep 3
       #            # <do more stuff>
       #          end
+
       public
+
       def self.fill(opts = {})
-      #def self.fill(opts = {}, &block)
+        # def self.fill(opts = {}, &block)
         enumerable_array = opts[:enumerable_array]
 
-        if opts[:max_threads].nil?
-          max_threads = 6
-        else
-          max_threads = opts[:max_threads].to_i
-        end
+        max_threads = if opts[:max_threads].nil?
+                        6
+                      else
+                        opts[:max_threads].to_i
+                      end
 
         puts "Initiating Thread Pool of #{max_threads} Worker Threads...."
         queue = SizedQueue.new(max_threads)
-        threads = max_threads.times.map do
+        threads = Array.new(max_threads) do
           Thread.new do
             until (test_case = queue.pop) == :END
-              #block.call(test_case)
+              # block.call(test_case)
               yield test_case
             end
           end
         end
-        enumerable_array.uniq.sort.each {|test_case| queue << test_case}
+        enumerable_array.uniq.sort.each { |test_case| queue << test_case }
         max_threads.times { queue << :END }
         threads.each(&:join)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.fill(

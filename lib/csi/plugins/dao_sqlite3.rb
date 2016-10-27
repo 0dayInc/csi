@@ -10,7 +10,9 @@ module CSI
       # CSI::Plugins::DAOSQLite3.connect(
       #   :dir_path => 'Required - Path of SQLite3 DB File'
       # )
+
       public
+
       def self.connect(opts = {})
         dir_path = opts[:dir_path]
 
@@ -18,7 +20,7 @@ module CSI
           sqlite3_conn = SQLite3::Database.new(dir_path)
           # Be sure to enable foreign key support for each connection
           sql_enable_fk = 'PRAGMA foreign_keys = ?'
-          res = self.sql_statement(
+          res = sql_statement(
             sqlite3_conn: sqlite3_conn,
             prepared_statement: sql_enable_fk,
             statement_params: ['ON']
@@ -43,8 +45,10 @@ module CSI
       # validate_sqlite3_conn(
       #   :sqlite3_conn => sqlite3_conn
       # )
+
       private
-      def self.validate_sqlite3_conn(opts ={})
+
+      def self.validate_sqlite3_conn(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         unless sqlite3_conn.class == SQLite3::Database
           raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}"
@@ -57,8 +61,10 @@ module CSI
       #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
       #   :statement_params => ['Active']
       # )
+
       public
-      def self.sql_statement(opts ={})
+
+      def self.sql_statement(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
@@ -83,7 +89,9 @@ module CSI
       # CSI::Plugins::DAOSQLite3.disconnect(
       #   :sqlite3_conn => sqlite3_conn
       # )
+
       public
+
       def self.disconnect(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
@@ -95,17 +103,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           sqlite3_conn = #{self}.connect(:dir_path => 'Required - Path of SQLite3 DB File')

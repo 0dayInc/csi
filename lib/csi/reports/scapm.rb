@@ -13,7 +13,9 @@ module CSI
       #   :dir_path => dir_path,
       #   :results_hash => results_hash
       # )
+
       public
+
       def self.generate(opts = {})
         dir_path = opts[:dir_path].to_s if File.directory?(opts[:dir_path].to_s)
         raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?
@@ -371,17 +373,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.generate(

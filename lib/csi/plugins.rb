@@ -40,9 +40,11 @@ module CSI
     autoload :UTF8, 'csi/plugins/utf8'
 
     # Display a List of Every CSI Plugin
+
     public
+
     def self.help
-      return self.constants.sort
+      constants.sort
     end
   end
 end

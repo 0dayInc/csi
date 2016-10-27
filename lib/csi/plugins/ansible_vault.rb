@@ -5,15 +5,17 @@ module CSI
     # Used to encrypt/decrypt configuration files leveraging AES256
     # (ansible-vault utility wrapper)
     module AnsibleVault
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::Plugins::AnsibleVault.encrypt(
       #   :yaml_config => 'required - yaml config to encrypt',
       #   :vpassfile => 'required - path to anisble-vault pass file'
       # )
+
       public
-      def self.encrypt(opts={})
+
+      def self.encrypt(opts = {})
         yaml_config = opts[:yaml_config].to_s.scrub if File.exists?(opts[:yaml_config].to_s.scrub)
         vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
 
@@ -31,8 +33,10 @@ module CSI
       #   :yaml_config => 'required - yaml config to decrypt',
       #   :vpassfile => 'required - path to anisble-vault pass file'
       # )
+
       public
-      def self.decrypt(opts={})
+
+      def self.decrypt(opts = {})
         yaml_config = opts[:yaml_config].to_s.scrub if File.exists?(opts[:yaml_config].to_s.scrub)
         vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
 
@@ -50,17 +54,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
 

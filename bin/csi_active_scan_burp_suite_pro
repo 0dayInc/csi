@@ -6,7 +6,7 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
   options.on('-bBPATH', '--burp_path=BPATH', '<Required - Path to Burp Suite Pro Jar File>') do |b|
@@ -33,17 +33,16 @@ OptionParser.new do |options|
     opts[:navigation_instruct] = i
   end
 
-
   # TODO: Headless
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
 begin
-  logger = CSI::Plugins::CSILogger.create()
+  logger = CSI::Plugins::CSILogger.create
 
   burp_jar_path = opts[:burp_jar_path].to_s.scrub
   headless = opts[:headless]
@@ -94,8 +93,8 @@ begin
   json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(burp_obj: burp_obj, target_url: target_url)
 
   # Dump a list of scan issues from Active Scan result
-  #scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
-  #puts scan_issues
+  # scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
+  # puts scan_issues
 
   # TODO: Generate HTML REPORT
   CSI::Plugins::BurpSuite.generate_scan_report(

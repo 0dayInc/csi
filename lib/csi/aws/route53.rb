@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon Route 53.
     module Route53
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::Route53.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - AWS Secret Access Key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,7 +51,9 @@ module CSI
       # CSI::AWS::Route53.disconnect(
       #   r53_obj: 'required - r53_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         r53_obj = opts[:r53_obj]
         @@logger.info('Disconnecting from AWS Route53...')
@@ -58,17 +62,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           r53_obj = #{self}.connect(

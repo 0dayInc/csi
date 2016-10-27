@@ -15,8 +15,10 @@ module CSI
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
+
       private
-      def self.callback_when_pattern_in(opts={})
+
+      def self.callback_when_pattern_in(opts = {})
         file = opts[:file]
         pattern = opts[:pattern]
 
@@ -32,7 +34,7 @@ module CSI
           end
         end
 
-        return
+        nil
       end
 
       # Supported Method Parameters::
@@ -43,80 +45,82 @@ module CSI
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
+
       public
-      def self.start(opts={})
-        begin
-          #api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
 
-          target = opts[:target].to_s.scrub.strip.chomp
-          if opts[:headless]
-            headless = true
-          else
-            headless = false
-          end
+      def self.start(opts = {})
+        # api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
 
-          if opts[:output_path]
-            @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
-          else
-            @output_path = '/tmp/owasp_zap.output'
-          end
+        target = opts[:target].to_s.scrub.strip.chomp
+        headless = if opts[:headless]
+                     true
+                   else
+                     false
+                   end
 
-          FileUtils.touch(@output_path) unless File.exists?(@output_path)
-
-          if opts[:proxy]
-            proxy = opts[:proxy].to_s.scrub.strip.chomp
-            #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-            zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
-          else
-            #zap_obj = Zap.new(:api_key => api_key, :target => target)
-            zap_obj = Zap.new(target: target, output: @output_path)
-          end
-
-          if opts[:zap_bin_path]
-            zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
-            zap_obj.zap_bin = zap_bin_path
-          else
-            underlying_os = CSI::Plugins::DetectOS.type
-
-            case underlying_os
-              when :osx
-                zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
-            else
-              raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
-              exit 1
-            end
-          end
-
-          if headless
-            #zap_obj.start(:api_key => true, :daemon => true)
-            zap_obj.start(daemon: true)
-          else
-            #zap_obj.start(:api_key => true)
-            zap_obj.start
-          end
-
-          callback_when_pattern_in(
-            file: @output_path,
-            pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
-          )
-
-          return zap_obj
-        rescue SystemExit, Interrupt
-          File.unlink(@output_path)
-          exit 1
-        rescue => e
-          raise e.message
-          File.unlink(@output_path)
-          exit 1
+        if opts[:output_path]
+          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
+        else
+          @output_path = '/tmp/owasp_zap.output'
         end
+
+        FileUtils.touch(@output_path) unless File.exists?(@output_path)
+
+        if opts[:proxy]
+          proxy = opts[:proxy].to_s.scrub.strip.chomp
+          # zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+          zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
+        else
+          # zap_obj = Zap.new(:api_key => api_key, :target => target)
+          zap_obj = Zap.new(target: target, output: @output_path)
+        end
+
+        if opts[:zap_bin_path]
+          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+          zap_obj.zap_bin = zap_bin_path
+        else
+          underlying_os = CSI::Plugins::DetectOS.type
+
+          case underlying_os
+          when :osx
+            zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+          else
+            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
+            exit 1
+          end
+        end
+
+        if headless
+          # zap_obj.start(:api_key => true, :daemon => true)
+          zap_obj.start(daemon: true)
+        else
+          # zap_obj.start(:api_key => true)
+          zap_obj.start
+        end
+
+        callback_when_pattern_in(
+          file: @output_path,
+          pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+        )
+
+        return zap_obj
+      rescue SystemExit, Interrupt
+        File.unlink(@output_path)
+        exit 1
+      rescue => e
+        raise e.message
+        File.unlink(@output_path)
+        exit 1
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.spider(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
+
       public
-      def self.spider(opts={})
+
+      def self.spider(opts = {})
         zap_obj = opts[:zap_obj]
 
         begin
@@ -137,8 +141,10 @@ module CSI
       # CSI::Plugins::OwaspZapIt.active_scan(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
+
       public
-      def self.active_scan(opts={})
+
+      def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
 
         begin
@@ -159,8 +165,10 @@ module CSI
       # CSI::Plugins::OwaspZapIt.alerts(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
+
       public
-      def self.alerts(opts={})
+
+      def self.alerts(opts = {})
         zap_obj = opts[:zap_obj]
 
         begin
@@ -175,8 +183,10 @@ module CSI
       # CSI::Plugins::OwaspZapIt.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
+
       public
-      def self.stop(opts={})
+
+      def self.stop(opts = {})
         zap_obj = opts[:zap_obj]
 
         begin
@@ -196,17 +206,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           zap_obj = #{self}.start(

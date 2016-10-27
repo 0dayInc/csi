@@ -10,24 +10,30 @@ module CSI
     module AuthenticationHelper
       # Supported Method Parameters::
       # CSI::Plugins::AuthenticationHelper.mask_password
+
       public
+
       def self.mask_password
-        pass = HighLine.new.ask('Password: ') {|q| q.echo = "\*" }
-        return pass.to_s.scrub.chomp
+        pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
+        pass.to_s.scrub.chomp
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.mask_password

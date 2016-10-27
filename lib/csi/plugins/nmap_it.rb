@@ -9,7 +9,9 @@ module CSI
       # CSI::Plugins::NmapIt.port_scan do |nmap|
       #   puts nmap.public_methods
       # end
+
       public
+
       def self.port_scan
         Nmap::Program.scan do |nmap|
           yield(nmap)
@@ -36,8 +38,10 @@ module CSI
       #     end
       #   end
       # end
+
       public
-      def self.parse_xml_results(opts={})
+
+      def self.parse_xml_results(opts = {})
         xml_file = opts[:xml_file].to_s.scrub.strip.chomp if File.exists?(opts[:xml_file].to_s.scrub.strip.chomp)
 
         Nmap::XML.new(xml_file) do |xml|
@@ -46,17 +50,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.port_scan do |nmap|

@@ -6,7 +6,7 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
   options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t|
@@ -16,21 +16,20 @@ OptionParser.new do |options|
   options.on('-oDIR', '--report_output_dir=DIR', '<Required - Output Directory for Results Generation>') do |o|
     opts[:output_dir] = o
   end
-
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
 begin
-  logger = CSI::Plugins::CSILogger.create()
+  logger = CSI::Plugins::CSILogger.create
 
   target_url = opts[:target_url].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exists?(opts[:output_dir].to_s.scrub)
-  nightly_arachni=`ls -t /opt/arachni-nightlies | head -n 1`.to_s.scrub.strip.chomp
-  nightly_arachni_root="/opt/arachni-nightlies/#{nightly_arachni}"
+  nightly_arachni = `ls -t /opt/arachni-nightlies | head -n 1`.to_s.scrub.strip.chomp
+  nightly_arachni_root = "/opt/arachni-nightlies/#{nightly_arachni}"
   `sudo /bin/bash --login -c "cd #{nightly_arachni_root} && ./bin/arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && ./bin/arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *"`
 rescue => e
   raise e

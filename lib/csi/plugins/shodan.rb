@@ -8,8 +8,7 @@ module CSI
     #  This is based on the following Shodan API Specification:
     # https://developer.shodan.io/api
     module Shodan
-
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # shodan_rest_call(
@@ -19,14 +18,16 @@ module CSI
       #   :params => 'optional params passed in the URI or HTTP Headers',
       #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
+
       private
+
       def self.shodan_rest_call(opts = {})
         shodan_obj = opts[:shodan_obj]
-        if opts[:http_method].nil?
-          http_method = :get
-        else
-          http_method = opts[:http_method].to_s.scrub.to_sym
-        end
+        http_method = if opts[:http_method].nil?
+                        :get
+                      else
+                        opts[:http_method].to_s.scrub.to_sym
+                      end
         rest_call = opts[:rest_call].to_s.scrub
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
@@ -37,28 +38,28 @@ module CSI
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method
-            when :get
-              response = rest_client.execute(
-                method: :get,
-                url: "#{base_shodan_api_uri}/#{rest_call}",
-                headers: {
-                  content_type: 'application/json; charset=UTF-8',
-                  params: params
-                },
-                verify_ssl: false
-              )
+          when :get
+            response = rest_client.execute(
+              method: :get,
+              url: "#{base_shodan_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8',
+                params: params
+              },
+              verify_ssl: false
+            )
 
-            when :post
-              response = rest_client.execute(
-                method: :post,
-                url: "#{base_shodan_api_uri}/#{rest_call}",
-                headers: {
-                  content_type: 'application/json; charset=UTF-8',
-                  params: params
-                },
-                payload: http_body,
-                verify_ssl: false
-              )
+          when :post
+            response = rest_client.execute(
+              method: :post,
+              url: "#{base_shodan_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8',
+                params: params
+              },
+              payload: http_body,
+              verify_ssl: false
+            )
 
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
@@ -67,10 +68,10 @@ module CSI
           return response
         rescue => e
           case e.message
-            when'404 Resource Not Found'
-              return "#{e.message}: #{e.response}"
-            when '400 Bad Request'
-              return "#{e.message}: #{e.response}"
+          when '404 Resource Not Found'
+            return "#{e.message}: #{e.response}"
+          when '400 Bad Request'
+            return "#{e.message}: #{e.response}"
           else
             raise "#{e.message}: #{e.response}"
             exit
@@ -83,27 +84,29 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :target_ips => 'required - comma-delimited list of ip addresses to target'
       # )
+
       public
+
       def self.services_by_ips(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '').split(',')
 
-          services_by_ips = []
-          params = { key: api_key }
-          target_ips.each do |target_ip|
-          begin
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: "shodan/host/#{target_ip}",
-              params: params
-            )
-            services_by_ips.push(JSON.parse(response))
-          rescue => e
-            services_by_ips.push({error: e.message})
-            next
-          end
+        services_by_ips = []
+        params = { key: api_key }
+        target_ips.each do |target_ip|
+        begin
+          response = shodan_rest_call(
+            api_key: api_key,
+            rest_call: "shodan/host/#{target_ip}",
+            params: params
+          )
+          services_by_ips.push(JSON.parse(response))
+        rescue => e
+          services_by_ips.push(error: e.message)
+          next
         end
-        return services_by_ips
+      end
+        services_by_ips
       end
 
       # Supported Method Parameters::
@@ -112,7 +115,9 @@ module CSI
       #   :query => 'required - shodan search query',
       #   :facets => 'optional - comma-separated list of properties to get summary information'
       # )
+
       public
+
       def self.query_result_totals(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
@@ -157,7 +162,9 @@ module CSI
       #   :query => 'required - shodan search query',
       #   :facets => 'optional - comma-separated list of properties to get summary information'
       # )
+
       public
+
       def self.search(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
@@ -201,7 +208,9 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :query => 'required - shodan search query',
       # )
+
       public
+
       def self.tokens(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
@@ -229,7 +238,9 @@ module CSI
       # ports_shodan_crawls = CSI::Plugins::Shodan.ports_shodan_crawls(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.ports_shodan_crawls(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -252,7 +263,9 @@ module CSI
       # protocols = CSI::Plugins::Shodan.list_on_demand_scan_protocols(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.list_on_demand_scan_protocols(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -276,7 +289,9 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :target_ips => 'required - comma-delimited list of ip addresses to target'
       # )
+
       public
+
       def self.scan_network(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '')
@@ -305,7 +320,9 @@ module CSI
       #   :port => 'required - port to scan (see #ports_shodan_crawls for list)',
       #   :protocol => 'required - supported shodan protocol (see #list_on_demand_scan_protocols for list)'
       # )
+
       public
+
       def self.scan_internet(opts = {})
         api_key = opts[:api_key].to_s.scrub
         port = opts[:port].to_i
@@ -334,7 +351,9 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :scan_id => 'required - unique ID returned by #scan_network',
       # )
+
       public
+
       def self.scan_status(opts = {})
         api_key = opts[:api_key].to_s.scrub
         scan_id = opts[:scan_id].to_s.scrub
@@ -361,7 +380,9 @@ module CSI
       # services_shodan_crawls = CSI::Plugins::Shodan.services_shodan_crawls(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.services_shodan_crawls(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -387,7 +408,9 @@ module CSI
       #   :sort => 'optional - sort results by available parameters :votes|:timestamp',
       #   :order => 'optional - sort :asc|:desc (ascending or descending)'
       # )
+
       public
+
       def self.saved_search_queries(opts = {})
         api_key = opts[:api_key].to_s.scrub
         page = opts[:page].to_i
@@ -419,7 +442,9 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :result_count => 'optional - number of results to return (defaults to 10)'
       # )
+
       public
+
       def self.most_popular_tags(opts = {})
         api_key = opts[:api_key].to_s.scrub
         result_count = opts[:result_count].to_i
@@ -451,7 +476,9 @@ module CSI
       # my_profile = CSI::Plugins::Shodan.my_profile(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.my_profile(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -474,7 +501,9 @@ module CSI
       # my_pub_ip = CSI::Plugins::Shodan.my_pub_ip(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.my_pub_ip(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -497,7 +526,9 @@ module CSI
       # api_info = CSI::Plugins::Shodan.api_info(
       #   :api_key => 'required shodan api key'
       # )
+
       public
+
       def self.api_info(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
@@ -521,7 +552,9 @@ module CSI
       #   :api_key => 'required shodan api key',
       #   :target_ips => 'required - comma-delimited list of ip addresses to target'
       # )
+
       public
+
       def self.honeypot_probability_scores(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '').split(',')
@@ -545,17 +578,21 @@ module CSI
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           services_by_ips = #{self}.services_by_ips(

@@ -5,7 +5,7 @@ module CSI
   module AWS
     # This module provides a client for making API requests to Amazon SimpleDB.
     module SimpleDB
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::AWS::SimpleDB.connect(
@@ -14,7 +14,9 @@ module CSI
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
+
       public
+
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
@@ -49,28 +51,34 @@ module CSI
       # CSI::AWS::SimpleDB.disconnect(
       #   simple_db_obj: 'required - simple_db_obj returned from #connect method'
       # )
+
       public
+
       def self.disconnect(opts = {})
         simple_db_obj = opts[:simple_db_obj]
         @@logger.info('Disconnecting...')
         simple_db_obj = nil
         @@logger.info("complete.\n")
 
-        return simple_db_obj
+        simple_db_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           simple_db_obj = #{self}.connect(

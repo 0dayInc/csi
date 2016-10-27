@@ -36,9 +36,11 @@ module CSI
     autoload :Version, 'csi/scapm/version'
 
     # Display a List of Each Static Code Anti-Pattern Matching Module
+
     public
+
     def self.help
-      return self.constants.sort
+      constants.sort
     end
   end
 end

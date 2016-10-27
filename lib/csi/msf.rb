@@ -7,9 +7,11 @@ module CSI
     autoload :PostgresLogin, 'csi/msf/postgres_login'
 
     # Display a List of Every CSI Exploit Module
+
     public
+
     def self.help
-      return self.constants.sort
+      constants.sort
     end
   end
 end

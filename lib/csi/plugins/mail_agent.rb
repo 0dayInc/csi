@@ -29,9 +29,11 @@ module CSI
       #   :username => 'optional',
       #   :password => 'optional'
       # )
-      @@logger = CSI::Plugins::CSILogger.create()
+      @@logger = CSI::Plugins::CSILogger.create
+
       private
-      def self.parent_mail_agent(opts={})
+
+      def self.parent_mail_agent(opts = {})
         from = opts[:from]
         to = opts[:to]
         cc = opts[:cc]
@@ -42,11 +44,9 @@ module CSI
         txt_body = opts[:txt_body] # If HTML is NOT supported or desired
         authentication = opts[:authentication]
         attachments_hash = {}
-        unless opts[:attachments_hash].nil?
-          opts[:attachments_hash].each do |attachment_name, attachment_path|
+        opts[:attachments_hash]&.each do |attachment_name, attachment_path|
             attachments_hash[attachment_name] = File.binread(attachment_path)
           end
-        end
 
         debug = opts[:debug]
 
@@ -54,37 +54,35 @@ module CSI
         port = opts[:port]
         tls_auto = opts[:tls_auto]
         username = opts[:username]
-        if ! username.nil? && opts[:password].nil?
-          password = CSI::Plugins::AuthenticationHelper.mask_password
-        else
-          password = opts[:password]
-        end
+        password = if !username.nil? && opts[:password].nil?
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password]
+                   end
 
         if debug == true
           @@logger.debug("DEBUG ENABLED: from=>#{from.inspect}, to=>#{to.inspect}, cc=>#{cc.inspect}, bcc=>#{bcc.inspect}, subject=>#{subject.inspect}, html_body=>#{html_body.inspect}, txt_body=>#{txt_body.inspect}, attachments=>#{attachments_hash.inspect}, address=>#{address.inspect}, port=>#{port.inspect}, username=>#{username.inspect}, :enable_starttls_auto=>#{tls_auto.inspect}")
         end
-         # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
-        Pony.mail({
-          from: from,
-          to: to,
-          cc: cc,
-          bcc: bcc,
-          reply_to: reply_to,
-          subject: subject,
-          html_body: html_body,
-          body: txt_body,
-          attachments: attachments_hash,
-          via: :smtp,
-          via_options: {
-            address: address,
-            port: port,
-            enable_starttls_auto: tls_auto,
-            user_name: username,
-            password: password,
-            authentication: authentication,
-            domain: 'localhost.localdomain'
-          }
-        })
+        # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
+        Pony.mail(from: from,
+                  to: to,
+                  cc: cc,
+                  bcc: bcc,
+                  reply_to: reply_to,
+                  subject: subject,
+                  html_body: html_body,
+                  body: txt_body,
+                  attachments: attachments_hash,
+                  via: :smtp,
+                  via_options: {
+                    address: address,
+                    port: port,
+                    enable_starttls_auto: tls_auto,
+                    user_name: username,
+                    password: password,
+                    authentication: authentication,
+                    domain: 'localhost.localdomain'
+                  })
       end
 
       # Supported Method Parameters::
@@ -105,8 +103,10 @@ module CSI
       #   :password => 'optional (but will be prompted if not submitted)',
       #   :debug => true|false
       # )
+
       public
-      def self.office365(opts={})
+
+      def self.office365(opts = {})
         # Send mail from corporate mail solution
         opts[:address] = 'smtp.office365.com'
         opts[:port] = 587
@@ -133,8 +133,10 @@ module CSI
       #   :password => 'optional (but will be prompted if not submitted)'
       #   :debug => true|false
       # )
+
       public
-      def self.gmail(opts={})
+
+      def self.gmail(opts = {})
         opts[:address] = 'smtp.gmail.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -160,8 +162,10 @@ module CSI
       #   :password => 'optional (but will be prompted if not submitted)'
       #   :debug => true|false
       # )
+
       public
-      def self.hotmail_n_live(opts={})
+
+      def self.hotmail_n_live(opts = {})
         opts[:address] = 'smtp.live.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -187,8 +191,10 @@ module CSI
       #   :password => 'optional (but will be prompted if not submitted)'
       #   :debug => true|false
       # )
+
       public
-      def self.yahoo(opts={})
+
+      def self.yahoo(opts = {})
         opts[:address] = 'smtp.mail.yahoo.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -217,25 +223,31 @@ module CSI
       #   :username => 'optional',
       #   :password => 'optional'
       # )
+
       public
-      def self.spoof(opts={})
+
+      def self.spoof(opts = {})
         # Spoof mail from known relay
         opts[:authentication] = :plain if opts[:authentication].nil?
         parent_mail_agent(opts)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
+
       public
+
       def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
 
-        return authors
+        authors
       end
 
       # Display Usage for this Module
+
       public
+
       def self.help
         puts "USAGE:
           #{self}.office365(
