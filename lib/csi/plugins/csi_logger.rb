@@ -12,7 +12,7 @@ module CSI
       def self.create(opts={})
         logger = Logger.new(STDOUT)
         logger.level = Logger::INFO
-        logger.datetime_format = "%Y-%m-%d %H:%M:%S"
+        logger.datetime_format = '%Y-%m-%d %H:%M:%S'
 
         logger.formatter = proc do |severity, datetime, progname, msg|
           "[#{severity}] #{msg}\n"

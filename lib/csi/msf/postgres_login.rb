@@ -186,8 +186,8 @@ module CSI
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
-          section: "1.7.7",
-          nist_800_53_uri: "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=IA-5"
+          section: '1.7.7',
+          nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=IA-5'
         }
         return nist_800_53_requirements
       end

@@ -31,7 +31,7 @@ module CSI
         end
         # For debugging purposes
         @@logger.info(git_entity)
-        git_pull_output << git_entity.gsub("\n", "<br />")
+        git_pull_output << git_entity.gsub("\n", '<br />')
         git_pull_output << '</div>'
         git_pull_output << '<br />'
 

@@ -16,7 +16,7 @@ module CSI
       def self.open(opts = {})
         begin
           if $browser
-            @@logger.info("leveraging existing $browser object...")
+            @@logger.info('leveraging existing $browser object...')
             @@logger.info("run #{self}.close to end session.")
           else
             if opts[:browser_type].nil? 
@@ -33,8 +33,8 @@ module CSI
               with_tor = false
             end
 
-            @@logger.info("instantiating new $browser object...")
-            @@logger.info("run $browser.close to end session.")
+            @@logger.info('instantiating new $browser object...')
+            @@logger.info('run $browser.close to end session.')
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
@@ -84,8 +84,8 @@ module CSI
               vpassfile: "#{vpassfile}"
             )
 
-            email = uiauthn_hash["uiauthn"]["email"].to_s.scrub
-            password = uiauthn_hash["uiauthn"]["password"].to_s.scrub
+            email = uiauthn_hash['uiauthn']['email'].to_s.scrub
+            password = uiauthn_hash['uiauthn']['password'].to_s.scrub
             # TODO: Integrate MFA Token Retrieval & Population into text_field
             #authy_id = uiauthn_hash["api"]["authy_id"].to_s.scrub
             #authy_api_key = uiauthn_hash["api"]["key"].to_s.scrub
@@ -96,16 +96,16 @@ module CSI
             $browser.text_field(name: 'email').when_present.set(email)
             $browser.text_field(name: 'password').when_present.set(password)
             $browser.button(class: 'btn').when_present.click # no name or id in button element
-            @@logger.info("mfa prompt initiated...")
-            until $browser.url == "https://platform.synack.com/"
-              print "enter authy mfa token: "
+            @@logger.info('mfa prompt initiated...')
+            until $browser.url == 'https://platform.synack.com/'
+              print 'enter authy mfa token: '
               authy_token = gets.to_i
               $browser.text_field(name: 'authy_token').when_present.set(authy_token)
               $browser.button(class: 'btn').when_present.click # no name or id in button element
               sleep 3 #TODO: fixme this is a <cough> hack
             end
             print "\n"
-            @@logger.info("authy token accepted.")
+            @@logger.info('authy token accepted.')
             CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
         rescue

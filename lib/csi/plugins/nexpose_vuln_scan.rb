@@ -86,7 +86,7 @@ module CSI
             refresh_site = Nexpose::Site.load(nsc_obj, site_id)
 
             # Obtain Current List of Assets for Given Site & Remove Old List of Assets from Given Site (if applicable)
-            @@logger.info("Removing the Following Assets:")
+            @@logger.info('Removing the Following Assets:')
             current_site_assets = nsc_obj.filter(Nexpose::Search::Field::SITE_ID, Nexpose::Search::Operator::IN, site_id)
             new_site_assets = []
             assets.each {|ip_host_hash| new_site_assets.push(ip_host_hash[:ip].to_s.scrub.strip.chomp) }
@@ -97,7 +97,7 @@ module CSI
                 nsc_obj.delete_asset(current_site_asset.id) # So we completely remove the asset from Nexpose altogether :/
               end
             end
-            @@logger.info("Complete.")
+            @@logger.info('Complete.')
 
             # Add New List of Assets to Given Site
             @@logger.info("Adding the Following Assets to #{site.name} (site id: #{site_id}):")
@@ -114,7 +114,7 @@ module CSI
               end
             end
             refresh_site.save(nsc_obj)
-            @@logger.info("Complete.")
+            @@logger.info('Complete.')
           end
         end
 
@@ -177,23 +177,23 @@ module CSI
         nsc_obj.list_sites.each do |site|
           if site.name == site_name
             nsc_obj.scan_site(site.id)
-            @@logger.info("Scan Started for #{site_name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
+            @@logger.info("Scan Started for #{site_name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
             site_id = site.id
           end
         end
 
         # Periodically check the status of the scan
         #unless site_id.nil?
-        if site_id != ""
+        if site_id != ''
           @@logger.info("Info: Checking status for an interval of #{poll_interval} seconds until completion.")
           loop do
             scan_status = nil
             nsc_obj.scan_activity.each {|scan| scan_status = scan.status if scan.site_id == site_id }
-            if scan_status == "running"
-              print "~" # Seeing progress is good :)
+            if scan_status == 'running'
+              print '~' # Seeing progress is good :)
               sleep poll_interval # Sleep and check the status again...
             else
-              @@logger.info("Scan Completed for #{site_name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
+              @@logger.info("Scan Completed for #{site_name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
               break
             end
           end
@@ -229,7 +229,7 @@ module CSI
       public
       def self.download_recurring_report(opts = {})
         nsc_obj = opts[:nsc_obj]
-        report_names = opts[:report_names].to_s.scrub.split(",")
+        report_names = opts[:report_names].to_s.scrub.split(',')
         @@logger.info("Generating #{report_names.count} Report(s): #{report_names.inspect}...")
 
         if opts[:poll_interval].nil?
@@ -245,8 +245,8 @@ module CSI
             report_names.each do |requested_report|
               this_report_name = requested_report.to_s.strip.chomp.gsub(/"/, '')
               if report.name == this_report_name 
-                @@logger.info("Generating Recurring Report: #{report.name} @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}..Current Report Status: #{report.status}")
-                if report.status == "Failed"
+                @@logger.info("Generating Recurring Report: #{report.name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}..Current Report Status: #{report.status}")
+                if report.status == 'Failed'
                   @@logger.info("Report Generation for #{report.name} failed...re-generating now...")
                   # Re-generate report from pre-existing config.
                   nsc_obj = generate_report_via_existing_config(nsc_obj: nsc_obj, config_id: report.config_id)          
@@ -257,7 +257,7 @@ module CSI
                 report_hash[:report_status] = report.status
                 report_hash[:report_uri] = report.uri
                 report_arr.push(report_hash)
-                report_status_arr = report_arr.uniq.select{|this_report| this_report[:report_status] == "Generated"}
+                report_status_arr = report_arr.uniq.select{|this_report| this_report[:report_status] == 'Generated'}
               end
             end
           end
@@ -273,7 +273,7 @@ module CSI
           @@logger.info("\nDownloading #{report_hash[:report_name]}#{this_file_extention} from #{report_hash[:report_uri]}...")
           nsc_obj.download(report_hash[:report_uri], "#{report_hash[:report_name]}#{this_file_extention}")
         end
-        @@logger.info("complete.")
+        @@logger.info('complete.')
 
         return nsc_obj
       end
@@ -290,7 +290,7 @@ module CSI
           #config.session_timeout = 600 # This is the default session timeout in the console
           #config.save(nsc_obj) # This will change the global sesion timeout config in the console
           nsc_obj.logout
-          return "logged out"
+          return 'logged out'
         rescue => e
           return e.message
         end

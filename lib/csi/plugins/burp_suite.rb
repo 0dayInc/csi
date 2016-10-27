@@ -35,7 +35,7 @@ module CSI
       def self.start(opts = {})
         begin
           burp_jar_path = opts[:burp_jar_path]
-          raise "Invalid path to burp jar file.  Please check your spelling and try again." unless File.exists?(burp_jar_path)
+          raise 'Invalid path to burp jar file.  Please check your spelling and try again.' unless File.exists?(burp_jar_path)
 
           burp_root = File.dirname(burp_jar_path)
 
@@ -67,16 +67,16 @@ module CSI
    
           # Now assign our ephemeral ports to the proper burp_obj keys
           lsof_res.each do |localhost_alias|
-            this_localhost = localhost_alias.strip.chomp.split("\s")[-2].split(":")[0]
-            this_port = localhost_alias.strip.chomp.split("\s")[-2].split(":")[-1]
+            this_localhost = localhost_alias.strip.chomp.split("\s")[-2].split(':')[0]
+            this_port = localhost_alias.strip.chomp.split("\s")[-2].split(':')[-1]
             case this_localhost
-              when "127.0.0.1"
+              when '127.0.0.1'
                 burp_obj[:proxy_port] = "#{this_localhost}:#{this_port}"
-              when "127.0.0.2"
+              when '127.0.0.2'
                 burp_obj[:cmd_ctl_port] = "#{this_localhost}:#{this_port}"
-              when "127.0.0.3"
+              when '127.0.0.3'
                 burp_obj[:web_socket_port] = "#{this_localhost}:#{this_port}"
-              when "127.0.0.4"
+              when '127.0.0.4'
                 burp_obj[:request_response_port] = "#{this_localhost}:#{this_port}"
             else
               raise %(Proxy/API/WebSocket FAILURE:
@@ -174,10 +174,10 @@ module CSI
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
           target_url = opts[:target_url].to_s.scrub
-          target_domain_name = URI(target_url).host.split(".")[-2..-1].join(".")
+          target_domain_name = URI(target_url).host.split('.')[-2..-1].join('.')
       
           json_sitemap = self.get_current_sitemap(burp_obj: burp_obj)
-          json_sitemap["data"].each do |site|
+          json_sitemap['data'].each do |site|
             if site['request']['host'] =~ /#{target_domain_name}/ # Accepts DNS name only - no IPs
               puts "Adding #{site['request']['host']} to Active Scan";
               if site['request']['port'].to_i == 443
@@ -194,13 +194,13 @@ module CSI
           # Wait for scan completion
           scan_queue = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scan/active")
           json_scan_queue = JSON.parse(scan_queue)
-          scan_queue_total = json_scan_queue["data"].count
-          json_scan_queue["data"].each do |scan_item|
-            until scan_item["percentComplete"] == 100
-              this_scan_item_id = scan_item["id"]
+          scan_queue_total = json_scan_queue['data'].count
+          json_scan_queue['data'].each do |scan_item|
+            until scan_item['percentComplete'] == 100
+              this_scan_item_id = scan_item['id']
               scan_item_resp = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scan/active/#{this_scan_item_id}")
               scan_item = JSON.parse(scan_item_resp)
-              puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{scan_item["percentComplete"]}% complete"
+              puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{scan_item['percentComplete']}% complete"
               sleep 1
             end
             puts "\n"
@@ -208,9 +208,9 @@ module CSI
 
           scan_queue = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scan/active")
           json_scan_queue = JSON.parse(scan_queue)
-          json_scan_queue["data"].each do |scan_item|
-            this_scan_item_id = scan_item["id"]
-            puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total} | #{scan_item["percentComplete"]}% complete"
+          json_scan_queue['data'].each do |scan_item|
+            this_scan_item_id = scan_item['id']
+            puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total} | #{scan_item['percentComplete']}% complete"
           end
 
           return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
@@ -254,7 +254,7 @@ module CSI
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
           report_type = opts[:report_type]
-          raise "INVALID Report Type" unless report_type == :html || report_type == :xml
+          raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
           output_path = opts[:output_path].to_s.scrub
 
           post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
@@ -290,7 +290,7 @@ module CSI
         rescue => e
           raise e
         ensure
-          Process.kill("TERM", burp_obj[:pid])
+          Process.kill('TERM', burp_obj[:pid])
           Process.wait
         end
       end

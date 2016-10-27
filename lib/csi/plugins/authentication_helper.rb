@@ -11,7 +11,7 @@ module CSI
       # CSI::Plugins::AuthenticationHelper.mask_password
       public
       def self.mask_password
-        pass = HighLine.new.ask("Password: ") {|q| q.echo = "\*" }
+        pass = HighLine.new.ask('Password: ') {|q| q.echo = "\*" }
         return pass.to_s.scrub.chomp
       end
 

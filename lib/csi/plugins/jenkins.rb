@@ -36,8 +36,8 @@ module CSI
 
         begin
           @@logger.info("Logging into Jenkins Server: #{jenkins_ip}")
-          if username == ""  && password == ""
-            if identity_file == ""
+          if username == ''  && password == ''
+            if identity_file == ''
               jenkins_obj = JenkinsApi::Client.new(
                 server_ip: jenkins_ip,
                 server_port: port,
@@ -54,7 +54,7 @@ module CSI
               )
             end
           else
-            password = CSI::Plugins::AuthenticationHelper.mask_password if password == ""
+            password = CSI::Plugins::AuthenticationHelper.mask_password if password == ''
             jenkins_obj = JenkinsApi::Client.new(
               server_ip: jenkins_ip,
               server_port: port,
@@ -79,20 +79,20 @@ module CSI
       def self.get_all_job_git_repos(opts = {})
         jenkins_obj = opts[:jenkins_obj]
 
-        @@logger.info("Retrieving a List of Git Repos from Every Job...")
+        @@logger.info('Retrieving a List of Git Repos from Every Job...')
  
         git_repo_arr = []
 
         jenkins_obj.job.list_all_with_details.each do |job|
-          this_config = Nokogiri::XML(jenkins_obj.job.get_config(job["name"]))
-          this_git_repo = this_config.xpath("//scm/userRemoteConfigs/hudson.plugins.git.UserRemoteConfig/url").text
-          this_git_branch = this_config.xpath("//scm/branches/hudson.plugins.git.BranchSpec/name").text
-          unless this_git_repo == ""
+          this_config = Nokogiri::XML(jenkins_obj.job.get_config(job['name']))
+          this_git_repo = this_config.xpath('//scm/userRemoteConfigs/hudson.plugins.git.UserRemoteConfig/url').text
+          this_git_branch = this_config.xpath('//scm/branches/hudson.plugins.git.BranchSpec/name').text
+          unless this_git_repo == ''
             # Obtain all jobs' git repos
             job_git_repo = {}
-            job_git_repo[:name] = job["name"]
-            job_git_repo[:url] = job["url"]
-            job_git_repo[:job_state] = job["color"]
+            job_git_repo[:name] = job['name']
+            job_git_repo[:url] = job['url']
+            job_git_repo[:job_state] = job['color']
             job_git_repo[:git_repo] = this_git_repo
             job_git_repo[:git_branch] = this_git_branch
             job_git_repo[:config_xml_response] = this_config
@@ -113,7 +113,7 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
-        nested_jobs_arr = nested_view_resp["jobs"]
+        nested_jobs_arr = nested_view_resp['jobs']
 
         return nested_jobs_arr
       end
@@ -128,7 +128,7 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
-        nested_views_arr = nested_view_resp["views"]
+        nested_views_arr = nested_view_resp['views']
 
         return nested_views_arr
       end
@@ -148,20 +148,20 @@ module CSI
         mode = 'hudson.model.ListView'
 
         post_body = {
-          "name" => view_name,
-          "mode" => mode,
-          "json" => {
-            "name" => view_name,
-            "mode" => mode
+          'name' => view_name,
+          'mode' => mode,
+          'json' => {
+            'name' => view_name,
+            'mode' => mode
           }.to_json
         }
 
         begin
-          if create_in_view_path == "" || create_in_view_path == "/"
-            @@logger.info("Creating Nested View in /...")
+          if create_in_view_path == '' || create_in_view_path == '/'
+            @@logger.info('Creating Nested View in /...')
 
             resp = jenkins_obj.api_post_request(
-              "/createView",
+              '/createView',
               post_body
             )
           else
@@ -175,7 +175,7 @@ module CSI
               post_body
             )
           end
-          if resp == "302"
+          if resp == '302'
             return true # Successful creation occurred
           else
             return false # Something unexpected happened
@@ -239,7 +239,7 @@ module CSI
         regex = opts[:regex].to_s.scrub
 
         jenkins_obj.job.list_all_with_details.each do |job| 
-          job_name = job["name"]
+          job_name = job['name']
           if job_name =~ /#{regex}/
             @@logger.info("Disabling #{job_name}")
             jenkins_obj.job.disable(job_name)
@@ -258,7 +258,7 @@ module CSI
         regex = opts[:regex].to_s.scrub
 
         jenkins_obj.job.list_all_with_details.each do |job| 
-          job_name = job["name"]
+          job_name = job['name']
           if job_name =~ /#{regex}/
             @@logger.info("Deleting #{job_name}")
             jenkins_obj.job.delete(job_name)
@@ -288,9 +288,9 @@ module CSI
       public
       def self.disconnect(opts = {})
         jenkins_obj = opts[:jenkins_obj]
-        @@logger.info("Disconnecting from Jenkins...")
+        @@logger.info('Disconnecting from Jenkins...')
         jenkins_obj = nil
-        return "complete"
+        return 'complete'
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

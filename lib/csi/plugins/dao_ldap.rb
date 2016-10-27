@@ -76,7 +76,7 @@ module CSI
         treebase = ldap_obj.base
          
         begin
-          filter = Net::LDAP::Filter.eq("samaccountname", username)
+          filter = Net::LDAP::Filter.eq('samaccountname', username)
           employee = ldap_obj.search(base: treebase, filter: filter)
 
           return employee

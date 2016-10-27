@@ -18,7 +18,7 @@ module CSI
           page_no = 1
           reader = PDF::Reader.new(pdf_path)
           reader.pages.each do |page|
-            print "."
+            print '.'
             pdf_pages_hash[page_no] = page.text
             page_no+=1
           end

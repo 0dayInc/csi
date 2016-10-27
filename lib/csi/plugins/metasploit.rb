@@ -20,11 +20,11 @@ module CSI
         msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exists?(opts[:msfrpcd_yaml_conf]) 
 
         if msfrpcd_yaml_conf
-          print "MSFRPCD YAML Conf Detected..."
-          msfrpcd_host = msfrpcd_yaml_conf["msfrpcd_host"].to_s
-          port = msfrpcd_yaml_conf["port"].to_i
-          username = msfrpcd_yaml_conf["username"].to_s
-          password = msfrpcd_yaml_conf["password"].to_s
+          print 'MSFRPCD YAML Conf Detected...'
+          msfrpcd_host = msfrpcd_yaml_conf['msfrpcd_host'].to_s
+          port = msfrpcd_yaml_conf['port'].to_i
+          username = msfrpcd_yaml_conf['username'].to_s
+          password = msfrpcd_yaml_conf['password'].to_s
         else
           msfrpcd_host = opts[:msfrpcd_host].to_s
 

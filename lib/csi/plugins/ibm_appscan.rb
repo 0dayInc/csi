@@ -50,16 +50,16 @@ module CSI
           appscan_obj[:raw_response] = response
           appscan_obj[:xml_response] = Nokogiri::XML(response)
           appscan_obj[:build] = appscan_obj[:xml_response].xpath(
-            "/xmlns:version/xmlns:build"
+            '/xmlns:version/xmlns:build'
           ).text
           appscan_obj[:dbversion] = appscan_obj[:xml_response].xpath(
-            "/xmlns:version/xmlns:dbversion"
+            '/xmlns:version/xmlns:dbversion'
           ).text
           appscan_obj[:rules_version] = appscan_obj[:xml_response].xpath(
-            "/xmlns:version/xmlns:rules-version"
+            '/xmlns:version/xmlns:rules-version'
           ).text
           appscan_obj[:username] = appscan_obj[:xml_response].xpath(
-            "/xmlns:version/xmlns:user-name"
+            '/xmlns:version/xmlns:user-name'
           ).text
           appscan_obj[:password] = Base64.encode64(password)
           appscan_obj[:logged_in] = true
@@ -118,7 +118,7 @@ module CSI
           end
           return response
         rescue => e
-          if e.message == "401 Unauthorized" and retry_count > 0 and appscan_obj[:logged_in]
+          if e.message == '401 Unauthorized' and retry_count > 0 and appscan_obj[:logged_in]
             # Try logging back in to refresh the connection
             @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
             n_appscan_obj = self.login(
@@ -145,7 +145,7 @@ module CSI
       public
       def self.schema(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "schema")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'schema')
         schema = {}
         schema[:raw_response] = response
         schema[:xml_response] = Nokogiri::XML(response)
@@ -159,21 +159,21 @@ module CSI
       public
       def self.version(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "version")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'version')
         version = {}
         version[:raw_response] = response
         version[:xml_response] = Nokogiri::XML(response)
         version[:build] = version[:xml_response].xpath(
-          "/xmlns:version/xmlns:build"
+          '/xmlns:version/xmlns:build'
         ).text
         version[:dbversion] = version[:xml_response].xpath(
-          "/xmlns:version/xmlns:dbversion"
+          '/xmlns:version/xmlns:dbversion'
         ).text
         version[:rules_version] = version[:xml_response].xpath(
-          "/xmlns:version/xmlns:rules-version"
+          '/xmlns:version/xmlns:rules-version'
         ).text
         version[:username] = version[:xml_response].xpath(
-          "/xmlns:version/xmlns:user-name"
+          '/xmlns:version/xmlns:user-name'
         ).text
         return version
       end
@@ -185,7 +185,7 @@ module CSI
       public
       def self.get_folders(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'folders')
         folders = {}
         folders[:raw_response] = response
         folders[:xml_response] = Nokogiri::XML(response)
@@ -231,7 +231,7 @@ module CSI
       public
       def self.get_folder_items(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'folderitems')
         folder_items = {}
         folder_items[:raw_response] = response
         folder_items[:xml_response] = Nokogiri::XML(response)
@@ -265,7 +265,7 @@ module CSI
           # SUSPENDED = 9;
           # POSTPROCESSING = 10;
           # ENDING = 12;
-          folder_item[:state] = folder_item[:xml_response].xpath("//xmlns:state/xmlns:name").text
+          folder_item[:state] = folder_item[:xml_response].xpath('//xmlns:state/xmlns:name').text
           return folder_item
         rescue => e
           return @@logger.error("Error: #{e} | #{e.class}\nResponse Returned: #{folder_item[:raw_response]}")
@@ -304,7 +304,7 @@ module CSI
         folder_item_options[:raw_response] = response
         folder_item_options[:xml_response] = Nokogiri::XML(response)
         folder_item_options[:options] = folder_item_options[:xml_response].xpath(
-          "//xmlns:available-option/@href"
+          '//xmlns:available-option/@href'
         )
         return folder_item_options
       end
@@ -316,7 +316,7 @@ module CSI
       public
       def self.get_scan_templates(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "templates")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'templates')
         templates = {}
         templates[:raw_response] = response
         templates[:xml_response] = Nokogiri::XML(response)
@@ -351,52 +351,52 @@ module CSI
           scan[:raw_response] = response
           scan[:xml_response] = Nokogiri::XML(response)
           scan[:folder_url] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/@href"
+            '/xmlns:folder-items/xmlns:content-scan-job/@href'
           ).text
           scan[:folder_item_id] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:id"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:id'
           ).text
           scan[:scan_name] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:name"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:name'
           ).text
           scan[:scan_desc] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:description"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:description'
           ).text
           scan[:parent_folder_url] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/@href"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/@href'
           ).text
           scan[:parent_folder_id] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/xmlns:id"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/xmlns:id'
           ).text
           scan[:contact] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:contact"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:contact'
           ).text
           scan[:state_id] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:id"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:id'
           ).text
           scan[:state_name] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:name"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:name'
           ).text
           scan[:action_id] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:id"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:id'
           ).text
           scan[:action_name] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:name"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:name'
           ).text
           scan[:options_url] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:content-scan-job/xmlns:options/@href"
+            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:options/@href'
           ).text
           scan[:report_pack_url] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:report-pack/@href"
+            '/xmlns:folder-items/xmlns:report-pack/@href'
           ).text
           scan[:report_pack_id] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:report-pack/xmlns:id"
+            '/xmlns:folder-items/xmlns:report-pack/xmlns:id'
           ).text
           scan[:reports_url] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:report-pack/xmlns:reports/@href"
+            '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/@href'
           ).text
           scan[:reports_count] = scan[:xml_response].xpath(
-            "/xmlns:folder-items/xmlns:report-pack/xmlns:reports/xmlns:count"
+            '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/xmlns:count'
           ).text.to_i
 
           return scan
@@ -421,16 +421,16 @@ module CSI
 
         case option.to_sym
           when :epcsCOTListOfStartingUrls
-            post_body = ""
-            value.to_s.scrub.split(",").each_with_index do |url, index|
-              post_body << "&" unless index == 0
+            post_body = ''
+            value.to_s.scrub.split(',').each_with_index do |url, index|
+              post_body << '&' unless index == 0
               post_body << "value=#{URI.encode(url.strip.chomp)}"
             end
           when :ebCOTHttpAuthentication
             if value == false 
-              post_body = "value=0" # Don't require authentication
+              post_body = 'value=0' # Don't require authentication
             else
-              post_body = "value=1" # Require authentication
+              post_body = 'value=1' # Require authentication
             end
           when :esCOTHttpUser
             post_body = "value=#{value.to_s.scrub}"
@@ -439,7 +439,7 @@ module CSI
           when :elCOTScanLimit
             post_body = "value=#{value.to_s.scrub}"
           when :help
-            available_options = ""
+            available_options = ''
             self.get_folder_item_options(
               appscan_obj: appscan_obj, 
               folder_item_id: folder_item_id
@@ -447,7 +447,7 @@ module CSI
          
             return @@logger.info("Valid Options are:\n\n#{available_options}")
         else
-          available_options = ""
+          available_options = ''
           self.get_folder_item_options(
             appscan_obj: appscan_obj, 
             folder_item_id: folder_item_id
@@ -467,7 +467,7 @@ module CSI
         scan_config = {}
         scan_config[:raw_response] = response
         scan_config[:xml_response] = Nokogiri::XML(response)
-        scan_config[:options] = scan_config[:xml_response].xpath("//xmlns:option/@value")
+        scan_config[:options] = scan_config[:xml_response].xpath('//xmlns:option/@value')
 
         return scan_config
       end
@@ -498,18 +498,18 @@ module CSI
               folder_item_id: folder_item_id
             )
             state = this_folder_item[:state]
-            return @@logger.error("Scan isn't in a Ready state.  Current state: #{state}, abort.") if state != "Ready"
+            return @@logger.error("Scan isn't in a Ready state.  Current state: #{state}, abort.") if state != 'Ready'
 
             @@logger.info("Kicking Off Scan for Folder Item: #{folder_item_id}")
             response = appscan_rest_call(
               appscan_obj: appscan_obj, 
               http_method: :post, 
               rest_call: "folderitems/#{folder_item_id}",
-              http_body: "action=2"
+              http_body: 'action=2'
             )
             # Obtain Status to Monitor Scan Completion
             state = nil
-            until state == "Ready"
+            until state == 'Ready'
               sleep poll_interval
               this_folder_item = CSI::Plugins::IBMAppscan.get_folder_item_by_id(
                 appscan_obj: appscan_obj,
@@ -518,27 +518,27 @@ module CSI
               state = this_folder_item[:state]
               @@logger.info("Current Scan State: #{state}...")
             end
-            @@logger.info("Scan Completed @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
+            @@logger.info("Scan Completed @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
           when :suspend
             response = appscan_rest_call(
               appscan_obj: appscan_obj, 
               http_method: :post, 
               rest_call: "folderitems/#{folder_item_id}",
-              http_body: "action=3"
+              http_body: 'action=3'
             )
           when :cancel
             response = appscan_rest_call(
               appscan_obj: appscan_obj, 
               http_method: :post, 
               rest_call: "folderitems/#{folder_item_id}",
-              http_body: "action=4"
+              http_body: 'action=4'
             )
           when :end
             response = appscan_rest_call(
               appscan_obj: appscan_obj, 
               http_method: :post, 
               rest_call: "folderitems/#{folder_item_id}",
-              http_body: "action=5"
+              http_body: 'action=5'
             )
         else
           return @@logger.error("Invalid action.  Valid actions are:\n:run\n:suspend\n:cancel\n:end\n")
@@ -568,8 +568,8 @@ module CSI
         report_collection[:raw_response] = response
         report_collection[:xml_response] = Nokogiri::XML(response)
         # Output full report pack collection
-        report_collection[:xml_response].xpath("//xmlns:report").each do |r| 
-          @@logger.info("  - #{r.xpath("xmlns:name").text}")
+        report_collection[:xml_response].xpath('//xmlns:report').each do |r| 
+          @@logger.info("  - #{r.xpath('xmlns:name').text}")
         end
 
 
@@ -590,7 +590,7 @@ module CSI
         report = {}
         report[:raw_response] = response
         report[:xml_response] = Nokogiri::XML(response)
-        @@logger.info("Retrieved Report ID/Name: #{report_id}/#{report[:xml_response].xpath("//xmlns:report/xmlns:name").text}")
+        @@logger.info("Retrieved Report ID/Name: #{report_id}/#{report[:xml_response].xpath('//xmlns:report/xmlns:name').text}")
 
         return report
       end
@@ -684,8 +684,8 @@ module CSI
           res = rb.get(location, {'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE})
 
           # Now get the file
-          f = open(output_name, "wb")
-          location["Export"] = "Stream"
+          f = open(output_name, 'wb')
+          location['Export'] = 'Stream'
           begin
             rb.get(location, {'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE}) do |resp|
               resp.read_body do |seg|
@@ -747,7 +747,7 @@ module CSI
           if not clicked
             return @@logger.error("Could not find matching scan name for name #{scan_name}")
           end
-          output_path = output_path + '/' + scan_name.gsub(/[^\w\.\-]/,"_") + '/'
+          output_path = output_path + '/' + scan_name.gsub(/[^\w\.\-]/,'_') + '/'
           if File.directory?(output_path)
             FileUtils.rm_rf output_path
           end
@@ -783,11 +783,11 @@ module CSI
       public
       def self.logout(opts = {})
         appscan_obj = opts[:appscan_obj]
-        @@logger.info("Logging out...")
-        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "logout")
-        if response == ""
+        @@logger.info('Logging out...')
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'logout')
+        if response == ''
           appscan_obj[:logged_in] = false
-          return "logout successful"
+          return 'logout successful'
         else
           return response
         end

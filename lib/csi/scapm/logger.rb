@@ -20,10 +20,10 @@ module CSI
         dir_path = opts[:dir_path]
         git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
         result_arr = []
-        logger_results = ""
+        logger_results = ''
 
         CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
-          if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && (File.extname(entry) == ".scala" || File.extname(entry) == ".java")
+          if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && (File.extname(entry) == '.scala' || File.extname(entry) == '.java')
             line_no_and_contents_arr = []
             filename_arr = []
             test_case_filter = %Q{
@@ -52,10 +52,10 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime("%Y-%m-%d %H:%M:%S.%9N %z")}", 
+                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}", 
                 test_case: self.nist_800_53_requirements, 
                 filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),  
-                line_no_and_contents: "", 
+                line_no_and_contents: '', 
                 raw_content: str, 
                 test_case_filter: HTMLEntities.new.encode(test_case_filter)
               }
@@ -82,13 +82,13 @@ module CSI
                 current_count+=2 
               end
               result_arr.push(hash_line)
-              logger_results << "x" # Catching bugs is good :)
+              logger_results << 'x' # Catching bugs is good :)
             else
-              logger_results << "~" # Seeing progress is good :)
+              logger_results << '~' # Seeing progress is good :)
             end
           end
         end
-         logger_banner = "http://#{Socket.gethostname}:8808/doc_root/csi-#{CSI::VERSION.to_s.scrub}/#{self.to_s.scrub.gsub("::", "/")}.html"
+         logger_banner = "http://#{Socket.gethostname}:8808/doc_root/csi-#{CSI::VERSION.to_s.scrub}/#{self.to_s.scrub.gsub('::', '/')}.html"
         if logger_results.empty?
           @@logger.info("#{logger_banner}: No files applicable to this test case.\n")
         else
@@ -105,8 +105,8 @@ module CSI
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
-          section: "PROTECTION OF INFORMATION AT REST",
-          nist_800_53_uri: "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28"
+          section: 'PROTECTION OF INFORMATION AT REST',
+          nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28'
         }
         return nist_800_53_requirements
       end

@@ -15,7 +15,7 @@ module CSI
       def self.open(opts = {})
         begin
           if $browser
-            @@logger.info("leveraging existing $browser object...")
+            @@logger.info('leveraging existing $browser object...')
             @@logger.info("run #{self}.close to end session.")
           else
             if opts[:browser_type].nil? 
@@ -38,8 +38,8 @@ module CSI
               with_tor = false
             end
 
-            @@logger.info("instantiating new $browser object...")
-            @@logger.info("run $browser.close to end session.")
+            @@logger.info('instantiating new $browser object...')
+            @@logger.info('run $browser.close to end session.')
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(

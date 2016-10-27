@@ -17,7 +17,7 @@ module CSI
       public
       def self.recurse_dir(opts={})
         if opts[:dir_path].nil?
-          dir_path = "."
+          dir_path = '.'
         else
           dir_path = opts[:dir_path].to_s.scrub if File.directory?(opts[:dir_path].to_s.scrub)
           raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?

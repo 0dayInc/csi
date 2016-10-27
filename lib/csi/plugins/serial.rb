@@ -22,7 +22,7 @@ module CSI
       def self.connect(opts = {})
         begin
           if opts[:block_dev].nil?
-            block_dev = "/dev/ttyUSB0"
+            block_dev = '/dev/ttyUSB0'
           else
             block_dev = opts[:block_dev].to_s if File.exist?(opts[:block_dev].to_s)
           end
@@ -91,7 +91,7 @@ module CSI
           session_thread = Thread.new do
             #serial_conn.flush # TODO: flush
             serial_conn.read_timeout = 100
-            this_session_data = ""
+            this_session_data = ''
             while true
               IO::select([serial_conn])
               #@session_data << serial_conn.read.to_s.scrub

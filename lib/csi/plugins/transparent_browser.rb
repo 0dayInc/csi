@@ -42,7 +42,7 @@ module CSI
 
               if proxy
                 if with_tor
-                  this_profile["javascript.enabled"] = false  
+                  this_profile['javascript.enabled'] = false  
                   this_profile.proxy = Selenium::WebDriver::Proxy.new(
                     socks: "#{URI(proxy).host}:#{URI(proxy).port}"
                   )
@@ -61,7 +61,7 @@ module CSI
             when :chrome
               this_profile = Selenium::WebDriver::Chrome::Profile.new
               this_profile['download.prompt_for_download'] = false
-              this_profile['download.default_directory'] = "~/Downloads"
+              this_profile['download.default_directory'] = '~/Downloads'
 
               if proxy
                 if with_tor
@@ -88,11 +88,11 @@ module CSI
                   this_browser = Watir::Browser.new(
                     :phantomjs, 
                     args: [
-                      "--proxy-type=socks5",
+                      '--proxy-type=socks5',
                       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
-                      "--ignore-ssl-errors=true",
-                      "--ssl-protocol=any",
-                      "--web-security=false"
+                      '--ignore-ssl-errors=true',
+                      '--ssl-protocol=any',
+                      '--web-security=false'
                     ]
                   )
                 else
@@ -100,9 +100,9 @@ module CSI
                     :phantomjs, 
                     args: [
                       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
-                      "--ignore-ssl-errors=true",
-                      "--ssl-protocol=any",
-                      "--web-security=false"
+                      '--ignore-ssl-errors=true',
+                      '--ssl-protocol=any',
+                      '--web-security=false'
                     ]
                   )
                 end
@@ -110,9 +110,9 @@ module CSI
                 this_browser = Watir::Browser.new(
                   :phantomjs,
                   args: [ 
-                    "--ignore-ssl-errors=true",
-                    "--ssl-protocol=any",
-                    "--web-security=false"
+                    '--ignore-ssl-errors=true',
+                    '--ssl-protocol=any',
+                    '--web-security=false'
                   ]
                 )
               end
@@ -128,7 +128,7 @@ module CSI
               end
               
           else
-            puts "Error: browser_type only supports :firefox, :chrome, :headless, or :rest"
+            puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
             return nil
           end
 
@@ -149,7 +149,7 @@ module CSI
 
         begin
           this_browser_obj.links.each do |link|
-            @@logger.info("#{link.text} => #{link.href}\n\n\n") unless link.text == ""
+            @@logger.info("#{link.text} => #{link.href}\n\n\n") unless link.text == ''
           end
 
           return this_browser_obj

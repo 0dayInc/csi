@@ -22,7 +22,7 @@ module CSI
         end
 
         begin
-          @@logger.info("Logging into Slack...")
+          @@logger.info('Logging into Slack...')
           slack_obj = Slack::Web::Client.new
           slack_obj.token = api_token
           slack_obj.auth_test
@@ -65,10 +65,10 @@ module CSI
       public
       def self.logout(opts = {})
         slack_obj = opts[:slack_obj]
-        @@logger.info("Logging out...")
+        @@logger.info('Logging out...')
         slack_obj.token = nil
         slack_obj = nil
-        @@logger.info("Complete.")
+        @@logger.info('Complete.')
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

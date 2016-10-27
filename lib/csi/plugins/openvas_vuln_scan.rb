@@ -4,7 +4,7 @@ module CSI
     module OpenVASVulnScan
 
       @@logger = CSI::Plugins::CSILogger.create()
-      @@omp_bin = "/usr/local/bin/omp"
+      @@omp_bin = '/usr/local/bin/omp'
 
       # Supported Method Parameters::
       # CSI::Plugins::OpenVASVulnScan.login(
@@ -49,7 +49,7 @@ module CSI
         openvas_obj = opts[:openvas_obj]
         begin
           openvas_obj = nil
-          @@logger.info("logged out")
+          @@logger.info('logged out')
         rescue => e
           return e.message
         end

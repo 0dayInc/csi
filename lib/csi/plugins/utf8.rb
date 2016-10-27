@@ -19,11 +19,11 @@ module CSI
 
           (from..to).each do |i| 
             utf8_hash = {}
-            this_hex = sprintf("%04x", i)
-            this_dec = sprintf("%04d", i)
+            this_hex = sprintf('%04x', i)
+            this_dec = sprintf('%04d', i)
             utf8_hash[:hex] = this_hex
             utf8_hash[:dec] = this_dec
-            utf8_hash[:utf8] = [i].pack("U*")
+            utf8_hash[:utf8] = [i].pack('U*')
 
             utf8_arr.push(utf8_hash)
           end

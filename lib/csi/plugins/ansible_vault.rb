@@ -36,7 +36,7 @@ module CSI
         vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
 
         begin
-          if File.extname(yaml_config) == ".yaml"
+          if File.extname(yaml_config) == '.yaml'
             config_resp = YAML.load(`sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`)
           else
             config_resp = `sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`
