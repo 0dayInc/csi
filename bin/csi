@@ -7,8 +7,8 @@ require 'rainbow'
 begin
   pry_obj = Pry
 
-  pry_obj::Commands.create_command "toggle-pager" do
-    description "Toggle less on returned objects surpassing the terminal."
+  pry_obj::Commands.create_command 'toggle-pager' do
+    description 'Toggle less on returned objects surpassing the terminal.'
 
     def process
       if _pry_.config.pager
@@ -24,12 +24,12 @@ begin
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
       prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m"
+      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m"
     end,
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
-      splat = Rainbow("*").yellow
-      "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m"
+      splat = Rainbow('*').yellow
+      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m"
     end
   ]
   pry_obj.start(self, prompt: prompt)

@@ -70,9 +70,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -80,7 +80,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           mongo_conn = #{self}.connect(
             :host => 'optional host or IP defaults to 127.0.0.1', 
             :port => 'optional port defaults to 27017',
@@ -90,7 +90,7 @@ module CSI
           #{self}.disconnect(:mongo_conn => mongo_conn)
 
           #{self}.authors
-        }
+        "
       end
     end
   end

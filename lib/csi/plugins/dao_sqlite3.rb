@@ -26,11 +26,11 @@ module CSI
           # TODO: better handling since sqlite3 gem always returns SQLite3::Database
           # whether DB exists or not
           unless sqlite3_conn.class == SQLite3::Database
-            raise %Q{
+            raise "
               Connection Error - class should be SQLite3::Database...received:
               sqlite3_conn = #{sqlite3_conn.inspect}
               sqlite3_conn.class = #{sqlite3_conn.class}
-            }
+            "
           end
 
           return sqlite3_conn
@@ -97,9 +97,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
  
         return authors
       end
@@ -107,7 +107,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           sqlite3_conn = #{self}.connect(:dir_path => 'Required - Path of SQLite3 DB File')
 
           res = #{self}.sql_statement(
@@ -119,7 +119,7 @@ module CSI
           #{self}.disconnect(:sqlite3_conn => sqlite3_conn)
 
           #{self}.authors
-        }
+        "
       end
     end
   end

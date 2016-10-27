@@ -33,9 +33,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -43,11 +43,11 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           pdf_pages_hash = #{self}.read_text(:pdf_path => 'required path to pdf file')
 
           #{self}.authors
-        }
+        "
       end
     end
   end

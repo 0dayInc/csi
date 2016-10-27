@@ -34,10 +34,10 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           logger = #{self}.create()
          #{self}.authors
-        }
+        "
       end
     end
   end

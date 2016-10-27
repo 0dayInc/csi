@@ -5,19 +5,19 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-sIP", "--jenkins_ip=IP", "<Required - Jenkins Server IP>") {|s| opts[:jenkins_ip] = s }
-  options.on("-UUSER", "--username=USER", "<Required - Jenkins Username>") do |user| 
+  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
+  options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user| 
     opts[:username] = user
   end
-  options.on("-PPASS", "--password=PASS", "<Required - Jenkins Password>") do |pass| 
+  options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass| 
     opts[:password] = pass
   end
 
-  options.on("-R", "--[no-]restart-jenkins", "<Restart Jenkins - Defaults to true>") do |restart_bool|
+  options.on('-R', '--[no-]restart-jenkins', '<Restart Jenkins - Defaults to true>') do |restart_bool|
     opts[:restart_jenkins] = restart_bool
   end
 end.parse!

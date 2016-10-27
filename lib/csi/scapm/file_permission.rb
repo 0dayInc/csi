@@ -26,7 +26,7 @@ module CSI
           if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && File.extname(entry) == '.pp'
             line_no_and_contents_arr = []
             filename_arr = []
-            test_case_filter = %Q{ sed -e '/file {/,/}/!d;=' #{entry} }
+            test_case_filter = " sed -e '/file {/,/}/!d;=' #{entry} "
 
             line_number_jumble_str = `#{test_case_filter}`.to_s.scrub
 
@@ -102,9 +102,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -112,14 +112,14 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           file_permission_arr = #{self}.scan(
             :dir_path => 'optional path to dir defaults to .',
             :git_repo_root_uri => 'optional http uri of git repo scanned'
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

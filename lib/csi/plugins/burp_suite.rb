@@ -299,9 +299,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -309,7 +309,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           burp_obj = #{self}.start(
             :burp_jar_path => 'required - path of burp suite pro jar file',
             :headless => 'optional - run headless if set to true',
@@ -348,7 +348,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

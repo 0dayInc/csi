@@ -40,9 +40,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -50,7 +50,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           credentials = #{self}.get_temp_credentials(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             role_arn: 'required - role arn for instance profile to be used',
@@ -59,7 +59,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

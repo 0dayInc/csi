@@ -373,9 +373,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -383,14 +383,14 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           #{self}.generate(
             :dir_path => dir_path, 
             :results_hash => results_hash
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

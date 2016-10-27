@@ -6,13 +6,13 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-dDIR", "--dir_path=DIR", "<Required - Root of Git Repo to Target>") {|d| opts[:dir_path] = d }
-  options.on("-uGITURI", "--git_repo_root_uri=GITURI", "<Required - HTTP URI of Git Repo Scanned>") {|u| opts[:git_repo_root_uri] = u }
-  options.on("-tTHREADS", "--max_threads=THREADS", "<Optional # Test Cases to Run Simultaneously (Default 25)>") {|t| opts[:max_threads] = t }
+  options.on('-dDIR', '--dir_path=DIR', '<Required - Root of Git Repo to Target>') {|d| opts[:dir_path] = d }
+  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') {|u| opts[:git_repo_root_uri] = u }
+  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') {|t| opts[:max_threads] = t }
 end.parse!
       
 if opts.empty? 
@@ -83,5 +83,5 @@ CSI::Reports::SCAPM.generate(
   dir_path: dir_path, 
   results_hash: $results_hash
 )
-puts "complete."
+puts 'complete.'
 

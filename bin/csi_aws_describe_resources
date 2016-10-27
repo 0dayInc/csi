@@ -7,35 +7,35 @@ require 'yaml'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-rREGION", "--region=REGION", "<Required - Region to Describe>") do |region| 
+  options.on('-rREGION', '--region=REGION', '<Required - Region to Describe>') do |region| 
     opts[:region] = region
   end
 
-  options.on("-cYAML", "--aws_yaml=YAML", "<Quickest - Path to YAML Config>") do |yaml| 
+  options.on('-cYAML', '--aws_yaml=YAML', '<Quickest - Path to YAML Config>') do |yaml| 
     opts[:yaml] = yaml
   end
 
-  options.on("-AAKI", "--access_key_id=AKI", "<Alternative over Quickest - AWS Access Key ID>") do |aki| 
+  options.on('-AAKI', '--access_key_id=AKI', '<Alternative over Quickest - AWS Access Key ID>') do |aki| 
     opts[:aki] = aki
   end
 
-  options.on("-SSAK", "--secret_access_key=SAK", "<Alternative over Quickest - Secret Access Key>") do |sak| 
+  options.on('-SSAK', '--secret_access_key=SAK', '<Alternative over Quickest - Secret Access Key>') do |sak| 
     opts[:sak] = sak
   end
 
-  options.on("-aARN", "--sts_role_arn=ARN", "<More Secure than Quickest or Alt - STS Role ARN>") do |sts_role_arn| 
+  options.on('-aARN', '--sts_role_arn=ARN', '<More Secure than Quickest or Alt - STS Role ARN>') do |sts_role_arn| 
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on("-nRNAME", "--sts_role_name=RNAME", "<More Secure than Quickest or Alt - STS Role Name>") do |sts_role_name| 
+  options.on('-nRNAME', '--sts_role_name=RNAME', '<More Secure than Quickest or Alt - STS Role Name>') do |sts_role_name| 
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<More Secure than Quickest or Alt - STS Expiration (Defaults to 900 Seconds)>") do |sts_exp| 
+  options.on('-eEXPIRES', '--sts_expiration=EXPIRES', '<More Secure than Quickest or Alt - STS Expiration (Defaults to 900 Seconds)>') do |sts_exp| 
     opts[:sts_exp] = sts_exp
   end
 
@@ -50,8 +50,8 @@ logger = CSI::Plugins::CSILogger.create()
 
 if opts[:yaml]
   yaml = YAML.load_file(opts[:yaml]) if File.exists?(opts[:yaml])
-  access_key_id = yaml["access_key_id"].to_s.scrub.strip.chomp
-  secret_access_key = yaml["secret_access_key"].to_s.scrub.strip.chomp
+  access_key_id = yaml['access_key_id'].to_s.scrub.strip.chomp
+  secret_access_key = yaml['secret_access_key'].to_s.scrub.strip.chomp
 else
   access_key_id = opts[:aki].to_s.scrub
   secret_access_key = opts[:sak].to_s.scrub
@@ -67,7 +67,7 @@ else
   sts_exp = opts[:sts_exp].to_i
 end
 
-if access_key_id == "" && secret_access_key == "" 
+if access_key_id == '' && secret_access_key == '' 
   credentials = CSI::AWS::STS.get_temp_credentials(
     region: region,
     role_arn: sts_role_arn,

@@ -8,7 +8,7 @@ rport = ARGV[2].to_s.strip.chomp
 
 logger = CSI::Plugins::CSILogger.create()
 
-logger.info("MSF Postgres Login for " << rhosts)
+logger.info('MSF Postgres Login for ' << rhosts)
 
 results = CSI::MSF::PostgresLogin.exploit(
   msfrpcd_yaml_conf: msfrpcd_yaml_conf,

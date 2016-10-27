@@ -103,9 +103,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -113,7 +113,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           ldap_obj = #{self}.connect(
             :host => 'required host or IP', 
             :port => 'required port', 
@@ -133,7 +133,7 @@ module CSI
           #{self}.disconnect(:ldap_obj => ldap_obj)
 
           #{self}.authors
-        }
+        "
       end
     end
   end

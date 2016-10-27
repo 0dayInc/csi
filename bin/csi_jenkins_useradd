@@ -5,22 +5,22 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-sIP", "--jenkins_ip=IP", "<Required - Jenkins Server IP>") {|s| opts[:jenkins_ip] = s }
+  options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
 
-  options.on("-UAUSER", "--admin-username=AUSER", "<Required - Jenkins Admin Username>") do |auser| 
+  options.on('-UAUSER', '--admin-username=AUSER', '<Required - Jenkins Admin Username>') do |auser| 
     opts[:admin_username] = auser
   end
-  options.on("-PAPASS", "--admin-password=APASS", "<Required - Jenkins Admin Password>") do |apass| 
+  options.on('-PAPASS', '--admin-password=APASS', '<Required - Jenkins Admin Password>') do |apass| 
     opts[:admin_password] = apass
   end
-  options.on("-uNUSER", "--new-username=NUSER", "<Required - Jenkins Username to Create>") do |nuser| 
+  options.on('-uNUSER', '--new-username=NUSER', '<Required - Jenkins Username to Create>') do |nuser| 
     opts[:new_username] = nuser
   end
-  options.on("-pNPASS", "--new-password=NPASS", "<Required - Jenkins Password for New User>") do |npass| 
+  options.on('-pNPASS', '--new-password=NPASS', '<Required - Jenkins Password for New User>') do |npass| 
     opts[:new_password] = npass
   end
 end.parse!
@@ -48,4 +48,4 @@ jenkins_obj = CSI::Plugins::Jenkins.connect(
 puts "Created #{new_username}."
 
 CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)
-puts "complete."
+puts 'complete.'

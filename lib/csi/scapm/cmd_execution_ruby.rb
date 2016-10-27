@@ -109,9 +109,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -119,14 +119,14 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           cmd_execution_ruby_arr = #{self}.scan(
             :dir_path => 'optional path to dir defaults to .',
             :git_repo_root_uri => 'optional http uri of git repo scanned'
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

@@ -3,14 +3,14 @@
 require 'rest-client'
 require 'nokogiri'
 
-printf "Installing phantomjs ******************************************************************"
+printf 'Installing phantomjs ******************************************************************'
 phantomjs_tar_bz2 = ''
 phantomjs_tar_extraction_path = '/opt/phantomjs-releases'
 phantomjs_linux_download = ''
-url = "http://phantomjs.org/download.html"
+url = 'http://phantomjs.org/download.html'
 # Look for specific links w/ pattern matching 64 bit linux tar.gz
 phantomjs_resp = RestClient.get(url)
-links = Nokogiri::HTML(phantomjs_resp).xpath("//a/@href")
+links = Nokogiri::HTML(phantomjs_resp).xpath('//a/@href')
 links.each do |link|
   if link.value =~ /linux-x86_64\.tar\.bz2/
     phantomjs_tar_bz2 = "/opt/#{File.basename(link.value)}"

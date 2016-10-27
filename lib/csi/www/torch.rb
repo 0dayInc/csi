@@ -94,14 +94,14 @@ module CSI
       # CSI::WWW::Torch.onion
       public
       def self.onion
-        puts %Q{Be sure the $browser object has the following parameters set:
+        puts "Be sure the $browser object has the following parameters set:
 
           #{self}.open(
             :browser_type => :chrome, 
             :proxy => 'socks5://127.0.0.1:9050', 
             :with_tor => true
           )
-        }
+        "
         if $browser
           $browser.goto('http://xmh57jrzrnw6insl.onion')
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
@@ -118,9 +118,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end

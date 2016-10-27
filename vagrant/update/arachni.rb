@@ -6,16 +6,16 @@ require 'net/http'
 require 'rubygems/package'
 require 'zlib'
 
-printf "Installing Arachni ********************************************************************"
+printf 'Installing Arachni ********************************************************************'
 TAR_LONGLINK = '././@LongLink'
 nightly_tar_gz = ''
 nightly_tar_extraction_path = '/opt/arachni-nightlies'
 nightly_linux_download = ''
-url = "http://downloads.arachni-scanner.com/nightlies"
-print "Installing Arachni Web Vulnerability Scanner..."
+url = 'http://downloads.arachni-scanner.com/nightlies'
+print 'Installing Arachni Web Vulnerability Scanner...'
 # Look for specific links w/ pattern matching 64 bit linux tar.gz
 nightly_resp = RestClient.get(url)
-links = Nokogiri::HTML(nightly_resp).xpath("//a/@href")
+links = Nokogiri::HTML(nightly_resp).xpath('//a/@href')
 links.each do |link|
   if link.value =~ /linux-x86_64\.tar\.gz/
     nightly_tar_gz = "#{nightly_tar_extraction_path}/#{link.value}"

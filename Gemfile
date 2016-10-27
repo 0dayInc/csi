@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-LANG="en_US.UTF-8"
-LC_ALL="en_US.UTF-8"
+LANG='en_US.UTF-8'
+LC_ALL='en_US.UTF-8'
 source 'https://rubygems.org'
 
 # *** => Represents Gems that didn't have new versions available during the last gem update (6/28/2016).  Implies lack of development.

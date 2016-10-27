@@ -5,11 +5,11 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-aACTION", "--action=ACTION", "<Required - Daemon Action start|reload|stop>") {|a| opts[:action] = a }
+  options.on('-aACTION', '--action=ACTION', '<Required - Daemon Action start|reload|stop>') {|a| opts[:action] = a }
 
 end.parse!
 
@@ -22,7 +22,7 @@ action = opts[:action].to_s.scrub.to_sym
 
 private def start
   openvas = fork do
-    exec "openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only"
+    exec 'openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only'
   end
   Process.detach(openvas)
 end
@@ -35,7 +35,7 @@ end
 
 private def stop
   openvas = fork do 
-    exec "killall -9 gsad && killall -9 openvassd && killall -9 openvasmd"
+    exec 'killall -9 gsad && killall -9 openvassd && killall -9 openvasmd'
   end
   Process.detach(openvas)
 end

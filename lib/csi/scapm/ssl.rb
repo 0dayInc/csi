@@ -34,7 +34,7 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %Q{grep -Fin -e 'ssl' -e 'tls' -e 'trustAll' -e 'trustmanager' -e 'ssl_version' #{entry}}
+            test_case_filter = "grep -Fin -e 'ssl' -e 'tls' -e 'trustAll' -e 'trustmanager' -e 'ssl_version' #{entry}"
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 
@@ -149,9 +149,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -159,14 +159,14 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           ssl_arr = #{self}.scan(
             :dir_path => 'optional path to dir defaults to .',
             :git_repo_root_uri => 'optional http uri of git repo scanned'
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

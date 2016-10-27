@@ -5,15 +5,15 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-tTARGET", "--target_url=TARGET", "<Required - Target URI to Scan>") do |t| 
+  options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t| 
     opts[:target_url] = t 
   end
 
-  options.on("-oDIR", "--report_output_dir=DIR", "<Required - Output Directory for Results Generation>") do |o| 
+  options.on('-oDIR', '--report_output_dir=DIR', '<Required - Output Directory for Results Generation>') do |o| 
     opts[:output_dir] = o
   end
 

@@ -44,9 +44,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -54,7 +54,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           #{self}.fill(
             :enumerable_array => 'required array for proper thread pool assignment', 
             :max_threads => 'optional number of threads in the thread pool (defaults to 6)',
@@ -65,7 +65,7 @@ module CSI
                    end
 
           #{self}.authors
-        }
+        "
       end
     end
   end

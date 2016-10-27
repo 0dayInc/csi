@@ -5,14 +5,14 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-vNUM", "--voicemail_num=num", "<Required - Number to Voicemail Service>") do |num| 
+  options.on('-vNUM', '--voicemail_num=num', '<Required - Number to Voicemail Service>') do |num| 
     opts[:voicemail_num] = num
   end
-  options.on("-pPIN", "--voicemail_pin=PIN", "<Optional - Voicemail Pin (Prompts if Ommitted>") do |pin| 
+  options.on('-pPIN', '--voicemail_pin=PIN', '<Optional - Voicemail Pin (Prompts if Ommitted>') do |pin| 
     opts[:voicemail_pin] = pin
   end
 end.parse!
@@ -58,9 +58,9 @@ CSI::Plugins::Serial.request(
 )
 
 session_data = CSI::Plugins::Serial.dump_session_data
-puts "~"*200
+puts '~'*200
 puts session_data
-puts "~"*200
+puts '~'*200
 
 CSI::Plugins::Serial.disconnect(serial_obj: serial_obj)
 

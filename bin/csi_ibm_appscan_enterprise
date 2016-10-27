@@ -5,14 +5,14 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-SIP", "--appscan_ip=IP", "<Required - IBM Appscan Enterprise Server IP>") {|s| opts[:appscan_ip] = s }
-  options.on("-UUSER", "--ase_username=USER", "<Required - IBM Appscan Enterprise Username>") {|u| opts[:ase_username] = u }
-  options.on("-PPASS", "--ase_password=PASS", "<Required - IBM Appscan Enterprise Password>") {|p| opts[:ase_password] = p }
-  options.on("-tTARGET", "--target_name=TARGET", "<Required - Target Folder Item Name to Initiate Scan>") do |t| 
+  options.on('-SIP', '--appscan_ip=IP', '<Required - IBM Appscan Enterprise Server IP>') {|s| opts[:appscan_ip] = s }
+  options.on('-UUSER', '--ase_username=USER', '<Required - IBM Appscan Enterprise Username>') {|u| opts[:ase_username] = u }
+  options.on('-PPASS', '--ase_password=PASS', '<Required - IBM Appscan Enterprise Password>') {|p| opts[:ase_password] = p }
+  options.on('-tTARGET', '--target_name=TARGET', '<Required - Target Folder Item Name to Initiate Scan>') do |t| 
     opts[:target_name] = t 
   end
 end.parse!
@@ -37,9 +37,9 @@ appscan_obj = CSI::Plugins::IBMAppscan.login(
 # Retrieve Folder Item ID by target_name Variable
 folder_items = CSI::Plugins::IBMAppscan.get_folder_items(appscan_obj: appscan_obj)
 folder_item_id = -1
-folder_items[:xml_response].xpath("//xmlns:content-scan-job").each do |node| 
-  if node.xpath("xmlns:name").text == target_name
-    folder_item_id = node.xpath("xmlns:id").text  
+folder_items[:xml_response].xpath('//xmlns:content-scan-job').each do |node| 
+  if node.xpath('xmlns:name').text == target_name
+    folder_item_id = node.xpath('xmlns:id').text  
   end
 end
 # Exit Driver if Folder Item (Target Name) Isn't Found
@@ -55,9 +55,9 @@ scan_action = CSI::Plugins::IBMAppscan.folder_item_scan_action(
 
 # Retrieve Report Folder Item ID (Report Collection) by target_name Variable
 report_folder_item_id = -1
-folder_items[:xml_response].xpath("//xmlns:report-pack").each do |node| 
-  if node.xpath("xmlns:name").text == target_name
-    report_folder_item_id = node.xpath("xmlns:id").text  
+folder_items[:xml_response].xpath('//xmlns:report-pack').each do |node| 
+  if node.xpath('xmlns:name').text == target_name
+    report_folder_item_id = node.xpath('xmlns:id').text  
   end
 end
 # Exit Driver if Report Folder Item (Target Name) Isn't Found
@@ -72,16 +72,16 @@ report_collection = CSI::Plugins::IBMAppscan.get_report_collection(
 
 # Obtain Report ID for Requested Reports
 reports_to_download = []
-report_collection[:xml_response].xpath("//xmlns:report").each do |r|
-  reports_to_download.push(r.xpath("xmlns:name").text)
+report_collection[:xml_response].xpath('//xmlns:report').each do |r|
+  reports_to_download.push(r.xpath('xmlns:name').text)
 end
 
-pdf_gen_timestamp = Time.now.strftime("%Y-%m-%d %H:%M:%S.%9N %z")
+pdf_gen_timestamp = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')
 reports_to_download.each do |report_to_download|
-  report_collection[:xml_response].xpath("//xmlns:report").each do |report| 
+  report_collection[:xml_response].xpath('//xmlns:report').each do |report| 
     # We found the report id by name of report
-    if report.xpath("xmlns:name").text == report_to_download 
-      report_id = report.xpath("xmlns:id").text
+    if report.xpath('xmlns:name').text == report_to_download 
+      report_id = report.xpath('xmlns:id').text
 
       # Get Report Schema
       report_schema = CSI::Plugins::IBMAppscan.get_single_report_schema(
@@ -107,7 +107,7 @@ reports_to_download.each do |report_to_download|
         report_id: report_id
       )
 
-      puts "~"*33 # Easier for the Eyes in Console
+      puts '~'*33 # Easier for the Eyes in Console
     end
   end
 end

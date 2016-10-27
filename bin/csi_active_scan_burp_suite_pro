@@ -5,31 +5,31 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-bBPATH", "--burp_path=BPATH", "<Required - Path to Burp Suite Pro Jar File>") do |b| 
+  options.on('-bBPATH', '--burp_path=BPATH', '<Required - Path to Burp Suite Pro Jar File>') do |b| 
     opts[:burp_jar_path] = b 
   end
 
-  options.on("-h", "--[no-]headless", "<Optional - Run Burp and Browser Headless>") do |h| 
+  options.on('-h', '--[no-]headless', '<Optional - Run Burp and Browser Headless>') do |h| 
     opts[:headless] = h 
   end
 
-  options.on("-tTARGET", "--target_url=TARGET", "<Required - Target URI to Scan>") do |t| 
+  options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t| 
     opts[:target_url] = t 
   end
 
-  options.on("-oPATH", "--report_output_path=PATH", "<Required - Output Path for Active Scan Issues>") do |o| 
+  options.on('-oPATH', '--report_output_path=PATH', '<Required - Output Path for Active Scan Issues>') do |o| 
     opts[:output_path] = o
   end
 
-  options.on("-rRTYPE", "--report_type=RTYPE", "<Required - Report Type html|xml>") do |r| 
+  options.on('-rRTYPE', '--report_type=RTYPE', '<Required - Report Type html|xml>') do |r| 
     opts[:report_type] = r
   end
 
-  options.on("-IINST", "--navigation_instruct=INST", "<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>") do |i| 
+  options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>') do |i| 
     opts[:navigation_instruct] = i
   end
 
@@ -52,7 +52,7 @@ begin
   report_type = opts[:report_type].to_sym
 
   navigation_instruct = opts[:navigation_instruct]
-  raise "Invalid path to browser instructions.  Please check your spelling and try again." unless File.exists?(navigation_instruct)
+  raise 'Invalid path to browser instructions.  Please check your spelling and try again.' unless File.exists?(navigation_instruct)
 
   # ------
   # Open Burp

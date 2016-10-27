@@ -5,11 +5,11 @@ require 'optparse'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-aACTION", "--action=ACTION", "<Required - Daemon Action start|reload|stop>") {|a| opts[:action] = a }
+  options.on('-aACTION', '--action=ACTION', '<Required - Daemon Action start|reload|stop>') {|a| opts[:action] = a }
 
 end.parse!
 
@@ -21,7 +21,7 @@ end
 action = opts[:action].to_s.scrub.to_sym
 
 private def start
-  metasploit_root = "/opt/metasploit-framework-dev"
+  metasploit_root = '/opt/metasploit-framework-dev'
 
   msfrpcd_config = YAML.load_file('/csi/etc/metasploit/msfrpcd.yaml')
   msfrpcd_host = msfrpcd_config['msfrpcd_host'].to_s.scrub.strip.chomp
@@ -29,7 +29,7 @@ private def start
   msfrpcd_user = msfrpcd_config['username'].to_s.scrub.chomp # Don't strip leading space
   msfrpcd_pass = msfrpcd_config['password'].to_s.scrub.chomp # Don't strip leading space
   system("#{metasploit_root}/msfrpcd -a '#{msfrpcd_host}' -p #{msfrpcd_port} -U '#{msfrpcd_user}' -P '#{msfrpcd_pass}'")
-  puts "complete."
+  puts 'complete.'
 end
 
 private def reload

@@ -223,9 +223,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -233,7 +233,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           msfrpcd_conn1 = #{self}.connect(
             :msfrpcd_yaml_conf => 'optional path to YAML conf file (overrides parameters outlined below)',
             :msfrpcd_host => 'required Metasploit msfrpcd ip address',
@@ -281,7 +281,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

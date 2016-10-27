@@ -66,9 +66,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -76,14 +76,14 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           #{self}.get(
             :ip_or_host => 'required - IP or Host to lookup',
             :proxy => 'optional - use a proxy'
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

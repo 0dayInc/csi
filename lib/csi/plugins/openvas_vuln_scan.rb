@@ -59,9 +59,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -69,7 +69,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           openvas_obj = #{self}.login(
             :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)', 
             :openvas_port => 'optional port of openvasmd (defaults to 9390)'
@@ -80,7 +80,7 @@ module CSI
           #{self}.logout(:openvas_obj => 'required openvas_obj returned from login method')
 
           #{self}.authors
-        }
+        "
       end
     end
   end

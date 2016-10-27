@@ -6,33 +6,33 @@ require 'aws-sdk'
 
 opts = {}
 OptionParser.new do |options|
-  options.banner = %Q{USAGE:
+  options.banner = "USAGE:
     #{$0} [opts]
-  }
+  "
 
-  options.on("-rREGION", "--region=REGION", "<Optional - AWS STS Region (Defaults to 'us-west-1')>") do |sts_region| 
+  options.on('-rREGION', '--region=REGION', "<Optional - AWS STS Region (Defaults to 'us-west-1')>") do |sts_region| 
     opts[:sts_region] = sts_region
   end
 
-  options.on("-aARN", "--sts_role_arn=ARN", "<Required - STS Role ARN>") do |sts_role_arn| 
+  options.on('-aARN', '--sts_role_arn=ARN', '<Required - STS Role ARN>') do |sts_role_arn| 
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on("-nRNAME", "--sts_role_name=RNAME", "<Required - STS Role Name>") do |sts_role_name| 
+  options.on('-nRNAME', '--sts_role_name=RNAME', '<Required - STS Role Name>') do |sts_role_name| 
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on("-eEXPIRES", "--sts_expiration=EXPIRES", "<Optional - STS Expiration (Defaults to 900 Seconds)>") do |sts_expiration| 
+  options.on('-eEXPIRES', '--sts_expiration=EXPIRES', '<Optional - STS Expiration (Defaults to 900 Seconds)>') do |sts_expiration| 
     opts[:sts_expiration] = sts_expiration
   end
 
-  options.on("-sBUCKET", "--s3_bucket=BUCKET", "<Required - AWS S3 Bucket Destination>") {|s3_bucket| opts[:s3_bucket] = s3_bucket }
+  options.on('-sBUCKET', '--s3_bucket=BUCKET', '<Required - AWS S3 Bucket Destination>') {|s3_bucket| opts[:s3_bucket] = s3_bucket }
 
-  options.on("-fFOLDER", "--s3_folder=FOLDER", "<Required - AWS S3 Folder Destinaiton>") do |s3_folder| 
+  options.on('-fFOLDER', '--s3_folder=FOLDER', '<Required - AWS S3 Folder Destinaiton>') do |s3_folder| 
     opts[:s3_folder] = s3_folder
   end
 
-  options.on("-bBACKROOT", "--jenkins_thinBackup_root=BACKROOT", "<Optional - Jenkins thinBackup Root Folder (Defaults to /var/lib/jenkins/thinBackup)>") do |backup_root| 
+  options.on('-bBACKROOT', '--jenkins_thinBackup_root=BACKROOT', '<Optional - Jenkins thinBackup Root Folder (Defaults to /var/lib/jenkins/thinBackup)>') do |backup_root| 
     opts[:backup_root] = backup_root
   end
 
@@ -91,11 +91,11 @@ puts "\n"
 
 s3.list_buckets.buckets.each {|bucket| s3_buck_arr.push(bucket.name) }
 if s3_buck_arr.uniq.include?(s3_bucket)
-  puts "S3 Bucket: {s3_bucket} already exists...moving on."
+  puts 'S3 Bucket: {s3_bucket} already exists...moving on.'
 else
-  print "Creating S3 Bucket: {s3_bucket}..."
+  print 'Creating S3 Bucket: {s3_bucket}...'
   s3.create_bucket(bucket: s3_bucket)
-  puts "complete."
+  puts 'complete.'
 end
 
 puts s3.list_buckets.buckets
@@ -119,8 +119,8 @@ Dir.entries(backup_root).sort.each do |entry|
       File.open("#{backup_root}/#{entry}", 'rb') do |file|
         s3.put_object(bucket: s3_bucket, key: "#{s3_folder}#{entry}", body: file)
       end
-      puts "complete."
+      puts 'complete.'
     end
   end
 end 
-puts "backup complete."
+puts 'backup complete.'

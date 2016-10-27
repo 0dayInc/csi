@@ -797,9 +797,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -807,7 +807,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           appscan_obj = #{self}.login(
             :appscan_ip => 'required host/ip of Nexpose Console (server)', 
             :username => 'required username', 
@@ -916,7 +916,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

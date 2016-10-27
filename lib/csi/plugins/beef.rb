@@ -277,9 +277,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
-        authors = %Q{AUTHOR(S):
+        authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
-        }
+        "
 
         return authors
       end
@@ -287,7 +287,7 @@ module CSI
       # Display Usage for this Module
       public
       def self.help
-        puts %Q{USAGE:
+        puts "USAGE:
           beef_obj = #{self}.login(
             :beef_ip => 'required host/ip of Nexpose Console (server)', 
             :beef_port => 'optional - port of BeEF server (defaults to 3000)',
@@ -327,7 +327,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

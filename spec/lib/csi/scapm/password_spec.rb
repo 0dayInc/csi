@@ -2,22 +2,22 @@
 require 'spec_helper'
 
 describe CSI::SCAPM::Password do
-  it "scan method should exist" do
+  it 'scan method should exist' do
     scan_response = CSI::SCAPM::Password
     expect(scan_response).to respond_to :scan
   end
 
-  it "should display information for nist_800_53_requirements" do
+  it 'should display information for nist_800_53_requirements' do
     nist_800_53_requirements_response = CSI::SCAPM::Password
     expect(nist_800_53_requirements_response).to respond_to :nist_800_53_requirements
   end
 
-  it "should display information for authors" do
+  it 'should display information for authors' do
     authors_response = CSI::SCAPM::Password
     expect(authors_response).to respond_to :authors
   end
 
-  it "should display information for existing help method" do
+  it 'should display information for existing help method' do
     help_response = CSI::SCAPM::Password
     expect(help_response).to respond_to :help
   end
