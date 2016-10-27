@@ -24,10 +24,10 @@ links.each do |link|
 end
 
 # TODO: Convert to CSI::Core Module - Now download file
-unless File.exists?(nightly_tar_gz)
+unless File.exist?(nightly_tar_gz)
   `sudo wget -O #{nightly_tar_gz} #{nightly_linux_download}`
 end
 
-`sudo mkdir -p #{nightly_tar_extraction_path}` unless Dir.exists?(nightly_tar_extraction_path)
+`sudo mkdir -p #{nightly_tar_extraction_path}` unless Dir.exist?(nightly_tar_extraction_path)
 puts `sudo tar -xzvf #{nightly_tar_gz} -C #{nightly_tar_extraction_path}`
 `sudo rm #{nightly_tar_gz}`

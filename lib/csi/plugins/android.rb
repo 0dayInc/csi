@@ -16,7 +16,7 @@ module CSI
       public
 
       def self.adb_net_connect(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         target = opts[:target].to_s.scrub
         port = if opts[:port]
                  opts[:port].to_i
@@ -43,7 +43,7 @@ module CSI
       public
 
       def self.adb_sh(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
 
         command = opts[:command].to_s.scrub
 
@@ -74,7 +74,7 @@ module CSI
       public
 
       def self.adb_push(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         file = opts[:file].to_s.scrub
         dest = opts[:dest].to_s.scrub
 
@@ -105,7 +105,7 @@ module CSI
       public
 
       def self.adb_pull(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         file = opts[:file].to_s.scrub
         dest = opts[:dest].to_s.scrub
 
@@ -135,7 +135,7 @@ module CSI
       public
 
       def self.take_screenshot(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
 
         dest = if opts[:dest]
                  opts[:dest].to_s.scrub
@@ -169,7 +169,7 @@ module CSI
       public
 
       def self.screen_record(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
 
         dest = if opts[:dest]
                  opts[:dest].to_s.scrub
@@ -203,7 +203,7 @@ module CSI
       public
 
       def self.list_installed_apps(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
 
         as_root = if opts[:as_root]
                     true
@@ -232,7 +232,7 @@ module CSI
       public
 
       def self.open_app(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         app = opts[:app].to_s.scrub
 
         as_root = if opts[:as_root]
@@ -262,7 +262,7 @@ module CSI
       public
 
       def self.find_hidden_codes(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         from = opts[:from].to_i
         to = opts[:to].to_i
         interact = if opts[:interact]
@@ -296,7 +296,7 @@ module CSI
       public
 
       def self.swipe(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         direction = opts[:direction].to_s.scrub.to_sym
 
         begin
@@ -328,7 +328,7 @@ module CSI
       public
 
       def self.input(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         string = opts[:string].to_s.scrub
 
         begin
@@ -545,7 +545,7 @@ module CSI
       public
 
       def self.input_special(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         event = opts[:event].to_s.scrub.to_sym
 
         begin
@@ -1029,7 +1029,7 @@ module CSI
       public
 
       def self.close_app(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         app = opts[:app].to_s.scrub
 
         as_root = if opts[:as_root]
@@ -1057,7 +1057,7 @@ module CSI
       public
 
       def self.invoke_event_listener(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         app = opts[:app].to_s.scrub
 
         as_root = if opts[:as_root]
@@ -1084,7 +1084,7 @@ module CSI
       public
 
       def self.adb_net_disconnect(opts = {})
-        $adb_path = opts[:adb_path].to_s.scrub if File.exists?(opts[:adb_path].to_s.scrub)
+        $adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
         target = opts[:target].to_s.scrub
         port = if opts[:port]
                  opts[:port].to_i

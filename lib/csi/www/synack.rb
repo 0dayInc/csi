@@ -77,8 +77,8 @@ module CSI
 
       def self.login(opts = {})
         if $browser
-          yaml_config = opts[:yaml_config].to_s.scrub if File.exists?(opts[:yaml_config]).to_s.scrub
-          vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile]).to_s.scrub
+          yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config]).to_s.scrub
+          vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile]).to_s.scrub
 
           # decrypt yaml config file
           uiauthn_hash = CSI::Plugins::AnsibleVault.decrypt(

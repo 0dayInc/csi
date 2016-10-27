@@ -36,7 +36,7 @@ module CSI
 
       def self.start(opts = {})
         burp_jar_path = opts[:burp_jar_path]
-        raise 'Invalid path to burp jar file.  Please check your spelling and try again.' unless File.exists?(burp_jar_path)
+        raise 'Invalid path to burp jar file.  Please check your spelling and try again.' unless File.exist?(burp_jar_path)
 
         burp_root = File.dirname(burp_jar_path)
 

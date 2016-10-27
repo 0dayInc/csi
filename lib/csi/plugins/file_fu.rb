@@ -38,8 +38,8 @@ module CSI
       public
 
       def self.untar_gz_file(opts = {})
-        tar_gz_file = opts[:tar_gz_file].to_s.scrub if File.exists?(opts[:tar_gz_file].to_s.scrub)
-        destination = opts[:destination].to_s.scrub if Dir.exists?(File.dirname(tar_gz_file))
+        tar_gz_file = opts[:tar_gz_file].to_s.scrub if File.exist?(opts[:tar_gz_file].to_s.scrub)
+        destination = opts[:destination].to_s.scrub if Dir.exist?(File.dirname(tar_gz_file))
         puts `tar -xzvf #{tar_gz_file} -C #{destination}`
 
         nil

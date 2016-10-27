@@ -14,7 +14,7 @@ module CSI
       public
 
       def self.process(opts = {})
-        file = opts[:file].to_s.scrub.strip.chomp if File.exists?(opts[:file].to_s.scrub.strip.chomp)
+        file = opts[:file].to_s.scrub.strip.chomp if File.exist?(opts[:file].to_s.scrub.strip.chomp)
         image = RTesseract.new(file)
         text = image.to_s
 

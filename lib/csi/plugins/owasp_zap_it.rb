@@ -59,12 +59,12 @@ module CSI
                    end
 
         if opts[:output_path]
-          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exists?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
+          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exist?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
         else
           @output_path = '/tmp/owasp_zap.output'
         end
 
-        FileUtils.touch(@output_path) unless File.exists?(@output_path)
+        FileUtils.touch(@output_path) unless File.exist?(@output_path)
 
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
@@ -76,7 +76,7 @@ module CSI
         end
 
         if opts[:zap_bin_path]
-          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exists?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
           zap_obj.zap_bin = zap_bin_path
         else
           underlying_os = CSI::Plugins::DetectOS.type

@@ -18,11 +18,11 @@ links.each do |link|
   end
 end
 
-unless File.exists?(phantomjs_tar_bz2)
+unless File.exist?(phantomjs_tar_bz2)
   puts `sudo wget -O #{phantomjs_tar_bz2} #{phantomjs_linux_download}`
 end
 
-puts `sudo mkdir -p #{phantomjs_tar_extraction_path}` unless Dir.exists?(phantomjs_tar_extraction_path)
+puts `sudo mkdir -p #{phantomjs_tar_extraction_path}` unless Dir.exist?(phantomjs_tar_extraction_path)
 puts `sudo tar -xjvf #{phantomjs_tar_bz2} -C #{phantomjs_tar_extraction_path}`
 phantomjs_tar_extracted_root = "#{phantomjs_tar_extraction_path}/#{File.basename(phantomjs_tar_bz2, '.tar.bz2')}"
 puts `sudo cp "#{phantomjs_tar_extracted_root}/bin/phantomjs" "/usr/local/bin/phantomjs"`

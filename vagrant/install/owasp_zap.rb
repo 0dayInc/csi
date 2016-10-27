@@ -18,10 +18,10 @@ browser_obj.links.each do |link|
   end
 end
 
-unless File.exists?(owasp_zap_tar_gz)
+unless File.exist?(owasp_zap_tar_gz)
   puts `sudo wget -O #{owasp_zap_tar_gz} #{owasp_zap_linux_download}`
 end
 
-puts `sudo mkdir -p #{owasp_zap_tar_extraction_path}` unless Dir.exists?(owasp_zap_tar_extraction_path)
+puts `sudo mkdir -p #{owasp_zap_tar_extraction_path}` unless Dir.exist?(owasp_zap_tar_extraction_path)
 puts `sudo tar -xzvf #{owasp_zap_tar_gz} -C #{owasp_zap_tar_extraction_path}`
 puts `sudo rm #{owasp_zap_tar_gz}`

@@ -13,7 +13,7 @@ module CSI
       public
 
       def self.read_text(opts = {})
-        pdf_path = opts[:pdf_path].to_s.scrub if File.exists?(opts[:pdf_path].to_s.scrub)
+        pdf_path = opts[:pdf_path].to_s.scrub if File.exist?(opts[:pdf_path].to_s.scrub)
         raise "CSI Error: Invalid Directory #{pdf_path}" if pdf_path.nil?
 
         begin

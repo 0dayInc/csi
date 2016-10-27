@@ -16,8 +16,8 @@ module CSI
       public
 
       def self.encrypt(opts = {})
-        yaml_config = opts[:yaml_config].to_s.scrub if File.exists?(opts[:yaml_config].to_s.scrub)
-        vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
+        yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config].to_s.scrub)
+        vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile].to_s.scrub)
 
         begin
           vault_cmd_resp = `sudo ansible-vault encrypt #{yaml_config} --vault-password-file #{vpassfile}`
@@ -37,8 +37,8 @@ module CSI
       public
 
       def self.decrypt(opts = {})
-        yaml_config = opts[:yaml_config].to_s.scrub if File.exists?(opts[:yaml_config].to_s.scrub)
-        vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
+        yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config].to_s.scrub)
+        vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile].to_s.scrub)
 
         begin
           if File.extname(yaml_config) == '.yaml'

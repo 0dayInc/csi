@@ -51,7 +51,7 @@ begin
   report_type = opts[:report_type].to_sym
 
   navigation_instruct = opts[:navigation_instruct]
-  raise 'Invalid path to browser instructions.  Please check your spelling and try again.' unless File.exists?(navigation_instruct)
+  raise 'Invalid path to browser instructions.  Please check your spelling and try again.' unless File.exist?(navigation_instruct)
 
   # ------
   # Open Burp

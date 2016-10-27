@@ -20,7 +20,7 @@ module CSI
       public
 
       def self.connect(opts = {})
-        msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exists?(opts[:msfrpcd_yaml_conf])
+        msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exist?(opts[:msfrpcd_yaml_conf])
 
         if msfrpcd_yaml_conf
           print 'MSFRPCD YAML Conf Detected...'

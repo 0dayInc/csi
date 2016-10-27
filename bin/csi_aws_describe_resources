@@ -48,7 +48,7 @@ end
 logger = CSI::Plugins::CSILogger.create
 
 if opts[:yaml]
-  yaml = YAML.load_file(opts[:yaml]) if File.exists?(opts[:yaml])
+  yaml = YAML.load_file(opts[:yaml]) if File.exist?(opts[:yaml])
   access_key_id = yaml['access_key_id'].to_s.scrub.strip.chomp
   secret_access_key = yaml['secret_access_key'].to_s.scrub.strip.chomp
 else
