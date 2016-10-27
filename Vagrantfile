@@ -1,6 +1,6 @@
-require 'yaml'
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'yaml'
 
 API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
@@ -9,12 +9,19 @@ Vagrant.configure(API_VERSION) do |config|
 
   # rsync local csi folder on csi image
   config.vm.synced_folder(
-    '.', 
-    '/csi', 
+    '.',
+    '/csi',
     type: 'rsync',
     rsync__exclude: './etc/aws/vagrant.yaml',
-    rsync__args: ['--progress', '--verbose', "--rsync-path='/usr/bin/sudo /usr/bin/rsync'", '--archive', '--delete', '-z']
-  ) 
+    rsync__args: [
+      '--progress', 
+      '--verbose', 
+      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'", 
+      '--archive', 
+      '--delete', 
+      '-z'
+    ]
+  )
 
   config.vm.provider(:virtualbox) do |vb, override|
     override.vm.box = 'ubuntu/xenial64'
@@ -30,46 +37,46 @@ Vagrant.configure(API_VERSION) do |config|
     diskMB = yaml_config['diskMB']
     override.vm.hostname = hostname
 
-    #disk_uuid = ''
-    #while disk_uuid == ''
-    #  disk_uuid = `VBoxManage list hdds | grep -B 8 '10240 MBytes' | head -n 1 | awk '{print $2}'`.to_s.scrub.strip.chomp
-    #  sleep 3
-    #end
+    # disk_uuid = ''
+    # while disk_uuid == ''
+    #   disk_uuid = `VBoxManage list hdds | grep -B 8 '10240 MBytes' | head -n 1 | awk '{print $2}'`.to_s.scrub.strip.chomp
+    #   sleep 3
+    # end
 
-    #vb.customize ['modifyhd', "#{disk_uuid}", '--resize', "#{diskMB}"]
+    # vb.customize ['modifyhd', "#{disk_uuid}", '--resize', "#{diskMB}"]
   end
 
-#  config.vm.provider(:vmware_fusion) do |vm, override|
-#    override.vm.box = 'ubuntu/xenial64_fusion'
-#    if vagrant_gui == 'gui'
-#      vm.gui = true
-#    else
-#      vm.gui = false
-#    end
-#
-#    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-#    vagrant_vmware_license = yaml_config['vagrant_vmware_license']
-#    vm.memory = yaml_config['memory']
-#    hostname = yaml_config['hostname']
-#    diskMB = yaml_config['diskMB']
-#    override.vm.hostname = hostname
-#  end
+  # config.vm.provider(:vmware_fusion) do |vm, override|
+  #   override.vm.box = 'ubuntu/xenial64_fusion'
+  #   if vagrant_gui == 'gui'
+  #     vm.gui = true
+  #   else
+  #     vm.gui = false
+  #   end
+  #
+  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
+  #   vm.memory = yaml_config['memory']
+  #   hostname = yaml_config['hostname']
+  #   diskMB = yaml_config['diskMB']
+  #   override.vm.hostname = hostname
+  # end
 
-#  config.vm.provider(:vmware_workstation) do |vm, override|
-#    override.vm.box = 'ubuntu/xenial64'
-#    if vagrant_gui == 'gui'
-#      vm.gui = true
-#    else
-#      vm.gui = false
-#    end
-#
-#    yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-#    vagrant_vmware_license = yaml_config['vagrant_vmware_license']
-#    vm.memory = yaml_config['memory']
-#    hostname = yaml_config['hostname']
-#    diskMB = yaml_config['diskMB']
-#    override.vm.hostname = hostname
-#  end
+  # config.vm.provider(:vmware_workstation) do |vm, override|
+  #   override.vm.box = 'ubuntu/xenial64'
+  #   if vagrant_gui == 'gui'
+  #     vm.gui = true
+  #   else
+  #     vm.gui = false
+  #   end
+
+  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
+  #   vm.memory = yaml_config['memory']
+  #   hostname = yaml_config['hostname']
+  #   diskMB = yaml_config['diskMB']
+  #   override.vm.hostname = hostname
+  # end
 
   config.vm.provider(:aws) do |aws, override|
 

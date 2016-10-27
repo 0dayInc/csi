@@ -8,10 +8,10 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::AWS::CodePipeline.connect(
-      #   :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
-      #   :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
-      #   :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
-      #   :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
+      #   region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
+      #   access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
+      #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
+      #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
       public
       def self.connect(opts = {})
@@ -21,19 +21,19 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info("Connecting to AWS CodePipeline...")
-          if sts_session_token == ""
+          @@logger.info('Connecting to AWS CodePipeline...')
+          if sts_session_token == ''
             code_pipeline_obj = Aws::CodePipeline::Client.new(
-              :region => region,
-              :access_key_id => access_key_id,
-              :secret_access_key => secret_access_key
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key
             )
           else
             code_pipeline_obj = Aws::CodePipeline::Client.new(
-              :region => region,
-              :access_key_id => access_key_id,
-              :secret_access_key => secret_access_key,
-              :session_token => sts_session_token
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key,
+              session_token: sts_session_token
             )
           end
           @@logger.info("complete.\n")
@@ -46,12 +46,12 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::AWS::CodePipeline.disconnect(
-      #   :code_pipeline_obj => 'required - code_pipeline_obj returned from #connect method'
+      #   code_pipeline_obj: 'required - code_pipeline_obj returned from #connect method'
       # )
       public
       def self.disconnect(opts = {})
         code_pipeline_obj = opts[:code_pipeline_obj]
-        @@logger.info("Disconnecting...")
+        @@logger.info('Disconnecting...')
         code_pipeline_obj = nil
         @@logger.info("complete.\n")
 
@@ -73,15 +73,15 @@ module CSI
       def self.help
         puts %Q{USAGE:
           code_pipeline_obj = #{self}.connect(
-            :region => 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
-            :access_key_id => 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
-            :secret_access_key => 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
-            :sts_session_token => 'optional - Temporary token returned by STS client for best privacy'
+            region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
+            access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
+            secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
+            sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
           )
           puts code_pipeline_obj.public_methods
 
           #{self}.disconnect(
-            :code_pipeline_obj => 'required - code_pipeline_obj returned from #connect method'
+            code_pipeline_obj: 'required - code_pipeline_obj returned from #connect method'
           )
 
           #{self}.authors

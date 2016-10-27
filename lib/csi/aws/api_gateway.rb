@@ -21,19 +21,19 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info("Connecting to AWS API Gateway...")
-          if sts_session_token == ""
+          @@logger.info('Connecting to AWS API Gateway...')
+          if sts_session_token == ''
             api_gateway_obj = Aws::APIGateway::Client.new(
-              :region => region,
-              :access_key_id => access_key_id,
-              :secret_access_key => secret_access_key
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key
             )
           else
             api_gateway_obj = Aws::APIGateway::Client.new(
-              :region => region,
-              :access_key_id => access_key_id,
-              :secret_access_key => secret_access_key,
-              :session_token => sts_session_token
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key,
+              session_token: sts_session_token
             )
           end
           @@logger.info("complete.\n")
@@ -46,12 +46,12 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::AWS::APIGateway.disconnect(
-      #   :api_gateway_obj => 'required - api_gateway_obj returned from #connect method'
+      #   api_gateway_obj: 'required - api_gateway_obj returned from #connect method'
       # )
       public
       def self.disconnect(opts = {})
         api_gateway_obj = opts[:api_gateway_obj]
-        @@logger.info("Disconnecting...")
+        @@logger.info('Disconnecting...')
         api_gateway_obj = nil
         @@logger.info("complete.\n")
 
