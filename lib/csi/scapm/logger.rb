@@ -22,7 +22,7 @@ module CSI
         result_arr = []
         logger_results = ""
 
-        CSI::Plugins::FileFu.recurse_dir(:dir_path => dir_path) do |entry|
+        CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
           if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && (File.extname(entry) == ".scala" || File.extname(entry) == ".java")
             line_no_and_contents_arr = []
             filename_arr = []
@@ -52,12 +52,12 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                :timestamp => "#{Time.now.strftime("%Y-%m-%d %H:%M:%S.%9N %z")}", 
-                :test_case => self.nist_800_53_requirements, 
-                :filename => filename_arr.push({ :git_repo_root_uri => git_repo_root_uri, :entry => entry }),  
-                :line_no_and_contents => "", 
-                :raw_content => str, 
-                :test_case_filter => HTMLEntities.new.encode(test_case_filter)
+                timestamp: "#{Time.now.strftime("%Y-%m-%d %H:%M:%S.%9N %z")}", 
+                test_case: self.nist_800_53_requirements, 
+                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),  
+                line_no_and_contents: "", 
+                raw_content: str, 
+                test_case_filter: HTMLEntities.new.encode(test_case_filter)
               }
 
               # COMMMENT: Must be a better way to implement this (regex is kinda funky)
@@ -68,15 +68,15 @@ module CSI
                 line_no = line_contents_split[current_count]
                 contents = line_contents_split[current_count + 1]
                 author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
-                  :repo_root => dir_path,
-                  :from_line => line_no, 
-                  :to_line =>line_no, 
-                  :target_file => entry
+                  repo_root: dir_path,
+                  from_line: line_no, 
+                  to_line: line_no, 
+                  target_file: entry
                 ))
                 hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                  :line_no => line_no, 
-                  :contents => contents,
-                  :author => author
+                  line_no: line_no, 
+                  contents: contents,
+                  author: author
                 })
 
                 current_count+=2 
@@ -104,9 +104,9 @@ module CSI
       public
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
-          :sp_module => self,
-          :section => "PROTECTION OF INFORMATION AT REST",
-          :nist_800_53_uri => "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28"
+          sp_module: self,
+          section: "PROTECTION OF INFORMATION AT REST",
+          nist_800_53_uri: "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28"
         }
         return nist_800_53_requirements
       end

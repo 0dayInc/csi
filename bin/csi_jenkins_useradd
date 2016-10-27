@@ -38,13 +38,13 @@ new_username = opts[:new_username]
 new_password = opts[:new_password]
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
-  :jenkins_ip => jenkins_ip,
-  :username => admin_username,
-  :password => admin_password
+  jenkins_ip: jenkins_ip,
+  username: admin_username,
+  password: admin_password
 )
 
 # TODO: Create User in Jenkins
 puts "Created #{new_username}."
 
-CSI::Plugins::Jenkins.disconnect(:jenkins_obj => jenkins_obj)
+CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)
 puts "complete."

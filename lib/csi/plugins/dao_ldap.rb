@@ -33,25 +33,25 @@ module CSI
         begin
           if encryption
             ldap_obj = Net::LDAP.new(
-              :host => host,
-              :port => port,
-              :base => base,
-              :encryption => encryption,
-              :auth => {
-                :method => auth_method,
-                :username => username,
-                :password => password,
+              host: host,
+              port: port,
+              base: base,
+              encryption: encryption,
+              auth: {
+                method: auth_method,
+                username: username,
+                password: password,
               }
             )
           else
             ldap_obj = Net::LDAP.new(
-              :host => host,
-              :port => port,
-              :base => base,
-              :auth => {
-                :method => auth_method,
-                :username => username,
-                :password => password,
+              host: host,
+              port: port,
+              base: base,
+              auth: {
+                method: auth_method,
+                username: username,
+                password: password,
               }
             )
           end
@@ -77,7 +77,7 @@ module CSI
          
         begin
           filter = Net::LDAP::Filter.eq("samaccountname", username)
-          employee = ldap_obj.search(:base => treebase, :filter => filter)
+          employee = ldap_obj.search(base: treebase, filter: filter)
 
           return employee
         rescue => e

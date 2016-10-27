@@ -28,13 +28,13 @@ target_name = opts[:target_name].to_s.scrub
 
 # Login
 appscan_obj = CSI::Plugins::IBMAppscan.login(
-  :appscan_ip => appscan_ip,
-  :username => ase_username,
-  :password => ase_password
+  appscan_ip: appscan_ip,
+  username: ase_username,
+  password: ase_password
 )
 
 # Retrieve Folder Item ID by target_name Variable
-folder_items = CSI::Plugins::IBMAppscan.get_folder_items(:appscan_obj => appscan_obj)
+folder_items = CSI::Plugins::IBMAppscan.get_folder_items(appscan_obj: appscan_obj)
 folder_item_id = -1
 folder_items[:xml_response].xpath("//xmlns:content-scan-job").each do |node| 
   if node.xpath("xmlns:name").text == target_name
@@ -47,9 +47,9 @@ raise "ERROR: Target Name: #{target_name} Not Found.  Please Check the Spelling.
 
 # Run Scan
 scan_action = CSI::Plugins::IBMAppscan.folder_item_scan_action(
-  :appscan_obj => appscan_obj, 
-  :folder_item_id => folder_item_id, 
-  :action => :run
+  appscan_obj: appscan_obj, 
+  folder_item_id: folder_item_id, 
+  action: :run
 )
 
 # Retrieve Report Folder Item ID (Report Collection) by target_name Variable
@@ -65,8 +65,8 @@ raise "ERROR: Report Collection: #{target_name} Not Found. Please Check the Spel
 # Retrieve Report Pack Collection of Folder Item (Target Name)
 # to Obtain a List of Report Names & IDs
 report_collection = CSI::Plugins::IBMAppscan.get_report_collection(
-  :appscan_obj => appscan_obj, 
-  :report_folder_item_id => report_folder_item_id
+  appscan_obj: appscan_obj, 
+  report_folder_item_id: report_folder_item_id
 )
 
 # Obtain Report ID for Requested Reports
@@ -84,26 +84,26 @@ reports_to_download.each do |report_to_download|
 
       # Get Report Schema
       report_schema = CSI::Plugins::IBMAppscan.get_single_report_schema(
-        :appscan_obj => appscan_obj, 
-        :report_id => report_id
+        appscan_obj: appscan_obj, 
+        report_id: report_id
       )
 
       # Get General Report
       report = CSI::Plugins::IBMAppscan.get_single_report(
-        :appscan_obj => appscan_obj, 
-        :report_id => report_id
+        appscan_obj: appscan_obj, 
+        report_id: report_id
       )
 
       # Get Report Data
       report_data = CSI::Plugins::IBMAppscan.get_single_report_data(
-        :appscan_obj => appscan_obj, 
-        :report_id => report_id
+        appscan_obj: appscan_obj, 
+        report_id: report_id
       )
 
       # Get Issue Collection
       issue_collection = CSI::Plugins::IBMAppscan.get_issue_collection(
-        :appscan_obj => appscan_obj, 
-        :report_id => report_id
+        appscan_obj: appscan_obj, 
+        report_id: report_id
       )
 
       puts "~"*33 # Easier for the Eyes in Console
@@ -112,4 +112,4 @@ reports_to_download.each do |report_to_download|
 end
 
 # Logout
-CSI::Plugins::IBMAppscan.logout(:appscan_obj => appscan_obj)
+CSI::Plugins::IBMAppscan.logout(appscan_obj: appscan_obj)

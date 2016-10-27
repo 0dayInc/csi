@@ -62,18 +62,18 @@ module CSI
 
         begin
           pg_conn = PG::Connection.new(
-            :host => host,
-            :port => port,
-            :dbname => dbname,
-            :user => user,
-            :password => password,
-            :connect_timeout => connect_timeout,
-            :options => options,
-            :tty => tty,
-            :sslmode => sslmode
+            host: host,
+            port: port,
+            dbname: dbname,
+            user: user,
+            password: password,
+            connect_timeout: connect_timeout,
+            options: options,
+            tty: tty,
+            sslmode: sslmode
           )
 
-          validate_pg_conn(:pg_conn => pg_conn)
+          validate_pg_conn(pg_conn: pg_conn)
           return pg_conn
         rescue => e
           return e.message
@@ -89,7 +89,7 @@ module CSI
       public
       def self.sql_statement(opts ={})
         pg_conn = opts[:pg_conn]
-        validate_pg_conn(:pg_conn => pg_conn)
+        validate_pg_conn(pg_conn: pg_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
         statement_params = opts[:statement_params] # << Array of Params
         unless statement_params.class == Array || statement_params.nil?
@@ -138,7 +138,7 @@ module CSI
       public
       def self.list_all_columns_by_table(opts = {})
         pg_conn = opts[:pg_conn]
-        validate_pg_conn(:pg_conn => pg_conn)
+        validate_pg_conn(pg_conn: pg_conn)
 
         table_schema = opts[:table_schema].to_s
         table_name = opts[:table_name].to_s
@@ -150,9 +150,9 @@ module CSI
         "
 
         res = sql_statement(
-          :pg_conn => pg_conn, 
-          :prepared_statement => prep_sql, 
-          :statement_params => [table_schema, table_name]
+          pg_conn: pg_conn, 
+          prepared_statement: prep_sql, 
+          statement_params: [table_schema, table_name]
         )
 
         return res
@@ -165,7 +165,7 @@ module CSI
       public
       def self.disconnect(opts = {})
         pg_conn = opts[:pg_conn]
-        validate_pg_conn(:pg_conn => pg_conn)
+        validate_pg_conn(pg_conn: pg_conn)
         begin
           pg_conn.close
         rescue => e

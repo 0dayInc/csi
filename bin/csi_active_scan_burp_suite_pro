@@ -57,20 +57,20 @@ begin
   # Open Burp
   if headless
     burp_obj = CSI::Plugins::BurpSuite.start(
-      :burp_jar_path => burp_jar_path,
-      :headless => true,
-      :browser_type => :headless
+      burp_jar_path: burp_jar_path,
+      headless: true,
+      browser_type: :headless
     )
   else
     burp_obj = CSI::Plugins::BurpSuite.start(
-      :burp_jar_path => burp_jar_path,
-      :browser_type => :firefox
+      burp_jar_path: burp_jar_path,
+      browser_type: :firefox
     )
   end
 
   logger.info(burp_obj)
   # Disable Proxy Intercepting Capabilities for this Driver
-  CSI::Plugins::BurpSuite.disable_proxy(:burp_obj => burp_obj)
+  CSI::Plugins::BurpSuite.disable_proxy(burp_obj: burp_obj)
 
   # Use a headless browser w/ JavaScript Support to Load Our Target
   # and Optionally Authenticate to Provide the Capability to Conduct
@@ -90,7 +90,7 @@ begin
   end
   sleep 60 # Sleep for now so everythign loads the way we expect - blech.
 
-  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(:burp_obj => burp_obj, :target_url => target_url)
+  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(burp_obj: burp_obj, target_url: target_url)
 
   # Dump a list of scan issues from Active Scan result
   #scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
@@ -98,13 +98,13 @@ begin
 
   # TODO: Generate HTML REPORT
   CSI::Plugins::BurpSuite.generate_scan_report(
-    :burp_obj => burp_obj, 
-    :report_type => report_type, 
-    :output_path => output_path
+    burp_obj: burp_obj, 
+    report_type: report_type, 
+    output_path: output_path
   )
 
-  CSI::Plugins::BurpSuite.stop(:burp_obj => burp_obj)
+  CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
 rescue => e
   raise e
-  CSI::Plugins::BurpSuite.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+  CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj) unless burp_obj.nil?
 end

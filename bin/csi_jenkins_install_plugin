@@ -44,9 +44,9 @@ end
 
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
-  :jenkins_ip => jenkins_ip,
-  :username => username,
-  :password => password
+  jenkins_ip: jenkins_ip,
+  username: username,
+  password: password
 )
 
 plugin_arr = []
@@ -63,4 +63,4 @@ jenkins_obj.plugin.install(plugin_arr)
 
 jenkins_obj.system.restart if restart_jenkins
 
-CSI::Plugins::Jenkins.disconnect(:jenkins_obj => jenkins_obj)
+CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)

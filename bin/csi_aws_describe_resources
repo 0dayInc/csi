@@ -68,10 +68,10 @@ end
 
 if access_key_id == "" && secret_access_key == "" 
   credentials = CSI::AWS::STS.get_temp_credentials(
-    :region => region,
-    :role_arn => sts_role_arn,
-    :role_session_name => sts_role_name,
-    :duration_seconds => sts_exp
+    region: region,
+    role_arn: sts_role_arn,
+    role_session_name: sts_role_name,
+    duration_seconds: sts_exp
   )
 else
   credentials = Aws::Credentials.new(access_key_id, secret_access_key)
@@ -79,650 +79,650 @@ end
 
 # BEGIN Describing Region ***
 api_gateway_obj = CSI::AWS::APIGateway.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts api_gateway_obj.public_methods
-CSI::AWS::APIGateway.disconnect(:api_gateway_obj => api_gateway_obj)
+CSI::AWS::APIGateway.disconnect(api_gateway_obj: api_gateway_obj)
 
 app_auto_scale_obj = CSI::AWS::ApplicationAutoScaling.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts app_auto_scale_obj.public_methods
-CSI::AWS::ApplicationAutoScaling.disconnect(:app_auto_scale_obj => app_auto_scale_obj)
+CSI::AWS::ApplicationAutoScaling.disconnect(app_auto_scale_obj: app_auto_scale_obj)
 
 app_discover_svc_obj = CSI::AWS::ApplicationDiscoveryService.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts app_discover_svc_obj.public_methods
-CSI::AWS::ApplicationDiscoveryService.disconnect(:app_discover_svc_obj => app_discover_svc_obj)
+CSI::AWS::ApplicationDiscoveryService.disconnect(app_discover_svc_obj: app_discover_svc_obj)
 
 auto_scaling_obj = CSI::AWS::AutoScaling.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts auto_scaling_obj.public_methods
-CSI::AWS::AutoScaling.disconnect(:auto_scaling_obj => auto_scaling_obj)
+CSI::AWS::AutoScaling.disconnect(auto_scaling_obj: auto_scaling_obj)
 
 cloud_formation_obj = CSI::AWS::CloudFormation.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_formation_obj.public_methods
-CSI::AWS::CloudFormation.disconnect(:cloud_formation_obj => cloud_formation_obj)
+CSI::AWS::CloudFormation.disconnect(cloud_formation_obj: cloud_formation_obj)
 
 cloud_front_obj = CSI::AWS::CloudFront.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_front_obj.public_methods
-CSI::AWS::CloudFront.disconnect(:cloud_front_obj => cloud_front_obj)
+CSI::AWS::CloudFront.disconnect(cloud_front_obj: cloud_front_obj)
 
 cloud_hsm_obj = CSI::AWS::CloudHSM.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_hsm_obj.public_methods
-CSI::AWS::CloudHSM.disconnect(:cloud_hsm_obj => cloud_hsm_obj)
+CSI::AWS::CloudHSM.disconnect(cloud_hsm_obj: cloud_hsm_obj)
 
 cloud_search_obj = CSI::AWS::CloudSearch.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_search_obj.public_methods
-CSI::AWS::CloudSearch.disconnect(:cloud_search_obj => cloud_search_obj)
+CSI::AWS::CloudSearch.disconnect(cloud_search_obj: cloud_search_obj)
 
 cloud_search_domain_obj = CSI::AWS::CloudSearchDomain.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_search_domain_obj.public_methods
-CSI::AWS::CloudSearchDomain.disconnect(:cloud_search_domain_obj => cloud_search_domain_obj)
+CSI::AWS::CloudSearchDomain.disconnect(cloud_search_domain_obj: cloud_search_domain_obj)
 
 cloud_trail_obj = CSI::AWS::CloudTrail.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_trail_obj.public_methods
-CSI::AWS::CloudTrail.disconnect(:cloud_trail_obj => cloud_trail_obj)
+CSI::AWS::CloudTrail.disconnect(cloud_trail_obj: cloud_trail_obj)
 
 cloud_watch_obj = CSI::AWS::CloudWatch.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_watch_obj.public_methods
-CSI::AWS::CloudWatch.disconnect(:cloud_watch_obj => cloud_watch_obj)
+CSI::AWS::CloudWatch.disconnect(cloud_watch_obj: cloud_watch_obj)
 
 cloud_watch_events_obj = CSI::AWS::CloudWatchEvents.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_watch_events_obj.public_methods
-CSI::AWS::CloudWatchEvents.disconnect(:cloud_watch_events_obj => cloud_watch_events_obj)
+CSI::AWS::CloudWatchEvents.disconnect(cloud_watch_events_obj: cloud_watch_events_obj)
 
 cloud_watch_logs_obj = CSI::AWS::CloudWatchLogs.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cloud_watch_logs_obj.public_methods
-CSI::AWS::CloudWatchLogs.disconnect(:cloud_watch_logs_obj => cloud_watch_logs_obj)
+CSI::AWS::CloudWatchLogs.disconnect(cloud_watch_logs_obj: cloud_watch_logs_obj)
 
 code_commit_obj = CSI::AWS::CodeCommit.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts code_commit_obj.public_methods
-CSI::AWS::CodeCommit.disconnect(:code_commit_obj => code_commit_obj)
+CSI::AWS::CodeCommit.disconnect(code_commit_obj: code_commit_obj)
 
 code_deploy_obj = CSI::AWS::CodeDeploy.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts code_deploy_obj.public_methods
-CSI::AWS::CodeDeploy.disconnect(:code_deploy_obj => code_deploy_obj)
+CSI::AWS::CodeDeploy.disconnect(code_deploy_obj: code_deploy_obj)
 
 code_pipeline_obj = CSI::AWS::CodePipeline.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts code_pipeline_obj.public_methods
-CSI::AWS::CodePipeline.disconnect(:code_pipeline_obj => code_pipeline_obj)
+CSI::AWS::CodePipeline.disconnect(code_pipeline_obj: code_pipeline_obj)
 
 cognito_identity_obj = CSI::AWS::CognitoIdentity.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cognito_identity_obj.public_methods
-CSI::AWS::CognitoIdentity.disconnect(:cognito_identity_obj => cognito_identity_obj)
+CSI::AWS::CognitoIdentity.disconnect(cognito_identity_obj: cognito_identity_obj)
 
 cognito_identity_prov_obj = CSI::AWS::CognitoIdentityProvider.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cognito_identity_prov_obj.public_methods
-CSI::AWS::CognitoIdentityProvider.disconnect(:cognito_identity_prov_obj => cognito_identity_prov_obj)
+CSI::AWS::CognitoIdentityProvider.disconnect(cognito_identity_prov_obj: cognito_identity_prov_obj)
 
 cognito_sync_obj = CSI::AWS::CognitoSync.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts cognito_sync_obj.public_methods
-CSI::AWS::CognitoSync.disconnect(:cognito_sync_obj => cognito_sync_obj)
+CSI::AWS::CognitoSync.disconnect(cognito_sync_obj: cognito_sync_obj)
 
 config_service_obj = CSI::AWS::ConfigService.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts config_service_obj.public_methods
-CSI::AWS::ConfigService.disconnect(:config_service_obj => config_service_obj)
+CSI::AWS::ConfigService.disconnect(config_service_obj: config_service_obj)
 
 data_pipeline_obj = CSI::AWS::DataPipeline.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts data_pipeline_obj.public_methods
-CSI::AWS::DataPipeline.disconnect(:data_pipeline_obj => data_pipeline_obj)
+CSI::AWS::DataPipeline.disconnect(data_pipeline_obj: data_pipeline_obj)
 
 db_migration_svc_obj = CSI::AWS::DatabaseMigrationService.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts db_migration_svc_obj.public_methods
-CSI::AWS::DatabaseMigrationService.disconnect(:db_migration_svc_obj => db_migration_svc_obj)
+CSI::AWS::DatabaseMigrationService.disconnect(db_migration_svc_obj: db_migration_svc_obj)
 
 device_farm_obj = CSI::AWS::DeviceFarm.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts device_farm_obj.public_methods
-CSI::AWS::DeviceFarm.disconnect(:device_farm_obj => device_farm_obj)
+CSI::AWS::DeviceFarm.disconnect(device_farm_obj: device_farm_obj)
 
 direct_connect_obj = CSI::AWS::DirectConnect.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts direct_connect_obj.public_methods
-CSI::AWS::DirectConnect.disconnect(:direct_connect_obj => direct_connect_obj)
+CSI::AWS::DirectConnect.disconnect(direct_connect_obj: direct_connect_obj)
 
 directory_service_obj = CSI::AWS::DirectoryService.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts directory_service_obj.public_methods
-CSI::AWS::DirectoryService.disconnect(:directory_service_obj => directory_service_obj)
+CSI::AWS::DirectoryService.disconnect(directory_service_obj: directory_service_obj)
 
 dynamo_db_obj = CSI::AWS::DynamoDB.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts dynamo_db_obj.public_methods
-CSI::AWS::DynamoDB.disconnect(:dynamo_db_obj => dynamo_db_obj)
+CSI::AWS::DynamoDB.disconnect(dynamo_db_obj: dynamo_db_obj)
 
 dynamo_db_streams_obj = CSI::AWS::DynamoDBStreams.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts dynamo_db_streams_obj.public_methods
-CSI::AWS::DynamoDBStreams.disconnect(:dynamo_db_streams_obj => dynamo_db_streams_obj)
+CSI::AWS::DynamoDBStreams.disconnect(dynamo_db_streams_obj: dynamo_db_streams_obj)
 
 ec2_obj = CSI::AWS::EC2.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ec2_obj.public_methods
-CSI::AWS::EC2.disconnect(:ec2_obj => ec2_obj)
+CSI::AWS::EC2.disconnect(ec2_obj: ec2_obj)
 
 ecr_obj = CSI::AWS::ECR.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ecr_obj.public_methods
-CSI::AWS::ECR.disconnect(:ecr_obj => ecr_obj)
+CSI::AWS::ECR.disconnect(ecr_obj: ecr_obj)
 
 ecs_obj = CSI::AWS::ECS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ecs_obj.public_methods
-CSI::AWS::ECS.disconnect(:ecs_obj => ecs_obj)
+CSI::AWS::ECS.disconnect(ecs_obj: ecs_obj)
 
 efs_obj = CSI::AWS::EFS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts efs_obj.public_methods
-CSI::AWS::EFS.disconnect(:efs_obj => efs_obj)
+CSI::AWS::EFS.disconnect(efs_obj: efs_obj)
 
 emr_obj = CSI::AWS::EMR.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts emr_obj.public_methods
-CSI::AWS::EMR.disconnect(:emr_obj => emr_obj)
+CSI::AWS::EMR.disconnect(emr_obj: emr_obj)
 
 elasti_cache_obj = CSI::AWS::ElastiCache.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts elasti_cache_obj.public_methods
-CSI::AWS::ElastiCache.disconnect(:elasti_cache_obj => elasti_cache_obj)
+CSI::AWS::ElastiCache.disconnect(elasti_cache_obj: elasti_cache_obj)
 
 eb_obj = CSI::AWS::ElasticBeanstalk.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts eb_obj.public_methods
-CSI::AWS::ElasticBeanstalk.disconnect(:eb_obj => eb_obj)
+CSI::AWS::ElasticBeanstalk.disconnect(eb_obj: eb_obj)
 
 elastic_load_balancing_obj = CSI::AWS::ElasticLoadBalancing.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts elastic_load_balancing_obj.public_methods
-CSI::AWS::ElasticLoadBalancing.disconnect(:elastic_load_balancing_obj => elastic_load_balancing_obj)
+CSI::AWS::ElasticLoadBalancing.disconnect(elastic_load_balancing_obj: elastic_load_balancing_obj)
 
 elastic_lb_v2_obj = CSI::AWS::ElasticLoadBalancingV2.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts elastic_lb_v2_obj.public_methods
-CSI::AWS::ElasticLoadBalancingV2.disconnect(:elastic_lb_v2_obj => elastic_lb_v2_obj)
+CSI::AWS::ElasticLoadBalancingV2.disconnect(elastic_lb_v2_obj: elastic_lb_v2_obj)
 
 elastic_transcoder_obj = CSI::AWS::ElasticTranscoder.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts elastic_transcoder_obj.public_methods
-CSI::AWS::ElasticTranscoder.disconnect(:elastic_transcoder_obj => elastic_transcoder_obj)
+CSI::AWS::ElasticTranscoder.disconnect(elastic_transcoder_obj: elastic_transcoder_obj)
 
 elasticsearch_service_obj = CSI::AWS::ElasticsearchService.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts elasticsearch_service_obj.public_methods
-CSI::AWS::ElasticsearchService.disconnect(:elasticsearch_service_obj => elasticsearch_service_obj)
+CSI::AWS::ElasticsearchService.disconnect(elasticsearch_service_obj: elasticsearch_service_obj)
 
 firehose_obj = CSI::AWS::Firehose.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts firehose_obj.public_methods
-CSI::AWS::Firehose.disconnect(:firehose_obj => firehose_obj)
+CSI::AWS::Firehose.disconnect(firehose_obj: firehose_obj)
 
 game_lift_obj = CSI::AWS::GameLift.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts game_lift_obj.public_methods
-CSI::AWS::GameLift.disconnect(:game_lift_obj => game_lift_obj)
+CSI::AWS::GameLift.disconnect(game_lift_obj: game_lift_obj)
 
 glacier_obj = CSI::AWS::Glacier.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts glacier_obj.public_methods
-CSI::AWS::Glacier.disconnect(:glacier_obj => glacier_obj)
+CSI::AWS::Glacier.disconnect(glacier_obj: glacier_obj)
 
 iam_obj = CSI::AWS::IAM.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts iam_obj.public_methods
-CSI::AWS::IAM.disconnect(:iam_obj => iam_obj)
+CSI::AWS::IAM.disconnect(iam_obj: iam_obj)
 
 import_export_obj = CSI::AWS::ImportExport.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts import_export_obj.public_methods
-CSI::AWS::ImportExport.disconnect(:import_export_obj => import_export_obj)
+CSI::AWS::ImportExport.disconnect(import_export_obj: import_export_obj)
 
 inspector_obj = CSI::AWS::Inspector.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts inspector_obj.public_methods
-CSI::AWS::Inspector.disconnect(:inspector_obj => inspector_obj)
+CSI::AWS::Inspector.disconnect(inspector_obj: inspector_obj)
 
 iot_obj = CSI::AWS::IoT.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts iot_obj.public_methods
-CSI::AWS::IoT.disconnect(:iot_obj => iot_obj)
+CSI::AWS::IoT.disconnect(iot_obj: iot_obj)
 
 iot_data_plane_obj = CSI::AWS::IoTDataPlane.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts iot_data_plane_obj.public_methods
-CSI::AWS::IoTDataPlane.disconnect(:iot_data_plane_obj => iot_data_plane_obj)
+CSI::AWS::IoTDataPlane.disconnect(iot_data_plane_obj: iot_data_plane_obj)
 
 kms_obj = CSI::AWS::KMS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts kms_obj.public_methods
-CSI::AWS::KMS.disconnect(:kms_obj => kms_obj)
+CSI::AWS::KMS.disconnect(kms_obj: kms_obj)
 
 kinesis_obj = CSI::AWS::Kinesis.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts kinesis_obj.public_methods
-CSI::AWS::Kinesis.disconnect(:kinesis_obj => kinesis_obj)
+CSI::AWS::Kinesis.disconnect(kinesis_obj: kinesis_obj)
 
 kinesis_analytics_obj = CSI::AWS::KinesisAnalytics.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts kinesis_analytics_obj.public_methods
-CSI::AWS::KinesisAnalytics.disconnect(:kinesis_analytics_obj => kinesis_analytics_obj)
+CSI::AWS::KinesisAnalytics.disconnect(kinesis_analytics_obj: kinesis_analytics_obj)
 
 lambda_obj = CSI::AWS::Lambda.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts lambda_obj.public_methods
-CSI::AWS::Lambda.disconnect(:lambda_obj => lambda_obj)
+CSI::AWS::Lambda.disconnect(lambda_obj: lambda_obj)
 
 lambda_preview_obj = CSI::AWS::LambdaPreview.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts lambda_preview_obj.public_methods
-CSI::AWS::LambdaPreview.disconnect(:lambda_preview_obj => lambda_preview_obj)
+CSI::AWS::LambdaPreview.disconnect(lambda_preview_obj: lambda_preview_obj)
 
 machine_learning_obj = CSI::AWS::MachineLearning.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts machine_learning_obj.public_methods
-CSI::AWS::MachineLearning.disconnect(:machine_learning_obj => machine_learning_obj)
+CSI::AWS::MachineLearning.disconnect(machine_learning_obj: machine_learning_obj)
 
 marketplace_commerce_analytics_obj = CSI::AWS::MarketplaceCommerceAnalytics.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts marketplace_commerce_analytics_obj.public_methods
-CSI::AWS::MarketplaceCommerceAnalytics.disconnect(:marketplace_commerce_analytics_obj => marketplace_commerce_analytics_obj)
+CSI::AWS::MarketplaceCommerceAnalytics.disconnect(marketplace_commerce_analytics_obj: marketplace_commerce_analytics_obj)
 
 marketplace_metering_obj = CSI::AWS::MarketplaceMetering.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts marketplace_metering_obj.public_methods
-CSI::AWS::MarketplaceMetering.disconnect(:marketplace_metering_obj => marketplace_metering_obj)
+CSI::AWS::MarketplaceMetering.disconnect(marketplace_metering_obj: marketplace_metering_obj)
 
 ops_works_obj = CSI::AWS::OpsWorks.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ops_works_obj.public_methods
-CSI::AWS::OpsWorks.disconnect(:ops_works_obj => ops_works_obj)
+CSI::AWS::OpsWorks.disconnect(ops_works_obj: ops_works_obj)
 
 rds_obj = CSI::AWS::RDS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts rds_obj.public_methods
-CSI::AWS::RDS.disconnect(:rds_obj => rds_obj)
+CSI::AWS::RDS.disconnect(rds_obj: rds_obj)
 
 redshift_obj = CSI::AWS::Redshift.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts redshift_obj.public_methods
-CSI::AWS::Redshift.disconnect(:redshift_obj => redshift_obj)
+CSI::AWS::Redshift.disconnect(redshift_obj: redshift_obj)
 
 r53_obj = CSI::AWS::Route53.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts r53_obj.public_methods
-CSI::AWS::Route53.disconnect(:r53_obj => r53_obj)
+CSI::AWS::Route53.disconnect(r53_obj: r53_obj)
 
 #:AWSRoute53Domains,
 r53_domains_obj = CSI::AWS::Route53Domains.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts r53_domains_obj.public_methods
-CSI::AWS::Route53Domains.disconnect(:r53_domains_obj => r53_domains_obj)
+CSI::AWS::Route53Domains.disconnect(r53_domains_obj: r53_domains_obj)
 
 s3_obj = CSI::AWS::S3.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts s3_obj.public_methods
-CSI::AWS::S3.disconnect(:s3_obj => s3_obj)
+CSI::AWS::S3.disconnect(s3_obj: s3_obj)
 
 ses_obj = CSI::AWS::SES.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ses_obj.public_methods
-CSI::AWS::SES.disconnect(:ses_obj => ses_obj)
+CSI::AWS::SES.disconnect(ses_obj: ses_obj)
 
 sns_obj = CSI::AWS::SNS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts sns_obj.public_methods
-CSI::AWS::SNS.disconnect(:sns_obj => sns_obj)
+CSI::AWS::SNS.disconnect(sns_obj: sns_obj)
 
 sqs_obj = CSI::AWS::SQS.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts sqs_obj.public_methods
-CSI::AWS::SQS.disconnect(:sqs_obj => sqs_obj)
+CSI::AWS::SQS.disconnect(sqs_obj: sqs_obj)
 
 ssm_obj = CSI::AWS::SSM.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts ssm_obj.public_methods
-CSI::AWS::SSM.disconnect(:ssm_obj => ssm_obj)
+CSI::AWS::SSM.disconnect(ssm_obj: ssm_obj)
 
 swf_obj = CSI::AWS::SWF.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts swf_obj.public_methods
-CSI::AWS::SWF.disconnect(:swf_obj => swf_obj)
+CSI::AWS::SWF.disconnect(swf_obj: swf_obj)
 
 service_catalog_obj = CSI::AWS::ServiceCatalog.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts service_catalog_obj.public_methods
-CSI::AWS::ServiceCatalog.disconnect(:service_catalog_obj => service_catalog_obj)
+CSI::AWS::ServiceCatalog.disconnect(service_catalog_obj: service_catalog_obj)
 
 simple_db_obj = CSI::AWS::SimpleDB.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts simple_db_obj.public_methods
-CSI::AWS::SimpleDB.disconnect(:simple_db_obj => simple_db_obj)
+CSI::AWS::SimpleDB.disconnect(simple_db_obj: simple_db_obj)
 
 snowball_obj = CSI::AWS::Snowball.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts snowball_obj.public_methods
-CSI::AWS::Snowball.disconnect(:snowball_obj => snowball_obj)
+CSI::AWS::Snowball.disconnect(snowball_obj: snowball_obj)
 
 storage_gateway_obj = CSI::AWS::StorageGateway.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts storage_gateway_obj.public_methods
-CSI::AWS::StorageGateway.disconnect(:storage_gateway_obj => storage_gateway_obj)
+CSI::AWS::StorageGateway.disconnect(storage_gateway_obj: storage_gateway_obj)
 
 support_obj = CSI::AWS::Support.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts support_obj.public_methods
-CSI::AWS::Support.disconnect(:support_obj => support_obj)
+CSI::AWS::Support.disconnect(support_obj: support_obj)
 
 waf_obj = CSI::AWS::WAF.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts waf_obj.public_methods
-CSI::AWS::WAF.disconnect(:waf_obj => waf_obj)
+CSI::AWS::WAF.disconnect(waf_obj: waf_obj)
 
 workspaces_obj = CSI::AWS::Workspaces.connect(
-  :region => region, 
-  :access_key_id => credentials.access_key_id, 
-  :secret_access_key => credentials.secret_access_key, 
-  :sts_session_token => credentials.session_token
+  region: region, 
+  access_key_id: credentials.access_key_id, 
+  secret_access_key: credentials.secret_access_key, 
+  sts_session_token: credentials.session_token
 )
 puts workspaces_obj.public_methods
-CSI::AWS::Workspaces.disconnect(:workspaces_obj => workspaces_obj)
+CSI::AWS::Workspaces.disconnect(workspaces_obj: workspaces_obj)

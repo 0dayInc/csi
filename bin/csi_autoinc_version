@@ -37,7 +37,7 @@ old_gem_pkg = "./pkg/csi-#{old_rev}.gem"
 File.unlink(old_gem_pkg) if File.exists?(old_gem_pkg)
 
 # Update README.md
-old_readme_md = File.read(readme_md_path, :encoding => 'utf-8')
+old_readme_md = File.read(readme_md_path, encoding: 'utf-8')
 File.open(readme_md_path, 'w') do |file|
   old_readme_md.each_line do |line|
     if line.to_s.scrub =~ /csi\[v#{old_rev}\]/

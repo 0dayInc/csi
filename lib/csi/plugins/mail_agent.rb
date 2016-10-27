@@ -64,24 +64,24 @@ module CSI
         end
          # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
         Pony.mail({
-          :from => from,
-          :to => to,
-          :cc => cc,
-          :bcc => bcc,
-          :reply_to => reply_to,
-          :subject => subject,
-          :html_body => html_body,
-          :body => txt_body,
-          :attachments => attachments_hash,
-          :via => :smtp,
-          :via_options => {
-            :address => address,
-            :port => port,
-            :enable_starttls_auto => tls_auto,
-            :user_name => username,
-            :password => password,
-            :authentication => authentication,
-            :domain => 'localhost.localdomain'
+          from: from,
+          to: to,
+          cc: cc,
+          bcc: bcc,
+          reply_to: reply_to,
+          subject: subject,
+          html_body: html_body,
+          body: txt_body,
+          attachments: attachments_hash,
+          via: :smtp,
+          via_options: {
+            address: address,
+            port: port,
+            enable_starttls_auto: tls_auto,
+            user_name: username,
+            password: password,
+            authentication: authentication,
+            domain: 'localhost.localdomain'
           }
         })
       end

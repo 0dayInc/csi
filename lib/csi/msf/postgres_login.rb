@@ -33,7 +33,7 @@ module CSI
       def self.exploit(opts = {})
         msfrpcd_yaml_conf = opts[:msfrpcd_yaml_conf]
 
-        msf_client = CSI::Plugins::Metasploit.connect(:msfrpcd_yaml_conf => msfrpcd_yaml_conf)
+        msf_client = CSI::Plugins::Metasploit.connect(msfrpcd_yaml_conf: msfrpcd_yaml_conf)
 
         msf_module = 'auxiliary/scanner/postgres/postgres_login'
 
@@ -134,35 +134,35 @@ module CSI
         end
 
         msf_module_opts = {
-          :blank_passwords => blank_passwords,
-          :bruteforce_speed => bruteforce_speed,
-          :database => database,
-          :db_all_creds => db_all_creds,
-          :db_all_pass => db_all_pass,
-          :db_all_users => db_all_users,
-          :password => password,
-          :pass_file => pass_file,
-          :proxies => proxies,
-          :return_rowset => return_rowset,
-          :rhosts => rhosts,
-          :rport => rport,
-          :stop_on_sucess => stop_on_sucess,
-          :threads => threads,
-          :username => username,
-          :userpass_file => userpass_file,
-          :user_as_pass => user_as_pass,
-          :user_file => user_file,
-          :verbose => true
+          blank_passwords: blank_passwords,
+          bruteforce_speed: bruteforce_speed,
+          database: database,
+          db_all_creds: db_all_creds,
+          db_all_pass: db_all_pass,
+          db_all_users: db_all_users,
+          password: password,
+          pass_file: pass_file,
+          proxies: proxies,
+          return_rowset: return_rowset,
+          rhosts: rhosts,
+          rport: rport,
+          stop_on_sucess: stop_on_sucess,
+          threads: threads,
+          username: username,
+          userpass_file: userpass_file,
+          user_as_pass: user_as_pass,
+          user_file: user_file,
+          verbose: true
         }
 
         result = CSI::Plugins::Metasploit.exec(
-          :msfrpcd_conn => msf_client,
-          :msf_module => msf_module,
-          :msf_module_opts => msf_module_opts
+          msfrpcd_conn: msf_client,
+          msf_module: msf_module,
+          msf_module_opts: msf_module_opts
         )
 
         CSI::Plugins::Metasploit.disconnect(
-          :msfrpcd_conn => msf_client
+          msfrpcd_conn: msf_client
         )
 
         return result
@@ -185,9 +185,9 @@ module CSI
       public
       def self.nist_800_53_requirements
         nist_800_53_requirements = {
-          :sp_module => self,
-          :section => "1.7.7",
-          :nist_800_53_uri => "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=IA-5"
+          sp_module: self,
+          section: "1.7.7",
+          nist_800_53_uri: "https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=IA-5"
         }
         return nist_800_53_requirements
       end

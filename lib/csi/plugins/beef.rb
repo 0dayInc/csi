@@ -39,11 +39,11 @@ module CSI
           auth_payload[:password] = password
 
           @@logger.info("Logging into BeEF REST API: #{beef_ip}")
-          rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
           response = rest_client.execute(
-            :method => :post,
-            :url => "#{base_beef_api_uri}/admin/login",
-            :payload => auth_payload.to_json
+            method: :post,
+            url: "#{base_beef_api_uri}/admin/login",
+            payload: auth_payload.to_json
           )
 
           # Return array containing the post-authenticated BeEF REST API token
@@ -88,27 +88,27 @@ module CSI
         api_token = beef_obj[:api_token]
         
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method 
             when :get
               response = rest_client.execute(
-                :method => :get,
-                :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => {
-                  :content_type => "application/json; charset=UTF-8",
-                  :params => { :token => api_token }
+                method: :get,
+                url: "#{base_beef_api_uri}/#{rest_call}",
+                headers: {
+                  content_type: "application/json; charset=UTF-8",
+                  params: { token: api_token }
                 }
               )
 
             when :post
               response = rest_client.execute(
-                :method => :post,
-                :url => "#{base_beef_api_uri}/#{rest_call}",
-                :headers => {
-                  :content_type => "application/json; charset=UTF-8"
+                method: :post,
+                url: "#{base_beef_api_uri}/#{rest_call}",
+                headers: {
+                  content_type: "application/json; charset=UTF-8"
                 },
-                :payload => http_body
+                payload: http_body
               )
 
           else
@@ -131,8 +131,8 @@ module CSI
         @@logger.info("Retrieving BeEF Hooks...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => 'hooks'
+            beef_obj: beef_obj, 
+            rest_call: 'hooks'
           )
 
           hooks = JSON.parse(response)
@@ -156,8 +156,8 @@ module CSI
         @@logger.info("Retrieving Browser Info...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => "hooks/#{browser_session}"
+            beef_obj: beef_obj, 
+            rest_call: "hooks/#{browser_session}"
           )
 
           hooked_browser_info = JSON.parse(response)
@@ -178,8 +178,8 @@ module CSI
         @@logger.info("Retrieving BeEF Logs...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => 'logs'
+            beef_obj: beef_obj, 
+            rest_call: 'logs'
           )
 
           logs = JSON.parse(response)
@@ -203,8 +203,8 @@ module CSI
         @@logger.info("Retrieving Browser Logs...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => "logs/#{browser_session}"
+            beef_obj: beef_obj, 
+            rest_call: "logs/#{browser_session}"
           )
 
           hooked_browser_logs = JSON.parse(response)
@@ -225,8 +225,8 @@ module CSI
         @@logger.info("Retrieving BeEF Modules...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => 'modules'
+            beef_obj: beef_obj, 
+            rest_call: 'modules'
           )
 
           logs = JSON.parse(response)
@@ -250,8 +250,8 @@ module CSI
         @@logger.info("Retrieving Module Info...")
         begin
           response = beef_rest_call(
-            :beef_obj => beef_obj, 
-            :rest_call => "modules/#{module_id}"
+            beef_obj: beef_obj, 
+            rest_call: "modules/#{module_id}"
           )
 
           module_info = JSON.parse(response)

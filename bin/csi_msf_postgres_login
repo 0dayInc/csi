@@ -10,9 +10,9 @@ logger = CSI::Plugins::CSILogger.create()
 logger.info("MSF Postgres Login for " << rhosts)
 
 results = CSI::MSF::PostgresLogin.exploit(
-  :msfrpcd_yaml_conf => msfrpcd_yaml_conf,
-  :rhosts => rhosts,
-  :rport => rport
+  msfrpcd_yaml_conf: msfrpcd_yaml_conf,
+  rhosts: rhosts,
+  rport: rport
 )
 
 File.write("#{rhosts}_msf_postgres_login.txt", results['data'])

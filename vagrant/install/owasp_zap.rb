@@ -7,7 +7,7 @@ owasp_zap_tar_extraction_path = '/opt/owasp_zap-releases'
 owasp_zap_linux_download = ''
 url = "https://github.com/zaproxy/zaproxy/wiki/Downloads"
 # Look for specific links w/ pattern matching Linux tar.gz
-browser_obj = CSI::Plugins::TransparentBrowser.open(:browser_type => :headless)
+browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
 browser_obj.goto(url)
 
 browser_obj.links.each do |link|

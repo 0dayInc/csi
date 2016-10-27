@@ -43,19 +43,19 @@ module CSI
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy,
-                  :with_tor => true
+                  browser_type: browser_type,
+                  proxy: proxy,
+                  with_tor: true
                 )
               else
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy
+                  browser_type: browser_type,
+                  proxy: proxy
                 )
               end
             else
               $browser = CSI::Plugins::TransparentBrowser.open(
-                :browser_type => browser_type
+                browser_type: browser_type
               )
             end
           end
@@ -64,7 +64,7 @@ module CSI
 
           if $browser
             $browser.goto('https://www.xmh57jrzrnw6insl.onion.to')
-            CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+            CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
 
         rescue => e
@@ -82,10 +82,10 @@ module CSI
         q = opts[:q].to_s
 
         if $browser
-          $browser.text_field(:name => 'q').when_present.set(q)
-          $browser.button(:name => 'cmd').when_present.click
+          $browser.text_field(name: 'q').when_present.set(q)
+          $browser.button(name: 'cmd').when_present.click
           sleep 3 # Cough: <hack>
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
       end
 
@@ -103,7 +103,7 @@ module CSI
         }
         if $browser
           $browser.goto('http://xmh57jrzrnw6insl.onion')
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
       end
 
@@ -111,7 +111,7 @@ module CSI
       # CSI::WWW::Torch.close
       public
       def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

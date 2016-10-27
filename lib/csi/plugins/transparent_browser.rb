@@ -38,25 +38,25 @@ module CSI
             when :firefox
               this_profile = Selenium::WebDriver::Firefox::Profile.new
               this_profile.native_events = false
-              this_profile.proxy = Selenium::WebDriver::Proxy.new(:no_proxy => true)
+              this_profile.proxy = Selenium::WebDriver::Proxy.new(no_proxy: true)
 
               if proxy
                 if with_tor
                   this_profile["javascript.enabled"] = false  
                   this_profile.proxy = Selenium::WebDriver::Proxy.new(
-                    :socks => "#{URI(proxy).host}:#{URI(proxy).port}"
+                    socks: "#{URI(proxy).host}:#{URI(proxy).port}"
                   )
                 else
                   this_profile.proxy = Selenium::WebDriver::Proxy.new(
-                    :http => "#{URI(proxy).host}:#{URI(proxy).port}",
-                    :ssl => "#{URI(proxy).host}:#{URI(proxy).port}"
+                    http: "#{URI(proxy).host}:#{URI(proxy).port}",
+                    ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
                   )
                 end
               end
  
               this_browser = Watir::Browser.new(
                 :firefox, 
-                :profile => this_profile
+                profile: this_profile
               )
             when :chrome
               this_profile = Selenium::WebDriver::Chrome::Profile.new
@@ -67,7 +67,7 @@ module CSI
                 if with_tor
                   this_browser = Watir::Browser.new(
                     :chrome, 
-                    :switches => [
+                    switches: [
                       "--proxy-server=#{proxy}", 
                       "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'", 
                     ]
@@ -75,7 +75,7 @@ module CSI
                 else
                   this_browser = Watir::Browser.new(
                     :chrome, 
-                    :switches => ["--proxy-server=#{proxy}"]
+                    switches: ["--proxy-server=#{proxy}"]
                   )
                 end
               else
@@ -87,7 +87,7 @@ module CSI
                 if with_tor
                   this_browser = Watir::Browser.new(
                     :phantomjs, 
-                    :args => [
+                    args: [
                       "--proxy-type=socks5",
                       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
                       "--ignore-ssl-errors=true",
@@ -98,7 +98,7 @@ module CSI
                 else
                   this_browser = Watir::Browser.new(
                     :phantomjs, 
-                    :args => [
+                    args: [
                       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
                       "--ignore-ssl-errors=true",
                       "--ssl-protocol=any",
@@ -109,7 +109,7 @@ module CSI
               else
                 this_browser = Watir::Browser.new(
                   :phantomjs,
-                  :args => [ 
+                  args: [ 
                     "--ignore-ssl-errors=true",
                     "--ssl-protocol=any",
                     "--web-security=false"

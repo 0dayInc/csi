@@ -32,19 +32,19 @@ report_names = opts[:report_names].to_s.scrub
 # Login to Nexpose
 site_id = nil
 nsc_obj = CSI::Plugins::NexposeVulnScan.login(
-  :console_ip => console_ip, 
-  :username => console_username, 
-  :password => console_password
+  console_ip: console_ip, 
+  username: console_username, 
+  password: console_password
 )
 
 nsc_obj = CSI::Plugins::NexposeVulnScan.scan_site_by_name(
-  :nsc_obj => nsc_obj,
-  :site_name => site_name
+  nsc_obj: nsc_obj,
+  site_name: site_name
 )
 
 nsc_obj = CSI::Plugins::NexposeVulnScan.download_recurring_report(
-  :nsc_obj => nsc_obj,
-  :report_names => report_names
+  nsc_obj: nsc_obj,
+  report_names: report_names
 )
 
-CSI::Plugins::NexposeVulnScan.logout(:nsc_obj => nsc_obj)
+CSI::Plugins::NexposeVulnScan.logout(nsc_obj: nsc_obj)

@@ -33,12 +33,12 @@ module CSI
 
         begin
           @@logger.info("Logging into IBM Appscan Enterprise Server: #{appscan_ip}")
-          rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
           response = rest_client.execute(
-            :method => :post,
-            :url => "#{base_appscan_api_uri}/login",
-            :payload => "userid=#{username}&password=#{password}",
-            :verify_ssl => false
+            method: :post,
+            url: "#{base_appscan_api_uri}/login",
+            payload: "userid=#{username}&password=#{password}",
+            verify_ssl: false
           )
 
           # Return array containing the Appscan Server host/ip & post-authenticated Appscan REST cookie
@@ -93,24 +93,24 @@ module CSI
         retry_count = 3
         
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method 
             when :get
               response = rest_client.execute(
-                :method => :get,
-                :url => "#{base_appscan_api_uri}/#{rest_call}",
-                :headers => { :cookie => appscan_cookie },
-                :verify_ssl => false
+                method: :get,
+                url: "#{base_appscan_api_uri}/#{rest_call}",
+                headers: { cookie: appscan_cookie },
+                verify_ssl: false
               )
 
             when :post
               response = rest_client.execute(
-                :method => :post,
-                :url => "#{base_appscan_api_uri}/#{rest_call}",
-                :headers => { :cookie => appscan_cookie },
-                :payload => http_body,
-                :verify_ssl => false
+                method: :post,
+                url: "#{base_appscan_api_uri}/#{rest_call}",
+                headers: { cookie: appscan_cookie },
+                payload: http_body,
+                verify_ssl: false
               )
 
           else
@@ -122,9 +122,9 @@ module CSI
             # Try logging back in to refresh the connection
             @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
             n_appscan_obj = self.login(
-              :appscan_ip => appscan_obj[:appscan_ip],
-              :username => appscan_obj[:username],
-              :password => Base64.decode64(appscan_obj[:password])
+              appscan_ip: appscan_obj[:appscan_ip],
+              username: appscan_obj[:username],
+              password: Base64.decode64(appscan_obj[:password])
             )
             appscan_cookie = n_appscan_obj[:cookie]
             # "copy" the new app obj over the old app obj
@@ -145,7 +145,7 @@ module CSI
       public
       def self.schema(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "schema")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "schema")
         schema = {}
         schema[:raw_response] = response
         schema[:xml_response] = Nokogiri::XML(response)
@@ -159,7 +159,7 @@ module CSI
       public
       def self.version(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "version")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "version")
         version = {}
         version[:raw_response] = response
         version[:xml_response] = Nokogiri::XML(response)
@@ -185,7 +185,7 @@ module CSI
       public
       def self.get_folders(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folders")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders")
         folders = {}
         folders[:raw_response] = response
         folders[:xml_response] = Nokogiri::XML(response)
@@ -201,7 +201,7 @@ module CSI
       def self.get_subfolders_of_folder(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_id].to_i
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folders/#{folder_id}/folders")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}/folders")
         subfolders = {}
         subfolders[:raw_response] = response
         subfolders[:xml_response] = Nokogiri::XML(response)
@@ -217,7 +217,7 @@ module CSI
       def self.get_folder_by_id(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_id].to_i
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folders/#{folder_id}")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}")
         folder = {}
         folder[:raw_response] = response
         folder[:xml_response] = Nokogiri::XML(response)
@@ -231,7 +231,7 @@ module CSI
       public
       def self.get_folder_items(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folderitems")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems")
         folder_items = {}
         folder_items[:raw_response] = response
         folder_items[:xml_response] = Nokogiri::XML(response)
@@ -250,7 +250,7 @@ module CSI
         retry_count = 3
 
         begin
-          response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folderitems/#{folder_item_id}")
+          response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{folder_item_id}")
           folder_item = {}
           folder_item[:raw_response] = response
           folder_item[:xml_response] = Nokogiri::XML(response)
@@ -281,7 +281,7 @@ module CSI
       def self.get_a_folders_folder_items(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_item_id].to_i
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folders/#{folder_id}/folderitems")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}/folderitems")
         a_folders_folder_items = {}
         a_folders_folder_items[:raw_response] = response
         a_folders_folder_items[:xml_response] = Nokogiri::XML(response)
@@ -299,7 +299,7 @@ module CSI
         folder_item_id = opts[:folder_item_id].to_i
         # TODO: Discover why not all options are returned 
         # (e.g. esCOTAutoFormFillUserNameValue & esCOTAutoFormFillPasswordValue)
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folderitems/#{folder_item_id}/options")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{folder_item_id}/options")
         folder_item_options = {}
         folder_item_options[:raw_response] = response
         folder_item_options[:xml_response] = Nokogiri::XML(response)
@@ -316,7 +316,7 @@ module CSI
       public
       def self.get_scan_templates(opts = {})
         appscan_obj = opts[:appscan_obj]
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "templates")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "templates")
         templates = {}
         templates[:raw_response] = response
         templates[:xml_response] = Nokogiri::XML(response)
@@ -337,10 +337,10 @@ module CSI
         scan_name = opts[:scan_name].to_s.scrub
         scan_desc = opts[:scan_desc].to_s.scrub
         response = appscan_rest_call(
-          :appscan_obj => appscan_obj, 
-          :http_method => :post, 
-          :rest_call => "folderitems?templateId=#{template_id}",
-          :http_body => "name=#{scan_name}&description=#{scan_desc}"
+          appscan_obj: appscan_obj, 
+          http_method: :post, 
+          rest_call: "folderitems?templateId=#{template_id}",
+          http_body: "name=#{scan_name}&description=#{scan_desc}"
         )
 
         # Return an Easy to Use Data Structure 
@@ -441,16 +441,16 @@ module CSI
           when :help
             available_options = ""
             self.get_folder_item_options(
-              :appscan_obj => appscan_obj, 
-              :folder_item_id => folder_item_id
+              appscan_obj: appscan_obj, 
+              folder_item_id: folder_item_id
             )[:options].each {|url| available_options << "#{File.basename(url)}\n" }
          
             return @@logger.info("Valid Options are:\n\n#{available_options}")
         else
           available_options = ""
           self.get_folder_item_options(
-            :appscan_obj => appscan_obj, 
-            :folder_item_id => folder_item_id
+            appscan_obj: appscan_obj, 
+            folder_item_id: folder_item_id
           )[:options].each {|url| available_options << "#{File.basename(url)}\n" }
          
           return @@logger.error("Invalid option '#{option}' parameter passed.\nValid Options are:\n\n#{available_options}")
@@ -458,10 +458,10 @@ module CSI
 
         # Always Overwrite Existing Option Values
         response = appscan_rest_call(
-          :appscan_obj => appscan_obj, 
-          :http_method => :post, 
-          :rest_call => "folderitems/#{folder_item_id}/options/#{option}?put=1",
-          :http_body => "#{post_body}"
+          appscan_obj: appscan_obj, 
+          http_method: :post, 
+          rest_call: "folderitems/#{folder_item_id}/options/#{option}?put=1",
+          http_body: "#{post_body}"
         )
 
         scan_config = {}
@@ -494,26 +494,26 @@ module CSI
           when :run
             # Make sure scan is in a Ready state
             this_folder_item = CSI::Plugins::IBMAppscan.get_folder_item_by_id(
-              :appscan_obj => appscan_obj,
-              :folder_item_id => folder_item_id
+              appscan_obj: appscan_obj,
+              folder_item_id: folder_item_id
             )
             state = this_folder_item[:state]
             return @@logger.error("Scan isn't in a Ready state.  Current state: #{state}, abort.") if state != "Ready"
 
             @@logger.info("Kicking Off Scan for Folder Item: #{folder_item_id}")
             response = appscan_rest_call(
-              :appscan_obj => appscan_obj, 
-              :http_method => :post, 
-              :rest_call => "folderitems/#{folder_item_id}",
-              :http_body => "action=2"
+              appscan_obj: appscan_obj, 
+              http_method: :post, 
+              rest_call: "folderitems/#{folder_item_id}",
+              http_body: "action=2"
             )
             # Obtain Status to Monitor Scan Completion
             state = nil
             until state == "Ready"
               sleep poll_interval
               this_folder_item = CSI::Plugins::IBMAppscan.get_folder_item_by_id(
-                :appscan_obj => appscan_obj,
-                :folder_item_id => folder_item_id
+                appscan_obj: appscan_obj,
+                folder_item_id: folder_item_id
               )
               state = this_folder_item[:state]
               @@logger.info("Current Scan State: #{state}...")
@@ -521,24 +521,24 @@ module CSI
             @@logger.info("Scan Completed @ #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}")
           when :suspend
             response = appscan_rest_call(
-              :appscan_obj => appscan_obj, 
-              :http_method => :post, 
-              :rest_call => "folderitems/#{folder_item_id}",
-              :http_body => "action=3"
+              appscan_obj: appscan_obj, 
+              http_method: :post, 
+              rest_call: "folderitems/#{folder_item_id}",
+              http_body: "action=3"
             )
           when :cancel
             response = appscan_rest_call(
-              :appscan_obj => appscan_obj, 
-              :http_method => :post, 
-              :rest_call => "folderitems/#{folder_item_id}",
-              :http_body => "action=4"
+              appscan_obj: appscan_obj, 
+              http_method: :post, 
+              rest_call: "folderitems/#{folder_item_id}",
+              http_body: "action=4"
             )
           when :end
             response = appscan_rest_call(
-              :appscan_obj => appscan_obj, 
-              :http_method => :post, 
-              :rest_call => "folderitems/#{folder_item_id}",
-              :http_body => "action=5"
+              appscan_obj: appscan_obj, 
+              http_method: :post, 
+              rest_call: "folderitems/#{folder_item_id}",
+              http_body: "action=5"
             )
         else
           return @@logger.error("Invalid action.  Valid actions are:\n:run\n:suspend\n:cancel\n:end\n")
@@ -562,7 +562,7 @@ module CSI
         report_folder_item_id = opts[:report_folder_item_id].to_i
 
         @@logger.info("Retrieving Report Collection ID: #{report_folder_item_id} - Available Report Pack Collection:") 
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "folderitems/#{report_folder_item_id}/reports")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{report_folder_item_id}/reports")
 
         report_collection = {}
         report_collection[:raw_response] = response
@@ -585,7 +585,7 @@ module CSI
       def self.get_single_report(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "reports/#{report_id}")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "reports/#{report_id}")
 
         report = {}
         report[:raw_response] = response
@@ -605,8 +605,8 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          :appscan_obj => appscan_obj, 
-          :rest_call => "reports/#{report_id}/data?mode=all"
+          appscan_obj: appscan_obj, 
+          rest_call: "reports/#{report_id}/data?mode=all"
         )
 
         report_data = {}
@@ -627,8 +627,8 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          :appscan_obj => appscan_obj, 
-          :rest_call => "reports/#{report_id}/data?metadata=schema"
+          appscan_obj: appscan_obj, 
+          rest_call: "reports/#{report_id}/data?metadata=schema"
         )
 
         report_schema = {}
@@ -649,8 +649,8 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          :appscan_obj => appscan_obj, 
-          :rest_call => "reports/#{report_id}/issues?mode=all"
+          appscan_obj: appscan_obj, 
+          rest_call: "reports/#{report_id}/issues?mode=all"
         )
 
         issue_collection = {}
@@ -675,7 +675,7 @@ module CSI
         begin
           # First Get request
           uri = URI.parse(report_link)
-          rb = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)
+          rb = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
           res = rb.get(report_link, {'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE})
           location = 'https://' + uri.host + res.headers['location']
 
@@ -722,14 +722,14 @@ module CSI
 
         begin
           # REMEMBER TO CHANGE BROWSER TYPE BACK TO HEADLESS!!!!
-          h_browser = CSI::Plugins::TransparentBrowser.open(:browser_type => :firefox,
-                                                                 :proxy => 'http://127.0.0.1:8080')
+          h_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox,
+                                                                 proxy: 'http://127.0.0.1:8080')
 
           # log into the system
           h_browser.goto "#{login_uri}".to_s.scrub
-          h_browser.text_field(:name => 'j_username').when_present.set(appscan_obj[:username])
-          h_browser.text_field(:name => 'j_password').when_present.set(Base64.decode64(appscan_obj[:password]))
-          h_browser.button(:name => 'login').when_present.click
+          h_browser.text_field(name: 'j_username').when_present.set(appscan_obj[:username])
+          h_browser.text_field(name: 'j_password').when_present.set(Base64.decode64(appscan_obj[:password]))
+          h_browser.button(name: 'login').when_present.click
 
           # head over to the reports page and click on the report link
           h_browser.goto "#{base_appscan_uri}".to_s.scrub
@@ -754,8 +754,8 @@ module CSI
           FileUtils.mkpath output_path
 
           # Download the top level report
-          get_report_data(:appscan_obj => appscan_obj, :report_link => h_browser.url + 
-                          '&exportformat=pdf&exportdelivery=download', :output_name => output_path + 'Top_Level.pdf')
+          get_report_data(appscan_obj: appscan_obj, report_link: h_browser.url + 
+                          '&exportformat=pdf&exportdelivery=download', output_name: output_path + 'Top_Level.pdf')
           
 =begin
           viewid = h_browser.url.split('&').last
@@ -784,7 +784,7 @@ module CSI
       def self.logout(opts = {})
         appscan_obj = opts[:appscan_obj]
         @@logger.info("Logging out...")
-        response = appscan_rest_call(:appscan_obj => appscan_obj, :rest_call => "logout")
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "logout")
         if response == ""
           appscan_obj[:logged_in] = false
           return "logout successful"

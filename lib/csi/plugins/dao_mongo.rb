@@ -32,10 +32,10 @@ module CSI
         if opts[:database].nil?
           mongo_conn = Mongo::Client.new(["#{host}:#{port}"])
         else
-          mongo_conn = Mongo::Client.new(["#{host}:#{port}"], :database => database)
+          mongo_conn = Mongo::Client.new(["#{host}:#{port}"], database: database)
         end
 
-        validate_mongo_conn(:mongo_conn => mongo_conn)
+        validate_mongo_conn(mongo_conn: mongo_conn)
         return mongo_conn
       end
 
@@ -46,7 +46,7 @@ module CSI
       public
       def self.disconnect(opts = {})
         mongo_conn = opts[:mongo_conn]
-        validate_mongo_conn(:mongo_conn => mongo_conn)
+        validate_mongo_conn(mongo_conn: mongo_conn)
         begin
           mongo_conn.close
         rescue => e

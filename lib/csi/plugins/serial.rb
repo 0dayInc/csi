@@ -68,12 +68,12 @@ module CSI
 
           serial_obj = {}
           serial_obj[:serial_conn] = serial_conn
-          serial_obj[:session_thread] = init_session_thread(:serial_conn => serial_conn)
+          serial_obj[:session_thread] = init_session_thread(serial_conn: serial_conn)
 
           return serial_obj
         rescue => e
           raise e
-          self.disconnect(:serial_obj => serial_obj) unless serial_obj.nil?
+          self.disconnect(serial_obj: serial_obj) unless serial_obj.nil?
           return -1
         end
       end
@@ -121,7 +121,7 @@ module CSI
           serial_conn.get_signals
         rescue => e
           raise e
-          self.disconnect(:serial_obj => serial_obj) unless serial_obj.nil?
+          self.disconnect(serial_obj: serial_obj) unless serial_obj.nil?
           return -1
         end
       end
@@ -138,7 +138,7 @@ module CSI
           serial_conn.get_modem_params
         rescue => e
           raise e
-          self.disconnect(:serial_obj => serial_obj) unless serial_obj.nil?
+          self.disconnect(serial_obj: serial_obj) unless serial_obj.nil?
           return -1
         end
       end
@@ -159,7 +159,7 @@ module CSI
           return chars_written
         rescue => e
           raise e
-          self.disconnect(:serial_obj => serial_obj) unless serial_obj.nil?
+          self.disconnect(serial_obj: serial_obj) unless serial_obj.nil?
           return -1
         end
       end
@@ -177,7 +177,7 @@ module CSI
           return response
         rescue => e
           raise e
-          self.disconnect(:serial_obj => serial_obj) unless serial_obj.nil?
+          self.disconnect(serial_obj: serial_obj) unless serial_obj.nil?
           return -1
         end
       end

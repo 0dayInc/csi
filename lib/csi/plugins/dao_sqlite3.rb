@@ -18,9 +18,9 @@ module CSI
           # Be sure to enable foreign key support for each connection
           sql_enable_fk = 'PRAGMA foreign_keys = ?'
           res = self.sql_statement(
-            :sqlite3_conn => sqlite3_conn, 
-            :prepared_statement => sql_enable_fk, 
-            :statement_params => ['ON']
+            sqlite3_conn: sqlite3_conn, 
+            prepared_statement: sql_enable_fk, 
+            statement_params: ['ON']
           )
           # TODO: better handling since sqlite3 gem always returns SQLite3::Database
           # whether DB exists or not
@@ -59,7 +59,7 @@ module CSI
       public
       def self.sql_statement(opts ={})
         sqlite3_conn = opts[:sqlite3_conn]
-        validate_sqlite3_conn(:sqlite3_conn => sqlite3_conn)
+        validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
         statement_params = opts[:statement_params] # << Array of Params
         unless statement_params.class == Array || statement_params.nil?
@@ -85,7 +85,7 @@ module CSI
       public
       def self.disconnect(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
-        validate_sqlite3_conn(:sqlite3_conn => sqlite3_conn)
+        validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
         begin
           sqlite3_conn.close
         rescue => e

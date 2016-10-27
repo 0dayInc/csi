@@ -38,26 +38,26 @@ module CSI
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy,
-                  :with_tor => with_tor
+                  browser_type: browser_type,
+                  proxy: proxy,
+                  with_tor: with_tor
                 )
               else
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy
+                  browser_type: browser_type,
+                  proxy: proxy
                 )
               end
             else
               $browser = CSI::Plugins::TransparentBrowser.open(
-                :browser_type => browser_type
+                browser_type: browser_type
               )
             end
           end
 
           if $browser
             $browser.goto('https://login.synack.com')
-            CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+            CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
 
         rescue => e
@@ -80,8 +80,8 @@ module CSI
 
             # decrypt yaml config file
             uiauthn_hash = CSI::Plugins::AnsibleVault.decrypt(
-              :yaml_config => "#{yaml_config}", 
-              :vpassfile => "#{vpassfile}"
+              yaml_config: "#{yaml_config}", 
+              vpassfile: "#{vpassfile}"
             )
 
             email = uiauthn_hash["uiauthn"]["email"].to_s.scrub
@@ -93,20 +93,20 @@ module CSI
             #Authy.api_uri = 'https://api.authy.com/'
             #Authy.api_key = authy_api_key
 
-            $browser.text_field(:name => 'email').when_present.set(email)
-            $browser.text_field(:name => 'password').when_present.set(password)
-            $browser.button(:class => 'btn').when_present.click # no name or id in button element
+            $browser.text_field(name: 'email').when_present.set(email)
+            $browser.text_field(name: 'password').when_present.set(password)
+            $browser.button(class: 'btn').when_present.click # no name or id in button element
             @@logger.info("mfa prompt initiated...")
             until $browser.url == "https://platform.synack.com/"
               print "enter authy mfa token: "
               authy_token = gets.to_i
-              $browser.text_field(:name => 'authy_token').when_present.set(authy_token)
-              $browser.button(:class => 'btn').when_present.click # no name or id in button element
+              $browser.text_field(name: 'authy_token').when_present.set(authy_token)
+              $browser.button(class: 'btn').when_present.click # no name or id in button element
               sleep 3 #TODO: fixme this is a <cough> hack
             end
             print "\n"
             @@logger.info("authy token accepted.")
-            CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+            CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
         rescue
         ensure
@@ -119,8 +119,8 @@ module CSI
       public
       def self.logout
         if $browser
-          $browser.img(:class => 'navbar-avatar-img').click
-          $browser.button(:text => 'Logout').click
+          $browser.img(class: 'navbar-avatar-img').click
+          $browser.button(text: 'Logout').click
         end
       end
 
@@ -128,7 +128,7 @@ module CSI
       # CSI::WWW::Synack.close
       public
       def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

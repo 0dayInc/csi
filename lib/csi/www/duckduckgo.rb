@@ -37,26 +37,26 @@ module CSI
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy,
-                  :with_tor => true
+                  browser_type: browser_type,
+                  proxy: proxy,
+                  with_tor: true
                 )
               else
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy
+                  browser_type: browser_type,
+                  proxy: proxy
                 )
               end
             else
               $browser = CSI::Plugins::TransparentBrowser.open(
-                :browser_type => browser_type
+                browser_type: browser_type
               )
             end
           end
 
           if $browser
             $browser.goto('https://duckduckgo.com')
-            CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+            CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
 
         rescue => e
@@ -74,14 +74,14 @@ module CSI
         q = opts[:q].to_s
 
         if $browser
-          $browser.text_field(:name => 'q').when_present.set(q)
+          $browser.text_field(name: 'q').when_present.set(q)
           if $browser.url == 'https://duckduckgo.com/' || $browser.url == 'http://3g2upl4pq6kufc4m.onion/'
-            $browser.button(:id => 'search_button_homepage').when_present.click
+            $browser.button(id: 'search_button_homepage').when_present.click
           else
-            $browser.button(:id => 'search_button').when_present.click
+            $browser.button(id: 'search_button').when_present.click
           end
           sleep 3 # Cough: <hack>
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
       end
 
@@ -104,7 +104,7 @@ module CSI
       # CSI::WWW::Duckduckgo.close
       public
       def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

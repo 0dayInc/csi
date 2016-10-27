@@ -65,10 +65,10 @@ module CSI
           if opts[:proxy]
             proxy = opts[:proxy].to_s.scrub.strip.chomp
             #zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-            zap_obj = Zap.new(:target => target, :base => proxy, :output => @output_path)
+            zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
           else
             #zap_obj = Zap.new(:api_key => api_key, :target => target)
-            zap_obj = Zap.new(:target => target, :output => @output_path)
+            zap_obj = Zap.new(target: target, output: @output_path)
           end
 
           if opts[:zap_bin_path]
@@ -88,15 +88,15 @@ module CSI
 
           if headless
             #zap_obj.start(:api_key => true, :daemon => true)
-            zap_obj.start(:daemon => true)
+            zap_obj.start(daemon: true)
           else
             #zap_obj.start(:api_key => true)
             zap_obj.start
           end
         
           callback_when_pattern_in(
-            :file => @output_path, 
-            :pattern => 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+            file: @output_path, 
+            pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
           )
 
           return zap_obj
@@ -121,8 +121,8 @@ module CSI
         begin
           zap_obj.spider.start
           callback_when_pattern_in(
-            :file => @output_path, 
-            :pattern => 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
+            file: @output_path, 
+            pattern: 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
           )
 
           return zap_obj
@@ -143,8 +143,8 @@ module CSI
         begin
           zap_obj.ascan.start
           callback_when_pattern_in(
-            :file => @output_path, 
-            :pattern => 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
+            file: @output_path, 
+            pattern: 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
           )
 
           return zap_obj
@@ -182,8 +182,8 @@ module CSI
           zap_obj.shutdown
 
           callback_when_pattern_in(
-            :file => @output_path, 
-            :pattern => 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
+            file: @output_path, 
+            pattern: 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
           )
 
           File.unlink(@output_path)

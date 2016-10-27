@@ -37,7 +37,7 @@ module CSI
         end
 
         post '/saml/artifact' do
-          response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], :settings => saml_settings)
+          response = OneLogin::RubySaml::Response.new(params[:SAMLResponse], settings: saml_settings)
           if response.is_valid?
             "Success! #{response.nameid}, #{response.attributes}"
           else

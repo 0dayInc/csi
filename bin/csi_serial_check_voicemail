@@ -32,8 +32,8 @@ end
 serial_obj = CSI::Plugins::Serial.connect
 
 CSI::Plugins::Serial.request(
-  :serial_obj => serial_obj,
-  :request => "ATDT#{voicemail_num};\r\n"
+  serial_obj: serial_obj,
+  request: "ATDT#{voicemail_num};\r\n"
 )
 
 # TODO: Loop until data received indicates call picked up instead of sleep
@@ -41,19 +41,19 @@ sleep 13
 
 voicemail_pin.each_char do |pin_char|
   CSI::Plugins::Serial.request(
-    :serial_obj => serial_obj,
-    :request => "AT+VTS=#{pin_char}\r\n"
+    serial_obj: serial_obj,
+    request: "AT+VTS=#{pin_char}\r\n"
   )
 end
 
 CSI::Plugins::Serial.request(
-  :serial_obj => serial_obj,
-  :request => "AT+VTS=#\r\n"
+  serial_obj: serial_obj,
+  request: "AT+VTS=#\r\n"
 )
 
 CSI::Plugins::Serial.request(
-  :serial_obj => serial_obj,
-  :request => "AT+CHUP;\r\n"
+  serial_obj: serial_obj,
+  request: "AT+CHUP;\r\n"
 )
 
 session_data = CSI::Plugins::Serial.dump_session_data
@@ -61,7 +61,7 @@ puts "~"*200
 puts session_data
 puts "~"*200
 
-CSI::Plugins::Serial.disconnect(:serial_obj => serial_obj)
+CSI::Plugins::Serial.disconnect(serial_obj: serial_obj)
 
 
 

@@ -88,20 +88,20 @@ module CSI
             end
           end
 
-          cmd_ctl_browser = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)
+          cmd_ctl_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
           burp_obj[:cmd_ctl_browser] = cmd_ctl_browser
 
           # Proxy always listens on localhost...use SSH tunneling if remote access is required
           burp_browser = CSI::Plugins::TransparentBrowser.open(
-            :browser_type => browser_type,
-            :proxy => "http://#{burp_obj[:proxy_port]}"
+            browser_type: browser_type,
+            proxy: "http://#{burp_obj[:proxy_port]}"
           )
           burp_obj[:burp_browser] = burp_browser
 
           return burp_obj
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -119,7 +119,7 @@ module CSI
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/enable", nil)
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -137,7 +137,7 @@ module CSI
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/disable", nil)
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -152,13 +152,13 @@ module CSI
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
   
-          sitemap = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/sitemap", {:content_type => 'application/json; charset=UTF8'})
+          sitemap = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/sitemap", {content_type: 'application/json; charset=UTF8'})
           json_sitemap = JSON.parse(sitemap)
  
           return json_sitemap
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -176,7 +176,7 @@ module CSI
           target_url = opts[:target_url].to_s.scrub
           target_domain_name = URI(target_url).host.split(".")[-2..-1].join(".")
       
-          json_sitemap = self.get_current_sitemap(:burp_obj => burp_obj)
+          json_sitemap = self.get_current_sitemap(burp_obj: burp_obj)
           json_sitemap["data"].each do |site|
             if site['request']['host'] =~ /#{target_domain_name}/ # Accepts DNS name only - no IPs
               puts "Adding #{site['request']['host']} to Active Scan";
@@ -187,7 +187,7 @@ module CSI
               end
               post_body = "{ \"host\": \"#{site['request']['host']}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{bool_ssl}, \"request\": \"#{site['request']['raw']}\" }"
               # Kick off an active scan for each given page in the json_sitemap results
-              cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/scan/active", post_body, :content_type => 'application/json');
+              cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/scan/active", post_body, content_type: 'application/json');
             end
           end
 
@@ -216,7 +216,7 @@ module CSI
           return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -237,7 +237,7 @@ module CSI
           return json_scan_issues
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 
@@ -258,10 +258,10 @@ module CSI
           output_path = opts[:output_path].to_s.scrub
 
           post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
-          cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/generate_scan_report", post_body, :content_type => 'application/json');
+          cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/generate_scan_report", post_body, content_type: 'application/json');
         rescue => e
           raise e.message
-          self.stop(:burp_obj => burp_obj) unless burp_obj.nil?
+          self.stop(burp_obj: burp_obj) unless burp_obj.nil?
         end
       end
 

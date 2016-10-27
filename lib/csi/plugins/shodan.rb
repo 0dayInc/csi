@@ -33,30 +33,30 @@ module CSI
         api_key = opts[:api_key]
         
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method 
             when :get
               response = rest_client.execute(
-                :method => :get,
-                :url => "#{base_shodan_api_uri}/#{rest_call}",
-                :headers => {
-                  :content_type => "application/json; charset=UTF-8",
-                  :params => params
+                method: :get,
+                url: "#{base_shodan_api_uri}/#{rest_call}",
+                headers: {
+                  content_type: "application/json; charset=UTF-8",
+                  params: params
                 },
-                :verify_ssl => false
+                verify_ssl: false
               )
 
             when :post
               response = rest_client.execute(
-                :method => :post,
-                :url => "#{base_shodan_api_uri}/#{rest_call}",
-                :headers => {
-                  :content_type => "application/json; charset=UTF-8",
-                  :params => params
+                method: :post,
+                url: "#{base_shodan_api_uri}/#{rest_call}",
+                headers: {
+                  content_type: "application/json; charset=UTF-8",
+                  params: params
                 },
-                :payload => http_body,
-                :verify_ssl => false
+                payload: http_body,
+                verify_ssl: false
               )
 
           else
@@ -88,17 +88,17 @@ module CSI
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "").split(",")
 
           services_by_ips = []
-          params = { :key => api_key }
+          params = { key: api_key }
           target_ips.each do |target_ip|
           begin
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "shodan/host/#{target_ip}",
-              :params => params
+              api_key: api_key, 
+              rest_call: "shodan/host/#{target_ip}",
+              params: params
             )
             services_by_ips.push(JSON.parse(response))
           rescue => e
-            services_by_ips.push({:error => e.message})
+            services_by_ips.push({error: e.message})
             next
           end
         end
@@ -120,26 +120,26 @@ module CSI
         begin
           if facets
             params = { 
-              :key => api_key,
-              :query => query,
-              :facets => facets
+              key: api_key,
+              query: query,
+              facets: facets
             }
 
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "shodan/host/count",
-              :params => params
+              api_key: api_key, 
+              rest_call: "shodan/host/count",
+              params: params
             )
           else
             params = { 
-              :key => api_key,
-              :query => query
+              key: api_key,
+              query: query
             }
 
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "shodan/host/count",
-              :params => params
+              api_key: api_key, 
+              rest_call: "shodan/host/count",
+              params: params
             )
           end
           query_result_totals = JSON.parse(response)
@@ -165,26 +165,26 @@ module CSI
         begin
           if facets
             params = { 
-              :key => api_key,
-              :query => query,
-              :facets => facets
+              key: api_key,
+              query: query,
+              facets: facets
             }
 
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "shodan/host/search",
-              :params => params
+              api_key: api_key, 
+              rest_call: "shodan/host/search",
+              params: params
             )
           else
             params = { 
-              :key => api_key,
-              :query => query
+              key: api_key,
+              query: query
             }
 
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "shodan/host/search",
-              :params => params
+              api_key: api_key, 
+              rest_call: "shodan/host/search",
+              params: params
             )
           end
           search_results = JSON.parse(response)
@@ -207,14 +207,14 @@ module CSI
 
         begin
           params = { 
-            :key => api_key,
-            :query => query
+            key: api_key,
+            query: query
           }
 
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/host/search/tokens",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/host/search/tokens",
+            params: params
           )
           tokens_result = JSON.parse(response)
           return tokens_result
@@ -233,11 +233,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/ports",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/ports",
+            params: params
           )
           ports_shodan_crawls = JSON.parse(response)
           return ports_shodan_crawls
@@ -256,11 +256,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/protocols",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/protocols",
+            params: params
           )
           protocols = JSON.parse(response)
           return protocols
@@ -281,14 +281,14 @@ module CSI
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, "")
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           http_body = "ips=#{target_ips}"
           response = shodan_rest_call(
-            :http_method => :post,
-            :api_key => api_key, 
-            :rest_call => "shodan/scan",
-            :params => params,
-            :http_body => http_body
+            http_method: :post,
+            api_key: api_key, 
+            rest_call: "shodan/scan",
+            params: params,
+            http_body: http_body
           )
           scan_network_response = JSON.parse(response)
           return scan_network_response
@@ -311,14 +311,14 @@ module CSI
         protocol = opts[:protocol].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           http_body = "port=#{port}&protocol=#{protocol}"
           response = shodan_rest_call(
-            :http_method => :post,
-            :api_key => api_key, 
-            :rest_call => "shodan/scan/internet",
-            :params => params,
-            :http_body => http_body
+            http_method: :post,
+            api_key: api_key, 
+            rest_call: "shodan/scan/internet",
+            params: params,
+            http_body: http_body
           )
           scan_internet_response = JSON.parse(response)
           return scan_internet_response
@@ -340,13 +340,13 @@ module CSI
 
         begin
           params = { 
-            :key => api_key
+            key: api_key
           }
 
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/scan/status/#{scan_id}",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/scan/status/#{scan_id}",
+            params: params
           )
           scan_status_result = JSON.parse(response)
           return scan_status_result
@@ -365,11 +365,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/services",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/services",
+            params: params
           )
           services_shodan_crawls = JSON.parse(response)
           return services_shodan_crawls
@@ -395,15 +395,15 @@ module CSI
 
         begin
           params = { 
-            :key => api_key,
-            :page => page,
-            :sort => sort.to_s,
-            :order => order.to_s
+            key: api_key,
+            page: page,
+            sort: sort.to_s,
+            order: order.to_s
           }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/query",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/query",
+            params: params
           )
           services_shodan_crawls = JSON.parse(response)
           return services_shodan_crawls
@@ -426,17 +426,17 @@ module CSI
         begin
           if result_count
             params = {
-              :key => api_key,
-              :size => result_count
+              key: api_key,
+              size: result_count
             }
           else
-            params = { :key => api_key }
+            params = { key: api_key }
           end
 
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "shodan/query/tags",
-            :params => params
+            api_key: api_key, 
+            rest_call: "shodan/query/tags",
+            params: params
           )
           most_popular_tags_result = JSON.parse(response)
           return most_popular_tags_result
@@ -455,11 +455,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "account/profile",
-            :params => params
+            api_key: api_key, 
+            rest_call: "account/profile",
+            params: params
           )
           my_profile = JSON.parse(response)
           return my_profile
@@ -478,11 +478,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "tools/myip",
-            :params => params
+            api_key: api_key, 
+            rest_call: "tools/myip",
+            params: params
           )
           my_pub_ip = response
           return my_pub_ip
@@ -501,11 +501,11 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         begin
-          params = { :key => api_key }
+          params = { key: api_key }
           response = shodan_rest_call(
-            :api_key => api_key, 
-            :rest_call => "api-info",
-            :params => params
+            api_key: api_key, 
+            rest_call: "api-info",
+            params: params
           )
           api_info = JSON.parse(response)
           return api_info
@@ -527,12 +527,12 @@ module CSI
 
         begin
           honeypot_probability_scores = []
-          params = { :key => api_key }
+          params = { key: api_key }
           target_ips.each do |target_ip|
             response = shodan_rest_call(
-              :api_key => api_key, 
-              :rest_call => "labs/honeyscore/#{target_ip}",
-              :params => params
+              api_key: api_key, 
+              rest_call: "labs/honeyscore/#{target_ip}",
+              params: params
             )
             honeypot_probability_scores.push("#{target_ip} => #{response}")
           end

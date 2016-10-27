@@ -31,11 +31,11 @@ begin
       "#{Rainbow("csi").red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m"
     end
   ]
-  pry_obj.start(self, :prompt => prompt)
+  pry_obj.start(self, prompt: prompt)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
-      :browser_obj => $browser
+      browser_obj: $browser
     )
   end
 end

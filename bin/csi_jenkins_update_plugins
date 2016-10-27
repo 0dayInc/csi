@@ -36,9 +36,9 @@ else
 end
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
-  :jenkins_ip => jenkins_ip,
-  :username => username,
-  :password => password
+  jenkins_ip: jenkins_ip,
+  username: username,
+  password: password
 )
 
 jenkins_obj.plugin.list_updates.keys.each do |plugin| 
@@ -52,4 +52,4 @@ end
 
 jenkins_obj.system.restart if restart_jenkins
 
-CSI::Plugins::Jenkins.disconnect(:jenkins_obj => jenkins_obj)
+CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)

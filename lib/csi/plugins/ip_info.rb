@@ -18,9 +18,9 @@ module CSI
 
         if IPAddress.valid?(ip)
           if proxy
-            rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest, :proxy => proxy)
+            rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: proxy)
           else
-            rest_client = CSI::Plugins::TransparentBrowser.open(:browser_type => :rest)
+            rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
           end
           ip_resp_str = rest_client.get("http://ipinfo.io/#{ip}")
           ip_resp_json = JSON.parse(ip_resp_str)
@@ -41,9 +41,9 @@ module CSI
 
         if IPAddress.valid?(ip_or_host)
           if proxy
-            ip_resp_json = ip_info_rest_call(:ip => ip_or_host, :proxy => proxy)
+            ip_resp_json = ip_info_rest_call(ip: ip_or_host, proxy: proxy)
           else
-            ip_resp_json = ip_info_rest_call(:ip => ip_or_host)
+            ip_resp_json = ip_info_rest_call(ip: ip_or_host)
           end
 
           return ip_resp_json
@@ -51,7 +51,7 @@ module CSI
           host_resp_json = []
           Resolv::DNS.new.each_address(ip_or_host) do |ip| 
             host_resp_json.push(
-              ip_info_rest_call(:ip => ip)
+              ip_info_rest_call(ip: ip)
             )
           end
           if host_resp_json.length == 1

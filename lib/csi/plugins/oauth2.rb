@@ -30,7 +30,7 @@ module CSI
         # Holy omg...strip out the ugly tail of this stuff.
         readable_oauth2_token = Base64.decode64(oauth2_token).match(/^(.*?)\]\}/).to_s
         
-        json_oauth2_token_body = JSON.parse(readable_oauth2_token.split(/^\{(.*?)\}/)[-1], :symbolize_names => true)
+        json_oauth2_token_body = JSON.parse(readable_oauth2_token.split(/^\{(.*?)\}/)[-1], symbolize_names: true)
         return json_oauth2_token_body[key]
       end
 

@@ -249,7 +249,7 @@ module CSI
                 if report.status == "Failed"
                   @@logger.info("Report Generation for #{report.name} failed...re-generating now...")
                   # Re-generate report from pre-existing config.
-                  nsc_obj = generate_report_via_existing_config(:nsc_obj => nsc_obj, :config_id => report.config_id)          
+                  nsc_obj = generate_report_via_existing_config(nsc_obj: nsc_obj, config_id: report.config_id)          
                 end
 
                 report_hash = {}

@@ -37,26 +37,26 @@ module CSI
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy,
-                  :with_tor => with_tor
+                  browser_type: browser_type,
+                  proxy: proxy,
+                  with_tor: with_tor
                 )
               else
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy
+                  browser_type: browser_type,
+                  proxy: proxy
                 )
               end
             else
               $browser = CSI::Plugins::TransparentBrowser.open(
-                :browser_type => browser_type
+                browser_type: browser_type
               )
             end
           end
 
         if $browser
           $browser.goto('https://www.youtube.com')
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
 
         rescue => e
@@ -74,10 +74,10 @@ module CSI
         q = opts[:q].to_s
 
         if $browser
-          $browser.text_field(:name => 'search_query').when_present.set(q)
-          $browser.button(:id => 'search-btn').when_present.click
+          $browser.text_field(name: 'search_query').when_present.set(q)
+          $browser.button(id: 'search-btn').when_present.click
           sleep 3 # Cough: <hack>
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
       end
 
@@ -85,7 +85,7 @@ module CSI
       # CSI::WWW::Youtube.close
       public
       def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -39,29 +39,29 @@ module CSI
           if username == ""  && password == ""
             if identity_file == ""
               jenkins_obj = JenkinsApi::Client.new(
-                :server_ip => jenkins_ip,
-                :server_port => port,
-                :follow_redirects => true,
-                :ssl => ssl_bool
+                server_ip: jenkins_ip,
+                server_port: port,
+                follow_redirects: true,
+                ssl: ssl_bool
               )
             else
               jenkins_obj = JenkinsApi::Client.new(
-                :server_ip => jenkins_ip,
-                :server_port => port,
-                :identity_file => identity_file,
-                :follow_redirects => true,
-                :ssl => ssl_bool
+                server_ip: jenkins_ip,
+                server_port: port,
+                identity_file: identity_file,
+                follow_redirects: true,
+                ssl: ssl_bool
               )
             end
           else
             password = CSI::Plugins::AuthenticationHelper.mask_password if password == ""
             jenkins_obj = JenkinsApi::Client.new(
-              :server_ip => jenkins_ip,
-              :server_port => port,
-              :username => username,
-              :password => password,
-              :follow_redirects => true,
-              :ssl => ssl_bool
+              server_ip: jenkins_ip,
+              server_port: port,
+              username: username,
+              password: password,
+              follow_redirects: true,
+              ssl: ssl_bool
             )
           end
           jenkins_obj.system.wait_for_ready

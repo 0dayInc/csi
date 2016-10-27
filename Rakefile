@@ -5,8 +5,8 @@ require 'rdoc/task'
 
 RSpec::Core::RakeTask.new
 
-task :default => :spec
-task :test => :spec
+task default: :spec
+task test: :spec
 
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include("lib/**/*.rb")

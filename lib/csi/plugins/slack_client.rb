@@ -47,9 +47,9 @@ module CSI
 
         begin
           slack_obj.chat_postMessage(
-            :channel => channel, 
-            :text => message, 
-            :as_user => true
+            channel: channel, 
+            text: message, 
+            as_user: true
           )
 
           return slack_obj

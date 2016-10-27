@@ -37,26 +37,26 @@ module CSI
             if proxy
               if with_tor
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy,
-                  :with_tor => with_tor
+                  browser_type: browser_type,
+                  proxy: proxy,
+                  with_tor: with_tor
                 )
               else
                 $browser = CSI::Plugins::TransparentBrowser.open(
-                  :browser_type => browser_type,
-                  :proxy => proxy
+                  browser_type: browser_type,
+                  proxy: proxy
                 )
               end
             else
               $browser = CSI::Plugins::TransparentBrowser.open(
-                :browser_type => browser_type
+                browser_type: browser_type
               )
             end
           end
 
           if $browser
             $browser.goto('https://pastebin.com')
-            CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+            CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
           end
 
         rescue => e
@@ -79,7 +79,7 @@ module CSI
         }
         if $browser
           $browser.goto('http://lw4ipk5choakk5ze.onion')
-          CSI::Plugins::TransparentBrowser.linkout(:browser_obj => $browser)
+          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
       end
 
@@ -87,7 +87,7 @@ module CSI
       # CSI::WWW::Pastebin.close
       public
       def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(:browser_obj => $browser)
+        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

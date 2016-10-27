@@ -58,12 +58,12 @@ test_cases = [
 ]
 
 
-$results_hash = { :data => [] }
+$results_hash = { data: [] }
 mutex = Mutex.new
 
-CSI::Plugins::ThreadPool.fill(:enumerable_array => test_cases, :max_threads => max_threads) do |test_case|
+CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_threads) do |test_case|
   begin
-    sca_arr = CSI::SCAPM.const_get(test_case.to_s.scrub).scan(:dir_path => dir_path, :git_repo_root_uri => git_repo_root_uri) 
+    sca_arr = CSI::SCAPM.const_get(test_case.to_s.scrub).scan(dir_path: dir_path, git_repo_root_uri: git_repo_root_uri) 
     sca_arr.each do |hash_line|
       mutex.synchronize do
         # TODO: instead of using a hash, perist JSON to NOSQL DB in favor of creating a flat JSON file
@@ -79,8 +79,8 @@ end
 print "#{0} Generating Report..."
 # TODO: instead of passing results hash, pass filename of NOSQL DB (Persisted LokiJS?)
 CSI::Reports::SCAPM.generate(
-  :dir_path => dir_path, 
-  :results_hash => $results_hash
+  dir_path: dir_path, 
+  results_hash: $results_hash
 )
 puts "complete."
 
