@@ -3,13 +3,13 @@ require 'mongo'
 
 module CSI
   module Plugins
-    # This plugin needs additional development, however, its intent is to be 
+    # This plugin needs additional development, however, its intent is to be
     # used as a data access object for interacting w/ MongoDB
     module DAOMongo
       # Supported Method Parameters::
       # CSI::Plugins::DAOMongo.connect(
-      #   :host => 'optional host or IP defaults to 127.0.0.1', 
-      #   :port => 'optional port defaults to 27017', 
+      #   :host => 'optional host or IP defaults to 127.0.0.1',
+      #   :port => 'optional port defaults to 27017',
       #   :database => 'optional database name'
       # )
       public
@@ -29,7 +29,7 @@ module CSI
         end
 
         database = opts[:database].to_s.scrub
-        
+
         if opts[:database].nil?
           mongo_conn = Mongo::Client.new(["#{host}:#{port}"])
         else
@@ -82,7 +82,7 @@ module CSI
       def self.help
         puts "USAGE:
           mongo_conn = #{self}.connect(
-            :host => 'optional host or IP defaults to 127.0.0.1', 
+            :host => 'optional host or IP defaults to 127.0.0.1',
             :port => 'optional port defaults to 27017',
             :database => 'optional database name'
           )

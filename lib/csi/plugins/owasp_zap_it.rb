@@ -15,7 +15,7 @@ module CSI
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
-      private 
+      private
       def self.callback_when_pattern_in(opts={})
         file = opts[:file]
         pattern = opts[:pattern]
@@ -94,9 +94,9 @@ module CSI
             #zap_obj.start(:api_key => true)
             zap_obj.start
           end
-        
+
           callback_when_pattern_in(
-            file: @output_path, 
+            file: @output_path,
             pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
           )
 
@@ -118,11 +118,11 @@ module CSI
       public
       def self.spider(opts={})
         zap_obj = opts[:zap_obj]
-        
+
         begin
           zap_obj.spider.start
           callback_when_pattern_in(
-            file: @output_path, 
+            file: @output_path,
             pattern: 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
           )
 
@@ -140,11 +140,11 @@ module CSI
       public
       def self.active_scan(opts={})
         zap_obj = opts[:zap_obj]
-        
+
         begin
           zap_obj.ascan.start
           callback_when_pattern_in(
-            file: @output_path, 
+            file: @output_path,
             pattern: 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
           )
 
@@ -162,7 +162,7 @@ module CSI
       public
       def self.alerts(opts={})
         zap_obj = opts[:zap_obj]
-        
+
         begin
           return zap_obj.alerts.view
         rescue => e
@@ -178,12 +178,12 @@ module CSI
       public
       def self.stop(opts={})
         zap_obj = opts[:zap_obj]
-        
+
         begin
           zap_obj.shutdown
 
           callback_when_pattern_in(
-            file: @output_path, 
+            file: @output_path,
             pattern: 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
           )
 

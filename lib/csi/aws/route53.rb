@@ -9,14 +9,14 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::AWS::Route53.connect(
-      #   region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',      
+      #   region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
       #   access_key_id: 'required - AWS Access Key ID',
       #   secret_access_key: 'required - AWS Secret Access Key',
       #   sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
       # )
       public
       def self.connect(opts = {})
-        region = opts[:region].to_s.scrub.chomp.strip      
+        region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
         secret_access_key = opts[:secret_access_key].to_s.scrub.chomp.strip
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
@@ -28,18 +28,18 @@ module CSI
               region: region,
               access_key_id: access_key_id,
               secret_access_key: secret_access_key
-            ) 
+            )
           else
             r53_obj = Aws::Route53::Client.new(
               region: region,
               access_key_id: access_key_id,
               secret_access_key: secret_access_key,
               session_token: sts_session_token
-            ) 
+            )
           end
           @@logger.info("complete.\n")
 
-          return r53_obj  
+          return r53_obj
         rescue => e
           return e.message
         end

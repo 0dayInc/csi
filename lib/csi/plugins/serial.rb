@@ -12,7 +12,7 @@ module CSI
 
       # Supported Method Parameters::
       # serial_obj = CSI::Plugins::Serial.connect(
-      #   :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)', 
+      #   :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)',
       #   :baud => 'optional (defaults to 9600)',
       #   :data_bits => 'optional (defaults to 8)',
       #   :stop_bits => 'optional (defaults to 1)',
@@ -39,33 +39,33 @@ module CSI
           else
             data_bits = opts[:data_bits].to_i
           end
-            
+
           if opts[:stop_bits].nil?
             stop_bits = 1
           else
             stop_bits = opts[:stop_bits].to_i
           end
-                
+
           if opts[:parity].nil?
             parity = SerialPort::NONE
           else
             parity = opts[:parity]
           end
-            
+
           if opts[:flow_control].nil?
             flow_control = SerialPort::HARD
           else
             flow_control = opts[:flow_control]
           end
-            
+
           serial_conn = SerialPort.new(
-            block_dev, 
-            baud, 
-            data_bits, 
-            stop_bits, 
-            parity, 
+            block_dev,
+            baud,
+            data_bits,
+            stop_bits,
+            parity,
             flow_control
-          ) 
+          )
 
           serial_obj = {}
           serial_obj[:serial_conn] = serial_conn
@@ -87,7 +87,7 @@ module CSI
       def self.init_session_thread(opts = {})
         begin
           serial_conn = opts[:serial_conn]
-        
+
           # Spin up a serial_obj session_thread
           session_thread = Thread.new do
             #serial_conn.flush # TODO: flush
@@ -99,7 +99,7 @@ module CSI
               @session_data << serial_conn.read.to_s.scrub
             end
           end
-    
+
           return session_thread
         rescue => e
           raise e
@@ -200,7 +200,7 @@ module CSI
         serial_conn = serial_obj[:serial_conn]
         session_thread = serial_obj[:session_thread]
         session_thread.terminate
-        serial_conn.close 
+        serial_conn.close
         serial_conn = nil
       end
 
@@ -219,7 +219,7 @@ module CSI
       def self.help
         puts "USAGE:
           serial_obj = #{self}.connect(
-            :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)', 
+            :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)',
             :baud => 'optional (defaults to 9600)',
             :data_bits => 'optional (defaults to 8)',
             :stop_bits => 'optional (defaults to 1)',

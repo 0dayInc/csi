@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return r53_domains_obj  
+          return r53_domains_obj
         rescue => e
           return e.message
         end

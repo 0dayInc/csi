@@ -11,9 +11,9 @@ module CSI
 
       # Supported Method Parameters::
       # beef_obj = CSI::Plugins::BeEF.login(
-      #   :beef_ip => 'required - host/ip of IBM Appscan Server', 
+      #   :beef_ip => 'required - host/ip of IBM Appscan Server',
       #   :beef_port => 'optional - port of BeEF server (defaults to 3000)',
-      #   :username => 'required - username', 
+      #   :username => 'required - username',
       #   :password => 'optional - password (will prompt if nil)'
       # )
       public
@@ -87,11 +87,11 @@ module CSI
         beef_port = beef_obj[:beef_port].to_i
         base_beef_api_uri = "http://#{beef_ip}:#{beef_port}/api".to_s.scrub
         api_token = beef_obj[:api_token]
-        
+
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
-          case http_method 
+          case http_method
             when :get
               response = rest_client.execute(
                 method: :get,
@@ -132,7 +132,7 @@ module CSI
         @@logger.info('Retrieving BeEF Hooks...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: 'hooks'
           )
 
@@ -157,7 +157,7 @@ module CSI
         @@logger.info('Retrieving Browser Info...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: "hooks/#{browser_session}"
           )
 
@@ -179,7 +179,7 @@ module CSI
         @@logger.info('Retrieving BeEF Logs...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: 'logs'
           )
 
@@ -204,7 +204,7 @@ module CSI
         @@logger.info('Retrieving Browser Logs...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: "logs/#{browser_session}"
           )
 
@@ -226,7 +226,7 @@ module CSI
         @@logger.info('Retrieving BeEF Modules...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: 'modules'
           )
 
@@ -251,7 +251,7 @@ module CSI
         @@logger.info('Retrieving Module Info...')
         begin
           response = beef_rest_call(
-            beef_obj: beef_obj, 
+            beef_obj: beef_obj,
             rest_call: "modules/#{module_id}"
           )
 
@@ -289,9 +289,9 @@ module CSI
       def self.help
         puts "USAGE:
           beef_obj = #{self}.login(
-            :beef_ip => 'required host/ip of Nexpose Console (server)', 
+            :beef_ip => 'required host/ip of Nexpose Console (server)',
             :beef_port => 'optional - port of BeEF server (defaults to 3000)',
-            :username => 'required username', 
+            :username => 'required username',
             :password => 'optional password (will prompt if nil)'
           )
 

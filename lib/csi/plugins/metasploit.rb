@@ -18,7 +18,7 @@ module CSI
       # )
       public
       def self.connect(opts={})
-        msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exists?(opts[:msfrpcd_yaml_conf]) 
+        msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exists?(opts[:msfrpcd_yaml_conf])
 
         if msfrpcd_yaml_conf
           print 'MSFRPCD YAML Conf Detected...'
@@ -33,14 +33,14 @@ module CSI
             port = 55553
           else
             port = opts[:port].to_i
-          end 
+          end
 
           username = opts[:username].to_s
           password = opts[:password].to_s
         end
-        
+
         begin
-          # TODO: Tune Token Timeout to a Higher Value to Ensure Other 
+          # TODO: Tune Token Timeout to a Higher Value to Ensure Other
           # Module Methods Can be Used w/o Needing to Refresh Token
           msfrpcd_conn = Msf::RPC::Client.new
           msfrpcd_conn.info[:host] = msfrpcd_host
@@ -101,9 +101,9 @@ module CSI
       # )
       public
       def self.show_auxiliary(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         auxiliary = msfrpcd_conn.call('module.auxiliary')
-  
+
         return auxiliary
       end
 
@@ -114,10 +114,10 @@ module CSI
       # )
       public
       def self.show_compatible_payloads(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s
         compat_payloads = msfrpcd_conn.call('module.compatible_payloads', msf_module)
-  
+
         return compat_payloads
       end
 
@@ -127,9 +127,9 @@ module CSI
       # )
       public
       def self.show_encoders(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         encoders = msfrpcd_conn.call('module.encoders')
-  
+
         return encoders
       end
 
@@ -139,9 +139,9 @@ module CSI
       # )
       public
       def self.show_exploits(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         exploits = msfrpcd_conn.call('module.exploits')
-  
+
         return exploits
       end
 
@@ -151,9 +151,9 @@ module CSI
       # )
       public
       def self.show_nops(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         nops = msfrpcd_conn.call('module.nops')
-  
+
         return nops
       end
 
@@ -165,11 +165,11 @@ module CSI
       # )
       public
       def self.show_options(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
-        msf_module_type = opts[:msf_module_type].to_s 
+        msfrpcd_conn = opts[:msfrpcd_conn]
+        msf_module_type = opts[:msf_module_type].to_s
         msf_module = opts[:msf_module].to_s
         options = msfrpcd_conn.call('module.options', msf_module_type, msf_module)
-  
+
         return options
       end
 
@@ -179,9 +179,9 @@ module CSI
       # )
       public
       def self.show_payloads(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         payloads = msfrpcd_conn.call('module.payloads')
-  
+
         return payloads
       end
 
@@ -191,9 +191,9 @@ module CSI
       # )
       public
       def self.show_post(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('module.post')
-  
+
         return post
       end
 
@@ -203,9 +203,9 @@ module CSI
       # )
       public
       def self.show_version(opts={})
-        msfrpcd_conn = opts[:msfrpcd_conn] 
+        msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('core.version')
-  
+
         return post
       end
 

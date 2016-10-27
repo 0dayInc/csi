@@ -181,7 +181,7 @@ module CSI
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
       # https://web.nvd.nist.gov/view/800-53/Rev4/impact?impactName=HIGH
-      # to CSI Exploit & Static Code Analysis Modules to 
+      # to CSI Exploit & Static Code Analysis Modules to
       # Determine the level of Testing Coverage w/ CSI.
       public
       def self.nist_800_53_requirements

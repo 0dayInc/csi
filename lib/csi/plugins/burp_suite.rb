@@ -20,7 +20,7 @@ module CSI
     # Assuming the build succeeds, copy the burpbuddy jar to your burpsuite root:
     # cp <path of burpsuite root>/burpbuddy/burp/target/burpbuddy-2.3.1.jar <path of burpsuite root>/
     # Lastly, you may need to enable setuid on the lsof command if you're running as a non-priv user:
-    # $ sudo chmod u+s /usr/bin/lsof 
+    # $ sudo chmod u+s /usr/bin/lsof
     # Also, please note - To date this plugin only supports targets that are DNS domains...no ip targets supported yet.
     module BurpSuite
       # Supported Method Parameters::
@@ -56,8 +56,8 @@ module CSI
 
           burp_obj = {}
           burp_obj[:pid] = Process.spawn(burp_cmd_string)
-        
-          # Wait until burp has completed initialized into a ready state 
+
+          # Wait until burp has completed initialized into a ready state
           lsof_cmd = "lsof -nP -p #{burp_obj[:pid]} | grep LISTEN"
           lsof_res = []
           while lsof_res.count < 3
@@ -65,7 +65,7 @@ module CSI
             lsof_res = `#{lsof_cmd}`.split("\n")
             #@@logger.info(lsof_res) # Debugging
           end
-   
+
           # Now assign our ephemeral ports to the proper burp_obj keys
           lsof_res.each do |localhost_alias|
             this_localhost = localhost_alias.strip.chomp.split("\s")[-2].split(':')[0]
@@ -134,7 +134,7 @@ module CSI
           burp_obj = opts[:burp_obj]
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
-    
+
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/disable", nil)
         rescue => e
           raise e.message
@@ -152,10 +152,10 @@ module CSI
           burp_obj = opts[:burp_obj]
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
-  
+
           sitemap = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/sitemap", {content_type: 'application/json; charset=UTF8'})
           json_sitemap = JSON.parse(sitemap)
- 
+
           return json_sitemap
         rescue => e
           raise e.message
@@ -176,7 +176,7 @@ module CSI
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
           target_url = opts[:target_url].to_s.scrub
           target_domain_name = URI(target_url).host.split('.')[-2..-1].join('.')
-      
+
           json_sitemap = self.get_current_sitemap(burp_obj: burp_obj)
           json_sitemap['data'].each do |site|
             if site['request']['host'] =~ /#{target_domain_name}/ # Accepts DNS name only - no IPs
@@ -231,7 +231,7 @@ module CSI
           burp_obj = opts[:burp_obj]
           cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
           burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
-  
+
           scan_issues = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scanissues")
           json_scan_issues = JSON.parse(scan_issues)
 

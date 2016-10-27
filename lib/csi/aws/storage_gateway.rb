@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return storage_gateway_obj  
+          return storage_gateway_obj
         rescue => e
           return e.message
         end

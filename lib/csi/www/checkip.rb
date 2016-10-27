@@ -7,7 +7,7 @@ module CSI
     module Checkip
       # Supported Method Parameters::
       # CSI::WWW::Checkip.open(
-      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
+      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest,
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
       # )
@@ -21,9 +21,9 @@ module CSI
             @@logger.info('leveraging existing $browser object...')
             @@logger.info("run #{self}.close to end session.")
           else
-            if opts[:browser_type].nil? 
+            if opts[:browser_type].nil?
               browser_type = :firefox
-            else          
+            else
               browser_type = opts[:browser_type]
             end
 
@@ -59,9 +59,9 @@ module CSI
 
           if $browser
             $browser.goto('http://checkip.amazonaws.com')
-            
+
             pub_ip = []
-            $browser.pres.each do |pre| 
+            $browser.pres.each do |pre|
               pub_ip.push(pre.text) if IPAddress.valid?(pre.text)
             end
 
@@ -96,7 +96,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
           #{self}.open(
-            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)', 
+            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
             :proxy => 'optional http(s)://proxy_host:port',
             :with_tor => 'optional boolean (defaults to false)'
           )

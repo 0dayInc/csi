@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return redshift_obj  
+          return redshift_obj
         rescue => e
           return e.message
         end

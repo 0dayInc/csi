@@ -4,29 +4,29 @@ require 'highline/import'
 
 module CSI
   module Plugins
-    # This plugin is used for sending email from multiple mail agents such as 
-    # corporate mail, yahoo, hotmail/live, and mail relays (spoofing).  Supports 
+    # This plugin is used for sending email from multiple mail agents such as
+    # corporate mail, yahoo, hotmail/live, and mail relays (spoofing).  Supports
     # sending multiple file attachments and works pretty well.
     module MailAgent
       # Supported Method Parameters::
       # parent_mail_agent(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :debug => true|false, 
-      #   :address => 'smtp server ip or domain', 
-      #   :port => 'smtp port', 
-      #   :tls_auto => true|false, 
-      #   :username => 'optional', 
+      #   },
+      #   :debug => true|false,
+      #   :address => 'smtp server ip or domain',
+      #   :port => 'smtp port',
+      #   :tls_auto => true|false,
+      #   :username => 'optional',
       #   :password => 'optional'
       # )
       @@logger = CSI::Plugins::CSILogger.create()
@@ -39,7 +39,7 @@ module CSI
         reply_to = opts[:reply_to]
         subject = opts[:subject]
         html_body = opts[:html_body]
-        txt_body = opts[:txt_body] # If HTML is NOT supported or desired 
+        txt_body = opts[:txt_body] # If HTML is NOT supported or desired
         authentication = opts[:authentication]
         attachments_hash = {}
         unless opts[:attachments_hash].nil?
@@ -47,7 +47,7 @@ module CSI
             attachments_hash[attachment_name] = File.binread(attachment_path)
           end
         end
-    
+
         debug = opts[:debug]
 
         address = opts[:address]
@@ -59,7 +59,7 @@ module CSI
         else
           password = opts[:password]
         end
-  
+
         if debug == true
           @@logger.debug("DEBUG ENABLED: from=>#{from.inspect}, to=>#{to.inspect}, cc=>#{cc.inspect}, bcc=>#{bcc.inspect}, subject=>#{subject.inspect}, html_body=>#{html_body.inspect}, txt_body=>#{txt_body.inspect}, attachments=>#{attachments_hash.inspect}, address=>#{address.inspect}, port=>#{port.inspect}, username=>#{username.inspect}, :enable_starttls_auto=>#{tls_auto.inspect}")
         end
@@ -89,20 +89,20 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::MailAgent.office365(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :username => 'required username', 
-      #   :password => 'optional (but will be prompted if not submitted)', 
+      #   },
+      #   :username => 'required username',
+      #   :password => 'optional (but will be prompted if not submitted)',
       #   :debug => true|false
       # )
       public
@@ -117,21 +117,21 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::MailAgent.gmail(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :username => 'required', 
+      #   },
+      #   :username => 'required',
       #   :password => 'optional (but will be prompted if not submitted)'
-      #   :debug => true|false 
+      #   :debug => true|false
       # )
       public
       def self.gmail(opts={})
@@ -144,19 +144,19 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::MailAgent.hotmail_n_live(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :username => 'required', 
+      #   },
+      #   :username => 'required',
       #   :password => 'optional (but will be prompted if not submitted)'
       #   :debug => true|false
       # )
@@ -171,19 +171,19 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::MailAgent.yahoo(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :username => 'required', 
+      #   },
+      #   :username => 'required',
       #   :password => 'optional (but will be prompted if not submitted)'
       #   :debug => true|false
       # )
@@ -198,32 +198,32 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::MailAgent.spoof(
-      #   :from => 'required', 
-      #   :to => 'required', 
-      #   :cc => 'optional', 
-      #   :bcc => 'optional', 
-      #   :reply_to => 'optional', 
-      #   :subject => 'optional', 
-      #   :html_body => 'optional', 
-      #   :txt_body => 'optional alternative to :html_body', 
+      #   :from => 'required',
+      #   :to => 'required',
+      #   :cc => 'optional',
+      #   :bcc => 'optional',
+      #   :reply_to => 'optional',
+      #   :subject => 'optional',
+      #   :html_body => 'optional',
+      #   :txt_body => 'optional alternative to :html_body',
       #   :attachments_hash => {
-      #     'attachment_name1.doc' => 'attachment file path 1', 
+      #     'attachment_name1.doc' => 'attachment file path 1',
       #     'attachment_name2.xls' => 'attachment file path 2'
-      #   }, 
-      #   :debug => true|false, 
-      #   :address => 'smtp server ip or domain', 
-      #   :port => 'smtp port', 
-      #   :tls_auto => true|false, 
-      #   :username => 'optional', 
+      #   },
+      #   :debug => true|false,
+      #   :address => 'smtp server ip or domain',
+      #   :port => 'smtp port',
+      #   :tls_auto => true|false,
+      #   :username => 'optional',
       #   :password => 'optional'
       # )
       public
       def self.spoof(opts={})
         # Spoof mail from known relay
         opts[:authentication] = :plain if opts[:authentication].nil?
-        parent_mail_agent(opts)        
+        parent_mail_agent(opts)
       end
-  
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -239,96 +239,96 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.office365(
-            :from => 'required', 
-            :to => 'required', 
-            :cc => 'optional', 
-            :bcc => 'optional', 
-            :reply_to => 'optional', 
-            :subject => 'optional', 
-            :html_body => 'optional', 
-            :txt_body => 'optional alternative to :html_body', 
+            :from => 'required',
+            :to => 'required',
+            :cc => 'optional',
+            :bcc => 'optional',
+            :reply_to => 'optional',
+            :subject => 'optional',
+            :html_body => 'optional',
+            :txt_body => 'optional alternative to :html_body',
             :attachments_hash => {
-              'attachment_name1.doc' => 'attachment file path 1', 
+              'attachment_name1.doc' => 'attachment file path 1',
               'attachment_name2.xls' => 'attachment file path 2'
-            }, 
-            :username => 'required domain\\username', 
-            :password => 'optional (but will be prompted if not submitted)', 
+            },
+            :username => 'required domain\\username',
+            :password => 'optional (but will be prompted if not submitted)',
             :debug => true|false
           )
 
           #{self}.gmail(
-            :from => 'required', 
-            :to => 'required', 
-            :cc => 'optional', 
-            :bcc => 'optional', 
-            :reply_to => 'optional', 
-            :subject => 'optional', 
-            :html_body => 'optional', 
-            :txt_body => 'optional alternative to :html_body', 
+            :from => 'required',
+            :to => 'required',
+            :cc => 'optional',
+            :bcc => 'optional',
+            :reply_to => 'optional',
+            :subject => 'optional',
+            :html_body => 'optional',
+            :txt_body => 'optional alternative to :html_body',
             :attachments_hash => {
-              'attachment_name1.doc' => 'attachment file path 1', 
+              'attachment_name1.doc' => 'attachment file path 1',
               'attachment_name2.xls' => 'attachment file path 2'
-            }, 
-            :username => 'required', 
+            },
+            :username => 'required',
             :password => 'optional (but will be prompted if not submitted)'
             :debug => true|false
           )
 
           #{self}.hotmail_n_live(
-            :from => 'required', 
-            :to => 'required', 
-            :cc => 'optional', 
-            :bcc => 'optional', 
-            :reply_to => 'optional', 
-            :subject => 'optional', 
-            :html_body => 'optional', 
-            :txt_body => 'optional alternative to :html_body', 
+            :from => 'required',
+            :to => 'required',
+            :cc => 'optional',
+            :bcc => 'optional',
+            :reply_to => 'optional',
+            :subject => 'optional',
+            :html_body => 'optional',
+            :txt_body => 'optional alternative to :html_body',
             :attachments_hash => {
-              'attachment_name1.doc' => 'attachment file path 1', 
+              'attachment_name1.doc' => 'attachment file path 1',
               'attachment_name2.xls' => 'attachment file path 2'
-            }, 
-            :username => 'required', 
+            },
+            :username => 'required',
             :password => 'optional (but will be prompted if not submitted)'
             :debug => true|false
           )
 
           #{self}.yahoo(
-            :from => 'required', 
-            :to => 'required', 
-            :cc => 'optional', 
-            :bcc => 'optional', 
-            :reply_to => 'optional', 
-            :subject => 'optional', 
-            :html_body => 'optional', 
-            :txt_body => 'optional alternative to :html_body', 
+            :from => 'required',
+            :to => 'required',
+            :cc => 'optional',
+            :bcc => 'optional',
+            :reply_to => 'optional',
+            :subject => 'optional',
+            :html_body => 'optional',
+            :txt_body => 'optional alternative to :html_body',
             :attachments_hash => {
-              'attachment_name1.doc' => 'attachment file path 1', 
+              'attachment_name1.doc' => 'attachment file path 1',
               'attachment_name2.xls' => 'attachment file path 2'
-            }, 
-            :username => 'required', 
+            },
+            :username => 'required',
             :password => 'optional (but will be prompted if not submitted)'
             :debug => true|false
           )
 
           #{self}.spoof(
-            :from => 'required', 
-            :to => 'required', 
-            :cc => 'optional', 
-            :bcc => 'optional', 
-            :reply_to => 'optional', 
-            :subject => 'optional', 
-            :html_body => 'optional', 
-            :txt_body => 'optional alternative to :html_body', 
+            :from => 'required',
+            :to => 'required',
+            :cc => 'optional',
+            :bcc => 'optional',
+            :reply_to => 'optional',
+            :subject => 'optional',
+            :html_body => 'optional',
+            :txt_body => 'optional alternative to :html_body',
             :attachments_hash => {
-              'attachment_name1.doc' => 'attachment file path 1', 
+              'attachment_name1.doc' => 'attachment file path 1',
               'attachment_name2.xls' => 'attachment file path 2'
-            }, 
-            :debug => true|false, 
-            :address => 'smtp server ip or domain', 
-            :port => 'smtp port', 
-            :tls_auto => true|false, 
+            },
+            :debug => true|false,
+            :address => 'smtp server ip or domain',
+            :port => 'smtp port',
+            :tls_auto => true|false,
             :authentication => 'optional defaults to :plain - available :login, :plain, or :cram_md5',
-            :username => 'optional', 
+            :username => 'optional',
             :password => 'optional'
           )
 

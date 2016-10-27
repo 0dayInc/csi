@@ -3,7 +3,7 @@ require 'aws-sdk'
 
 module CSI
   module AWS
-    # This module provides a client for making API requests to Amazon Elastic File System. 
+    # This module provides a client for making API requests to Amazon Elastic File System.
     module EFS
       @@logger = CSI::Plugins::CSILogger.create()
 
@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return efs_obj  
+          return efs_obj
         rescue => e
           return e.message
         end

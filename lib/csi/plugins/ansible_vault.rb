@@ -18,7 +18,7 @@ module CSI
         vpassfile = opts[:vpassfile].to_s.scrub if File.exists?(opts[:vpassfile].to_s.scrub)
 
         begin
-          vault_cmd_resp = `sudo ansible-vault encrypt #{yaml_config} --vault-password-file #{vpassfile}` 
+          vault_cmd_resp = `sudo ansible-vault encrypt #{yaml_config} --vault-password-file #{vpassfile}`
 
           return vault_cmd_resp
         rescue => e

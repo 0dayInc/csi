@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return cognito_identity_prov_obj  
+          return cognito_identity_prov_obj
         rescue => e
           return e.message
         end

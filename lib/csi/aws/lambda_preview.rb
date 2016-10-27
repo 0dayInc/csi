@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return lambda_preview_obj  
+          return lambda_preview_obj
         rescue => e
           return e.message
         end

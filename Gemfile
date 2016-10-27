@@ -34,7 +34,7 @@ gem 'pdf-reader', '1.4.0'          # Parsing PDF Reports
 gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Access Object ***6/28/16
 gem 'pry', '0.10.4'                # More feature-filled irb alternative
 gem 'pony', '1.11'                 # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***12/15/15
-gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation 
+gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation
 gem 'rainbow', '2.1.0'             # Colorize csi_cli ;)
 gem 'rbvmomi', '1.8.2'             # Required for VMware-Fu ***12/15/15
 gem 'rest-client', '1.8.0'         # Required for REST API Testing ***6/28/16

@@ -10,10 +10,10 @@ OptionParser.new do |options|
   "
 
   options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
-  options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user| 
+  options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user|
     opts[:username] = user
   end
-  options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass| 
+  options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass|
     opts[:password] = pass
   end
 
@@ -25,7 +25,7 @@ end.parse!
 if opts.empty?
   puts `#{$0} --help`
   exit 1
-end 
+end
 
 jenkins_ip = opts[:jenkins_ip].to_s.scrub
 username = opts[:username]
@@ -42,7 +42,7 @@ jenkins_obj = CSI::Plugins::Jenkins.connect(
   password: password
 )
 
-jenkins_obj.plugin.list_updates.keys.each do |plugin| 
+jenkins_obj.plugin.list_updates.keys.each do |plugin|
   jenkins_obj.plugin.update(plugin)
 end
 

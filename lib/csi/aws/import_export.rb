@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return import_export_obj  
+          return import_export_obj
         rescue => e
           return e.message
         end

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return snowball_obj  
+          return snowball_obj
         rescue => e
           return e.message
         end

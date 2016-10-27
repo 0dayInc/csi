@@ -5,18 +5,18 @@ require 'socksify'
 
 module CSI
   module Plugins
-    # This plugin rocks. Chrome, Firefox, PhantomJS, IE, REST Client, 
-    # all from the comfort of one plugin.  Proxy support (e.g. Burp 
-    # Suite Professional) is completely available for all browsers 
-    # except for limited functionality within IE (IE has interesting 
-    # protections in place to prevent this).  This plugin also supports 
+    # This plugin rocks. Chrome, Firefox, PhantomJS, IE, REST Client,
+    # all from the comfort of one plugin.  Proxy support (e.g. Burp
+    # Suite Professional) is completely available for all browsers
+    # except for limited functionality within IE (IE has interesting
+    # protections in place to prevent this).  This plugin also supports
     # taking screenshots :)
     module TransparentBrowser
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.open(
-      #   :browser_type => :firefox|:chrome|:headless|:rest, 
+      #   :browser_type => :firefox|:chrome|:headless|:rest,
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
       # )
@@ -31,7 +31,7 @@ module CSI
           else
             with_tor = false
           end
-          
+
           # Let's crank up the default timeout from 30 seconds to 15 min for slow sites
           Watir.default_timeout = 900
 
@@ -43,7 +43,7 @@ module CSI
 
               if proxy
                 if with_tor
-                  this_profile['javascript.enabled'] = false  
+                  this_profile['javascript.enabled'] = false
                   this_profile.proxy = Selenium::WebDriver::Proxy.new(
                     socks: "#{URI(proxy).host}:#{URI(proxy).port}"
                   )
@@ -54,9 +54,9 @@ module CSI
                   )
                 end
               end
- 
+
               this_browser = Watir::Browser.new(
-                :firefox, 
+                :firefox,
                 profile: this_profile
               )
             when :chrome
@@ -67,15 +67,15 @@ module CSI
               if proxy
                 if with_tor
                   this_browser = Watir::Browser.new(
-                    :chrome, 
+                    :chrome,
                     switches: [
-                      "--proxy-server=#{proxy}", 
-                      "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'", 
+                      "--proxy-server=#{proxy}",
+                      "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
                     ]
                   )
                 else
                   this_browser = Watir::Browser.new(
-                    :chrome, 
+                    :chrome,
                     switches: ["--proxy-server=#{proxy}"]
                   )
                 end
@@ -87,10 +87,10 @@ module CSI
               if proxy
                 if with_tor
                   this_browser = Watir::Browser.new(
-                    :phantomjs, 
+                    :phantomjs,
                     args: [
                       '--proxy-type=socks5',
-                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
+                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
                       '--ignore-ssl-errors=true',
                       '--ssl-protocol=any',
                       '--web-security=false'
@@ -98,9 +98,9 @@ module CSI
                   )
                 else
                   this_browser = Watir::Browser.new(
-                    :phantomjs, 
+                    :phantomjs,
                     args: [
-                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}", 
+                      "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
                       '--ignore-ssl-errors=true',
                       '--ssl-protocol=any',
                       '--web-security=false'
@@ -110,7 +110,7 @@ module CSI
               else
                 this_browser = Watir::Browser.new(
                   :phantomjs,
-                  args: [ 
+                  args: [
                     '--ignore-ssl-errors=true',
                     '--ssl-protocol=any',
                     '--web-security=false'
@@ -127,7 +127,7 @@ module CSI
                   this_browser.proxy = proxy
                 end
               end
-              
+
           else
             puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
             return nil
@@ -176,8 +176,8 @@ module CSI
         end
 
         begin
-          query_string.each_char do |char| 
-            yield char 
+          query_string.each_char do |char|
+            yield char
             sleep Random.rand(rand_sleep_float)
           end
         rescue => e
@@ -203,7 +203,7 @@ module CSI
           return nil
         end
       end
-     
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
       public
       def self.authors
@@ -219,7 +219,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
           browser_obj1 = #{self}.open(
-            :browser_type => :firefox|:chrome|:headless|:rest, 
+            :browser_type => :firefox|:chrome|:headless|:rest,
             :proxy => 'optional http(s)://proxy_host:port',
             :with_tor => 'optional boolean (defaults to false)'
           )

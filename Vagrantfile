@@ -15,11 +15,11 @@ Vagrant.configure(API_VERSION) do |config|
     type: 'rsync',
     rsync__exclude: './etc/aws/vagrant.yaml',
     rsync__args: [
-      '--progress', 
-      '--verbose', 
-      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'", 
-      '--archive', 
-      '--delete', 
+      '--progress',
+      '--verbose',
+      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
+      '--archive',
+      '--delete',
       '-z'
     ]
   )
@@ -106,7 +106,7 @@ Vagrant.configure(API_VERSION) do |config|
     aws.tags = yaml_config['tags']
     # Hack for dealing w/ images that require a pty when using sudo and changing hostname
     aws.user_data = aws_init_script
-  
+
     override.ssh.username = yaml_config['ssh_username']
     override.ssh.private_key_path = yaml_config['ssh_private_key_path']
     override.dns.record_sets = yaml_config['record_sets']

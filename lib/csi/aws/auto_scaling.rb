@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return auto_scaling_obj  
+          return auto_scaling_obj
         rescue => e
           return e.message
         end

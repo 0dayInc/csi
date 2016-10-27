@@ -4,8 +4,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to detect connection references 
-    # within source code to determine if connections to RabbitMQ servers 
+    # SCAPM Module used to detect connection references
+    # within source code to determine if connections to RabbitMQ servers
     # are using guest accounts.
     module AMQPConnectAsGuest
 
@@ -48,11 +48,11 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}", 
-                test_case: self.nist_800_53_requirements, 
-                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }), 
-                line_no_and_contents: '', 
-                raw_content: str, 
+                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}",
+                test_case: self.nist_800_53_requirements,
+                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),
+                line_no_and_contents: '',
+                raw_content: str,
                 test_case_filter: HTMLEntities.new.encode(test_case_filter)
               }
 
@@ -65,13 +65,13 @@ module CSI
                 contents = line_contents_split[current_count + 1]
                 author = get_author(
                   repo_root: dir_path,
-                  from_line: line_no, 
-                  to_line: line_no, 
+                  from_line: line_no,
+                  to_line: line_no,
                   target_file: entry,
                   entry_beautified: entry_beautified
                 )
                 hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                  line_no: line_no, 
+                  line_no: line_no,
                   contents: contents,
                   author: author
                 })
@@ -108,10 +108,10 @@ module CSI
         to_line = opts[:to_line]
         target_file = opts[:target_file]
         entry_beautified = opts[:entry_beautified]
- 
-        # In order to get the original author 
-        # we need to query the original file 
-        # instead of the .JS-BEAUTIFIED file 
+
+        # In order to get the original author
+        # we need to query the original file
+        # instead of the .JS-BEAUTIFIED file
         if entry_beautified
           target_file.gsub!(/\.JS-BEAUTIFIED$/, '')
           target_file_line_length = `wc -l #{target_file}`.split.first.to_i
@@ -119,16 +119,16 @@ module CSI
 
           author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
             repo_root: repo_root,
-            from_line: 1, 
-            to_line: target_file_line_length, 
+            from_line: 1,
+            to_line: target_file_line_length,
             target_file: target_file
           ))
-        else       
+        else
           from_line, to_line = 1, 1 if from_line.to_i && to_line.to_i < 1
           author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
             repo_root: repo_root,
-            from_line: from_line, 
-            to_line: to_line, 
+            from_line: from_line,
+            to_line: to_line,
             target_file: target_file
           ))
         end
@@ -138,7 +138,7 @@ module CSI
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
       # https://web.nvd.nist.gov/view/800-53/Rev4/impact?impactName=HIGH
-      # to CSI Exploit & Static Code Anti-Pattern Matching Modules to 
+      # to CSI Exploit & Static Code Anti-Pattern Matching Modules to
       # Determine the level of Testing Coverage w/ CSI.
       public
       def self.nist_800_53_requirements

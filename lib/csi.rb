@@ -2,7 +2,7 @@
 require 'csi/version'
 
 # Thank you for choosing the Continuous Security Integrtion Framework!
-# Your Source for Source Code Analysis, Vulnerability Scanning, Exploitation, 
+# Your Source for Source Code Analysis, Vulnerability Scanning, Exploitation,
 # & General Security Testing in a Continuous Integration Environment
 module CSI
   STDOUT.sync = true # < Ensure that all print statements output progress in realtime
@@ -15,7 +15,7 @@ module CSI
   autoload :SCAPM, 'csi/scapm'
   autoload :WebApp, 'csi/web_app'
   autoload :WWW, 'csi/www'
-  
+
   # Display Usage for the CSI Framework ~
   public
   def self.help

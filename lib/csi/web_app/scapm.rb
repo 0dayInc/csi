@@ -13,13 +13,13 @@ module CSI
           idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
           # Returns OneLogin::RubySaml::Settings prepopulated with idp metadata
           settings = idp_metadata_parser.parse_remote('https://example.com/auth/saml2/idp/metadata')
- 
+
           settings.assertion_consumer_service_url = "http://#{request.host}/saml/consume"
           settings.issuer                         = "http://#{request.host}/saml/metadata"
           settings.name_identifier_format         = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
           # Optional for most SAML IdPs
           settings.authn_context = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
- 
+
           return settings
         end
 

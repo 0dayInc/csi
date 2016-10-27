@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return glacier_obj  
+          return glacier_obj
         rescue => e
           return e.message
         end

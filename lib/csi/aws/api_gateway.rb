@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return api_gateway_obj  
+          return api_gateway_obj
         rescue => e
           return e.message
         end

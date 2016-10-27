@@ -48,8 +48,8 @@ module CSI
 
         begin
           slack_obj.chat_postMessage(
-            channel: channel, 
-            text: message, 
+            channel: channel,
+            text: message,
             as_user: true
           )
 

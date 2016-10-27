@@ -6,9 +6,9 @@ require 'zlib'
 
 module CSI
   module Plugins
-    # This plugin is primarily used for interacting with files and directories 
-    # in addition to the capabilities already built within the File and FileUtils 
-    # built-in ruby classes (e.g. contains an easy to use recursion method that 
+    # This plugin is primarily used for interacting with files and directories
+    # in addition to the capabilities already built within the File and FileUtils
+    # built-in ruby classes (e.g. contains an easy to use recursion method that
     # uses yield to interact with each entry on the fly).
     module FileFu
       # Supported Method Parameters::
@@ -22,7 +22,7 @@ module CSI
         else
           dir_path = opts[:dir_path].to_s.scrub if File.directory?(opts[:dir_path].to_s.scrub)
           raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?
-        end 
+        end
         # Execute this like this:
         # recurse_dir(:dir_path => 'path to dir') {|entry| puts entry}
         Dir.glob("#{dir_path}/**/*").each {|entry| yield Shellwords.escape(entry) }

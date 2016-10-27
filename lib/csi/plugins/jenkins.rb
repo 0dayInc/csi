@@ -3,16 +3,16 @@ require 'jenkins_api_client'
 
 module CSI
   module Plugins
-    # This plugin is used to interact w/ the Jenkins API and can be 
+    # This plugin is used to interact w/ the Jenkins API and can be
     # used to carry out tasks when certain events occur w/in Jenkins.
     module Jenkins
       @@logger = CSI::Plugins::CSILogger.create()
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.connect(
-      #   :jenkins_ip => 'required host/ip of Jenkins Server', 
+      #   :jenkins_ip => 'required host/ip of Jenkins Server',
       #   :port => 'optional tcp port (defaults to 8080),
-      #   :username => 'optional username (functionality will be limited if ommitted)', 
+      #   :username => 'optional username (functionality will be limited if ommitted)',
       #   :password => 'optional password (functionality will be limited if ommitted)'
       #   :identity_file => 'optional ssh private key path to AuthN w/ Jenkins PREFERRED over username/password',
       #   :ssl => 'optional connect over TLS (defaults to true)
@@ -20,7 +20,7 @@ module CSI
       public
       def self.connect(opts = {})
         jenkins_ip = opts[:jenkins_ip]
-        if opts[:port] 
+        if opts[:port]
           port = opts[:port].to_i
         else
           port = 8080
@@ -81,7 +81,7 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
 
         @@logger.info('Retrieving a List of Git Repos from Every Job...')
- 
+
         git_repo_arr = []
 
         jenkins_obj.job.list_all_with_details.each do |job|
@@ -239,7 +239,7 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
 
-        jenkins_obj.job.list_all_with_details.each do |job| 
+        jenkins_obj.job.list_all_with_details.each do |job|
           job_name = job['name']
           if job_name =~ /#{regex}/
             @@logger.info("Disabling #{job_name}")
@@ -258,7 +258,7 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
 
-        jenkins_obj.job.list_all_with_details.each do |job| 
+        jenkins_obj.job.list_all_with_details.each do |job|
           job_name = job['name']
           if job_name =~ /#{regex}/
             @@logger.info("Deleting #{job_name}")
@@ -311,8 +311,8 @@ module CSI
           jenkins_obj = #{self}.connect(
             :jenkins_ip => 'required host/ip of Jenkins Server',
             :port => 'optional tcp port (defaults to 8080),
-            :username => 'optional username (functionality will be limited if ommitted)', 
-            :password => 'optional password (functionality will be limited if ommitted)', 
+            :username => 'optional username (functionality will be limited if ommitted)',
+            :password => 'optional password (functionality will be limited if ommitted)',
             :identity_file => 'optional ssh private key path to AuthN w/ Jenkins PREFERRED over username/password',
             :ssl => 'optional connect over TLS (defaults to true)
           )

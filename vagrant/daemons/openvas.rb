@@ -34,7 +34,7 @@ private def reload
 end
 
 private def stop
-  openvas = fork do 
+  openvas = fork do
     exec 'killall -9 gsad && killall -9 openvassd && killall -9 openvasmd'
   end
   Process.detach(openvas)
@@ -50,4 +50,4 @@ case action
 else
   puts `#{$0} --help`
   exit 1
-end  
+end

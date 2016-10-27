@@ -9,9 +9,9 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::OpenVASVulnScan.login(
-      #   :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)', 
+      #   :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)',
       #   :openvas_port => 'optional port of openvasmd (defaults to 9390)'
-      #   :username => 'required username', 
+      #   :username => 'required username',
       #   :password => 'optional password (will prompt if nil)'
       # )
       public
@@ -71,9 +71,9 @@ module CSI
       def self.help
         puts "USAGE:
           openvas_obj = #{self}.login(
-            :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)', 
+            :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)',
             :openvas_port => 'optional port of openvasmd (defaults to 9390)'
-            :username => 'required username', 
+            :username => 'required username',
             :password => 'optional password (will prompt if nil)'
           )
 

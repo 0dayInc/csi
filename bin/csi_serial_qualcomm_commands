@@ -13,4 +13,3 @@ session_data = CSI::Plugins::Serial.dump_session_data
 puts session_data
 
 CSI::Plugins::Serial.disconnect(serial_obj: serial_obj)
-

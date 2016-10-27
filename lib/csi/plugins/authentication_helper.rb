@@ -3,9 +3,9 @@ require 'highline/import'
 
 module CSI
   module Plugins
-    # This plugin is used to assist in masking a password when entered in via 
-    # STDIN to prevent would-be shoulder surfers from obtaining password 
-    # information.  This plugin is useful when demonstrating the functionality 
+    # This plugin is used to assist in masking a password when entered in via
+    # STDIN to prevent would-be shoulder surfers from obtaining password
+    # information.  This plugin is useful when demonstrating the functionality
     # of other SP plugins/modules.
     module AuthenticationHelper
       # Supported Method Parameters::
@@ -27,7 +27,7 @@ module CSI
       end
 
       # Display Usage for this Module
-      public 
+      public
       def self.help
         puts "USAGE:
           #{self}.mask_password

@@ -10,29 +10,29 @@ OptionParser.new do |options|
     #{$0} [opts]
   "
 
-  options.on('-rREGION', '--region=REGION', "<Optional - AWS STS Region (Defaults to 'us-west-1')>") do |sts_region| 
+  options.on('-rREGION', '--region=REGION', "<Optional - AWS STS Region (Defaults to 'us-west-1')>") do |sts_region|
     opts[:sts_region] = sts_region
   end
 
-  options.on('-aARN', '--sts_role_arn=ARN', '<Required - STS Role ARN>') do |sts_role_arn| 
+  options.on('-aARN', '--sts_role_arn=ARN', '<Required - STS Role ARN>') do |sts_role_arn|
     opts[:sts_role_arn] = sts_role_arn
   end
 
-  options.on('-nRNAME', '--sts_role_name=RNAME', '<Required - STS Role Name>') do |sts_role_name| 
+  options.on('-nRNAME', '--sts_role_name=RNAME', '<Required - STS Role Name>') do |sts_role_name|
     opts[:sts_role_name] = sts_role_name
   end
 
-  options.on('-eEXPIRES', '--sts_expiration=EXPIRES', '<Optional - STS Expiration (Defaults to 900 Seconds)>') do |sts_expiration| 
+  options.on('-eEXPIRES', '--sts_expiration=EXPIRES', '<Optional - STS Expiration (Defaults to 900 Seconds)>') do |sts_expiration|
     opts[:sts_expiration] = sts_expiration
   end
 
   options.on('-sBUCKET', '--s3_bucket=BUCKET', '<Required - AWS S3 Bucket Destination>') {|s3_bucket| opts[:s3_bucket] = s3_bucket }
 
-  options.on('-fFOLDER', '--s3_folder=FOLDER', '<Required - AWS S3 Folder Destinaiton>') do |s3_folder| 
+  options.on('-fFOLDER', '--s3_folder=FOLDER', '<Required - AWS S3 Folder Destinaiton>') do |s3_folder|
     opts[:s3_folder] = s3_folder
   end
 
-  options.on('-bBACKROOT', '--jenkins_thinBackup_root=BACKROOT', '<Optional - Jenkins thinBackup Root Folder (Defaults to /var/lib/jenkins/thinBackup)>') do |backup_root| 
+  options.on('-bBACKROOT', '--jenkins_thinBackup_root=BACKROOT', '<Optional - Jenkins thinBackup Root Folder (Defaults to /var/lib/jenkins/thinBackup)>') do |backup_root|
     opts[:backup_root] = backup_root
   end
 
@@ -41,7 +41,7 @@ end.parse!
 if opts.empty?
   puts `#{$0} --help`
   exit 1
-end 
+end
 
 if opts[:sts_region].nil?
   sts_region = 'us-west-1'
@@ -80,9 +80,9 @@ s3_buck_arr = []
 s3_obj_arr = []
 
 s3 = Aws::S3::Client.new(
-  region: 'us-west-1', 
-  access_key_id: credentials[:access_key_id], 
-  secret_access_key: credentials[:secret_access_key], 
+  region: 'us-west-1',
+  access_key_id: credentials[:access_key_id],
+  secret_access_key: credentials[:secret_access_key],
   session_token: credentials[:session_token]
 )
 
@@ -122,5 +122,5 @@ Dir.entries(backup_root).sort.each do |entry|
       puts 'complete.'
     end
   end
-end 
+end
 puts 'backup complete.'

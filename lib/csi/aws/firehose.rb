@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return firehose_obj  
+          return firehose_obj
         rescue => e
           return e.message
         end

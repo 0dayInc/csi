@@ -6,7 +6,7 @@ require 'uri'
 
 module CSI
   module Plugins
-    # This plugin is used for interacting w/ IBM Appscan Enterprise using 
+    # This plugin is used for interacting w/ IBM Appscan Enterprise using
     # the 'rest' browser type of CSI::Plugins::TransparentBrowser.
     # The IBM Appscan Spec in which this CSI module is based is located here:
     # http://www-01.ibm.com/support/knowledgecenter/SSW2NF_9.0.0/com.ibm.ase.help.doc/topics/c_web_services.html?lang=en
@@ -16,8 +16,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.login(
-      #   :appscan_ip => 'required host/ip of IBM Appscan Server', 
-      #   :username => 'required username', 
+      #   :appscan_ip => 'required host/ip of IBM Appscan Server',
+      #   :username => 'required username',
       #   :password => 'optional password (will prompt if nil)'
       # )
       public
@@ -92,11 +92,11 @@ module CSI
         appscan_cookie = appscan_obj[:cookie]
         base_appscan_api_uri = "https://#{appscan_ip}/ase/services".to_s.scrub
         retry_count = 3
-        
+
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
-          case http_method 
+          case http_method
             when :get
               response = rest_client.execute(
                 method: :get,
@@ -298,7 +298,7 @@ module CSI
       def self.get_folder_item_options(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_item_id = opts[:folder_item_id].to_i
-        # TODO: Discover why not all options are returned 
+        # TODO: Discover why not all options are returned
         # (e.g. esCOTAutoFormFillUserNameValue & esCOTAutoFormFillPasswordValue)
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{folder_item_id}/options")
         folder_item_options = {}
@@ -338,13 +338,13 @@ module CSI
         scan_name = opts[:scan_name].to_s.scrub
         scan_desc = opts[:scan_desc].to_s.scrub
         response = appscan_rest_call(
-          appscan_obj: appscan_obj, 
-          http_method: :post, 
+          appscan_obj: appscan_obj,
+          http_method: :post,
           rest_call: "folderitems?templateId=#{template_id}",
           http_body: "name=#{scan_name}&description=#{scan_desc}"
         )
 
-        # Return an Easy to Use Data Structure 
+        # Return an Easy to Use Data Structure
         # Instead of Leaving it to the End User
         # To Parse Out the XML on their own.
         begin
@@ -428,7 +428,7 @@ module CSI
               post_body << "value=#{URI.encode(url.strip.chomp)}"
             end
           when :ebCOTHttpAuthentication
-            if value == false 
+            if value == false
               post_body = 'value=0' # Don't require authentication
             else
               post_body = 'value=1' # Require authentication
@@ -442,25 +442,25 @@ module CSI
           when :help
             available_options = ''
             self.get_folder_item_options(
-              appscan_obj: appscan_obj, 
+              appscan_obj: appscan_obj,
               folder_item_id: folder_item_id
             )[:options].each {|url| available_options << "#{File.basename(url)}\n" }
-         
+
             return @@logger.info("Valid Options are:\n\n#{available_options}")
         else
           available_options = ''
           self.get_folder_item_options(
-            appscan_obj: appscan_obj, 
+            appscan_obj: appscan_obj,
             folder_item_id: folder_item_id
           )[:options].each {|url| available_options << "#{File.basename(url)}\n" }
-         
+
           return @@logger.error("Invalid option '#{option}' parameter passed.\nValid Options are:\n\n#{available_options}")
         end
 
         # Always Overwrite Existing Option Values
         response = appscan_rest_call(
-          appscan_obj: appscan_obj, 
-          http_method: :post, 
+          appscan_obj: appscan_obj,
+          http_method: :post,
           rest_call: "folderitems/#{folder_item_id}/options/#{option}?put=1",
           http_body: "#{post_body}"
         )
@@ -472,7 +472,7 @@ module CSI
 
         return scan_config
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.folder_item_scan_action(
       #   :appscan_obj => 'required appscan_obj returned from login method',
@@ -503,8 +503,8 @@ module CSI
 
             @@logger.info("Kicking Off Scan for Folder Item: #{folder_item_id}")
             response = appscan_rest_call(
-              appscan_obj: appscan_obj, 
-              http_method: :post, 
+              appscan_obj: appscan_obj,
+              http_method: :post,
               rest_call: "folderitems/#{folder_item_id}",
               http_body: 'action=2'
             )
@@ -522,22 +522,22 @@ module CSI
             @@logger.info("Scan Completed @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
           when :suspend
             response = appscan_rest_call(
-              appscan_obj: appscan_obj, 
-              http_method: :post, 
+              appscan_obj: appscan_obj,
+              http_method: :post,
               rest_call: "folderitems/#{folder_item_id}",
               http_body: 'action=3'
             )
           when :cancel
             response = appscan_rest_call(
-              appscan_obj: appscan_obj, 
-              http_method: :post, 
+              appscan_obj: appscan_obj,
+              http_method: :post,
               rest_call: "folderitems/#{folder_item_id}",
               http_body: 'action=4'
             )
           when :end
             response = appscan_rest_call(
-              appscan_obj: appscan_obj, 
-              http_method: :post, 
+              appscan_obj: appscan_obj,
+              http_method: :post,
               rest_call: "folderitems/#{folder_item_id}",
               http_body: 'action=5'
             )
@@ -562,14 +562,14 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_folder_item_id = opts[:report_folder_item_id].to_i
 
-        @@logger.info("Retrieving Report Collection ID: #{report_folder_item_id} - Available Report Pack Collection:") 
+        @@logger.info("Retrieving Report Collection ID: #{report_folder_item_id} - Available Report Pack Collection:")
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{report_folder_item_id}/reports")
 
         report_collection = {}
         report_collection[:raw_response] = response
         report_collection[:xml_response] = Nokogiri::XML(response)
         # Output full report pack collection
-        report_collection[:xml_response].xpath('//xmlns:report').each do |r| 
+        report_collection[:xml_response].xpath('//xmlns:report').each do |r|
           @@logger.info("  - #{r.xpath('xmlns:name').text}")
         end
 
@@ -606,7 +606,7 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          appscan_obj: appscan_obj, 
+          appscan_obj: appscan_obj,
           rest_call: "reports/#{report_id}/data?mode=all"
         )
 
@@ -628,7 +628,7 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          appscan_obj: appscan_obj, 
+          appscan_obj: appscan_obj,
           rest_call: "reports/#{report_id}/data?metadata=schema"
         )
 
@@ -650,7 +650,7 @@ module CSI
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
-          appscan_obj: appscan_obj, 
+          appscan_obj: appscan_obj,
           rest_call: "reports/#{report_id}/issues?mode=all"
         )
 
@@ -755,9 +755,9 @@ module CSI
           FileUtils.mkpath output_path
 
           # Download the top level report
-          get_report_data(appscan_obj: appscan_obj, report_link: h_browser.url + 
+          get_report_data(appscan_obj: appscan_obj, report_link: h_browser.url +
                           '&exportformat=pdf&exportdelivery=download', output_name: output_path + 'Top_Level.pdf')
-          
+
 =begin
           viewid = h_browser.url.split('&').last
           h_browser.links.each do |link|
@@ -766,7 +766,7 @@ module CSI
               @@logger.info("LINK URL: #{link.href}")
             end
           end
-=end          
+=end
         rescue => e
           @@logger.error("Error retrieving report for '#{scan_name}': #{e.message}")
         ensure
@@ -809,8 +809,8 @@ module CSI
       def self.help
         puts "USAGE:
           appscan_obj = #{self}.login(
-            :appscan_ip => 'required host/ip of Nexpose Console (server)', 
-            :username => 'required username', 
+            :appscan_ip => 'required host/ip of Nexpose Console (server)',
+            :username => 'required username',
             :password => 'optional password (will prompt if nil)'
           )
 
@@ -849,7 +849,7 @@ module CSI
             :appscan_obj => 'required appscan_obj returned from login method',
             :folder_id => 'required folder to retrieve'
           )
- 
+
           folder_item_options = #{self}.get_folder_item_options(
             :appscan_obj => 'required appscan_obj returned from login method',
             :folder_item_id => 'required folder item to retrieve'

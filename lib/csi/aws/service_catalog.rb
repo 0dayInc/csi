@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return service_catalog_obj  
+          return service_catalog_obj
         rescue => e
           return e.message
         end

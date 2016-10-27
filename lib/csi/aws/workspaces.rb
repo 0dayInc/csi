@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return workspaces_obj  
+          return workspaces_obj
         rescue => e
           return e.message
         end

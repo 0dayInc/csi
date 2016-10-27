@@ -7,14 +7,14 @@ module CSI
     module DAOPostgres
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.connect(
-      #   :host => 'required host or IP', 
-      #   :port => 'optional port (defaults to 5432)', 
-      #   :dbname => 'required database name', 
-      #   :user => 'required username', 
-      #   :password => 'optional (prompts if left blank)', 
-      #   :connect_timeout => 'optional (defaults to 60 seconds)', 
-      #   :options => 'optional postgres options', 
-      #   :tty => 'optional tty', 
+      #   :host => 'required host or IP',
+      #   :port => 'optional port (defaults to 5432)',
+      #   :dbname => 'required database name',
+      #   :user => 'required username',
+      #   :password => 'optional (prompts if left blank)',
+      #   :connect_timeout => 'optional (defaults to 60 seconds)',
+      #   :options => 'optional postgres options',
+      #   :tty => 'optional tty',
       #   :sslmode => :disable|:allow|:prefer|:require
       # )
       public
@@ -35,13 +35,13 @@ module CSI
         else
           password = opts[:password].to_s
         end
-        
+
         if opts[:connect_timeout].nil?
           connect_timeout = 60
         else
           connect_timeout = opts[:connect_timeout].to_i
-        end        
-  
+        end
+
         options = opts[:options]
         tty = opts[:tty]
 
@@ -83,8 +83,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.sql_statement(
-      #   :pg_conn => pg_conn, 
-      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1', 
+      #   :pg_conn => pg_conn,
+      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1',
       #   :statement_params => ['Active']
       # )
       public
@@ -132,8 +132,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.list_all_columns_by_table(
-      #   :pg_conn => pg_conn, 
-      #   :schema => 'required schema name', 
+      #   :pg_conn => pg_conn,
+      #   :schema => 'required schema name',
       #   :table_name => 'required table name'
       # )
       public
@@ -151,8 +151,8 @@ module CSI
         "
 
         res = sql_statement(
-          pg_conn: pg_conn, 
-          prepared_statement: prep_sql, 
+          pg_conn: pg_conn,
+          prepared_statement: prep_sql,
           statement_params: [table_schema, table_name]
         )
 
@@ -201,29 +201,29 @@ module CSI
       def self.help
         puts "USAGE:
           pg_conn = #{self}.connect(
-            :host => 'required host or IP', 
-            :port => 'optional port (defaults to 5432)', 
-            :dbname => 'required database name', 
-            :user => 'required username', 
-            :password => 'optional (prompts if left blank)', 
-            :connect_timeout => 'optional (defaults to 60 seconds)', 
-            :options => 'optional postgres options', 
-            :tty => 'optional tty', 
+            :host => 'required host or IP',
+            :port => 'optional port (defaults to 5432)',
+            :dbname => 'required database name',
+            :user => 'required username',
+            :password => 'optional (prompts if left blank)',
+            :connect_timeout => 'optional (defaults to 60 seconds)',
+            :options => 'optional postgres options',
+            :tty => 'optional tty',
             :sslmode => :disable|:allow|:prefer|:require
           )
 
           res = #{self}.sql_statement(
-            :pg_conn => pg_conn, 
-            :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1', 
+            :pg_conn => pg_conn,
+            :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1',
             :statement_params => ['Active']
           )
-     
+
           res = #{self}.list_all_columns_by_table(
-            :pg_conn => pg_conn, 
-            :schema => 'required schema name', 
+            :pg_conn => pg_conn,
+            :schema => 'required schema name',
             :table_name => 'required table name'
           )
-     
+
           #{self}.disconnect(:pg_conn => pg_conn)
 
           #{self}.authors

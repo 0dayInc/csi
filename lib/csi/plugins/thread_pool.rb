@@ -56,12 +56,12 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.fill(
-            :enumerable_array => 'required array for proper thread pool assignment', 
+            :enumerable_array => 'required array for proper thread pool assignment',
             :max_threads => 'optional number of threads in the thread pool (defaults to 6)',
             &block
           )
           Example: #{self}.fill(:enumerable_array => arr_ips, :max_threads => 99) do |ip|
-                     `nmap -Pn -p 22 #\{ip\}`  
+                     `nmap -Pn -p 22 #\{ip\}`
                    end
 
           #{self}.authors

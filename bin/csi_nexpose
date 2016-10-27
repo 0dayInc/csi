@@ -20,7 +20,7 @@ end.parse!
 if opts.empty?
   puts `#{$0} --help`
   exit 1
-end 
+end
 
 # Nexpose
 console_ip = opts[:console_ip].to_s.scrub
@@ -33,8 +33,8 @@ report_names = opts[:report_names].to_s.scrub
 # Login to Nexpose
 site_id = nil
 nsc_obj = CSI::Plugins::NexposeVulnScan.login(
-  console_ip: console_ip, 
-  username: console_username, 
+  console_ip: console_ip,
+  username: console_username,
   password: console_password
 )
 

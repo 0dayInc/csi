@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return ses_obj  
+          return ses_obj
         rescue => e
           return e.message
         end

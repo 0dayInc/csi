@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return direct_connect_obj  
+          return direct_connect_obj
         rescue => e
           return e.message
         end

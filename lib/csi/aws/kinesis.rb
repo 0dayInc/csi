@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return kinesis_obj  
+          return kinesis_obj
         rescue => e
           return e.message
         end

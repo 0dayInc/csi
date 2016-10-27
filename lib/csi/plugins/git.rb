@@ -5,15 +5,15 @@ require 'shellwords'
 
 module CSI
   module Plugins
-    # Used primarily in the past to clone local repos and generate an 
-    # html diff to be sent via email (deprecated).  In the future this 
+    # Used primarily in the past to clone local repos and generate an
+    # html diff to be sent via email (deprecated).  In the future this
     # plugin may be used to expand upon capabilities required w/ Git.
     module Git
       @@logger = CSI::Plugins::CSILogger.create()
       # Supported Method Parameters::
       # CSI::Plugins::Git.gen_html_diff(
-      #   :repo => 'required git repo name', 
-      #   :branch => 'required git repo branch (e.g. master, develop, etc)', 
+      #   :repo => 'required git repo name',
+      #   :branch => 'required git repo branch (e.g. master, develop, etc)',
       #   :since => 'optional date, otherwise default to last pull'
       # )
       public
@@ -23,7 +23,7 @@ module CSI
         since_date = opts[:since]
 
         git_pull_output =  '<div style="background-color:#CCCCCC; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">'
-        if since_date 
+        if since_date
           git_pull_output << "<h3>#{git_repo_name}->#{git_repo_branch} Diff Summary Since #{since_date}</h3>"
           git_entity = HTMLEntities.new.encode(`git log --since #{since_date} --stat-width=65535 --graph`.to_s.scrub)
         else
@@ -42,8 +42,8 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::Git.get_author_by_line_range(
       #   :repo_root => 'optional path to git repo root (defaults to ".")'
-      #   :from_line => 'required line number to start in range', 
-      #   :to_line => 'required line number to stop in range', 
+      #   :from_line => 'required line number to start in range',
+      #   :to_line => 'required line number to stop in range',
       #   :target_file => 'require file in which line range is queried'
       # )
       public
@@ -65,7 +65,7 @@ module CSI
         end
       end
 
-      
+
       # Supported Method Parameters::
       # CSI::Plugins::Git.dump_all_repo_branches(
       #   :git_url => 'required git repo url'
@@ -93,15 +93,15 @@ module CSI
       def self.help
         puts %Q{USAGE:
           git_html_resp = #{self}.gen_html_diff(
-            :repo => 'required git repo name', 
-            :branch => 'required git repo branch (e.g. master, develop, etc)', 
+            :repo => 'required git repo name',
+            :branch => 'required git repo branch (e.g. master, develop, etc)',
             :since => 'optional date, otherwise default to last pull'
           )
 
           author = #{self}.get_author_by_line_range(
             :repo_root => 'optional path to git repo root (defaults to ".")'
-            :from_line => 'required line number to start in range', 
-            :to_line => 'required line number to stop in range', 
+            :from_line => 'required line number to start in range',
+            :to_line => 'required line number to stop in range',
             :target_file => 'require file in which line range is queried'
           )
 

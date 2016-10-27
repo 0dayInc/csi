@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return directory_service_obj  
+          return directory_service_obj
         rescue => e
           return e.message
         end

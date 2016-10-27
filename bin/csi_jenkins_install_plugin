@@ -11,15 +11,15 @@ OptionParser.new do |options|
 
   options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') {|s| opts[:jenkins_ip] = s }
 
-  options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user| 
+  options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user|
     opts[:username] = user
   end
 
-  options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass| 
+  options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass|
     opts[:password] = pass
   end
 
-  options.on('-pPLUGIN', '--plugin=PLUGIN', '<Required - Comma-Delimited List of Jenkins Plugins to Install>') do |plugins| 
+  options.on('-pPLUGIN', '--plugin=PLUGIN', '<Required - Comma-Delimited List of Jenkins Plugins to Install>') do |plugins|
     opts[:plugins] = plugins
   end
 
@@ -31,7 +31,7 @@ end.parse!
 if opts.empty?
   puts `#{$0} --help`
   exit 1
-end 
+end
 
 jenkins_ip = opts[:jenkins_ip].to_s.scrub
 username = opts[:username]

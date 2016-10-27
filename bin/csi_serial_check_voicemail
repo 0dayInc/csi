@@ -9,10 +9,10 @@ OptionParser.new do |options|
     #{$0} [opts]
   "
 
-  options.on('-vNUM', '--voicemail_num=num', '<Required - Number to Voicemail Service>') do |num| 
+  options.on('-vNUM', '--voicemail_num=num', '<Required - Number to Voicemail Service>') do |num|
     opts[:voicemail_num] = num
   end
-  options.on('-pPIN', '--voicemail_pin=PIN', '<Optional - Voicemail Pin (Prompts if Ommitted>') do |pin| 
+  options.on('-pPIN', '--voicemail_pin=PIN', '<Optional - Voicemail Pin (Prompts if Ommitted>') do |pin|
     opts[:voicemail_pin] = pin
   end
 end.parse!
@@ -20,7 +20,7 @@ end.parse!
 if opts.empty?
   puts `#{$0} --help`
   exit 1
-end 
+end
 
 voicemail_num = opts[:voicemail_num].to_s.scrub.strip.chomp.gsub('-', '').gsub('.', '').to_i
 
@@ -63,6 +63,3 @@ puts session_data
 puts '~'*200
 
 CSI::Plugins::Serial.disconnect(serial_obj: serial_obj)
-
-
-

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return game_lift_obj  
+          return game_lift_obj
         rescue => e
           return e.message
         end

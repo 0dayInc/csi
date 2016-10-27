@@ -32,11 +32,11 @@ module CSI
         http_body = opts[:http_body].to_s.scrub
         base_shodan_api_uri = 'https://api.shodan.io'
         api_key = opts[:api_key]
-        
+
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
-          case http_method 
+          case http_method
             when :get
               response = rest_client.execute(
                 method: :get,
@@ -93,7 +93,7 @@ module CSI
           target_ips.each do |target_ip|
           begin
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: "shodan/host/#{target_ip}",
               params: params
             )
@@ -120,25 +120,25 @@ module CSI
 
         begin
           if facets
-            params = { 
+            params = {
               key: api_key,
               query: query,
               facets: facets
             }
 
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: 'shodan/host/count',
               params: params
             )
           else
-            params = { 
+            params = {
               key: api_key,
               query: query
             }
 
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: 'shodan/host/count',
               params: params
             )
@@ -165,25 +165,25 @@ module CSI
 
         begin
           if facets
-            params = { 
+            params = {
               key: api_key,
               query: query,
               facets: facets
             }
 
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: 'shodan/host/search',
               params: params
             )
           else
-            params = { 
+            params = {
               key: api_key,
               query: query
             }
 
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: 'shodan/host/search',
               params: params
             )
@@ -207,13 +207,13 @@ module CSI
         query = opts[:query].to_s.scrub
 
         begin
-          params = { 
+          params = {
             key: api_key,
             query: query
           }
 
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/host/search/tokens',
             params: params
           )
@@ -236,7 +236,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/ports',
             params: params
           )
@@ -259,7 +259,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/protocols',
             params: params
           )
@@ -286,7 +286,7 @@ module CSI
           http_body = "ips=#{target_ips}"
           response = shodan_rest_call(
             http_method: :post,
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/scan',
             params: params,
             http_body: http_body
@@ -316,7 +316,7 @@ module CSI
           http_body = "port=#{port}&protocol=#{protocol}"
           response = shodan_rest_call(
             http_method: :post,
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/scan/internet',
             params: params,
             http_body: http_body
@@ -340,12 +340,12 @@ module CSI
         scan_id = opts[:scan_id].to_s.scrub
 
         begin
-          params = { 
+          params = {
             key: api_key
           }
 
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: "shodan/scan/status/#{scan_id}",
             params: params
           )
@@ -368,7 +368,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/services',
             params: params
           )
@@ -395,14 +395,14 @@ module CSI
         order = opts[:order].to_sym
 
         begin
-          params = { 
+          params = {
             key: api_key,
             page: page,
             sort: sort.to_s,
             order: order.to_s
           }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/query',
             params: params
           )
@@ -435,7 +435,7 @@ module CSI
           end
 
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'shodan/query/tags',
             params: params
           )
@@ -458,7 +458,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'account/profile',
             params: params
           )
@@ -481,7 +481,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'tools/myip',
             params: params
           )
@@ -504,7 +504,7 @@ module CSI
         begin
           params = { key: api_key }
           response = shodan_rest_call(
-            api_key: api_key, 
+            api_key: api_key,
             rest_call: 'api-info',
             params: params
           )
@@ -531,7 +531,7 @@ module CSI
           params = { key: api_key }
           target_ips.each do |target_ip|
             response = shodan_rest_call(
-              api_key: api_key, 
+              api_key: api_key,
               rest_call: "labs/honeyscore/#{target_ip}",
               params: params
             )

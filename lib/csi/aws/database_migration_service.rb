@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return db_migration_svc_obj  
+          return db_migration_svc_obj
         rescue => e
           return e.message
         end

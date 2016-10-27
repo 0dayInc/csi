@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return elasticsearch_service_obj  
+          return elasticsearch_service_obj
         rescue => e
           return e.message
         end

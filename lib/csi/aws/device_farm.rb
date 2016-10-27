@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return device_farm_obj  
+          return device_farm_obj
         rescue => e
           return e.message
         end

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return elastic_load_balancing_obj  
+          return elastic_load_balancing_obj
         rescue => e
           return e.message
         end

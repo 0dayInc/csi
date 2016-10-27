@@ -28,10 +28,10 @@ module CSI
             role_arn: role_arn,
             role_session_name: role_session_name,
             duration_seconds: duration_seconds
-          ) 
+          )
           @@logger.info("complete.\n")
 
-          return sts_session.credentials  
+          return sts_session.credentials
         rescue => e
           return e.message
         end

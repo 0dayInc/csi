@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return cloud_watch_logs_obj  
+          return cloud_watch_logs_obj
         rescue => e
           return e.message
         end

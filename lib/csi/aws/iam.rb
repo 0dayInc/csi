@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return iam_obj  
+          return iam_obj
         rescue => e
           return e.message
         end

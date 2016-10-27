@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return kms_obj  
+          return kms_obj
         rescue => e
           return e.message
         end

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return swf_obj  
+          return swf_obj
         rescue => e
           return e.message
         end

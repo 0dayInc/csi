@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return ec2_obj  
+          return ec2_obj
         rescue => e
           return e.message
         end

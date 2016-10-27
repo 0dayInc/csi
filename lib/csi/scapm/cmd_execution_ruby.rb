@@ -4,7 +4,7 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify command 
+    # SCAPM Module used to identify command
     # execution residing within ruby source code.
     module CmdExecutionRuby
 
@@ -12,7 +12,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::SCAPM::CmdExecutionRuby(
-      #   :dir_path => 'optional path to dir defaults to .'      
+      #   :dir_path => 'optional path to dir defaults to .'
       #   :git_repo_root_uri => 'optional http uri of git repo scanned'
       # )
       public
@@ -23,7 +23,7 @@ module CSI
         logger_results = ''
 
         CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
-          if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && (File.extname(entry) == '.rb' || File.extname(entry) == '.rbw') 
+          if ( File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/ ) && (File.extname(entry) == '.rb' || File.extname(entry) == '.rbw')
             line_no_and_contents_arr = []
             filename_arr = []
             test_case_filter = %Q{
@@ -47,11 +47,11 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}", 
-                test_case: self.nist_800_53_requirements, 
-                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),  
-                line_no_and_contents: '', 
-                raw_content: str, 
+                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}",
+                test_case: self.nist_800_53_requirements,
+                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),
+                line_no_and_contents: '',
+                raw_content: str,
                 test_case_filter: HTMLEntities.new.encode(test_case_filter
               )}
 
@@ -64,17 +64,17 @@ module CSI
                 contents = line_contents_split[current_count + 1]
                 author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
                   repo_root: dir_path,
-                  from_line: line_no, 
-                  to_line: line_no, 
+                  from_line: line_no,
+                  to_line: line_no,
                   target_file: entry
                 ))
                 hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                  line_no: line_no, 
+                  line_no: line_no,
                   contents: contents,
                   author: author
                 })
 
-                current_count+=2 
+                current_count+=2
               end
               result_arr.push(hash_line)
               logger_results << 'x' # Catching bugs is good :)

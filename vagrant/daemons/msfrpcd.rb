@@ -52,4 +52,4 @@ case action
 else
   puts `#{$0} --help`
   exit 1
-end  
+end

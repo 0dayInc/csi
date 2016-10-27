@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return code_deploy_obj  
+          return code_deploy_obj
         rescue => e
           return e.message
         end

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return elasti_cache_obj  
+          return elasti_cache_obj
         rescue => e
           return e.message
         end

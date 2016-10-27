@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return elastic_transcoder_obj  
+          return elastic_transcoder_obj
         rescue => e
           return e.message
         end

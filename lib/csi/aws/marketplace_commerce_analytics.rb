@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return marketplace_commerce_analytics_obj  
+          return marketplace_commerce_analytics_obj
         rescue => e
           return e.message
         end

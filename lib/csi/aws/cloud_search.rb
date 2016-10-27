@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return cloud_search_obj  
+          return cloud_search_obj
         rescue => e
           return e.message
         end

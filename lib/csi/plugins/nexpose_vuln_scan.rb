@@ -10,8 +10,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.login(
-      #   :console_ip => 'required host/ip of Nexpose Console (server)', 
-      #   :username => 'required username', 
+      #   :console_ip => 'required host/ip of Nexpose Console (server)',
+      #   :username => 'required username',
       #   :password => 'optional password (will prompt if nil)'
       # )
       public
@@ -57,7 +57,7 @@ module CSI
         all_individual_site_assets_arr = []
         if site_id > -1
           @@logger.info("Listing All Assets from #{site_name} (site id: #{site_id}):")
-          nsc_obj.filter(Nexpose::Search::Field::SITE_ID, Nexpose::Search::Operator::IN, site_id).each do |asset| 
+          nsc_obj.filter(Nexpose::Search::Field::SITE_ID, Nexpose::Search::Operator::IN, site_id).each do |asset|
             @@logger.info("#{asset.id}|#{asset.ip}|#{asset.last_scan}")
             all_individual_site_assets_arr.push(asset.ip)
           end
@@ -79,7 +79,7 @@ module CSI
         nsc_obj = opts[:nsc_obj]
         site_name = opts[:site_name]
         assets = opts[:assets]
-       
+
         nsc_obj.list_sites.each do |site|
           if site.name == site_name
             # Load Site
@@ -143,7 +143,7 @@ module CSI
 
         if site_id > -1
           @@logger.info("Removing the Following Assets from #{site.name} (site id: #{site_id}) Older than #{days} Days:")
-          nsc_obj.filter(Nexpose::Search::Field::SCAN_DATE, Nexpose::Search::Operator::EARLIER_THAN, days).each do |asset| 
+          nsc_obj.filter(Nexpose::Search::Field::SCAN_DATE, Nexpose::Search::Operator::EARLIER_THAN, days).each do |asset|
             if asset.site_id == site_id
               @@logger.info("#{asset.id}|#{asset.ip}|#{asset.last_scan}")
               nsc_obj.delete_asset(asset.id)
@@ -201,7 +201,7 @@ module CSI
         else
           return @logger.error("Site name: #{site_name} does not exist as a site in Nexpose.  Please check your spelling and try again.")
         end
-   
+
         return nsc_obj
       end
 
@@ -220,7 +220,7 @@ module CSI
 
         return nsc_obj
       end
-  
+
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.download_recurring_report(
       #   :nsc_obj => 'required nsc_obj returned from login method',
@@ -245,12 +245,12 @@ module CSI
           nsc_obj.reports.each do |report|
             report_names.each do |requested_report|
               this_report_name = requested_report.to_s.strip.chomp.gsub(/"/, '')
-              if report.name == this_report_name 
+              if report.name == this_report_name
                 @@logger.info("Generating Recurring Report: #{report.name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}..Current Report Status: #{report.status}")
                 if report.status == 'Failed'
                   @@logger.info("Report Generation for #{report.name} failed...re-generating now...")
                   # Re-generate report from pre-existing config.
-                  nsc_obj = generate_report_via_existing_config(nsc_obj: nsc_obj, config_id: report.config_id)          
+                  nsc_obj = generate_report_via_existing_config(nsc_obj: nsc_obj, config_id: report.config_id)
                 end
 
                 report_hash = {}
@@ -266,7 +266,7 @@ module CSI
           @@logger.info("Total Reports Generated So Far: #{report_status_arr.count}...")
           sleep poll_interval # Sleep and check the status again...
         end
- 
+
         #@@logger.info(report_arr.inspect)
         #@@logger.info(report_status_arr.inspect)
         report_status_arr.each do |report_hash|
@@ -312,8 +312,8 @@ module CSI
       def self.help
         puts %Q{USAGE:
           nsc_obj = #{self}.login(
-            :console_ip => 'required host/ip of Nexpose Console (server)', 
-            :username => 'required username', 
+            :console_ip => 'required host/ip of Nexpose Console (server)',
+            :username => 'required username',
             :password => 'optional password (will prompt if nil)'
           )
           puts nsc_obj.public_methods"

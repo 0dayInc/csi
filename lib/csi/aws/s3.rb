@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return s3_obj  
+          return s3_obj
         rescue => e
           return e.message
         end
@@ -76,7 +76,7 @@ module CSI
           s3_obj = #{self}.connect(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
-            secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key', 
+            secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
           )
           puts s3_obj.public_methods

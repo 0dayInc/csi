@@ -4,8 +4,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify the versions 
-    # of dependent software within source repos to ensure patching 
+    # SCAPM Module used to identify the versions
+    # of dependent software within source repos to ensure patching
     # requirements for those dependencies can be met.
     module PomVersion
 
@@ -36,17 +36,17 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}", 
-                test_case: self.nist_800_53_requirements, 
-                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),  
-                line_no_and_contents: '', 
-                raw_content: str, 
+                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}",
+                test_case: self.nist_800_53_requirements,
+                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),
+                line_no_and_contents: '',
+                raw_content: str,
                 test_case_filter: HTMLEntities.new.encode(test_case_filter)
               }
 
               # COMMMENT: Must be a better way to implement this (regex is kinda funky)
               multi_line_contents_split = str.split("\n--\n")
-              multi_line_contents_split.each do |this_multi_line_content| 
+              multi_line_contents_split.each do |this_multi_line_content|
                 line_contents_split = this_multi_line_content.split(/^(\d{1,}):|^(\d{1,})-/)[1..-1]
                 line_no_count = line_contents_split.length # This should always be an even number
                 current_count = 0
@@ -55,12 +55,12 @@ module CSI
                   contents = line_contents_split[current_count + 1]
                   author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
                     repo_root: dir_path,
-                    from_line: line_no, 
-                    to_line: line_no, 
+                    from_line: line_no,
+                    to_line: line_no,
                     target_file: entry
                   ))
                   hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                    line_no: line_no, 
+                    line_no: line_no,
                     contents: contents,
                     author: author
                   })

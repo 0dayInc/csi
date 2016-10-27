@@ -3,7 +3,7 @@ require 'sqlite3'
 
 module CSI
   module Plugins
-    # This plugin is a data access object used for interacting w/ SQLite3 
+    # This plugin is a data access object used for interacting w/ SQLite3
     # databases.
     module DAOSQLite3
       # Supported Method Parameters::
@@ -19,8 +19,8 @@ module CSI
           # Be sure to enable foreign key support for each connection
           sql_enable_fk = 'PRAGMA foreign_keys = ?'
           res = self.sql_statement(
-            sqlite3_conn: sqlite3_conn, 
-            prepared_statement: sql_enable_fk, 
+            sqlite3_conn: sqlite3_conn,
+            prepared_statement: sql_enable_fk,
             statement_params: ['ON']
           )
           # TODO: better handling since sqlite3 gem always returns SQLite3::Database
@@ -53,8 +53,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.sql_statement(
-      #   :sqlite3_conn => sqlite3_conn, 
-      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?', 
+      #   :sqlite3_conn => sqlite3_conn,
+      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
       #   :statement_params => ['Active']
       # )
       public
@@ -100,7 +100,7 @@ module CSI
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
- 
+
         return authors
       end
 
@@ -111,11 +111,11 @@ module CSI
           sqlite3_conn = #{self}.connect(:dir_path => 'Required - Path of SQLite3 DB File')
 
           res = #{self}.sql_statement(
-            :sqlite3_conn => sqlite3_conn, 
-            :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?', 
+            :sqlite3_conn => sqlite3_conn,
+            :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
             :statement_params => ['Active']
           )
-     
+
           #{self}.disconnect(:sqlite3_conn => sqlite3_conn)
 
           #{self}.authors

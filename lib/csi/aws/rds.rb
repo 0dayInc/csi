@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return rds_obj  
+          return rds_obj
         rescue => e
           return e.message
         end

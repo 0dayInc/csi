@@ -7,8 +7,8 @@ module CSI
     module RabbitMQHole
       # Supported Method Parameters::
       # CSI::Plugins::RabbitMQHole.open(
-      #   :hostname => 'required', 
-      #   :username => 'optional', 
+      #   :hostname => 'required',
+      #   :username => 'optional',
       #   :password => 'optional'
       # )
       public
@@ -46,8 +46,8 @@ module CSI
       def self.help
         puts %Q{USAGE:
           amqp_conn1 = #{self}.open(
-            :hostname => 'required', 
-            :username => 'optional', 
+            :hostname => 'required',
+            :username => 'optional',
             :password => 'optional'
           )
 

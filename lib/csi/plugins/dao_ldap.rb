@@ -7,13 +7,13 @@ module CSI
     module DAOLDAP
       # Supported Method Parameters::
       # CSI::Plugins::DAOLDAP.connect(
-      #   :host => 'required host or IP', 
-      #   :port => 'optional port (defaults to 636)', 
+      #   :host => 'required host or IP',
+      #   :port => 'optional port (defaults to 636)',
       #   :base => 'required ldap base to search from (e.g. dc=domain,dc=com)'
       #   :encryption => 'optional parameter to protect communication in transit, :simple_tls OR :start_tls'
       #   :auth_method => 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
-      #   :username => 'required username (e.g. jake.hoopes@gmail.com)', 
-      #   :password => 'optional (prompts if left blank)', 
+      #   :username => 'required username (e.g. jake.hoopes@gmail.com)',
+      #   :password => 'optional (prompts if left blank)',
       # )
       public
       def self.connect(opts = {})
@@ -30,7 +30,7 @@ module CSI
         else
           password = opts[:password].to_s
         end
-        
+
         begin
           if encryption
             ldap_obj = Net::LDAP.new(
@@ -41,7 +41,7 @@ module CSI
               auth: {
                 method: auth_method,
                 username: username,
-                password: password,
+                password: password
               }
             )
           else
@@ -52,7 +52,7 @@ module CSI
               auth: {
                 method: auth_method,
                 username: username,
-                password: password,
+                password: password
               }
             )
           end
@@ -75,7 +75,7 @@ module CSI
         ldap_obj = opts[:ldap_obj]
         username = opts[:username].to_s.scrub
         treebase = ldap_obj.base
-         
+
         begin
           filter = Net::LDAP::Filter.eq('samaccountname', username)
           employee = ldap_obj.search(base: treebase, filter: filter)
@@ -115,13 +115,13 @@ module CSI
       def self.help
         puts "USAGE:
           ldap_obj = #{self}.connect(
-            :host => 'required host or IP', 
-            :port => 'required port', 
+            :host => 'required host or IP',
+            :port => 'required port',
             :base => 'required ldap base to search from (e.g. dc=domain,dc=com)',
             :encryption => 'optional parameter to protect communication in transit, :simple_tls OR :start_tls',
             :auth_method => 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
-            :username => 'required username', 
-            :password => 'optional (prompts if left blank)', 
+            :username => 'required username',
+            :password => 'optional (prompts if left blank)',
           )
 
           employee = #{self}.get_employee_by_username(

@@ -9,7 +9,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::WWW::Synack.open(
-      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest, 
+      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest,
       #   :proxy => 'optional http(s)://proxy_host:port',
       #   :with_tor => 'optional boolean (defaults to false)'
       # )
@@ -20,9 +20,9 @@ module CSI
             @@logger.info('leveraging existing $browser object...')
             @@logger.info("run #{self}.close to end session.")
           else
-            if opts[:browser_type].nil? 
+            if opts[:browser_type].nil?
               browser_type = :firefox
-            else          
+            else
               browser_type = opts[:browser_type]
             end
 
@@ -81,7 +81,7 @@ module CSI
 
             # decrypt yaml config file
             uiauthn_hash = CSI::Plugins::AnsibleVault.decrypt(
-              yaml_config: "#{yaml_config}", 
+              yaml_config: "#{yaml_config}",
               vpassfile: "#{vpassfile}"
             )
 
@@ -147,7 +147,7 @@ module CSI
       def self.help
         puts %Q{USAGE:
           #{self}.open(
-            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)', 
+            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
             :proxy => 'optional http(s)://proxy_host:port',
             :with_tor => 'optional boolean (defaults to false)'
           )

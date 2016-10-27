@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return iot_data_plane_obj  
+          return iot_data_plane_obj
         rescue => e
           return e.message
         end

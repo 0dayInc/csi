@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return dynamo_db_streams_obj  
+          return dynamo_db_streams_obj
         rescue => e
           return e.message
         end

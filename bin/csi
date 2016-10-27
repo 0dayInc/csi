@@ -20,7 +20,7 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  prompt = [ 
+  prompt = [
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
       prompt_arrow = Rainbow("\u00bb").green.to_s.scrub

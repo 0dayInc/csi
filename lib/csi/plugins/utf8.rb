@@ -18,7 +18,7 @@ module CSI
         begin
           utf8_arr = []
 
-          (from..to).each do |i| 
+          (from..to).each do |i|
             utf8_hash = {}
             this_hex = sprintf('%04x', i)
             this_dec = sprintf('%04d', i)
@@ -40,169 +40,169 @@ module CSI
       public
       def self.c0_controls_latin_basic
         utf8_hash = self.generate_by_range(from: 0, to: 127)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.c1_controls_latin_supplement
       public
       def self.c1_controls_latin_supplement
         utf8_hash = self.generate_by_range(from: 128, to: 255)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.latin_extended_a
       public
       def self.latin_extended_a
         utf8_hash = self.generate_by_range(from: 256, to: 383)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.latin_extended_b
       public
       def self.latin_extended_b
         utf8_hash = self.generate_by_range(from: 384, to: 591)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.spacing_modifiers
       public
       def self.spacing_modifiers
         utf8_hash = self.generate_by_range(from: 688, to: 767)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.diacritical_marks
       public
       def self.diacritical_marks
         utf8_hash = self.generate_by_range(from: 768, to: 879)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.greek_coptic
       public
       def self.greek_coptic
         utf8_hash = self.generate_by_range(from: 880, to: 1023)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.cyrillic_basic
       public
       def self.cyrillic_basic
         utf8_hash = self.generate_by_range(from: 1024, to: 1279)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.cyrillic_supplement
       public
       def self.cyrillic_supplement
         utf8_hash = self.generate_by_range(from: 1280, to: 1327)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.punctuation
       public
       def self.punctuation
         utf8_hash = self.generate_by_range(from: 8192, to: 8303)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.currency_symbols
       public
       def self.currency_symbols
         utf8_hash = self.generate_by_range(from: 8352, to: 8399)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.letterlike_symbols
       public
       def self.letterlike_symbols
         utf8_hash = self.generate_by_range(from: 8448, to: 8527)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.arrows
       public
       def self.arrows
         utf8_hash = self.generate_by_range(from: 8592, to: 8703)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.math_operators
       public
       def self.math_operators
         utf8_hash = self.generate_by_range(from: 8704, to: 8959)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.box_drawings
       public
       def self.box_drawings
         utf8_hash = self.generate_by_range(from: 9472, to: 9599)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.block_elements
       public
       def self.block_elements
         utf8_hash = self.generate_by_range(from: 9600, to: 9631)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.geometric_shapes
       public
       def self.geometric_shapes
         utf8_hash = self.generate_by_range(from: 9632, to: 9727)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.misc_symbols
       public
       def self.misc_symbols
         utf8_hash = self.generate_by_range(from: 9728, to: 9983)
-        
+
         return utf8_hash
       end
-     
+
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.dingbats
       public
       def self.dingbats
         utf8_hash = self.generate_by_range(from: 9984, to: 10175)
-        
+
         return utf8_hash
       end
 
@@ -250,7 +250,7 @@ module CSI
           #{self}.letterlike_symbols
 
           #{self}.arrows
- 
+
           #{self}.math_operators
 
           #{self}.box_drawings

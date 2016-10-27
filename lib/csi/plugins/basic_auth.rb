@@ -3,12 +3,12 @@ require 'base64'
 
 module CSI
   module Plugins
-    # This plugin Base64 encodes/decodes AuthN credentials for passing to a ''Basic'' 
+    # This plugin Base64 encodes/decodes AuthN credentials for passing to a ''Basic''
     # authorization HTTP header.
     module BasicAuth
       # Supported Method Parameters::
       # CSI::Plugins::BasicAuth.encode(
-      #   :username => 'optional username', 
+      #   :username => 'optional username',
       #   :password => 'optional password'
       # )
       public
@@ -19,7 +19,7 @@ module CSI
         @base64_encoded_auth = Base64.encode64(base64_str).to_s.chomp
         return @base64_encoded_auth
       end
-    
+
       # Supported Method Parameters::
       # CSI::Plugins::BasicAuth.decode(
       #   :base64_str => 'required base64 encoded string'
@@ -37,7 +37,7 @@ module CSI
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-       
+
         return authors
       end
 
@@ -46,12 +46,12 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.encode(
-            :username => 'optional username', 
+            :username => 'optional username',
             :password => 'optional password'
           )
 
           #{self}.decode(:base64_str => 'base64 encoded string')
- 
+
           #{self}.authors
         "
       end

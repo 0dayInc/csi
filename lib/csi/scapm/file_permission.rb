@@ -33,17 +33,17 @@ module CSI
             # Convert sed line output to grep for consistent JSON data consumption
             numbered_str = line_number_jumble_str.gsub(/(^\d{1,}|\n\d{1,})\n/, '\1:')
             str = HTMLEntities.new.encode(numbered_str)
-            
+
             if str.to_s.length > 0
               # If str length is >= 64 KB do not include results. (Due to Mongo Document Size Restrictions)
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64000
 
               hash_line = {
-                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}", 
-                test_case: self.nist_800_53_requirements, 
-                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),  
-                line_no_and_contents: '', 
-                raw_content: str, 
+                timestamp: "#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z')}",
+                test_case: self.nist_800_53_requirements,
+                filename: filename_arr.push({ git_repo_root_uri: git_repo_root_uri, entry: entry }),
+                line_no_and_contents: '',
+                raw_content: str,
                 test_case_filter: HTMLEntities.new.encode(test_case_filter)
               }
 
@@ -56,12 +56,12 @@ module CSI
                 contents = line_contents_split[current_count + 1]
                 author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
                   repo_root: dir_path,
-                  from_line: line_no, 
-                  to_line: line_no, 
+                  from_line: line_no,
+                  to_line: line_no,
                   target_file: entry
                 ))
                 hash_line[:line_no_and_contents] = line_no_and_contents_arr.push({
-                  line_no: line_no, 
+                  line_no: line_no,
                   contents: contents,
                   author: author
                 })

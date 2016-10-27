@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return cloud_search_domain_obj  
+          return cloud_search_domain_obj
         rescue => e
           return e.message
         end

@@ -39,7 +39,7 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return machine_learning_obj  
+          return machine_learning_obj
         rescue => e
           return e.message
         end
