@@ -47,7 +47,7 @@ case $csi_deploy_type in
 
         echo "Installing Tesseract OCR..."
         port install tesseract
-        cd /opt/local/share/tessdata && wget https://tesseract-ocr.googlecode.com/files/eng.traineddata.gz && gunzip eng.traineddata.gz && cd -
+        cd /opt/local/share/tessdata && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata && cd -
         ;;
       "Linux")
         apt-get --version > /dev/null 2>&1
