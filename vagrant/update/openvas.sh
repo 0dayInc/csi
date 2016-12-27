@@ -21,41 +21,42 @@ sudo apt-get install -y subversion autoconf bison devscripts quilt libpcre3-dev 
 
 # TODO: Stop smbd daemon and disable automatic startup following reboot
 
-sudo /bin/bash --login -c "cd /opt && svn --non-interactive --trust-server-cert checkout https://scm.wald.intevation.org/svn/openvas/trunk openvas && svn --non-interactive --trust-server-cert checkout https://scm.wald.intevation.org/svn/openvas-nvts"
+sudo /bin/bash --login -c 'ln -sf /run/redis/redis.sock /tmp/redis.sock'
+sudo /bin/bash --login -c 'cd /opt && svn --non-interactive --trust-server-cert checkout https://scm.wald.intevation.org/svn/openvas/trunk openvas && svn --non-interactive --trust-server-cert checkout https://scm.wald.intevation.org/svn/openvas-nvts'
 sudo /bin/bash --login -c "cd ${opernvas_root} && svn --non-interactive --trust-server-cert up && cd /opt/openvas-nvts && svn --non-interactive --trust-server-cert up"
 
 # Update OpenVas SMB
 printf "Updating OpenVas SMB..."
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-smb/build && cd ${openvas_root}/openvas-smb/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Update OpenVas Libraries First...
-printf "Updating OpenVas Libraries..."
+printf 'Updating OpenVas Libraries...'
 sudo /bin/bash --login -c "cd ${openvas_root}/openvas-libraries && mkdir -p ${openvas_root}/openvas-libraries/build && cd ${openvas_root}/openvas-libraries/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Update OpenVas Scanner
-printf "Updating OpenVas Scanner..."
+printf 'Updating OpenVas Scanner...'
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-scanner/build && cd ${openvas_root}/openvas-scanner/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Update OpenVas Manager
-printf "Updating OpenVas Manager..."
+printf 'Updating OpenVas Manager...'
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-manager/build && cd ${openvas_root}/openvas-manager/build && cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Update Greenbone Security Assistant
-printf "Updating Greenbone Security Assistant..."
+printf 'Updating Greenbone Security Assistant...'
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/gsa/build && cd ${openvas_root}/gsa/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Update OpenVas Cli
-printf "Updating OpenVas CLI..."
+printf 'Updating OpenVas CLI...'
 sudo /bin/bash --login -c "cd ${openvas_root} && mkdir -p ${openvas_root}/openvas-cli/build && cd ${openvas_root}/openvas-cli/build && sudo cmake -DCMAKE_C_COMPILER=/usr/local/libexec/ccc-analyzer .. && make && make doc && make doc-full && make install && make rebuild_cache && scan-build make"
-echo "complete."
+echo 'complete.'
 
 # Reload Libraries, Automatically set up default infrastructure for OpenVAS, Sync NVTs, & Start openvasmd/openvassd 
-sudo /bin/bash --login -c "killall -15 openvassd; killall -15 openvasmd; killall -15 gsad; ldconfig; openvas-nvt-sync"
+sudo /bin/bash --login -c 'killall -15 openvassd; killall -15 openvasmd; killall -15 gsad; ldconfig; openvas-nvt-sync'
 sleep 3
 sudo openvasmd --listen=127.0.0.1
 sleep 3
@@ -63,17 +64,17 @@ sudo openvassd
 wait_for_openvassd
 
 # Get SCAP/Cert Feeds, Initialize the openvasmd DB w/ latest NVTs, retrieve auto-generated password and display at end of deployment
-sudo /bin/bash --login -c "openvasmd --rebuild --progress && greenbone-scapdata-sync && greenbone-certdata-sync && gsad --listen=127.0.0.1 --port=9392 --http-only"
+sudo /bin/bash --login -c 'openvasmd --rebuild --progress && greenbone-scapdata-sync && greenbone-certdata-sync && gsad --listen=127.0.0.1 --port=9392 --http-only'
 
-printf "Checking OpenVas Setup..."
+printf 'Checking OpenVas Setup...'
 sudo /bin/bash --login -c "cd ${openvas_root} && ./tools/openvas-check-setup --v9 --server"
-echo "complete."
+echo 'complete.'
 
-echo "OpenVas Update Complete."
+echo 'OpenVas Update Complete.'
 
-printf "Restarting OpenVAS..."
+printf 'Restarting OpenVAS...'
 sudo systemctl stop openvas.service
 sleep 3
 sudo systemctl start openvas.service
-echo "complete."
+echo 'complete.'
 
