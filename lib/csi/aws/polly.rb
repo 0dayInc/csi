@@ -4,11 +4,11 @@ require 'aws-sdk'
 module CSI
   module AWS
     # This module provides a client for making API requests to Amazon Elastic Compute Cloud.
-    module Lex
+    module Polly
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # CSI::AWS::Lex.connect(
+      # CSI::AWS::Polly.connect(
       #   region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
       #   access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
       #   secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
@@ -24,15 +24,15 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info('Connecting to AWS Lex...')
+          @@logger.info('Connecting to AWS Polly...')
           if sts_session_token == ''
-            lex_obj = Aws::Lex::Client.new(
+            polly_obj = Aws::Polly::Client.new(
               region: region,
               access_key_id: access_key_id,
               secret_access_key: secret_access_key
             )
           else
-            lex_obj = Aws::Lex::Client.new(
+            polly_obj = Aws::Polly::Client.new(
               region: region,
               access_key_id: access_key_id,
               secret_access_key: secret_access_key,
@@ -41,26 +41,26 @@ module CSI
           end
           @@logger.info("complete.\n")
 
-          return lex_obj
+          return polly_obj
         rescue => e
           return e.message
         end
       end
 
       # Supported Method Parameters::
-      # CSI::AWS::Lex.disconnect(
-      #   lex_obj: 'required - lex_obj returned from #connect method'
+      # CSI::AWS::Polly.disconnect(
+      #   polly_obj: 'required - polly_obj returned from #connect method'
       # )
 
       public
 
       def self.disconnect(opts = {})
-        lex_obj = opts[:lex_obj]
+        polly_obj = opts[:polly_obj]
         @@logger.info('Disconnecting...')
-        lex_obj = nil
+        polly_obj = nil
         @@logger.info("complete.\n")
 
-        lex_obj
+        polly_obj
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -81,16 +81,16 @@ module CSI
 
       def self.help
         puts "USAGE:
-          lex_obj = #{self}.connect(
+          polly_obj = #{self}.connect(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
             access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
             secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
             sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
           )
-          puts lex_obj.public_methods
+          puts polly_obj.public_methods
 
           #{self}.disconnect(
-            lex_obj: 'required - lex_obj returned from #connect method'
+            polly_obj: 'required - polly_obj returned from #connect method'
           )
 
           #{self}.authors
