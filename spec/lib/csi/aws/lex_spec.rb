@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe CSI::AWS::Lex do
+describe CSI::AWS::Polly do
   it 'should display information for authors' do
-    authors_response = CSI::AWS::Lex
+    authors_response = CSI::AWS::Polly
     expect(authors_response).to respond_to :authors
   end
 
   it 'should display information for existing help method' do
-    help_response = CSI::AWS::Lex
+    help_response = CSI::AWS::Polly
     expect(help_response).to respond_to :help
   end
 end
