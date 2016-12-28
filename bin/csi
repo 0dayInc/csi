@@ -21,18 +21,18 @@ begin
 
   # Custom Main & Wait (Multi-Line) Prompts
   prompt = [
-    proc do |target_self, nest_level, pry|
-      line_no = pry.input_array.size
+    proc do |obj, nest_level, _|
+      line_no = _.input_array.size
       # prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
       prompt_arrow = Rainbow('>>>').green
       #"#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m".to_s.scrub
-      "\001#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \002".to_s.scrub
+      "\001\e[01;38;5;202m\002#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \001\e[0m\002".to_s.scrub
     end,
-    proc do |target_self, nest_level, pry|
-      line_no = pry.input_array.size
+    proc do |obj, nest_level, _|
+      line_no = _.input_array.size
       splat = Rainbow('*').yellow
       #"#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \e[0m".to_s.scrub
-      "\001#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} \002".to_s.scrub
+      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{obj} #{splat} ".to_s.scrub
     end
   ]
   pry_obj.start(self, prompt: prompt)
