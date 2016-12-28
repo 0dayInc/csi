@@ -63,6 +63,7 @@ module CSI
     autoload :Polly, 'csi/aws/polly'
     autoload :RDS, 'csi/aws/rds'
     autoload :Redshift, 'csi/aws/redshift'
+    autoload :Rekognition, 'csi/aws/rekognition'
     autoload :Route53, 'csi/aws/route53'
     autoload :Route53Domains, 'csi/aws/route53_domains'
     autoload :S3, 'csi/aws/s3'
