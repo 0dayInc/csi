@@ -853,8 +853,6 @@ module CSI
             str_resp = `#{$adb_path} shell input keyevent KEYCODE_BUTTON_15`
           when :gamepad_16
             str_resp = `#{$adb_path} shell input keyevent KEYCODE_BUTTON_16`
-          when :gamepad_16
-            str_resp = `#{$adb_path} shell input keyevent KEYCODE_BUTTON_16`
           when :gamepad_a
             str_resp = `#{$adb_path} shell input keyevent KEYCODE_BUTTON_A`
           when :gamepad_b
