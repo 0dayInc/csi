@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#frozen_string_literal: true
+# frozen_string_literal: true
 require 'csi'
 require 'pry'
 require 'rainbow'
@@ -23,8 +23,8 @@ begin
   prompt = [
     proc do |target_self, nest_level, pry|
       line_no = pry.input_array.size
-      #prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-      prompt_arrow = Rainbow(">>>").green
+      # prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
+      prompt_arrow = Rainbow('>>>').green
       "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} \e[0m".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
