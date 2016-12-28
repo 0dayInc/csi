@@ -10,7 +10,7 @@ gemspec
 gem 'activesupport', '4.2.6'       # Required to properly build csi via rake w/in ruby-2.3.0
 gem 'ai4r', '1.13'                 # Artifical Intelligence for Ruby
 gem 'authy', '2.6.2'               # MFA API Access into Authy service
-gem 'aws-sdk', '2.3.17'            # Amazon AWS SDK
+gem 'aws-sdk', '2.6.42'            # Amazon AWS SDK
 gem 'bettercap', '1.5.5'           # MITM framework
 gem 'brakeman', '3.3.2'            # Rails Security Scanner
 gem 'bson', '4.1.1'                # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/
