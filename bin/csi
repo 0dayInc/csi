@@ -27,8 +27,7 @@ begin
   
   prompt = [
     proc do |obj, nest_level, _|
-      line_no = _.input_array.size
-      "#{title}#{version}:#{nest_level}.#{line_no} #{arrow} ".to_s.scrub
+      "#{title}#{version}:#{nest_level} #{arrow} ".to_s.scrub
     end,
     proc do |obj, nest_level, _|
       "#{title}#{version}:#{nest_level} #{splat} ".to_s.scrub
