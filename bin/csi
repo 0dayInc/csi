@@ -20,16 +20,19 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
+  title = "\001#{Rainbow('csi').red.bright}\002"
+  version = "[v#{CSI::VERSION}]"
+  
   prompt = [
     proc do |obj, nest_level, _|
       line_no = _.input_array.size
       # prompt_arrow = Rainbow("\u00bb").green.to_s.scrub
-      prompt_arrow = Rainbow('>>>').green
-      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} ".to_s.scrub
+      arrow = "\001#{Rainbow('>>>').green}\002"
+      "#{title}#{version}:#{nest_level}.#{line_no} #{arrow} ".to_s.scrub
     end,
     proc do |obj, nest_level, _|
-      splat = Rainbow('*').yellow
-      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level} #{splat} ".to_s.scrub
+      splat = "\001#{Rainbow('*').yellow}\002"
+      "#{title}#{version}:#{nest_level} #{splat} ".to_s.scrub
     end
   ]
   pry_obj.start(self, prompt: prompt)
