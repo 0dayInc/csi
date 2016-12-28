@@ -28,9 +28,8 @@ begin
       "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{prompt_arrow} ".to_s.scrub
     end,
     proc do |obj, nest_level, _|
-      line_no = __LINE__
       splat = Rainbow('*').yellow
-      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level}.#{line_no} #{splat} ".to_s.scrub
+      "#{Rainbow('csi').red.bright}[v#{CSI::VERSION}]:#{nest_level} #{splat} ".to_s.scrub
     end
   ]
   pry_obj.start(self, prompt: prompt)
