@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 require 'csi'
-require 'rb-readline'
+require 'readline'
 require 'pry'
 require 'rainbow'
 
