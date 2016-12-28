@@ -36,7 +36,7 @@ gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Acc
 gem 'pony', '1.11'                 # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***12/15/15
 gem 'pry', git: 'https://github.com/tnorris/pry.git', branch: 'adds-duplicate-history' # More feature-filled irb alternative
 gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation
-gem 'rainbow', '2.1.0'             # Colorize csi_cli ;)
+gem 'rainbow', '2.2.1'             # Colorize csi_cli ;)
 gem 'rb-readline', require: false
 gem 'rbvmomi', '1.8.2'             # Required for VMware-Fu ***12/15/15
 gem 'rest-client', '1.8.0'         # Required for REST API Testing ***6/28/16
