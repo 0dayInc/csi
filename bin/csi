@@ -21,7 +21,7 @@ begin
 
   # Custom Main & Wait (Multi-Line) Prompts
   title = "\u0001#{Rainbow('csi').red.bright}\u0002"
-  version = "[v#{CSI::VERSION}]"
+  version = "\[v#{CSI::VERSION}\]"
   arrow = "\u0001#{Rainbow('>>>').green}\u0002"
   splat = "\u0001#{Rainbow('*').yellow}\u0002"
   
