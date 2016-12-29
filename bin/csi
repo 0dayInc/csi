@@ -24,7 +24,7 @@ begin
   version = "|v#{CSI::VERSION}|"
   arrow = "\u0001#{Rainbow('>>>').green}\u0002"
   splat = "\u0001#{Rainbow('***').yellow}\u0002"
-  
+
   prompt = [
     proc do |obj, nest_level, _|
       "#{title}#{version} #{arrow} ".to_s.scrub
