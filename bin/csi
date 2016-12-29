@@ -21,11 +21,9 @@ begin
 
   # Custom Main & Wait (Multi-Line) Prompts
   title = "\u0001#{Rainbow('csi').red.bright}\u0002"
-  version = '[v'
-  version << CSI::VERSION
-  version << ']'
-  arrow = "\u0001#{Rainbow('>>>').green}\u0003"
-  splat = "\u0001#{Rainbow('***').yellow}\u0003"
+  version = "|v#{CSI::VERSION}|"
+  arrow = "\u0001#{Rainbow('>>>').green}\u0002"
+  splat = "\u0001#{Rainbow('***').yellow}\u0002"
   
   prompt = [
     proc do |obj, nest_level, _|
