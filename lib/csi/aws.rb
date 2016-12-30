@@ -50,6 +50,7 @@ module CSI
     autoload :Firehose, 'csi/aws/firehose'
     autoload :GameLift, 'csi/aws/game_lift'
     autoload :Glacier, 'csi/aws/glacier'
+    autoload :Health, 'csi/aws/health'
     autoload :IAM, 'csi/aws/iam'
     autoload :ImportExport, 'csi/aws/import_export'
     autoload :Inspector, 'csi/aws/inspector'
