@@ -76,6 +76,7 @@ module CSI
     autoload :Route53Domains, 'csi/aws/route53_domains'
     autoload :S3, 'csi/aws/s3'
     autoload :SES, 'csi/aws/ses'
+    autoload :SMS, 'csi/aws/sms'
     autoload :SNS, 'csi/aws/sns'
     autoload :SQS, 'csi/aws/sqs'
     autoload :SSM, 'csi/aws/ssm'
