@@ -83,12 +83,16 @@ module CSI
     autoload :STS, 'csi/aws/sts'
     autoload :SWF, 'csi/aws/swf'
     autoload :ServiceCatalog, 'csi/aws/service_catalog'
+    autoload :Shield, 'csi/aws/shield'
     autoload :SimpleDB, 'csi/aws/simple_db'
     autoload :Snowball, 'csi/aws/snowball'
+    autoload :States, 'csi/aws/states'
     autoload :StorageGateway, 'csi/aws/storage_gateway'
     autoload :Support, 'csi/aws/support'
     autoload :WAF, 'csi/aws/waf'
+    autoload :WAFRegional, 'csi/aws/waf_regional'
     autoload :Workspaces, 'csi/aws/workspaces'
+    autoload :XRay, 'csi/aws/x_ray'
 
     # Display a List of Every CSI Plugin
 
