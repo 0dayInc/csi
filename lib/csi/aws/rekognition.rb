@@ -3,7 +3,7 @@ require 'aws-sdk'
 
 module CSI
   module AWS
-    # This module provides a client for making API requests to Amazon Elastic Compute Cloud.
+    # This module provides a client for making API requests to Amazon Rekognition.
     module Rekognition
       @@logger = CSI::Plugins::CSILogger.create
 
