@@ -66,6 +66,8 @@ module CSI
     autoload :MarketplaceCommerceAnalytics, 'csi/aws/marketplace_commerce_analytics'
     autoload :MarketplaceMetering, 'csi/aws/marketplace_metering'
     autoload :OpsWorks, 'csi/aws/ops_works'
+    autoload :OpsWorksCM, 'csi/aws/ops_works_cm'
+    autoload :Pinpoint, 'csi/aws/pinpoint'
     autoload :Polly, 'csi/aws/polly'
     autoload :RDS, 'csi/aws/rds'
     autoload :Redshift, 'csi/aws/redshift'
