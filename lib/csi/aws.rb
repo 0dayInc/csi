@@ -21,6 +21,7 @@ module CSI
     autoload :CloudWatch, 'csi/aws/cloud_watch'
     autoload :CloudWatchEvents, 'csi/aws/cloud_watch_events'
     autoload :CloudWatchLogs, 'csi/aws/cloud_watch_logs'
+    autoload :CodeBuild, 'csi/aws/code_build'
     autoload :CodeCommit, 'csi/aws/code_commit'
     autoload :CodeDeploy, 'csi/aws/code_deploy'
     autoload :CodePipeline, 'csi/aws/code_pipeline'
