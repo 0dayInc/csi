@@ -61,6 +61,7 @@ module CSI
     autoload :KinesisAnalytics, 'csi/aws/kinesis_analytics'
     autoload :Lambda, 'csi/aws/lambda'
     autoload :LambdaPreview, 'csi/aws/lambda_preview'
+    autoload :Lightsail, 'csi/aws/lightsail'
     autoload :MachineLearning, 'csi/aws/machine_learning'
     autoload :MarketplaceCommerceAnalytics, 'csi/aws/marketplace_commerce_analytics'
     autoload :MarketplaceMetering, 'csi/aws/marketplace_metering'
