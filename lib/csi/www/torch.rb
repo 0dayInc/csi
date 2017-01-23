@@ -5,9 +5,9 @@ module CSI
     module Torch
       # Supported Method Parameters::
       # CSI::WWW::Torch.open(
-      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest,
-      #   :proxy => 'optional http(s)://proxy_host:port',
-      #   :with_tor => 'optional boolean (defaults to false)'
+      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
+      #   proxy: 'optional http(s)://proxy_host:port',
+      #   with_tor: 'optional boolean (defaults to false)'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -75,7 +75,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::WWW::Torch.open(
-      #   :q => 'required search string'
+      #   q: 'required search string'
       # )
 
       public
@@ -100,9 +100,9 @@ module CSI
         puts "Be sure the $browser object has the following parameters set:
 
           #{self}.open(
-            :browser_type => :chrome,
-            :proxy => 'socks5://127.0.0.1:9050',
-            :with_tor => true
+            browser_type: :chrome,
+            proxy: 'socks5://127.0.0.1:9050',
+            with_tor: true
           )
         "
         if $browser
@@ -139,14 +139,14 @@ module CSI
       def self.help
         puts %{USAGE:
           #{self}.open(
-            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            :proxy => 'optional http(s)://proxy_host:port',
-            :with_tor => 'optional boolean (defaults to false)'
+            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
+            proxy: 'optional http(s)://proxy_host:port',
+            with_tor: 'optional boolean (defaults to false)'
           )
           puts "$browser.public_methods"
 
           #{self}.open(
-            :q => 'required search string'
+            q: 'required search string'
           )
 
           #{self}.onion

@@ -35,6 +35,7 @@ gem 'pdf-reader', '1.4.0'          # Parsing PDF Reports
 gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Access Object ***6/28/16
 gem 'pony', '1.11'                 # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***12/15/15
 gem 'pry', git: 'https://github.com/tnorris/pry.git', branch: 'adds-duplicate-history' # More feature-filled irb alternative
+#gem 'pry', '0.10.4' # More feature-filled irb alternative
 gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation
 gem 'rainbow', '2.2.1'             # Colorize csi_cli ;)
 gem 'rb-readline', require: false

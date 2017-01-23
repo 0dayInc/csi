@@ -5,9 +5,9 @@ module CSI
     module Bing
       # Supported Method Parameters::
       # CSI::WWW::Bing.open(
-      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest,
-      #   :proxy => 'optional http(s)://proxy_host:port',
-      #   :with_tor => 'optional boolean (defaults to false)'
+      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
+      #   proxy: 'optional http(s)://proxy_host:port',
+      #   with_tor: 'optional boolean (defaults to false)'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -67,7 +67,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::WWW::Bing.search(
-      #   :q => 'required search string'
+      #   q: 'required search string'
       # )
 
       public
@@ -111,14 +111,14 @@ module CSI
       def self.help
         puts %{USAGE:
           #{self}.open(
-            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            :proxy => 'optional http(s)://proxy_host:port',
-            :with_tor => 'optional boolean (defaults to false)'
+            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
+            proxy: 'optional http(s)://proxy_host:port',
+            with_tor: 'optional boolean (defaults to false)'
           )
           puts "$browser.public_methods"
 
           #{self}.search(
-            :q => 'required search string'
+            q: 'required search string'
           )
 
           #{self}.close

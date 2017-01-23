@@ -5,9 +5,9 @@ module CSI
     module Duckduckgo
       # Supported Method Parameters::
       # CSI::WWW::Duckduckgo.open(
-      #   :browser_type => :firefox|:chrome|:ie|:headless|:rest,
-      #   :proxy => 'optional http(s)://proxy_host:port',
-      #   :with_tor => 'optional boolean (defaults to false)'
+      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
+      #   proxy: 'optional http(s)://proxy_host:port',
+      #   with_tor: 'optional boolean (defaults to false)'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -67,7 +67,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::WWW::Duckduckgo.search(
-      #   :q => 'required search string'
+      #   q: 'required search string'
       # )
 
       public
@@ -96,9 +96,9 @@ module CSI
         puts "Be sure the $browser object has the following parameters set:
 
           #{self}.open(
-            :browser_type => :chrome,
-            :proxy => 'socks5://127.0.0.1:9050',
-            :with_tor => true
+            browser_type: :chrome,
+            proxy: 'socks5://127.0.0.1:9050',
+            with_tor: true
           )
         "
         $browser&.goto('http://3g2upl4pq6kufc4m.onion')
@@ -132,14 +132,14 @@ module CSI
       def self.help
         puts %{USAGE:
           #{self}.open(
-            :browser_type => 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            :proxy => 'optional http(s)://proxy_host:port',
-            :with_tor => 'optional boolean (defaults to false)'
+            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
+            proxy: 'optional http(s)://proxy_host:port',
+            with_tor: 'optional boolean (defaults to false)'
           )
           puts "$browser.public_methods"
 
           #{self}.search(
-            :q => 'required search string'
+            q: 'required search string'
           )
 
           #{self}.onion
