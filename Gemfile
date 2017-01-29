@@ -48,7 +48,7 @@ gem 'rubocop', require: false      # Ruby static code analyzer. Out of the box i
 gem 'ruby-nmap', '0.9.1'           # A Ruby interface to nmap, the exploration tool and security / port scanner
 gem 'ruby-saml', '1.3.0'           # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin)
 gem 'rvm', '1.11.3.9'              # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***6/28/16
-#gem 'selenium-webdriver', '2.53.4' # Dependency of watir-webdriver that needs to be tracked in Gemfile
+# gem 'selenium-webdriver', '2.53.4' # Dependency of watir-webdriver that needs to be tracked in Gemfile
 gem 'serialport', '1.3.1'          # Serial based communications, wardialing, arduino, etc ***6/28/16
 gem 'sinatra', '1.4.7'             # Used for Phishing & Attacker Proof-of-Concept Demonstrations
 gem 'slack-ruby-client', '0.7.5'   # Used for interacting w/ Slack via bots

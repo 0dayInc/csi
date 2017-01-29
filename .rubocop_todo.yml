@@ -169,6 +169,7 @@ Style/GuardClause:
     - 'lib/csi/plugins/nexpose_vuln_scan.rb'
     - 'lib/csi/www/bing.rb'
     - 'lib/csi/www/duckduckgo.rb'
+    - 'lib/csi/www/fuzz.rb'
     - 'lib/csi/www/google.rb'
     - 'lib/csi/www/pastebin.rb'
     - 'lib/csi/www/synack.rb'
