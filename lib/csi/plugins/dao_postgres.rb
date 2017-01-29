@@ -116,26 +116,26 @@ module CSI
       # Supported Method Parameters::
       # Method Parameters Not Implemented
 
-      public
+      # public
 
-      def self.list_all_schemas_by_host(opts = {})
-      end
-
-      # Supported Method Parameters::
-      # Method Parameters Not Implemented
-
-      public
-
-      def self.list_all_databases_by_schema(opts = {})
-      end
+      # def self.list_all_schemas_by_host(opts = {})
+      # end
 
       # Supported Method Parameters::
       # Method Parameters Not Implemented
 
-      public
+      # public
 
-      def self.list_all_tables_by_database(opts = {})
-      end
+      # def self.list_all_databases_by_schema(opts = {})
+      # end
+
+      # Supported Method Parameters::
+      # Method Parameters Not Implemented
+
+      # public
+
+      # def self.list_all_tables_by_database(opts = {})
+      # end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.list_all_columns_by_table(

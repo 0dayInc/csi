@@ -42,7 +42,7 @@ module CSI
 
         begin
           if File.extname(yaml_config) == '.yaml'
-            config_resp = YAML.load(`sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`)
+            config_resp = YAML.safe_load(`sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`)
           else
             config_resp = `sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`
           end
