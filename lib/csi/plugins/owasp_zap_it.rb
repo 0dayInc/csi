@@ -32,7 +32,7 @@ module CSI
               break if changes.include?(pattern)
             end
             sleep 1
-            iteration+=1
+            iteration += 1
             if changes.empty? && iteration == 9
               break # Something wrong w/ stdout in owasp_gem Gem
             end

@@ -38,9 +38,7 @@ module CSI
                      end
 
           with_zap = if opts[:with_zap]
-                       unless proxy
-                         proxy = 'http://127.0.0.1:8080'
-                       end
+                       proxy = 'http://127.0.0.1:8080' unless proxy
                        $zap_obj = CSI::Plugins::OwaspZapIt.start(
                          target: target_url,
                          proxy: proxy
