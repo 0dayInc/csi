@@ -43,7 +43,7 @@ ensure
 
   if $zap_obj
     CSI::Plugins::OwaspZapIt.stop(
-      :zap_obj => $zap_obj
+      zap_obj: $zap_obj
     )
   end
 end

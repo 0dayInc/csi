@@ -42,7 +42,7 @@ module CSI
                          proxy = 'http://127.0.0.1:8080'
                        end
                        $zap_obj = CSI::Plugins::OwaspZapIt.start(
-                         target: target_url, 
+                         target: target_url,
                          proxy: proxy
                        )
                      else
