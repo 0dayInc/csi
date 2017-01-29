@@ -7,7 +7,9 @@ module CSI
       # CSI::WWW::Fuzz.open(
       #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
       #   proxy: 'optional http(s)://proxy_host:port',
-      #   with_tor: 'optional boolean (defaults to false)'
+      #   with_tor: 'optional boolean (defaults to false)',
+      #   with_zap: 'optional boolean (defaults to false)',
+      #   target_uri: 'required - target url to fuzz'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -29,6 +31,15 @@ module CSI
 
           with_tor = if opts[:with_tor]
                        true
+                     else
+                       false
+                     end
+
+          with_zap = if opts[:with_zap]
+                       unless proxy
+                         proxy = 'http://127.0.0.1:8080'
+                       end
+                       CSI::Plugins::OwaspZapIt.start(zap_bin_path: '/usr/local/bin/zap.sh', target: '', proxy: proxy)
                      else
                        false
                      end
@@ -55,32 +66,16 @@ module CSI
           end
         end
 
+       target = opts[:target].to_s.scrub
+
         if $browser
-          $browser.goto('https://www.google.com')
+          $browser.goto(target)
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
 
       rescue => e
         puts "Error: #{e.message}"
         return nil
-      end
-
-      # Supported Method Parameters::
-      # CSI::WWW::Fuzz.search(
-      #   q: 'required search string'
-      # )
-
-      public
-
-      def self.fuzz_watir(opts = {})
-        q = opts[:q].to_s
-
-        if $browser
-          $browser.text_field(name: 'q').when_present.set(q)
-          $browser.button(name: 'btnG').when_present.click
-          sleep 3 # Cough: <hack>
-          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
-        end
       end
 
       # Supported Method Parameters::
@@ -113,16 +108,15 @@ module CSI
           #{self}.open(
             browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
             proxy: 'optional http(s)://proxy_host:port',
-            with_tor: 'optional boolean (defaults to false)'
+            with_tor: 'optional boolean (defaults to false)',
+            with_zap: 'optional boolean (defaults to false)',
+            target_uri: 'required - target url to fuzz'
           )
           puts "$browser.public_methods"
 
-          #{self}.search(
-            q: 'required search string'
-          )
-
-          #{self}.search_linkedin_for_employees_by_company(
-            company: 'required - company string'
+          #{self}.fuzzdb(
+            attack_patterns: 'required - array of fuzzdb attack patterns',
+            watir_target: 'required - watir object to target with fuzzdb'
           )
 
           #{self}.close
