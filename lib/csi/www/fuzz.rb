@@ -9,7 +9,7 @@ module CSI
       #   proxy: 'optional http(s)://proxy_host:port',
       #   with_tor: 'optional boolean (defaults to false)',
       #   with_zap: 'optional boolean (defaults to false)',
-      #   target_uri: 'required - target url to fuzz'
+      #   target_url: 'required - target url to fuzz'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -66,10 +66,10 @@ module CSI
           end
         end
 
-       target = opts[:target].to_s.scrub
+       target_url = opts[:target_url].to_s
 
         if $browser
-          $browser.goto(target)
+          $browser.goto(target_url)
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
 
@@ -110,7 +110,7 @@ module CSI
             proxy: 'optional http(s)://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
             with_zap: 'optional boolean (defaults to false)',
-            target_uri: 'required - target url to fuzz'
+            target_url: 'required - target url to fuzz'
           )
           puts "$browser.public_methods"
 
