@@ -5,11 +5,11 @@ module CSI
     module Fuzz
       # Supported Method Parameters::
       # CSI::WWW::Fuzz.open(
+      #   target_url: 'required - target url to fuzz',
       #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
       #   proxy: 'optional http(s)://proxy_host:port',
       #   with_tor: 'optional boolean (defaults to false)',
-      #   with_zap: 'optional boolean (defaults to false)',
-      #   target_url: 'required - target url to fuzz'
+      #   with_zap: 'optional boolean (defaults to false)'
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -21,6 +21,8 @@ module CSI
           @@logger.info('leveraging existing $browser object...')
           @@logger.info("run #{self}.close to end session.")
         else
+          target_url = opts[:target_url].to_s
+
           browser_type = if opts[:browser_type].nil?
                            :firefox
                          else
@@ -41,7 +43,7 @@ module CSI
                        end
                        $zap_obj = CSI::Plugins::OwaspZapIt.start(
                          zap_bin_path: '/usr/local/bin/zap.sh', 
-                         target: '', 
+                         target: target_url, 
                          proxy: proxy
                        )
                      else
@@ -69,8 +71,6 @@ module CSI
             )
           end
         end
-
-       target_url = opts[:target_url].to_s
 
         if $browser
           $browser.goto(target_url)
@@ -110,11 +110,11 @@ module CSI
       def self.help
         puts %{USAGE:
           #{self}.open(
+            target_url: 'required - target url to fuzz',
             browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
             proxy: 'optional http(s)://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
-            with_zap: 'optional boolean (defaults to false)',
-            target_url: 'required - target url to fuzz'
+            with_zap: 'optional boolean (defaults to false)'
           )
           puts "$browser.public_methods"
 
