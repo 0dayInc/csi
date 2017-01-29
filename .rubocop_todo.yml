@@ -10,7 +10,7 @@
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles.
 # SupportedStyles: either, start_of_block, start_of_line
-Security/BlockAlignment:
+Lint/BlockAlignment:
   Exclude:
     - 'lib/csi/plugins/mail_agent.rb'
     - 'lib/csi/plugins/shodan.rb'
@@ -21,21 +21,21 @@ Security/Eval:
     - 'bin/csi_active_scan_burp_suite_pro'
 
 # Offense count: 1
-Security/HandleExceptions:
+Lint/HandleExceptions:
   Exclude:
     - 'lib/csi/www/synack.rb'
 
 # Offense count: 30
-Security/IneffectiveAccessModifier:
+Lint/IneffectiveAccessModifier:
   Enabled: false
 
 # Offense count: 1
-Security/ShadowingOuterLocalVariable:
+Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'lib/csi/plugins/owasp_zap_it.rb'
 
 # Offense count: 47
-Security/UnreachableCode:
+Lint/UnreachableCode:
   Exclude:
     - 'bin/csi_active_scan_burp_suite_pro'
     - 'lib/csi/plugins/android.rb'
@@ -48,7 +48,7 @@ Security/UnreachableCode:
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Security/UnusedBlockArgument:
+Lint/UnusedBlockArgument:
   Exclude:
     - 'bin/csi'
     - 'lib/csi/plugins/csi_logger.rb'
@@ -56,7 +56,7 @@ Security/UnusedBlockArgument:
 # Offense count: 8
 # Cop supports --auto-correct.
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Security/UnusedMethodArgument:
+Lint/UnusedMethodArgument:
   Exclude:
     - 'lib/csi/plugins/burp_suite.rb'
     - 'lib/csi/plugins/csi_logger.rb'
@@ -66,11 +66,11 @@ Security/UnusedMethodArgument:
 
 # Offense count: 757
 # Configuration parameters: ContextCreatingMethods.
-Security/UselessAccessModifier:
+Lint/UselessAccessModifier:
   Enabled: false
 
 # Offense count: 135
-Security/UselessAssignment:
+Lint/UselessAssignment:
   Enabled: false
 
 # Offense count: 189
