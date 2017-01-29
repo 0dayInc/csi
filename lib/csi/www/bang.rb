@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 module CSI
   module WWW
-    # This plugin supports Fuzz actions.
-    module Fuzz
+    # This plugin supports Bang actions.
+    module Bang
       # Supported Method Parameters::
-      # CSI::WWW::Fuzz.open(
-      #   target_url: 'required - target url to fuzz',
+      # CSI::WWW::Bang.open(
+      #   target_url: 'required - target url to bang',
       #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
       #   proxy: 'optional http(s)://proxy_host:port',
       #   with_tor: 'optional boolean (defaults to false)',
@@ -81,7 +81,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Fuzz.close
+      # CSI::WWW::Bang.close
 
       public
 
@@ -108,18 +108,13 @@ module CSI
       def self.help
         puts %{USAGE:
           #{self}.open(
-            target_url: 'required - target url to fuzz',
+            target_url: 'required - target url to bang',
             browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
             proxy: 'optional http(s)://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
             with_zap: 'optional boolean (defaults to false)'
           )
           puts "$browser.public_methods"
-
-          #{self}.fuzzdb(
-            attack_patterns: 'required - array of fuzzdb attack patterns',
-            watir_target: 'required - watir object to target with fuzzdb'
-          )
 
           #{self}.close
 
