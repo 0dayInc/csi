@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'watir-webdriver'
+require 'watir'
 require 'rest-client'
 require 'socksify'
 
