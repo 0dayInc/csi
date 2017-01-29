@@ -3,7 +3,7 @@
 source $HOME/.rvm/scripts/rvm
 ruby_version=`cat .ruby-version`
 rvm use $ruby_version@global
-rvm gemset delete csi
+rvm gemset --force delete csi
 rm Gemfile.lock
 rvm gemset create csi
 rvm use $ruby_version@csi
