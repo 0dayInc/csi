@@ -43,6 +43,7 @@ module CSI
                          target: target_url,
                          proxy: proxy
                        )
+                       $zap_obj.spider.start
                      else
                        false
                      end
