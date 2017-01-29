@@ -21,6 +21,7 @@ module CSI
       def self.callback_when_pattern_in(opts = {})
         file = opts[:file]
         pattern = opts[:pattern]
+        iteration = 0
 
         File.open(file, 'r') do |file|
           file.seek(0, IO::SEEK_END) # rewinds file to the end
@@ -31,6 +32,10 @@ module CSI
               break if changes.include?(pattern)
             end
             sleep 1
+            iteration+=1
+            if changes.empty? && iteration == 9
+              break # Something wrong w/ stdout in owasp_gem Gem
+            end
           end
         end
 
