@@ -32,8 +32,8 @@ module CSI
         api_key = zap_obj[:api_key]
 
         begin
-          #rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+          #rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
 
           case http_method
           when :get
@@ -41,7 +41,7 @@ module CSI
               method: :get,
               url: "#{base_zap_api_uri}/#{rest_call}",
               headers: {
-                content_type: 'application/json; charset=UTF-8',
+                accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 params: params
               },
               verify_ssl: false
