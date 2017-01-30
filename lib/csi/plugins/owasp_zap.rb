@@ -145,7 +145,7 @@ module CSI
         zap_obj = opts[:zap_obj]
         target = opts[:target].to_s.scrub
         api_key = zap_obj[:api_key].to_s.scrub
-        
+
         params = {
           zapapiformat: 'JSON',
           apikey: api_key,
@@ -161,8 +161,6 @@ module CSI
           rest_call: 'JSON/spider/action/scan/',
           params: params
         )
-
-        return response
       end
 
       # Supported Method Parameters::
