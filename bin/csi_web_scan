@@ -13,6 +13,8 @@ OptionParser.new do |options|
   options.on('-tURL', '--target=URL', '<Required - URL to Target>') {|t| opts[:target] = t }
   options.on('-bBURP', '--burp-jar-path=BURP', '<Required - Path to Burpsuite Jar>') {|b| opts[:burp_jar_path] = b }
   options.on('-pZPROXY', '--zap-proxy=ZPROXY', '<Optional - OWASP ZAP Proxy (Defaults to http://127.0.0.1:8080)>') {|p| opts[:zap_proxy] = p }
+  options.on('-BTYPE', '--browser-type=TYPE', '<Optional - Browser Type :chrome|:firefox|:headless|:rest (Defaults to :chrome)>') {|bt| opts[:browser_type] = bt }
+  
 end.parse!
 
 if opts.empty?
@@ -28,10 +30,16 @@ else
   zap_proxy = 'http://127.0.0.1:8080'
 end
 
+if opts[:browser_type]
+  browser_type = opts[:browser_type]
+else
+  browser_type = :chrome
+end
+
 # Open Burpsuite & Obtain Listening Proxy Port to Pass into OWASP ZAP
 burp_obj = CSI::Plugins::BurpSuite.start(
   burp_jar_path: burp_jar_path,
-  browser_type: :firefox
+  browser_type: browser_type
 )
 burp_listening_proxy_port = burp_obj[:proxy_port]
 browser = burp_obj[:burp_browser]
