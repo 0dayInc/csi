@@ -139,7 +139,6 @@ module CSI
                 if line.include?(return_pattern)
                   return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
                   if line.include?(return_pattern)
-                    sleep 9
                     return zap_obj
                   end
                 end
@@ -241,7 +240,7 @@ module CSI
         pid = zap_obj[:pid]
 
         begin
-          Process.kill(9, pid)
+          Process.kill('KILL', pid)
           File.unlink(@output_path)
         rescue => e
           raise e.message
