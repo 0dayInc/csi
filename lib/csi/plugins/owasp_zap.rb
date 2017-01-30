@@ -40,10 +40,6 @@ module CSI
         begin
           FileUtils.touch(@output_path) unless File.exist?(@output_path)
 
-          if opts[:proxy]
-            proxy = opts[:proxy].to_s.scrub.strip.chomp
-          end
-
           if opts[:zap_bin_path]
             zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
           else
@@ -59,10 +55,17 @@ module CSI
           end
 
           if headless
-            owasp_zap_cmd = "#{zap_bin_path} -daemon"
+            owasp_zap_cmd = "#{zap_bin_path} -daemon -quickurl #{target}"
           else
-            owasp_zap_cmd = zap_bin_path
+            owasp_zap_cmd = "#{zap_bin_path} -quickurl #{target}"
           end
+
+          if opts[:proxy]
+            proxy = opts[:proxy].to_s.scrub.strip.chomp
+            proxy_uri = URI.parse(proxy)
+            owasp_zap_cmd << " -host #{proxy_uri.host} -port #{proxy_uri.port}"
+          end
+
 
           File.open(@output_path, 'w') do |file|
             PTY.spawn(owasp_zap_cmd) do |stdout, stdin, pid|
