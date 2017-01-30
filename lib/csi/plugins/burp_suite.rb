@@ -27,7 +27,7 @@ module CSI
       # burp_obj = CSI::Plugins::BurpSuite.start(
       #   :burp_jar_path => 'required - path of burp suite pro jar file',
       #   :headless => 'optional - run burp headless if set to true',
-      #   :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types'
+      #   :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -317,7 +317,7 @@ module CSI
           burp_obj = #{self}.start(
             :burp_jar_path => 'required - path of burp suite pro jar file',
             :headless => 'optional - run headless if set to true',
-            :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types'
+            :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
           )
 
           #{self}.enable_proxy(
