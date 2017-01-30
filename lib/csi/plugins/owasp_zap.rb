@@ -124,7 +124,7 @@ module CSI
             stdout.each do |line|
               if line.include?(return_pattern)
                 line_detected += 1
-                return zap_obj if line_detected > 2
+                return zap_obj if line_detected == 2
               end
             end
           end
