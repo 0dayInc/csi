@@ -40,10 +40,4 @@ ensure
       browser_obj: $browser
     )
   end
-
-  if $zap_obj
-    CSI::Plugins::OwaspZapIt.stop(
-      zap_obj: $zap_obj
-    )
-  end
 end
