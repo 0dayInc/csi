@@ -117,15 +117,14 @@ module CSI
           zap_obj[:port] = proxy_uri.port.to_i
 
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+            line_detected = 0
             stdout.sync = true
             zap_obj[:pid] = pid
-            return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+            return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
             stdout.each do |line|
               if line.include?(return_pattern)
-                return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
-                if line.include?(return_pattern)
-                  return zap_obj
-                end
+                line_detected += 1
+                return zap_obj if line_detected > 2
               end
             end
           end
