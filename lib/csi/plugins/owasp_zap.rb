@@ -7,38 +7,6 @@ module CSI
     # This plugin converts images to readable text
     module OwaspZap
       # Supported Method Parameters::
-      # callback_when_pattern_in(
-      #   :file => 'required - callback file to read',
-      #   :pattern => 'required - make the callback when this pattern is detected in the file',
-      # )
-
-      private
-
-      def self.callback_when_pattern_in(opts = {})
-        file = opts[:file]
-        pattern = opts[:pattern]
-        # iteration = 0
-
-        File.open(file, 'r') do |file|
-          file.seek(0, IO::SEEK_END) # rewinds file to the end
-          loop do
-            changes = file.read
-            unless changes.empty?
-              print changes
-              break if changes.include?(pattern)
-            end
-            sleep 1
-            # iteration += 1
-            # if changes.empty? && iteration == 9
-            #   break # Something wrong w/ stdout in owasp_gem Gem
-            # end
-          end
-        end
-
-        nil
-      end
-
-      # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.start(
       #   :api_key => 'required - api key for API authorization',
       #   :target => 'required - target URL to test',
@@ -96,22 +64,16 @@ module CSI
             owasp_zap_cmd = zap_bin_path
           end
 
-
           File.open(@output_path, 'w') do |file|
             PTY.spawn(owasp_zap_cmd) do |stdout, stdin, pid|
               zap_obj[:pid] = pid
+              return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - dataFileCache open end'
               stdout.each do |line| 
                 file.puts line
+                return zap_obj if line.include?(return_pattern)
               end
             end
           end
-
-          callback_when_pattern_in(
-            file: @output_path,
-            pattern: '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - dataFileCache open end'
-          )
-
-          return zap_obj
         rescue SystemExit, Interrupt
           File.unlink(@output_path)
           exit 1
@@ -133,12 +95,7 @@ module CSI
         zap_obj = opts[:zap_obj]
 
         begin
-          zap_obj.spider.start
-          callback_when_pattern_in(
-            file: @output_path,
-            pattern: 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
-          )
-
+          return_pattern = 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
           return zap_obj
         rescue => e
           raise e.message
@@ -157,12 +114,7 @@ module CSI
         zap_obj = opts[:zap_obj]
 
         begin
-          zap_obj.ascan.start
-          callback_when_pattern_in(
-            file: @output_path,
-            pattern: 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
-          )
-
+          return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
           return zap_obj
         rescue => e
           raise e.message
@@ -201,10 +153,7 @@ module CSI
         begin
           zap_obj.shutdown
 
-          callback_when_pattern_in(
-            file: @output_path,
-            pattern: 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
-          )
+          return_pattern = 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
 
           File.unlink(@output_path)
         rescue => e
