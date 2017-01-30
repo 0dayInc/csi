@@ -67,7 +67,6 @@ module CSI
       # CSI::Plugins::OwaspZap.start(
       #   :api_key => 'required - api key for API authorization',
       #   :zap_bin_path => 'optional - path to zap.sh file'
-      #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
@@ -86,15 +85,7 @@ module CSI
                      false
                    end
 
-        if opts[:output_path]
-          @output_path = opts[:output_path].to_s.scrub.strip.chomp if File.exist?(File.dirname(opts[:output_path].to_s.scrub.strip.chomp))
-        else
-          @output_path = '/tmp/owasp_zap.output'
-        end
-
         begin
-          FileUtils.touch(@output_path) unless File.exist?(@output_path)
-
           if opts[:zap_bin_path]
             zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
           else
@@ -125,24 +116,19 @@ module CSI
           zap_obj[:host] = proxy_uri.host.to_s.scrub
           zap_obj[:port] = proxy_uri.port.to_i
 
-          File.open(@output_path, 'w') do |file|
-            PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
-              stdout.sync = true
-              zap_obj[:pid] = pid
-              return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
-              stdout.each do |line|
-                file.puts line
+          PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+            stdout.sync = true
+            zap_obj[:pid] = pid
+            return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+            stdout.each do |line|
+              if line.include?(return_pattern)
+                return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
                 if line.include?(return_pattern)
-                  return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
-                  if line.include?(return_pattern)
-                    return zap_obj
-                  end
+                  return zap_obj
                 end
               end
             end
           end
-        rescue SystemExit, Interrupt
-          File.unlink(@output_path)
         rescue => e
           raise e.message
         end
@@ -230,8 +216,6 @@ module CSI
           Process.kill('KILL', pid)
         rescue => e
           raise e.message
-        ensure
-          File.unlink(@output_path)
         end
       end
 
@@ -256,7 +240,6 @@ module CSI
           zap_obj = #{self}.start(
             :api_key => 'required - api key for API authorization',
             :zap_bin_path => 'optional - path to zap.sh file',
-            :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
             :headless => 'optional - run zap headless if set to true',
             :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)'
           )
