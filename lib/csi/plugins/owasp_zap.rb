@@ -32,7 +32,8 @@ module CSI
         api_key = zap_obj[:api_key]
 
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+          #rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
 
           case http_method
           when :get
