@@ -35,13 +35,9 @@ else
   browser_type = :chrome
 end
 
-# Open Burpsuite & Obtain Listening Proxy Port to Pass into OWASP ZAP
-puts "Burp Proxy is Listening on: #{burp_listening_proxy_port}"
-puts 'Configure OWASP ZAP in Tools => Options => Connection => Use Proxy Chain => Use an Outgoing Proxy Server'
-
+puts "Navigating to target: #{target}"
 zap_obj = CSI::Plugins::OwaspZapIt.start(target: target)
 
-puts "Navigating to target: #{target}"
 CSI::WWW::Checkip.open(
   browser_type: browser_type, 
   proxy: zap_proxy
