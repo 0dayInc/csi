@@ -29,7 +29,6 @@ module CSI
         zap_ip = zap_obj[:zap_ip].to_s.scrub
         zap_port = zap_obj[:zap_port].to_i
         base_zap_api_uri = "http://#{zap_ip}:#{zap_port}/JSON".to_s.scrub
-        api_key = zap_obj[:api_key]
 
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
