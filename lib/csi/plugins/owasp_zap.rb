@@ -28,7 +28,7 @@ module CSI
         http_body = opts[:http_body].to_s.scrub
         zap_ip = zap_obj[:zap_ip].to_s.scrub
         zap_port = zap_obj[:zap_port].to_i
-        base_zap_api_uri = "http://#{zap_ip}:#{zap_port}/JSON".to_s.scrub
+        base_zap_api_uri = "http://#{zap_ip}:#{zap_port}".to_s.scrub
 
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
@@ -173,16 +173,16 @@ module CSI
           subtreeOnly: target
         }
 
-        begin
+        #begin
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'spider/action/scan/',
+            rest_call: 'JSON/spider/action/scan/',
             params: params
           )
           return response
-        rescue => e
-          raise e.message
-        end
+        #rescue => e
+        #  raise e.message
+        #end
       end
 
       # Supported Method Parameters::
