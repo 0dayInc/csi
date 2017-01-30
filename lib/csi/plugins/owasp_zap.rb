@@ -32,7 +32,7 @@ module CSI
         api_key = zap_obj[:api_key]
 
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
 
           case http_method
           when :get
@@ -42,7 +42,8 @@ module CSI
               headers: {
                 content_type: 'application/json; charset=UTF-8',
                 params: params
-              }
+              },
+              verify_ssl: false
             )
 
           when :post
@@ -52,7 +53,8 @@ module CSI
               headers: {
                 content_type: 'application/json; charset=UTF-8'
               },
-              payload: http_body
+              payload: http_body,
+              verify_ssl: false
             )
 
           else
