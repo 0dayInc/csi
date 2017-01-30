@@ -4,7 +4,6 @@ module CSI
   # into memory only when they're needed. For more information, see:
   # http://www.rubyinside.com/ruby-techniques-revealed-autoload-1652.html
   module WWW
-    autoload :Bang, 'csi/www/bang'
     autoload :Bing, 'csi/www/bing'
     autoload :Checkip, 'csi/www/checkip.rb'
     autoload :Duckduckgo, 'csi/www/duckduckgo'
