@@ -9,7 +9,6 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.start(
       #   :api_key => 'required - api key for API authorization',
-      #   :target => 'required - target URL to test',
       #   :zap_bin_path => 'optional - path to zap.sh file'
       #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
       #   :headless => 'optional - run zap headless if set to true',
@@ -24,7 +23,6 @@ module CSI
         api_key = opts[:api_key].to_s.scrub.strip.chomp
         zap_obj[:api_key] = api_key
 
-        target = opts[:target].to_s.scrub.strip.chomp
         headless = if opts[:headless]
                      true
                    else
@@ -55,9 +53,9 @@ module CSI
           end
 
           if headless
-            owasp_zap_cmd = "#{zap_bin_path} -daemon -quickurl #{target}"
+            owasp_zap_cmd = "#{zap_bin_path} -daemon"
           else
-            owasp_zap_cmd = "#{zap_bin_path} -quickurl #{target}"
+            owasp_zap_cmd = "#{zap_bin_path}"
           end
 
           if opts[:proxy]
@@ -188,7 +186,6 @@ module CSI
         puts "USAGE:
           zap_obj = #{self}.start(
             :api_key => 'required - api key for API authorization',
-            :target => 'required - target URL to test',
             :zap_bin_path => 'optional - path to zap.sh file',
             :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
             :headless => 'optional - run zap headless if set to true',
