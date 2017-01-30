@@ -26,9 +26,7 @@ module CSI
                       end
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
-        zap_ip = zap_obj[:zap_ip].to_s.scrub
-        zap_port = zap_obj[:zap_port].to_i
-        base_zap_api_uri = "http://#{zap_ip}:#{zap_port}".to_s.scrub
+        base_zap_api_uri = 'http://zap'
 
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
@@ -118,12 +116,7 @@ module CSI
             proxy = opts[:proxy].to_s.scrub.strip.chomp
             proxy_uri = URI.parse(proxy)
             owasp_zap_cmd << " -host #{proxy_uri.host} -port #{proxy_uri.port}"
-          else
-            proxy = 'http://127.0.0.1:8080'
-            proxy_uri = URI.parse(proxy)
           end
-          zap_obj[:zap_ip] = proxy_uri.host
-          zap_obj[:zap_port] = proxy_uri.port
 
           File.open(@output_path, 'w') do |file|
             PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
