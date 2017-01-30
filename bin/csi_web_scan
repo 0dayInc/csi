@@ -29,15 +29,23 @@ else
 end
 
 # Open Burpsuite & Obtain Listening Proxy Port to Pass into OWASP ZAP
-burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_jar_path)
+burp_obj = CSI::Plugins::BurpSuite.start(
+  burp_jar_path: burp_jar_path,
+  browser_type: :firefox
+)
 burp_listening_proxy_port = burp_obj[:proxy_port]
+browser = burp_obj[:burp_browser]
 puts "Burp Proxy is Listening on: #{burp_listening_proxy_port}"
 puts 'Configure OWASP ZAP in Tools => Options => Connection => Use Proxy Chain => Use an Outgoing Proxy Server'
 
 zap_obj = CSI::Plugins::OwaspZapIt.start(target: target)
 
-CSI::WWW::Checkip.open(browser_type: :firefox, proxy: zap_proxy)
-
 sleep 9
+
+CSI::WWW::Checkip.open(
+  browser_type: :firefox,
+  proxy: zap_proxy
+)
+
 puts "Navigating to target: #{target}"
-$browser.goto(target)
+browser.goto(target)
