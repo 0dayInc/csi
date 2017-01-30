@@ -30,7 +30,7 @@ module CSI
         zap_port = zap_obj[:zap_port].to_i
         base_zap_api_uri = "http://#{zap_ip}:#{zap_port}".to_s.scrub
 
-        begin
+        #begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method
@@ -58,9 +58,9 @@ module CSI
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
           end
-        rescue => e
-          raise e.message
-        end
+        #rescue => e
+        #  raise e.message
+        #end
       end
 
       # Supported Method Parameters::
