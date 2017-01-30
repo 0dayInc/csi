@@ -127,6 +127,7 @@ module CSI
 
           File.open(@output_path, 'w') do |file|
             PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+              stdout.sync = true
               zap_obj[:pid] = pid
               return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
               stdout.each do |line|
