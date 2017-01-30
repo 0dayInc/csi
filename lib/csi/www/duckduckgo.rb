@@ -76,11 +76,11 @@ module CSI
         q = opts[:q].to_s
 
         if $browser
-          $browser.text_field(name: 'q').when_present.set(q)
+          $browser.text_field(name: 'q').wait_until_present.set(q)
           if $browser.url == 'https://duckduckgo.com/' || $browser.url == 'http://3g2upl4pq6kufc4m.onion/'
-            $browser.button(id: 'search_button_homepage').when_present.click
+            $browser.button(id: 'search_button_homepage').wait_until_present.click
           else
-            $browser.button(id: 'search_button').when_present.click
+            $browser.button(id: 'search_button').wait_until_present.click
           end
           sleep 3 # Cough: <hack>
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)

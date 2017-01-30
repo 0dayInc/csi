@@ -76,8 +76,8 @@ module CSI
         q = opts[:q].to_s
 
         if $browser
-          $browser.text_field(name: 'search_query').when_present.set(q)
-          $browser.button(id: 'search-btn').when_present.click
+          $browser.text_field(name: 'search_query').wait_until_present.set(q)
+          $browser.button(id: 'search-btn').wait_until_present.click
           sleep 3 # Cough: <hack>
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end

@@ -95,15 +95,15 @@ module CSI
           # Authy.api_uri = 'https://api.authy.com/'
           # Authy.api_key = authy_api_key
 
-          $browser.text_field(name: 'email').when_present.set(email)
-          $browser.text_field(name: 'password').when_present.set(password)
-          $browser.button(class: 'btn').when_present.click # no name or id in button element
+          $browser.text_field(name: 'email').wait_until_present.set(email)
+          $browser.text_field(name: 'password').wait_until_present.set(password)
+          $browser.button(class: 'btn').wait_until_present.click # no name or id in button element
           @@logger.info('mfa prompt initiated...')
           until $browser.url == 'https://platform.synack.com/'
             print 'enter authy mfa token: '
             authy_token = gets.to_i
-            $browser.text_field(name: 'authy_token').when_present.set(authy_token)
-            $browser.button(class: 'btn').when_present.click # no name or id in button element
+            $browser.text_field(name: 'authy_token').wait_until_present.set(authy_token)
+            $browser.button(class: 'btn').wait_until_present.click # no name or id in button element
             sleep 3 # TODO: fixme this is a <cough> hack
           end
           print "\n"
