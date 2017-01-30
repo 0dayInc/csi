@@ -169,7 +169,7 @@ module CSI
         }
 
         begin
-          response = zap_rest_client(
+          response = zap_rest_call(
             zap_obj: zap_obj,
             rest_call: '/spider/action/scan',
             params: params
