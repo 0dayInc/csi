@@ -143,11 +143,8 @@ module CSI
           end
         rescue SystemExit, Interrupt
           File.unlink(@output_path)
-          exit 1
         rescue => e
           raise e.message
-          File.unlink(@output_path)
-          exit 1
         end
       end
 
@@ -231,9 +228,9 @@ module CSI
 
         begin
           Process.kill('KILL', pid)
-          File.unlink(@output_path)
         rescue => e
           raise e.message
+        ensure
           File.unlink(@output_path)
         end
       end
