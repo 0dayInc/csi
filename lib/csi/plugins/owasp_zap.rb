@@ -7,6 +7,64 @@ module CSI
     # This plugin converts images to readable text
     module OwaspZap
       # Supported Method Parameters::
+      # zap_rest_call(
+      #   :zap_obj => 'required zap_obj returned from #start method',
+      #   :http_method => 'optional HTTP method (defaults to GET)
+      #   :rest_call => 'required rest call to make per the schema',
+      #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
+      # )
+
+      private
+
+      def self.zap_rest_call(opts = {})
+        zap_obj = opts[:zap_obj]
+        http_method = if opts[:http_method].nil?
+                        :get
+                      else
+                        opts[:http_method].to_s.scrub.to_sym
+                      end
+        rest_call = opts[:rest_call].to_s.scrub
+        http_body = opts[:http_body].to_s.scrub
+        zap_ip = zap_obj[:zap_ip].to_s.scrub
+        zap_port = zap_obj[:zap_port].to_i
+        base_zap_api_uri = "http://#{zap_ip}:#{zap_port}/JSON".to_s.scrub
+        api_key = zap_obj[:api_key]
+
+        begin
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+
+          case http_method
+          when :get
+            response = rest_client.execute(
+              method: :get,
+              url: "#{base_zap_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8',
+                params: { token: api_key }
+              }
+            )
+
+          when :post
+            response = rest_client.execute(
+              method: :post,
+              url: "#{base_zap_api_uri}/#{rest_call}",
+              headers: {
+                content_type: 'application/json; charset=UTF-8'
+              },
+              payload: http_body
+            )
+
+          else
+            raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
+            exit
+          end
+        rescue => e
+          raise e.message
+          exit
+        end
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.start(
       #   :api_key => 'required - api key for API authorization',
       #   :zap_bin_path => 'optional - path to zap.sh file'
@@ -89,17 +147,34 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.spider(
-      #   :zap_obj => 'required - zap_obj returned from #open method'
+      #   :zap_obj => 'required - zap_obj returned from #open method',
+      #   :target => 'required - url to spider'
       # )
 
       public
 
       def self.spider(opts = {})
         zap_obj = opts[:zap_obj]
+        target = opts[:target].to_s.scrub
+        api_key = zap_obj[:api_key].to_s.scrub
+        
+        params = {
+          zapapiformat: 'JSON',
+          apikey: api_key,
+          url: target,
+          maxChildren: 9
+          recurse: 3
+          contextName: ''
+          subtreeOnly: target
+        }
 
         begin
-          return_pattern = 'INFO org.zaproxy.zap.spider.Spider  - Spidering process is complete. Shutting down...'
-          return zap_obj
+          response = zap_rest_client(
+            zap_obj: zap_obj,
+            rest_call: '/spider/action/scan',
+            params: params
+          )
+          return response
         rescue => e
           raise e.message
           return 1
@@ -152,12 +227,10 @@ module CSI
 
       def self.stop(opts = {})
         zap_obj = opts[:zap_obj]
+        pid = zap_obj[:pid]
 
         begin
-          zap_obj.shutdown
-
-          return_pattern = 'INFO org.zaproxy.zap.extension.api.CoreAPI  - OWASP ZAP'
-
+          Process.kill(9, pid)
           File.unlink(@output_path)
         rescue => e
           raise e.message
@@ -194,7 +267,8 @@ module CSI
           puts zap_obj.public_methods
 
           #{self}.spider(
-            :zap_obj => 'required - zap_obj returned from #open method'
+            :zap_obj => 'required - zap_obj returned from #open method',
+            :target => 'required - url to spider'
           )
 
           #{self}.active_scan(
