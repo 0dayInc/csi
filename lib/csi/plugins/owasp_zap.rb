@@ -28,7 +28,7 @@ module CSI
         http_body = opts[:http_body].to_s.scrub
         host = zap_obj[:host]
         port = zap_obj[:port]
-        base_zap_api_uri = "http://#{host}:#{port}"
+        base_zap_api_uri = "https://#{host}:#{port}"
 
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
