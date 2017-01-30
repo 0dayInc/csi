@@ -32,7 +32,6 @@ module CSI
 
         begin
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
-          #rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
 
           case http_method
           when :get
@@ -58,11 +57,9 @@ module CSI
 
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
-            exit
           end
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -108,14 +105,13 @@ module CSI
               zap_bin_path = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
             else
               raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
-              exit 1
             end
           end
 
           if headless
             owasp_zap_cmd = "#{zap_bin_path} -daemon"
           else
-            owasp_zap_cmd = "#{zap_bin_path}"
+            owasp_zap_cmd = zap_bin_path
           end
 
           if opts[:proxy]
@@ -129,12 +125,11 @@ module CSI
           zap_obj[:zap_ip] = proxy_uri.host
           zap_obj[:zap_port] = proxy_uri.port
 
-
           File.open(@output_path, 'w') do |file|
-            PTY.spawn(owasp_zap_cmd) do |stdout, stdin, pid|
+            PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
               zap_obj[:pid] = pid
               return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
-              stdout.each do |line| 
+              stdout.each do |line|
                 file.puts line
                 if line.include?(return_pattern)
                   return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
@@ -187,7 +182,6 @@ module CSI
           return response
         rescue => e
           raise e.message
-          return 1
         end
       end
 
@@ -206,7 +200,6 @@ module CSI
           return zap_obj
         rescue => e
           raise e.message
-          return 1
         end
       end
 
@@ -224,7 +217,6 @@ module CSI
           return zap_obj.alerts.view
         rescue => e
           raise e.message
-          return 1
         end
       end
 
@@ -245,7 +237,6 @@ module CSI
         rescue => e
           raise e.message
           File.unlink(@output_path)
-          return 1
         end
       end
 
