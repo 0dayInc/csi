@@ -44,10 +44,6 @@ module CSI
                          proxy: proxy
                        )
                        $zap_obj.spider.start
-                       (1..99).each do |n|
-                         print "."
-                         sleep 1
-                       end
                        $zap_obj.ascan.start
                      else
                        false
