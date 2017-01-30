@@ -9,8 +9,8 @@ module CSI
       # Supported Method Parameters::
       # zap_rest_call(
       #   :zap_obj => 'required zap_obj returned from #start method',
-      #   :http_method => 'optional HTTP method (defaults to GET)
       #   :rest_call => 'required rest call to make per the schema',
+      #   :http_method => 'optional HTTP method (defaults to GET)
       #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
@@ -18,12 +18,12 @@ module CSI
 
       def self.zap_rest_call(opts = {})
         zap_obj = opts[:zap_obj]
+        rest_call = opts[:rest_call].to_s.scrub
         http_method = if opts[:http_method].nil?
                         :get
                       else
                         opts[:http_method].to_s.scrub.to_sym
                       end
-        rest_call = opts[:rest_call].to_s.scrub
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
         zap_ip = zap_obj[:zap_ip].to_s.scrub
@@ -139,6 +139,7 @@ module CSI
                 if line.include?(return_pattern)
                   return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
                   if line.include?(return_pattern)
+                    sleep 9
                     return zap_obj
                   end
                 end
