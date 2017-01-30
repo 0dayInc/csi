@@ -39,6 +39,11 @@ end
 
 puts "Navigating to target: #{target}"
 zap_obj = CSI::Plugins::OwaspZap.start(api_key: api_key)
+browser = CSI::Plugins::TransparentBrowser.open(
+  browser_type: browser_type,
+  proxy: zap_proxy
+)
+browser.goto("#{zap_proxy}/UI")
 CSI::Plugins::OwaspZap.spider(
   zap_obj: zap_obj,
   target: target
