@@ -24,6 +24,7 @@ module CSI
                         opts[:http_method].to_s.scrub.to_sym
                       end
         rest_call = opts[:rest_call].to_s.scrub
+        params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
         zap_ip = zap_obj[:zap_ip].to_s.scrub
         zap_port = zap_obj[:zap_port].to_i
