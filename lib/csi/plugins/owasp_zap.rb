@@ -162,9 +162,9 @@ module CSI
           zapapiformat: 'JSON',
           apikey: api_key,
           url: target,
-          maxChildren: 9
-          recurse: 3
-          contextName: ''
+          maxChildren: 9,
+          recurse: 3,
+          contextName: '',
           subtreeOnly: target
         }
 
