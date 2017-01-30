@@ -37,6 +37,12 @@ module CSI
           when :get
             response = rest_client.execute(
               method: :get,
+              url: base_zap_api_uri,
+              verify_ssl: false
+            )
+
+            response = rest_client.execute(
+              method: :get,
               url: "#{base_zap_api_uri}/#{rest_call}",
               headers: {
                 params: params
