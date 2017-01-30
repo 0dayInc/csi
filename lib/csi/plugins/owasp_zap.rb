@@ -32,7 +32,7 @@ module CSI
         api_key = zap_obj[:api_key]
 
         begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8081')::Request
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
           case http_method
           when :get
@@ -179,7 +179,7 @@ module CSI
         begin
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: '/spider/action/scan',
+            rest_call: 'spider/action/scan/',
             params: params
           )
           return response
