@@ -40,7 +40,7 @@ module CSI
               url: "#{base_zap_api_uri}/#{rest_call}",
               headers: {
                 content_type: 'application/json; charset=UTF-8',
-                params: { token: api_key }
+                params: params
               }
             )
 
