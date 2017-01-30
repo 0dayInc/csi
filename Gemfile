@@ -30,7 +30,6 @@ gem 'net-openvpn', '0.8.7'         # Used for OpenVPN connectivity
 gem 'nexpose', '5.0.0'             # Vuln Scan all the Things!
 gem 'nokogiri', '1.6.8'            # Parse HTML & XML Documents
 gem 'os', '0.9.6'                  # Detect underlying operating system
-gem 'owasp_zap', '0.0.95'          # A ruby client to access the HTTP API w/in Zap Proxy
 gem 'pdf-reader', '1.4.0'          # Parsing PDF Reports
 gem 'pg', '0.18.4'                 # Required Postgres Gem for Postgres Data Access Object ***6/28/16
 gem 'pony', '1.11'                 # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***12/15/15

@@ -10,6 +10,7 @@ OptionParser.new do |options|
     #{$0} [opts]
   "
 
+  options.on('-kAPI', '--api-key=API', '<Required - OWASP ZAP API Key>') {|k| opts[:api_key] = k }
   options.on('-tURL', '--target=URL', '<Required - URL to Target>') {|t| opts[:target] = t }
   options.on('-pZPROXY', '--zap-proxy=ZPROXY', '<Optional - OWASP ZAP Proxy (Defaults to http://127.0.0.1:8080)>') {|p| opts[:zap_proxy] = p }
   options.on('-bTYPE', '--browser-type=TYPE', '<Optional - Browser Type :chrome|:firefox|:headless|:rest (Defaults to :chrome)>') {|b| opts[:browser_type] = b }
@@ -21,6 +22,7 @@ if opts.empty?
   exit 1
 end
 
+api_key = opts[:api_key].to_s.scrub
 target = opts[:target].to_s.scrub
 
 if opts[:zap_proxy]
@@ -36,6 +38,9 @@ else
 end
 
 puts "Navigating to target: #{target}"
-zap_obj = CSI::Plugins::OwaspZapIt.start(target: target)
-CSI::Plugins::OwaspZapIt.spider(zap_obj: zap_obj)
-CSI::Plugins::OwaspZapIt.active_scan(zap_obj: zap_obj)
+zap_obj = CSI::Plugins::OwaspZap.start(
+  api_key: api_key, 
+  target: target
+)
+CSI::Plugins::OwaspZap.spider(zap_obj: zap_obj)
+CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj)

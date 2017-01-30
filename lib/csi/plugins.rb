@@ -29,7 +29,7 @@ module CSI
     autoload :OAuth2, 'csi/plugins/oauth2'
     autoload :OCR, 'csi/plugins/ocr'
     autoload :OpenVASVulnScan, 'csi/plugins/openvas_vuln_scan'
-    autoload :OwaspZapIt, 'csi/plugins/owasp_zap_it'
+    autoload :OwaspZap, 'csi/plugins/owasp_zap'
     autoload :PDFParse, 'csi/plugins/pdf_parse'
     autoload :RabbitMQHole, 'csi/plugins/rabbit_mq_hole'
     autoload :Serial, 'csi/plugins/serial'

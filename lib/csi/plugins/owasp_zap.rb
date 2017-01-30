@@ -1,19 +1,14 @@
 # frozen_string_literal: true
 require 'json'
-require 'owasp_zap'
-include OwaspZap
 
 module CSI
   module Plugins
     # This plugin converts images to readable text
-    module OwaspZapIt
+    module OwaspZap
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.start(
-      #   :target => 'required - target URL to test',
-      #   :zap_bin_path => 'optional - path to zap.sh file'
-      #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
-      #   :headless => 'optional - run zap headless if set to true',
-      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
+      # CSI::Plugins::OwaspZap.start(
+      #   :file => 'required - callback file to read',
+      #   :pattern => 'required - make the callback when this pattern is detected in the file',
       # )
 
       private
@@ -45,9 +40,10 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.start(
-      #   :zap_bin_path => 'required - path to zap.sh file'
+      # CSI::Plugins::OwaspZap.start(
+      #   :api_key => 'required - api key for API authorization',
       #   :target => 'required - target URL to test',
+      #   :zap_bin_path => 'optional - path to zap.sh file'
       #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
@@ -56,7 +52,7 @@ module CSI
       public
 
       def self.start(opts = {})
-        # api_key = opts[:api_key].to_s.scrub.strip.chomp # Waiting for https://github.com/vpereira/owasp_zap/issues/12 to be resolved :-/
+        api_key = opts[:api_key].to_s.scrub.strip.chomp
 
         target = opts[:target].to_s.scrub.strip.chomp
         headless = if opts[:headless]
@@ -76,34 +72,27 @@ module CSI
 
           if opts[:proxy]
             proxy = opts[:proxy].to_s.scrub.strip.chomp
-            # zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-            zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
-          else
-            # zap_obj = Zap.new(:api_key => api_key, :target => target)
-            zap_obj = Zap.new(target: target, output: @output_path)
           end
 
           if opts[:zap_bin_path]
             zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
-            zap_obj.zap_bin = zap_bin_path
           else
             underlying_os = CSI::Plugins::DetectOS.type
 
             case underlying_os
             when :osx
-              zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+              zap_bin_path = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
             else
               raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
               exit 1
             end
           end
 
+          zap_obj = {}
           if headless
-            # zap_obj.start(:api_key => true, :daemon => true)
-            zap_obj.start(daemon: true)
+            zap_obj[:pid] = Process.spawn("#{zap_bin_path} -daemon")
           else
-            # zap_obj.start(:api_key => true)
-            zap_obj.start
+            zap_obj[:pid] = Process.spawn(zap_bin_path)
           end
 
           callback_when_pattern_in(
@@ -123,7 +112,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.spider(
+      # CSI::Plugins::OwaspZap.spider(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
 
@@ -147,7 +136,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.active_scan(
+      # CSI::Plugins::OwaspZap.active_scan(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
 
@@ -171,7 +160,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.alerts(
+      # CSI::Plugins::OwaspZap.alerts(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
 
@@ -189,7 +178,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZapIt.stop(
+      # CSI::Plugins::OwaspZap.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
 
@@ -233,6 +222,7 @@ module CSI
       def self.help
         puts "USAGE:
           zap_obj = #{self}.start(
+            :api_key => 'required - api key for API authorization',
             :target => 'required - target URL to test',
             :zap_bin_path => 'optional - path to zap.sh file',
             :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
