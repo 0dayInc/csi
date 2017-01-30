@@ -40,7 +40,6 @@ module CSI
               method: :get,
               url: "#{base_zap_api_uri}/#{rest_call}",
               headers: {
-                accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 params: params
               },
               verify_ssl: false
