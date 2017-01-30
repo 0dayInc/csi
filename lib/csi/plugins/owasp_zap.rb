@@ -138,7 +138,10 @@ module CSI
               stdout.each do |line| 
                 file.puts line
                 if line.include?(return_pattern)
-                  return zap_obj
+                  return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
+                  if line.include?(return_pattern)
+                    return zap_obj
+                  end
                 end
               end
             end
