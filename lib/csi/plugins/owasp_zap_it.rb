@@ -24,6 +24,8 @@ module CSI
         # iteration = 0
 
         File.open(file, 'r') do |file|
+          file.flush # flush the Ruby output buffer for this stream
+          file.sync = true # buffers are flushed after every write
           file.seek(0, IO::SEEK_END) # rewinds file to the end
           loop do
             changes = file.read
