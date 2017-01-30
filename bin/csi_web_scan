@@ -40,12 +40,5 @@ puts 'Configure OWASP ZAP in Tools => Options => Connection => Use Proxy Chain =
 
 zap_obj = CSI::Plugins::OwaspZapIt.start(target: target)
 
-sleep 9
-
-CSI::WWW::Checkip.open(
-  browser_type: :firefox,
-  proxy: zap_proxy
-)
-
 puts "Navigating to target: #{target}"
 browser.goto(target)
