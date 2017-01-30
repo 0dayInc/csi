@@ -67,10 +67,12 @@ module CSI
           File.open(@output_path, 'w') do |file|
             PTY.spawn(owasp_zap_cmd) do |stdout, stdin, pid|
               zap_obj[:pid] = pid
-              return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - dataFileCache open end'
+              return_pattern = 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
               stdout.each do |line| 
                 file.puts line
-                return zap_obj if line.include?(return_pattern)
+                if line.include?(return_pattern)
+                  return zap_obj
+                end
               end
             end
           end
