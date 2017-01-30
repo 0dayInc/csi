@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'pty'
 require 'json'
 
 module CSI
@@ -19,8 +20,6 @@ module CSI
         # iteration = 0
 
         File.open(file, 'r') do |file|
-          file.flush # flush the Ruby output buffer for this stream
-          file.sync = true # buffers are flushed after every write
           file.seek(0, IO::SEEK_END) # rewinds file to the end
           loop do
             changes = file.read
@@ -92,9 +91,19 @@ module CSI
           end
 
           if headless
-            zap_obj[:pid] = Process.spawn("#{zap_bin_path} -daemon")
+            owasp_zap_cmd = "#{zap_bin_path} -daemon"
           else
-            zap_obj[:pid] = Process.spawn(zap_bin_path)
+            owasp_zap_cmd = zap_bin_path
+          end
+
+
+          File.open(@output_path, 'w') do |file|
+            PTY.spawn(owasp_zap_cmd) do |stdout, stdin, pid|
+              zap_obj[:pid] = pid
+              stdout.each do |line| 
+                file.puts line
+              end
+            end
           end
 
           callback_when_pattern_in(
