@@ -37,5 +37,6 @@ end
 
 puts "Navigating to target: #{target}"
 zap_obj = CSI::Plugins::OwaspZapIt.start(target: target)
+puts zap_obj
 CSI::Plugins::OwaspZapIt.spider(zap_obj: zap_obj)
 CSI::Plugins::OwaspZapIt.active_scan(zap_obj: zap_obj)

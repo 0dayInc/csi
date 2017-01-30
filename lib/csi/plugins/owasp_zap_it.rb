@@ -71,53 +71,55 @@ module CSI
           @output_path = '/tmp/owasp_zap.output'
         end
 
-        FileUtils.touch(@output_path) unless File.exist?(@output_path)
+        begin
+          FileUtils.touch(@output_path) unless File.exist?(@output_path)
 
-        if opts[:proxy]
-          proxy = opts[:proxy].to_s.scrub.strip.chomp
-          # zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
-          zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
-        else
-          # zap_obj = Zap.new(:api_key => api_key, :target => target)
-          zap_obj = Zap.new(target: target, output: @output_path)
-        end
-
-        if opts[:zap_bin_path]
-          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
-          zap_obj.zap_bin = zap_bin_path
-        else
-          underlying_os = CSI::Plugins::DetectOS.type
-
-          case underlying_os
-          when :osx
-            zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+          if opts[:proxy]
+            proxy = opts[:proxy].to_s.scrub.strip.chomp
+            # zap_obj = Zap.new(:api_key => api_key, :target => target, :base => proxy)
+            zap_obj = Zap.new(target: target, base: proxy, output: @output_path)
           else
-            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
-            exit 1
+            # zap_obj = Zap.new(:api_key => api_key, :target => target)
+            zap_obj = Zap.new(target: target, output: @output_path)
           end
+
+          if opts[:zap_bin_path]
+            zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+            zap_obj.zap_bin = zap_bin_path
+          else
+            underlying_os = CSI::Plugins::DetectOS.type
+
+            case underlying_os
+            when :osx
+              zap_obj.zap_bin = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
+            else
+              raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
+              exit 1
+            end
+          end
+
+          if headless
+            # zap_obj.start(:api_key => true, :daemon => true)
+            zap_obj.start(daemon: true)
+          else
+            # zap_obj.start(:api_key => true)
+            zap_obj.start
+          end
+
+          callback_when_pattern_in(
+            file: @output_path,
+            pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+          )
+
+          return zap_obj
+        rescue SystemExit, Interrupt
+          File.unlink(@output_path)
+          exit 1
+        rescue => e
+          raise e.message
+          File.unlink(@output_path)
+          exit 1
         end
-
-        if headless
-          # zap_obj.start(:api_key => true, :daemon => true)
-          zap_obj.start(daemon: true)
-        else
-          # zap_obj.start(:api_key => true)
-          zap_obj.start
-        end
-
-        callback_when_pattern_in(
-          file: @output_path,
-          pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
-        )
-
-        return zap_obj
-      rescue SystemExit, Interrupt
-        File.unlink(@output_path)
-        exit 1
-      rescue => e
-        raise e.message
-        File.unlink(@output_path)
-        exit 1
       end
 
       # Supported Method Parameters::
