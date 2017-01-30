@@ -9,8 +9,8 @@ module CSI
     module OwaspZapIt
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZapIt.start(
-      #   :zap_bin_path => 'required - path to zap.sh file'
       #   :target => 'required - target URL to test',
+      #   :zap_bin_path => 'optional - path to zap.sh file'
       #   :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
       #   :headless => 'optional - run zap headless if set to true',
       #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
@@ -229,8 +229,8 @@ module CSI
       def self.help
         puts "USAGE:
           zap_obj = #{self}.start(
-            :zap_bin_path => 'required - path to zap.sh file',
             :target => 'required - target URL to test',
+            :zap_bin_path => 'optional - path to zap.sh file',
             :output_path => 'optional - alternative file path to dump output (defaults to /tmp/owasp_zap.output)',
             :headless => 'optional - run zap headless if set to true',
             :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)'
