@@ -39,7 +39,7 @@ gem 'puppet', '4.5.2'              # Integrate CSI into Puppet automation
 gem 'rainbow', '2.2.1'             # Colorize csi_cli ;)
 gem 'rb-readline', require: false
 gem 'rbvmomi', '1.8.2'             # Required for VMware-Fu ***12/15/15
-gem 'rest-client', '1.8.0'         # Required for REST API Testing ***6/28/16
+gem 'rest-client', '2.0.0'         # Required for REST API Testing ***6/28/16
 gem 'rex', '2.0.10'                # Rex provides a variety of classes useful for security testing and exploit development
 gem 'rmagick', '2.15.4'            # Image processing gem
 gem 'rtesseract', '2.0.1'          # Gem for image ocr (e.g. decoding captchas)
