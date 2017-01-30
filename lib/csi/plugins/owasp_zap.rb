@@ -6,7 +6,7 @@ module CSI
     # This plugin converts images to readable text
     module OwaspZap
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZap.start(
+      # callback_when_pattern_in(
       #   :file => 'required - callback file to read',
       #   :pattern => 'required - make the callback when this pattern is detected in the file',
       # )
@@ -52,7 +52,10 @@ module CSI
       public
 
       def self.start(opts = {})
+        zap_obj = {}
+
         api_key = opts[:api_key].to_s.scrub.strip.chomp
+        zap_obj[:api_key] = api_key
 
         target = opts[:target].to_s.scrub.strip.chomp
         headless = if opts[:headless]
@@ -88,7 +91,6 @@ module CSI
             end
           end
 
-          zap_obj = {}
           if headless
             zap_obj[:pid] = Process.spawn("#{zap_bin_path} -daemon")
           else
@@ -97,7 +99,7 @@ module CSI
 
           callback_when_pattern_in(
             file: @output_path,
-            pattern: 'INFO org.parosproxy.paros.control.Control  - Create and Open Untitled Db'
+            pattern: '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - dataFileCache open end'
           )
 
           return zap_obj
