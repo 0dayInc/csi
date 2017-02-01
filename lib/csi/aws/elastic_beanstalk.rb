@@ -16,12 +16,26 @@ module CSI
 
       def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
+        access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
+        secret_access_key = opts[:secret_access_key].to_s.scrub.chomp.strip
+        sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         begin
-          @@logger.info('Connecting to AWS ElasticBeanstalk...')
-          eb_obj = Aws::ElasticBeanstalk::Client.new(
-            region: region,
-          )
+          @@logger.info('Connecting to AWS EC2...')
+          if sts_session_token == ''
+            eb_obj = Aws::ElasticBeanstalk::Client.new(
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key
+            )
+          else
+            eb_obj = Aws::ElasticBeanstalk::Client.new(
+              region: region,
+              access_key_id: access_key_id,
+              secret_access_key: secret_access_key,
+              session_token: sts_session_token
+            )
+          end
           @@logger.info("complete.\n")
 
           return eb_obj
