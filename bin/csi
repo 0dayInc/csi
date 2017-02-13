@@ -27,10 +27,10 @@ begin
 
   prompt = [
     proc do |obj, nest_level, _|
-      "\[#{title}#{version} #{arrow} ".to_s.scrub
+      ".#{title}#{version} #{arrow} ".to_s.scrub
     end,
     proc do |obj, nest_level, _|
-      "\[#{title}#{version} #{splat} ".to_s.scrub
+      ".#{title}#{version} #{splat} ".to_s.scrub
     end
   ]
   pry_obj.start(self, prompt: prompt)
