@@ -20,10 +20,10 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  title = "\u0001#{Rainbow('csi').red.bright}\u0003"
+  title = "\u0002#{Rainbow('csi').red.bright}\u0003"
   version = "|v#{CSI::VERSION}|"
-  arrow = "\u0001#{Rainbow('>>>').green}\u0003"
-  splat = "\u0001#{Rainbow('***').yellow}\u0003"
+  arrow = "\u0002#{Rainbow('>>>').green}\u0003"
+  splat = "\u0002#{Rainbow('***').yellow}\u0003"
 
   prompt = [
     proc do |obj, nest_level, _|
