@@ -27,7 +27,7 @@ begin
 
   prompt = [
     proc do |obj, nest_level, _|
-      "\u0002#{title}#{version} #{arrow} ".to_s.scrub
+      "\u0001#{title}#{version} #{arrow} ".to_s.scrub
     end,
     proc do |obj, nest_level, _|
       "#{title}#{version} #{splat} ".to_s.scrub
