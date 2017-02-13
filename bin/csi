@@ -23,6 +23,7 @@ begin
   title = "\u0001#{Rainbow('csi').red.bright}\u0004"
   version = "|v#{CSI::VERSION}|"
   arrow = "\u0001#{Rainbow('>>>').green}\u0004"
+  arrow = '>>> '
   splat = "\u0001#{Rainbow('***').yellow}\u0004"
 
   prompt = [
