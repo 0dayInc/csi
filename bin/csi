@@ -27,11 +27,11 @@ begin
   prompt = [
     proc do |target_self, nest_level, pry|
       line_count = "\001\e[36m\002#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002" # Cayan
-      "#{title}|#{version}:#{line_count}:#{nest_level} #{arrow} ".to_s.scrub
+      "#{title}|#{version}|:#{line_count} #{arrow} ".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
       line_count = "\001\e[33m\002#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002"
-      "#{title}|#{version}:#{line_count}:#{nest_level} #{splat} ".to_s.scrub
+      "#{title}|#{version}|:#{line_count} #{splat} ".to_s.scrub
     end
   ]
   cli.start(self, prompt: prompt)
