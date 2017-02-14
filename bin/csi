@@ -5,9 +5,9 @@ require 'pry'
 require 'rainbow'
 
 begin
-  prompt = Pry
+  cli = Pry
 
-  prompt::Commands.create_command 'toggle-pager' do
+  cli::Commands.create_command 'toggle-pager' do
     description 'Toggle less on returned objects surpassing the terminal.'
 
     def process
@@ -33,7 +33,7 @@ begin
       "#{title}#{version}:[#{pry.input_array.size}] #{splat} ".to_s.scrub
     end
   ]
-  prompt.start(self, prompt: prompt)
+  cli.start(self, prompt: prompt)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
