@@ -19,10 +19,10 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  title = "\001\001\001\e[31mcsi\e[0m\002\002\002" # Red
-  version = "\001\001\001\e[36mv#{CSI::VERSION}\e[0m\002\002\002" # Cayan
-  arrow = "\001\001\001\e[32m>>>\e[0m\002\002\002" # Green
-  splat = "\001\001\001\e[33m***\e[0m\002\002\002" # Yellow
+  title = "\e[31mcsi\e[0m" # Red
+  version = "\e[36mv#{CSI::VERSION}\e[0m" # Cayan
+  arrow = "\e[32m>>>\e[0m" # Green
+  splat = "\e[33m***\e[0m" # Yellow
 
   prompt = [
     proc do |target_self, nest_level, pry|
