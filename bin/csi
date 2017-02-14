@@ -26,11 +26,11 @@ begin
 
   prompt = [
     proc do |target_self, nest_level, pry|
-      line_count = "\001\e[34m\002#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002" # Blue
+      line_count = "\001\e[34m\002#{nest_level}.#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002" # Blue
       "#{title}|#{version}|#{line_count} #{arrow} ".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
-      line_count = "\001\e[34m\002#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002" # Blue
+      line_count = "\001\e[34m\002#{nest_level}.#{sprintf("%0.3d", pry.input_array.size)}\001\e[0m\002" # Blue
       "#{title}|#{version}|#{line_count} #{splat} ".to_s.scrub
     end
   ]
