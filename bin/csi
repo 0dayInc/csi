@@ -33,7 +33,8 @@ begin
       "#{obj}:#{nest_level}:#{title}#{version} #{splat} ".to_s.scrub
     end
   ]
-  pry_obj.start(self, prompt: prompt)
+  #pry_obj.start(self, prompt: prompt)
+  pry_obj.start(binding, prompt: prompt)
 ensure
   if $browser
     $browser = CSI::Plugins::TransparentBrowser.close(
