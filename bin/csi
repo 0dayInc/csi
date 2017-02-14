@@ -19,7 +19,7 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  title = "\e[31mcsi"
+  title = "\e[31mcsi\e[0m"
   #version = "|v#{CSI::VERSION}|"
   #arrow = "\e[32m>>>"
   #splat = "\e[33m***"
@@ -31,10 +31,10 @@ begin
 
   prompt = [
     proc do |target_self, nest_level, pry|
-      "#{title}|#{version}|#{pry.input_array.size} #{arrow} \e[0m".to_s.scrub
+      "\001#{title}|#{version}|#{pry.input_array.size} #{arrow} \002".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
-      "#{title}|#{version}|#{pry.input_array.size} #{splat} \e[0m".to_s.scrub
+      "\001#{title}|#{version}|#{pry.input_array.size} #{splat} \002".to_s.scrub
     end
   ]
   cli.start(self, prompt: prompt)
