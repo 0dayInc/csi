@@ -19,7 +19,7 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  title = "\001\e[31mcsi\e[0m\002"
+  title = "\u0001\e[31mcsi\e[0m\u0002"
   #version = "|v#{CSI::VERSION}|"
   #arrow = "\001\e[32m>>>\e[0m\002"
   #splat = "\001\e[33m***\e[0m\002"

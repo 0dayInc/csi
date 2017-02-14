@@ -1,3 +1,3 @@
 module CSI
-  VERSION = '0.1.713'
+  VERSION = '0.1.714'
 end
