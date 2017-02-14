@@ -20,7 +20,7 @@ begin
 
   # Custom Main & Wait (Multi-Line) Prompts
   title = "\001\e[31m\002csi\001\e[0m\002" # Red
-  version = "\001\e[47m\002v#{CSI::VERSION}\001\e[0m\002" # Blue
+  version = "\001\e[37m\002v#{CSI::VERSION}\001\e[0m\002" # White
   arrow = "\001\e[32m\002>>>\001\e[0m\002" # Green
   splat = "\001\e[33m\002***\001\e[0m\002" # Yellow
 
