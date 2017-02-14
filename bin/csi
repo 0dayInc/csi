@@ -27,10 +27,10 @@ begin
 
   prompt = [
     proc do |target_self, nest_level, pry|
-      "#{title}#{version}:[#{pry.input_array.size}] #{arrow} ".to_s.scrub
+      "[#{pry.input_array.size}]#{title}#{version} #{arrow} ".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
-      "#{title}#{version}:[#{pry.input_array.size}] #{splat} ".to_s.scrub
+      "[#{pry.input_array.size}]#{title}#{version} #{splat} ".to_s.scrub
     end
   ]
   cli.start(self, prompt: prompt)
