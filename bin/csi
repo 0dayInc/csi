@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 require 'csi'
 require 'pry'
-require 'rainbow'
 
 begin
   cli = Pry
@@ -22,8 +21,8 @@ begin
   # Custom Main & Wait (Multi-Line) Prompts
   title = "\e[31mcsi\e[0m"
   #version = "|v#{CSI::VERSION}|"
-  #arrow = Rainbow('>>>').green
-  #splat = Rainbow('***').yellow
+  #arrow = "\e[32m>>>\e[0m"
+  #splat = "\e[33m***\e[0m"
 
   #title = 'csi'
   version = "v#{CSI::VERSION}"
@@ -32,10 +31,10 @@ begin
 
   prompt = [
     proc do |target_self, nest_level, pry|
-      "\u0001#{title}|#{version}|#{pry.input_array.size} #{arrow} \u0002".to_s.scrub
+      "\001#{title}|#{version}|#{pry.input_array.size} #{arrow} \002".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
-      "\u0001#{title}|#{version}|#{pry.input_array.size} #{splat} \u0002".to_s.scrub
+      "\001#{title}|#{version}|#{pry.input_array.size} #{splat} \002".to_s.scrub
     end
   ]
   cli.start(self, prompt: prompt)
