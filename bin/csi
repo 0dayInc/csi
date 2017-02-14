@@ -20,12 +20,12 @@ begin
   end
 
   # Custom Main & Wait (Multi-Line) Prompts
-  #title = Rainbow('csi').red.bright
+  title = "\\[\e[9csi\e[0m"
   #version = "|v#{CSI::VERSION}|"
   #arrow = Rainbow('>>>').green
   #splat = Rainbow('***').yellow
 
-  title = 'csi'
+  #title = 'csi'
   version = "v#{CSI::VERSION}"
   arrow = '>>>'
   splat = '***'
