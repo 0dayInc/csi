@@ -5,4 +5,4 @@ sudo apt-get install -y build-essential bison openssl libreadline6 libreadline6-
 source /etc/profile.d/rvm.sh
 ruby_version=`cat /csi/.ruby-version`
 printf "Installing ${ruby_version} ************************************************************"
-sudo bash --login -c "source /etc/profile.d/rvm.sh && rvm install ${ruby_version} && rvm use ${ruby_version} && rvm gemset create csi && rvm use --default ${ruby_version}@csi"
+sudo bash --login -c "source /etc/profile.d/rvm.sh && rvm install ${ruby_version} && rvm use ${ruby_version} && rvm gemset create csi && rvm --default ${ruby_version}@csi && rvm use ${ruby_version}@csi"

@@ -29,7 +29,8 @@ case $csi_deploy_type in
         rvm install ${ruby_version}
         rvm use ${ruby_version}
         rvm gemset create ${gemset}
-        rvm use --default ${ruby_version}@${gemset}
+        rvm --default ${ruby_version}@${gemset}
+        rvm use ${ruby_version}@${gemset}
         gem install bundler
         bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
     
@@ -58,7 +59,8 @@ case $csi_deploy_type in
           rvm install ${ruby_version}
           rvm use ${ruby_version}
           rvm gemset create ${gemset}
-          rvm use --default ${ruby_version}@${gemset}
+          rvm --default ${ruby_version}@${gemset}
+          rvm use ${ruby_version}@${gemset}
           gem install bundler
           
           echo "Installing wget to retrieve tesseract trained data..."
