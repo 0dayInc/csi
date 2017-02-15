@@ -2,7 +2,8 @@ hostname: csi.DOMAIN
 access_key_id: ACCESS_KEY_ID
 secret_access_key: SECRET_ACCESS_KEY
 keypair_name: Public SSH Key Name
-ami: ami-b9ff39d9
+# Kali Linux Rolling
+ami: ami-5e0cac3e
 block_device_mapping:
   - DeviceName: /dev/sda1 
     Ebs.VolumeSize: 33
