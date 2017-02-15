@@ -26,12 +26,12 @@ begin
 
   prompt = [
     proc do |target_self, nest_level, pry|
-      line_pad = sprintf('%0.3d', pry.input_array.size)
+      line_pad = format('%0.3d', pry.input_array.size)
       line_count = "\001\e[34m\002#{line_pad}\001\e[0m\002" # Blue
       "#{title}[#{version}]:#{line_count} #{arrow} ".to_s.scrub
     end,
     proc do |target_self, nest_level, pry|
-      line_pad = sprintf('%0.3d', pry.input_array.size)
+      line_pad = format('%0.3d', pry.input_array.size)
       line_count = "\001\e[34m\002#{line_pad}\001\e[0m\002" # Blue
       "#{title}[#{version}]:#{line_count} #{splat} ".to_s.scrub
     end
