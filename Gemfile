@@ -15,7 +15,6 @@ gem 'brakeman', '3.5.0'            # Rails Security Scanner ***2017-02-13
 gem 'bson', '4.2.1'                # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2017-02-13
 gem 'bundler-audit', '0.5.0'       # Checks for vulnerable versions of gems ***2017-02-13
 gem 'bunny', '2.6.3'               # RabbitMQ ***2017-02-13
-gem 'credy', '0.2.1'               # Credit Card Handling ***2017-02-16
 gem 'fog', '1.38.0'                # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS) ***2017-02-13
 gem 'highline', '1.7.8'            # Masking Authentication Credential Input ***2016-06-28
 gem 'htmlentities', '4.3.4'        # Encode raw strings/input to HTML entity encoded data ***2016-06-28
@@ -23,6 +22,7 @@ gem 'jenkins_api_client', '1.4.5'  # Support Jenkins Continuous Integration Auto
 gem 'js-beautify', '0.1.8'         # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '>=1.8.6'              # Work w/ JSON objects ***2017-02-13 (jenkins_api_client depends on older version)
 gem 'jsonpath', '0.5.8'            # XPath-ify Complex JSON Data Structures ***2017-02-13
+gem 'luhn', '1.0.2'                # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mongo', '2.4.1'               # Primarily for Data-Driven Security, pulling in various security tools' output ***2017-02-13
 gem 'msfrpc-client', '1.0.3'       # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2016-06-28
 gem 'net-ldap', '0.15.0'           # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-02-13
