@@ -10,6 +10,7 @@ module CSI
     autoload :BasicAuth, 'csi/plugins/basic_auth'
     autoload :BeEF, 'csi/plugins/beef'
     autoload :BurpSuite, 'csi/plugins/burp_suite'
+    autoload :CreditCard, 'csi/plugins/credit_card'
     autoload :CSILogger, 'csi/plugins/csi_logger'
     autoload :DAOLDAP, 'csi/plugins/dao_ldap'
     autoload :DAOMongo, 'csi/plugins/dao_mongo'
