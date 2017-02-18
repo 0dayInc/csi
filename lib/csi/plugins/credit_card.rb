@@ -22,7 +22,7 @@ module CSI
           cc_result_arr.push(CreditCardValidations::Factory.random(type))
         end
 
-        return cc_result_arr
+        cc_result_arr
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
