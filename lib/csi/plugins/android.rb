@@ -214,7 +214,7 @@ module CSI
         begin
           `#{$adb_path} root` if as_root
           app_resp = `#{$adb_path} shell pm list packages`
-          app_resp_arr = app_resp.gsub("\npackage:", "\n").split("\r\n")
+          app_resp_arr = app_resp.gsub("\npackage:", "\n").split("\n")
 
           return app_resp_arr
         rescue => e
