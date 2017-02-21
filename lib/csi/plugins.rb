@@ -19,6 +19,7 @@ module CSI
     autoload :DetectOS, 'csi/plugins/detect_os'
     autoload :FileFu, 'csi/plugins/file_fu'
     autoload :Git, 'csi/plugins/git'
+    autoload :HackerOne, 'csi/plugins/hacker_one'
     autoload :IBMAppscan, 'csi/plugins/ibm_appscan'
     autoload :IPInfo, 'csi/plugins/ip_info'
     autoload :Jenkins, 'csi/plugins/jenkins'
