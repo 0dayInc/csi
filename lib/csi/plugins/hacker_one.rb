@@ -19,7 +19,7 @@ module CSI
 
       def self.login(opts = {})
         username = opts[:username].to_s.scrub
-        base_h1_api_uri = "https://api.hackerone.com/v1".to_s.scrub
+        base_h1_api_uri = "https://api.hackerone.com/v1/".to_s.scrub
 
         token = if opts[:token].nil?
                      CSI::Plugins::AuthenticationHelper.mask_password
@@ -83,7 +83,7 @@ module CSI
         rest_call = opts[:rest_call].to_s.scrub
         http_body = opts[:http_body].to_s.scrub
         h1_success = h1_obj[:h1_success].to_s.scrub
-        base_h1_api_uri = "https://api.hackerone.com/v1".to_s.scrub
+        base_h1_api_uri = "https://api.hackerone.com/v1/".to_s.scrub
         api_token = h1_obj[:api_token]
 
         begin
