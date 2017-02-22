@@ -46,5 +46,5 @@ if from_num <= to_num
     )
   end
 else
-  raise "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
+  puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
 end
