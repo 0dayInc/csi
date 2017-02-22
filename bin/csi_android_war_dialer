@@ -55,10 +55,10 @@ from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 randomize = opts[:randomize]
 
-adb_bin = opts[:adb_bin] if File.exists?(opts[:adb_bin].to_s.scrub.strip.chomp)
+adb_bin = opts[:adb_bin] if File.exist?(opts[:adb_bin].to_s.scrub.strip.chomp)
 
-sox_bin = opts[:sox_bin] if File.exists?(opts[:sox_bin].to_s.scrub.strip.chomp)
-wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exists?(opts[:wav_archive].to_s.scrub.strip.chomp)
+sox_bin = opts[:sox_bin] if File.exist?(opts[:sox_bin].to_s.scrub.strip.chomp)
+wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exist?(opts[:wav_archive].to_s.scrub.strip.chomp)
 
 seconds_to_record = opts[:seconds_to_record].to_i
 
@@ -86,7 +86,7 @@ if from_num <= to_num
 
     begin
       print "recording audio for #{seconds_to_record} seconds..."
-      Timeout::timeout(seconds_to_record) do
+      Timeout.timeout(seconds_to_record) do
         PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
           pid_to_kill = pid
           stdout.sync = true
@@ -97,7 +97,6 @@ if from_num <= to_num
       Process.kill('KILL', pid_to_kill)
       print 'recording complete...'
     end
- 
 
     print 'hanging up...'
     CSI::Plugins::Android.adb_sh(
@@ -116,7 +115,7 @@ if from_num <= to_num
     print "\n*** FFT enumeration => #{wav_file}..."
     window_size = 1024
     wf_arr = []
-    fft = Array.new(window_size/2,[])
+    fft = Array.new(window_size / 2, [])
     begin
       buf = RubyAudio::Buffer.float(window_size)
       RubyAudio::Sound.open(wav_file) do |snd|
@@ -124,15 +123,15 @@ if from_num <= to_num
           wf_arr.concat(buf.to_a)
           na = NArray.to_na(buf.to_a)
           fft_slice = FFTW3.fft(na).to_a[0, window_size/2]
-          j=0
-          fft_slice.each { |x| fft[j] << x; j+=1 }
+          j = 0
+          fft_slice.each { |x| fft[j] << x; j += 1 }
         end
       end
       puts fft.class
-      #File.open("#{wav_file}.fft.dat", 'w') do |f|
-      #  f.puts fft
-      #end
-      puts "complete."
+      # File.open("#{wav_file}.fft.dat", 'w') do |f|
+      #   f.puts fft
+      # end
+      puts 'complete.'
     rescue => e
       raise e.message
     end
