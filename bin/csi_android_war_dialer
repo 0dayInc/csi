@@ -40,27 +40,27 @@ seconds_to_record = opts[:seconds_to_record].to_i
 if from_num <= to_num
   range = []
   # Prepare the targets for assessment
-  (from_num..to_num).each {|number| range.push(number) }
+  (from_num..to_num).each { |number| range.push(number) }
 
   # Randomize targets if applicable
   range.shuffle! if randomize
 
-  range.each do |target_num| 
+  range.each do |target_num|
     print "Dialing #{target_num}..."
     CSI::Plugins::Android.adb_sh(
-      adb_path: '/usr/local/bin/adb', 
+      adb_path: '/usr/local/bin/adb',
       command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
     )
 
     sleep seconds_to_record 
     # TODO: Record Call
 
-    print "terminating call..."
+    print 'terminating call...'
     CSI::Plugins::Android.adb_sh(
-      adb_path: '/usr/local/bin/adb', 
+      adb_path: '/usr/local/bin/adb',
       command: "input keyevent KEYCODE_ENDCALL"
     )
-    puts "complete."
+    puts 'complete.'
   end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"

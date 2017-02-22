@@ -19,13 +19,13 @@ module CSI
 
       def self.login(opts = {})
         username = opts[:username].to_s.scrub
-        base_h1_api_uri = "https://api.hackerone.com/v1/".to_s.scrub
+        base_h1_api_uri = 'https://api.hackerone.com/v1/'.to_s.scrub
 
         token = if opts[:token].nil?
-                     CSI::Plugins::AuthenticationHelper.mask_password
-                   else
-                     opts[:token].to_s.scrub
-                   end
+                  CSI::Plugins::AuthenticationHelper.mask_password
+                else
+                  opts[:token].to_s.scrub
+                end
 
         begin
           auth_payload = {}
@@ -40,7 +40,7 @@ module CSI
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
           response = rest_client.execute(
             method: :get,
-            url: "#{base_h1_api_uri}",
+            url: base_h1_api_uri,
             headers: {
               authorization: basic_auth_header,
               content_type: 'application/json; charset=UTF-8'
@@ -59,7 +59,6 @@ module CSI
           return h1_obj
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -83,7 +82,7 @@ module CSI
         rest_call = opts[:rest_call].to_s.scrub
         http_body = opts[:http_body].to_s.scrub
         h1_success = h1_obj[:h1_success].to_s.scrub
-        base_h1_api_uri = "https://api.hackerone.com/v1/".to_s.scrub
+        base_h1_api_uri = 'https://api.hackerone.com/v1/'.to_s.scrub
         api_token = h1_obj[:api_token]
 
         begin
@@ -112,11 +111,9 @@ module CSI
 
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
-            exit
           end
         rescue => e
           raise e.message
-          exit
         end
       end
 
