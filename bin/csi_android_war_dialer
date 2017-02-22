@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-fFROM', '--from=FROM', '<Required - Dial Range From (Beginning Number)>') do |f|
+    opts[:from_num] = f
+  end
+  options.on('-tTO', '--to=TO', '<Required - Dial Range To (Ending Number)>') do |t|
+    opts[:to_num] = t
+  end
+  options.on('-sSEC', '--seconds_to_record=SEC', '<Required - Senconds to Record >') do |s|
+    opts[:seconds_to_record] = s
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
+from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
+to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
+
+seconds_to_record = opts[:seconds_to_record].to_i
+
+if from_num <= to_num
+  (from_num..to_num).each do |target_num| 
+    CSI::Plugins::Android.adb_sh(
+      adb_path: '/usr/local/bin/adb', 
+      command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
+    )
+
+    sleep seconds_to_record 
+    # TODO: Record Call
+
+    CSI::Plugins::Android.adb_sh(
+      adb_path: '/usr/local/bin/adb', 
+      command: "input keyevent KEYCODE_ENDCALL"
+    )
+  end
+else
+  raise "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
+end
