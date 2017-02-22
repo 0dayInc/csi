@@ -93,8 +93,8 @@ if from_num <= to_num
         end
       rescue Timeout::Error
         Process.kill('KILL', pid_to_kill)
-        print 'generating spectogram...'
-        system("#{sox_bin} #{wav_file} -n #{wav_file}")
+        print 'generating spectrogram...'
+        system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
         puts 'complete.'
       end
 
