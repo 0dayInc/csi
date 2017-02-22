@@ -58,7 +58,7 @@ if from_num <= to_num
     print 'terminating call...'
     CSI::Plugins::Android.adb_sh(
       adb_path: '/usr/local/bin/adb',
-      command: "input keyevent KEYCODE_ENDCALL"
+      command: 'input keyevent KEYCODE_ENDCALL'
     )
     puts 'complete.'
   end
