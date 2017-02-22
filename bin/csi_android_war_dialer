@@ -32,6 +32,7 @@ seconds_to_record = opts[:seconds_to_record].to_i
 
 if from_num <= to_num
   (from_num..to_num).each do |target_num| 
+    print "Dialing #{target_num}..."
     CSI::Plugins::Android.adb_sh(
       adb_path: '/usr/local/bin/adb', 
       command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
@@ -40,10 +41,12 @@ if from_num <= to_num
     sleep seconds_to_record 
     # TODO: Record Call
 
+    print "terminating call..."
     CSI::Plugins::Android.adb_sh(
       adb_path: '/usr/local/bin/adb', 
       command: "input keyevent KEYCODE_ENDCALL"
     )
+    puts "complete."
   end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
