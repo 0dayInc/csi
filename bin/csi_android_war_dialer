@@ -12,11 +12,17 @@ OptionParser.new do |options|
   options.on('-fFROM', '--from=FROM', '<Required - Dial Range From (Beginning Number)>') do |f|
     opts[:from_num] = f
   end
+
   options.on('-tTO', '--to=TO', '<Required - Dial Range To (Ending Number)>') do |t|
     opts[:to_num] = t
   end
+
   options.on('-sSEC', '--seconds_to_record=SEC', '<Required - Senconds to Record >') do |s|
     opts[:seconds_to_record] = s
+  end
+
+  options.on('-r', '--[no-]randomize', '<Optional - Randomize Number Range>') do |r|
+    opts[:randomize] = r
   end
 end.parse!
 
@@ -27,11 +33,19 @@ end
 
 from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
+randomize = opts[:randomize]
 
 seconds_to_record = opts[:seconds_to_record].to_i
 
 if from_num <= to_num
-  (from_num..to_num).each do |target_num| 
+  range = []
+  # Prepare the targets for assessment
+  (from_num..to_num).each {|number| range.push(number) }
+
+  # Randomize targets if applicable
+  range.shuffle if randomize
+
+  range.each do |target_num| 
     print "Dialing #{target_num}..."
     CSI::Plugins::Android.adb_sh(
       adb_path: '/usr/local/bin/adb', 
