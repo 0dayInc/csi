@@ -34,6 +34,7 @@ end
 from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 randomize = opts[:randomize]
+puts "R: #{randomize}"
 
 seconds_to_record = opts[:seconds_to_record].to_i
 
@@ -43,7 +44,7 @@ if from_num <= to_num
   (from_num..to_num).each {|number| range.push(number) }
 
   # Randomize targets if applicable
-  range.shuffle if randomize
+  range.shuffle! if randomize
 
   range.each do |target_num| 
     print "Dialing #{target_num}..."
