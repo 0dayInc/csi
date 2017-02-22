@@ -138,12 +138,10 @@ if from_num <= to_num
   rescue => e
     raise e.message
   ensure
-    print 'hanging up...'
     CSI::Plugins::Android.adb_sh(
       adb_path: adb_bin,
       command: 'input keyevent KEYCODE_ENDCALL'
     )
-    puts 'complete.'
   end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
