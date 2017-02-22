@@ -128,6 +128,7 @@ if from_num <= to_num
           fft_slice.each { |x| fft[j] << x; j+=1 }
         end
       end
+      puts fft.class
       #File.open("#{wav_file}.fft.dat", 'w') do |f|
       #  f.puts fft
       #end
