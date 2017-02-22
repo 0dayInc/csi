@@ -124,8 +124,8 @@ if from_num <= to_num
           na = NArray.to_na(buf.to_a)
           fft_slice = FFTW3.fft(na).to_a[0, window_size / 2]
           j = 0
-          fft_slice.each do |x| 
-            fft[j] << x 
+          fft_slice.each do |x|
+            fft[j] << x
             j += 1
           end
         end
