@@ -71,7 +71,7 @@ if from_num <= to_num
 
     range.each do |target_num|
       start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-      puts "*** #{start_timestamp} => dialing #{target_num}:"
+      puts "\001\e[1m\002\001\e[31m\002#{start_timestamp}\001\e[0m\002 \001\e[33m\002=>\001\e[0m\002 \001\e[32m\002dialing #{target_num}:\001\e[0m\002"
       CSI::Plugins::Android.adb_sh(
         adb_path: adb_bin,
         command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
@@ -98,13 +98,13 @@ if from_num <= to_num
         puts 'complete.'
       end
 
-      print 'hanging up...'
+      print "\001\e[1m\002\001\e[31m\002hanging up #{target_num}...\001\e[0m\002"
       CSI::Plugins::Android.adb_sh(
         adb_path: adb_bin,
         command: 'input keyevent KEYCODE_ENDCALL'
       )
 
-      puts "complete.\n\n\n"
+      puts "\001\e[32m\002session complete.\001\e[0m\002\n\n\n"
     end
   rescue => e
     raise e.message
