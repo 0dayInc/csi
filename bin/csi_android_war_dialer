@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 require 'csi'
 require 'optparse'
+require 'ruby-audio'
+#require 'fftw3'
 
 opts = {}
 OptionParser.new do |options|
@@ -17,12 +19,16 @@ OptionParser.new do |options|
     opts[:to_num] = t
   end
 
-  options.on('-sSEC', '--seconds_to_record=SEC', '<Required - Senconds to Record >') do |s|
+  options.on('-sSEC', '--seconds-to-record=SEC', '<Required - Senconds to Record >') do |s|
     opts[:seconds_to_record] = s
   end
 
   options.on('-r', '--[no-]randomize', '<Optional - Randomize Number Range>') do |r|
     opts[:randomize] = r
+  end
+
+  options.on('-pRES', '--results-path=RES', '<Optional - Path to Save SQLite Database Results>') do |p|
+    opts[:results_path] = p
   end
 end.parse!
 
@@ -62,6 +68,28 @@ if from_num <= to_num
     )
     puts 'complete.'
   end
+  # TODO: Post Process Audio Files into FFT Plots for Signature Analysis & Save to SQLite DB
+  # Pseudo-code
+  # wav_files.each do |fname|
+  #   window_size = 1024
+  #   wave = Array.new
+  #   fft = Array.new(window_size/2,[])
+  #   begin
+  #     buf = RubyAudio::Buffer.float(window_size)
+  #     RubyAudio::Sound.open(fname) do |snd|
+  #       while snd.read(buf) != 0
+  #         wave.concat(buf.to_a)
+  #         na = NArray.to_na(buf.to_a)
+  #         fft_slice = FFTW3.fft(na).to_a[0, window_size/2]
+  #         j=0
+  #         fft_slice.each { |x| fft[j] << x; j+=1 }
+  #       end
+  #     end
+  #   rescue => err
+  #     log.error "error reading audio file: " + err
+  #     exit
+  #   end
+  # end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
 end

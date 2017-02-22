@@ -44,6 +44,7 @@ gem 'rex', '2.0.10'                    # Rex provides a variety of classes usefu
 gem 'rmagick', '2.16.0'                # Image processing gem ***2017-02-13
 gem 'rtesseract', '2.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2017-02-13
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
+gem 'ruby-audio', '1.6.1'              # Work with Audio files in Ruby
 gem 'ruby-nmap', '0.9.2'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2017-02-13
 gem 'ruby-saml', '1.4.2'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2017-02-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
