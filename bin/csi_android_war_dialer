@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 require 'csi'
 require 'optparse'
+require 'timeout'
+require 'pty'
 # require 'ruby-audio'
 # require 'fftw3'
 
@@ -11,16 +13,28 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-fFROM', '--from=FROM', '<Required - Dial Range From (Beginning Number)>') do |f|
+  options.on('-fFROM', '--from=FROM', '<Required - Dial Range from (Beginning Number)>') do |f|
     opts[:from_num] = f
   end
 
-  options.on('-tTO', '--to=TO', '<Required - Dial Range To (Ending Number)>') do |t|
+  options.on('-tTO', '--to=TO', '<Required - Dial Range to (Ending Number)>') do |t|
     opts[:to_num] = t
   end
 
   options.on('-sSEC', '--seconds-to-record=SEC', '<Required - Senconds to Record >') do |s|
     opts[:seconds_to_record] = s
+  end
+
+  options.on('-aADB', '--adb-path=ADB', '<Required - Path to ADB (Android Debug Bridge)>') do |adb|
+    opts[:adb_bin] = adb
+  end
+
+  options.on('-SSOX', '--sox-path=SOX', '<Required - Path to SoX Binary, the Swiss Army knife of Audio>') do |sox|
+    opts[:sox_bin] = sox
+  end
+
+  options.on('-wWAV', '--wav-archive-dir=WAV', '<Required - Path to Directory to Store WAV Files>') do |wav|
+    opts[:wav_archive] = wav
   end
 
   options.on('-r', '--[no-]randomize', '<Optional - Randomize Number Range>') do |r|
@@ -41,10 +55,16 @@ from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 randomize = opts[:randomize]
 
+adb_bin = opts[:adb_bin] if File.exists?(opts[:adb_bin].to_s.scrub.strip.chomp)
+
+sox_bin = opts[:sox_bin] if File.exists?(opts[:sox_bin].to_s.scrub.strip.chomp)
+wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exists?(opts[:wav_archive].to_s.scrub.strip.chomp)
+
 seconds_to_record = opts[:seconds_to_record].to_i
 
 if from_num <= to_num
   range = []
+  wav_files_arr = []
   # Prepare the targets for assessment
   (from_num..to_num).each { |number| range.push(number) }
 
@@ -52,31 +72,50 @@ if from_num <= to_num
   range.shuffle! if randomize
 
   range.each do |target_num|
-    print "Dialing #{target_num}..."
+    start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
+    print "#{start_timestamp} => dialing #{target_num}..."
     CSI::Plugins::Android.adb_sh(
-      adb_path: '/usr/local/bin/adb',
+      adb_path: adb_bin,
       command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
     )
 
-    sleep seconds_to_record 
-    # TODO: Record Call
+    # Record Call
+    pid_to_kill = 0
+    wav_file = "#{wav_archive}/#{target_num}-#{start_timestamp}.wav"
+    sox_cmd = "#{sox_bin} -d #{wav_file}"
 
-    print 'terminating call...'
+    begin
+      print "recording audio for #{seconds_to_record} seconds..."
+      Timeout::timeout(seconds_to_record) do
+        PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
+          pid_to_kill = pid
+          stdout.sync = true
+          stdout.each { |line| puts line }
+        end
+      end
+    rescue Timeout::Error
+      Process.kill('KILL', pid_to_kill)
+      print 'recording complete...'
+    end
+ 
+
+    print 'hanging up...'
     CSI::Plugins::Android.adb_sh(
-      adb_path: '/usr/local/bin/adb',
+      adb_path: adb_bin,
       command: 'input keyevent KEYCODE_ENDCALL'
     )
     puts 'complete.'
   end
+
   # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
   # Pseudo-code
-  # wav_files.each do |fname|
+  # wav_files_arr.each do |wav_file|
   #   window_size = 1024
   #   wave = Array.new
   #   fft = Array.new(window_size/2,[])
   #   begin
   #     buf = RubyAudio::Buffer.float(window_size)
-  #     RubyAudio::Sound.open(fname) do |snd|
+  #     RubyAudio::Sound.open(wav_file) do |snd|
   #       while snd.read(buf) != 0
   #         wave.concat(buf.to_a)
   #         na = NArray.to_na(buf.to_a)
