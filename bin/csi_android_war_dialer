@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 require 'csi'
 require 'optparse'
-require 'ruby-audio'
-#require 'fftw3'
+# require 'ruby-audio'
+# require 'fftw3'
 
 opts = {}
 OptionParser.new do |options|
@@ -68,7 +68,7 @@ if from_num <= to_num
     )
     puts 'complete.'
   end
-  # TODO: Post Process Audio Files into FFT Plots for Signature Analysis & Save to SQLite DB
+  # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
   # Pseudo-code
   # wav_files.each do |fname|
   #   window_size = 1024

@@ -16,6 +16,7 @@ gem 'bson', '4.2.1'                    # Required for mongo gem installation see
 gem 'bundler-audit', '0.5.0'           # Checks for vulnerable versions of gems ***2017-02-13
 gem 'bunny', '2.6.3'                   # RabbitMQ ***2017-02-13
 gem 'credit_card_validations', '3.4.0' # validate ccno from luhn generation
+gem 'fftw3', '0.3'                     # Fast Fourier Tranform for Analyzing Audio Files
 gem 'fog', '1.38.0'                    # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS) ***2017-02-13
 gem 'highline', '1.7.8'                # Masking Authentication Credential Input ***2016-06-28
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
