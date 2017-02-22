@@ -4,8 +4,6 @@ require 'csi'
 require 'optparse'
 require 'timeout'
 require 'pty'
-require 'ruby-audio'
-require 'fftw3'
 
 opts = {}
 OptionParser.new do |options|
@@ -65,7 +63,6 @@ seconds_to_record = opts[:seconds_to_record].to_i
 if from_num <= to_num
   begin
     range = []
-    wav_files_arr = []
     # Prepare the targets for assessment
     (from_num..to_num).each { |number| range.push(number) }
 
@@ -74,7 +71,7 @@ if from_num <= to_num
 
     range.each do |target_num|
       start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-      print "*** #{start_timestamp} => dialing #{target_num}..."
+      puts "*** #{start_timestamp} => dialing #{target_num}:"
       CSI::Plugins::Android.adb_sh(
         adb_path: adb_bin,
         command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
@@ -86,17 +83,19 @@ if from_num <= to_num
       sox_cmd = "#{sox_bin} -d #{wav_file}"
 
       begin
-        print "recording audio for #{seconds_to_record} seconds..."
+        puts "\trecording audio for #{seconds_to_record} seconds..."
         Timeout.timeout(seconds_to_record) do
           PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
             pid_to_kill = pid
             stdout.sync = true
-            stdout.each { |line| puts line }
+            stdout.each { |line| puts "\t\t#{line}" }
           end
         end
       rescue Timeout::Error
         Process.kill('KILL', pid_to_kill)
-        print 'recording complete...'
+        print 'generating spectogram...'
+        system("#{sox_bin} #{wav_file} -n #{wav_file}"
+        puts 'complete.'
       end
 
       print 'hanging up...'
@@ -105,35 +104,7 @@ if from_num <= to_num
         command: 'input keyevent KEYCODE_ENDCALL'
       )
 
-      # Add our newly created wav file path for FFT post-processing
-      wav_files_arr.push(wav_file)
-
-      puts 'complete.'
-    end
-
-    # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
-    wav_files_arr.each do |wav_file|
-      print "\n*** FFT enumeration => #{wav_file}..."
-      window_size = 1024
-      wf_arr = []
-      fft = Array.new(window_size / 2, [])
-      buf = RubyAudio::Buffer.float(window_size)
-      RubyAudio::Sound.open(wav_file) do |snd|
-        while snd.read(buf) != 0
-          wf_arr.concat(buf.to_a)
-          na = NArray.to_na(buf.to_a)
-          fft_slice = FFTW3.fft(na).to_a[0, window_size / 2]
-          j = 0
-          fft_slice.each do |x|
-            fft[j] << x
-            j += 1
-          end
-        end
-      end
-      # File.open("#{wav_file}.fft.dat", 'w') do |f|
-      #   f.puts fft
-      # end
-      puts 'complete.'
+      puts "complete.\n\n\n"
     end
   rescue => e
     raise e.message

@@ -16,7 +16,6 @@ gem 'bson', '4.2.1'                    # Required for mongo gem installation see
 gem 'bundler-audit', '0.5.0'           # Checks for vulnerable versions of gems ***2017-02-13
 gem 'bunny', '2.6.3'                   # RabbitMQ ***2017-02-13
 gem 'credit_card_validations', '3.4.0' # validate ccno from luhn generation
-gem 'fftw3', '0.3'                     # Fast Fourier Tranform for Analyzing Audio Files
 gem 'fog', '1.38.0'                    # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS) ***2017-02-13
 gem 'highline', '1.7.8'                # Masking Authentication Credential Input ***2016-06-28
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
@@ -45,7 +44,6 @@ gem 'rex', '2.0.10'                    # Rex provides a variety of classes usefu
 gem 'rmagick', '2.16.0'                # Image processing gem ***2017-02-13
 gem 'rtesseract', '2.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2017-02-13
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
-gem 'ruby-audio', '1.6.1'              # Work with Audio files in Ruby
 gem 'ruby-nmap', '0.9.2'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2017-02-13
 gem 'ruby-saml', '1.4.2'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2017-02-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
