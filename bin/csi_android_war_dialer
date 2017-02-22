@@ -122,9 +122,12 @@ if from_num <= to_num
         while snd.read(buf) != 0
           wf_arr.concat(buf.to_a)
           na = NArray.to_na(buf.to_a)
-          fft_slice = FFTW3.fft(na).to_a[0, window_size/2]
+          fft_slice = FFTW3.fft(na).to_a[0, window_size / 2]
           j = 0
-          fft_slice.each { |x| fft[j] << x; j += 1 }
+          fft_slice.each do |x| 
+            fft[j] << x 
+            j += 1
+          end
         end
       end
       puts fft.class
