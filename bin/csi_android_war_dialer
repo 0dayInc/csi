@@ -4,10 +4,8 @@ require 'csi'
 require 'optparse'
 require 'timeout'
 require 'pty'
-# require 'ruby-audio'
-require 'wavefile'
+require 'ruby-audio'
 require 'fftw3'
-require 'fastercsv'
 
 opts = {}
 OptionParser.new do |options|
