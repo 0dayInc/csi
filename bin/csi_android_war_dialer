@@ -34,7 +34,6 @@ end
 from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
 randomize = opts[:randomize]
-puts "R: #{randomize}"
 
 seconds_to_record = opts[:seconds_to_record].to_i
 
