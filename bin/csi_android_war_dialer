@@ -4,8 +4,10 @@ require 'csi'
 require 'optparse'
 require 'timeout'
 require 'pty'
-require 'ruby-audio'
+# require 'ruby-audio'
+require 'wavefile'
 require 'fftw3'
+require 'fastercsv'
 
 opts = {}
 OptionParser.new do |options|
@@ -113,31 +115,51 @@ if from_num <= to_num
   # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
   wav_files_arr.each do |wav_file|
     print "\n*** FFT enumeration => #{wav_file}..."
-    window_size = 1024
-    wf_arr = []
-    fft = Array.new(window_size / 2, [])
-    begin
-      buf = RubyAudio::Buffer.float(window_size)
-      RubyAudio::Sound.open(wav_file) do |snd|
-        while snd.read(buf) != 0
-          wf_arr.concat(buf.to_a)
-          na = NArray.to_na(buf.to_a)
-          fft_slice = FFTW3.fft(na).to_a[0, window_size / 2]
-          j = 0
-          fft_slice.each do |x|
-            fft[j] << x
-            j += 1
-          end
-        end
-      end
-      puts fft.class
-      # File.open("#{wav_file}.fft.dat", 'w') do |f|
-      #   f.puts fft
-      # end
-      puts 'complete.'
-    rescue => e
-      raise e.message
+    # window_size = 1024
+    # wf_arr = []
+    # fft = Array.new(window_size / 2, [])
+    # begin
+    #   buf = RubyAudio::Buffer.float(window_size)
+    #   RubyAudio::Sound.open(wav_file) do |snd|
+    #     while snd.read(buf) != 0
+    #       wf_arr.concat(buf.to_a)
+    #       na = NArray.to_na(buf.to_a)
+    #       fft_slice = FFTW3.fft(na).to_a[0, window_size / 2]
+    #       j = 0
+    #       fft_slice.each do |x|
+    #         fft[j] << x
+    #         j += 1
+    #       end
+    #     end
+    #   end
+    #   puts fft.class
+    #   # File.open("#{wav_file}.fft.dat", 'w') do |f|
+    #   #   f.puts fft
+    #   # end
+    #   puts 'complete.'
+    # rescue => e
+    #   raise e.message
+    # end
+    fft_wav = WaveFile.open(wav_file)
+
+    samples = fft_wav.sample_data[0, [fft_wav.sample_rate * 10, fft_wav.sample_data.size].min]
+    duration = samples.size / fft_wav.sample_rate
+
+    na = NArray.float(2, samples.size)
+    samples.each_with_index do |v, i|
+      na[0, i - 1] = i.to_f / fft_wav.sample_rate.to_f
+      na[1, i - 1] = v
     end
+
+    fa = FFTW3.fft(na)
+    fa = fa.real.abs # you probably need absolute values for magnitudes of a frequency to make sense
+
+    FasterCSV.open("#{wav_file}.fft.csv", 'w') do |csv|
+      0.upto((fa.total / fa.dim) - 1) do |i|
+        csv << fa[true, i].to_a
+      end
+    end
+    puts 'complete.'
   end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"

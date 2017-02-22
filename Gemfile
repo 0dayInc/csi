@@ -16,6 +16,7 @@ gem 'bson', '4.2.1'                    # Required for mongo gem installation see
 gem 'bundler-audit', '0.5.0'           # Checks for vulnerable versions of gems ***2017-02-13
 gem 'bunny', '2.6.3'                   # RabbitMQ ***2017-02-13
 gem 'credit_card_validations', '3.4.0' # validate ccno from luhn generation
+gem 'fastercsv', '1.5.5'               # Create CSVs faster
 gem 'fftw3', '0.3'                     # Fast Fourier Tranform for Analyzing Audio Files
 gem 'fog', '1.38.0'                    # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS) ***2017-02-13
 gem 'highline', '1.7.8'                # Masking Authentication Credential Input ***2016-06-28
@@ -57,4 +58,5 @@ gem 'spreadsheet', '1.1.4'             # Generate Excel Spreadsheets (.xls files
 gem 'sqlite3', '1.3.13'                # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2017-02-13
 gem 'thin', '1.7.0'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-02-13
 gem 'watir', '6.1.0'                   # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2017-02-13
+gem 'wavefile', '0.8.1'                # Process WAV audio files
 gem 'wicked_pdf', '1.1.0'              # Convert HTML to PDF Documents ***2017-02-13
