@@ -4,8 +4,8 @@ require 'csi'
 require 'optparse'
 require 'timeout'
 require 'pty'
-# require 'ruby-audio'
-# require 'fftw3'
+require 'ruby-audio'
+require 'fftw3'
 
 opts = {}
 OptionParser.new do |options|
@@ -73,7 +73,7 @@ if from_num <= to_num
 
   range.each do |target_num|
     start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-    print "#{start_timestamp} => dialing #{target_num}..."
+    print "*** #{start_timestamp} => dialing #{target_num}..."
     CSI::Plugins::Android.adb_sh(
       adb_path: adb_bin,
       command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
@@ -104,31 +104,37 @@ if from_num <= to_num
       adb_path: adb_bin,
       command: 'input keyevent KEYCODE_ENDCALL'
     )
+
+    # Add our newly created wav file path for FFT post-processing
+    wav_files_arr.push(wav_file)
+
     puts 'complete.'
   end
 
   # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
-  # Pseudo-code
-  # wav_files_arr.each do |wav_file|
-  #   window_size = 1024
-  #   wave = Array.new
-  #   fft = Array.new(window_size/2,[])
-  #   begin
-  #     buf = RubyAudio::Buffer.float(window_size)
-  #     RubyAudio::Sound.open(wav_file) do |snd|
-  #       while snd.read(buf) != 0
-  #         wave.concat(buf.to_a)
-  #         na = NArray.to_na(buf.to_a)
-  #         fft_slice = FFTW3.fft(na).to_a[0, window_size/2]
-  #         j=0
-  #         fft_slice.each { |x| fft[j] << x; j+=1 }
-  #       end
-  #     end
-  #   rescue => err
-  #     log.error "error reading audio file: " + err
-  #     exit
-  #   end
-  # end
+  wav_files_arr.each do |wav_file|
+    print "\n*** FFT enumeration => #{wav_file}..."
+    window_size = 1024
+    wf_arr = []
+    fft = Array.new(window_size/2,[])
+    begin
+      buf = RubyAudio::Buffer.float(window_size)
+      RubyAudio::Sound.open(wav_file) do |snd|
+        while snd.read(buf) != 0
+          wf_arr.concat(buf.to_a)
+          na = NArray.to_na(buf.to_a)
+          fft_slice = FFTW3.fft(na).to_a[0, window_size/2]
+          j=0
+          fft_slice.each { |x| fft[j] << x; j+=1 }
+        end
+      end
+      # puts fft # doing a puts on fft is like, holy omg.
+      puts "complete."
+    rescue => err
+      log.error "error reading audio file: " + err
+      exit
+    end
+  end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
 end
