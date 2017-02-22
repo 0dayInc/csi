@@ -65,60 +65,60 @@ wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exist?(opts[:wav_
 seconds_to_record = opts[:seconds_to_record].to_i
 
 if from_num <= to_num
-  range = []
-  wav_files_arr = []
-  # Prepare the targets for assessment
-  (from_num..to_num).each { |number| range.push(number) }
+  begin
+    range = []
+    wav_files_arr = []
+    # Prepare the targets for assessment
+    (from_num..to_num).each { |number| range.push(number) }
 
-  # Randomize targets if applicable
-  range.shuffle! if randomize
+    # Randomize targets if applicable
+    range.shuffle! if randomize
 
-  range.each do |target_num|
-    start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-    print "*** #{start_timestamp} => dialing #{target_num}..."
-    CSI::Plugins::Android.adb_sh(
-      adb_path: adb_bin,
-      command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
-    )
+    range.each do |target_num|
+      start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
+      print "*** #{start_timestamp} => dialing #{target_num}..."
+      CSI::Plugins::Android.adb_sh(
+        adb_path: adb_bin,
+        command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
+      )
 
-    # Record Call
-    pid_to_kill = 0
-    wav_file = "#{wav_archive}/#{target_num}-#{start_timestamp}.wav"
-    sox_cmd = "#{sox_bin} -d #{wav_file}"
+      # Record Call
+      pid_to_kill = 0
+      wav_file = "#{wav_archive}/#{target_num}-#{start_timestamp}.wav"
+      sox_cmd = "#{sox_bin} -d #{wav_file}"
 
-    begin
-      print "recording audio for #{seconds_to_record} seconds..."
-      Timeout.timeout(seconds_to_record) do
-        PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
-          pid_to_kill = pid
-          stdout.sync = true
-          stdout.each { |line| puts line }
+      begin
+        print "recording audio for #{seconds_to_record} seconds..."
+        Timeout.timeout(seconds_to_record) do
+          PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
+            pid_to_kill = pid
+            stdout.sync = true
+            stdout.each { |line| puts line }
+          end
         end
+      rescue Timeout::Error
+        Process.kill('KILL', pid_to_kill)
+        print 'recording complete...'
       end
-    rescue Timeout::Error
-      Process.kill('KILL', pid_to_kill)
-      print 'recording complete...'
+
+      print 'hanging up...'
+      CSI::Plugins::Android.adb_sh(
+        adb_path: adb_bin,
+        command: 'input keyevent KEYCODE_ENDCALL'
+      )
+
+      # Add our newly created wav file path for FFT post-processing
+      wav_files_arr.push(wav_file)
+
+      puts 'complete.'
     end
 
-    print 'hanging up...'
-    CSI::Plugins::Android.adb_sh(
-      adb_path: adb_bin,
-      command: 'input keyevent KEYCODE_ENDCALL'
-    )
-
-    # Add our newly created wav file path for FFT post-processing
-    wav_files_arr.push(wav_file)
-
-    puts 'complete.'
-  end
-
-  # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
-  wav_files_arr.each do |wav_file|
-    print "\n*** FFT enumeration => #{wav_file}..."
-    window_size = 1024
-    wf_arr = []
-    fft = Array.new(window_size / 2, [])
-    begin
+    # TODO: Post Process Audio Files into FFT Plots & Save to SQLite DB for Later Signature Analysis
+    wav_files_arr.each do |wav_file|
+      print "\n*** FFT enumeration => #{wav_file}..."
+      window_size = 1024
+      wf_arr = []
+      fft = Array.new(window_size / 2, [])
       buf = RubyAudio::Buffer.float(window_size)
       RubyAudio::Sound.open(wav_file) do |snd|
         while snd.read(buf) != 0
@@ -136,9 +136,16 @@ if from_num <= to_num
       #   f.puts fft
       # end
       puts 'complete.'
-    rescue => e
-      raise e.message
     end
+  rescue => e
+    raise e.message
+  ensure
+    print 'hanging up...'
+    CSI::Plugins::Android.adb_sh(
+      adb_path: adb_bin,
+      command: 'input keyevent KEYCODE_ENDCALL'
+    )
+    puts 'complete.'
   end
 else
   puts "ERROR: 'from' parameter must be less than 'to' parameter\n#{`#{$PROGRAM_NAME} --help`}"
