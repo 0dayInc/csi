@@ -92,17 +92,18 @@ if from_num <= to_num
       sox_cmd = "#{sox_bin} -d #{wav_file}"
 
       begin
-        puts "\t#{cayan}recording audio for #{seconds_to_record} seconds...#{end_of_color}"
         Timeout.timeout(seconds_to_record) do
-          PTY.spawn(sox_cmd) do |stdout, _stdin, pid|
+          PTY.spawn(sox_cmd) do |_stdout, _stdin, pid|
             pid_to_kill = pid
-            stdout.sync = true
-            stdout.each { |line| puts "\t\t#{line}" }
+            (1..seconds_to_record).reverse_each do |countdown|
+              print "\t#{cayan}recording audio #{format('%-9.9s', seconds_to_record)#{end_of_color}"
+              sleep 1
+            end
           end
         end
       rescue Timeout::Error
         Process.kill('KILL', pid_to_kill)
-        print "\t#{cayan}generating spectrogram...#{end_of_color}"
+        print "\t#{cayan}generating audio spectrogram...#{end_of_color}"
         system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
         puts "#{cayan}complete.#{end_of_color}"
       end
@@ -114,16 +115,17 @@ if from_num <= to_num
         command: 'input keyevent KEYCODE_ENDCALL'
       )
 
-      puts "#{green}hung up #{target_num}#{end_of_color}\n\n\n"
+      puts "#{green}hung up #{target_num}#{end_of_color}"
 
       if seconds_to_delay_between_calls > 0
         (1..seconds_to_delay_between_calls).reverse_each do |countdown|
-          print "#{yellow}delay until next call: #{format('%-9.9s', countdown)}s...#{end_of_color}"
+          print "#{yellow}delay until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
           print "\r"
           sleep 1
         end
-        puts "#{green}ok, waking up...#{end_of_color}\n\n\n"
+        puts "\n#{green}ok, waking up...#{end_of_color}"
       end
+      puts "\n\n\n"
     end
   rescue => e
     raise e.message
