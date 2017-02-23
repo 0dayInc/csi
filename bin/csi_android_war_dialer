@@ -49,8 +49,8 @@ if opts.empty?
   exit 1
 end
 
-from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
-to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('-').delete('.').delete('+').to_i
+from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('(').delete(')').delete('-').delete('.').delete('+').to_i
+to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('(').delete(')').delete('-').delete('.').delete('+').to_i
 randomize = opts[:randomize]
 
 adb_bin = opts[:adb_bin] if File.exist?(opts[:adb_bin].to_s.scrub.strip.chomp)
