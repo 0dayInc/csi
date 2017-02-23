@@ -31,7 +31,7 @@ OptionParser.new do |options|
     opts[:sox_bin] = sox
   end
 
-  options.on('-wWAV', '--wav-archive-dir=WAV', '<Required - Path to Directory to Store WAV Files>') do |wav|
+  options.on('-wWAV', '--wav-archive-dir=WAV', '<Required - Directory Path to Store WAV Files>') do |wav|
     opts[:wav_archive] = wav
   end
 
@@ -39,7 +39,7 @@ OptionParser.new do |options|
     opts[:randomize] = r
   end
 
-  options.on('-dSEC', '--delay-between-calls=SEC', '<Optional - Seconds to Delay Between Calls>') do |d|
+  options.on('-dSEC', '--delay-between-calls=SEC', '<Optional - Seconds to Delay Between Calls (Defaults to 0)>') do |d|
     opts[:seconds_to_delay_between_calls] = d
   end
 end.parse!
