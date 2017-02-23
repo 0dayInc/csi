@@ -97,7 +97,7 @@ if from_num <= to_num
             pid_to_kill = pid
           end
           (1..seconds_to_record).reverse_each do |countdown|
-            print "\s\s#{cayan}recording audio: #{format('%-9.9s', countdown)}#{end_of_color}"
+            print "\s\s#{cayan}recording audio for #{seconds_to_record}s: #{format('%-9.9s', countdown)}#{end_of_color}"
             sleep 1
             print "\r"
           end
@@ -121,7 +121,7 @@ if from_num <= to_num
 
       if seconds_to_delay_between_calls > 0
         (1..seconds_to_delay_between_calls).reverse_each do |countdown|
-          print "#{dark_red}delay until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
+          print "#{dark_red}delay #{seconds_to_delay_between_calls}s until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
           sleep 1
           print "\r"
         end
