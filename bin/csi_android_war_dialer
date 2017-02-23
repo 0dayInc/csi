@@ -100,7 +100,7 @@ if from_num <= to_num
       rescue Timeout::Error
         Process.kill('KILL', pid_to_kill)
         print "\t#{cayan}generating spectrogram...#{end_of_color}"
-        system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
+        system("#{sox_bin} #{wav_file} -n spectrogram -X 333 -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
         puts "#{cayan}complete.#{end_of_color}"
       end
 
