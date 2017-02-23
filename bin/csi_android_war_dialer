@@ -70,6 +70,7 @@ end_of_color = "\001\e[0m\002"
 
 if from_num <= to_num
   begin
+    STDOUT.sync = true
     range = []
     # Prepare the targets for assessment
     (from_num..to_num).each { |number| range.push(number) }
@@ -116,9 +117,12 @@ if from_num <= to_num
       puts "#{green}hung up #{target_num}#{end_of_color}\n\n\n"
 
       if seconds_to_delay_between_calls > 0
-        print "#{yellow}Delay until next call: #{seconds_to_delay_between_calls}s...#{end_of_color}"
-        sleep seconds_to_delay_between_calls
-        puts "#{green}ok, ready.#{end_of_color}\n\n\n"
+        (1..seconds_to_delay_between_calls).reverse_each do |countdown|
+          print "#{yellow}delay until next call: #{format('%-9.9s', countdown)}s...#{end_of_color}"
+          print "\r"
+          sleep 1
+        end
+        puts "#{green}ok, waking up...#{end_of_color}\n\n\n"
       end
     end
   rescue => e
