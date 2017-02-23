@@ -96,7 +96,7 @@ if from_num <= to_num
           PTY.spawn(sox_cmd) do |_stdout, _stdin, pid|
             pid_to_kill = pid
             (1..seconds_to_record).reverse_each do |countdown|
-              print "\t#{cayan}recording audio #{format('%-9.9s', seconds_to_record)#{end_of_color}"
+              print "\t#{cayan}recording audio #{format('%-9.9s', countdown)}#{end_of_color}"
               sleep 1
             end
           end
