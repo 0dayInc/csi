@@ -35,12 +35,12 @@ OptionParser.new do |options|
     opts[:wav_archive] = wav
   end
 
-  options.on('-r', '--[no-]randomize', '<Optional - Randomize Number Range>') do |r|
+  options.on('-r', '--[no-]randomize', '<Optional - Randomize Number Range (Defaults to false)>') do |r|
     opts[:randomize] = r
   end
 
-  options.on('-pRES', '--results-path=RES', '<Optional - Path to Save SQLite Database Results>') do |p|
-    opts[:results_path] = p
+  options.on('-dSEC', '--delay-between-calls=SEC', '<Optional - Seconds to Delay Between Calls>') do |d|
+    opts[:seconds_to_delay_between_calls] = d
   end
 end.parse!
 
@@ -49,17 +49,19 @@ if opts.empty?
   exit 1
 end
 
+# Required Flag Variables
 from_num = opts[:from_num].to_s.scrub.strip.chomp.delete('(').delete(')').delete('-').delete('.').delete('+').to_i
 to_num = opts[:to_num].to_s.scrub.strip.chomp.delete('(').delete(')').delete('-').delete('.').delete('+').to_i
-randomize = opts[:randomize]
-
+seconds_to_record = opts[:seconds_to_record].to_i
 adb_bin = opts[:adb_bin] if File.exist?(opts[:adb_bin].to_s.scrub.strip.chomp)
-
 sox_bin = opts[:sox_bin] if File.exist?(opts[:sox_bin].to_s.scrub.strip.chomp)
 wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exist?(opts[:wav_archive].to_s.scrub.strip.chomp)
 
-seconds_to_record = opts[:seconds_to_record].to_i
+# Optional Flag Variables
+randomize = opts[:randomize]
+seconds_to_delay_between_calls = opts[:seconds_to_delay_between_calls].to_i
 
+# Colors!
 dark_red = "\001\e[1m\002\001\e[31m\002"
 green = "\001\e[32m\002"
 yellow = "\001\e[33m\002"
@@ -112,6 +114,12 @@ if from_num <= to_num
       )
 
       puts "#{green}hung up #{target_num}#{end_of_color}\n\n\n"
+
+      if seconds_to_delay_between_calls > 0
+        print "#{yellow}Delay until next call: #{seconds_to_delay_between_calls}s...#{end_of_color}"
+        sleep seconds_to_delay_between_calls
+        puts "#{green}ok, ready.#{end_of_color}\n\n\n"
+      end
     end
   rescue => e
     raise e.message
