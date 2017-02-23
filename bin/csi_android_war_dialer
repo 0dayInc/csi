@@ -97,6 +97,7 @@ if from_num <= to_num
             pid_to_kill = pid
             (1..seconds_to_record).reverse_each do |countdown|
               print "\t#{cayan}recording audio #{format('%-9.9s', countdown)}#{end_of_color}"
+              print "\r"
               sleep 1
             end
           end
