@@ -28,6 +28,7 @@ new_rev = placeholder_arr.join('.')
 
 puts "Upgrading to #{new_rev}..."
 File.open('./lib/csi/version.rb', 'w') do |f|
+  f.puts '# frozen_string_literal: true'
   f.puts 'module CSI'
   f.puts "  VERSION = '#{new_rev}'"
   f.puts 'end'

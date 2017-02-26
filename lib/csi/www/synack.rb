@@ -110,9 +110,6 @@ module CSI
           @@logger.info('authy token accepted.')
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
-      rescue
-      ensure
-        uiauthn_hash = nil
       end
 
       # Supported Method Parameters::

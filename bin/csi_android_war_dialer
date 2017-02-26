@@ -65,7 +65,7 @@ seconds_to_delay_between_calls = opts[:seconds_to_delay_between_calls].to_i
 dark_red = "\001\e[1m\002\001\e[31m\002"
 green = "\001\e[32m\002"
 yellow = "\001\e[33m\002"
-cayan = "\t\001\e[36m\002" 
+cayan = "\t\001\e[36m\002"
 end_of_color = "\001\e[0m\002"
 
 if from_num <= to_num
@@ -119,7 +119,7 @@ if from_num <= to_num
 
       puts "#{green}hung up #{target_num}#{end_of_color}"
 
-      if seconds_to_delay_between_calls > 0
+      if seconds_to_delay_between_calls.positive? # Greater than 0
         (1..seconds_to_delay_between_calls).reverse_each do |countdown|
           print "#{dark_red}delay #{seconds_to_delay_between_calls}s until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
           print "\r"

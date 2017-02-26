@@ -86,7 +86,7 @@ begin
     # can present risk in multi-user environments
     # if one neglects to consider who/how the i
     # instructions are writter/read
-    eval(prep_instruct)
+    instance_eval(prep_instruct)
   end
   sleep 60 # Sleep for now so everythign loads the way we expect - blech.
 

@@ -6,33 +6,9 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles.
-# SupportedStyles: either, start_of_block, start_of_line
-Lint/BlockAlignment:
-  Exclude:
-    - 'lib/csi/plugins/mail_agent.rb'
-    - 'lib/csi/plugins/shodan.rb'
-
-# Offense count: 1
-Security/Eval:
-  Exclude:
-    - 'bin/csi_active_scan_burp_suite_pro'
-
-# Offense count: 1
-Lint/HandleExceptions:
-  Exclude:
-    - 'lib/csi/www/synack.rb'
-
 # Offense count: 30
 Lint/IneffectiveAccessModifier:
   Enabled: false
-
-# Offense count: 1
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'lib/csi/plugins/owasp_zap_it.rb'
 
 # Offense count: 47
 Lint/UnreachableCode:
@@ -41,17 +17,8 @@ Lint/UnreachableCode:
     - 'lib/csi/plugins/android.rb'
     - 'lib/csi/plugins/beef.rb'
     - 'lib/csi/plugins/burp_suite.rb'
-    - 'lib/csi/plugins/owasp_zap_it.rb'
     - 'lib/csi/plugins/serial.rb'
     - 'lib/csi/plugins/shodan.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'bin/csi'
-    - 'lib/csi/plugins/csi_logger.rb'
 
 # Offense count: 8
 # Cop supports --auto-correct.
@@ -123,21 +90,6 @@ Style/Documentation:
     - 'test/**/*'
     - 'lib/csi/plugins/csi_logger.rb'
 
-# Offense count: 2
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: format, sprintf, percent
-Style/FormatString:
-  Exclude:
-    - 'lib/csi/plugins/utf8.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: when_needed, always
-Style/FrozenStringLiteralComment:
-  Exclude:
-    - 'lib/csi/version.rb'
-
 # Offense count: 493
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
@@ -184,12 +136,6 @@ Style/IfInsideElse:
   Exclude:
     - 'bin/csi_jenkins_thinBackup_aws_s3'
     - 'lib/csi/plugins/serial.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/csi/version.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.

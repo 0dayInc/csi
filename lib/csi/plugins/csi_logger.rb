@@ -17,7 +17,8 @@ module CSI
         logger.level = Logger::INFO
         logger.datetime_format = '%Y-%m-%d %H:%M:%S'
 
-        logger.formatter = proc do |severity, datetime, progname, msg|
+        logger.formatter = proc do |severity, _datetime, _progname, msg|
+          # TODO: Include datetime & progname vars
           "[#{severity}] #{msg}\n"
         end
 
