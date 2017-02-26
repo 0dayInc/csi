@@ -235,28 +235,28 @@ module CSI
       def self.help
         puts "USAGE:
           zap_obj = #{self}.start(
-            :api_key => 'required - api key for API authorization',
-            :zap_bin_path => 'optional - path to zap.sh file',
-            :headless => 'optional - run zap headless if set to true',
-            :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)'
+            api_key: 'required - api key for API authorization',
+            zap_bin_path: 'optional - path to zap.sh file',
+            headless: 'optional - run zap headless if set to true',
+            proxy: 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)'
           )
           puts zap_obj.public_methods
 
           #{self}.spider(
-            :zap_obj => 'required - zap_obj returned from #open method',
-            :target => 'required - url to spider'
+            zap_obj: 'required - zap_obj returned from #open method',
+            target: 'required - url to spider'
           )
 
           #{self}.active_scan(
-            :zap_obj => 'required - zap_obj returned from #open method'
+            zap_obj: 'required - zap_obj returned from #open method'
           )
 
           json_alerts = #{self}.alerts(
-            :zap_obj => 'required - zap_obj returned from #open method'
+            zap_obj: 'required - zap_obj returned from #open method'
           )
 
           #{self}.stop(
-            :zap_obj => 'required - zap_obj returned from #open method'
+            zap_obj: 'required - zap_obj returned from #open method'
           )
 
           #{self}.authors
