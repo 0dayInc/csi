@@ -1,0 +1,103 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-tFQDN', '--target-fqdn=FQDN', '<Required - FQDN to Target>') do |t|
+    opts[:target_fqdn] = t
+  end
+
+  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-t', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |t|
+    opts[:with_tor] = t
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
+# Required Flag Variables
+target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
+output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+with_tor = opts[:with_tor]
+
+# Colors!
+green = "\001\e[32m\002"
+end_of_color = "\001\e[0m\002"
+
+begin
+  if proxy
+    # Cast with_tor as boolean
+    if !!with_tor
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :headless,
+        proxy: proxy,
+        with_tor: true
+      )
+    else
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :headless,
+        proxy: proxy
+      )
+    end
+  else
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
+  end
+
+  browser_obj.goto(target_fqdn)
+  browser_obj.scripts.each do |script|
+    if s.src == ''
+      # Save a copy of the outer_html 
+      sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
+      script_results = "#{output_dir}/#{sha256_hexdigest}.js"
+      File.open(script_results, 'w') do |f|
+        f.puts script.outer_html
+      end
+      puts "#{green}Saved #{script_results}#{end_of_color}"
+    else
+      # Save a copy of the script
+      browser_obj.goto(script.src)
+      sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(browser_obj.text)
+      uri = URI.parse(browser_obj.url)
+      script_filename = File.basename(uri.path)
+      script_results = "#{output_dir}/#{File.basename(script_filename, '.*')}-#{sha256_hexdigest}#{File.extname(script_filename)}".to_s.scrub.chomp.strip
+      File.open(script_results, 'w') do |f|
+        f.puts browser_obj.text
+      end
+      puts "#{green}Saved #{script_results}#{end_of_color}"
+    end
+
+  end
+  
+  # Run DOM XSS SCAPM Module
+  
+  # page_script_elements = browser_obj.execute_script("
+  #   // JavaScript - find all script elements
+  #   var script_elements = [];
+  #   var script_query = document.querySelectorAll('script');
+  #   for (var i = 0; i < script_query.length; i++) {
+  #     script_elements.push(script_query[i]);
+  #   }
+  #   return script_elements;
+  # ")
+rescue => e
+  raise e.message
+ensure 
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+end
