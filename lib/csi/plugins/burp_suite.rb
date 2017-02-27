@@ -25,9 +25,9 @@ module CSI
     module BurpSuite
       # Supported Method Parameters::
       # burp_obj = CSI::Plugins::BurpSuite.start(
-      #   :burp_jar_path => 'required - path of burp suite pro jar file',
-      #   :headless => 'optional - run burp headless if set to true',
-      #   :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
+      #   burp_jar_path: 'required - path of burp suite pro jar file',
+      #   headless: 'optional - run burp headless if set to true',
+      #   browser_type: 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
       # )
 
       @@logger = CSI::Plugins::CSILogger.create
@@ -102,12 +102,13 @@ module CSI
         return burp_obj
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.enable_proxy(
-      #   :burp_obj => 'required - burp_obj returned by #start method'
+      #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
       public
@@ -120,12 +121,13 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/enable", nil)
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.disable_proxy(
-      #   :burp_obj => 'required - burp_obj returned by #start method'
+      #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
       public
@@ -138,12 +140,13 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/disable", nil)
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # json_sitemap = CSI::Plugins::BurpSuite.get_current_sitemap(
-      #   :burp_obj => 'required - burp_obj returned by #start method'
+      #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
       public
@@ -159,13 +162,14 @@ module CSI
         return json_sitemap
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
-      #   :burp_obj => 'required - burp_obj returned by #start method',
-      #   :target_url => 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
+      #   burp_obj: 'required - burp_obj returned by #start method',
+      #   target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
       # )
 
       public
@@ -216,12 +220,13 @@ module CSI
         return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
-      #   :burp_obj => 'required - burp_obj returned by #start method'
+      #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
       public
@@ -237,14 +242,15 @@ module CSI
         return json_scan_issues
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.generate_scan_report(
-      #   :burp_obj => 'required - burp_obj returned by #start method',
-      #   :report_type => :html|:xml,
-      #   :output_path => 'required - path to save report results'
+      #   burp_obj: 'required - burp_obj returned by #start method',
+      #   report_type: :html|:xml,
+      #   output_path: 'required - path to save report results'
       # )
 
       public
@@ -261,6 +267,7 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/generate_scan_report", post_body, content_type: 'application/json')
       rescue => e
         raise e.message
+      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
       end
 
@@ -276,7 +283,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.stop(
-      #   :burp_obj => 'required - burp_obj returned by #start method'
+      #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
       public
@@ -315,40 +322,40 @@ module CSI
       def self.help
         puts "USAGE:
           burp_obj = #{self}.start(
-            :burp_jar_path => 'required - path of burp suite pro jar file',
-            :headless => 'optional - run headless if set to true',
-            :browser_type => 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
+            burp_jar_path: 'required - path of burp suite pro jar file',
+            headless: 'optional - run headless if set to true',
+            browser_type: 'optional - defaults to :firefox. See CSI::Plugins::TransparentBrowser.help for a list of types',
           )
 
           #{self}.enable_proxy(
-            :burp_obj => 'required - burp_obj returned by #start method'
+            burp_obj: 'required - burp_obj returned by #start method'
           )
 
           #{self}.disable_proxy(
-            :burp_obj => 'required - burp_obj returned by #start method'
+            burp_obj: 'required - burp_obj returned by #start method'
           )
 
           json_sitemap = #{self}.get_current_sitemap(
-            :burp_obj => 'required - burp_obj returned by #start method'
+            burp_obj: 'required - burp_obj returned by #start method'
           )
 
           json_scan_queue = #{self}.invoke_active_scan(
-            :burp_obj => 'required - burp_obj returned by #start method',
-            :target_url => 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
+            burp_obj: 'required - burp_obj returned by #start method',
+            target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
           )
 
           json_scan_issues = #{self}.get_scan_issues(
-            :burp_obj => 'required - burp_obj returned by #start method'
+            burp_obj: 'required - burp_obj returned by #start method'
           )
 
           #{self}.generate_scan_report(
-            :burp_obj => 'required - burp_obj returned by #start method',
-            :report_type => :html|:xml,
-            :output_path => 'required - path to save report results'
+            burp_obj: 'required - burp_obj returned by #start method',
+            report_type: :html|:xml,
+            output_path: 'required - path to save report results'
           )
 
           #{self}.stop(
-            :burp_obj => 'required - burp_obj returned by #start method'
+            burp_obj: 'required - burp_obj returned by #start method'
           )
 
           #{self}.authors

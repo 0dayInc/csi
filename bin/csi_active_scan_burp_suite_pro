@@ -106,5 +106,6 @@ begin
   CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
 rescue => e
   raise e
+ensure
   CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj) unless burp_obj.nil?
 end

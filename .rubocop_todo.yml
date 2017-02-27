@@ -10,16 +10,6 @@
 Lint/IneffectiveAccessModifier:
   Enabled: false
 
-# Offense count: 47
-Lint/UnreachableCode:
-  Exclude:
-    - 'bin/csi_active_scan_burp_suite_pro'
-    - 'lib/csi/plugins/android.rb'
-    - 'lib/csi/plugins/beef.rb'
-    - 'lib/csi/plugins/burp_suite.rb'
-    - 'lib/csi/plugins/serial.rb'
-    - 'lib/csi/plugins/shodan.rb'
-
 # Offense count: 757
 # Configuration parameters: ContextCreatingMethods.
 Lint/UselessAccessModifier:

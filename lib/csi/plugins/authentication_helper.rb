@@ -16,6 +16,8 @@ module CSI
       def self.mask_password
         pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
         pass.to_s.scrub.chomp
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

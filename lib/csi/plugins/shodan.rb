@@ -63,7 +63,6 @@ module CSI
 
           else
             raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
-            exit
           end
           return response
         rescue => e
@@ -74,7 +73,6 @@ module CSI
             return "#{e.message}: #{e.response}"
           else
             raise "#{e.message}: #{e.response}"
-            exit
           end
         end
       end
@@ -152,7 +150,6 @@ module CSI
           return query_result_totals
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -199,7 +196,6 @@ module CSI
           return search_results
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -230,7 +226,6 @@ module CSI
           return tokens_result
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -255,7 +250,6 @@ module CSI
           return ports_shodan_crawls
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -280,7 +274,6 @@ module CSI
           return protocols
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -310,7 +303,6 @@ module CSI
           return scan_network_response
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -342,7 +334,6 @@ module CSI
           return scan_internet_response
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -372,7 +363,6 @@ module CSI
           return scan_status_result
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -397,7 +387,6 @@ module CSI
           return services_shodan_crawls
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -433,7 +422,6 @@ module CSI
           return services_shodan_crawls
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -468,7 +456,6 @@ module CSI
           return most_popular_tags_result
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -493,7 +480,6 @@ module CSI
           return my_profile
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -518,7 +504,6 @@ module CSI
           return my_pub_ip
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -543,7 +528,6 @@ module CSI
           return api_info
         rescue => e
           raise e.message
-          exit
         end
       end
 
@@ -573,7 +557,6 @@ module CSI
           return honeypot_probability_scores
         rescue => e
           raise e.message
-          exit
         end
       end
 

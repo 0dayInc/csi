@@ -74,8 +74,8 @@ module CSI
         return serial_obj
       rescue => e
         raise e
+      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        return -1
       end
 
       # Supported Method Parameters::
@@ -103,10 +103,10 @@ module CSI
         return session_thread
       rescue => e
         raise e
+      ensure
         session_thread&.terminate
         serial_conn&.close
         serial_conn = nil
-        return -1
       end
 
       # Supported Method Parameters::
@@ -122,8 +122,8 @@ module CSI
         serial_conn.get_signals
       rescue => e
         raise e
+      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        return -1
       end
 
       # Supported Method Parameters::
@@ -139,8 +139,8 @@ module CSI
         serial_conn.get_modem_params
       rescue => e
         raise e
+      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        return -1
       end
 
       # Supported Method Parameters::
@@ -160,8 +160,8 @@ module CSI
         return chars_written
       rescue => e
         raise e
+      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        return -1
       end
 
       # Supported Method Parameters::
@@ -178,8 +178,8 @@ module CSI
         return response
       rescue => e
         raise e
+      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        return -1
       end
 
       # Supported Method Parameters::

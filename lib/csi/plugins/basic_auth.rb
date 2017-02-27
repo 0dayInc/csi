@@ -8,8 +8,8 @@ module CSI
     module BasicAuth
       # Supported Method Parameters::
       # CSI::Plugins::BasicAuth.encode(
-      #   :username => 'optional username',
-      #   :password => 'optional password'
+      #   username: 'optional username',
+      #   password: 'optional password'
       # )
 
       public
@@ -20,11 +20,13 @@ module CSI
         base64_str = "#{basic_user}:#{basic_pass}"
         @base64_encoded_auth = Base64.encode64(base64_str).to_s.chomp
         @base64_encoded_auth
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::BasicAuth.decode(
-      #   :base64_str => 'required base64 encoded string'
+      #   base64_str: 'required base64 encoded string'
       # )
 
       public
@@ -33,6 +35,8 @@ module CSI
         base64_str = opts[:base64_str]
         @base64_decoded_auth = Base64.decode64(base64_str)
         @base64_decoded_auth
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -54,11 +58,11 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.encode(
-            :username => 'optional username',
-            :password => 'optional password'
+            username: 'optional username',
+            password: 'optional password'
           )
 
-          #{self}.decode(:base64_str => 'base64 encoded string')
+          #{self}.decode(base64_str: 'base64 encoded string')
 
           #{self}.authors
         "
