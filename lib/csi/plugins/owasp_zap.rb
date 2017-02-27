@@ -8,10 +8,10 @@ module CSI
     module OwaspZap
       # Supported Method Parameters::
       # zap_rest_call(
-      #   :zap_obj => 'required zap_obj returned from #start method',
-      #   :rest_call => 'required rest call to make per the schema',
-      #   :http_method => 'optional HTTP method (defaults to GET)
-      #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
+      #   zap_obj: 'required zap_obj returned from #start method',
+      #   rest_call: 'required rest call to make per the schema',
+      #   http_method: 'optional HTTP method (defaults to GET)
+      #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
       private
@@ -30,45 +30,44 @@ module CSI
         port = zap_obj[:port]
         base_zap_api_uri = "http://#{host}:#{port}"
 
-        begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
-          case http_method
-          when :get
-            response = rest_client.execute(
-              method: :get,
-              url: "#{base_zap_api_uri}/#{rest_call}",
-              headers: {
-                params: params
-              },
-              verify_ssl: false
-            )
+        case http_method
+        when :get
+          response = rest_client.execute(
+            method: :get,
+            url: "#{base_zap_api_uri}/#{rest_call}",
+            headers: {
+              params: params
+            },
+            verify_ssl: false
+          )
 
-          when :post
-            response = rest_client.execute(
-              method: :post,
-              url: "#{base_zap_api_uri}/#{rest_call}",
-              headers: {
-                content_type: 'application/json; charset=UTF-8'
-              },
-              payload: http_body,
-              verify_ssl: false
-            )
+        when :post
+          response = rest_client.execute(
+            method: :post,
+            url: "#{base_zap_api_uri}/#{rest_call}",
+            headers: {
+              content_type: 'application/json; charset=UTF-8'
+            },
+            payload: http_body,
+            verify_ssl: false
+          )
 
-          else
-            raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
-          end
-        rescue => e
-          raise e.message
+        else
+          raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
+      rescue => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.start(
-      #   :api_key => 'required - api key for API authorization',
-      #   :zap_bin_path => 'optional - path to zap.sh file'
-      #   :headless => 'optional - run zap headless if set to true',
-      #   :proxy => 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
+      #   api_key: 'required - api key for API authorization',
+      #   zap_bin_path: 'optional - path to zap.sh file'
+      #   headless: 'optional - run zap headless if set to true',
+      #   proxy: 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
 
       public
@@ -85,58 +84,57 @@ module CSI
                      false
                    end
 
-        begin
-          if opts[:zap_bin_path]
-            zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+        if opts[:zap_bin_path]
+          zap_bin_path = opts[:zap_bin_path].to_s.scrub.strip.chomp if File.exist?(opts[:zap_bin_path].to_s.scrub.strip.chomp)
+        else
+          underlying_os = CSI::Plugins::DetectOS.type
+
+          case underlying_os
+          when :osx
+            zap_bin_path = "'/Applications/OWASP ZAP.app/Contents/Java/zap.sh'"
           else
-            underlying_os = CSI::Plugins::DetectOS.type
-
-            case underlying_os
-            when :osx
-              zap_bin_path = "'/Applications/OWASP ZAP.app/Contents/Java/zap.sh'"
-            else
-              raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
-            end
+            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
           end
-
-          if headless
-            owasp_zap_cmd = "#{zap_bin_path} -daemon"
-          else
-            owasp_zap_cmd = zap_bin_path
-          end
-
-          if opts[:proxy]
-            proxy = opts[:proxy].to_s.scrub.strip.chomp
-            proxy_uri = URI.parse(proxy)
-            owasp_zap_cmd << " -host #{proxy_uri.host} -port #{proxy_uri.port}"
-          else
-            proxy = 'http://127.0.0.1:8080'
-            proxy_uri = URI.parse(proxy)
-          end
-          zap_obj[:host] = proxy_uri.host.to_s.scrub
-          zap_obj[:port] = proxy_uri.port.to_i
-
-          PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
-            line_detected = 0
-            stdout.sync = true
-            zap_obj[:pid] = pid
-            return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
-            stdout.each do |line|
-              if line.include?(return_pattern)
-                line_detected += 1
-                return zap_obj if line_detected == 2
-              end
-            end
-          end
-        rescue => e
-          raise e.message
         end
+
+        if headless
+          owasp_zap_cmd = "#{zap_bin_path} -daemon"
+        else
+          owasp_zap_cmd = zap_bin_path
+        end
+
+        if opts[:proxy]
+          proxy = opts[:proxy].to_s.scrub.strip.chomp
+          proxy_uri = URI.parse(proxy)
+          owasp_zap_cmd << " -host #{proxy_uri.host} -port #{proxy_uri.port}"
+        else
+          proxy = 'http://127.0.0.1:8080'
+          proxy_uri = URI.parse(proxy)
+        end
+        zap_obj[:host] = proxy_uri.host.to_s.scrub
+        zap_obj[:port] = proxy_uri.port.to_i
+
+        PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+          line_detected = 0
+          stdout.sync = true
+          zap_obj[:pid] = pid
+          return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
+          stdout.each do |line|
+            if line.include?(return_pattern)
+              line_detected += 1
+              return zap_obj if line_detected == 2
+            end
+          end
+        end
+      rescue => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.spider(
-      #   :zap_obj => 'required - zap_obj returned from #open method',
-      #   :target => 'required - url to spider'
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   target: 'required - url to spider'
       # )
 
       public
@@ -161,11 +159,14 @@ module CSI
           rest_call: 'JSON/spider/action/scan/',
           params: params
         )
+      rescue => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.active_scan(
-      #   :zap_obj => 'required - zap_obj returned from #open method'
+      #   zap_obj: 'required - zap_obj returned from #open method'
       # )
 
       public
@@ -173,17 +174,16 @@ module CSI
       def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
 
-        begin
-          return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
-          return zap_obj
-        rescue => e
-          raise e.message
-        end
+        return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
+        return zap_obj
+      rescue => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.alerts(
-      #   :zap_obj => 'required - zap_obj returned from #open method'
+      #   zap_obj: 'required - zap_obj returned from #open method'
       # )
 
       public
@@ -191,11 +191,10 @@ module CSI
       def self.alerts(opts = {})
         zap_obj = opts[:zap_obj]
 
-        begin
-          return zap_obj.alerts.view
-        rescue => e
-          raise e.message
-        end
+        return zap_obj.alerts.view
+      rescue => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -209,11 +208,10 @@ module CSI
         zap_obj = opts[:zap_obj]
         pid = zap_obj[:pid]
 
-        begin
-          Process.kill('KILL', pid)
-        rescue => e
-          raise e.message
-        end
+        Process.kill('KILL', pid)
+        Process.wait
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

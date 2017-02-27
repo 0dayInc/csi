@@ -12,9 +12,9 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
       # Supported Method Parameters::
       # CSI::Plugins::Git.gen_html_diff(
-      #   :repo => 'required git repo name',
-      #   :branch => 'required git repo branch (e.g. master, develop, etc)',
-      #   :since => 'optional date, otherwise default to last pull'
+      #   repo: 'required git repo name',
+      #   branch: 'required git repo branch (e.g. master, develop, etc)',
+      #   since: 'optional date, otherwise default to last pull'
       # )
 
       public
@@ -39,14 +39,16 @@ module CSI
         git_pull_output << '<br />'
 
         git_pull_output
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Git.get_author_by_line_range(
-      #   :repo_root => 'optional path to git repo root (defaults to ".")'
-      #   :from_line => 'required line number to start in range',
-      #   :to_line => 'required line number to stop in range',
-      #   :target_file => 'require file in which line range is queried'
+      #   repo_root: 'optional path to git repo root (defaults to ".")'
+      #   from_line: 'required line number to start in range',
+      #   to_line: 'required line number to stop in range',
+      #   target_file: 'require file in which line range is queried'
       # )
 
       public
@@ -67,11 +69,13 @@ module CSI
         else
           return -1
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Git.dump_all_repo_branches(
-      #   :git_url => 'required git repo url'
+      #   git_url: 'required git repo url'
       # )
 
       public
@@ -81,6 +85,8 @@ module CSI
         all_repo_branches = `git ls-remote #{git_url}`.to_s.scrub
 
         all_repo_branches
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -102,20 +108,20 @@ module CSI
       def self.help
         puts %{USAGE:
           git_html_resp = #{self}.gen_html_diff(
-            :repo => 'required git repo name',
-            :branch => 'required git repo branch (e.g. master, develop, etc)',
-            :since => 'optional date, otherwise default to last pull'
+            repo: 'required git repo name',
+            branch: 'required git repo branch (e.g. master, develop, etc)',
+            since: 'optional date, otherwise default to last pull'
           )
 
           author = #{self}.get_author_by_line_range(
-            :repo_root => 'optional path to git repo root (defaults to ".")'
-            :from_line => 'required line number to start in range',
-            :to_line => 'required line number to stop in range',
-            :target_file => 'require file in which line range is queried'
+            repo_root: 'optional path to git repo root (defaults to ".")'
+            from_line: 'required line number to start in range',
+            to_line: 'required line number to stop in range',
+            target_file: 'require file in which line range is queried'
           )
 
           all_repo_branches = #{self}.dump_all_repo_branches(
-            :git_url => 'required git repo url'
+            git_url: 'required git repo url'
           )
 
           #{self}.authors

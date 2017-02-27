@@ -8,10 +8,10 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::OpenVASVulnScan.login(
-      #   :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)',
-      #   :openvas_port => 'optional port of openvasmd (defaults to 9390)'
-      #   :username => 'required username',
-      #   :password => 'optional password (will prompt if nil)'
+      #   openvas_ip: 'required host/ip of OpenVAS Management Daemon(openvasmd)',
+      #   openvas_port: 'optional port of openvasmd (defaults to 9390)'
+      #   username: 'required username',
+      #   password: 'optional password (will prompt if nil)'
       # )
 
       public
@@ -31,32 +31,29 @@ module CSI
                      opts[:password].to_s.scrub
                    end
 
-        begin
-          openvas_obj = {}
-          openvas_obj[:username] = username
-          openvas_obj[:password] = password
-          @@logger.info(`#{@@omp_bin} -h #{openvas_ip} -p #{openvas_port} -u #{username} -w #{password} --xml="<authenticate><credentials><username>#{username}</username><password>#{password}</password></credentials></authenticate>"`)
-          return openvas_obj
-        rescue => e
-          return e.message
-        end
+        openvas_obj = {}
+        openvas_obj[:username] = username
+        openvas_obj[:password] = password
+        @@logger.info(`#{@@omp_bin} -h #{openvas_ip} -p #{openvas_port} -u #{username} -w #{password} --xml="<authenticate><credentials><username>#{username}</username><password>#{password}</password></credentials></authenticate>"`)
+        return openvas_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OpenVASVulnScan.logout(
-      #   :openvas_obj => 'required openvas_obj returned from login method'
+      #   openvas_obj: 'required openvas_obj returned from login method'
       # )
 
       public
 
       def self.logout(opts = {})
         openvas_obj = opts[:openvas_obj]
-        begin
-          openvas_obj = nil
-          @@logger.info('logged out')
-        rescue => e
-          return e.message
-        end
+
+        openvas_obj = nil
+        @@logger.info('logged out')
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -78,13 +75,15 @@ module CSI
       def self.help
         puts "USAGE:
           openvas_obj = #{self}.login(
-            :openvas_ip => 'required host/ip of OpenVAS Management Daemon(openvasmd)',
-            :openvas_port => 'optional port of openvasmd (defaults to 9390)'
-            :username => 'required username',
-            :password => 'optional password (will prompt if nil)'
+            openvas_ip: 'required host/ip of OpenVAS Management Daemon(openvasmd)',
+            openvas_port: 'optional port of openvasmd (defaults to 9390)'
+            username: 'required username',
+            password: 'optional password (will prompt if nil)'
           )
 
-          #{self}.logout(:openvas_obj => 'required openvas_obj returned from login method')
+          #{self}.logout(
+            openvas_obj: 'required openvas_obj returned from login method'
+          )
 
           #{self}.authors
         "

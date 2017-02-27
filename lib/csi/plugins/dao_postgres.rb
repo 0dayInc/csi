@@ -7,15 +7,15 @@ module CSI
     module DAOPostgres
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.connect(
-      #   :host => 'required host or IP',
-      #   :port => 'optional port (defaults to 5432)',
-      #   :dbname => 'required database name',
-      #   :user => 'required username',
-      #   :password => 'optional (prompts if left blank)',
-      #   :connect_timeout => 'optional (defaults to 60 seconds)',
-      #   :options => 'optional postgres options',
-      #   :tty => 'optional tty',
-      #   :sslmode => :disable|:allow|:prefer|:require
+      #   host: 'required host or IP',
+      #   port: 'optional port (defaults to 5432)',
+      #   dbname: 'required database name',
+      #   user: 'required username',
+      #   password: 'optional (prompts if left blank)',
+      #   connect_timeout: 'optional (defaults to 60 seconds)',
+      #   options: 'optional postgres options',
+      #   tty: 'optional tty',
+      #   sslmode: :disable|:allow|:prefer|:require
       # )
 
       public
@@ -59,35 +59,30 @@ module CSI
         else
           raise "Error: Invalid :sslmode => #{opts[:sslmode]}. Valid params are :disable, :allow, :prefer, or :require"
         end
-        # krbsrvname = opts[:krbsrvname] # << Not supported by pg 0.17.1
-        # gsslib = opts[:gsslib] # << Not supported by pg 0.17.1
-        # service = opts[:service] # << Not supported by pg 0.17.1
 
-        begin
-          pg_conn = PG::Connection.new(
-            host: host,
-            port: port,
-            dbname: dbname,
-            user: user,
-            password: password,
-            connect_timeout: connect_timeout,
-            options: options,
-            tty: tty,
-            sslmode: sslmode
-          )
+        pg_conn = PG::Connection.new(
+          host: host,
+          port: port,
+          dbname: dbname,
+          user: user,
+          password: password,
+          connect_timeout: connect_timeout,
+          options: options,
+          tty: tty,
+          sslmode: sslmode
+        )
 
-          validate_pg_conn(pg_conn: pg_conn)
-          return pg_conn
-        rescue => e
-          return e.message
-        end
+        validate_pg_conn(pg_conn: pg_conn)
+        return pg_conn
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.sql_statement(
-      #   :pg_conn => pg_conn,
-      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1',
-      #   :statement_params => ['Active']
+      #   pg_conn: pg_conn,
+      #   prepared_statement: 'SELECT * FROM tn_users WHERE state = $1',
+      #   statement_params: ['Active']
       # )
 
       public
@@ -101,16 +96,14 @@ module CSI
           raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object"
         end
 
-        begin
-          res = if statement_params.nil?
-                  pg_conn.exec(prepared_statement)
-                else
-                  pg_conn.exec(prepared_statement, statement_params)
-                end
-          return res
-        rescue => e
-          return e.message
-        end
+        res = if statement_params.nil?
+                pg_conn.exec(prepared_statement)
+              else
+                pg_conn.exec(prepared_statement, statement_params)
+              end
+        return res
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -139,9 +132,9 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.list_all_columns_by_table(
-      #   :pg_conn => pg_conn,
-      #   :schema => 'required schema name',
-      #   :table_name => 'required table name'
+      #   pg_conn: pg_conn,
+      #   schema: 'required schema name',
+      #   table_name: 'required table name'
       # )
 
       public
@@ -166,11 +159,13 @@ module CSI
         )
 
         res
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOPostgres.disconnect(
-      #   :pg_conn => pg_conn
+      #   pg_conn: pg_conn
       # )
 
       public
@@ -183,11 +178,13 @@ module CSI
         rescue => e
           return e.message
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # validate_pg_conn(
-      #   :pg_conn => pg_conn
+      #   pg_conn: pg_conn
       # )
 
       private
@@ -197,6 +194,8 @@ module CSI
         unless pg_conn.class == PG::Connection
           raise "Error: Invalid pg_conn Object #{pg_conn}"
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -218,30 +217,30 @@ module CSI
       def self.help
         puts "USAGE:
           pg_conn = #{self}.connect(
-            :host => 'required host or IP',
-            :port => 'optional port (defaults to 5432)',
-            :dbname => 'required database name',
-            :user => 'required username',
-            :password => 'optional (prompts if left blank)',
-            :connect_timeout => 'optional (defaults to 60 seconds)',
-            :options => 'optional postgres options',
-            :tty => 'optional tty',
-            :sslmode => :disable|:allow|:prefer|:require
+            host: 'required host or IP',
+            port: 'optional port (defaults to 5432)',
+            dbname: 'required database name',
+            user: 'required username',
+            password: 'optional (prompts if left blank)',
+            connect_timeout: 'optional (defaults to 60 seconds)',
+            options: 'optional postgres options',
+            tty: 'optional tty',
+            sslmode: :disable|:allow|:prefer|:require
           )
 
           res = #{self}.sql_statement(
-            :pg_conn => pg_conn,
-            :prepared_statement => 'SELECT * FROM tn_users WHERE state = $1',
-            :statement_params => ['Active']
+            pg_conn: pg_conn,
+            prepared_statement: 'SELECT * FROM tn_users WHERE state = $1',
+            statement_params: ['Active']
           )
 
           res = #{self}.list_all_columns_by_table(
-            :pg_conn => pg_conn,
-            :schema => 'required schema name',
-            :table_name => 'required table name'
+            pg_conn: pg_conn,
+            schema: 'required schema name',
+            table_name: 'required table name'
           )
 
-          #{self}.disconnect(:pg_conn => pg_conn)
+          #{self}.disconnect(pg_conn: pg_conn)
 
           #{self}.authors
         "

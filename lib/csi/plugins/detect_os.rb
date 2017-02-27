@@ -11,10 +11,12 @@ module CSI
       public
 
       def self.type
+        return :cygwin if OS.cygwin?
         return :linux if OS.linux?
         return :osx if OS.osx?
-        return :cygwin if OS.cygwin?
         return :windows if OS.windows?
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

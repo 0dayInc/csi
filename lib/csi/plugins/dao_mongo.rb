@@ -8,9 +8,9 @@ module CSI
     module DAOMongo
       # Supported Method Parameters::
       # CSI::Plugins::DAOMongo.connect(
-      #   :host => 'optional host or IP defaults to 127.0.0.1',
-      #   :port => 'optional port defaults to 27017',
-      #   :database => 'optional database name'
+      #   host: 'optional host or IP defaults to 127.0.0.1',
+      #   port: 'optional port defaults to 27017',
+      #   database: 'optional database name'
       # )
 
       public
@@ -40,11 +40,13 @@ module CSI
 
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOMongo.disconnect(
-      #   :mongo_conn => mongo_conn
+      #   mongo_conn: mongo_conn
       # )
 
       public
@@ -52,11 +54,9 @@ module CSI
       def self.disconnect(opts = {})
         mongo_conn = opts[:mongo_conn]
         validate_mongo_conn(mongo_conn: mongo_conn)
-        begin
-          mongo_conn.close
-        rescue => e
-          return e.message
-        end
+        mongo_conn.close
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -71,6 +71,8 @@ module CSI
         unless mongo_conn.class == Mongo::Client
           raise "Error: Invalid mongo_conn Object #{mongo_conn}"
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -92,12 +94,12 @@ module CSI
       def self.help
         puts "USAGE:
           mongo_conn = #{self}.connect(
-            :host => 'optional host or IP defaults to 127.0.0.1',
-            :port => 'optional port defaults to 27017',
-            :database => 'optional database name'
+            host: 'optional host or IP defaults to 127.0.0.1',
+            port: 'optional port defaults to 27017',
+            database: 'optional database name'
           )
 
-          #{self}.disconnect(:mongo_conn => mongo_conn)
+          #{self}.disconnect(mongo_conn: mongo_conn)
 
           #{self}.authors
         "

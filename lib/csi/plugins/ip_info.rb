@@ -9,8 +9,8 @@ module CSI
     module IPInfo
       # Supported Method Parameters::
       # CSI::Plugins::IPInfo.get(
-      #   :ip => 'required - IP or Host to lookup',
-      #   :proxy => 'optional - use a proxy'
+      #   ip: 'required - IP or Host to lookup',
+      #   proxy: 'optional - use a proxy'
       # )
 
       private
@@ -30,12 +30,14 @@ module CSI
 
           return ip_resp_json
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IPInfo.get(
-      #   :ip_or_host => 'required - IP or Host to lookup',
-      #   :proxy => 'optional - use a proxy'
+      #   ip_or_host: 'required - IP or Host to lookup',
+      #   proxy: 'optional - use a proxy'
       # )
 
       public
@@ -65,6 +67,8 @@ module CSI
             return host_resp_json
           end
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -86,8 +90,8 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.get(
-            :ip_or_host => 'required - IP or Host to lookup',
-            :proxy => 'optional - use a proxy'
+            ip_or_host: 'required - IP or Host to lookup',
+            proxy: 'optional - use a proxy'
           )
 
           #{self}.authors

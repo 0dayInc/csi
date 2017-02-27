@@ -21,7 +21,9 @@ module CSI
           "[#{severity}] #{msg}\n"
         end
 
-        logger
+        return logger
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

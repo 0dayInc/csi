@@ -9,9 +9,9 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.login(
-      #   :console_ip => 'required host/ip of Nexpose Console (server)',
-      #   :username => 'required username',
-      #   :password => 'optional password (will prompt if nil)'
+      #   console_ip: 'required host/ip of Nexpose Console (server)',
+      #   username: 'required username',
+      #   password: 'optional password (will prompt if nil)'
       # )
 
       public
@@ -26,22 +26,20 @@ module CSI
                      opts[:password].to_s
                    end
 
-        begin
-          nsc_obj = Nexpose::Connection.new(console_ip, username, password)
-          nsc_obj.login
-          config = Nexpose::Console.load(nsc_obj)
-          config.session_timeout = 21_600
-          # config.save(nsc_obj) # This will change the global sesion timeout config in the console
-          return nsc_obj
-        rescue => e
-          return e.message
-        end
+        nsc_obj = Nexpose::Connection.new(console_ip, username, password)
+        nsc_obj.login
+        config = Nexpose::Console.load(nsc_obj)
+        config.session_timeout = 21_600
+        # config.save(nsc_obj) # This will change the global sesion timeout config in the console
+        return nsc_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.list_all_individual_site_assets(
-      #  :nsc_obj => 'required nsc_obj returned from login method',
-      #  :site_name => 'required Nexpose site name to update (case-sensitive)'
+      #  nsc_obj: 'required nsc_obj returned from login method',
+      #  site_name: 'required Nexpose site name to update (case-sensitive)'
       # )
 
       public
@@ -67,13 +65,15 @@ module CSI
         end
 
         all_individual_site_assets_arr
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.update_site_assets(
-      #  :nsc_obj => 'required nsc_obj returned from login method',
-      #  :site_name => 'required Nexpose site name to update (case-sensitive),
-      #  :assets => 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
+      #  nsc_obj: 'required nsc_obj returned from login method',
+      #  site_name: 'required Nexpose site name to update (case-sensitive),
+      #  assets: 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
       # )
 
       public
@@ -121,13 +121,15 @@ module CSI
         end
 
         nsc_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.delete_site_assets_older_than(
-      #  :nsc_obj => 'required nsc_obj returned from login method',
-      #  :site_name => 'required Nexpose site name to update (case-sensitive),
-      #  :days => 'required assets to remove older than number of days in this parameter'
+      #  nsc_obj: 'required nsc_obj returned from login method',
+      #  site_name: 'required Nexpose site name to update (case-sensitive),
+      #  days: 'required assets to remove older than number of days in this parameter'
       # )
 
       public
@@ -155,13 +157,15 @@ module CSI
         end
 
         nsc_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.scan_site_by_name(
-      #  :nsc_obj => 'required nsc_obj returned from login method',
-      #  :site_name => 'required Nexpose site name to scan (case-sensitive),
-      #  :poll_interval => 'optional poll interval to check the completion status of the scan (defaults to 3 minutes)
+      #  nsc_obj: 'required nsc_obj returned from login method',
+      #  site_name: 'required Nexpose site name to scan (case-sensitive),
+      #  poll_interval: 'optional poll interval to check the completion status of the scan (defaults to 3 minutes)
       # )
 
       public
@@ -205,12 +209,14 @@ module CSI
         end
 
         nsc_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.generate_report_via_existing_config(
-      #   :nsc_obj => 'required nsc_obj returned from login method',
-      #   :config_id => 'relevant r.config_id returned when invoking the block nsc_obj.reports.each {|r| puts "#{r.name} => #{r.config_id}"}',
+      #   nsc_obj: 'required nsc_obj returned from login method',
+      #   config_id: 'relevant r.config_id returned when invoking the block nsc_obj.reports.each {|r| puts "#{r.name} => #{r.config_id}"}',
       # )
 
       public
@@ -223,13 +229,15 @@ module CSI
         existing_report_config.generate(nsc_obj)
 
         nsc_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.download_recurring_report(
-      #   :nsc_obj => 'required nsc_obj returned from login method',
-      #   :report_names => 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
-      #   :poll_interval => 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
+      #   nsc_obj: 'required nsc_obj returned from login method',
+      #   report_names: 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
+      #   poll_interval: 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
       # )
 
       public
@@ -282,26 +290,27 @@ module CSI
         @@logger.info('complete.')
 
         nsc_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::NexposeVulnScan.logout(
-      #   :nsc_obj => 'required nsc_obj returned from login method'
+      #   nsc_obj: 'required nsc_obj returned from login method'
       # )
 
       public
 
       def self.logout(opts = {})
         nsc_obj = opts[:nsc_obj]
-        begin
-          # config = Nexpose::Console.load(nsc_obj)
-          # config.session_timeout = 600 # This is the default session timeout in the console
-          # config.save(nsc_obj) # This will change the global sesion timeout config in the console
-          nsc_obj.logout
-          return 'logged out'
-        rescue => e
-          return e.message
-        end
+
+        # config = Nexpose::Console.load(nsc_obj)
+        # config.session_timeout = 600 # This is the default session timeout in the console
+        # config.save(nsc_obj) # This will change the global sesion timeout config in the console
+        nsc_obj.logout
+        return 'logged out'
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -323,42 +332,42 @@ module CSI
       def self.help
         puts %{USAGE:
           nsc_obj = #{self}.login(
-            :console_ip => 'required host/ip of Nexpose Console (server)',
-            :username => 'required username',
-            :password => 'optional password (will prompt if nil)'
+            console_ip: 'required host/ip of Nexpose Console (server)',
+            username: 'required username',
+            password: 'optional password (will prompt if nil)'
           )
           puts nsc_obj.public_methods"
 
           all_individual_site_assets_arr = #{self}.list_all_individual_site_assets(
-            :nsc_obj => 'required nsc_obj returned from login method',
-            :site_name => 'required Nexpose site name to update (case-sensitive)'
+            nsc_obj: 'required nsc_obj returned from login method',
+            site_name: 'required Nexpose site name to update (case-sensitive)'
           )
 
           nsc_obj = #{self}.update_site_assets(
-            :nsc_obj => 'required nsc_obj returned from login method',
-            :site_name => 'required Nexpose site name to update (case-sensitive),
-            :assets => 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
+            nsc_obj: 'required nsc_obj returned from login method',
+            site_name: 'required Nexpose site name to update (case-sensitive),
+            assets: 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
           )
 
           nsc_obj = #{self}.delete_site_assets_older_than(
-            :nsc_obj => 'required nsc_obj returned from login method',
-            :site_name => 'required Nexpose site name to update (case-sensitive),
-            :days => 'required assets to remove older than number of days in this parameter'
+            nsc_obj: 'required nsc_obj returned from login method',
+            site_name: 'required Nexpose site name to update (case-sensitive),
+            days: 'required assets to remove older than number of days in this parameter'
           )
 
           nsc_obj = #{self}.scan_site_by_name(
-            :nsc_obj => 'required nsc_obj returned from login method',
-            :site_name => 'required Nexpose site name to scan (case-sensitive),
-            :poll_interval => 'optional poll interval to check the completion status of the scan (defaults to 60 seconds)
+            nsc_obj: 'required nsc_obj returned from login method',
+            site_name: 'required Nexpose site name to scan (case-sensitive),
+            poll_interval: 'optional poll interval to check the completion status of the scan (defaults to 60 seconds)
           )
 
           #{self}.download_recurring_report(
-            :nsc_obj => 'required nsc_obj returned from login method',
-            :report_names => 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
-            :poll_interval => 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
+            nsc_obj: 'required nsc_obj returned from login method',
+            report_names: 'required array of report name/types to generate e.g. ["report.html", "report.pdf", "report.xml"]',
+            poll_interval: 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
           )
 
-          #{self}.logout(:nsc_obj => 'required nsc_obj returned from login method')
+          #{self}.logout(nsc_obj: 'required nsc_obj returned from login method')
 
           #{self}.authors
         }

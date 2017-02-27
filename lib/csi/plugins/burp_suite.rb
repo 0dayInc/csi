@@ -101,9 +101,8 @@ module CSI
 
         return burp_obj
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -120,9 +119,8 @@ module CSI
 
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/enable", nil)
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -139,9 +137,8 @@ module CSI
 
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/disable", nil)
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -161,9 +158,8 @@ module CSI
 
         return json_sitemap
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -219,9 +215,8 @@ module CSI
 
         return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -241,9 +236,8 @@ module CSI
 
         return json_scan_issues
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -266,9 +260,8 @@ module CSI
         post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/generate_scan_report", post_body, content_type: 'application/json')
       rescue => e
-        raise e.message
-      ensure
         stop(burp_obj: burp_obj) unless burp_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -299,7 +292,7 @@ module CSI
       rescue => e
         raise e
       ensure
-        Process.kill('TERM', burp_obj[:pid])
+        Process.kill('KILL', burp_obj[:pid])
         Process.wait
       end
 

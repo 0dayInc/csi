@@ -9,7 +9,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::SlackClient.login(
-      #   :api_token => 'required slack api token'
+      #   api_token: 'required slack api token'
       # )
 
       public
@@ -23,23 +23,21 @@ module CSI
           api_token = opts[:api_token].to_s.scrub
         end
 
-        begin
-          @@logger.info('Logging into Slack...')
-          slack_obj = Slack::Web::Client.new
-          slack_obj.token = api_token
-          slack_obj.auth_test
+        @@logger.info('Logging into Slack...')
+        slack_obj = Slack::Web::Client.new
+        slack_obj.token = api_token
+        slack_obj.auth_test
 
-          return slack_obj
-        rescue => e
-          return e.message
-        end
+        return slack_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::SlackClient.post_message(
-      #   :slack_obj => 'required slack_obj returned from login method',
-      #   :channel => 'required #channel to post message',
-      #   :message => 'required message to post'
+      #   slack_obj: 'required slack_obj returned from login method',
+      #   channel: 'required #channel to post message',
+      #   message: 'required message to post'
       # )
 
       public
@@ -49,22 +47,20 @@ module CSI
         channel = opts[:channel].to_s.scrub
         message = opts[:message].to_s.scrub
 
-        begin
-          slack_obj.chat_postMessage(
-            channel: channel,
-            text: message,
-            as_user: true
-          )
+        slack_obj.chat_postMessage(
+          channel: channel,
+          text: message,
+          as_user: true
+        )
 
-          return slack_obj
-        rescue => e
-          return e.message
-        end
+        return slack_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::SlackClient.logout(
-      #   :slack_obj => 'required slack_obj returned from login method'
+      #   slack_obj: 'required slack_obj returned from login method'
       # )
 
       public
@@ -75,6 +71,8 @@ module CSI
         slack_obj.token = nil
         slack_obj = nil
         @@logger.info('Complete.')
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -96,17 +94,17 @@ module CSI
       def self.help
         puts "USAGE:
           slack_obj = #{self}.login(
-            :api_token => 'optional slack api token (will prompt if blank)'
+            api_token: 'optional slack api token (will prompt if blank)'
           )
 
           #{self}.post_message(
-            :slack_obj => 'required slack_obj returned from login method',
-            :channel => 'required #channel to post message',
-            :message => 'required message to post'
+            slack_obj: 'required slack_obj returned from login method',
+            channel: 'required #channel to post message',
+            message: 'required message to post'
           )
 
           #{self}.logout(
-            :slack_obj => 'required slack_obj returned from login method'
+            slack_obj: 'required slack_obj returned from login method'
           )
 
           #{self}.authors

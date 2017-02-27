@@ -12,7 +12,7 @@ module CSI
     module FileFu
       # Supported Method Parameters::
       # CSI::Plugins::FileFu.recurse_dir(
-      #   :dir_path => 'optional path to dir defaults to .'
+      #   dir_path: 'optional path to dir defaults to .'
       # )
 
       public
@@ -27,12 +27,14 @@ module CSI
         # Execute this like this:
         # recurse_dir(:dir_path => 'path to dir') {|entry| puts entry}
         Dir.glob("#{dir_path}/**/*").each { |entry| yield Shellwords.escape(entry) }
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::FileFu.untar_gz_file(
-      #   :tar_gz_file => 'required - path to .tar.gz file',
-      #   :destination => 'required - destination folder to save extracted contents'
+      #   tar_gz_file: 'required - path to .tar.gz file',
+      #   destination: 'required - destination folder to save extracted contents'
       # )
 
       public
@@ -43,6 +45,8 @@ module CSI
         puts `tar -xzvf #{tar_gz_file} -C #{destination}`
 
         nil
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -63,11 +67,11 @@ module CSI
 
       def self.help
         puts "USAGE:
-          #{self}.recurse_dir(:dir_path => 'optional path to dir defaults to .') {|entry| puts entry}
+          #{self}.recurse_dir(dir_path: 'optional path to dir defaults to .') {|entry| puts entry}
 
           #{self}.untar_gz_file(
-            :tar_gz_file => 'required - path to .tar.gz file',
-            :destination => 'required - destination folder to save extracted contents'
+            tar_gz_file: 'required - path to .tar.gz file',
+            destination: 'required - destination folder to save extracted contents'
           )
 
           #{self}.authors

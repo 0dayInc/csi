@@ -10,11 +10,11 @@ module CSI
       # Choose to use a YAML config or Pass Parameters directly to method (:msfrpcd_yaml_conf overrides passed parameters)
       # Supported Method Parameters::
       # msfrpcd_conn1 = CSI::Plugins::Metasploit.connect(
-      #   :msfrpcd_yaml_conf => 'optional path to YAML conf file (overrides parameters outlined below)',
-      #   :msfrpcd_host => 'optional Metasploit msfrpcd ip address',
-      #   :port => 55553,
-      #   :username => 'optional username for msfrpcd',
-      #   :password => 'optional password for msfrpcd'
+      #   msfrpcd_yaml_conf: 'optional path to YAML conf file (overrides parameters outlined below)',
+      #   msfrpcd_host: 'optional Metasploit msfrpcd ip address',
+      #   port: 55553,
+      #   username: 'optional username for msfrpcd',
+      #   password: 'optional password for msfrpcd'
       # )
 
       public
@@ -41,27 +41,24 @@ module CSI
           password = opts[:password].to_s
         end
 
-        begin
-          # TODO: Tune Token Timeout to a Higher Value to Ensure Other
-          # Module Methods Can be Used w/o Needing to Refresh Token
-          msfrpcd_conn = Msf::RPC::Client.new
-          msfrpcd_conn.info[:host] = msfrpcd_host
-          msfrpcd_conn.info[:port] = port
-          msfrpcd_conn.login(username, password)
+        # TODO: Tune Token Timeout to a Higher Value to Ensure Other
+        # Module Methods Can be Used w/o Needing to Refresh Token
+        msfrpcd_conn = Msf::RPC::Client.new
+        msfrpcd_conn.info[:host] = msfrpcd_host
+        msfrpcd_conn.info[:port] = port
+        msfrpcd_conn.login(username, password)
 
-          return msfrpcd_conn
-        rescue => e
-          raise "#{e}\nIs the msfrpcd daemon running on #{msfrpcd_host}?"
-        end
+        return msfrpcd_conn
+      rescue => e
+        raise "#{e}\nIs the msfrpcd daemon running on #{msfrpcd_host}?"
       end
 
       # Supported Method Parameters::
       # results = CSI::Plugins::Metasploit.exec(
-      #   :msfrpcd_conn => msfrpcd_conn1,
-      #   :msf_module => "required msf module name",
-      #   :msf_module_opts => msf_module_opts
+      #   msfrpcd_conn: msfrpcd_conn1,
+      #   msf_module: "required msf module name",
+      #   msf_module_opts: msf_module_opts
       # )l
-      # TODO - Better error handling
       def self.exec(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s
@@ -94,11 +91,13 @@ module CSI
         msfrpcd_conn.call('console.destroy', (console['id']).to_s)
 
         results
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # auxiliary = CSI::Plugins::Metasploit.show_auxiliary(
-      #   :msfrpc_conn => msfrpcd_conn1
+      #   msfrpc_conn: msfrpcd_conn1
       # )
 
       public
@@ -108,12 +107,14 @@ module CSI
         auxiliary = msfrpcd_conn.call('module.auxiliary')
 
         auxiliary
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # compat_payloads = CSI::Plugins::Metasploit.show_compatible_payloads(
-      #   :msfrpcd_conn => msfrpcd_conn1,
-      #   :msf_module = "required msf module name"
+      #   msfrpcd_conn: msfrpcd_conn1,
+      #   msf_module: "required msf module name"
       # )
 
       public
@@ -124,11 +125,13 @@ module CSI
         compat_payloads = msfrpcd_conn.call('module.compatible_payloads', msf_module)
 
         compat_payloads
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # encoders = CSI::Plugins::Metasploit.show_encoders(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -138,11 +141,13 @@ module CSI
         encoders = msfrpcd_conn.call('module.encoders')
 
         encoders
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # exploits = CSI::Plugins::Metasploit.show_exploits(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -152,11 +157,13 @@ module CSI
         exploits = msfrpcd_conn.call('module.exploits')
 
         exploits
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # nops = CSI::Plugins::Metasploit.show_nops(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -166,13 +173,15 @@ module CSI
         nops = msfrpcd_conn.call('module.nops')
 
         nops
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # msf_module_options = CSI::Plugins::Metasploit.show_options(
-      #   :msfrpcd_conn => msfrpc_conn1,
-      #   :msf_module_type => "required msf module type (:exploit, :auxiliary, :post, :payload, :encoder, :nop)",
-      #   :msf_module = "required msf module name"
+      #   msfrpcd_conn: msfrpc_conn1,
+      #   msf_module_type: "required msf module type (:exploit, :auxiliary, :post, :payload, :encoder, :nop)",
+      #   msf_module: "required msf module name"
       # )
 
       public
@@ -184,11 +193,13 @@ module CSI
         options = msfrpcd_conn.call('module.options', msf_module_type, msf_module)
 
         options
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # payloads = CSI::Plugins::Metasploit.show_payloads(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -198,11 +209,13 @@ module CSI
         payloads = msfrpcd_conn.call('module.payloads')
 
         payloads
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # post = CSI::Plugins::Metasploit.show_post(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -212,11 +225,13 @@ module CSI
         post = msfrpcd_conn.call('module.post')
 
         post
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # version = CSI::Plugins::Metasploit.show_version(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -226,11 +241,13 @@ module CSI
         post = msfrpcd_conn.call('core.version')
 
         post
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Metasploit.disconnect(
-      #   :msfrpcd_conn => msfrpcd_conn1
+      #   msfrpcd_conn: msfrpcd_conn1
       # )
 
       public
@@ -239,6 +256,8 @@ module CSI
         msfrpcd_conn = opts[:msfrpcd_conn]
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
         msfrpcd_conn = nil # TODO: Find a way to terminate RPC socket connection to msfrpcd daemon
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -260,49 +279,49 @@ module CSI
       def self.help
         puts "USAGE:
           msfrpcd_conn1 = #{self}.connect(
-            :msfrpcd_yaml_conf => 'optional path to YAML conf file (overrides parameters outlined below)',
-            :msfrpcd_host => 'required Metasploit msfrpcd ip address',
-            :port => 55553,
-            :username => 'required username for msfrpcd',
-            :password => 'required password for msfrpcd'
+            msfrpcd_yaml_conf: 'optional path to YAML conf file (overrides parameters outlined below)',
+            msfrpcd_host: 'required Metasploit msfrpcd ip address',
+            port: 55553,
+            username: 'required username for msfrpcd',
+            password: 'required password for msfrpcd'
           )
 
           results = #{self}.exec(
-            :msfrpcd_conn => msfrpcd_conn1,
-            :msf_module => msf_module,
-            :msf_module_opts => msf_module_opts
+            msfrpcd_conn: msfrpcd_conn1,
+            msf_module: msf_module,
+            msf_module_opts: msf_module_opts
           )
 
           auxiliary = #{self}.show_auxiliary(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           encoders = #{self}.show_encoders(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           exploits = #{self}.show_exploits(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           nops = #{self}.show_nops(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           options = #{self}.show_options(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           payloads = #{self}.show_payloads(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           post = #{self}.show_post(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           #{self}.disconnect(
-            :msfrpcd_conn => msfrpcd_conn1
+            msfrpcd_conn: msfrpcd_conn1
           )
 
           #{self}.authors

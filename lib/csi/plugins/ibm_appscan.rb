@@ -15,9 +15,9 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.login(
-      #   :appscan_ip => 'required host/ip of IBM Appscan Server',
-      #   :username => 'required username',
-      #   :password => 'optional password (will prompt if nil)'
+      #   appscan_ip: 'required host/ip of IBM Appscan Server',
+      #   username: 'required username',
+      #   password: 'optional password (will prompt if nil)'
       # )
 
       public
@@ -33,51 +33,49 @@ module CSI
                      opts[:password].to_s.scrub
                    end
 
-        begin
-          @@logger.info("Logging into IBM Appscan Enterprise Server: #{appscan_ip}")
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
-          response = rest_client.execute(
-            method: :post,
-            url: "#{base_appscan_api_uri}/login",
-            payload: "userid=#{username}&password=#{password}",
-            verify_ssl: false
-          )
+        @@logger.info("Logging into IBM Appscan Enterprise Server: #{appscan_ip}")
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        response = rest_client.execute(
+          method: :post,
+          url: "#{base_appscan_api_uri}/login",
+          payload: "userid=#{username}&password=#{password}",
+          verify_ssl: false
+        )
 
-          # Return array containing the Appscan Server host/ip & post-authenticated Appscan REST cookie
-          appscan_ip = URI.parse(response.args[:url]).host
-          appscan_cookie = "asc_session_id=#{response.cookies['asc_session_id']}; ASP.NET_SessionId=#{response.cookies['ASP.NET_SessionId']}"
-          appscan_obj = {}
-          appscan_obj[:appscan_ip] = appscan_ip
-          appscan_obj[:cookie] = appscan_cookie
-          appscan_obj[:raw_response] = response
-          appscan_obj[:xml_response] = Nokogiri::XML(response)
-          appscan_obj[:build] = appscan_obj[:xml_response].xpath(
-            '/xmlns:version/xmlns:build'
-          ).text
-          appscan_obj[:dbversion] = appscan_obj[:xml_response].xpath(
-            '/xmlns:version/xmlns:dbversion'
-          ).text
-          appscan_obj[:rules_version] = appscan_obj[:xml_response].xpath(
-            '/xmlns:version/xmlns:rules-version'
-          ).text
-          appscan_obj[:username] = appscan_obj[:xml_response].xpath(
-            '/xmlns:version/xmlns:user-name'
-          ).text
-          appscan_obj[:password] = Base64.encode64(password)
-          appscan_obj[:logged_in] = true
+        # Return array containing the Appscan Server host/ip & post-authenticated Appscan REST cookie
+        appscan_ip = URI.parse(response.args[:url]).host
+        appscan_cookie = "asc_session_id=#{response.cookies['asc_session_id']}; ASP.NET_SessionId=#{response.cookies['ASP.NET_SessionId']}"
+        appscan_obj = {}
+        appscan_obj[:appscan_ip] = appscan_ip
+        appscan_obj[:cookie] = appscan_cookie
+        appscan_obj[:raw_response] = response
+        appscan_obj[:xml_response] = Nokogiri::XML(response)
+        appscan_obj[:build] = appscan_obj[:xml_response].xpath(
+          '/xmlns:version/xmlns:build'
+        ).text
+        appscan_obj[:dbversion] = appscan_obj[:xml_response].xpath(
+          '/xmlns:version/xmlns:dbversion'
+        ).text
+        appscan_obj[:rules_version] = appscan_obj[:xml_response].xpath(
+          '/xmlns:version/xmlns:rules-version'
+        ).text
+        appscan_obj[:username] = appscan_obj[:xml_response].xpath(
+          '/xmlns:version/xmlns:user-name'
+        ).text
+        appscan_obj[:password] = Base64.encode64(password)
+        appscan_obj[:logged_in] = true
 
-          return appscan_obj
-        rescue => e
-          return e.message
-        end
+        return appscan_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # appscan_rest_call(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :http_method => 'optional HTTP method (defaults to GET)
-      #   :rest_call => 'required rest call to make per the schema',
-      #   :http_body => 'optional HTTP body sent in HTTP methods that support it e.g. POST'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   http_method: 'optional HTTP method (defaults to GET)
+      #   rest_call: 'required rest call to make per the schema',
+      #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
       private
@@ -96,55 +94,53 @@ module CSI
         base_appscan_api_uri = "https://#{appscan_ip}/ase/services".to_s.scrub
         retry_count = 3
 
-        begin
-          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
-          case http_method
-          when :get
-            response = rest_client.execute(
-              method: :get,
-              url: "#{base_appscan_api_uri}/#{rest_call}",
-              headers: { cookie: appscan_cookie },
-              verify_ssl: false
-            )
+        case http_method
+        when :get
+          response = rest_client.execute(
+            method: :get,
+            url: "#{base_appscan_api_uri}/#{rest_call}",
+            headers: { cookie: appscan_cookie },
+            verify_ssl: false
+          )
 
-          when :post
-            response = rest_client.execute(
-              method: :post,
-              url: "#{base_appscan_api_uri}/#{rest_call}",
-              headers: { cookie: appscan_cookie },
-              payload: http_body,
-              verify_ssl: false
-            )
+        when :post
+          response = rest_client.execute(
+            method: :post,
+            url: "#{base_appscan_api_uri}/#{rest_call}",
+            headers: { cookie: appscan_cookie },
+            payload: http_body,
+            verify_ssl: false
+          )
 
-          else
-            return @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
-          end
-          return response
-        rescue => e
-          if (e.message == '401 Unauthorized') && retry_count > 0 && appscan_obj[:logged_in]
-            # Try logging back in to refresh the connection
-            @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
-            n_appscan_obj = login(
-              appscan_ip: appscan_obj[:appscan_ip],
-              username: appscan_obj[:username],
-              password: Base64.decode64(appscan_obj[:password])
-            )
-            appscan_cookie = n_appscan_obj[:cookie]
-            # "copy" the new app obj over the old app obj
-            appscan_obj.keys.each do |k|
-              appscan_obj[k] = n_appscan_obj[k]
-            end
-            retry_count -= 1
-            retry
-          end
-          return e.message
+        else
+          return @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
+        return response
+      rescue => e
+        if (e.message == '401 Unauthorized') && retry_count > 0 && appscan_obj[:logged_in]
+          # Try logging back in to refresh the connection
+          @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
+          n_appscan_obj = login(
+            appscan_ip: appscan_obj[:appscan_ip],
+            username: appscan_obj[:username],
+            password: Base64.decode64(appscan_obj[:password])
+          )
+          appscan_cookie = n_appscan_obj[:cookie]
+          # "copy" the new app obj over the old app obj
+          appscan_obj.keys.each do |k|
+            appscan_obj[k] = n_appscan_obj[k]
+          end
+          retry_count -= 1
+          retry
+        end
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.schema(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -156,11 +152,13 @@ module CSI
         schema[:raw_response] = response
         schema[:xml_response] = Nokogiri::XML(response)
         schema
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.version(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -184,11 +182,13 @@ module CSI
           '/xmlns:version/xmlns:user-name'
         ).text
         version
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_folders(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -200,12 +200,14 @@ module CSI
         folders[:raw_response] = response
         folders[:xml_response] = Nokogiri::XML(response)
         folders
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_subfolders_of_folder(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_id => 'required folder to retrieve'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_id: 'required folder to retrieve'
       # )
 
       public
@@ -218,12 +220,14 @@ module CSI
         subfolders[:raw_response] = response
         subfolders[:xml_response] = Nokogiri::XML(response)
         subfolders
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_folder_by_id(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_id => 'required folder to retrieve'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_id: 'required folder to retrieve'
       # )
 
       public
@@ -236,11 +240,13 @@ module CSI
         folder[:raw_response] = response
         folder[:xml_response] = Nokogiri::XML(response)
         folder
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_folder_items(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -252,12 +258,14 @@ module CSI
         folder_items[:raw_response] = response
         folder_items[:xml_response] = Nokogiri::XML(response)
         folder_items
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_folder_item_by_id(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_item_id => 'required folder item to retrieve'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_item_id: 'required folder item to retrieve'
       # )
 
       public
@@ -267,33 +275,31 @@ module CSI
         folder_item_id = opts[:folder_item_id].to_i
         retry_count = 3
 
-        begin
-          response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{folder_item_id}")
-          folder_item = {}
-          folder_item[:raw_response] = response
-          folder_item[:xml_response] = Nokogiri::XML(response)
-          # Get Current Status of a Scan
-          # Available states:
-          # READY = 1;
-          # STARTING = 2;
-          # RUNNING = 3;
-          # RESUMING = 6;
-          # CANCELING = 7;
-          # SUSPENDING = 8;
-          # SUSPENDED = 9;
-          # POSTPROCESSING = 10;
-          # ENDING = 12;
-          folder_item[:state] = folder_item[:xml_response].xpath('//xmlns:state/xmlns:name').text
-          return folder_item
-        rescue => e
-          return @@logger.error("Error: #{e} | #{e.class}\nResponse Returned: #{folder_item[:raw_response]}")
-        end
+        response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folderitems/#{folder_item_id}")
+        folder_item = {}
+        folder_item[:raw_response] = response
+        folder_item[:xml_response] = Nokogiri::XML(response)
+        # Get Current Status of a Scan
+        # Available states:
+        # READY = 1;
+        # STARTING = 2;
+        # RUNNING = 3;
+        # RESUMING = 6;
+        # CANCELING = 7;
+        # SUSPENDING = 8;
+        # SUSPENDED = 9;
+        # POSTPROCESSING = 10;
+        # ENDING = 12;
+        folder_item[:state] = folder_item[:xml_response].xpath('//xmlns:state/xmlns:name').text
+        return folder_item
+      rescue => e
+        return @@logger.error("Error: #{e} | #{e.class}\nResponse Returned: #{folder_item[:raw_response]}")
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_a_folders_folder_items(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_id => 'required folder to retrieve'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_id: 'required folder to retrieve'
       # )
 
       public
@@ -306,12 +312,14 @@ module CSI
         a_folders_folder_items[:raw_response] = response
         a_folders_folder_items[:xml_response] = Nokogiri::XML(response)
         a_folders_folder_items
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_folder_item_options(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_item_id => 'required folder item to retrieve'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_item_id: 'required folder item to retrieve'
       # )
 
       public
@@ -329,11 +337,13 @@ module CSI
           '//xmlns:available-option/@href'
         )
         folder_item_options
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_scan_templates(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -345,14 +355,16 @@ module CSI
         templates[:raw_response] = response
         templates[:xml_response] = Nokogiri::XML(response)
         templates
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.create_scan_based_on_template(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
-      #   :template_id => 'required template id returned from get_scan_templates method'
-      #   :scan_name => 'required name of scan'
-      #   :scan_desc => 'required description of scan'
+      #   appscan_obj: 'required appscan_obj returned from login method'
+      #   template_id: 'required template id returned from get_scan_templates method'
+      #   scan_name: 'required name of scan'
+      #   scan_desc: 'required description of scan'
       # )
 
       public
@@ -372,71 +384,69 @@ module CSI
         # Return an Easy to Use Data Structure
         # Instead of Leaving it to the End User
         # To Parse Out the XML on their own.
-        begin
-          scan = {}
-          scan[:raw_response] = response
-          scan[:xml_response] = Nokogiri::XML(response)
-          scan[:folder_url] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/@href'
-          ).text
-          scan[:folder_item_id] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:id'
-          ).text
-          scan[:scan_name] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:name'
-          ).text
-          scan[:scan_desc] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:description'
-          ).text
-          scan[:parent_folder_url] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/@href'
-          ).text
-          scan[:parent_folder_id] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/xmlns:id'
-          ).text
-          scan[:contact] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:contact'
-          ).text
-          scan[:state_id] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:id'
-          ).text
-          scan[:state_name] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:name'
-          ).text
-          scan[:action_id] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:id'
-          ).text
-          scan[:action_name] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:name'
-          ).text
-          scan[:options_url] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:content-scan-job/xmlns:options/@href'
-          ).text
-          scan[:report_pack_url] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:report-pack/@href'
-          ).text
-          scan[:report_pack_id] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:report-pack/xmlns:id'
-          ).text
-          scan[:reports_url] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/@href'
-          ).text
-          scan[:reports_count] = scan[:xml_response].xpath(
-            '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/xmlns:count'
-          ).text.to_i
+        scan = {}
+        scan[:raw_response] = response
+        scan[:xml_response] = Nokogiri::XML(response)
+        scan[:folder_url] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/@href'
+        ).text
+        scan[:folder_item_id] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:id'
+        ).text
+        scan[:scan_name] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:name'
+        ).text
+        scan[:scan_desc] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:description'
+        ).text
+        scan[:parent_folder_url] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/@href'
+        ).text
+        scan[:parent_folder_id] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:parent/xmlns:id'
+        ).text
+        scan[:contact] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:contact'
+        ).text
+        scan[:state_id] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:id'
+        ).text
+        scan[:state_name] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:state/xmlns:name'
+        ).text
+        scan[:action_id] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:id'
+        ).text
+        scan[:action_name] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:action/xmlns:name'
+        ).text
+        scan[:options_url] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:content-scan-job/xmlns:options/@href'
+        ).text
+        scan[:report_pack_url] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:report-pack/@href'
+        ).text
+        scan[:report_pack_id] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:report-pack/xmlns:id'
+        ).text
+        scan[:reports_url] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/@href'
+        ).text
+        scan[:reports_count] = scan[:xml_response].xpath(
+          '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/xmlns:count'
+        ).text.to_i
 
-          return scan
-        rescue => e
-          return @@logger.error("Error #{e.message}:\nREST response returned:\n#{response}")
-        end
+        return scan
+      rescue => e
+        return @@logger.error("Error #{e.message}:\nREST response returned:\n#{response}")
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.configure_scan_options(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_item_id => 'required folder item id',
-      #   :option => 'required option to change within the scan (folder item)',
-      #   :value => 'required option value(s)'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_item_id: 'required folder item id',
+      #   option: 'required option to change within the scan (folder item)',
+      #   value: 'required option value(s)'
       # )
 
       public
@@ -498,14 +508,16 @@ module CSI
         scan_config[:options] = scan_config[:xml_response].xpath('//xmlns:option/@value')
 
         scan_config
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.folder_item_scan_action(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :folder_item_id => 'required folder item id',
-      #   :action => 'required action for scan to follow. Available actions are: :run, :suspend, :cancel, & :end',
-      #   :poll_interval => 'optional setting to determine length in seconds to poll for scan state (defaults to 60)'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   folder_item_id: 'required folder item id',
+      #   action: 'required action for scan to follow. Available actions are: :run, :suspend, :cancel, & :end',
+      #   poll_interval: 'optional setting to determine length in seconds to poll for scan state (defaults to 60)'
       # )
 
       public
@@ -579,12 +591,14 @@ module CSI
         scan_action[:xml_response] = Nokogiri::XML(response)
 
         scan_action
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_report_collection(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :report_folder_item_id => 'required report folder item id'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   report_folder_item_id: 'required report folder item id'
       # )
 
       public
@@ -605,12 +619,14 @@ module CSI
         end
 
         report_collection
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_single_report(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :report_id => 'required report id'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   report_id: 'required report id'
       # )
 
       public
@@ -626,12 +642,14 @@ module CSI
         @@logger.info("Retrieved Report ID/Name: #{report_id}/#{report[:xml_response].xpath('//xmlns:report/xmlns:name').text}")
 
         report
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_single_report_data(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :report_id => 'required report id'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   report_id: 'required report id'
       # )
 
       public
@@ -650,12 +668,14 @@ module CSI
         @@logger.info("Retrieved Report Data for Report ID: #{report_id}")
 
         report_data
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_single_report_schema(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :report_id => 'required report id'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   report_id: 'required report id'
       # )
 
       public
@@ -674,12 +694,14 @@ module CSI
         @@logger.info("Retrieved Report Schema for Report ID: #{report_id}")
 
         report_schema
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_issue_collection(
-      #   :appscan_obj => 'required appscan_obj returned from login method',
-      #   :report_id => 'required report id'
+      #   appscan_obj: 'required appscan_obj returned from login method',
+      #   report_id: 'required report id'
       # )
 
       public
@@ -698,13 +720,15 @@ module CSI
         @@logger.info("Retrieved Issue Collection for Report ID: #{report_id}")
 
         issue_collection
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.get_report_data
-      #   :appscan_obj => 'required appscan_obj returned from login method'
-      #   :report_link => 'required report link to start report generation
-      #   :output_name => 'required name to save generated report'
+      #   appscan_obj: 'required appscan_obj returned from login method'
+      #   report_link: 'required report link to start report generation
+      #   output_name: 'required name to save generated report'
 
       private
 
@@ -713,39 +737,37 @@ module CSI
         report_link = opts[:report_link]
         output_name = opts[:output_name]
 
+        # First Get request
+        uri = URI.parse(report_link)
+        rb = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
+        res = rb.get(report_link, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE)
+        location = 'https://' + uri.host + res.headers['location']
+
+        puts "Location: #{location}"
+        # Generate the report on the server side
+        res = rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE)
+
+        # Now get the file
+        f = open(output_name, 'wb')
+        location['Export'] = 'Stream'
         begin
-          # First Get request
-          uri = URI.parse(report_link)
-          rb = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
-          res = rb.get(report_link, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE)
-          location = 'https://' + uri.host + res.headers['location']
-
-          puts "Location: #{location}"
-          # Generate the report on the server side
-          res = rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE)
-
-          # Now get the file
-          f = open(output_name, 'wb')
-          location['Export'] = 'Stream'
-          begin
-            rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE) do |resp|
-              resp.read_body do |seg|
-                f.write(seg)
-              end
+          rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE) do |resp|
+            resp.read_body do |seg|
+              f.write(seg)
             end
-          ensure
-            f.close
           end
-        rescue => e
-          return @@logger.error("Could not get report data: #{e.message}")
+        ensure
+          f.close
         end
+      rescue => e
+        return @@logger.error("Could not get report data: #{e.message}")
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.generate_scan_report
-      #   :appscan_obj => 'required appscan_obj returned from login method'
-      #   :scan_name => 'required name of scan for which to generate a report'
-      #   :output_path => 'required path to save generated report'
+      #   appscan_obj: 'required appscan_obj returned from login method'
+      #   scan_name: 'required name of scan for which to generate a report'
+      #   output_path: 'required path to save generated report'
 
       public
 
@@ -763,39 +785,38 @@ module CSI
           return @@logger.error("Output directory does not exist: #{output_path}")
         end
 
-        begin
-          # REMEMBER TO CHANGE BROWSER TYPE BACK TO HEADLESS!!!!
-          h_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox,
-                                                            proxy: 'http://127.0.0.1:8080')
+        # REMEMBER TO CHANGE BROWSER TYPE BACK TO HEADLESS!!!!
+        h_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox,
+                                                          proxy: 'http://127.0.0.1:8080')
 
-          # log into the system
-          h_browser.goto login_uri.to_s.to_s.scrub
-          h_browser.text_field(name: 'j_username').when_present.set(appscan_obj[:username])
-          h_browser.text_field(name: 'j_password').when_present.set(Base64.decode64(appscan_obj[:password]))
-          h_browser.button(name: 'login').when_present.click
+        # log into the system
+        h_browser.goto login_uri.to_s.to_s.scrub
+        h_browser.text_field(name: 'j_username').when_present.set(appscan_obj[:username])
+        h_browser.text_field(name: 'j_password').when_present.set(Base64.decode64(appscan_obj[:password]))
+        h_browser.button(name: 'login').when_present.click
 
-          # head over to the reports page and click on the report link
-          h_browser.goto base_appscan_uri.to_s.to_s.scrub
-          h_browser.link(:text, 'ASE').when_present.click
+        # head over to the reports page and click on the report link
+        h_browser.goto base_appscan_uri.to_s.to_s.scrub
+        h_browser.link(:text, 'ASE').when_present.click
 
-          # Search for the report link with a matching name and click it
-          clicked = false
-          h_browser.links.each do |link|
-            next unless (link.text == scan_name.to_s) && link.href =~ /^https:.+XReports.+/
-            link.when_present.click
-            clicked = true
-            break
-          end
-          unless clicked
-            return @@logger.error("Could not find matching scan name for name #{scan_name}")
-          end
-          output_path = output_path + '/' + scan_name.gsub(/[^\w\.\-]/, '_') + '/'
-          FileUtils.rm_rf output_path if File.directory?(output_path)
-          FileUtils.mkpath output_path
+        # Search for the report link with a matching name and click it
+        clicked = false
+        h_browser.links.each do |link|
+          next unless (link.text == scan_name.to_s) && link.href =~ /^https:.+XReports.+/
+          link.when_present.click
+          clicked = true
+          break
+        end
+        unless clicked
+          return @@logger.error("Could not find matching scan name for name #{scan_name}")
+        end
+        output_path = output_path + '/' + scan_name.gsub(/[^\w\.\-]/, '_') + '/'
+        FileUtils.rm_rf output_path if File.directory?(output_path)
+        FileUtils.mkpath output_path
 
-          # Download the top level report
-          get_report_data(appscan_obj: appscan_obj, report_link: h_browser.url +
-                          '&exportformat=pdf&exportdelivery=download', output_name: output_path + 'Top_Level.pdf')
+        # Download the top level report
+        get_report_data(appscan_obj: appscan_obj, report_link: h_browser.url +
+                        '&exportformat=pdf&exportdelivery=download', output_name: output_path + 'Top_Level.pdf')
 
         #           viewid = h_browser.url.split('&').last
         #           h_browser.links.each do |link|
@@ -804,19 +825,17 @@ module CSI
         #               @@logger.info("LINK URL: #{link.href}")
         #             end
         #           end
-        rescue => e
-          @@logger.error("Error retrieving report for '#{scan_name}': #{e.message}")
-        ensure
-          # make sure we always logout
-          h_browser.goto logout_uri.to_s.to_s.scrub
-          h_browser.close
-        end
-        true
+      rescue => e
+        @@logger.error("Error retrieving report for '#{scan_name}': #{e.message}")
+      ensure
+        # make sure we always logout
+        h_browser.goto logout_uri.to_s.to_s.scrub
+        h_browser.close
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::IBMAppscan.logout(
-      #   :appscan_obj => 'required appscan_obj returned from login method'
+      #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
       public
@@ -831,6 +850,8 @@ module CSI
         else
           return response
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -852,110 +873,110 @@ module CSI
       def self.help
         puts "USAGE:
           appscan_obj = #{self}.login(
-            :appscan_ip => 'required host/ip of Nexpose Console (server)',
-            :username => 'required username',
-            :password => 'optional password (will prompt if nil)'
+            appscan_ip: 'required host/ip of Nexpose Console (server)',
+            username: 'required username',
+            password: 'optional password (will prompt if nil)'
           )
 
           schema = #{self}.schema(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           version = #{self}.version(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           folders = #{self}.get_folders(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           subfolders = #{self}.get_subfolders_of_folder(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_id => 'required folder to retrieve'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_id: 'required folder to retrieve'
           )
 
           folder = #{self}.get_folder_by_id(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_id => 'required folder to retrieve'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_id: 'required folder to retrieve'
           )
 
           folder_items = #{self}.get_folder_items(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           folder_item = #{self}.get_folder_item_by_id(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_item_id => 'required folder item to retrieve'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_item_id: 'required folder item to retrieve'
           )
 
           a_folders_folder_items = #{self}.get_a_folders_folder_items(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_id => 'required folder to retrieve'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_id: 'required folder to retrieve'
           )
 
           folder_item_options = #{self}.get_folder_item_options(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_item_id => 'required folder item to retrieve'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_item_id: 'required folder item to retrieve'
           )
 
           scan = #{self}.create_scan_based_on_template(
-            :appscan_obj => 'required appscan_obj returned from login method'
-            :template_id => 'required template id returned from get_scan_templates method'
-            :scan_name => 'required name of scan'
-            :scan_desc => 'required description of scan'
+            appscan_obj: 'required appscan_obj returned from login method'
+            template_id: 'required template id returned from get_scan_templates method'
+            scan_name: 'required name of scan'
+            scan_desc: 'required description of scan'
           )
 
           templates = #{self}.get_scan_templates(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           scan_config = #{self}.configure_scan_options(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_item_id => 'required folder item id',
-            :option => 'required option to change within the scan (folder item).  Pass :help for a list of options.',
-            :value => 'required option value(s)'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_item_id: 'required folder item id',
+            option: 'required option to change within the scan (folder item).  Pass :help for a list of options.',
+            value: 'required option value(s)'
           )
 
           scan_action = #{self}.folder_item_scan_action(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :folder_item_id => 'required folder item id',
-            :action => 'required action for scan to follow. Available actions are: :run, :suspend, :cancel, & :end',
-            :poll_interval => 'optional setting to determine length in seconds to poll for scan state (defaults to 60)'
+            appscan_obj: 'required appscan_obj returned from login method',
+            folder_item_id: 'required folder item id',
+            action: 'required action for scan to follow. Available actions are: :run, :suspend, :cancel, & :end',
+            poll_interval: 'optional setting to determine length in seconds to poll for scan state (defaults to 60)'
           )
 
           report_collection = #{self}.get_report_collection(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :report_folder_item_id => 'required report folder item id'
+            appscan_obj: 'required appscan_obj returned from login method',
+            report_folder_item_id: 'required report folder item id'
           )
 
           report = #{self}.get_single_report(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :report_id => 'required report id'
+            appscan_obj: 'required appscan_obj returned from login method',
+            report_id: 'required report id'
           )
 
           report_data = #{self}.get_single_report_data(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :report_id => 'required report id'
+            appscan_obj: 'required appscan_obj returned from login method',
+            report_id: 'required report id'
           )
 
           report_schema = #{self}.get_single_report_schema(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :report_id => 'required report id'
+            appscan_obj: 'required appscan_obj returned from login method',
+            report_id: 'required report id'
           )
 
           issue_collection = #{self}.get_issue_collection(
-            :appscan_obj => 'required appscan_obj returned from login method',
-            :report_id => 'required report id'
+            appscan_obj: 'required appscan_obj returned from login method',
+            report_id: 'required report id'
           )
 
           #{self}.generate_scan_report(
-            :appscan_obj => 'required appscan_obj returned from login',
-            :scan_name => 'required name of scan for which to generate a report',
-            :output_path => 'required path to save generated report'
+            appscan_obj: 'required appscan_obj returned from login',
+            scan_name: 'required name of scan for which to generate a report',
+            output_path: 'required path to save generated report'
           )
 
           #{self}.logout(
-            :appscan_obj => 'required appscan_obj returned from login method'
+            appscan_obj: 'required appscan_obj returned from login method'
           )
 
           #{self}.authors

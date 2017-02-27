@@ -7,13 +7,13 @@ module CSI
     module DAOLDAP
       # Supported Method Parameters::
       # CSI::Plugins::DAOLDAP.connect(
-      #   :host => 'required host or IP',
-      #   :port => 'optional port (defaults to 636)',
-      #   :base => 'required ldap base to search from (e.g. dc=domain,dc=com)'
-      #   :encryption => 'optional parameter to protect communication in transit, :simple_tls OR :start_tls'
-      #   :auth_method => 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
-      #   :username => 'required username (e.g. jake.hoopes@gmail.com)',
-      #   :password => 'optional (prompts if left blank)',
+      #   host: 'required host or IP',
+      #   port: 'optional port (defaults to 636)',
+      #   base: 'required ldap base to search from (e.g. dc=domain,dc=com)'
+      #   encryption: 'optional parameter to protect communication in transit, :simple_tls OR :start_tls'
+      #   auth_method: 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
+      #   username: 'required username (e.g. jake.hoopes@gmail.com)',
+      #   password: 'optional (prompts if left blank)',
       # )
 
       public
@@ -33,44 +33,42 @@ module CSI
                      opts[:password].to_s
                    end
 
-        begin
-          if encryption
-            ldap_obj = Net::LDAP.new(
-              host: host,
-              port: port,
-              base: base,
-              encryption: encryption,
-              auth: {
-                method: auth_method,
-                username: username,
-                password: password
-              }
-            )
-          else
-            ldap_obj = Net::LDAP.new(
-              host: host,
-              port: port,
-              base: base,
-              auth: {
-                method: auth_method,
-                username: username,
-                password: password
-              }
-            )
-          end
-
-          ldap_obj.bind
-
-          return ldap_obj
-        rescue => e
-          return e.message
+        if encryption
+          ldap_obj = Net::LDAP.new(
+            host: host,
+            port: port,
+            base: base,
+            encryption: encryption,
+            auth: {
+              method: auth_method,
+              username: username,
+              password: password
+            }
+          )
+        else
+          ldap_obj = Net::LDAP.new(
+            host: host,
+            port: port,
+            base: base,
+            auth: {
+              method: auth_method,
+              username: username,
+              password: password
+            }
+          )
         end
+
+        ldap_obj.bind
+
+        return ldap_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOLDAP.get_employee_by_username(
-      #   :ldap_obj => 'required ldap_obj returned from #connect method',
-      #   :username => 'required username of employee to retrieve from LDAP server'
+      #   ldap_obj: 'required ldap_obj returned from #connect method',
+      #   username: 'required username of employee to retrieve from LDAP server'
       # )
 
       public
@@ -80,30 +78,26 @@ module CSI
         username = opts[:username].to_s.scrub
         treebase = ldap_obj.base
 
-        begin
-          filter = Net::LDAP::Filter.eq('samaccountname', username)
-          employee = ldap_obj.search(base: treebase, filter: filter)
+        filter = Net::LDAP::Filter.eq('samaccountname', username)
+        employee = ldap_obj.search(base: treebase, filter: filter)
 
-          return employee
-        rescue => e
-          return e.message
-        end
+        return employee
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOLDAP.disconnect(
-      #   :ldap_obj => ldap_obj
+      #   ldap_obj: ldap_obj
       # )
 
       public
 
       def self.disconnect(opts = {})
         ldap_obj = opts[:ldap_obj]
-        begin
-          ldap_obj = nil
-        rescue => e
-          return e.message
-        end
+        ldap_obj = nil
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -125,18 +119,18 @@ module CSI
       def self.help
         puts "USAGE:
           ldap_obj = #{self}.connect(
-            :host => 'required host or IP',
-            :port => 'required port',
-            :base => 'required ldap base to search from (e.g. dc=domain,dc=com)',
-            :encryption => 'optional parameter to protect communication in transit, :simple_tls OR :start_tls',
-            :auth_method => 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
-            :username => 'required username',
-            :password => 'optional (prompts if left blank)',
+            host: 'required host or IP',
+            port: 'required port',
+            base: 'required ldap base to search from (e.g. dc=domain,dc=com)',
+            encryption: 'optional parameter to protect communication in transit, :simple_tls OR :start_tls',
+            auth_method: 'required ldap auth bind method, :simple, :sasl, OR :gss_spnego'
+            username: 'required username',
+            password: 'optional (prompts if left blank)',
           )
 
           employee = #{self}.get_employee_by_username(
-            :ldap_obj => 'required ldap_obj returned from #connect method',
-            :username => 'required username of employee to retrieve from LDAP server'
+            ldap_obj: 'required ldap_obj returned from #connect method',
+            username: 'required username of employee to retrieve from LDAP server'
           )
           puts employee[0][:dn]
 

@@ -8,7 +8,7 @@ module CSI
     module DAOSQLite3
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.connect(
-      #   :dir_path => 'Required - Path of SQLite3 DB File'
+      #   dir_path: 'Required - Path of SQLite3 DB File'
       # )
 
       public
@@ -16,34 +16,32 @@ module CSI
       def self.connect(opts = {})
         dir_path = opts[:dir_path]
 
-        begin
-          sqlite3_conn = SQLite3::Database.new(dir_path)
-          # Be sure to enable foreign key support for each connection
-          sql_enable_fk = 'PRAGMA foreign_keys = ?'
-          res = sql_statement(
-            sqlite3_conn: sqlite3_conn,
-            prepared_statement: sql_enable_fk,
-            statement_params: ['ON']
-          )
-          # TODO: better handling since sqlite3 gem always returns SQLite3::Database
-          # whether DB exists or not
-          unless sqlite3_conn.class == SQLite3::Database
-            raise "
-              Connection Error - class should be SQLite3::Database...received:
-              sqlite3_conn = #{sqlite3_conn.inspect}
-              sqlite3_conn.class = #{sqlite3_conn.class}
-            "
-          end
-
-          return sqlite3_conn
-        rescue => e
-          return e.message
+        sqlite3_conn = SQLite3::Database.new(dir_path)
+        # Be sure to enable foreign key support for each connection
+        sql_enable_fk = 'PRAGMA foreign_keys = ?'
+        res = sql_statement(
+          sqlite3_conn: sqlite3_conn,
+          prepared_statement: sql_enable_fk,
+          statement_params: ['ON']
+        )
+        # TODO: better handling since sqlite3 gem always returns SQLite3::Database
+        # whether DB exists or not
+        unless sqlite3_conn.class == SQLite3::Database
+          raise "
+            Connection Error - class should be SQLite3::Database...received:
+            sqlite3_conn = #{sqlite3_conn.inspect}
+            sqlite3_conn.class = #{sqlite3_conn.class}
+          "
         end
+
+        return sqlite3_conn
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # validate_sqlite3_conn(
-      #   :sqlite3_conn => sqlite3_conn
+      #   sqlite3_conn: sqlite3_conn
       # )
 
       private
@@ -53,13 +51,15 @@ module CSI
         unless sqlite3_conn.class == SQLite3::Database
           raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}"
         end
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.sql_statement(
-      #   :sqlite3_conn => sqlite3_conn,
-      #   :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
-      #   :statement_params => ['Active']
+      #   sqlite3_conn: sqlite3_conn,
+      #   prepared_statement: 'SELECT * FROM tn_users WHERE state = ?',
+      #   statement_params: ['Active']
       # )
 
       public
@@ -73,21 +73,19 @@ module CSI
           raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object"
         end
 
-        begin
-          if statement_params.nil?
-            res = sqlite3_conn.execute(prepared_statement)
-          else
-            res = sqlite3_conn.execute(prepared_statement, statement_params)
-          end
-          return res
-        rescue => e
-          return e.message
+        if statement_params.nil?
+          res = sqlite3_conn.execute(prepared_statement)
+        else
+          res = sqlite3_conn.execute(prepared_statement, statement_params)
         end
+        return res
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.disconnect(
-      #   :sqlite3_conn => sqlite3_conn
+      #   sqlite3_conn: sqlite3_conn
       # )
 
       public
@@ -95,11 +93,10 @@ module CSI
       def self.disconnect(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
-        begin
-          sqlite3_conn.close
-        rescue => e
-          return e.message
-        end
+
+        sqlite3_conn.close
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

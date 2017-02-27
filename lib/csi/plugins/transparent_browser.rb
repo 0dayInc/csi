@@ -16,9 +16,9 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.open(
-      #   :browser_type => :firefox|:chrome|:headless|:rest,
-      #   :proxy => 'optional http(s)://proxy_host:port',
-      #   :with_tor => 'optional boolean (defaults to false)'
+      #   browser_type: :firefox|:chrome|:headless|:rest,
+      #   proxy: 'optional http(s)://proxy_host:port',
+      #   with_tor: 'optional boolean (defaults to false)'
       # )
 
       public
@@ -136,13 +136,12 @@ module CSI
 
         return this_browser
       rescue => e
-        puts "Error: #{e.message}"
-        return nil
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.linkout(
-      #   :browser_obj => browser_obj1
+      #   browser_obj: browser_obj1
       # )
 
       public
@@ -150,22 +149,19 @@ module CSI
       def self.linkout(opts = {})
         this_browser_obj = opts[:browser_obj]
 
-        begin
-          this_browser_obj.links.each do |link|
-            @@logger.info("#{link.text} => #{link.href}\n\n\n") unless link.text == ''
-          end
-
-          return this_browser_obj
-        rescue => e
-          puts "Error: #{e.message}"
-          return nil
+        this_browser_obj.links.each do |link|
+          @@logger.info("#{link.text} => #{link.href}\n\n\n") unless link.text == ''
         end
+
+        return this_browser_obj
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.type_as_human(
-      #   :q => 'required - query string to randomize',
-      #   :rand_sleep_float => 'optional - float timing in between keypress (defaults to 0.09)'
+      #   q: 'required - query string to randomize',
+      #   rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
       # )
 
       public
@@ -179,15 +175,12 @@ module CSI
                              0.09
                            end
 
-        begin
-          query_string.each_char do |char|
-            yield char
-            sleep Random.rand(rand_sleep_float)
-          end
-        rescue => e
-          puts "Error: #{e.message}"
-          return nil
+        query_string.each_char do |char|
+          yield char
+          sleep Random.rand(rand_sleep_float)
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -199,15 +192,13 @@ module CSI
 
       def self.close(opts = {})
         this_browser_obj = opts[:browser_obj]
-        begin
-          this_browser_obj.close unless this_browser_obj == RestClient
-          this_browser_obj = nil
 
-          return this_browser_obj
-        rescue => e
-          puts "Error: #{e.message}"
-          return nil
-        end
+        this_browser_obj.close unless this_browser_obj == RestClient
+        this_browser_obj = nil
+
+        return this_browser_obj
+      rescue => e
+        puts e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -229,20 +220,20 @@ module CSI
       def self.help
         puts %{USAGE:
           browser_obj1 = #{self}.open(
-            :browser_type => :firefox|:chrome|:headless|:rest,
-            :proxy => 'optional http(s)://proxy_host:port',
-            :with_tor => 'optional boolean (defaults to false)'
+            browser_type: :firefox|:chrome|:headless|:rest,
+            proxy: 'optional http(s)://proxy_host:port',
+            with_tor: 'optional boolean (defaults to false)'
           )
           puts "browser_obj1.public_methods"
 
-          #{self}.linkout(:browser_obj => browser_obj1)
+          #{self}.linkout(browser_obj: browser_obj1)
 
           #{self}.type_as_human(
-            :q => 'required - query string to randomize',
-            :rand_sleep_float => 'optional - float timing in between keypress (defaults to 0.09)'
-          ) {|char| browser_obj1.text_field(:name => "q").send_keys(char) }
+            q: 'required - query string to randomize',
+            rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
+          ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
-          browser_obj1 = #{self}.close(:browser_obj => browser_obj1)
+          browser_obj1 = #{self}.close(browser_obj: browser_obj1)
 
           #{self}.authors
         }

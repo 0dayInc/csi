@@ -9,7 +9,7 @@ module CSI
     module OAuth2
       # Supported Method Parameters::
       # CSI::Plugins::OAuth2.decode(
-      #   :oauth2_token => 'required oauth2 token'
+      #   oauth2_token: 'required oauth2 token'
       # )
 
       public
@@ -17,12 +17,14 @@ module CSI
       def self.decode(opts)
         oauth2_token = opts[:oauth2_token]
         Base64.decode64(oauth2_token)
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::OAuth2.get_value_by_key(
-      #   :oauth2_token => 'required oauth2 token',
-      #   :key => 'required oauth2 token key name located within the Base64 encoded token as symbol, e.g. :company_id'
+      #   oauth2_token: 'required oauth2 token',
+      #   key: 'required oauth2 token key name located within the Base64 encoded token as symbol, e.g. :company_id'
       # )
 
       public
@@ -37,6 +39,8 @@ module CSI
 
         json_oauth2_token_body = JSON.parse(readable_oauth2_token.split(/^\{(.*?)\}/)[-1], symbolize_names: true)
         json_oauth2_token_body[key]
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -57,11 +61,11 @@ module CSI
 
       def self.help
         puts %{USAGE:
-          #{self}.decode(:oauth2_token => 'required oauth2 token')"
+          #{self}.decode(oauth2_token: 'required oauth2 token')"
 
           #{self}.get_value_by_key(
-            :oauth2_token => 'required oauth2 token',
-            :key => 'required oauth2 token key name located within the Base64 encoded token as symbol, e.g. :company_id'
+            oauth2_token: 'required oauth2 token',
+            key: 'required oauth2 token key name located within the Base64 encoded token as symbol, e.g. :company_id'
           )
 
           #{self}.authors

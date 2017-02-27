@@ -5,12 +5,12 @@ module CSI
     module ThreadPool
       # Supported Method Parameters::
       # CSI::Plugins::ThreadPool.fill(
-      #   :enumerable_array => 'required array for proper thread pool assignment',
-      #   :max_threads => 'optional number of threads in the thread pool (defaults to 6)',
+      #   enumerable_array: 'required array for proper thread pool assignment',
+      #   :max_threads: 'optional number of threads in the thread pool (defaults to 6)',
       #   &block
       # )
       #
-      # Example: #{self}.fill(:enumerable_array => arr_test_cases, :max_threads => 50) do |test_case|
+      # Example: #{self}.fill(enumerable_array: arr_test_cases, max_threads: 99) do |test_case|
       #            print test_case
       #            sleep 3
       #            # <do more stuff>
@@ -41,6 +41,8 @@ module CSI
         enumerable_array.uniq.sort.each { |test_case| queue << test_case }
         max_threads.times { queue << :END }
         threads.each(&:join)
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -62,11 +64,11 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.fill(
-            :enumerable_array => 'required array for proper thread pool assignment',
-            :max_threads => 'optional number of threads in the thread pool (defaults to 6)',
+            enumerable_array. => 'required array for proper thread pool assignment',
+            max_threads: 'optional number of threads in the thread pool (defaults to 6)',
             &block
           )
-          Example: #{self}.fill(:enumerable_array => arr_ips, :max_threads => 99) do |ip|
+          Example: #{self}.fill(enumerable_array: arr_ips, max_threads: 99) do |ip|
                      `nmap -Pn -p 22 #\{ip\}`
                    end
 

@@ -7,9 +7,9 @@ module CSI
     module RabbitMQHole
       # Supported Method Parameters::
       # CSI::Plugins::RabbitMQHole.open(
-      #   :hostname => 'required',
-      #   :username => 'optional',
-      #   :password => 'optional'
+      #   hostname: 'required',
+      #   username: 'optional',
+      #   password: 'optional'
       # )
 
       public
@@ -21,11 +21,13 @@ module CSI
 
         this_amqp_obj = Bunny.new("amqp://#{user}:#{pass}@#{host}")
         this_amqp_obj.start
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::RabbitMQHole.close(
-      #   :amqp_oject => amqp_conn1
+      #   amqp_oject: amqp_conn1
       # )
 
       public
@@ -33,6 +35,8 @@ module CSI
       def self.close(opts = {})
         this_amqp_obj = opts[:amqp_obj]
         this_amqp_obj.close_connection
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -54,12 +58,14 @@ module CSI
       def self.help
         puts %{USAGE:
           amqp_conn1 = #{self}.open(
-            :hostname => 'required',
-            :username => 'optional',
-            :password => 'optional'
+            hostname: 'required',
+            username: 'optional',
+            password: 'optional'
           )
 
-          #{self}.close(:amqp_oject => amqp_conn1)"
+          #{self}.close(
+            amqp_oject: amqp_conn1
+          )
 
           #{self}.authors
         }

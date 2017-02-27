@@ -7,7 +7,7 @@ module CSI
     module OCR
       # Supported Method Parameters::
       # CSI::Plugins::OCR.process(
-      #   :file => 'required - path to image file',
+      #   file: 'required - path to image file',
       # )
 
       public
@@ -18,6 +18,8 @@ module CSI
         text = image.to_s
 
         text
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -39,7 +41,7 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.process(
-            :file => 'required - path to image file'
+            file: 'required - path to image file'
           )
 
           #{self}.authors

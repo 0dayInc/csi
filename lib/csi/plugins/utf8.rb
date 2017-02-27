@@ -7,8 +7,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.generate_by_range(
-      #   :from => 'required - integer to start from',
-      #   :to => 'required - integer to end UTF-8 generation'
+      #   from: 'required - integer to start from',
+      #   to: 'required - integer to end UTF-8 generation'
       # )
 
       public
@@ -17,24 +17,22 @@ module CSI
         from = opts[:from].to_i
         to = opts[:to].to_i
 
-        begin
-          utf8_arr = []
+        utf8_arr = []
 
-          (from..to).each do |i|
-            utf8_hash = {}
-            this_hex = format('%04x', i)
-            this_dec = format('%04d', i)
-            utf8_hash[:hex] = this_hex
-            utf8_hash[:dec] = this_dec
-            utf8_hash[:utf8] = [i].pack('U*')
+        (from..to).each do |i|
+          utf8_hash = {}
+          this_hex = format('%04x', i)
+          this_dec = format('%04d', i)
+          utf8_hash[:hex] = this_hex
+          utf8_hash[:dec] = this_dec
+          utf8_hash[:utf8] = [i].pack('U*')
 
-            utf8_arr.push(utf8_hash)
-          end
-
-          return utf8_arr
-        rescue => e
-          return e.message
+          utf8_arr.push(utf8_hash)
         end
+
+        return utf8_arr
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -46,6 +44,8 @@ module CSI
         utf8_hash = generate_by_range(from: 0, to: 127)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -57,6 +57,8 @@ module CSI
         utf8_hash = generate_by_range(from: 128, to: 255)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -68,6 +70,8 @@ module CSI
         utf8_hash = generate_by_range(from: 256, to: 383)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -79,6 +83,8 @@ module CSI
         utf8_hash = generate_by_range(from: 384, to: 591)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -90,6 +96,8 @@ module CSI
         utf8_hash = generate_by_range(from: 688, to: 767)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -101,6 +109,8 @@ module CSI
         utf8_hash = generate_by_range(from: 768, to: 879)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -112,6 +122,8 @@ module CSI
         utf8_hash = generate_by_range(from: 880, to: 1023)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -123,6 +135,8 @@ module CSI
         utf8_hash = generate_by_range(from: 1024, to: 1279)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -134,6 +148,8 @@ module CSI
         utf8_hash = generate_by_range(from: 1280, to: 1327)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -145,6 +161,8 @@ module CSI
         utf8_hash = generate_by_range(from: 8192, to: 8303)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -156,6 +174,8 @@ module CSI
         utf8_hash = generate_by_range(from: 8352, to: 8399)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -167,6 +187,8 @@ module CSI
         utf8_hash = generate_by_range(from: 8448, to: 8527)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -178,6 +200,8 @@ module CSI
         utf8_hash = generate_by_range(from: 8592, to: 8703)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -189,6 +213,8 @@ module CSI
         utf8_hash = generate_by_range(from: 8704, to: 8959)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -200,6 +226,8 @@ module CSI
         utf8_hash = generate_by_range(from: 9472, to: 9599)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -211,6 +239,8 @@ module CSI
         utf8_hash = generate_by_range(from: 9600, to: 9631)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -222,6 +252,8 @@ module CSI
         utf8_hash = generate_by_range(from: 9632, to: 9727)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -233,6 +265,8 @@ module CSI
         utf8_hash = generate_by_range(from: 9728, to: 9983)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -244,6 +278,8 @@ module CSI
         utf8_hash = generate_by_range(from: 9984, to: 10_175)
 
         utf8_hash
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -265,8 +301,8 @@ module CSI
       def self.help
         puts "USAGE:
           utf8_chars = #{self}.generate_by_range(
-            :from => 'required - integer to start from',
-            :to => 'required - integer to end UTF-8 generation'
+            from:> 'required - integer to start from',
+            to:> 'required - integer to end UTF-8 generation'
           )
 
           #{self}.c0_controls_latin_basic

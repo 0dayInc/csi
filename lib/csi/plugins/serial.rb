@@ -11,12 +11,12 @@ module CSI
 
       # Supported Method Parameters::
       # serial_obj = CSI::Plugins::Serial.connect(
-      #   :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)',
-      #   :baud => 'optional (defaults to 9600)',
-      #   :data_bits => 'optional (defaults to 8)',
-      #   :stop_bits => 'optional (defaults to 1)',
-      #   :parity => 'optional (defaults to SerialPort::NONE)',
-      #   :flow_control => 'optional (defaults to SerialPort::HARD) SerialPort::NONE|SerialPort::SOFT|SerialPort::HARD'
+      #   block_dev: 'optional serial block device path (defaults to /dev/ttyUSB0)',
+      #   baud: 'optional (defaults to 9600)',
+      #   data_bits: 'optional (defaults to 8)',
+      #   stop_bits: 'optional (defaults to 1)',
+      #   parity: 'optional (defaults to SerialPort::NONE)',
+      #   flow_control: 'optional (defaults to SerialPort::HARD) SerialPort::NONE|SerialPort::SOFT|SerialPort::HARD'
       # )
 
       public
@@ -73,14 +73,13 @@ module CSI
 
         return serial_obj
       rescue => e
-        raise e
-      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # session_thread = init_session_thread(
-      #   :serial_conn => 'required SerialPort.new object'
+      #   serial_conn: 'required SerialPort.new object'
       # )
 
       private
@@ -102,16 +101,16 @@ module CSI
 
         return session_thread
       rescue => e
-        raise e
-      ensure
         session_thread&.terminate
         serial_conn&.close
         serial_conn = nil
+
+        raise e.message
       end
 
       # Supported Method Parameters::
       # line_state = CSI::Plugins::Serial.get_line_state(
-      #   :serial_obj => 'required serial_obj returned from #connect method'
+      #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
       public
@@ -121,14 +120,13 @@ module CSI
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_signals
       rescue => e
-        raise e
-      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # modem_params = CSI::Plugins::Serial.get_modem_params(
-      #   :serial_obj => 'required serial_obj returned from #connect method'
+      #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
       public
@@ -138,15 +136,14 @@ module CSI
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_modem_params
       rescue => e
-        raise e
-      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Serial.request(
-      #   :serial_obj => 'required serial_obj returned from #connect method',
-      #   :request => 'required string to write to serial device'
+      #   serial_obj: 'required serial_obj returned from #connect method',
+      #   request: 'required string to write to serial device'
       # )
 
       public
@@ -159,14 +156,13 @@ module CSI
         sleep 3
         return chars_written
       rescue => e
-        raise e
-      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Serial.response(
-      #   :serial_obj => 'required serial_obj returned from #connect method'
+      #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
       public
@@ -177,9 +173,8 @@ module CSI
 
         return response
       rescue => e
-        raise e
-      ensure
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -189,11 +184,13 @@ module CSI
 
       def self.dump_session_data
         @session_data
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::Serial.disconnect(
-      #   :serial_obj 'required serial_obj returned from #connect method'
+      #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
       public
@@ -205,6 +202,8 @@ module CSI
         session_thread.terminate
         serial_conn.close
         serial_conn = nil
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -226,35 +225,35 @@ module CSI
       def self.help
         puts "USAGE:
           serial_obj = #{self}.connect(
-            :block_dev => 'optional serial block device path (defaults to /dev/ttyUSB0)',
-            :baud => 'optional (defaults to 9600)',
-            :data_bits => 'optional (defaults to 8)',
-            :stop_bits => 'optional (defaults to 1)',
-            :parity => 'optional (defaults to SerialPort::NONE)',
-            :flow_control => 'optional (defaults to SerialPort::NONE)'
+            block_dev: 'optional serial block device path (defaults to /dev/ttyUSB0)',
+            baud: 'optional (defaults to 9600)',
+            data_bits: 'optional (defaults to 8)',
+            stop_bits: 'optional (defaults to 1)',
+            parity: 'optional (defaults to SerialPort::NONE)',
+            flow_control: 'optional (defaults to SerialPort::NONE)'
           )
 
           line_state = #{self}.get_line_state(
-            :serial_obj => 'required serial_obj returned from #connect method'
+            serial_obj: 'required serial_obj returned from #connect method'
           )
 
           modem_params = #{self}.get_modem_params(
-            :serial_obj => 'required serial_obj returned from #connect method'
+            serial_obj: 'required serial_obj returned from #connect method'
           )
 
           #{self}.request(
-            :serial_obj => 'required serial_obj returned from #connect method',
-            :request => 'required string to write to serial device'
+            serial_obj: 'required serial_obj returned from #connect method',
+            request: 'required string to write to serial device'
           )
 
           #{self}.response(
-            :serial_obj => 'required serial_obj returned from #connect method'
+            serial_obj: 'required serial_obj returned from #connect method'
           )
 
           session_data_arr = #{self}.dump_session_data
 
           #{self}.disconnect(
-            :serial_obj => 'required serial_obj returned from #connect method'
+            serial_obj: 'required serial_obj returned from #connect method'
           )
 
           #{self}.authors

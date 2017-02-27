@@ -16,6 +16,8 @@ module CSI
         Nmap::Program.scan do |nmap|
           yield(nmap)
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -47,6 +49,8 @@ module CSI
         Nmap::XML.new(xml_file) do |xml|
           yield(xml)
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
