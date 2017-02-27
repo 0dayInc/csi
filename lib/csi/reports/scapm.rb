@@ -10,8 +10,8 @@ module CSI
     module SCAPM
       # Supported Method Parameters::
       # CSI::Reports::SCAPM.generate(
-      #   :dir_path => dir_path,
-      #   :results_hash => results_hash
+      #   dir_path: dir_path,
+      #   results_hash: results_hash
       # )
 
       public
@@ -370,6 +370,8 @@ module CSI
         File.open("#{dir_path}/csi_scan_git_source.html", 'w') do |f|
           f.print(html_report)
         end
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -391,8 +393,8 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.generate(
-            :dir_path => dir_path,
-            :results_hash => results_hash
+            dir_path: dir_path,
+            results_hash: results_hash
           )
 
           #{self}.authors

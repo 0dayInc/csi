@@ -12,8 +12,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::SCAPM::PomVersion.scan(
-      #   :dir_path => 'optional path to dir defaults to .'
-      #   :git_repo_root_uri => 'optional http uri of git repo scanned'
+      #   dir_path: 'optional path to dir defaults to .'
+      #   git_repo_root_uri: 'optional http uri of git repo scanned'
       # )
 
       public
@@ -84,6 +84,8 @@ module CSI
           @@logger.info("#{logger_banner} => #{logger_results}complete.\n")
         end
         result_arr
+      rescue => e
+        raise e.message
       end
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
@@ -100,6 +102,8 @@ module CSI
           nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=RA-5'
         }
         nist_800_53_requirements
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -121,8 +125,8 @@ module CSI
       def self.help
         puts "USAGE:
           pom_version_arr = #{self}.scan(
-            :dir_path => 'optional path to dir defaults to .',
-            :git_repo_root_uri => 'optional http uri of git repo scanned'
+            dir_path: 'optional path to dir defaults to .',
+            git_repo_root_uri: 'optional http uri of git repo scanned'
           )
 
           #{self}.authors

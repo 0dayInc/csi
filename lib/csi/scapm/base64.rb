@@ -12,8 +12,8 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::SCAPM::Eval.scan(
-      #   :dir_path => 'optional path to dir defaults to .'
-      #   :git_repo_root_uri => 'optional http uri of git repo scanned'
+      #   dir_path: 'optional path to dir defaults to .'
+      #   git_repo_root_uri: 'optional http uri of git repo scanned'
       # )
 
       public
@@ -93,15 +93,17 @@ module CSI
           @@logger.info("#{logger_banner} => #{logger_results}complete.\n")
         end
         result_arr
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
       # get_author(
-      #   :repo_root => dir_path,
-      #   :from_line => line_no,
-      #   :to_line =>line_no,
-      #   :target_file => entry,
-      #   :entry_beautified => entry_beautified
+      #   repo_root: dir_path,
+      #   from_line: line_no,
+      #   to_line:line_no,
+      #   target_file: entry,
+      #   entry_beautified: entry_beautified
       # )
 
       private
@@ -141,6 +143,8 @@ module CSI
         end
 
         author
+      rescue => e
+        raise e.message
       end
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
@@ -157,6 +161,8 @@ module CSI
           nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-28'
         }
         nist_800_53_requirements
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -178,8 +184,8 @@ module CSI
       def self.help
         puts "USAGE:
           port_arr = #{self}.scan(
-            :dir_path => 'optional path to dir defaults to .',
-            :git_repo_root_uri => 'optional http uri of git repo scanned'
+            dir_path: 'optional path to dir defaults to .',
+            git_repo_root_uri: 'optional http uri of git repo scanned'
           )
 
           #{self}.authors
