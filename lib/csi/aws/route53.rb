@@ -57,7 +57,7 @@ module CSI
         @@logger.info('Disconnecting from AWS Route53...')
         r53_obj = nil
         @@logger.info("complete.\n")
-        
+
         r53_obj
       rescue => e
         return e.message

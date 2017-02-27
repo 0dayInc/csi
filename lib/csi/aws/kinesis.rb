@@ -24,7 +24,7 @@ module CSI
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
         @@logger.info('Connecting to AWS Kinesis...')
-          if sts_session_token == ''
+        if sts_session_token == ''
           kinesis_obj = Aws::Kinesis::Client.new(
             region: region,
             access_key_id: access_key_id,
