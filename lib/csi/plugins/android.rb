@@ -450,7 +450,7 @@ module CSI
           when 'o'
             char_resp << `#{$adb_path} shell input keyevent KEYCODE_O`
           when 'p'
-              char_resp << `#{$adb_path} shell input keyevent KEYCODE_P`
+            char_resp << `#{$adb_path} shell input keyevent KEYCODE_P`
           when 'q'
             char_resp << `#{$adb_path} shell input keyevent KEYCODE_Q`
           when 'r'
