@@ -61,10 +61,8 @@ module CSI
           $browser.goto('https://login.synack.com')
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
-
       rescue => e
-        puts "Error: #{e.message}"
-        return nil
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -110,6 +108,8 @@ module CSI
           @@logger.info('authy token accepted.')
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -122,6 +122,8 @@ module CSI
           $browser.img(class: 'navbar-avatar-img').click
           $browser.button(text: 'Logout').click
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -131,6 +133,8 @@ module CSI
 
       def self.close
         $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -67,10 +67,8 @@ module CSI
 
           return pub_ip
         end
-
       rescue => e
-        puts "Error: #{e.message}"
-        return nil
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -80,6 +78,8 @@ module CSI
 
       def self.close
         $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

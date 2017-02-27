@@ -59,10 +59,8 @@ module CSI
           $browser.goto('https://www.google.com')
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
-
       rescue => e
-        puts "Error: #{e.message}"
-        return nil
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -81,6 +79,8 @@ module CSI
           sleep 3 # Cough: <hack>
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -100,6 +100,8 @@ module CSI
           sleep 3 # Cough: <hack>
           CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -109,6 +111,8 @@ module CSI
 
       def self.close
         $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

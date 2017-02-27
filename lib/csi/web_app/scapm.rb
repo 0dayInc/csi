@@ -22,6 +22,8 @@ module CSI
           settings.authn_context = 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'
 
           settings
+        rescue => e
+          raise e.message
         end
 
         configure do
@@ -63,6 +65,8 @@ module CSI
 
       def self.start
         self::Application.run!
+      rescue => e
+        raise e.message
       end
 
       # Supported Method Parameters::
@@ -74,6 +78,8 @@ module CSI
 
       def self.stop
         # Stop spear phishing server ;)
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
