@@ -74,6 +74,7 @@ begin
   def grab_js_in_page(opts = {})
     target_page = opts[:url].to_s.scrub.chomp.strip
 
+    puts "#{green}Navigating to Page #{script.src}#{end_of_color}"
     browser_obj.goto(target_page)
     browser_obj.scripts.each do |script|
       if script.src == ''
@@ -120,13 +121,13 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type)
   end
 
-  puts "#{dark_red}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
+  puts "#{green}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
   if spider
     fqdn_spider_arr = []
-    puts "#{dark_red}Spidering Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
+    puts "#{dark_red}Spidering Target FQDN: #{target_fqdn}#{end_of_color}"
     Anemone.crawl(target_fqdn) do |anemone|
       anemone.on_every_page do |page|
-        print '.'
+        puts "#{yellow}Discovered: #{page.url}#{end_of_color}"
         fqdn_spider_arr.push(page.url)
       end
     end
