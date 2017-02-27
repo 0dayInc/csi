@@ -4,7 +4,6 @@ require 'logger'
 module CSI
   module Plugins
     # This plugin is used to instantiate a CSI logger with a custom message format
-
     module CSILogger
       # Supported Method Parameters::
       # CSI::Plugins::CSILogger.create(

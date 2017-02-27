@@ -129,24 +129,20 @@ module CSI
               facets: facets
             }
 
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: 'shodan/host/count',
-              params: params
-            )
           else
             params = {
               key: api_key,
               query: query
             }
-
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: 'shodan/host/count',
-              params: params
-            )
           end
+
+          response = shodan_rest_call(
+            api_key: api_key,
+            rest_call: 'shodan/host/count',
+            params: params
+          )
           query_result_totals = JSON.parse(response)
+
           return query_result_totals
         rescue => e
           raise e.message
@@ -174,25 +170,20 @@ module CSI
               query: query,
               facets: facets
             }
-
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: 'shodan/host/search',
-              params: params
-            )
           else
             params = {
               key: api_key,
               query: query
             }
-
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: 'shodan/host/search',
-              params: params
-            )
           end
+
+          response = shodan_rest_call(
+            api_key: api_key,
+            rest_call: 'shodan/host/search',
+            params: params
+          )
           search_results = JSON.parse(response)
+
           return search_results
         rescue => e
           raise e.message

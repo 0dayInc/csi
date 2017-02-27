@@ -67,7 +67,6 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
-    - 'lib/csi/plugins/csi_logger.rb'
 
 # Offense count: 493
 # Configuration parameters: AllowedVariables.
@@ -104,11 +103,6 @@ Style/GuardClause:
     - 'lib/csi/www/synack.rb'
     - 'lib/csi/www/torch.rb'
     - 'lib/csi/www/youtube.rb'
-
-# Offense count: 4
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'lib/csi/plugins/shodan.rb'
 
 # Offense count: 2
 Style/IfInsideElse:
