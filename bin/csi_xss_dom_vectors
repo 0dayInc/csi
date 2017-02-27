@@ -17,6 +17,10 @@ OptionParser.new do |options|
     opts[:output_dir] = d
   end
 
+  options.on('-bTYPE', '--browser-type=BROWSER', '<Optional - Browser Type :chrome|:firefox|:headless (Default)>') do |b|
+    opts[:browser_type] = b
+  end
+
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
     opts[:proxy] = p
   end
@@ -35,9 +39,17 @@ end
 target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+
+if opts[:browser_type]
+  browser_type = opts[:browser_type].to_s.scrub.strip.chomp.to_sym
+else
+  browser_type = :headless
+end
+
 with_tor = opts[:with_tor]
 
 # Colors!
+dark_red = "\001\e[1m\002\001\e[31m\002"
 green = "\001\e[32m\002"
 yellow = "\001\e[33m\002"
 end_of_color = "\001\e[0m\002"
@@ -60,6 +72,7 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
   end
 
+  puts "#{dark_red}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
   browser_obj.goto(target_fqdn)
   browser_obj.scripts.each do |script|
     if script.src == ''
@@ -86,7 +99,10 @@ begin
     puts "#{green}Saved #{script_results}#{end_of_color}\n\n\n"
   end
 
-  # Run DOM XSS SCAPM Module
+  # Run DOM XSS SCAPM Test Cases
+  # TODO: make -u flag dynamic
+  puts `csi_scapm -d #{output_dir} -t 1 -T InnerHTML -u 'http://127.0.0.1'`
+
   # page_script_elements = browser_obj.execute_script("
   #   // JavaScript - find all script elements
   #   var script_elements = [];

@@ -43,8 +43,8 @@ chosen_test_cases = opts[:chosen_test_cases]
 list_test_cases = opts[:list_test_cases]
 
 # Define Test Cases to Run & Start Thread Pool
-if chosen_test_cases and ! list_test_cases
-  test_cases = chosen_test_cases.to_s.scrub.chomp.strip.gsub("\s", '').split(',').map { |tc_str| tc_str.to_sym } 
+if chosen_test_cases && !list_test_cases
+  test_cases = chosen_test_cases.to_s.scrub.chomp.strip.delete("\s").split(',').map &.to_sym
 else
   test_cases = [
     :ApacheFileSystemUtilAPI,
