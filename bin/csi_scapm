@@ -11,8 +11,21 @@ OptionParser.new do |options|
   "
 
   options.on('-dDIR', '--dir_path=DIR', '<Required - Root of Git Repo to Target>') { |d| opts[:dir_path] = d }
-  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') { |u| opts[:git_repo_root_uri] = u }
-  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') { |t| opts[:max_threads] = t }
+  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') do |u|
+    opts[:git_repo_root_uri] = u
+  end
+
+  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') do |t|
+    opts[:max_threads] = t
+  end
+
+  options.on('-TCASE', '--test_cases=CASE', '<Optional Comma-Delimited Test Cases to Invoke (-l for List)>') do |c|
+    opts[:chosen_test_cases] = c
+  end
+
+  options.on('-l', '--[no-]list_test_cases', '<Optional List Available Test Cases to Invoke and Exit>') do |l|
+    opts[:list_test_cases] = l
+  end
 end.parse!
 
 if opts.empty?
@@ -20,43 +33,58 @@ if opts.empty?
   exit 1
 end
 
+green = "\001\e[32m\002"
+end_of_color = "\001\e[0m\002"
+
 dir_path = opts[:dir_path].to_s.scrub
-raise "ERROR: Invalid Directory #{dir_path}" unless File.directory?(dir_path)
 git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
 max_threads = opts[:max_threads]
+chosen_test_cases = opts[:chosen_test_cases]
+list_test_cases = opts[:list_test_cases]
 
 # Define Test Cases to Run & Start Thread Pool
-test_cases = [
-  :ApacheFileSystemUtilAPI,
-  :AMQPConnectAsGuest,
-  :AWS,
-  :BannedFunctionCallsC,
-  :Base64,
-  :BeefHook,
-  :CmdExecutionJava,
-  :CmdExecutionPython,
-  :CmdExecutionRuby,
-  :CmdExecutionScala,
-  :CSRF,
-  :Emoticon,
-  :Eval,
-  :InnerHTML,
-  :FilePermission,
-  :Factory,
-  :Logger,
-  :Keystore,
-  :Password,
-  :PomVersion,
-  :Port,
-  :Redirect,
-  :ReDOS,
-  :SQL,
-  :SSL,
-  :TaskTag,
-  :ThrowErrors,
-  :Token,
-  :Version
-]
+if chosen_test_cases and ! list_test_cases
+  test_cases = chosen_test_cases.to_s.scrub.chomp.strip.gsub("\s", '').split(',').map { |tc_str| tc_str.to_sym } 
+else
+  test_cases = [
+    :ApacheFileSystemUtilAPI,
+    :AMQPConnectAsGuest,
+    :AWS,
+    :BannedFunctionCallsC,
+    :Base64,
+    :BeefHook,
+    :CmdExecutionJava,
+    :CmdExecutionPython,
+    :CmdExecutionRuby,
+    :CmdExecutionScala,
+    :CSRF,
+    :Emoticon,
+    :Eval,
+    :InnerHTML,
+    :FilePermission,
+    :Factory,
+    :Logger,
+    :Keystore,
+    :Password,
+    :PomVersion,
+    :Port,
+    :Redirect,
+    :ReDOS,
+    :SQL,
+    :SSL,
+    :TaskTag,
+    :ThrowErrors,
+    :Token,
+    :Version
+  ]
+end
+
+if list_test_cases
+  test_cases.each { |tc| puts "#{green}#{tc}#{end_of_color}" }
+  exit
+end
+
+raise "ERROR: Invalid Directory #{dir_path}" unless File.directory?(dir_path)
 
 $results_hash = { data: [] }
 mutex = Mutex.new
