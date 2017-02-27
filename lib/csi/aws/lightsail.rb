@@ -23,28 +23,26 @@ module CSI
         secret_access_key = opts[:secret_access_key].to_s.scrub.chomp.strip
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
-        begin
-          @@logger.info('Connecting to AWS Lightsail...')
-          if sts_session_token == ''
-            lightsail_obj = Aws::Lightsail::Client.new(
-              region: region,
-              access_key_id: access_key_id,
-              secret_access_key: secret_access_key
-            )
-          else
-            lightsail_obj = Aws::Lightsail::Client.new(
-              region: region,
-              access_key_id: access_key_id,
-              secret_access_key: secret_access_key,
-              session_token: sts_session_token
-            )
-          end
-          @@logger.info("complete.\n")
-
-          return lightsail_obj
-        rescue => e
-          return e.message
+        @@logger.info('Connecting to AWS Lightsail...')
+        if sts_session_token == ''
+          lightsail_obj = Aws::Lightsail::Client.new(
+            region: region,
+            access_key_id: access_key_id,
+            secret_access_key: secret_access_key
+          )
+        else
+          lightsail_obj = Aws::Lightsail::Client.new(
+            region: region,
+            access_key_id: access_key_id,
+            secret_access_key: secret_access_key,
+            session_token: sts_session_token
+          )
         end
+        @@logger.info("complete.\n")
+
+        return lightsail_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -61,6 +59,8 @@ module CSI
         @@logger.info("complete.\n")
 
         lightsail_obj
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

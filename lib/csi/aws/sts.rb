@@ -23,20 +23,18 @@ module CSI
         role_session_name = opts[:role_session_name].to_s.scrub.chomp.strip
         duration_seconds = opts[:duration_seconds].to_i
 
-        begin
-          @@logger.info('Retrieving AWS STS Credentials...')
-          sts_client = Aws::STS::Client.new(region: region)
-          sts_session = sts_client.assume_role(
-            role_arn: role_arn,
-            role_session_name: role_session_name,
-            duration_seconds: duration_seconds
-          )
-          @@logger.info("complete.\n")
+        @@logger.info('Retrieving AWS STS Credentials...')
+        sts_client = Aws::STS::Client.new(region: region)
+        sts_session = sts_client.assume_role(
+          role_arn: role_arn,
+          role_session_name: role_session_name,
+          duration_seconds: duration_seconds
+        )
+        @@logger.info("complete.\n")
 
-          return sts_session.credentials
-        rescue => e
-          return e.message
-        end
+        return sts_session.credentials
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

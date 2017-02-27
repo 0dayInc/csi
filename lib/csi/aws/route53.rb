@@ -23,28 +23,26 @@ module CSI
         secret_access_key = opts[:secret_access_key].to_s.scrub.chomp.strip
         sts_session_token = opts[:sts_session_token].to_s.scrub.chomp.strip
 
-        begin
-          @@logger.info('Logging into AWS Route53...')
-          if sts_session_token == ''
-            r53_obj = Aws::Route53::Client.new(
-              region: region,
-              access_key_id: access_key_id,
-              secret_access_key: secret_access_key
-            )
-          else
-            r53_obj = Aws::Route53::Client.new(
-              region: region,
-              access_key_id: access_key_id,
-              secret_access_key: secret_access_key,
-              session_token: sts_session_token
-            )
-          end
-          @@logger.info("complete.\n")
-
-          return r53_obj
-        rescue => e
-          return e.message
+        @@logger.info('Logging into AWS Route53...')
+        if sts_session_token == ''
+          r53_obj = Aws::Route53::Client.new(
+            region: region,
+            access_key_id: access_key_id,
+            secret_access_key: secret_access_key
+          )
+        else
+          r53_obj = Aws::Route53::Client.new(
+            region: region,
+            access_key_id: access_key_id,
+            secret_access_key: secret_access_key,
+            session_token: sts_session_token
+          )
         end
+        @@logger.info("complete.\n")
+
+        return r53_obj
+      rescue => e
+        return e.message
       end
 
       # Supported Method Parameters::
@@ -59,6 +57,10 @@ module CSI
         @@logger.info('Disconnecting from AWS Route53...')
         r53_obj = nil
         @@logger.info("complete.\n")
+        
+        r53_obj
+      rescue => e
+        return e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
