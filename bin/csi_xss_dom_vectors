@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 require 'csi'
 require 'optparse'
+require 'anemone'
 
 opts = {}
 OptionParser.new do |options|
@@ -32,6 +33,10 @@ OptionParser.new do |options|
   options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
     opts[:with_tor] = w
   end
+
+  options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN  (Defaults to true)>') do |s|
+    opts[:spider] = s
+  end
 end.parse!
 
 if opts.empty?
@@ -53,6 +58,12 @@ end
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
 
+if opts[:spider]
+  spider = false
+else
+  spider = true
+end
+
 # Colors!
 dark_red = "\001\e[1m\002\001\e[31m\002"
 green = "\001\e[32m\002"
@@ -60,6 +71,38 @@ yellow = "\001\e[33m\002"
 end_of_color = "\001\e[0m\002"
 
 begin
+  def grab_js_in_page(opts => {})
+    target_page = opts[:url]
+
+    browser_obj.goto(target_page)
+    browser_obj.scripts.each do |script|
+      if script.src == ''
+        # Save a copy of the outer_html
+        puts "#{yellow}Saving OuterHTML of Native '<script>' Element#{end_of_color}"
+        sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
+        script_results = "#{output_dir}/#{sha256_hexdigest}.js"
+        File.open(script_results, 'w') do |f|
+          f.puts script.outer_html
+        end
+      else
+        # Save a copy of the script
+        puts "#{yellow}Navigating to #{script.src}#{end_of_color}"
+        browser_obj.goto(script.src)
+        sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(browser_obj.text)
+        uri = URI.parse(browser_obj.url)
+        script_filename = File.basename(uri.path)
+        script_results = "#{output_dir}/#{File.basename(script_filename, '.*')}-#{sha256_hexdigest}#{File.extname(script_filename)}".to_s.scrub.chomp.strip
+        File.open(script_results, 'w') do |f|
+          f.puts browser_obj.text
+        end
+        browser_obj.back
+      end
+      puts "#{green}Saved #{script_results}#{end_of_color}\n\n\n"
+    end
+  rescue => e
+    raise e
+  end
+
   if proxy
     if with_tor
       browser_obj = CSI::Plugins::TransparentBrowser.open(
@@ -78,37 +121,32 @@ begin
   end
 
   puts "#{dark_red}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
-  browser_obj.goto(target_fqdn)
-  browser_obj.scripts.each do |script|
-    if script.src == ''
-      # Save a copy of the outer_html
-      puts "#{yellow}Saving OuterHTML of Native '<script>' Element#{end_of_color}"
-      sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
-      script_results = "#{output_dir}/#{sha256_hexdigest}.js"
-      File.open(script_results, 'w') do |f|
-        f.puts script.outer_html
+  if spider
+    fqdn_spider_arr = []
+    puts "#{dark_red}Spidering Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
+    Anemone.crawl(target_fqdn) do |anemone|
+      anemone.on_every_page do |page|
+        print "."
+        fqdn_spider_arr.push(page.url)
       end
-    else
-      # Save a copy of the script
-      puts "#{yellow}Navigating to #{script.src}#{end_of_color}"
-      browser_obj.goto(script.src)
-      sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(browser_obj.text)
-      uri = URI.parse(browser_obj.url)
-      script_filename = File.basename(uri.path)
-      script_results = "#{output_dir}/#{File.basename(script_filename, '.*')}-#{sha256_hexdigest}#{File.extname(script_filename)}".to_s.scrub.chomp.strip
-      File.open(script_results, 'w') do |f|
-        f.puts browser_obj.text
-      end
-      browser_obj.back
     end
-    puts "#{green}Saved #{script_results}#{end_of_color}\n\n\n"
+  end
+
+  # Grab JavaScript for Each Page Discovered
+  if spider
+    fqdn_spider_arr.each do |this_page|
+      grabjs_in_page(url: this_page)
+    end
+  else
+    grabjs_in_page(url: target_fqdn)
   end
 
   # Run DOM XSS SCAPM Test Cases
   puts `csi_scapm -d #{output_dir} -t 1 -T InnerHTML -u #{uri_source_root}`
 
+  # For future use
   # page_script_elements = browser_obj.execute_script("
-  #   // JavaScript - find all script elements
+  #   // JavaScript Goes Here
   #   var script_elements = [];
   #   var script_query = document.querySelectorAll('script');
   #   for (var i = 0; i < script_query.length; i++) {
