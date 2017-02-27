@@ -13,16 +13,16 @@ OptionParser.new do |options|
     opts[:target_fqdn] = t
   end
 
-  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |p|
-    opts[:proxy] = p
+  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |d|
+    opts[:output_dir] = d
   end
 
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
     opts[:proxy] = p
   end
 
-  options.on('-t', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |t|
-    opts[:with_tor] = t
+  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
+    opts[:with_tor] = w
   end
 end.parse!
 
@@ -39,6 +39,7 @@ with_tor = opts[:with_tor]
 
 # Colors!
 green = "\001\e[32m\002"
+yellow = "\001\e[33m\002"
 end_of_color = "\001\e[0m\002"
 
 begin
@@ -62,16 +63,16 @@ begin
 
   browser_obj.goto(target_fqdn)
   browser_obj.scripts.each do |script|
-    if s.src == ''
+    if script.src == ''
       # Save a copy of the outer_html 
       sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
       script_results = "#{output_dir}/#{sha256_hexdigest}.js"
       File.open(script_results, 'w') do |f|
         f.puts script.outer_html
       end
-      puts "#{green}Saved #{script_results}#{end_of_color}"
     else
       # Save a copy of the script
+      puts "#{yellow}Navigating to #{script.src}#{end_of_color}"
       browser_obj.goto(script.src)
       sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(browser_obj.text)
       uri = URI.parse(browser_obj.url)
@@ -80,8 +81,8 @@ begin
       File.open(script_results, 'w') do |f|
         f.puts browser_obj.text
       end
-      puts "#{green}Saved #{script_results}#{end_of_color}"
     end
+    puts "#{green}Saved #{script_results}#{end_of_color}"
 
   end
   
@@ -97,7 +98,7 @@ begin
   #   return script_elements;
   # ")
 rescue => e
-  raise e.message
+  raise e
 ensure 
   browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
 end
