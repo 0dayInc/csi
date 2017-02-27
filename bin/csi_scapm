@@ -7,16 +7,16 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-dDIR', '--dir_path=DIR', '<Required - Root of Git Repo to Target>') {|d| opts[:dir_path] = d }
-  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') {|u| opts[:git_repo_root_uri] = u }
-  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') {|t| opts[:max_threads] = t }
+  options.on('-dDIR', '--dir_path=DIR', '<Required - Root of Git Repo to Target>') { |d| opts[:dir_path] = d }
+  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') { |u| opts[:git_repo_root_uri] = u }
+  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') { |t| opts[:max_threads] = t }
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
@@ -58,7 +58,6 @@ test_cases = [
   :Version
 ]
 
-
 $results_hash = { data: [] }
 mutex = Mutex.new
 
@@ -77,7 +76,7 @@ CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_thr
 end
 
 # Generate HTML Report
-print "#{0} Generating Report..."
+print "#{$PROGRAM_NAME} Generating Report..."
 # TODO: instead of passing results hash, pass filename of NOSQL DB (Persisted LokiJS?)
 CSI::Reports::SCAPM.generate(
   dir_path: dir_path,

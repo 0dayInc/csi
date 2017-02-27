@@ -73,6 +73,7 @@ Style/Documentation:
 Style/GlobalVars:
   Exclude:
     - 'bin/csi'
+    - 'bin/csi_scapm'
     - 'lib/csi/plugins/android.rb'
     - 'lib/csi/www/bing.rb'
     - 'lib/csi/www/checkip.rb'

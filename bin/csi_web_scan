@@ -7,17 +7,16 @@ require 'optparse'
 opts = {}
 OptionParser.new do |options|
   options.banner = "USAGE:
-    #{$0} [opts]
+    #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-kAPI', '--api-key=API', '<Required - OWASP ZAP API Key>') {|k| opts[:api_key] = k }
-  options.on('-tURL', '--target=URL', '<Required - URL to Target>') {|t| opts[:target] = t }
-  options.on('-pZPROXY', '--zap-proxy=ZPROXY', '<Optional - OWASP ZAP Proxy (Defaults to http://127.0.0.1:8080)>') {|p| opts[:zap_proxy] = p }
-  
+  options.on('-kAPI', '--api-key=API', '<Required - OWASP ZAP API Key>') { |k| opts[:api_key] = k }
+  options.on('-tURL', '--target=URL', '<Required - URL to Target>') { |t| opts[:target] = t }
+  options.on('-pZPROXY', '--zap-proxy=ZPROXY', '<Optional - OWASP ZAP Proxy (Defaults to http://127.0.0.1:8080)>') { |p| opts[:zap_proxy] = p }
 end.parse!
 
 if opts.empty?
-  puts `#{$0} --help`
+  puts `#{$PROGRAM_NAME} --help`
   exit 1
 end
 
@@ -36,4 +35,4 @@ CSI::Plugins::OwaspZap.spider(
   zap_obj: zap_obj,
   target: target
 )
-#CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj)
+# CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj)
