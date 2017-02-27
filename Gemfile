@@ -8,6 +8,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'activesupport', '5.0.1'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2017-02-13
+gem 'anemone', '0.7.2'                 # Spider webpages
 gem 'authy', '2.7.1'                   # MFA API Access into Authy service ***2017-02-13
 gem 'aws-sdk', '2.7.7'                 # Amazon AWS SDK ***2017-02-13
 gem 'bettercap', '1.6.0'               # MITM framework ***2017-02-13

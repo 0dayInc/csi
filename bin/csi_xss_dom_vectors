@@ -44,8 +44,7 @@ end_of_color = "\001\e[0m\002"
 
 begin
   if proxy
-    # Cast with_tor as boolean
-    if !!with_tor
+    if with_tor
       browser_obj = CSI::Plugins::TransparentBrowser.open(
         browser_type: :headless,
         proxy: proxy,
@@ -64,7 +63,8 @@ begin
   browser_obj.goto(target_fqdn)
   browser_obj.scripts.each do |script|
     if script.src == ''
-      # Save a copy of the outer_html 
+      # Save a copy of the outer_html
+      puts "#{yellow}Saving OuterHTML of Native '<script>' Element#{end_of_color}"
       sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
       script_results = "#{output_dir}/#{sha256_hexdigest}.js"
       File.open(script_results, 'w') do |f|
@@ -81,13 +81,12 @@ begin
       File.open(script_results, 'w') do |f|
         f.puts browser_obj.text
       end
+      browser_obj.back
     end
-    puts "#{green}Saved #{script_results}#{end_of_color}"
-
+    puts "#{green}Saved #{script_results}#{end_of_color}\n\n\n"
   end
-  
+
   # Run DOM XSS SCAPM Module
-  
   # page_script_elements = browser_obj.execute_script("
   #   // JavaScript - find all script elements
   #   var script_elements = [];
@@ -99,6 +98,6 @@ begin
   # ")
 rescue => e
   raise e
-ensure 
+ensure
   browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
 end
