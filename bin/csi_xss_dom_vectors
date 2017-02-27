@@ -17,7 +17,7 @@ OptionParser.new do |options|
     opts[:output_dir] = d
   end
 
-  options.on('-bTYPE', '--browser-type=BROWSER', '<Optional - Browser Type :chrome|:firefox|:headless (Default)>') do |b|
+  options.on('-bTYPE', '--browser-type=BROWSER', '<Optional - Browser Type chrome|firefox|headless (Default)>') do |b|
     opts[:browser_type] = b
   end
 
@@ -41,7 +41,7 @@ output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 
 if opts[:browser_type]
-  browser_type = opts[:browser_type].to_s.scrub.strip.chomp.to_sym
+  browser_type = opts[:browser_type].to_s.scrub.chomp.strip.to_sym
 else
   browser_type = :headless
 end
@@ -115,5 +115,5 @@ begin
 rescue => e
   raise e
 ensure
-  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
 end
