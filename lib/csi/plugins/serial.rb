@@ -187,7 +187,7 @@ module CSI
 
       public
 
-      def self.dump_session_data(opts = {})
+      def self.dump_session_data
         @session_data
       end
 

@@ -12,7 +12,7 @@ module CSI
 
       public
 
-      def self.create(opts = {})
+      def self.create
         logger = Logger.new(STDOUT)
         logger.level = Logger::INFO
         logger.datetime_format = '%Y-%m-%d %H:%M:%S'

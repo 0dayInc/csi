@@ -20,17 +20,6 @@ Lint/UnreachableCode:
     - 'lib/csi/plugins/serial.rb'
     - 'lib/csi/plugins/shodan.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/csi/plugins/burp_suite.rb'
-    - 'lib/csi/plugins/csi_logger.rb'
-    - 'lib/csi/plugins/dao_postgres.rb'
-    - 'lib/csi/plugins/serial.rb'
-    - 'lib/csi/web_app/scapm.rb'
-
 # Offense count: 757
 # Configuration parameters: ContextCreatingMethods.
 Lint/UselessAccessModifier:

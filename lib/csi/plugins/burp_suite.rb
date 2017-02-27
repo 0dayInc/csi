@@ -270,7 +270,7 @@ module CSI
 
       public
 
-      def self.update_burp_jar(opts = {})
+      def self.update_burp_jar
         # TODO: Do this.
       end
 

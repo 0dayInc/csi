@@ -61,7 +61,7 @@ module CSI
 
       public
 
-      def self.start(opts = {})
+      def self.start
         self::Application.run!
       end
 
@@ -72,7 +72,7 @@ module CSI
 
       public
 
-      def self.stop(opts = {})
+      def self.stop
         # Stop spear phishing server ;)
       end
 
