@@ -5,30 +5,30 @@ module CSI
     module PostgresLogin
       # Supported Method Parameters::
       # CSI::MSF::PostgresLogin.exploit(
-      #   :msfrpcd_yaml_conf => '/path/to/yaml/conf/file',
-      #   :blank_passwords => 'optional try blank passwords for all users',
-      #   :bruteforce_speed => 'required how fast to bruteforce, from 0 to 5 (defaults to 5)',
-      #   :database => 'required the database to authenticate against (defaults to postgres)',
-      #   :db_all_creds => 'optional try each user/password couple stored in the current database (defaults to false)',
-      #   :db_all_pass => 'optional add all passwords in the current database to the list (defaults to false)',
-      #   :db_all_users => 'optional add all users in the current database to the list (defaults to false)',
-      #   :password => 'optional specific password to authenticate with',
-      #   :pass_file => 'optional ile containing passwords, one per line (defaults to /usr/local/share/csi/postgres_default_pass.txt)',
-      #   :proxies => 'optional use a proxy chain',
-      #   :return_rowset => 'optional set to true to see query result sets (defaults to true)',
-      #   :rhosts => 'required target address range or CIDR identifier',
-      #   :rport => 'required target port (defaults to 5432)',
-      #   :stop_on_sucess => 'required stop guessing when a credential works for a host (defaults to false)',
-      #   :threads => 'required number of concurrent threads (defaults to 1)',
-      #   :username => 'optional specific username to authenticate as (defaults to postgres)',
-      #   :userpass_file => 'optional file containing (space-seperated) users and passwords, one pair per line (defaults to /usr/local/share/csi/postgres_default_userpass.txt)',
-      #   :user_as_pass => 'optional try the username as the password for all users (defaults to false)',
-      #   :user_file => 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
+      #   msfrpcd_yaml_conf: '/path/to/yaml/conf/file',
+      #   blank_passwords: 'optional try blank passwords for all users',
+      #   bruteforce_speed: 'required how fast to bruteforce, from 0 to 5 (defaults to 5)',
+      #   database: 'required the database to authenticate against (defaults to postgres)',
+      #   db_all_creds: 'optional try each user/password couple stored in the current database (defaults to false)',
+      #   db_all_pass: 'optional add all passwords in the current database to the list (defaults to false)',
+      #   db_all_users: 'optional add all users in the current database to the list (defaults to false)',
+      #   password: 'optional specific password to authenticate with',
+      #   pass_file: 'optional ile containing passwords, one per line (defaults to /usr/local/share/csi/postgres_default_pass.txt)',
+      #   proxies: 'optional use a proxy chain',
+      #   return_rowset: 'optional set to true to see query result sets (defaults to true)',
+      #   rhosts: 'required target address range or CIDR identifier',
+      #   rport: 'required target port (defaults to 5432)',
+      #   stop_on_sucess: 'required stop guessing when a credential works for a host (defaults to false)',
+      #   threads: 'required number of concurrent threads (defaults to 1)',
+      #   username: 'optional specific username to authenticate as (defaults to postgres)',
+      #   userpass_file: 'optional file containing (space-seperated) users and passwords, one pair per line (defaults to /usr/local/share/csi/postgres_default_userpass.txt)',
+      #   user_as_pass: 'optional try the username as the password for all users (defaults to false)',
+      #   user_file: 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
       # )
       # e.g. result = CSI::MSF::PostgresLogin.exploit(
-      #                :msfrpcd_yaml_conf => '/usr/local/etc/msfrpcd.yaml',
-      #                :rhosts => '<domain_name>',
-      #                :rport => 5432
+      #                msfrpcd_yaml_conf: '/usr/local/etc/msfrpcd.yaml',
+      #                rhosts: '<domain_name>',
+      #                rport: 5432
       #              )
 
       public
@@ -169,6 +169,8 @@ module CSI
         )
 
         result
+      rescue => e
+        raise e.message
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -206,25 +208,25 @@ module CSI
       def self.help
         puts "USAGE:
           #{self}.exploit(
-            :msfrpcd_yaml_conf => '/path/to/yaml/conf/file',
-            :blank_passwords => 'optional try blank passwords for all users',
-            :bruteforce_speed => 'required how fast to bruteforce, from 0 to 5 (defaults to 5)',
-            :database => 'required the database to authenticate against (defaults to postgres)',
-            :db_all_creds => 'optional try each user/password couple stored in the current database (defaults to false)',
-            :db_all_pass => 'optional add all passwords in the current database to the list (defaults to false)',
-            :db_all_users => 'optional add all users in the current database to the list (defaults to false)',
-            :password => 'optional specific password to authenticate with',
-            :pass_file => 'optional ile containing passwords, one per line (defaults to /usr/local/share/csi/postgres_default_pass.txt)',
-            :proxies => 'optional use a proxy chain',
-            :return_rowset => 'optional set to true to see query result sets (defaults to true)',
-            :rhosts => 'required target address range or CIDR identifier',
-            :rport => 'required target port (defaults to 5432)',
-            :stop_on_sucess => 'required stop guessing when a credential works for a host (defaults to false)',
-            :threads => 'required number of concurrent threads (defaults to 1)',
-            :username => 'optional specific username to authenticate as (defaults to postgres)',
-            :userpass_file => 'optional file containing (space-seperated) users and passwords, one pair per line (defaults to /usr/local/share/csi/postgres_default_userpass.txt)',
-            :user_as_pass => 'optional try the username as the password for all users (defaults to false)',
-            :user_file => 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
+            msfrpcd_yaml_conf: '/path/to/yaml/conf/file',
+            blank_passwords: 'optional try blank passwords for all users',
+            bruteforce_speed: 'required how fast to bruteforce, from 0 to 5 (defaults to 5)',
+            database: 'required the database to authenticate against (defaults to postgres)',
+            db_all_creds: 'optional try each user/password couple stored in the current database (defaults to false)',
+            db_all_pass: 'optional add all passwords in the current database to the list (defaults to false)',
+            db_all_users: 'optional add all users in the current database to the list (defaults to false)',
+            password: 'optional specific password to authenticate with',
+            pass_file: 'optional ile containing passwords, one per line (defaults to /usr/local/share/csi/postgres_default_pass.txt)',
+            proxies: 'optional use a proxy chain',
+            return_rowset: 'optional set to true to see query result sets (defaults to true)',
+            rhosts: 'required target address range or CIDR identifier',
+            rport: 'required target port (defaults to 5432)',
+            stop_on_sucess: 'required stop guessing when a credential works for a host (defaults to false)',
+            threads: 'required number of concurrent threads (defaults to 1)',
+            username: 'optional specific username to authenticate as (defaults to postgres)',
+            userpass_file: 'optional file containing (space-seperated) users and passwords, one pair per line (defaults to /usr/local/share/csi/postgres_default_userpass.txt)',
+            user_as_pass: 'optional try the username as the password for all users (defaults to false)',
+            user_file: 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
           )
 
           #{self}.authors
