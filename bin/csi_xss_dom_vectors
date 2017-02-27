@@ -58,18 +58,18 @@ begin
   if proxy
     if with_tor
       browser_obj = CSI::Plugins::TransparentBrowser.open(
-        browser_type: :headless,
+        browser_type: browser_type,
         proxy: proxy,
         with_tor: true
       )
     else
       browser_obj = CSI::Plugins::TransparentBrowser.open(
-        browser_type: :headless,
+        browser_type: browser_type,
         proxy: proxy
       )
     end
   else
-    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type)
   end
 
   puts "#{dark_red}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
