@@ -80,13 +80,7 @@ begin
   # (Burp's DOM-XSS checks are based on static code analysis)
   navb = burp_obj[:burp_browser]
   File.read(navigation_instruct).each_line do |instruction|
-    prep_instruct = "navb.#{instruction.chomp}"
-    # Yeozahh...there must be a better way.
-    # This all happens locally, however, # this
-    # can present risk in multi-user environments
-    # if one neglects to consider who/how the i
-    # instructions are writter/read
-    instance_eval(prep_instruct)
+    navb.instance_eval(intruction.to_s.scrub.strip.chomp)
   end
   sleep 60 # Sleep for now so everythign loads the way we expect - blech.
 
