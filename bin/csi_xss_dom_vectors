@@ -17,6 +17,10 @@ OptionParser.new do |options|
     opts[:output_dir] = d
   end
 
+  options.on('-uURI', '--uri-source-root=URI', '<Required - URI to Source Root (for csi_scapm Results)>') do |u|
+    opts[:uri_source_root] = u
+  end
+
   options.on('-bTYPE', '--browser-type=BROWSER', '<Optional - Browser Type chrome|firefox|headless (Default)>') do |b|
     opts[:browser_type] = b
   end
@@ -38,7 +42,7 @@ end
 # Required Flag Variables
 target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
-proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+uri_source_root = opts[:uri_source_root].to_s.scrub
 
 if opts[:browser_type]
   browser_type = opts[:browser_type].to_s.scrub.chomp.strip.to_sym
@@ -46,6 +50,7 @@ else
   browser_type = :headless
 end
 
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
 
 # Colors!
@@ -100,8 +105,7 @@ begin
   end
 
   # Run DOM XSS SCAPM Test Cases
-  # TODO: make -u flag dynamic
-  puts `csi_scapm -d #{output_dir} -t 1 -T InnerHTML -u 'http://127.0.0.1'`
+  puts `csi_scapm -d #{output_dir} -t 1 -T InnerHTML -u #{uri_source_root}`
 
   # page_script_elements = browser_obj.execute_script("
   #   // JavaScript - find all script elements

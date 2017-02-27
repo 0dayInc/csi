@@ -10,20 +10,20 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-dDIR', '--dir_path=DIR', '<Required - Root of Git Repo to Target>') { |d| opts[:dir_path] = d }
-  options.on('-uGITURI', '--git_repo_root_uri=GITURI', '<Required - HTTP URI of Git Repo Scanned>') do |u|
-    opts[:git_repo_root_uri] = u
+  options.on('-dDIR', '--dir-path=DIR', '<Required - Root of Git Repo to Target>') { |d| opts[:dir_path] = d }
+  options.on('-uGITURI', '--uri-source-root=GITURI', '<Required - HTTP URI of Git Repo Scanned>') do |u|
+    opts[:uri_source_root] = u
   end
 
-  options.on('-tTHREADS', '--max_threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') do |t|
+  options.on('-tTHREADS', '--max-threads=THREADS', '<Optional # Test Cases to Run Simultaneously (Default 25)>') do |t|
     opts[:max_threads] = t
   end
 
-  options.on('-TCASE', '--test_cases=CASE', '<Optional Comma-Delimited Test Cases to Invoke (-l for List)>') do |c|
+  options.on('-TCASE', '--test-cases=CASE', '<Optional Comma-Delimited Test Cases to Invoke (-l for List)>') do |c|
     opts[:chosen_test_cases] = c
   end
 
-  options.on('-l', '--[no-]list_test_cases', '<Optional List Available Test Cases to Invoke and Exit>') do |l|
+  options.on('-l', '--[no-]list-test-cases', '<Optional List Available Test Cases to Invoke and Exit>') do |l|
     opts[:list_test_cases] = l
   end
 end.parse!
@@ -37,7 +37,7 @@ green = "\001\e[32m\002"
 end_of_color = "\001\e[0m\002"
 
 dir_path = opts[:dir_path].to_s.scrub
-git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
+uri_source_root = opts[:uri_source_root].to_s.scrub
 max_threads = opts[:max_threads]
 chosen_test_cases = opts[:chosen_test_cases]
 list_test_cases = opts[:list_test_cases]
@@ -91,7 +91,7 @@ mutex = Mutex.new
 
 CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_threads) do |test_case|
   begin
-    sca_arr = CSI::SCAPM.const_get(test_case.to_s.scrub).scan(dir_path: dir_path, git_repo_root_uri: git_repo_root_uri)
+    sca_arr = CSI::SCAPM.const_get(test_case.to_s.scrub).scan(dir_path: dir_path, git_repo_root_uri: uri_source_root)
     sca_arr.each do |hash_line|
       mutex.synchronize do
         # TODO: instead of using a hash, perist JSON to NOSQL DB in favor of creating a flat JSON file
