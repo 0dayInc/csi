@@ -70,8 +70,9 @@ begin
       url: web_cache_deception_url,
       verify_ssl: false
     )
+    wcd_url_response_length = response.body.length
+
     if response.code == 200 && !target_url.include?('?')
-      wcd_url_response_length = response.body.length
 
       # Browse to original page to compare response lengths
       response = browser_obj.execute(
