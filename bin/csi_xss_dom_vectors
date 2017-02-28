@@ -140,7 +140,7 @@ begin
 
   # Grab JavaScript for Each Page Discovered
   if spider
-    File.read(spider_results).each_line do |this_page|
+    File.readlines(spider_results).uniq.each do |this_page|
       grab_js_in_page(browser_obj: browser_obj, url: this_page, output_dir: output_dir)
     end
   else
