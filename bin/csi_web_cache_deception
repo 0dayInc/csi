@@ -69,7 +69,7 @@ begin
       url: web_cache_deception_url,
       verify_ssl: false
     )
-    if response.code == 200
+    if response.code == 200 && !target_url.include?('?')
       wcd_url_response_length = response.body.length
 
       # Browse to original page to compare response lengths
@@ -81,39 +81,37 @@ begin
       orig_url_response_length = response.body.length
 
       if orig_url_response_length == wcd_url_response_length
-        if target_url.include?('?')
-          stripped_target_url = URI.parse(target_url)
-          stripped_target_url.fragment = stripped_target_url.query = nil
-   
-          response = browser_obj.execute(
-            method: :get,
-            url: stripped_target_url.to_s,
-            verify_ssl: false
-          )
-          stripped_url_response_length = response.body.length
-          
-          if stripped_url_response_length == orig_url_response_length
-            web_cache_deception_url = "#{stripped_target_url.chomp('/')}/wcd.#{payload}"            
-            response = browser_obj.execute(
-               method: :get,
-               url: web_cache_deception_url,
-               verify_ssl: false
-             )
-             wcd_url_response_length = response.body.length
-             
-             if stripped_url_response_length == wcd_url_response_length
-               puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
-             else
-               print "#{@yellow}.#{@end_of_color}"
-             end
+        puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+      else
+        print "#{@yellow}.#{@end_of_color}"
+      end
+    elsif target_url.include?('?')
+      stripped_target_url = URI.parse(target_url)
+      # Remove query paramters from url
+      stripped_target_url.fragment = stripped_target_url.query = nil
 
-          else
-            print "#{@yellow}.#{@end_of_color}"
-          end
-          
-        else
+      response = browser_obj.execute(
+        method: :get,
+        url: stripped_target_url.to_s,
+        verify_ssl: false
+      )
+      stripped_url_response_length = response.body.length
+
+      if stripped_url_response_length == orig_url_response_length
+        web_cache_deception_url = "#{stripped_target_url.chomp('/')}/wcd.#{payload}"
+        response = browser_obj.execute(
+          method: :get,
+          url: web_cache_deception_url,
+          verify_ssl: false
+        )
+        wcd_url_response_length = response.body.length
+
+        if stripped_url_response_length == wcd_url_response_length
           puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        else
+          print "#{@yellow}.#{@end_of_color}"
         end
+
       else
         print "#{@yellow}.#{@end_of_color}"
       end
