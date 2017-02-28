@@ -67,21 +67,21 @@ end
 spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 
 # Colors!
-dark_red = "\001\e[1m\002\001\e[31m\002"
-green = "\001\e[32m\002"
-yellow = "\001\e[33m\002"
-end_of_color = "\001\e[0m\002"
+@dark_red = "\001\e[1m\002\001\e[31m\002"
+@green = "\001\e[32m\002"
+@yellow = "\001\e[33m\002"
+@end_of_color = "\001\e[0m\002"
 
 begin
   def grab_js_in_page(opts = {})
     target_page = opts[:url].to_s.scrub.chomp.strip
 
-    puts "#{green}Navigating to Page #{script.src}#{end_of_color}"
+    puts "#{@green}Navigating to Page #{script.src}#{@end_of_color}"
     browser_obj.goto(target_page)
     browser_obj.scripts.each do |script|
       if script.src == ''
         # Save a copy of the outer_html
-        puts "#{yellow}Saving OuterHTML of Native '<script>' Element#{end_of_color}"
+        puts "#{@yellow}Saving OuterHTML of Native '<script>' Element#{@end_of_color}"
         sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(script.outer_html)
         script_results = "#{output_dir}/#{sha256_hexdigest}.js"
         File.open(script_results, 'w') do |f|
@@ -89,7 +89,7 @@ begin
         end
       else
         # Save a copy of the script
-        puts "#{yellow}Navigating to #{script.src}#{end_of_color}"
+        puts "#{@yellow}Navigating to #{script.src}#{@end_of_color}"
         browser_obj.goto(script.src)
         sha256_hexdigest = OpenSSL::Digest::SHA256.hexdigest(browser_obj.text)
         uri = URI.parse(browser_obj.url)
@@ -100,7 +100,7 @@ begin
         end
         browser_obj.back
       end
-      puts "#{green}Saved #{script_results}#{end_of_color}\n\n\n"
+      puts "#{@green}Saved #{script_results}#{@end_of_color}\n\n\n"
     end
   rescue => e
     raise e
@@ -123,13 +123,13 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type)
   end
 
-  puts "#{green}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
+  puts "#{@green}Navigating to Target FQDN: #{target_fqdn}#{@end_of_color}\n\n\n"
   if spider
-    puts "#{dark_red}Spidering Target FQDN: #{target_fqdn}#{end_of_color}"
+    puts "#{@dark_red}Spidering Target FQDN: #{target_fqdn}#{@end_of_color}"
     File.open(spider_results, 'w') do |f|
       Anemone.crawl(target_fqdn) do |anemone|
         anemone.on_every_page do |page|
-          puts "#{yellow}Discovered: #{page.url}#{end_of_color}"
+          puts "#{@yellow}Discovered: #{page.url}#{@end_of_color}"
           f.puts(page.url)
         end
       end
