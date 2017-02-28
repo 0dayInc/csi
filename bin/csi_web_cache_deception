@@ -73,10 +73,10 @@ begin
       puts "\n#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{web_cache_deception_url}#{@end_of_color}\n"
     else
       print "#{@yellow}.#{@end_of_color}"
-    # else
-    #   puts "#{@yellow}HTTP #{response.code} Response: #{web_cache_deception_url}#{@end_of_color}"
     end
-  rescue RestClient::ExceptionWithResponse => er
+  rescue RestClient::InternalServerError => ise
+    puts "\n#{@dark_red}#{ise}: #{web_cache_deception_url}#{@end_of_color}\n"
+  rescue RestClient::ExceptionWithResponse => ewr
     # puts "#{@yellow}#{er}: #{web_cache_deception_url}#{@end_of_color}"
     print "#{@yellow}.#{@end_of_color}"
   rescue => e
