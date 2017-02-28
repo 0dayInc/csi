@@ -64,6 +64,14 @@ begin
     target_url = opts[:target_url].to_s.scrub.chomp.strip
     payload = opts[:payload].to_s.scrub.chomp.strip
 
+    # Browse to original page to compare response lengths
+    response = browser_obj.execute(
+      method: :get,
+      url: target_url,
+      verify_ssl: false
+    )
+    orig_url_response_length = response.body.length
+
     web_cache_deception_url = "#{target_url.chomp('/')}/wcd.#{payload}"
     response = browser_obj.execute(
       method: :get,
@@ -73,15 +81,6 @@ begin
     wcd_url_response_length = response.body.length
 
     if response.code == 200 && !target_url.include?('?')
-
-      # Browse to original page to compare response lengths
-      response = browser_obj.execute(
-        method: :get,
-        url: target_url,
-        verify_ssl: false
-      )
-      orig_url_response_length = response.body.length
-
       if orig_url_response_length == wcd_url_response_length
         puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
         return "Alert! Potential Candidate: #{web_cache_deception_url}"
@@ -89,7 +88,7 @@ begin
         print "#{@yellow}.#{@end_of_color}"
         return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
       end
-    elsif target_url.include?('?')
+    elsif response.code == 200 && target_url.include?('?')
       stripped_target_url = URI.parse(target_url)
       # Remove query paramters from url
       stripped_target_url.fragment = stripped_target_url.query = nil
