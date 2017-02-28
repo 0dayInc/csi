@@ -74,6 +74,7 @@ spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 
 begin
   def grab_js_in_page(opts = {})
+    browser_obj = opts[:browser_obj]
     target_page = opts[:url].to_s.scrub.chomp.strip
 
     puts "#{@green}Navigating to Page #{target_page}#{@end_of_color}"
@@ -139,10 +140,10 @@ begin
   # Grab JavaScript for Each Page Discovered
   if spider
     File.read(spider_results).each_line do |this_page|
-      grab_js_in_page(url: this_page)
+      grab_js_in_page(browser_obj: browser_obj, url: this_page)
     end
   else
-    grab_js_in_page(url: target_fqdn)
+    grab_js_in_page(browser_obj: browser_obj, url: target_fqdn)
   end
 
   # Run DOM XSS SCAPM Test Cases
