@@ -193,7 +193,9 @@ module CSI
       def self.close(opts = {})
         this_browser_obj = opts[:browser_obj]
 
-        this_browser_obj.close unless this_browser_obj == RestClient
+        unless this_browser_obj == RestClient || this_browser_obj == RestClient::Request
+          this_browser_obj.close
+        end
         this_browser_obj = nil
 
         return this_browser_obj

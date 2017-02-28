@@ -59,11 +59,13 @@ spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 
 begin
   def get_web_cache_deception(opts = {})
-    target_url = opts[:target_url]
+    browser_obj = opts[:browser_obj]
+    target_url = opts[:target_url].to_s.scrub.chomp.strip
 
+    web_cache_deception_url = "#{target_url.chomp('/')}/wss.css"
     response = browser_obj.execute(
       method: :get,
-      url: "#{target_url}/wcd.css",
+      url: web_cache_deception_url,
       verify_ssl: false
     )
     if response.code == 200 
@@ -107,10 +109,10 @@ begin
   # Grab JavaScript for Each Page Discovered
   if spider
     File.readlines(spider_results).uniq.each do |this_page|
-      get_web_cache_deception(target_url: this_page)
+      get_web_cache_deception(browser_obj: browser_obj, target_url: this_page)
     end
   else
-    get_web_cache_deception(target_url: target_url)
+    get_web_cache_deception(browser_obj: browser_obj, target_url: target_url)
   end
 rescue => e
   raise e
