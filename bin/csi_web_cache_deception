@@ -81,7 +81,39 @@ begin
       orig_url_response_length = response.body.length
 
       if orig_url_response_length == wcd_url_response_length
-        puts "\n#{@dark_red}#{potential_vuln_url_title} #{web_cache_deception_url}#{@end_of_color}\n"
+        if target_url.include?('?')
+          stripped_target_url = URI.parse(target_url)
+          stripped_target_url.fragment = stripped_target_url.query = nil
+   
+          response = browser_obj.execute(
+            method: :get,
+            url: stripped_target_url.to_s,
+            verify_ssl: false
+          )
+          stripped_url_response_length = response.body.length
+          
+          if stripped_url_response_length == orig_url_response_length
+            web_cache_deception_url = "#{stripped_target_url.chomp('/')}/wcd.#{payload}"            
+            response = browser_obj.execute(
+               method: :get,
+               url: web_cache_deception_url,
+               verify_ssl: false
+             )
+             wcd_url_response_length = response.body.length
+             
+             if stripped_url_response_length == wcd_url_response_length
+               puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+             else
+               print "#{@yellow}.#{@end_of_color}"
+             end
+
+          else
+            print "#{@yellow}.#{@end_of_color}"
+          end
+          
+        else
+          puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        end
       else
         print "#{@yellow}.#{@end_of_color}"
       end
