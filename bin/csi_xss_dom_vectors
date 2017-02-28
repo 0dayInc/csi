@@ -76,7 +76,7 @@ begin
   def grab_js_in_page(opts = {})
     target_page = opts[:url].to_s.scrub.chomp.strip
 
-    puts "#{@green}Navigating to Page #{script.src}#{@end_of_color}"
+    puts "#{@green}Navigating to Page #{target_page}#{@end_of_color}"
     browser_obj.goto(target_page)
     browser_obj.scripts.each do |script|
       if script.src == ''
