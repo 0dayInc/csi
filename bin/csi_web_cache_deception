@@ -61,19 +61,26 @@ begin
   def get_web_cache_deception(opts = {})
     browser_obj = opts[:browser_obj]
     target_url = opts[:target_url].to_s.scrub.chomp.strip
+    payload = opts[:payload].to_s.scrub.chomp.strip
 
-    web_cache_deception_url = "#{target_url.chomp('/')}/wss.css"
+    web_cache_deception_url = "#{target_url.chomp('/')}/wcd.#{payload}"
     response = browser_obj.execute(
       method: :get,
       url: web_cache_deception_url,
       verify_ssl: false
     )
     if response.code == 200 
-      puts "#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{target_url}#{@end_of_color}"
+      puts "\n#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{web_cache_deception_url}#{@end_of_color}\n"
+    else
+      print "#{@yellow}.#{@end_of_color}"
+    # else
+    #   puts "#{@yellow}HTTP #{response.code} Response: #{web_cache_deception_url}#{@end_of_color}"
     end
+  rescue RestClient::ExceptionWithResponse => er
+    # puts "#{@yellow}#{er}: #{web_cache_deception_url}#{@end_of_color}"
+    print "#{@yellow}.#{@end_of_color}"
   rescue => e
-    puts "#{@yellow}HTTP #{response.code} Response: #{target_url}#{@end_of_color}"
-    next
+    raise e
   end
 
   if proxy
@@ -105,13 +112,17 @@ begin
     end
   end
 
-  # Grab JavaScript for Each Page Discovered
-  if spider
-    File.readlines(spider_results).uniq.each do |this_page|
-      get_web_cache_deception(browser_obj: browser_obj, target_url: this_page)
+  web_cache_deception_payload_arr = [
+    'aif', 'aiff', 'au', 'avi', 'bin', 'bmp', 'cab', 'carb', 'cct', 'cdf', 'class', 'css', 'doc', 'dcr', 'dtd', 'gcf', 'gff', 'gif', 'grv', 'hdml', 'hqx', 'ico', 'ini', 'jpeg', 'jpg', 'js', 'mov', 'mp3', 'nc', 'pct', 'ppc', 'pws', 'swa', 'swf', 'txt', 'vbs', 'w32', 'wav', 'wbmp', 'wml', 'wmlc', 'wmls', 'wmlsc', 'xsd', 'zip'
+  ]
+  web_cache_deception_payload_arr.each do |payload|
+    if spider
+      File.readlines(spider_results).uniq.each do |this_page|
+        get_web_cache_deception(browser_obj: browser_obj, target_url: this_page, payload: payload)
+      end
+    else
+      get_web_cache_deception(browser_obj: browser_obj, target_url: target_url, payload: payload)
     end
-  else
-    get_web_cache_deception(browser_obj: browser_obj, target_url: target_url)
   end
 rescue => e
   raise e
