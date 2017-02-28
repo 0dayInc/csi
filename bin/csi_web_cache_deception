@@ -70,7 +70,21 @@ begin
       verify_ssl: false
     )
     if response.code == 200
-      puts "\n#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{web_cache_deception_url}#{@end_of_color}\n"
+      wcd_url_response_length = response.body.length
+
+      # Browse to original page to compare response lengths
+      response = browser_obj.execute(
+        method: :get,
+        url: target_url,
+        verify_ssl: false
+      )
+      orig_url_response_length = response.body.length
+
+      if orig_url_response_length == wcd_url_response_length
+        puts "\n#{@dark_red}#{potential_vuln_url_title} #{web_cache_deception_url}#{@end_of_color}\n"
+      else
+        print "#{@yellow}.#{@end_of_color}"
+      end
     else
       print "#{@yellow}.#{@end_of_color}"
     end
