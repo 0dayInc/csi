@@ -69,7 +69,7 @@ begin
       url: web_cache_deception_url,
       verify_ssl: false
     )
-    if response.code == 200 
+    if response.code == 200
       puts "\n#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{web_cache_deception_url}#{@end_of_color}\n"
     else
       print "#{@yellow}.#{@end_of_color}"
@@ -112,9 +112,9 @@ begin
     end
   end
 
-  web_cache_deception_payload_arr = [
-    'aif', 'aiff', 'au', 'avi', 'bin', 'bmp', 'cab', 'carb', 'cct', 'cdf', 'class', 'css', 'doc', 'dcr', 'dtd', 'gcf', 'gff', 'gif', 'grv', 'hdml', 'hqx', 'ico', 'ini', 'jpeg', 'jpg', 'js', 'mov', 'mp3', 'nc', 'pct', 'ppc', 'pws', 'swa', 'swf', 'txt', 'vbs', 'w32', 'wav', 'wbmp', 'wml', 'wmlc', 'wmls', 'wmlsc', 'xsd', 'zip'
-  ]
+  web_cache_deception_payload_arr = %w(
+    aif aiff au avi bin bmp cab carb cct cdf class css doc dcr dtd gcf gff gif grv hdml hqx ico ini jpeg jpg js mov mp3 mp4 nc pct ppc pws swa swf txt vbs w32 wav wbmp wml wmlc wmls wmlsc xsd zip
+  )
   web_cache_deception_payload_arr.each do |payload|
     if spider
       File.readlines(spider_results).uniq.each do |this_page|
