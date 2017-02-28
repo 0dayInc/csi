@@ -1,0 +1,119 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'csi'
+require 'optparse'
+require 'anemone'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-tURL', '--target-url=URL', '<Required - URL to Target>') do |t|
+    opts[:target_url] = t
+  end
+
+  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |d|
+    opts[:output_dir] = d
+  end
+
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
+    opts[:with_tor] = w
+  end
+
+  options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN  (Defaults to true)>') do |s|
+    opts[:spider] = s
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
+# Required Flag Variables
+target_url = opts[:target_url].to_s.scrub.strip.chomp
+output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+with_tor = opts[:with_tor]
+
+if opts[:spider]
+  spider = false
+else
+  spider = true
+end
+
+spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
+
+# Colors!
+@dark_red = "\001\e[1m\002\001\e[31m\002"
+@green = "\001\e[32m\002"
+@yellow = "\001\e[33m\002"
+@end_of_color = "\001\e[0m\002"
+
+begin
+  def get_web_cache_deception(opts = {})
+    target_url = opts[:target_url]
+
+    response = browser_obj.execute(
+      method: :get,
+      url: "#{target_url}/wcd.css",
+      verify_ssl: false
+    )
+    if response.code == 200 
+      puts "#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{target_url}#{@end_of_color}"
+    else
+      puts "#{@yellow}HTTP #{response.code} Response: #{target_url}#{@end_of_color}"
+    end
+  rescue => e
+    raise e
+  end
+
+  if proxy
+    if with_tor
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :rest,
+        proxy: proxy,
+        with_tor: true
+      )::Request
+    else
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :rest,
+        proxy: proxy
+      )::Request
+    end
+  else
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+  end
+
+  if spider
+    puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
+    File.open(spider_results, 'w') do |f|
+      Anemone.crawl(target_url) do |anemone|
+        anemone.on_every_page do |page|
+          puts "#{@yellow}Discovered: #{page.url}#{@end_of_color}"
+          f.puts(page.url)
+        end
+      end
+    end
+  end
+
+  # Grab JavaScript for Each Page Discovered
+  if spider
+    File.readlines(spider_results).uniq.each do |this_page|
+      get_web_cache_deception(target_url: this_page)
+    end
+  else
+    get_web_cache_deception(target_url: target_url)
+  end
+rescue => e
+  raise e
+ensure
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
+end
