@@ -70,11 +70,10 @@ begin
     )
     if response.code == 200 
       puts "#{@dark_red}Yeowzah!!!  HTTP 200 Response: #{target_url}#{@end_of_color}"
-    else
-      puts "#{@yellow}HTTP #{response.code} Response: #{target_url}#{@end_of_color}"
     end
   rescue => e
-    raise e
+    puts "#{@yellow}HTTP #{response.code} Response: #{target_url}#{@end_of_color}"
+    next
   end
 
   if proxy
