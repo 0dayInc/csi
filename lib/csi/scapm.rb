@@ -23,6 +23,7 @@ module CSI
     autoload :InnerHTML, 'csi/scapm/inner_html'
     autoload :Keystore, 'csi/scapm/keystore'
     autoload :Logger, 'csi/scapm/logger'
+    autoload :OuterHTML, 'csi/scapm/outer_html'
     autoload :Password, 'csi/scapm/password'
     autoload :PomVersion, 'csi/scapm/pom_version'
     autoload :Port, 'csi/scapm/port'

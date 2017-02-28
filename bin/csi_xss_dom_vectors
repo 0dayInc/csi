@@ -146,7 +146,7 @@ begin
   end
 
   # Run DOM XSS SCAPM Test Cases
-  puts `csi_scapm -d #{output_dir} -t 1 -T InnerHTML -u #{uri_source_root}`
+  puts `csi_scapm -d #{output_dir} -t 1 -T 'InnerHTML, OuterHTML' -u #{uri_source_root}`
 
   # For future use
   # page_script_elements = browser_obj.execute_script("

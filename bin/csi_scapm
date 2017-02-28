@@ -65,6 +65,7 @@ else
     :Factory,
     :Logger,
     :Keystore,
+    :OuterHTML,
     :Password,
     :PomVersion,
     :Port,
