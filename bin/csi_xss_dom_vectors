@@ -139,10 +139,10 @@ begin
   # Grab JavaScript for Each Page Discovered
   if spider
     File.read(spider_results).each_line do |this_page|
-      grabjs_in_page(url: this_page)
+      grab_js_in_page(url: this_page)
     end
   else
-    grabjs_in_page(url: target_fqdn)
+    grab_js_in_page(url: target_fqdn)
   end
 
   # Run DOM XSS SCAPM Test Cases
