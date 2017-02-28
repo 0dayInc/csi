@@ -62,11 +62,11 @@ randomize = opts[:randomize]
 seconds_to_delay_between_calls = opts[:seconds_to_delay_between_calls].to_i
 
 # Colors!
-dark_red = "\001\e[1m\002\001\e[31m\002"
-green = "\001\e[32m\002"
-yellow = "\001\e[33m\002"
-cayan = "\t\001\e[36m\002"
-end_of_color = "\001\e[0m\002"
+dark_red = "\e[1m\e[31m"
+green = "\e[32m"
+yellow = "\e[33m"
+cayan = "\e[36m"
+end_of_color = "\e[0m"
 
 if from_num <= to_num
   begin
