@@ -64,6 +64,8 @@ else
   spider = true
 end
 
+spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
+
 # Colors!
 dark_red = "\001\e[1m\002\001\e[31m\002"
 green = "\001\e[32m\002"
@@ -123,19 +125,20 @@ begin
 
   puts "#{green}Navigating to Target FQDN: #{target_fqdn}#{end_of_color}\n\n\n"
   if spider
-    fqdn_spider_arr = []
     puts "#{dark_red}Spidering Target FQDN: #{target_fqdn}#{end_of_color}"
-    Anemone.crawl(target_fqdn) do |anemone|
-      anemone.on_every_page do |page|
-        puts "#{yellow}Discovered: #{page.url}#{end_of_color}"
-        fqdn_spider_arr.push(page.url)
+    File.open(spider_results, 'w') do |f|
+      Anemone.crawl(target_fqdn) do |anemone|
+        anemone.on_every_page do |page|
+          puts "#{yellow}Discovered: #{page.url}#{end_of_color}"
+          f.puts(page.url)
+        end
       end
     end
   end
 
   # Grab JavaScript for Each Page Discovered
   if spider
-    fqdn_spider_arr.each do |this_page|
+    File.read(spider_results).each_line do |this_page|
       grabjs_in_page(url: this_page)
     end
   else
