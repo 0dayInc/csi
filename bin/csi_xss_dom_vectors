@@ -126,7 +126,8 @@ begin
   end
 
   puts "#{@green}Navigating to Target FQDN: #{target_fqdn}#{@end_of_color}\n\n\n"
-  CSI::Plugins::TransparentBrowser.linkout(browser_obj: browser_obj)
+  browser_obj.goto(target_fqdn)
+
   if spider
     puts "#{@dark_red}Spidering Target FQDN: #{target_fqdn}#{@end_of_color}"
     File.open(spider_results, 'w') do |f|
