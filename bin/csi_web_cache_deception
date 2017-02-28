@@ -50,6 +50,7 @@ else
 end
 
 spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
+output_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.results"
 
 # Colors!
 @dark_red = "\e[1m\e[31m"
@@ -81,9 +82,11 @@ begin
       orig_url_response_length = response.body.length
 
       if orig_url_response_length == wcd_url_response_length
-        puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        return "Alert! Potential Candidate: #{web_cache_deception_url}"
       else
         print "#{@yellow}.#{@end_of_color}"
+        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     elsif target_url.include?('?')
       stripped_target_url = URI.parse(target_url)
@@ -98,7 +101,7 @@ begin
       stripped_url_response_length = response.body.length
 
       if stripped_url_response_length == orig_url_response_length
-        web_cache_deception_url = "#{stripped_target_url.chomp('/')}/wcd.#{payload}"
+        web_cache_deception_url = "#{stripped_target_url.to_s.chomp('/')}/wcd.#{payload}"
         response = browser_obj.execute(
           method: :get,
           url: web_cache_deception_url,
@@ -107,22 +110,27 @@ begin
         wcd_url_response_length = response.body.length
 
         if stripped_url_response_length == wcd_url_response_length
-          puts "\n#{@dark_red}Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+          puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+          return "Alert! Potential Candidate: #{web_cache_deception_url}"
         else
           print "#{@yellow}.#{@end_of_color}"
+          return "Response Length Mismatch: HTTP #{response.code} | Strip Len: #{stripped_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
         end
 
       else
         print "#{@yellow}.#{@end_of_color}"
+        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{stripped_url_response_length} | WCD: #{stripped_target_url.to_s}"
       end
     else
       print "#{@yellow}.#{@end_of_color}"
+      return "HTTP #{response.code}: #{web_cache_deception_url}"
     end
   rescue RestClient::InternalServerError => ise
     puts "\n#{@dark_red}#{ise}: #{web_cache_deception_url}#{@end_of_color}\n"
+    return "Alert! #{ise}: #{web_cache_deception_url}"
   rescue RestClient::ExceptionWithResponse => ewr
-    # puts "#{@yellow}#{er}: #{web_cache_deception_url}#{@end_of_color}"
     print "#{@yellow}.#{@end_of_color}"
+    return "#{ewr}: #{web_cache_deception_url}"
   rescue => e
     raise e
   end
@@ -145,12 +153,16 @@ begin
   end
 
   if spider
-    puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
-    File.open(spider_results, 'w') do |f|
-      Anemone.crawl(target_url) do |anemone|
-        anemone.on_every_page do |page|
-          puts "#{@yellow}Discovered: #{page.url}#{@end_of_color}"
-          f.puts(page.url)
+    if File.exist?(spider_results)
+      puts "#{@dark_red}Using Existing Spider Results: #{spider_results}#{@end_of_color}"
+    else
+      puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
+      File.open(spider_results, 'w') do |f|
+        Anemone.crawl(target_url) do |anemone|
+          anemone.on_every_page do |page|
+            puts "#{@yellow}Discovered: #{page.url}#{@end_of_color}"
+            f.puts(page.url)
+          end
         end
       end
     end
@@ -159,13 +171,18 @@ begin
   web_cache_deception_payload_arr = %w(
     aif aiff au avi bin bmp cab carb cct cdf class css doc dcr dtd gcf gff gif grv hdml hqx ico ini jpeg jpg js mov mp3 mp4 nc pct ppc pws swa swf txt vbs w32 wav wbmp wml wmlc wmls wmlsc xsd zip
   )
-  web_cache_deception_payload_arr.each do |payload|
-    if spider
-      File.readlines(spider_results).uniq.each do |this_page|
-        get_web_cache_deception(browser_obj: browser_obj, target_url: this_page, payload: payload)
+  
+  File.open(output_results, 'w') do |f|
+    web_cache_deception_payload_arr.each do |payload|
+      if spider
+        File.readlines(spider_results).uniq.each do |this_page|
+          http_result = get_web_cache_deception(browser_obj: browser_obj, target_url: this_page, payload: payload)
+          f.puts http_result
+        end
+      else
+        http_result = get_web_cache_deception(browser_obj: browser_obj, target_url: target_url, payload: payload)
+        f.puts http_result
       end
-    else
-      get_web_cache_deception(browser_obj: browser_obj, target_url: target_url, payload: payload)
     end
   end
 rescue => e
