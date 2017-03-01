@@ -17,20 +17,32 @@ OptionParser.new do |options|
     opts[:output_dir] = d
   end
 
-  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
-    opts[:proxy] = p
-  end
-
-  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
-    opts[:with_tor] = w
-  end
-
   options.on('-l', '---list-csi-www-mods', '<Optional - Provide a List of CSI::WWW Modules to Support Post-AuthN w/ -m Flag') do |l|
     opts[:list_csi_mods] = l
   end
 
   options.on('-mMOD', '--csi-www-mod=MOD', '<Optional - CSI::WWW Module to Support Post-AuthN (-l to list Modules)') do |m|
     opts[:csi_www_mod_str] = m
+  end
+
+  options.on('-uUSER', '--username=USER', '<Optional - CSI::WWW Module username') do |u|
+    opts[:username] = u
+  end
+
+  options.on('-pPASS', '--password=PASS', '<Optional - CSI::WWW Module password (Will Prompt if nil)') do |u|
+    opts[:username] = u
+  end
+
+  options.on('-f', '--[no-]mfa', '<Optional - Enable MFA CSI::WWW Module') do |f|
+    opts[:mfa] = f
+  end
+
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
+    opts[:with_tor] = w
   end
 end.parse!
 
@@ -52,6 +64,11 @@ if opts[:list_csi_mods]
   exit
 end
 
+# Required Flag Variables
+target_url = opts[:target_url].to_s.scrub.strip.chomp
+output_results = opts[:output_results].to_s.scrub.strip.chomp
+
+# Optional Flag Variables
 csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
 begin
   csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
@@ -65,10 +82,13 @@ rescue => NAME_ERROR
   puts `#{$PROGRAM_NAME} -l`
   exit
 end
-
-# Required Flag Variables
-target_url = opts[:target_url].to_s.scrub.strip.chomp
-output_results = opts[:output_results].to_s.scrub.strip.chomp
+username = opts[:username].to_s.scrub.strip.chomp
+password = opts[:password] # Don't cast to string to detect if prompt is necessary
+if opts[:mfa]
+  mfa = true
+else
+  mfa = false
+end
 
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
@@ -120,6 +140,7 @@ begin
     raise e
   end
 
+  # Script starts crunching here...
   if csi_www_mod
     print "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
     if proxy
@@ -138,6 +159,13 @@ begin
     else
       browser_obj = csi_www_mod.open(browser_type: :chrome)
     end
+    # Now AuthN
+    browser_obj = browser_obj.login(
+      browser_obj: browser_obj, 
+      username: username, 
+      password: password,
+      mfa: mfa
+    )
     puts "#{@green}complete.#{@end_of_color}\n\n\n"
   elsif !csi_www_mod && proxy
     if with_tor
@@ -156,7 +184,7 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
   end
 
-  puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
+  puts "#{@green}Navigating to Target URL: #{target_url}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)
 
   web_cache_deception_payload_arr = %w(
@@ -172,5 +200,12 @@ begin
 rescue => e
   raise e
 ensure
-  browser_obj = csi_www_mod.close(browser_obj: browser_obj) unless browser_obj.nil?
+  if csi_www_mod
+    unless browser_obj.nil?
+      browser_obj = csi_www_mod.logout(browser_obj: browser_obj)
+      browser_obj = csi_www_mod.close(browser_obj: browser_obj)
+    end
+  else
+    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+  end
 end
