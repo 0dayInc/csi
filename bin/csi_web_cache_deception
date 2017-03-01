@@ -139,23 +139,21 @@ begin
       browser_obj = csi_www_mod.open(browser_type: :chrome)
     end
     puts "#{@green}complete.#{@end_of_color}\n\n\n"
-  else
-    if proxy
-      if with_tor
-        browser_obj = CSI::Plugins::TransparentBrowser.open(
-          browser_type: :chrome,
-          proxy: proxy,
-          with_tor: true
-        )
-      else
-        browser_obj = CSI::Plugins::TransparentBrowser.open(
-          browser_type: :chrome,
-          proxy: proxy
-        )
-      end
+  elsif !csi_www_mod && proxy
+    if with_tor
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :chrome,
+        proxy: proxy,
+        with_tor: true
+      )
     else
-      browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
+      browser_obj = CSI::Plugins::TransparentBrowser.open(
+        browser_type: :chrome,
+        proxy: proxy
+      )
     end
+  else
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
   end
 
   puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
