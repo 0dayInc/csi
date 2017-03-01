@@ -108,7 +108,7 @@ module CSI
 
       public
 
-      def self.logout
+      def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.li(class: 'user-dropdown').click
         browser_obj.link(index: 10).click

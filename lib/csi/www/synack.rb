@@ -106,7 +106,7 @@ module CSI
 
       public
 
-      def self.logout
+      def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.img(class: 'navbar-avatar-img').click
         browser_obj.button(text: 'Logout').click
@@ -123,7 +123,7 @@ module CSI
 
       public
 
-      def self.close
+      def self.close(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
