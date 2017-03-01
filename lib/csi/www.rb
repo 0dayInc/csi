@@ -11,7 +11,6 @@ module CSI
     autoload :Hackerone, 'csi/www/hackerone'
     autoload :Pastebin, 'csi/www/pastebin'
     autoload :Synack, 'csi/www/synack'
-    autoload :Spider, 'csi/www/spider'
     autoload :Torch, 'csi/www/torch'
     autoload :Youtube, 'csi/www/youtube'
 

@@ -2,11 +2,11 @@
 require 'anemone'
 
 module CSI
-  module WWW
+  module Plugins
     # This plugin supports Pastebin actions.
     module Spider
       # Supported Method Parameters::
-      # CSI::WWW::Spider.crawl(
+      # CSI::Plugins::Spider.crawl(
       #   target_fqdn: 'required - target fqdn to spider',
       #   results_path: 'required - path to save spider results',
       #   proxy: 'optional - proxy to spider through e.g. http://127.0.0.1:8080'

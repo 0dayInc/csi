@@ -37,6 +37,7 @@ module CSI
     autoload :Serial, 'csi/plugins/serial'
     autoload :Shodan, 'csi/plugins/shodan'
     autoload :SlackClient, 'csi/plugins/slack_client'
+    autoload :Spider, 'csi/plugins/spider'
     autoload :ThreadPool, 'csi/plugins/thread_pool'
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
     autoload :UTF8, 'csi/plugins/utf8'

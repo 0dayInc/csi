@@ -55,6 +55,11 @@ end
 csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
 begin
   csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
+  unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login')
+    puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
+    puts `#{$PROGRAM_NAME} -l`
+    exit
+  end
 rescue => NAME_ERROR
   puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
   puts `#{$PROGRAM_NAME} -l`
@@ -88,6 +93,7 @@ begin
       injected_url_response_length = browser_obj.html.length
 
       if injected_url_response_length == orig_url_response_length
+        # TODO: Add incognito Chrome browser
         puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
         return "Alert! Potential Candidate: #{web_cache_deception_url}"
       else
@@ -100,6 +106,7 @@ begin
       wcd_url_response_length = browser_obj.html.length
 
       if orig_url_response_length == wcd_url_response_length
+        # TODO: Add incognito Chrome browser
         puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
         return "Alert! Potential Candidate: #{web_cache_deception_url}"
       else
@@ -113,24 +120,43 @@ begin
     raise e
   end
 
-  print "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
-  if proxy
-    if with_tor
-      browser_obj = cs_www_mod.open(
-        browser_type: :chrome,
-        proxy: proxy,
-        with_tor: true
-      )
+  if csi_www_mod
+    print "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
+    if proxy
+      if with_tor
+        browser_obj = csi_www_mod.open(
+          browser_type: :chrome,
+          proxy: proxy,
+          with_tor: true
+        )
+      else
+        browser_obj = csi_www_mod.open(
+          browser_type: :chrome,
+          proxy: proxy
+        )
+      end
     else
-      browser_obj = csi_www_mod.open(
-        browser_type: :chrome,
-        proxy: proxy
-      )
+      browser_obj = csi_www_mod.open(browser_type: :chrome)
     end
+    puts "#{@green}complete.#{@end_of_color}\n\n\n"
   else
-    browser_obj = csi_www_mod.open(browser_type: :chrome)
+    if proxy
+      if with_tor
+        browser_obj = CSI::Plugins::TransparentBrowser.open(
+          browser_type: :chrome,
+          proxy: proxy,
+          with_tor: true
+        )
+      else
+        browser_obj = CSI::Plugins::TransparentBrowser.open(
+          browser_type: :chrome,
+          proxy: proxy
+        )
+      end
+    else
+      browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
+    end
   end
-  puts "#{@green}complete.#{@end_of_color}\n\n\n"
 
   puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)

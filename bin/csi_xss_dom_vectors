@@ -132,7 +132,7 @@ begin
       puts "#{@dark_red}Using Existing Spider Results: #{spider_results}#{@end_of_color}"
     else
       puts "#{@dark_red}Spidering Target FQDN: #{target_fqdn}#{@end_of_color}"
-      CSI::WWW::Spider.crawl(
+      CSI::Plugins::Spider.crawl(
         target_fqdn: target_fqdn,
         results_path: spider_results
       )
