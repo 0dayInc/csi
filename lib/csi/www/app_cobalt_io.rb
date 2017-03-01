@@ -79,16 +79,19 @@ module CSI
 
         browser_obj.goto('https://app.cobalt.io/users/sign_in')
 
-        browser_obj.text_field(id: 'user_email').wait_until_present.set(email)
-        browser_obj.text_field(id: 'user_password').wait_until_present.set(password)
-        browser_obj.button(name: 'commit').wait_until_present.click # no name or id in button element
+        # browser_obj.text_field(id: 'user_email').wait_until_present.set(email)
+        browser_obj.text_field(id: 'user_email').set(email)
+        # browser_obj.text_field(id: 'user_password').wait_until_present.set(password)
+        browser_obj.text_field(id: 'user_password').set(password)
+        # browser_obj.button(name: 'commit').wait_until_present.click # no name or id in button element
+        browser_obj.button(name: 'commit').click # no name or id in button element
 
         if mfa
           until browser_obj.url == 'https://app.cobalt.io/dashboard'
             print 'enter mfa token: '
-            authy_token = gets.to_i
-            browser_obj.text_field(id: 'code').wait_until_present.set(authy_token)
-            browser_obj.button(name: 'commit').wait_until_present.click # no name or id in button element
+            mfa_token = gets.to_i
+            browser_obj.text_field(id: 'code').set(mfa_token)
+            browser_obj.button(name: 'commit').click # no name or id in button element
           end
           print "\n"
         end
