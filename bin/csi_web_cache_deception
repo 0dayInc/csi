@@ -93,41 +93,25 @@ begin
         return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     elsif response.code == 200 && target_url.include?('?')
-      stripped_target_url = URI.parse(target_url)
-      # Remove query paramters from url
-      stripped_target_url.fragment = stripped_target_url.query = nil
+      injected_target_url = URI.parse(target_url)
+      # Add non-existent file at the end of the path
+      injected_target_url.path = "#{injected_target_url.path.to_s.chomp('/')}/wcd.#{payload}"
 
       response = browser_obj.execute(
         method: :get,
-        url: stripped_target_url.to_s,
+        url: injected_target_url.to_s,
         user_agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
         max_redirects: 0,
         verify_ssl: false
       )
-      stripped_url_response_length = response.body.length
+      injected_url_response_length = response.body.length
 
-      if stripped_url_response_length == orig_url_response_length
-        web_cache_deception_url = "#{stripped_target_url.to_s.chomp('/')}/wcd.#{payload}"
-        response = browser_obj.execute(
-          method: :get,
-          url: web_cache_deception_url,
-          user_agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-          max_redirects: 0,
-          verify_ssl: false
-        )
-        wcd_url_response_length = response.body.length
-
-        if stripped_url_response_length == wcd_url_response_length
-          puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
-          return "Alert! Potential Candidate: #{web_cache_deception_url}"
-        else
-          print "#{@yellow}.#{@end_of_color}"
-          return "Response Length Mismatch: HTTP #{response.code} | Strip Len: #{stripped_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
-        end
-
+      if injected_url_response_length == orig_url_response_length
+        puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        return "Alert! Potential Candidate: #{web_cache_deception_url}"
       else
         print "#{@yellow}.#{@end_of_color}"
-        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{stripped_url_response_length} | WCD: #{web_cache_deception_url}"
+        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | Inj Len: #{injected_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     else
       print "#{@yellow}.#{@end_of_color}"
