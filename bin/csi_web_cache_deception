@@ -42,7 +42,11 @@ end
 # Required Flag Variables
 target_url = opts[:target_url].to_s.scrub.strip.chomp
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp
-raise "#{opts[:output_dir]} Doesn't Exist." unless Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+
+unless Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+  puts `#{$PROGRAM_NAME} --help`
+  raise "Output Dir #{opts[:output_dir]} Doesn't Exist."
+end
 
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
@@ -54,7 +58,10 @@ else
 end
 
 auth_instruction_file = opts[:authn_instruction_file].to_s.scrub.chomp.strip
-raise "#{opts[:authn_instruction_file]} Doesn't Exist." unless File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
+unless File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
+  puts `#{$PROGRAM_NAME} --help`
+  raise "Authentication Instruction File #{opts[:authn_instruction_file]} Doesn't Exist."
+end
 
 spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 output_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.results"
