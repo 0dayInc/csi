@@ -32,7 +32,8 @@ module CSI
         File.open(results_path, 'w') do |f|
           if proxy
             proxy_uri = URI.parse(proxy)
-            Anemone.crawl(target_fqdn, { proxy_host: proxy_uri.host, proxy_port: proxy_uri.port } ) do |anemone|
+            proxy_hash = { proxy_host: proxy_uri.host, proxy_port: proxy_uri.port }
+            Anemone.crawl(target_fqdn, proxy_hash) do |anemone|
               anemone.on_every_page do |page|
                 puts "#{yellow}Discovered: #{page.url}#{end_of_color}"
                 f.puts(page.url)
