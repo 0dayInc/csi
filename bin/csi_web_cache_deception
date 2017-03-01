@@ -96,6 +96,7 @@ begin
       injected_target_url = URI.parse(target_url)
       # Add non-existent file at the end of the path
       injected_target_url.path = "#{injected_target_url.path.to_s.chomp('/')}/wcd.#{payload}"
+      web_cache_deception_url = injected_target_url.to_s
 
       response = browser_obj.execute(
         method: :get,
@@ -163,7 +164,7 @@ begin
   web_cache_deception_payload_arr = %w(
     aif aiff au avi bin bmp cab carb cct cdf class css doc dcr dtd gcf gff gif grv hdml hqx ico ini jpeg jpg js mov mp3 mp4 nc pct ppc pws swa swf txt vbs w32 wav wbmp wml wmlc wmls wmlsc xsd zip
   )
-  
+
   File.open(output_results, 'w') do |f|
     web_cache_deception_payload_arr.each do |payload|
       if spider
