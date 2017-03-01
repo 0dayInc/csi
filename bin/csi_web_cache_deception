@@ -29,7 +29,7 @@ OptionParser.new do |options|
     opts[:spider] = s
   end
 
-  options.on('-aFILE', '--auth-instruction-file', '<Optional - AuthN Instruction File (Not Compat w/ -S flag)') do |a|
+  options.on('-aFILE', '--auth-instruction-file=FILE', '<Optional - AuthN Instruction File (Not Compat w/ -S flag)') do |a|
     opts[:authn_instruction_file] = a
   end
 end.parse!
