@@ -68,7 +68,9 @@ module CSI
       def self.login(opts = {})
         browser_obj = opts[:browser_obj]
         username = opts[:username].to_s.scrub.strip.chomp
-        password = if opts[:password].nil?
+        password = opts[:password]
+
+        if password.nil?
           CSI::Plugins::AuthenticationHelper.mask_password
         else
           opts[:password].to_s
