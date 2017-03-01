@@ -65,65 +65,38 @@ begin
     payload = opts[:payload].to_s.scrub.chomp.strip
 
     # Browse to original page to compare response lengths
-    response = browser_obj.execute(
-      method: :get,
-      url: target_url,
-      user_agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-      max_redirects: 0,
-      verify_ssl: false
-    )
-    orig_url_response_length = response.body.length
+    browser_obj.goto(target_url)
+    orig_url_response_length = browser_obj.html.length
 
     web_cache_deception_url = "#{target_url.chomp('/')}/wcd.#{payload}"
-    response = browser_obj.execute(
-      method: :get,
-      url: web_cache_deception_url,
-      user_agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-      max_redirects: 0,
-      verify_ssl: false
-    )
-    wcd_url_response_length = response.body.length
+    browser_obj.goto(web_cache_deception_url)
+    wcd_url_response_length = browser_obj.html.length
 
-    if response.code == 200 && !target_url.include?('?')
-      if orig_url_response_length == wcd_url_response_length
-        puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
-        return "Alert! Potential Candidate: #{web_cache_deception_url}"
-      else
-        print "#{@yellow}.#{@end_of_color}"
-        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
-      end
-    elsif response.code == 200 && target_url.include?('?')
+    if target_url.include?('?')
       injected_target_url = URI.parse(target_url)
       # Add non-existent file at the end of the path
       injected_target_url.path = "#{injected_target_url.path.to_s.chomp('/')}/wcd.#{payload}"
       web_cache_deception_url = injected_target_url.to_s
 
-      response = browser_obj.execute(
-        method: :get,
-        url: injected_target_url.to_s,
-        user_agent: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-        max_redirects: 0,
-        verify_ssl: false
-      )
-      injected_url_response_length = response.body.length
+      browser_obj.goto(injected_target_url.to_s)
+      injected_url_response_length = browser_obj.html.length
 
       if injected_url_response_length == orig_url_response_length
         puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
         return "Alert! Potential Candidate: #{web_cache_deception_url}"
       else
         print "#{@yellow}.#{@end_of_color}"
-        return "Response Length Mismatch: HTTP #{response.code} | Orig Len: #{orig_url_response_length} | Inj Len: #{injected_url_response_length} | WCD: #{web_cache_deception_url}"
+        return "Response Length Mismatch: Orig Len: #{orig_url_response_length} | Inj Len: #{injected_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     else
-      print "#{@yellow}.#{@end_of_color}"
-      return "HTTP #{response.code}: #{web_cache_deception_url}"
+      if orig_url_response_length == wcd_url_response_length
+        puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
+        return "Alert! Potential Candidate: #{web_cache_deception_url}"
+      else
+        print "#{@yellow}.#{@end_of_color}"
+        return "Response Length Mismatch: Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
+      end
     end
-  rescue RestClient::InternalServerError => ise
-    puts "\n#{@dark_red}#{ise}: #{web_cache_deception_url}#{@end_of_color}\n"
-    return "Alert! #{ise}: #{web_cache_deception_url}"
-  rescue RestClient::ExceptionWithResponse => ewr
-    print "#{@yellow}.#{@end_of_color}"
-    return "#{ewr}: #{web_cache_deception_url}"
   rescue => e
     raise e
   end
@@ -131,18 +104,18 @@ begin
   if proxy
     if with_tor
       browser_obj = CSI::Plugins::TransparentBrowser.open(
-        browser_type: :rest,
+        browser_type: :chrome,
         proxy: proxy,
         with_tor: true
-      )::Request
+      )
     else
       browser_obj = CSI::Plugins::TransparentBrowser.open(
-        browser_type: :rest,
+        browser_type: :chrome,
         proxy: proxy
-      )::Request
+      )
     end
   else
-    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
   end
 
   if spider
