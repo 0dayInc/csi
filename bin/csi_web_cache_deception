@@ -97,6 +97,8 @@ begin
         return "Response Length Mismatch: Orig Len: #{orig_url_response_length} | WCD Len: #{wcd_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     end
+  rescue Net::ReadTimeout => nrt
+    return "#{nrt} Orig: #{target_url} | WCD: #{web_cache_deception_url}"
   rescue => e
     raise e
   end
