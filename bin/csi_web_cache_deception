@@ -168,7 +168,7 @@ begin
       browser_obj = csi_www_mod.open(browser_type: :chrome)
     end
     # Now AuthN via CSI::WWW::<MODULE>
-    browser_obj = browser_obj.login(
+    browser_obj = csi_www_mod.login(
       browser_obj: browser_obj,
       username: username,
       password: password,
