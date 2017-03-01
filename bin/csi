@@ -40,5 +40,7 @@ begin
 rescue => e
   raise e
 ensure
-  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
+  if !browser_obj.nil? && browser_obj.class == Watir::Browser
+    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+  end
 end

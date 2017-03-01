@@ -72,8 +72,8 @@ output_results = opts[:output_results].to_s.scrub.strip.chomp
 csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
 begin
   csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
-  unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login')
-    puts "#{@dark_red}Module CSI::WWW::#{csi_www_mod_str} Missing #open and/or #login Method(s)#{@end_of_color}"
+  unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login') && csi_www_mod.respond_to?('logout')
+    puts "#{@dark_red}Module CSI::WWW::#{csi_www_mod_str} Missing #open #login and/or #logout Method(s)#{@end_of_color}"
     puts `#{$PROGRAM_NAME} -l`
     exit
   end
@@ -82,8 +82,16 @@ rescue => NAME_ERROR
   puts `#{$PROGRAM_NAME} -l`
   exit
 end
+
 username = opts[:username].to_s.scrub.strip.chomp
-password = opts[:password] # Don't cast to string to detect if prompt is necessary
+
+password = opts[:password] # Don't cast to string to detect if CSI::Plugins::AuthenticationHelper is necessary
+if password.nil?
+  password = CSI::Plugins::AuthenticationHelper.mask_password
+else
+  password = opts[:password].to_s.scrub.strip.chomp
+end
+
 if opts[:mfa]
   mfa = true
 else
@@ -142,7 +150,7 @@ begin
 
   # Script starts crunching here...
   if csi_www_mod
-    print "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
+    puts "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
     if proxy
       if with_tor
         browser_obj = csi_www_mod.open(
@@ -159,10 +167,10 @@ begin
     else
       browser_obj = csi_www_mod.open(browser_type: :chrome)
     end
-    # Now AuthN
+    # Now AuthN via CSI::WWW::<MODULE>
     browser_obj = browser_obj.login(
-      browser_obj: browser_obj, 
-      username: username, 
+      browser_obj: browser_obj,
+      username: username,
       password: password,
       mfa: mfa
     )
@@ -200,12 +208,12 @@ begin
 rescue => e
   raise e
 ensure
-  if csi_www_mod
-    unless browser_obj.nil?
+  if browser_obj.class == Watir::Browser
+    if csi_www_mod
       browser_obj = csi_www_mod.logout(browser_obj: browser_obj)
       browser_obj = csi_www_mod.close(browser_obj: browser_obj)
+    else
+      browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
     end
-  else
-    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
   end
 end
