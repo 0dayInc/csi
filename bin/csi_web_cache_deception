@@ -13,7 +13,7 @@ OptionParser.new do |options|
     opts[:target_url] = t
   end
 
-  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |d|
+  options.on('-rRESULTS', '--output-results=RESULTS', '<Required - Path of Results File>') do |d|
     opts[:output_dir] = d
   end
 
@@ -25,8 +25,12 @@ OptionParser.new do |options|
     opts[:with_tor] = w
   end
 
-  options.on('-aFILE', '--auth-instruction-file=FILE', '<Optional - AuthN Instruction File (Not Compat w/ -S flag)') do |a|
-    opts[:authn_instruction_file] = a
+  options.on('-l', '---list-csi-www-mods', '<Optional - Provide a List of CSI::WWW Modules to Support Post-AuthN w/ -m Flag') do |l|
+    opts[:list_csi_mods] = l
+  end
+
+  options.on('-mMOD', '--csi-www-mod=MOD', '<Optional - CSI::WWW Module to Support Post-AuthN (-l to list Modules)') do |m|
+    opts[:csi_www_mod_str] = m
   end
 end.parse!
 
@@ -35,31 +39,34 @@ if opts.empty?
   exit 1
 end
 
-# Required Flag Variables
-target_url = opts[:target_url].to_s.scrub.strip.chomp
-output_dir = opts[:output_dir].to_s.scrub.strip.chomp
-
-unless Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
-  puts `#{$PROGRAM_NAME} --help`
-  raise "Output Dir #{opts[:output_dir]} Doesn't Exist."
-end
-
-proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
-with_tor = opts[:with_tor]
-
-auth_instruction_file = opts[:authn_instruction_file].to_s.scrub.chomp.strip
-if !File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
-  puts `#{$PROGRAM_NAME} --help`
-  raise "Authentication Instruction File #{opts[:authn_instruction_file]} Doesn't Exist."
-end
-
-output_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.results"
-
 # Colors!
 @dark_red = "\e[1m\e[31m"
 @green = "\e[32m"
 @yellow = "\e[33m"
 @end_of_color = "\e[0m"
+
+# if -l Flag is passed, list all CSI::WWW Modules and exit
+if opts[:list_csi_mods]
+  puts "#{@green}Available CSI::WWW modules to obtain a Post AuthN state:#{@end_of_color}:"
+  puts "#{@yellow}#{CSI::WWW.help.join(',').tr(',', "\n")}#{@end_of_color}"
+  exit
+end
+
+csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
+begin
+  csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
+rescue => NAME_ERROR
+  puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
+  puts `#{$PROGRAM_NAME} -l`
+  exit
+end
+
+# Required Flag Variables
+target_url = opts[:target_url].to_s.scrub.strip.chomp
+output_results = opts[:output_results].to_s.scrub.strip.chomp
+
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+with_tor = opts[:with_tor]
 
 begin
   def get_web_cache_deception(opts = {})
@@ -106,27 +113,25 @@ begin
     raise e
   end
 
+  print "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
   if proxy
     if with_tor
-      browser_obj = CSI::Plugins::TransparentBrowser.open(
+      browser_obj = cs_www_mod.open(
         browser_type: :chrome,
         proxy: proxy,
         with_tor: true
       )
     else
-      browser_obj = CSI::Plugins::TransparentBrowser.open(
+      browser_obj = csi_www_mod.open(
         browser_type: :chrome,
         proxy: proxy
       )
     end
   else
-    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
+    browser_obj = csi_www_mod.open(browser_type: :chrome)
   end
+  puts "#{@green}complete.#{@end_of_color}\n\n\n"
 
-  puts "#{@green}Leveraging Navigation Instructions to AuhN: #{target_url}#{@end_of_color}\n\n\n"
-  File.read(auth_instruction_file).each_line do |instruction|
-    browser_obj.instance_eval(instruction.to_s.scrub.strip.chomp)
-  end
   puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)
 
@@ -143,5 +148,5 @@ begin
 rescue => e
   raise e
 ensure
-  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
+  browser_obj = csi_www_mod.close(browser_obj: browser_obj) unless browser_obj.nil?
 end

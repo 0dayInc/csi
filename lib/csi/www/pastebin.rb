@@ -4,96 +4,82 @@ module CSI
     # This plugin supports Pastebin actions.
     module Pastebin
       # Supported Method Parameters::
-      # CSI::WWW::Pastebin.open(
-      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
-      #   proxy: 'optional http(s)://proxy_host:port',
-      #   with_tor: 'optional boolean (defaults to false)'
+      # browser_obj = CSI::WWW::Pastebin.open(
+      #   browser_type: :firefox|:chrome|:ie|:headless,
+      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   with_tor: 'optional - boolean (defaults to false)'
       # )
-
-      @@logger = CSI::Plugins::CSILogger.create
 
       public
 
       def self.open(opts = {})
-        if $browser
-          @@logger.info('leveraging existing $browser object...')
-          @@logger.info("run #{self}.close to end session.")
-        else
-          browser_type = if opts[:browser_type].nil?
-                           :firefox
-                         else
-                           opts[:browser_type]
-                         end
+        browser_type = if opts[:browser_type].nil?
+                         :firefox
+                       else
+                         opts[:browser_type]
+                       end
 
-          proxy = opts[:proxy].to_s unless opts[:proxy].nil?
+        proxy = opts[:proxy].to_s unless opts[:proxy].nil?
 
-          with_tor = if opts[:with_tor]
-                       true
-                     else
-                       false
-                     end
+        with_tor = if opts[:with_tor]
+                     true
+                   else
+                     false
+                   end
 
-          @@logger.info('instantiating new $browser object...')
-          @@logger.info('run $browser.close to end session.')
-          if proxy
-            if with_tor
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy,
-                with_tor: with_tor
-              )
-            else
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy
-              )
-            end
+        if proxy
+          if with_tor
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy,
+              with_tor: with_tor
+            )
           else
-            $browser = CSI::Plugins::TransparentBrowser.open(
-              browser_type: browser_type
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy
             )
           end
-        end
-
-        if $browser
-          $browser.goto('https://pastebin.com')
-          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
-        end
-      rescue => e
-        raise e.message
-      end
-
-      # Supported Method Parameters::
-      # CSI::WWW::Pastebin.onion
-
-      public
-
-      def self.onion
-        puts "Be sure the $browser object has the following parameters set:
-
-          #{self}.open(
-            browser_type: :chrome,
-            proxy: 'socks5://127.0.0.1:9050',
-            with_tor: true
+        else
+          browser_obj = CSI::Plugins::TransparentBrowser.open(
+            browser_type: browser_type
           )
-        "
-        if $browser
-          $browser.goto('http://lw4ipk5choakk5ze.onion')
-          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
         end
+        browser_obj.goto('https://pastebin.com')
+
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Pastebin.close
+      # browser_obj = CSI::WWW::Pastebin.onion(
+      #   browser_obj: 'required - browser_obj returned from #open method'
+      # )
 
       public
 
-      def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      def self.onion(opts = {})
+        browser_obj = opts[:browser_obj]
+        browser_obj.goto('http://lw4ipk5choakk5ze.onion')
+
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # browser_obj = CSI::WWW::Pastebin.close(
+      #   browser_obj: 'required - browser_obj returned from #open method'
+      # )
+
+      public
+
+      def self.close(opts = {})
+        browser_obj = opts[:browser_obj]
+        browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+      rescue => e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -114,16 +100,20 @@ module CSI
 
       def self.help
         puts %{USAGE:
-          #{self}.open(
-            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            proxy: 'optional http(s)://proxy_host:port',
-            with_tor: 'optional boolean (defaults to false)'
+          browser_obj = #{self}.open(
+            browser_type: 'optional :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
+            proxy: 'optional - http(s)://proxy_host:port',
+            with_tor: 'optional - boolean (defaults to false)'
           )
-          puts "$browser.public_methods"
+          puts "browser_obj.public_methods"
 
-          #{self}.onion
+          browser_obj = #{self}.onion(
+            browser_obj: 'required - browser_obj returned from #open method'
+          )
 
-          #{self}.close
+          browser_obj = #{self}.close(
+            browser_obj: 'required - browser_obj returned from #open method'
+          )
 
           #{self}.authors
         }

@@ -75,15 +75,6 @@ Style/GlobalVars:
     - 'bin/csi'
     - 'bin/csi_scapm'
     - 'lib/csi/plugins/android.rb'
-    - 'lib/csi/www/bing.rb'
-    - 'lib/csi/www/checkip.rb'
-    - 'lib/csi/www/duckduckgo.rb'
-    - 'lib/csi/www/google.rb'
-    - 'lib/csi/www/hackerone.rb'
-    - 'lib/csi/www/pastebin.rb'
-    - 'lib/csi/www/synack.rb'
-    - 'lib/csi/www/torch.rb'
-    - 'lib/csi/www/youtube.rb'
 
 # Offense count: 18
 # Configuration parameters: MinBodyLength.

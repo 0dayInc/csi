@@ -18,6 +18,9 @@ module CSI
 
       def self.crawl(opts = {})
         # TODO: Add AuthN Support
+        # FYI: Anemone very well may have a memory leak.
+        # Despite saving results to file, Anemone causes
+        # memory exhaustion on large sites
         target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
         results_path = opts[:results_path].to_s.scrub.strip.chomp
 

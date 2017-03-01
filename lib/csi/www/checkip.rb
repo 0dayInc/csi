@@ -6,80 +6,66 @@ module CSI
     # This plugin supports Checkip actions.
     module Checkip
       # Supported Method Parameters::
-      # CSI::WWW::Checkip.open(
-      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
-      #   proxy: 'optional http(s)://proxy_host:port',
-      #   with_tor: 'optional boolean (defaults to false)'
+      # browser_obj = CSI::WWW::Checkip.open(
+      #   browser_type: :firefox|:chrome|:ie|:headless,
+      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   with_tor: 'optional - boolean (defaults to false)'
       # )
-
-      @@logger = CSI::Plugins::CSILogger.create
 
       public
 
       def self.open(opts = {})
-        if $browser
-          @@logger.info('leveraging existing $browser object...')
-          @@logger.info("run #{self}.close to end session.")
-        else
-          browser_type = if opts[:browser_type].nil?
-                           :firefox
-                         else
-                           opts[:browser_type]
-                         end
+        browser_type = if opts[:browser_type].nil?
+                         :firefox
+                       else
+                         opts[:browser_type]
+                       end
 
-          proxy = opts[:proxy].to_s unless opts[:proxy].nil?
+        proxy = opts[:proxy].to_s unless opts[:proxy].nil?
 
-          with_tor = if opts[:with_tor]
-                       true
-                     else
-                       false
-                     end
+        with_tor = if opts[:with_tor]
+                     true
+                   else
+                     false
+                   end
 
-          @@logger.info('instantiating new $browser object...')
-          @@logger.info('run $browser.close to end session.')
-          if proxy
-            if with_tor
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy,
-                with_tor: with_tor
-              )
-            else
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy
-              )
-            end
+        if proxy
+          if with_tor
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy,
+              with_tor: with_tor
+            )
           else
-            $browser = CSI::Plugins::TransparentBrowser.open(
-              browser_type: browser_type
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy
             )
           end
+        else
+          browser_obj = CSI::Plugins::TransparentBrowser.open(
+            browser_type: browser_type
+          )
         end
+        browser_obj.goto('http://checkip.amazonaws.com')
 
-        if $browser
-          $browser.goto('http://checkip.amazonaws.com')
-
-          pub_ip = []
-          $browser.pres.each do |pre|
-            pub_ip.push(pre.text) if IPAddress.valid?(pre.text)
-          end
-
-          return pub_ip
-        end
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Checkip.close
+      # browser_obj = CSI::WWW::Checkip.close(
+      #   browser_obj: 'required - browser_obj returned from #open method',
+      # )
 
       public
 
-      def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      def self.close(opts = {})
+        browser_obj = opts[:browser_obj]
+        browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -100,14 +86,16 @@ module CSI
 
       def self.help
         puts %{USAGE:
-          #{self}.open(
-            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            proxy: 'optional http(s)://proxy_host:port',
-            with_tor: 'optional boolean (defaults to false)'
+          browser_obj = #{self}.open(
+            browser_type: 'optional :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
+            proxy: 'optional - http(s)://proxy_host:port',
+            with_tor: 'optional - boolean (defaults to false)'
           )
-          puts "$browser.public_methods"
+          puts "browser_obj.public_methods"
 
-          #{self}.close
+          browser_obj = #{self}.close(
+            browser_obj: 'required - browser_obj returned from #open method',
+          )
 
           #{self}.authors
         }

@@ -37,10 +37,6 @@ begin
     end
   ]
   cli.start(self, prompt: prompt)
-ensure
-  if $browser
-    $browser = CSI::Plugins::TransparentBrowser.close(
-      browser_obj: $browser
-    )
-  end
+rescue => e
+  raise e
 end

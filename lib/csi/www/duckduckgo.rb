@@ -4,117 +4,106 @@ module CSI
     # This plugin supports Duckduckgo actions.
     module Duckduckgo
       # Supported Method Parameters::
-      # CSI::WWW::Duckduckgo.open(
-      #   browser_type: :firefox|:chrome|:ie|:headless|:rest,
-      #   proxy: 'optional http(s)://proxy_host:port',
-      #   with_tor: 'optional boolean (defaults to false)'
+      # browser_obj = CSI::WWW::Duckduckgo.open(
+      #   browser_type: :firefox|:chrome|:ie|:headless,
+      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   with_tor: 'optional - boolean (defaults to false)'
       # )
-
-      @@logger = CSI::Plugins::CSILogger.create
 
       public
 
       def self.open(opts = {})
-        if $browser
-          @@logger.info('leveraging existing $browser object...')
-          @@logger.info("run #{self}.close to end session.")
-        else
-          browser_type = if opts[:browser_type].nil?
-                           :firefox
-                         else
-                           opts[:browser_type]
-                         end
+        browser_type = if opts[:browser_type].nil?
+                         :firefox
+                       else
+                         opts[:browser_type]
+                       end
 
-          proxy = opts[:proxy].to_s unless opts[:proxy].nil?
+        proxy = opts[:proxy].to_s unless opts[:proxy].nil?
 
-          with_tor = if opts[:with_tor]
-                       true
-                     else
-                       false
-                     end
+        with_tor = if opts[:with_tor]
+                     true
+                   else
+                     false
+                   end
 
-          @@logger.info('instantiating new $browser object...')
-          @@logger.info('run $browser.close to end session.')
-          if proxy
-            if with_tor
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy,
-                with_tor: true
-              )
-            else
-              $browser = CSI::Plugins::TransparentBrowser.open(
-                browser_type: browser_type,
-                proxy: proxy
-              )
-            end
+        if proxy
+          if with_tor
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy,
+              with_tor: true
+            )
           else
-            $browser = CSI::Plugins::TransparentBrowser.open(
-              browser_type: browser_type
+            browser_obj = CSI::Plugins::TransparentBrowser.open(
+              browser_type: browser_type,
+              proxy: proxy
             )
           end
+        else
+          browser_obj = CSI::Plugins::TransparentBrowser.open(
+            browser_type: browser_type
+          )
         end
+        browser_obj.goto('https://duckduckgo.com')
 
-        if $browser
-          $browser.goto('https://duckduckgo.com')
-          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
-        end
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Duckduckgo.search(
-      #   q: 'required search string'
+      # browser_obj = CSI::WWW::Duckduckgo.search(
+      #   browser_obj: 'required - browser_obj returned from #open method',
+      #   q: 'required - search string'
       # )
 
       public
 
       def self.search(opts = {})
+        browser_obj = opts[:browser_obj]
         q = opts[:q].to_s
 
-        if $browser
-          $browser.text_field(name: 'q').wait_until_present.set(q)
-          if $browser.url == 'https://duckduckgo.com/' || $browser.url == 'http://3g2upl4pq6kufc4m.onion/'
-            $browser.button(id: 'search_button_homepage').wait_until_present.click
-          else
-            $browser.button(id: 'search_button').wait_until_present.click
-          end
-          sleep 3 # Cough: <hack>
-          CSI::Plugins::TransparentBrowser.linkout(browser_obj: $browser)
+        browser_obj.text_field(name: 'q').wait_until_present.set(q)
+        if browser_obj.url == 'https://duckduckgo.com/' || browser_obj.url == 'http://3g2upl4pq6kufc4m.onion/'
+          browser_obj.button(id: 'search_button_homepage').wait_until_present.click
+        else
+          browser_obj.button(id: 'search_button').wait_until_present.click
         end
+
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Duckduckgo.onion
+      # browser_obj = CSI::WWW::Duckduckgo.onion(
+      #   browser_obj: 'required - browser_obj returned from #open method',
+      # )
 
       public
 
-      def self.onion
-        puts "Be sure the $browser object has the following parameters set:
+      def self.onion(opts = {})
+        browser_obj = opts[:browser_obj]
+        browser_obj.goto('http://3g2upl4pq6kufc4m.onion')
 
-          #{self}.open(
-            browser_type: :chrome,
-            proxy: 'socks5://127.0.0.1:9050',
-            with_tor: true
-          )
-        "
-        $browser&.goto('http://3g2upl4pq6kufc4m.onion')
+        return browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
-      # CSI::WWW::Duckduckgo.close
+      # browser_obj = CSI::WWW::Duckduckgo.close(
+      #   browser_obj: 'required - browser_obj returned from #open method'
+      # )
 
       public
 
-      def self.close
-        $browser = CSI::Plugins::TransparentBrowser.close(browser_obj: $browser)
+      def self.close(opts = {})
+        browser_obj = opts[:browser_obj]
+        browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
@@ -135,20 +124,25 @@ module CSI
 
       def self.help
         puts %{USAGE:
-          #{self}.open(
-            browser_type: 'optional :firefox|:chrome|:ie|:headless|:rest (Defaults to :firefox)',
-            proxy: 'optional http(s)://proxy_host:port',
-            with_tor: 'optional boolean (defaults to false)'
+          browser_obj = #{self}.open(
+            browser_type: 'optional :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
+            proxy: 'optional - http(s)://proxy_host:port',
+            with_tor: 'optional - boolean (defaults to false)'
           )
-          puts "$browser.public_methods"
+          puts "browser_obj.public_methods"
 
-          #{self}.search(
+          browser_obj = #{self}.search(
+            browser_obj: 'required - browser_obj returned from #open method',
             q: 'required search string'
           )
 
-          #{self}.onion
+          browser_obj = #{self}.onion(
+            browser_obj: 'required - browser_obj returned from #open method'
+          )
 
-          #{self}.close
+          browser_obj = #{self}.close(
+            browser_obj: 'required - browser_obj returned from #open method'
+          )
 
           #{self}.authors
         }
