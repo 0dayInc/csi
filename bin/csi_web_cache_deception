@@ -25,10 +25,6 @@ OptionParser.new do |options|
     opts[:with_tor] = w
   end
 
-  options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN>') do |s|
-    opts[:spider] = s
-  end
-
   options.on('-aFILE', '--auth-instruction-file=FILE', '<Optional - AuthN Instruction File (Not Compat w/ -S flag)') do |a|
     opts[:authn_instruction_file] = a
   end
@@ -51,19 +47,12 @@ end
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
 
-if opts[:spider]
-  spider = true
-else
-  spider = false
-end
-
 auth_instruction_file = opts[:authn_instruction_file].to_s.scrub.chomp.strip
-if !File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip) && !spider
+if !File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
   puts `#{$PROGRAM_NAME} --help`
   raise "Authentication Instruction File #{opts[:authn_instruction_file]} Doesn't Exist."
 end
 
-spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 output_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.results"
 
 # Colors!
@@ -134,26 +123,12 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
   end
 
-  # Can't support spider w/ AuthN until we figure out how to do it in CSI::WWW::Spider (i.e. Anemone AuthN)
-  unless spider
-    File.read(auth_instruction_file).each_line do |instruction|
-      browser_obj.instance_eval(instruction.to_s.scrub.strip.chomp)
-    end
+  puts "#{@green}Leveraging Navigation Instructions to AuhN: #{target_url}#{@end_of_color}\n\n\n"
+  File.read(auth_instruction_file).each_line do |instruction|
+    browser_obj.instance_eval(instruction.to_s.scrub.strip.chomp)
   end
   puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)
-
-  if spider
-    if File.exist?(spider_results)
-      puts "#{@dark_red}Using Existing Spider Results: #{spider_results}#{@end_of_color}"
-    else
-      puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
-      CSI::WWW::Spider.crawl(
-        target_fqdn: target_url,
-        results_path: spider_results
-      )
-    end
-  end
 
   web_cache_deception_payload_arr = %w(
     aif aiff au avi bin bmp cab carb cct cdf class css doc dcr dtd gcf gff gif grv hdml hqx ico ini jpeg jpg js mov mp3 mp4 nc pct ppc pws swa swf txt vbs w32 wav wbmp wml wmlc wmls wmlsc xsd zip
@@ -161,15 +136,8 @@ begin
 
   File.open(output_results, 'w') do |f|
     web_cache_deception_payload_arr.each do |payload|
-      if spider
-        File.readlines(spider_results).uniq.each do |this_page|
-          http_result = get_web_cache_deception(browser_obj: browser_obj, target_url: this_page, payload: payload)
-          f.puts http_result
-        end
-      else
-        http_result = get_web_cache_deception(browser_obj: browser_obj, target_url: target_url, payload: payload)
-        f.puts http_result
-      end
+      http_result = get_web_cache_deception(browser_obj: browser_obj, target_url: target_url, payload: payload)
+      f.puts http_result
     end
   end
 rescue => e
