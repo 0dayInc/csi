@@ -140,7 +140,7 @@ begin
       browser_obj.instance_eval(instruction.to_s.scrub.strip.chomp)
     end
   end
-  puts "#{@green}Navigating to Target FQDN: #{target_fqdn}#{@end_of_color}\n\n\n"
+  puts "#{@green}Navigating to Target FQDN: #{target_url}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)
 
   if spider
