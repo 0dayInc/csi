@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 require 'csi'
 require 'optparse'
-require 'anemone'
 
 opts = {}
 OptionParser.new do |options|
@@ -129,14 +128,14 @@ begin
   browser_obj.goto(target_fqdn)
 
   if spider
-    puts "#{@dark_red}Spidering Target FQDN: #{target_fqdn}#{@end_of_color}"
-    File.open(spider_results, 'w') do |f|
-      Anemone.crawl(target_fqdn) do |anemone|
-        anemone.on_every_page do |page|
-          puts "#{@yellow}Discovered: #{page.url}#{@end_of_color}"
-          f.puts(page.url)
-        end
-      end
+    if File.exist?(spider_results)
+      puts "#{@dark_red}Using Existing Spider Results: #{spider_results}#{@end_of_color}"
+    else
+      puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
+      CSI::WWW::Spider.crawl(
+        target_fqdn: target_fqdn,
+        results_path: spider_results
+      )
     end
   end
 
