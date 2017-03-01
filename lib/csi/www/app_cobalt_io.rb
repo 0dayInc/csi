@@ -111,7 +111,7 @@ module CSI
       def self.logout
         browser_obj = opts[:browser_obj]
         browser_obj.li(class: 'user-dropdown').click
-        browser_obj.a(href: '/users/signout').click
+        browser_obj.link(index: 10).click
 
         return browser_obj
       rescue => e
