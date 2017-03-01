@@ -147,14 +147,14 @@ module CSI
 
       def self.help
         puts %{USAGE:
-          #{self}.open(
+          browser_obj = #{self}.open(
             browser_type: 'optional - :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
             proxy: 'optional - http(s)://proxy_host:port',
             with_tor: 'optional - boolean (defaults to false)'
           )
           puts "browser_obj.public_methods"
 
-          #{self}.login(
+          browser_obj = #{self}.login(
             browser_obj: 'required - browser_obj returned from #open method',
             username: 'required - username',
             password: 'optional - passwd (will prompt if blank),
