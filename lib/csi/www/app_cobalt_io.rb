@@ -125,7 +125,7 @@ module CSI
 
       public
 
-      def self.close
+      def self.close(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
