@@ -56,7 +56,7 @@ csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
 begin
   csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
   unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login')
-    puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
+    puts "#{@dark_red}Module CSI::WWW::#{csi_www_mod_str} Missing #open and/or #login Method(s)#{@end_of_color}"
     puts `#{$PROGRAM_NAME} -l`
     exit
   end
