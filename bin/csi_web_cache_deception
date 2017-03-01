@@ -28,6 +28,10 @@ OptionParser.new do |options|
   options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN>') do |s|
     opts[:spider] = s
   end
+
+  options.on('-aFILE', '--auth-instruction-file', '<Optional - AuthN Instruction File (Not Compat w/ -S flag)') do |a|
+    opts[:authn_instruction_file] = a
+  end
 end.parse!
 
 if opts.empty?
@@ -37,7 +41,8 @@ end
 
 # Required Flag Variables
 target_url = opts[:target_url].to_s.scrub.strip.chomp
-output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+output_dir = opts[:output_dir].to_s.scrub.strip.chomp
+raise "#{opts[:output_dir]} Doesn't Exist." unless Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
 
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
@@ -47,6 +52,9 @@ if opts[:spider]
 else
   spider = false
 end
+
+auth_instruction_file = opts[:authn_instruction_file].to_s.scrub.chomp.strip
+raise "#{opts[:authn_instruction_file]} Doesn't Exist." unless File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
 
 spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
 output_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.results"
@@ -119,6 +127,12 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :chrome)
   end
 
+  # Can't support spider w/ AuthN until we figure out how to do it in CSI::WWW::Spider (i.e. Anemone AuthN)
+  unless spider
+    File.read(auth_instruction_file).each_line do |instruction|
+      browser_obj.instance_eval(instruction.to_s.scrub.strip.chomp)
+    end
+  end
   puts "#{@green}Navigating to Target FQDN: #{target_fqdn}#{@end_of_color}\n\n\n"
   browser_obj.goto(target_url)
 
