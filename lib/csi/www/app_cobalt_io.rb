@@ -3,10 +3,10 @@ require 'yaml'
 
 module CSI
   module WWW
-    # This plugin supports Synack actions.
-    module Synack
+    # This plugin supports app.cobalt.io actions.
+    module AppCobaltIO
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Synack.open(
+      # browser_obj = CSI::WWW::AppCobaltIO.open(
       #   browser_type: :firefox|:chrome|:ie|:headless,
       #   proxy: 'optional - http(s)://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://login.synack.com')
+        browser_obj.goto('https://app.cobalt.io')
 
         return browser_obj
       rescue => e
@@ -56,10 +56,10 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Synack.login(
+      # browser_obj = CSI::WWW::AppCobaltIO.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
-      #   yaml_config: 'required - path of yaml file to encrypt',
-      #   vpassfile: 'required - path of ansible-vault pass file',
+      #   username: 'required - username',
+      #   password: 'optional - passwd (will prompt if blank),
       #   mfa: 'optional - if true prompt for mfa token (defaults to false)'
       # )
 
@@ -67,29 +67,26 @@ module CSI
 
       def self.login(opts = {})
         browser_obj = opts[:browser_obj]
-        yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config]).to_s.scrub
-        vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile]).to_s.scrub
+        username = opts[:username].to_s.scrub.strip.chomp
+        password = if opts[:password].nil?
+          CSI::Plugins::AuthenticationHelper.mask_password
+        else
+          opts[:password].to_s
+        end
         mfa = opts[:mfa]
 
-        # decrypt yaml config file
-        uiauthn_hash = CSI::Plugins::AnsibleVault.decrypt(
-          yaml_config: yaml_config.to_s,
-          vpassfile: vpassfile.to_s
-        )
+        browser_obj.goto('https://app.cobalt.io/users/sign_in')
 
-        email = uiauthn_hash['uiauthn']['email'].to_s.scrub
-        password = uiauthn_hash['uiauthn']['password'].to_s.scrub
-
-        browser_obj.text_field(name: 'email').wait_until_present.set(email)
-        browser_obj.text_field(name: 'password').wait_until_present.set(password)
-        browser_obj.button(class: 'btn').wait_until_present.click # no name or id in button element
+        browser_obj.text_field(id: 'user_email').wait_until_present.set(email)
+        browser_obj.text_field(id: 'user_password').wait_until_present.set(password)
+        browser_obj.button(name: 'commit').wait_until_present.click # no name or id in button element
 
         if mfa
-          until browser_obj.url == 'https://platform.synack.com/'
+          until browser_obj.url == 'https://app.cobalt.io/dashboard'
             print 'enter mfa token: '
             authy_token = gets.to_i
-            browser_obj.text_field(name: 'authy_token').wait_until_present.set(authy_token)
-            browser_obj.button(class: 'btn').wait_until_present.click # no name or id in button element
+            browser_obj.text_field(id: 'code').wait_until_present.set(authy_token)
+            browser_obj.button(name: 'commit').wait_until_present.click # no name or id in button element
           end
           print "\n"
         end
@@ -100,7 +97,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Synack.logout(
+      # browser_obj = CSI::WWW::AppCobaltIO.logout(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -108,8 +105,8 @@ module CSI
 
       def self.logout
         browser_obj = opts[:browser_obj]
-        browser_obj.img(class: 'navbar-avatar-img').click
-        browser_obj.button(text: 'Logout').click
+        browser_obj.li(class: 'user-dropdown').click
+        browser_obj.a(href: '/users/signout').click
 
         return browser_obj
       rescue => e
@@ -117,7 +114,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Synack.close(
+      # browser_obj = CSI::WWW::AppCobaltIO.close(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -157,8 +154,8 @@ module CSI
 
           #{self}.login(
             browser_obj: 'required - browser_obj returned from #open method',
-            yaml_config: 'required - encrypted ansible-vault yaml file',
-            vpassfile: 'required - ansible-vault pass file',
+            username: 'required - username',
+            password: 'optional - passwd (will prompt if blank),
             mfa: 'optional - if true prompt for mfa token (defaults to false)'
           )
 
