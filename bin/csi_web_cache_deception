@@ -58,7 +58,7 @@ else
 end
 
 auth_instruction_file = opts[:authn_instruction_file].to_s.scrub.chomp.strip
-unless File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip)
+if !File.exist?(opts[:authn_instruction_file].to_s.scrub.chomp.strip) && !spider
   puts `#{$PROGRAM_NAME} --help`
   raise "Authentication Instruction File #{opts[:authn_instruction_file]} Doesn't Exist."
 end
