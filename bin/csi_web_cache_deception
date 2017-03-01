@@ -68,10 +68,6 @@ begin
     browser_obj.goto(target_url)
     orig_url_response_length = browser_obj.html.length
 
-    web_cache_deception_url = "#{target_url.chomp('/')}/wcd.#{payload}"
-    browser_obj.goto(web_cache_deception_url)
-    wcd_url_response_length = browser_obj.html.length
-
     if target_url.include?('?')
       injected_target_url = URI.parse(target_url)
       # Add non-existent file at the end of the path
@@ -89,6 +85,10 @@ begin
         return "Response Length Mismatch: Orig Len: #{orig_url_response_length} | Inj Len: #{injected_url_response_length} | WCD: #{web_cache_deception_url}"
       end
     else
+      web_cache_deception_url = "#{target_url.chomp('/')}/wcd.#{payload}"
+      browser_obj.goto(web_cache_deception_url)
+      wcd_url_response_length = browser_obj.html.length
+
       if orig_url_response_length == wcd_url_response_length
         puts "\n#{@dark_red}Alert! Potential Candidate: #{web_cache_deception_url}#{@end_of_color}\n"
         return "Alert! Potential Candidate: #{web_cache_deception_url}"
