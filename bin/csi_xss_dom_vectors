@@ -131,7 +131,7 @@ begin
     if File.exist?(spider_results)
       puts "#{@dark_red}Using Existing Spider Results: #{spider_results}#{@end_of_color}"
     else
-      puts "#{@dark_red}Spidering Target FQDN: #{target_url}#{@end_of_color}"
+      puts "#{@dark_red}Spidering Target FQDN: #{target_fqdn}#{@end_of_color}"
       CSI::WWW::Spider.crawl(
         target_fqdn: target_fqdn,
         results_path: spider_results
