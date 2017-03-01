@@ -25,7 +25,7 @@ OptionParser.new do |options|
     opts[:with_tor] = w
   end
 
-  options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN  (Defaults to true)>') do |s|
+  options.on('-S', '--[no-]spider-fqdn', '<Optional - Spider Target FQDN>') do |s|
     opts[:spider] = s
   end
 end.parse!
@@ -43,9 +43,9 @@ proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
 
 if opts[:spider]
-  spider = false
-else
   spider = true
+else
+  spider = false
 end
 
 spider_results = "#{output_dir}/#{File.basename($PROGRAM_NAME)}.spider"
