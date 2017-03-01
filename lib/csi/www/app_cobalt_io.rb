@@ -80,7 +80,7 @@ module CSI
         browser_obj.goto('https://app.cobalt.io/users/sign_in')
 
         # id: 'user_email' doesn't work
-        browser_obj.text_field(index: 9).wait_until_present.set(email)
+        browser_obj.text_field(index: 9).wait_until_present.set(username)
         # id: 'user_password' doesn't work
         browser_obj.text_field(index: 10).wait_until_present.set(password)
         # name: 'commit' doesn't work
