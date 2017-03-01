@@ -13,8 +13,8 @@ OptionParser.new do |options|
     opts[:target_url] = t
   end
 
-  options.on('-rRESULTS', '--output-results=RESULTS', '<Required - Path of Results File>') do |d|
-    opts[:output_dir] = d
+  options.on('-rRESULTS', '--output-results=RESULTS', '<Required - Path of Results File>') do |r|
+    opts[:output_results] = r
   end
 
   options.on('-l', '---list-csi-www-mods', '<Optional - Provide a List of CSI::WWW Modules to Support Post-AuthN w/ -m Flag') do |l|
@@ -29,8 +29,8 @@ OptionParser.new do |options|
     opts[:username] = u
   end
 
-  options.on('-pPASS', '--password=PASS', '<Optional - CSI::WWW Module password (Will Prompt if nil)') do |u|
-    opts[:username] = u
+  options.on('-pPASS', '--password=PASS', '<Optional - CSI::WWW Module password (Will Prompt if nil)') do |p|
+    opts[:password] = p
   end
 
   options.on('-f', '--[no-]mfa', '<Optional - Enable MFA CSI::WWW Module') do |f|
