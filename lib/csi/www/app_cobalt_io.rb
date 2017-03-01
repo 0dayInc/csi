@@ -89,7 +89,7 @@ module CSI
         if mfa
           until browser_obj.url == 'https://app.cobalt.io/dashboard'
             print 'enter mfa token: '
-            mfa_token = gets.to_i
+            mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(id: 'code').set(mfa_token)
             browser_obj.button(name: 'commit').click # no name or id in button element
           end

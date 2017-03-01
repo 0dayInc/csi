@@ -87,7 +87,7 @@ module CSI
         if mfa
           until browser_obj.url == 'https://platform.synack.com/'
             print 'enter mfa token: '
-            mfa_token = gets.to_i
+            mfa_token = gets.gets.to_s.scrub.strip.chomp
             browser_obj.text_field(name: 'authy_token').wait_until_present.set(mfa_token)
             browser_obj.button(class: 'btn').wait_until_present.click # no name or id in button element
           end
