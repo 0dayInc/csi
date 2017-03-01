@@ -39,4 +39,6 @@ begin
   cli.start(self, prompt: prompt)
 rescue => e
   raise e
+ensure
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
 end

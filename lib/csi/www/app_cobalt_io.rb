@@ -71,9 +71,9 @@ module CSI
         password = opts[:password]
 
         if password.nil?
-          CSI::Plugins::AuthenticationHelper.mask_password
+          password = CSI::Plugins::AuthenticationHelper.mask_password
         else
-          opts[:password].to_s
+          password = opts[:password].to_s.scrub.strip.chomp
         end
         mfa = opts[:mfa]
 
