@@ -8,6 +8,7 @@ module CSI
     autoload :Bing, 'csi/www/bing'
     autoload :Checkip, 'csi/www/checkip.rb'
     autoload :Duckduckgo, 'csi/www/duckduckgo'
+    autoload :Facebook, 'csi/www/facebook'
     autoload :Google, 'csi/www/google'
     autoload :Hackerone, 'csi/www/hackerone'
     autoload :Pastebin, 'csi/www/pastebin'

@@ -3,10 +3,10 @@ require 'yaml'
 
 module CSI
   module WWW
-    # This plugin supports paypal.com actions.
-    module Paypal
+    # This plugin supports facebook.com actions.
+    module Facebook
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Paypal.open(
+      # browser_obj = CSI::WWW::Facebook.open(
       #   browser_type: :firefox|:chrome|:ie|:headless,
       #   proxy: 'optional - http(s)://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://www.paypal.com')
+        browser_obj.goto('https://www.facebook.com')
 
         return browser_obj
       rescue => e
@@ -56,11 +56,10 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Paypal.login(
+      # browser_obj = CSI::WWW::Facebook.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
       #   username: 'required - username',
-      #   password: 'optional - passwd (will prompt if blank),
-      #   mfa: 'optional - if true prompt for mfa token (defaults to false)'
+      #   password: 'optional - passwd (will prompt if blank)
       # )
 
       public
@@ -77,23 +76,11 @@ module CSI
         end
         mfa = opts[:mfa]
 
-        browser_obj.goto('https://www.paypal.com/signin')
+        browser_obj.goto('https://www.facebook.com/login.php')
 
         browser_obj.text_field(id: 'email').wait_until_present.set(username)
-        browser_obj.text_field(id: 'password').wait_until_present.set(password)
-        browser_obj.button(id: 'btnLogin').wait_until_present.click
-
-        if mfa
-          # Send code to SMS
-          browser_obj.button(id: 'btnSelectSoftToken').wait_until_present.click
-          until browser_obj.url == 'https://www.paypal.com/myaccount/home'
-            print 'enter mfa token: '
-            mfa_token = gets.to_s.scrub.strip.chomp
-            browser_obj.text_field(id: 'security-code').wait_until_present.set(mfa_token)
-            browser_obj.button(id: 'btnCodeSubmit').wait_until_present.click
-          end
-          print "\n"
-        end
+        browser_obj.text_field(id: 'pass').wait_until_present.set(password)
+        browser_obj.button(id: 'loginbutton').wait_until_present.click
 
         return browser_obj
       rescue => e
@@ -101,7 +88,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Paypal.logout(
+      # browser_obj = CSI::WWW::Facebook.logout(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -109,7 +96,8 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.link(index: 13).wait_until_present.click
+        browser_obj.div(id: 'logoutMenu').wait_until_present.click
+        browser_obj.form(id: 'show_me_how_logout_1').wait_until_present.submit
 
         return browser_obj
       rescue => e
@@ -117,7 +105,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::Paypal.close(
+      # browser_obj = CSI::WWW::Facebook.close(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
