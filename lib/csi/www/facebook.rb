@@ -97,7 +97,7 @@ module CSI
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.div(id: 'logoutMenu').wait_until_present.click
-        browser_obj.form(id: 'show_me_how_logout_1').wait_until_present.submit
+        browser_obj.span(text: 'Log Out', class: '_54nh').click
 
         return browser_obj
       rescue => e
