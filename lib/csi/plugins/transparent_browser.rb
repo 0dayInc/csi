@@ -15,10 +15,10 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # CSI::Plugins::TransparentBrowser.open(
+      # browser_obj = CSI::Plugins::TransparentBrowser.open(
       #   browser_type: :firefox|:chrome|:headless|:rest,
-      #   proxy: 'optional http(s)://proxy_host:port',
-      #   with_tor: 'optional boolean (defaults to false)'
+      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
       public
@@ -140,7 +140,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::TransparentBrowser.linkout(
+      # browser_obj = CSI::Plugins::TransparentBrowser.linkout(
       #   browser_obj: browser_obj1
       # )
 
@@ -184,7 +184,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::TransparentBrowser.close(
+      # browser_obj = CSI::Plugins::TransparentBrowser.close(
       #   :browser_obj => browser_obj1
       # )
 
@@ -228,7 +228,7 @@ module CSI
           )
           puts "browser_obj1.public_methods"
 
-          #{self}.linkout(browser_obj: browser_obj1)
+          browser_obj1 = #{self}.linkout(browser_obj: browser_obj1)
 
           #{self}.type_as_human(
             q: 'required - query string to randomize',
