@@ -96,8 +96,8 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.i(class: 'icon-hamburger').wait_until_present.click
-        browser_obj.span(text: 'Sign Out').click
+        browser_obj.i(class: 'icon-arrow-closure').click
+        browser_obj.link(index: 16).click
 
         return browser_obj
       rescue => e
