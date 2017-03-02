@@ -205,8 +205,8 @@ begin
       f.puts http_result
     end
   end
-  puts "\n#{yellow}Results Location: #{output_results}#{end_of_color}\n\n\n"
-  puts "#{green}complete.#{end_of_color}"
+  puts "\n#{@yellow}Results Location: #{output_results}#{@end_of_color}\n\n\n"
+  puts "#{@green}complete.#{@end_of_color}"
 rescue => e
   raise e
 ensure
