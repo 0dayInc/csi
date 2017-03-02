@@ -92,6 +92,7 @@ module CSI
             mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(id: 'code').wait_until_present.set(mfa_token)
             browser_obj.button(name: 'commit').wait_until_present.click
+            sleep 3
           end
           print "\n"
         end

@@ -91,6 +91,7 @@ module CSI
             mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(id: 'security-code').wait_until_present.set(mfa_token)
             browser_obj.button(id: 'btnCodeSubmit').wait_until_present.click
+            sleep 3
           end
           print "\n"
         end

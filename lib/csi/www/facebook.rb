@@ -74,7 +74,6 @@ module CSI
         else
           password = opts[:password].to_s.scrub.strip.chomp
         end
-        mfa = opts[:mfa]
 
         browser_obj.goto('https://www.facebook.com/login.php')
 
@@ -147,7 +146,6 @@ module CSI
             browser_obj: 'required - browser_obj returned from #open method',
             username: 'required - username',
             password: 'optional - passwd (will prompt if blank),
-            mfa: 'optional - if true prompt for mfa token (defaults to false)'
           )
 
           browser_obj = #{self}.logout(
