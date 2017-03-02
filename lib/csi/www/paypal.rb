@@ -109,8 +109,7 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.li(class: 'user-dropdown').wait_until_present.click
-        browser_obj.link(href: '/myaccount/logout').wait_until_present.click
+        browser_obj.link(index: 13).wait_until_present.click
 
         return browser_obj
       rescue => e
