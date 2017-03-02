@@ -30,7 +30,6 @@ etc/jenkins/jenkins_admin_user.yaml
 etc/jenkins/thinBackup
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
-etc/synack/
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
 ansible/site.retry

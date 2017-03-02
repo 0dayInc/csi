@@ -3,7 +3,7 @@ require 'yaml'
 
 module CSI
   module WWW
-    # This plugin supports Synack actions.
+    # This plugin supports platform.synack.com actions.
     module Synack
       # Supported Method Parameters::
       # browser_obj = CSI::WWW::Synack.open(
@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://login.synack.com')
+        browser_obj.goto('https://www.synack.com')
 
         return browser_obj
       rescue => e
@@ -58,8 +58,8 @@ module CSI
       # Supported Method Parameters::
       # browser_obj = CSI::WWW::Synack.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
-      #   yaml_config: 'required - path of yaml file to encrypt',
-      #   vpassfile: 'required - path of ansible-vault pass file',
+      #   username: 'required - username',
+      #   password: 'optional - passwd (will prompt if blank),
       #   mfa: 'optional - if true prompt for mfa token (defaults to false)'
       # )
 
@@ -67,29 +67,28 @@ module CSI
 
       def self.login(opts = {})
         browser_obj = opts[:browser_obj]
-        yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config]).to_s.scrub
-        vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile]).to_s.scrub
+        username = opts[:username].to_s.scrub.strip.chomp
+        password = opts[:password]
+
+        if password.nil?
+          password = CSI::Plugins::AuthenticationHelper.mask_password
+        else
+          password = opts[:password].to_s.scrub.strip.chomp
+        end
         mfa = opts[:mfa]
 
-        # decrypt yaml config file
-        uiauthn_hash = CSI::Plugins::AnsibleVault.decrypt(
-          yaml_config: yaml_config.to_s,
-          vpassfile: vpassfile.to_s
-        )
+        browser_obj.goto('https://login.synack.com')
 
-        email = uiauthn_hash['uiauthn']['email'].to_s.scrub
-        password = uiauthn_hash['uiauthn']['password'].to_s.scrub
-
-        browser_obj.text_field(name: 'email').wait_until_present.set(email)
+        browser_obj.text_field(name: 'email').wait_until_present.set(username)
         browser_obj.text_field(name: 'password').wait_until_present.set(password)
-        browser_obj.button(class: 'btn').wait_until_present.click # no name or id in button element
+        browser_obj.button(class: 'btn').wait_until_present.click
 
         if mfa
-          until browser_obj.url == 'https://platform.synack.com/'
+          until browser_obj.url == 'https://platform.synack.com'
             print 'enter mfa token: '
-            mfa_token = gets.gets.to_s.scrub.strip.chomp
+            mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(name: 'authy_token').wait_until_present.set(mfa_token)
-            browser_obj.button(class: 'btn').wait_until_present.click # no name or id in button element
+            browser_obj.button(class: 'btn').wait_until_present.click
           end
           print "\n"
         end
@@ -108,8 +107,8 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.img(class: 'navbar-avatar-img').click
-        browser_obj.button(text: 'Logout').click
+        browser_obj.img(class: 'navbar-avatar-img').wait_until_present.click
+        browser_obj.button(text: 'Logout').wait_until_present.click
 
         return browser_obj
       rescue => e
@@ -157,8 +156,8 @@ module CSI
 
           browser_obj = #{self}.login(
             browser_obj: 'required - browser_obj returned from #open method',
-            yaml_config: 'required - encrypted ansible-vault yaml file',
-            vpassfile: 'required - ansible-vault pass file',
+            username: 'required - username',
+            password: 'optional - passwd (will prompt if blank),
             mfa: 'optional - if true prompt for mfa token (defaults to false)'
           )
 
