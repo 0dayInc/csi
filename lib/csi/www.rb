@@ -10,7 +10,7 @@ module CSI
     autoload :Duckduckgo, 'csi/www/duckduckgo'
     autoload :Facebook, 'csi/www/facebook'
     autoload :Google, 'csi/www/google'
-    autoload :Hackerone, 'csi/www/hackerone'
+    autoload :HackerOne, 'csi/www/hackerone'
     autoload :Pastebin, 'csi/www/pastebin'
     autoload :Paypal, 'csi/www/paypal'
     autoload :Synack, 'csi/www/synack'
