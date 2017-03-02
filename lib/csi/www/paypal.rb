@@ -3,10 +3,10 @@ require 'yaml'
 
 module CSI
   module WWW
-    # This plugin supports app.cobalt.io actions.
-    module AppCobaltIO
+    # This plugin supports paylpal.com actions.
+    module Paypal
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.open(
+      # browser_obj = CSI::WWW::Paypal.open(
       #   browser_type: :firefox|:chrome|:ie|:headless,
       #   proxy: 'optional - http(s)://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://app.cobalt.io')
+        browser_obj.goto('https://www.paypal.com')
 
         return browser_obj
       rescue => e
@@ -56,7 +56,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.login(
+      # browser_obj = CSI::WWW::Paypal.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
       #   username: 'required - username',
       #   password: 'optional - passwd (will prompt if blank),
@@ -77,21 +77,20 @@ module CSI
         end
         mfa = opts[:mfa]
 
-        browser_obj.goto('https://app.cobalt.io/users/sign_in')
+        browser_obj.goto('https://www.paypal.com/signin')
 
-        # id: 'user_email' doesn't work
-        browser_obj.text_field(index: 9).wait_until_present.set(username)
-        # id: 'user_password' doesn't work
-        browser_obj.text_field(index: 10).wait_until_present.set(password)
-        # name: 'commit' doesn't work
-        browser_obj.button(index: 6).wait_until_present.click # no name or id in button element
+        browser_obj.text_field(id: 'email').wait_until_present.set(username)
+        browser_obj.text_field(id: 'password').wait_until_present.set(password)
+        browser_obj.button(id: 'btnLogin').wait_until_present.click
 
         if mfa
-          until browser_obj.url == 'https://app.cobalt.io/dashboard'
+          
+          until browser_obj.url == 'https://www.paypal.com/myaccount/home'
+            browser_obj.button(id: ' btnSelectSoftToken').wait_until_present.click
             print 'enter mfa token: '
             mfa_token = gets.to_s.scrub.strip.chomp
-            browser_obj.text_field(id: 'code').wait_until_present.set(mfa_token)
-            browser_obj.button(name: 'commit').wait_until_present.click
+            browser_obj.text_field(id: 'security-code').wait_until_present.set(mfa_token)
+            browser_obj.button(id: 'btnCodeSubmit').wait_until_present.click
           end
           print "\n"
         end
@@ -102,7 +101,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.logout(
+      # browser_obj = CSI::WWW::Paypal.logout(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -111,7 +110,7 @@ module CSI
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.li(class: 'user-dropdown').wait_until_present.click
-        browser_obj.link(index: 10).wait_until_present.click
+        browser_obj.link(href: '/myaccount/logout').wait_until_present.click
 
         return browser_obj
       rescue => e
@@ -119,7 +118,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.close(
+      # browser_obj = CSI::WWW::Paypal.close(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
