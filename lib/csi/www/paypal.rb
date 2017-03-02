@@ -84,9 +84,9 @@ module CSI
         browser_obj.button(id: 'btnLogin').wait_until_present.click
 
         if mfa
-          
+          # Send code to SMS
+          browser_obj.button(id: 'btnSelectSoftToken').wait_until_present.click
           until browser_obj.url == 'https://www.paypal.com/myaccount/home'
-            browser_obj.button(id: 'btnSelectSoftToken').wait_until_present.click
             print 'enter mfa token: '
             mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(id: 'security-code').wait_until_present.set(mfa_token)
