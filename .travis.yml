@@ -8,3 +8,5 @@ before_install:
 language: ruby
 rvm: # Rely upon .ruby-version
 dist: trusty
+after_success:
+  - rubocop
