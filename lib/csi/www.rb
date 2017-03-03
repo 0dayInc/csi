@@ -11,6 +11,7 @@ module CSI
     autoload :Facebook, 'csi/www/facebook'
     autoload :Google, 'csi/www/google'
     autoload :HackerOne, 'csi/www/hacker_one'
+    autoload :Linkedin, 'csi/www/linkedin'
     autoload :Pastebin, 'csi/www/pastebin'
     autoload :Paypal, 'csi/www/paypal'
     autoload :Synack, 'csi/www/synack'

@@ -59,7 +59,7 @@ module CSI
       # browser_obj = CSI::WWW::Paypal.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
       #   username: 'required - username',
-      #   password: 'optional - passwd (will prompt if blank),
+      #   password: 'optional - passwd (will prompt if blank)',
       #   mfa: 'optional - if true prompt for mfa token (defaults to false)'
       # )
 

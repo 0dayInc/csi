@@ -3,10 +3,10 @@ require 'yaml'
 
 module CSI
   module WWW
-    # This plugin supports app.cobalt.io actions.
-    module AppCobaltIO
+    # This plugin supports linkedin.com actions.
+    module Linkedin
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.open(
+      # browser_obj = CSI::WWW::Linkedin.open(
       #   browser_type: :firefox|:chrome|:ie|:headless,
       #   proxy: 'optional - http(s)://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://app.cobalt.io')
+        browser_obj.goto('https://www.linkedin.com')
 
         return browser_obj
       rescue => e
@@ -56,11 +56,10 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.login(
+      # browser_obj = CSI::WWW::Linkedin.login(
       #   browser_obj: 'required - browser_obj returned from #open method',
       #   username: 'required - username',
-      #   password: 'optional - passwd (will prompt if blank)',
-      #   mfa: 'optional - if true prompt for mfa token (defaults to false)'
+      #   password: 'optional - passwd (will prompt if blank)'
       # )
 
       public
@@ -75,27 +74,12 @@ module CSI
         else
           password = opts[:password].to_s.scrub.strip.chomp
         end
-        mfa = opts[:mfa]
 
-        browser_obj.goto('https://app.cobalt.io/users/sign_in')
+        browser_obj.goto('https://www.linkedin.com/uas/login')
 
-        # id: 'user_email' doesn't work
-        browser_obj.text_field(index: 9).wait_until_present.set(username)
-        # id: 'user_password' doesn't work
-        browser_obj.text_field(index: 10).wait_until_present.set(password)
-        # name: 'commit' doesn't work
-        browser_obj.button(index: 6).wait_until_present.click # no name or id in button element
-
-        if mfa
-          until browser_obj.url == 'https://app.cobalt.io/dashboard'
-            print 'enter mfa token: '
-            mfa_token = gets.to_s.scrub.strip.chomp
-            browser_obj.text_field(id: 'code').wait_until_present.set(mfa_token)
-            browser_obj.button(name: 'commit').wait_until_present.click
-            sleep 3
-          end
-          print "\n"
-        end
+        browser_obj.text_field(name: 'session_key').wait_until_present.set(username)
+        browser_obj.text_field(name: 'session_password').wait_until_present.set(password)
+        browser_obj.button(name: 'signin').wait_until_present.click
 
         return browser_obj
       rescue => e
@@ -103,7 +87,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.logout(
+      # browser_obj = CSI::WWW::Linkedin.logout(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -111,8 +95,8 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.li(class: 'user-dropdown').wait_until_present.click
-        browser_obj.link(index: 10).wait_until_present.click
+        browser_obj.button(id: 'nav-settings__dropdown-trigger').wait_until_present.click
+        browser_obj.link(id: 'ember4421').click
 
         return browser_obj
       rescue => e
@@ -120,7 +104,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::WWW::AppCobaltIO.close(
+      # browser_obj = CSI::WWW::Linkedin.close(
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
@@ -162,7 +146,6 @@ module CSI
             browser_obj: 'required - browser_obj returned from #open method',
             username: 'required - username',
             password: 'optional - passwd (will prompt if blank),
-            mfa: 'optional - if true prompt for mfa token (defaults to false)'
           )
 
           browser_obj = #{self}.logout(
