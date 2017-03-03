@@ -84,7 +84,7 @@ module CSI
         browser_obj.button(index: 1).wait_until_present.click
 
         if mfa
-          until browser_obj.url == 'https://twitter.com'
+          until browser_obj.url == 'https://twitter.com/'
             print 'enter mfa token: '
             mfa_token = gets.to_s.scrub.strip.chomp
             browser_obj.text_field(id: 'challenge_response').wait_until_present.set(mfa_token)
