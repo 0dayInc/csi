@@ -116,11 +116,6 @@ module CSI
             </div>
 
             <script>
-              $.getJSON('csi_scan_git_source.json', function(json) {
-                for (var i = 0; i < json['data'].length; i++) {
-                  sp_zfn_results.insert( { data: json['data'][i] } );
-                }
-              });
               // For whatever reason, running console.log(sp_zfn_results.data) returns an empty array, however:
               console.log("To see the contents of the sp_zfn_results collection, run 'sp_zfn_results.data' from the console.");
               // will return the data inserted from the csi_scan_git_source.json file.
