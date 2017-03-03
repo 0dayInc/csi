@@ -87,7 +87,7 @@ end
 
 raise "ERROR: Invalid Directory #{dir_path}" unless File.directory?(dir_path)
 
-results_hash = { data: [] }
+$results_hash = { data: [] }
 mutex = Mutex.new
 
 CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_threads) do |test_case|
@@ -95,8 +95,7 @@ CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_thr
     sca_arr = CSI::SCAPM.const_get(test_case.to_s.scrub).scan(dir_path: dir_path, git_repo_root_uri: uri_source_root)
     sca_arr.each do |hash_line|
       mutex.synchronize do
-        # TODO: instead of using a hash, perist JSON to NOSQL DB in favor of creating a flat JSON file
-        results_hash[:data].push(hash_line)
+        $results_hash[:data].push(hash_line)
       end
     end
   rescue => e
@@ -106,9 +105,8 @@ end
 
 # Generate HTML Report
 print "#{$PROGRAM_NAME} Generating Report..."
-# TODO: instead of passing results hash, pass filename of NOSQL DB (Persisted LokiJS?)
 CSI::Reports::SCAPM.generate(
   dir_path: dir_path,
-  results_hash: results_hash
+  results_hash: $results_hash
 )
 puts 'complete.'
