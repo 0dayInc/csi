@@ -95,7 +95,8 @@ module CSI
 
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.div(class: 'region-dropdown').wait_until_present.click
+        browser_obj.img(alt: 'Account Menu').wait_until_present.click
+        browser_obj.span(text: 'Sign Out').wait_until_present.click
 
         return browser_obj
       rescue => e
