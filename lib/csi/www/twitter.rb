@@ -79,9 +79,9 @@ module CSI
 
         browser_obj.goto('https://twitter.com/login')
 
-        browser_obj.text_field(name: 'session[username_or_email]').wait_until_present.set(username)
-        browser_obj.text_field(name: 'session[password]').wait_until_present.set(password)
-        browser_obj.button(text: 'Log in').wait_until_present.click
+        browser_obj.text_field(index: 2).wait_until_present.set(username)
+        browser_obj.text_field(index: 3).wait_until_present.set(password)
+        browser_obj.button(index: 1).wait_until_present.click
 
         if mfa
           until browser_obj.url == 'https://twitter.com'
