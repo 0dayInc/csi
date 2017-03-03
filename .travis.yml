@@ -7,6 +7,6 @@ before_install:
   - sudo apt-get install -y tesseract-ocr-all
 language: ruby
 rvm: # Rely upon .ruby-version
-dist: trusty
+dist: yakkety
 after_success:
   - rubocop
