@@ -72,9 +72,7 @@ Style/Documentation:
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
   Exclude:
-    - 'bin/csi'
     - 'bin/csi_scapm'
-    - 'lib/csi/plugins/android.rb'
 
 # Offense count: 18
 # Configuration parameters: MinBodyLength.
