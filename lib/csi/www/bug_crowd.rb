@@ -48,7 +48,7 @@ module CSI
           )
         end
 
-        browser_obj.goto('https://bugcrowd.com')
+        browser_obj.goto('https://bugcrowd.com/platform')
 
         return browser_obj
       rescue => e
