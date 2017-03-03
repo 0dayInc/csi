@@ -14,6 +14,7 @@ module CSI
     autoload :HackerOne, 'csi/www/hacker_one'
     autoload :Linkedin, 'csi/www/linkedin'
     autoload :Pastebin, 'csi/www/pastebin'
+    autoload :Pandora, 'csi/www/pandora'
     autoload :Paypal, 'csi/www/paypal'
     autoload :Synack, 'csi/www/synack'
     autoload :Torch, 'csi/www/torch'
