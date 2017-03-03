@@ -116,10 +116,6 @@ module CSI
             </div>
 
             <script>
-              // For whatever reason, running console.log(sp_zfn_results.data) returns an empty array, however:
-              console.log("To see the contents of the sp_zfn_results collection, run 'sp_zfn_results.data' from the console.");
-              // will return the data inserted from the csi_scan_git_source.json file.
-
               var line_entry_uri = "";
               $(document).ready(function() {
                 var oldStart = 0;
