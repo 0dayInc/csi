@@ -72,12 +72,6 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
 
-# Offense count: 493
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
-  Exclude:
-    - 'bin/csi_scapm'
-
 # Offense count: 18
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
