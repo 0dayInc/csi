@@ -6,6 +6,7 @@ module CSI
   module WWW
     autoload :AppCobaltIO, 'csi/www/app_cobalt_io'
     autoload :Bing, 'csi/www/bing'
+    autoload :BugCrowd, 'csi/www/bug_crowd'
     autoload :Checkip, 'csi/www/checkip.rb'
     autoload :Duckduckgo, 'csi/www/duckduckgo'
     autoload :Facebook, 'csi/www/facebook'
