@@ -1,2 +1,4 @@
 language: ruby
 rvm: # Rely upon .ruby-version
+dist: yakkety
+sudo: required
