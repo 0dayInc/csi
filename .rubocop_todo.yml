@@ -28,6 +28,10 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 194
 
+Metrics/BlockNesting:
+  Exclude:
+    - 'lib/csi/scapm/*'
+
 # Offense count: 53
 Metrics/CyclomaticComplexity:
   Max: 232

@@ -70,13 +70,13 @@ module CSI
                 line_no = line_contents_split[current_count]
                 contents = line_contents_split[current_count + 1]
                 if Dir.exist?("#{dir_path}/.git")
-                author = get_author(
-                  repo_root: dir_path,
-                  from_line: line_no,
-                  to_line: line_no,
-                  target_file: entry,
-                  entry_beautified: entry_beautified
-                )
+                  author = get_author(
+                    repo_root: dir_path,
+                    from_line: line_no,
+                    to_line: line_no,
+                    target_file: entry,
+                    entry_beautified: entry_beautified
+                  )
                 else
                   author = 'N/A'
                 end
