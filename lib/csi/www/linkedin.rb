@@ -96,7 +96,7 @@ module CSI
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.button(id: 'nav-settings__dropdown-trigger').wait_until_present.click
-        browser_obj.link(id: 'ember4421').click
+        browser_obj.link(index: 14).wait_until_present.click
 
         return browser_obj
       rescue => e
