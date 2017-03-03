@@ -116,8 +116,6 @@ module CSI
             </div>
 
             <script>
-              sp_zfn_results = db.addCollection('sp_zfn_results');
-              // Load Latest JSON file into a fresh LokiJS DB.  From there do a diff if old LokiJS db exists.
               $.getJSON('csi_scan_git_source.json', function(json) {
                 for (var i = 0; i < json['data'].length; i++) {
                   sp_zfn_results.insert( { data: json['data'][i] } );
