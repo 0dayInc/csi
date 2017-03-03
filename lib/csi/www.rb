@@ -16,6 +16,7 @@ module CSI
     autoload :Paypal, 'csi/www/paypal'
     autoload :Synack, 'csi/www/synack'
     autoload :Torch, 'csi/www/torch'
+    autoload :Twitter, 'csi/www/twitter'
     autoload :Youtube, 'csi/www/youtube'
 
     # Display a List of Every CSI WWW module
