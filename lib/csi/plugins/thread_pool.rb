@@ -18,12 +18,12 @@ module CSI
 
       public
 
+      # def self.fill(opts = {}, &block)
       def self.fill(opts = {})
-        # def self.fill(opts = {}, &block)
         enumerable_array = opts[:enumerable_array]
 
         max_threads = if opts[:max_threads].nil?
-                        6
+                        9
                       else
                         opts[:max_threads].to_i
                       end

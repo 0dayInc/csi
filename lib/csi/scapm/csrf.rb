@@ -62,13 +62,17 @@ module CSI
               while line_no_count > current_count
                 line_no = line_contents_split[current_count]
                 contents = line_contents_split[current_count + 1]
-                author = get_author(
-                  repo_root: dir_path,
-                  from_line: line_no,
-                  to_line: line_no,
-                  target_file: entry,
-                  entry_beautified: entry_beautified
-                )
+                if Dir.exist?("#{dir_path}/.git")
+                  author = get_author(
+                    repo_root: dir_path,
+                    from_line: line_no,
+                    to_line: line_no,
+                    target_file: entry,
+                    entry_beautified: entry_beautified
+                  )
+                else
+                  author = 'N/A'
+                end
                 hash_line[:line_no_and_contents] = line_no_and_contents_arr.push(line_no: line_no,
                                                                                  contents: contents,
                                                                                  author: author)
