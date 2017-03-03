@@ -31,10 +31,9 @@ module CSI
         <html>
           <head>
 
-            <link rel="stylesheet" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-            <script src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-            <script src="//cdn.rawgit.com/techfort/LokiJS/master/build/lokijs.min.js"></script>
+            <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
             <style>
               body {
                 font-family: Verdana, Geneva, sans-serif;
@@ -117,7 +116,6 @@ module CSI
             </div>
 
             <script>
-              var db = new loki('csi_sca_state_LOKIJS.json');
               sp_zfn_results = db.addCollection('sp_zfn_results');
               // Load Latest JSON file into a fresh LokiJS DB.  From there do a diff if old LokiJS db exists.
               $.getJSON('csi_scan_git_source.json', function(json) {
@@ -262,98 +260,6 @@ module CSI
                   alert($('#multi_line_select tr.selected').length +' row(s) selected');
                 });
               });
-
-              function sp_loki_to_json(collection) {
-                var json = {
-                  "draw": 1,
-                  "recordsTotal": collection.data.length,
-                  "recordsFiltered": collection.data.length,
-                  "data": [
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                    {
-                      "timestamp": "2015-02-20",
-                      "test_case": "test",
-                      "filename": "file",
-                      "line_no_and_contents": "line & contents",
-                      "raw_content": "raw content",
-                      "test_case_filter": "test case"
-                    },
-                  ]
-                };
-                console.log(json);
-                return JSON.stringify(json);
-              }
 
               function multi_line_select() {
                 // Select all lines in a row
