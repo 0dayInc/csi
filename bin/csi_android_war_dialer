@@ -18,7 +18,7 @@ OptionParser.new do |options|
     opts[:to_num] = t
   end
 
-  options.on('-sSEC', '--seconds-to-record=SEC', '<Required - Senconds to Record >') do |s|
+  options.on('-sSEC', '--seconds-to-record=SEC', '<Required - Seconds to Record >') do |s|
     opts[:seconds_to_record] = s
   end
 
@@ -61,7 +61,7 @@ randomize = opts[:randomize]
 seconds_to_delay_between_calls = opts[:seconds_to_delay_between_calls].to_i
 
 # Colors!
-dark_red = "\e[1m\e[31m"
+red = "\e[31m"
 green = "\e[32m"
 yellow = "\e[33m"
 cayan = "\e[36m"
@@ -79,7 +79,7 @@ if from_num <= to_num
 
     range.each do |target_num|
       start_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-      puts "#{dark_red}#{start_timestamp} >>>#{end_of_color} #{yellow}dialing #{target_num}#{end_of_color}"
+      puts "#{green}#{start_timestamp} >>>#{end_of_color} #{yellow}dialing #{target_num}#{end_of_color}"
       CSI::Plugins::Android.adb_sh(
         adb_path: adb_bin,
         command: "am start -a android.intent.action.CALL -d tel:'#{target_num}'"
@@ -90,16 +90,17 @@ if from_num <= to_num
       wav_file = "#{wav_archive}/#{target_num}-#{start_timestamp}.wav"
       sox_cmd = "#{sox_bin} -d #{wav_file} trim 0 #{seconds_to_record}"
 
-      #PTY.spawn(sox_bin, '-d', wav_file) do |_stdout, _stdin, pid|
-      #  pid_to_kill = pid
-      #end
-      puts cayan
+      puts red
+      puts "Recording Duration: #{seconds_to_record}s"
       system(sox_cmd)
+      puts "Complete."
       puts end_of_color
-      puts "#{cayan}recording audio: complete.#{end_of_color}"
-      print "#{cayan}generating audio waveform...#{end_of_color}"
+
+      puts cayan
+      puts "Generating Audio Waveform..."
       system("waveform -F #{wav_file} #{wav_file}-waveform.png")
-      puts "#{cayan}complete.#{end_of_color}"
+      puts "Complete."
+      puts end_of_color
 
       ending_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
       print "#{yellow}#{ending_timestamp} >>> #{end_of_color}"
@@ -112,7 +113,7 @@ if from_num <= to_num
 
       if seconds_to_delay_between_calls.positive? # Greater than 0
         (1..seconds_to_delay_between_calls).reverse_each do |countdown|
-          print "#{dark_red}delay #{seconds_to_delay_between_calls}s until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
+          print "#{red}delay #{seconds_to_delay_between_calls}s until next call: #{format('%-9.9s', countdown)}#{end_of_color}"
           print "\r"
           sleep 1
         end
