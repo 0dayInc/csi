@@ -7,7 +7,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb_net_connect(
+      # CSI::Plugins::Android.adb_net_connect(
       #   adb_path: 'required - path to adb binary',
       #   target: 'required - target host or IP to connect',
       #   port: 'optional - defaults to tcp 5555'
@@ -32,7 +32,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb_sh(
+      # CSI::Plugins::Android.adb_sh(
       #   adb_path: 'required - path to adb binary',
       #   command: 'required - adb command to execute'
       #   as_root: 'optional - boolean (defaults to false)',
@@ -60,7 +60,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb_push(
+      # CSI::Plugins::Android.adb_push(
       #   adb_path: 'required - path to adb binary',
       #   file: 'required - source file to push',
       #   dest: 'required - destination path to save pushed file',
@@ -89,7 +89,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb_pull(
+      # CSI::Plugins::Android.adb_pull(
       #   adb_path: 'required - path to adb binary',
       #   file: 'required - source file to pull',
       #   dest: 'required - destination path to save pulled file',
@@ -118,7 +118,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.take_screenshot(
+      # CSI::Plugins::Android.take_screenshot(
       #   adb_path: 'required - path to adb binary',
       #   dest: 'optional - destination path to save screenshot file (defaults to /sdcard/screen.png)',
       #   as_root: 'optional - boolean (defaults to true)'
@@ -150,7 +150,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.screen_record(
+      # CSI::Plugins::Android.screen_record(
       #   adb_path: 'required - path to adb binary',
       #   dest: 'optional - destination path to save screen record file (defaults to /sdcard/screen.mp4)',
       #   as_root: 'optional - boolean (defaults to true)'
@@ -183,7 +183,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.list_installed_apps(
+      # CSI::Plugins::Android.list_installed_apps(
       #   adb_path: 'required - path to adb binary',
       #   as_root: 'optional - boolean (defaults to false)',
       # )
@@ -209,7 +209,38 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.open_app(
+      # CSI::Plugins::Android.dumpsys(
+      #   adb_path: 'required - path to adb binary',
+      #   app: 'optional - application app to detail otherwise display all (i.e. display info from an android app returned from #list_install_apps method)',
+      #   as_root: 'optional - boolean (defaults to false)',
+      # )
+
+      public
+
+      def self.dumpsys(opts = {})
+        adb_path = opts[:adb_path].to_s.scrub if File.exist?(opts[:adb_path].to_s.scrub)
+        app = opts[:app].to_s.scrub
+
+        as_root = if opts[:as_root]
+                    true
+                  else
+                    false
+                  end
+
+        `#{adb_path} root` if as_root
+        if app != ''
+          app_response = `#{adb_path} shell dumpsys package #{app}`
+        else
+          app_response = `#{adb_path} shell dumpsys`
+        end
+
+        return app_response
+      rescue => e
+        return e.message
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::Android.open_app(
       #   adb_path: 'required - path to adb binary',
       #   app: 'required - application app to run (i.e. open an android app returned from #list_install_apps method)',
       #   as_root: 'optional - boolean (defaults to false)',
@@ -236,7 +267,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.find_hidden_codes(
+      # CSI::Plugins::Android.find_hidden_codes(
       #   adb_path: 'required - path to adb binary',
       #   from: 'required - start at keycode #'
       #   to: 'required - end at keycode #',
@@ -269,7 +300,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.swipe(
+      # CSI::Plugins::Android.swipe(
       #   adb_path: 'required - path to adb binary',
       #   direction: 'required - direction to swipe (:up|:down|:left|:right)'
       # )
@@ -299,7 +330,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.input(
+      # CSI::Plugins::Android.input(
       #   adb_path: 'required - path to adb binary',
       #   string: 'required - string to type'
       # )
@@ -514,7 +545,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.input_special(
+      # CSI::Plugins::Android.input_special(
       #   adb_path: 'required - path to adb binary',
       #   event: 'required - special event to invoke (:zoom_in|:zoom_out|:zenkaku_hankaku|:yen|:window|:wakeup|:voice_assist|:tv_zoom_mode|:tv_timer_programming|:tv_terrestrial_digital|:tv_terrestrial_analog|:tv_satellite_teletext|:tv_satellite_service|:tv_satellite|:tv_satellite_bs|:tv_satellite_cs|:tv_radio_service|:tv_power|:tv_number_entry|:tv_network|:tv_media_context_menu|:tv_input_vga_1|:tv_input_hdmi_1|:tv_input_hdmi_2|:tv_input_hdmi_3|:tv_input_hdmi_4|:tv_input_composite_1|:tv_input_composite_2|:tv_input_component_1|:tv_input_component_2|:tv_input|:tv_data_service|:tv_contents_menu|:tv_audio_desc|:tv_audio_desc_mix_up|:tv_audio_desc_mix_down|:tv_antenna_cable|:tv|:sysrq|:switch_charset|:stem_primary|:stem1|:stem2|:stem3|:stb_power|:stb_input|:sleep|:settings|:scroll_lock|:ro|:prog_blue|:prog_green|:prog_red|:prog_yellow|:pairing|:num_lock|:numpad_subtract|:numpad_multiply|:numpad_left_paren|:numpad_right_paren|:numpad_equals|:numpad_enter|:numpad_dot|:numpad_comma|:numpad_add|:numpad0|:numpad1|:numpad2|:numpad3|:numpad4|:numpad5|:numpad6|:numpad7|:numpad8|:numpad9|:num|:nav_in|:nav_next|:nav_out|:nav_previous|:music|:muhenkan|:meta_left|:meta_right|:media_top_menu|:media_step_forward|:media_step_back|:media_skip_forward|:media_skip_back|:media_record|:media_play|:media_eject|:media_close|:media_audio_track|:manner_mode|:last_channel|:language_switch|:katakana_hiragana|:kana|:insert|:info|:henkan|:help|:guide|:del|:f1|:f2|:f3|:f4|:f5|:f6|:f7|:f8|:f9|:f10|:f11|:f12|:escape|:eisu|:dvr|:ctrl_left|:ctrl_right|:cut|:copy|:paste|:contacts|:chan_down|:chan_up|:captions|:caps_lock|:calendar|:calculator|:gamepad_1|:gamepad_2|:gamepad_3|:gamepad_4|:gamepad_5|:gamepad_6|:gamepad_7|:gamepad_8|:gamepad_9|:gamepad_10|:gamepad_11|:gamepad_12|:gamepad_13|:gamepad_14|:gamepad_15|:gamepad_16|:gamepad_a|:gamepad_b|:gamepad_c|:gamepad_l1|:gamepad_l2|:gamepad_mode|:gamepad_r1|:gamepad_r2|:gamepad_select|:gamepad_start|:gamepad_thumbl|:gamepad_thumbr|:gamepad_x|:gamepad_y|:gamepad_z|:brightness_up|:brightness_down|:break|:bookmark|:avr_power|:avr_input|:assist|:app_switch|:threeDmode|:eleven|:twelve|:unknown|:soft_left|:soft_right|:soft_sleep|:home|:forward|:back|:call|:endcall|:dpad_up|:dpad_down|:dpad_left|:dpad_right|:dpad_down_left|:dpad_down_right|:dpad_up_left|:dpad_up_right|:dpad_center|:volume_up|:volume_down|:power|:camera|:clear|:alt_left|:alt_right|:shift_left|:shift_right|:tab|:sym|:explorer|:envelope|:enter|:backspace|:headsethook|:focus|:menu|:top_menu|:notification|:search|:media_play_pause|:media_stop|:media_next|:media_previous|:media_rewind|:media_fast_forward|:mute|:page_up|:page_down|:pictsymbols|:move_home|:move_end) see https://developer.android.com/reference/android/view/KeyEvent.html for more info'
       # )
@@ -992,7 +1023,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.close_app(
+      # CSI::Plugins::Android.close_app(
       #   adb_path: 'required - path to adb binary',
       #   app: 'required - application app to close (i.e. open an android app returned from #list_install_apps method)',
       #   as_root: 'optional - boolean (defaults to false)',
@@ -1019,7 +1050,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.invoke_event_listener(
+      # CSI::Plugins::Android.invoke_event_listener(
       #   adb_path: 'required - path to adb binary',
       #   as_root: 'optional - boolean (defaults to false)',
       # )
@@ -1043,7 +1074,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AndroidADB.adb_net_disconnect(
+      # CSI::Plugins::Android.adb_net_disconnect(
       #   adb_path: 'required - path to adb binary',
       #   target: 'required - target host or IP to disconnect',
       #   port: 'optional - defaults to tcp 5555'
@@ -1126,6 +1157,12 @@ module CSI
 
           installed_apps_arr = #{self}.list_installed_apps(
             adb_path: 'required - path to adb binary',
+            as_root: 'optional - boolean (defaults to false)',
+          )
+
+          app_response = #{self}.dumpsys(
+            adb_path: 'required - path to adb binary',
+            app: 'optional - application app to detail otherwise display all (i.e. display info from an android app returned from #list_install_apps method)',
             as_root: 'optional - boolean (defaults to false)',
           )
 
