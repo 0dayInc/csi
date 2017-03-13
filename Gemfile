@@ -31,6 +31,7 @@ gem 'net-ldap', '0.15.0'               # Required for Querying Active Directory 
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '5.2.0'                 # Vuln Scan all the Things! ***2017-02-13
 gem 'nokogiri', '>=1.6.8'              # Parse HTML & XML Documents ***2017-02-13 (jenkins_api_client depends on older version)
+gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-03-12
 gem 'os', '0.9.6'                      # Detect underlying operating system ***2017-02-13
 gem 'packetfu', '1.1.12'               # Bettercap dependency and misc packet mangler ***2017-02-13
 gem 'pdf-reader', '1.4.1'              # Parsing PDF Reports ***2017-02-13
@@ -45,6 +46,7 @@ gem 'rex', '2.0.10'                    # Rex provides a variety of classes usefu
 gem 'rmagick', '2.16.0'                # Image processing gem ***2017-02-13
 gem 'rtesseract', '2.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2017-02-13
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
+gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
 gem 'ruby-nmap', '0.9.2'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2017-02-13
 gem 'ruby-saml', '1.4.2'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2017-02-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
@@ -56,4 +58,5 @@ gem 'spreadsheet', '1.1.4'             # Generate Excel Spreadsheets (.xls files
 gem 'sqlite3', '1.3.13'                # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2017-02-13
 gem 'thin', '1.7.0'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-02-13
 gem 'watir', '6.2.0'                   # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2017-02-13
+gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
 gem 'wicked_pdf', '1.1.0'              # Convert HTML to PDF Documents ***2017-02-13
