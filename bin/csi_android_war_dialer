@@ -97,8 +97,10 @@ if from_num <= to_num
       puts end_of_color
 
       puts cayan
+      puts 'Generating Audio Spectrogram...'
+      system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
       puts 'Generating Audio Waveform...'
-      system("waveform -F #{wav_file} #{wav_file}-waveform.png")
+      system("waveform -c '#FF0000' -b '#000000' -F #{wav_file} #{wav_file}-waveform.png")
       puts 'Complete.'
       puts end_of_color
 
