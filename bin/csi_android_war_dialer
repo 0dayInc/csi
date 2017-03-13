@@ -94,9 +94,10 @@ if from_num <= to_num
 
       begin
         Timeout.timeout(seconds_to_record) do
-          PTY.spawn(sox_cmd) do |_stdout, _stdin, pid|
-            pid_to_kill = pid
-          end
+          #PTY.spawn(sox_bin, '-d', wav_file) do |_stdout, _stdin, pid|
+          #  pid_to_kill = pid
+          #end
+          pid_to_kill = fork { sox_cmd }
           (1..seconds_to_record).reverse_each do |countdown|
             print "#{cayan}recording audio: #{format('%-9.9s', countdown)}#{end_of_color}"
             print "\r"
