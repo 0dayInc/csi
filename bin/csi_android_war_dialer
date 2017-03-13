@@ -4,6 +4,7 @@ require 'csi'
 require 'optparse'
 require 'timeout'
 require 'pty'
+require 'waveform'
 
 opts = {}
 OptionParser.new do |options|
@@ -97,15 +98,15 @@ if from_num <= to_num
             pid_to_kill = pid
           end
           (1..seconds_to_record).reverse_each do |countdown|
-            print "\s\s#{cayan}recording audio: #{format('%-9.9s', countdown)}#{end_of_color}"
+            print "#{cayan}recording audio: #{format('%-9.9s', countdown)}#{end_of_color}"
             print "\r"
             sleep 1
           end
         end
       rescue Timeout::Error
         Process.kill('KILL', pid_to_kill)
-        puts "\s\s#{cayan}recording audio: complete.#{end_of_color}"
-        print "\s\s#{cayan}generating audio waveform...#{end_of_color}"
+        puts "#{cayan}recording audio: complete.#{end_of_color}"
+        print "#{cayan}generating audio waveform...#{end_of_color}"
         system("waveform -F #{wav_file} #{wav_file}-waveform.png")
         puts "#{cayan}complete.#{end_of_color}"
       end
