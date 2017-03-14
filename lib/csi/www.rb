@@ -19,6 +19,7 @@ module CSI
     autoload :Synack, 'csi/www/synack'
     autoload :Torch, 'csi/www/torch'
     autoload :Twitter, 'csi/www/twitter'
+    autoload :Uber, 'csi/www/uber'
     autoload :Upwork, 'csi/www/upwork'
     autoload :Youtube, 'csi/www/youtube'
 
