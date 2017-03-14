@@ -96,6 +96,14 @@ if from_num <= to_num
       puts 'Complete.'
       puts end_of_color
 
+      ending_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
+      print "#{yellow}#{ending_timestamp} >>> #{end_of_color}"
+      CSI::Plugins::Android.adb_sh(
+        adb_path: adb_bin,
+        command: 'input keyevent KEYCODE_ENDCALL'
+      )
+      puts "#{green}hung up #{target_num}#{end_of_color}"
+
       puts cayan
       puts 'Generating Audio Spectrogram...'
       system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
@@ -103,15 +111,6 @@ if from_num <= to_num
       system("waveform -c '#FF0000' -b '#000000' -F #{wav_file} #{wav_file}-waveform.png")
       puts 'Complete.'
       puts end_of_color
-
-      ending_timestamp = Time.now.strftime('%Y-%m-%d.%H.%M.%S')
-      print "#{yellow}#{ending_timestamp} >>> #{end_of_color}"
-      CSI::Plugins::Android.adb_sh(
-        adb_path: adb_bin,
-        command: 'input keyevent KEYCODE_ENDCALL'
-      )
-
-      puts "#{green}hung up #{target_num}#{end_of_color}"
 
       if seconds_to_delay_between_calls.positive? # Greater than 0
         (1..seconds_to_delay_between_calls).reverse_each do |countdown|
