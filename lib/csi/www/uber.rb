@@ -96,7 +96,7 @@ module CSI
       def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.span(index: 5).wait_until_present.hover
-        browser_obj.link(text: 'Log Out').wait_until_present.click
+        browser_obj.link(index: 13).wait_until_present.click
 
         return browser_obj
       rescue => e
