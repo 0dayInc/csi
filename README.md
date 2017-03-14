@@ -42,6 +42,28 @@ Spectrogram of a Fax Machine:
 Waveform of a Fax Machine:
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/fax-waveform.png)
 
+AWS Rekognition Anyone?
+```
+csi[v0.1.974]:001 >>> CSI::AWS::Rekognition.help
+USAGE:
+          rekognition_obj = CSI::AWS::Rekognition.connect(
+            region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
+            access_key_id: 'required - Use AWS STS for best privacy (i.e. temporary access key id)',
+            secret_access_key: 'required - Use AWS STS for best privacy (i.e. temporary secret access key',
+            sts_session_token: 'optional - Temporary token returned by STS client for best privacy'
+          )
+          puts rekognition_obj.public_methods
+
+          CSI::AWS::Rekognition.disconnect(
+            rekognition_obj: 'required - rekognition_obj returned from #connect method'
+          )
+
+          CSI::AWS::Rekognition.authors
+
+=> nil
+csi[v0.1.974]:002 >>>
+```
+
 ### **Call to Arms** ###
 If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM me as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.  Lastly, this project accepts donations, so if you want to see this thing blow the door off the hinges, please donate!!! 
 
@@ -138,7 +160,7 @@ All installation methods are recommended :)
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.973]:001 >>> CSI.help
+  csi[v0.1.974]:001 >>> CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -149,7 +171,7 @@ All installation methods are recommended :)
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.973]:001 >>> CSI.help
+  csi[v0.1.974]:001 >>> CSI.help
   ```
 
 
@@ -182,28 +204,28 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.1.973]:001 >>> CSI.help
-  csi[v0.1.973]:002 >>> CSI::Plugins.help
-  csi[v0.1.973]:003 >>> CSI::WWW.help
-  csi[v0.1.973]:004 >>> CSI::WWW::Google.help
-  csi[v0.1.973]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.973]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.973]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.973]:008 >>> CSI::WWW::Google.close
+  csi[v0.1.974]:001 >>> CSI.help
+  csi[v0.1.974]:002 >>> CSI::Plugins.help
+  csi[v0.1.974]:003 >>> CSI::WWW.help
+  csi[v0.1.974]:004 >>> CSI::WWW::Google.help
+  csi[v0.1.974]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.974]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.974]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.974]:008 >>> CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.1.973]:001 >>> CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.974]:001 >>> CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.1.973]:002 >>> CSI::Plugins::BurpSuite.help
+  csi[v0.1.974]:002 >>> CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.1.973]:003 >>> CSI::Plugins::OwaspZap.help
+  csi[v0.1.974]:003 >>> CSI::Plugins::OwaspZap.help
     USAGE:
       ...
   ```
@@ -213,7 +235,7 @@ All installation methods are recommended :)
 
   ```
   # csi
-  csi[v0.1.973]:001 >>> CSI::Plugins::NmapIt.help
+  csi[v0.1.974]:001 >>> CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -229,13 +251,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.973]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.973]:003 ***   nmap.syn_scan = true
-  csi[v0.1.973]:004 ***   nmap.service_scan = true
-  csi[v0.1.973]:005 ***   nmap.os_fingerprint = true
-  csi[v0.1.973]:006 ***   nmap.ports = [1..1024,1337]
-  csi[v0.1.973]:007 ***   nmap.targets = '127.0.0.1'
-  csi[v0.1.973]:008 *** end  
+  csi[v0.1.974]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.974]:003 ***   nmap.syn_scan = true
+  csi[v0.1.974]:004 ***   nmap.service_scan = true
+  csi[v0.1.974]:005 ***   nmap.os_fingerprint = true
+  csi[v0.1.974]:006 ***   nmap.ports = [1..1024,1337]
+  csi[v0.1.974]:007 ***   nmap.targets = '127.0.0.1'
+  csi[v0.1.974]:008 *** end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -246,7 +268,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.973]:009 >>> hist
+  csi[v0.1.974]:009 >>> hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -255,7 +277,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.973]:010 » hist -r 2..8
+  csi[v0.1.974]:010 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -286,10 +308,10 @@ All installation methods are recommended :)
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
   ```
   $ csi
-  csi[v0.1.973]:002 >>> CSI.help
+  csi[v0.1.974]:002 >>> CSI.help
   => [:AWS, :MSF, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.973]:003 >>> CSI::AWS.help
+  csi[v0.1.974]:003 >>> CSI::AWS.help
   => [:ACM,
    :APIGateway,
    :AppStream,
@@ -380,7 +402,7 @@ All installation methods are recommended :)
    :Workspaces,
    :XRay]
 
-  csi[v0.1.973]:004 >>> CSI::Plugins.help
+  csi[v0.1.974]:004 >>> CSI::Plugins.help
   => [:Android,
    :AnsibleVault,
    :AuthenticationHelper,
@@ -419,7 +441,7 @@ All installation methods are recommended :)
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.973]:005 >>> CSI::SCAPM.help
+  csi[v0.1.974]:005 >>> CSI::SCAPM.help
   => [:AMQPConnectAsGuest,
    :AWS,
    :ApacheFileSystemUtilAPI,
@@ -451,7 +473,7 @@ All installation methods are recommended :)
    :Token,
    :Version]
 
-  csi[v0.1.973]:006 >>> CSI::WWW.help
+  csi[v0.1.974]:006 >>> CSI::WWW.help
   => [:AppCobaltIO,
    :Bing,
    :BugCrowd,
