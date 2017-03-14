@@ -22,11 +22,25 @@ It's easy to agree that while corporate automation is a collection of proprietar
 Leveraging various pre-built modules and the csi prototyping driver, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."
 
 #### **What is CSI** ####
-CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
+CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
 
+Prototyping an OWASP ZAP Scanner Leveraging the csi Prototyping Driver:
 [![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
 
+Example of the csi_android_war_dialer calling 1-800-444-4444 to obtain is ANI (Its Own Caller ID):
+![CSI](https://github.com/ninp0/csi/blob/master/documentation/csi_android_war_dialer_session.png)
 
+Spectrogram Containing a Collection of Rings:
+![CSI](https://github.com/ninp0/csi/blob/master/documentation/ringing-spectrogram.png)
+
+Waveform Containing a Collection of Rings:
+![CSI](https://github.com/ninp0/csi/blob/master/documentation/ringing-waveform.png)
+
+Spectrogram of a Fax Machine:
+![CSI](https://github.com/ninp0/csi/blob/master/documentation/fax-spectrogram.png)
+
+Waveform of a Fax Machine:
+![CSI](https://github.com/ninp0/csi/blob/master/documentation/fax-waveform.png)
 
 ### **Call to Arms** ###
 If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM me as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.  Lastly, this project accepts donations, so if you want to see this thing blow the door off the hinges, please donate!!! 
@@ -124,7 +138,7 @@ All installation methods are recommended :)
   # ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.972]:001 >>> CSI.help
+  csi[v0.1.973]:001 >>> CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -135,7 +149,7 @@ All installation methods are recommended :)
   # cd /opt/csi && ./install.sh ruby-gem
   # exit
   $ cd /opt/csi && csi
-  csi[v0.1.972]:001 >>> CSI.help
+  csi[v0.1.973]:001 >>> CSI.help
   ```
 
 
@@ -168,28 +182,28 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.1.972]:001 >>> CSI.help
-  csi[v0.1.972]:002 >>> CSI::Plugins.help
-  csi[v0.1.972]:003 >>> CSI::WWW.help
-  csi[v0.1.972]:004 >>> CSI::WWW::Google.help
-  csi[v0.1.972]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.1.972]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.1.972]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.1.972]:008 >>> CSI::WWW::Google.close
+  csi[v0.1.973]:001 >>> CSI.help
+  csi[v0.1.973]:002 >>> CSI::Plugins.help
+  csi[v0.1.973]:003 >>> CSI::WWW.help
+  csi[v0.1.973]:004 >>> CSI::WWW::Google.help
+  csi[v0.1.973]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.1.973]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.1.973]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.1.973]:008 >>> CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.1.972]:001 >>> CSI::Plugins::TransparentBrowser.help
+  csi[v0.1.973]:001 >>> CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.1.972]:002 >>> CSI::Plugins::BurpSuite.help
+  csi[v0.1.973]:002 >>> CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.1.972]:003 >>> CSI::Plugins::OwaspZap.help
+  csi[v0.1.973]:003 >>> CSI::Plugins::OwaspZap.help
     USAGE:
       ...
   ```
@@ -199,7 +213,7 @@ All installation methods are recommended :)
 
   ```
   # csi
-  csi[v0.1.972]:001 >>> CSI::Plugins::NmapIt.help
+  csi[v0.1.973]:001 >>> CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -215,13 +229,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.1.972]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.1.972]:003 ***   nmap.syn_scan = true
-  csi[v0.1.972]:004 ***   nmap.service_scan = true
-  csi[v0.1.972]:005 ***   nmap.os_fingerprint = true
-  csi[v0.1.972]:006 ***   nmap.ports = [1..1024,1337]
-  csi[v0.1.972]:007 ***   nmap.targets = '127.0.0.1'
-  csi[v0.1.972]:008 *** end  
+  csi[v0.1.973]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.1.973]:003 ***   nmap.syn_scan = true
+  csi[v0.1.973]:004 ***   nmap.service_scan = true
+  csi[v0.1.973]:005 ***   nmap.os_fingerprint = true
+  csi[v0.1.973]:006 ***   nmap.ports = [1..1024,1337]
+  csi[v0.1.973]:007 ***   nmap.targets = '127.0.0.1'
+  csi[v0.1.973]:008 *** end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -232,7 +246,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.1.972]:009 >>> hist
+  csi[v0.1.973]:009 >>> hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -241,7 +255,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.1.972]:010 » hist -r 2..8
+  csi[v0.1.973]:010 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -272,10 +286,10 @@ All installation methods are recommended :)
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
   ```
   $ csi
-  csi[v0.1.972]:002 >>> CSI.help
+  csi[v0.1.973]:002 >>> CSI.help
   => [:AWS, :MSF, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.1.972]:003 >>> CSI::AWS.help
+  csi[v0.1.973]:003 >>> CSI::AWS.help
   => [:ACM,
    :APIGateway,
    :AppStream,
@@ -366,7 +380,7 @@ All installation methods are recommended :)
    :Workspaces,
    :XRay]
 
-  csi[v0.1.972]:004 >>> CSI::Plugins.help
+  csi[v0.1.973]:004 >>> CSI::Plugins.help
   => [:Android,
    :AnsibleVault,
    :AuthenticationHelper,
@@ -405,7 +419,7 @@ All installation methods are recommended :)
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.1.972]:005 >>> CSI::SCAPM.help
+  csi[v0.1.973]:005 >>> CSI::SCAPM.help
   => [:AMQPConnectAsGuest,
    :AWS,
    :ApacheFileSystemUtilAPI,
@@ -437,7 +451,7 @@ All installation methods are recommended :)
    :Token,
    :Version]
 
-  csi[v0.1.972]:006 >>> CSI::WWW.help
+  csi[v0.1.973]:006 >>> CSI::WWW.help
   => [:AppCobaltIO,
    :Bing,
    :BugCrowd,
