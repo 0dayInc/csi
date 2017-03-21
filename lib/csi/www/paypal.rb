@@ -103,7 +103,7 @@ module CSI
         browser_obj.select(id: 'state').wait_until_present.select_value(state)
         browser_obj.text_field(id: 'postalCode').wait_until_present.set(zip_code)
         browser_obj.text_field(id: 'phoneNumber').wait_until_present.set(mobile_phone)
-        browser_obj.checkbox(id: 'termsAgree').wait_until_present.click
+        browser_obj.span(index: 7).wait_until_present.click # Agree to ToS
         browser_obj.button(id: 'submitBtn').wait_until_present.click
 
         puts "Confirmation email sent to: #{username}"
