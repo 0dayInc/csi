@@ -100,7 +100,7 @@ module CSI
         browser_obj.text_field(id: 'lastName').wait_until_present.set(last_name)
         browser_obj.text_field(id: 'address1').wait_until_present.set(address)
         browser_obj.text_field(id: 'city').wait_until_present.set(city)
-        browser_obj.select(id: 'state').wait_until_present.set(state)
+        browser_obj.select(id: 'state').wait_until_present.select_value(state)
         browser_obj.text_field(id: 'postalCode').wait_until_present.set(zip_code)
         browser_obj.text_field(id: 'phoneNumber').wait_until_present.set(mobile_phone)
         browser_obj.checkbox(id: 'termsAgree').wait_until_present.click
