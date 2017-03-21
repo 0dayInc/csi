@@ -90,7 +90,7 @@ module CSI
         end
         mfa = opts[:mfa]
 
-        browser_obj.goto('https://www.paypal.com/signup')
+        browser_obj.goto('https://www.paypal.com/signup/account')
 
         browser_obj.text_field(id: 'email').wait_until_present.set(username)
         browser_obj.text_field(id: 'password').wait_until_present.set(password)
