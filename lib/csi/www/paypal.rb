@@ -106,7 +106,7 @@ module CSI
         browser_obj.checkbox(id: 'termsAgree').wait_until_present.click
         browser_obj.button(id: 'submitBtn').wait_until_present.click
 
-        puts "A confirmation email should be sent to #{username} momentarily..."
+        puts "Confirmation email sent to: #{username}"
 
         return browser_obj
       rescue => e
