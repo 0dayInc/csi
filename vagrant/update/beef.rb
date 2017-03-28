@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 print 'Updating BeEF...'
 beef_root = '/opt/beef-dev/'
 puts `sudo /bin/bash --login -c "cd #{beef_root} && rm Gemfile.lock && git pull"`

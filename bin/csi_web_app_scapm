@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 require 'csi'
 
 # TODO: Daemonize this Driver (i.e. Leveraging Optparse, accept flags such as start, stop, & restart.  Also have a flag that chooses development, prod, or staging.)

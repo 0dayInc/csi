@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CSI
   module Plugins
     # This plugin was created to interact w/ Burp Suite Pro in headless mode to kick off spidering/live scanning

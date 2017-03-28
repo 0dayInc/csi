@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CSI
   module WWW
     # This plugin supports Torch (Tor Search Engine) actions.

@@ -1,4 +1,5 @@
 #!/bin/bash --login
+
 # Make sure the csi gemset has been loaded
 printf "Installing Apache *********************************************************************"
 domain_name=`hostname -d`

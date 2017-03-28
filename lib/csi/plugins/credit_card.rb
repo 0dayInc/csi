@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'credit_card_validations'
 
 module CSI

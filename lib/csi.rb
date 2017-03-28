@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csi/version'
 
 # Thank you for choosing the Continuous Security Integrtion Framework!

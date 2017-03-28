@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CSI
   # This file, using the autoload directive loads SP reports
   # into memory only when they're needed. For more information, see:

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: false
+
 require 'csi'
 require 'thread'
 require 'optparse'
@@ -46,38 +47,38 @@ list_test_cases = opts[:list_test_cases]
 if chosen_test_cases && !list_test_cases
   test_cases = chosen_test_cases.to_s.scrub.chomp.strip.delete("\s").split(',').map(&:to_sym)
 else
-  test_cases = [
-    :ApacheFileSystemUtilAPI,
-    :AMQPConnectAsGuest,
-    :AWS,
-    :BannedFunctionCallsC,
-    :Base64,
-    :BeefHook,
-    :CmdExecutionJava,
-    :CmdExecutionPython,
-    :CmdExecutionRuby,
-    :CmdExecutionScala,
-    :CSRF,
-    :Emoticon,
-    :Eval,
-    :InnerHTML,
-    :FilePermission,
-    :Factory,
-    :Logger,
-    :Keystore,
-    :OuterHTML,
-    :Password,
-    :PomVersion,
-    :Port,
-    :Redirect,
-    :ReDOS,
-    :SQL,
-    :SSL,
-    :TaskTag,
-    :ThrowErrors,
-    :Token,
-    :Version
-  ]
+  test_cases = %i(
+    ApacheFileSystemUtilAPI
+    AMQPConnectAsGuest
+    AWS
+    BannedFunctionCallsC
+    Base64
+    BeefHook
+    CmdExecutionJava
+    CmdExecutionPython
+    CmdExecutionRuby
+    CmdExecutionScala
+    CSRF
+    Emoticon
+    Eval
+    InnerHTML
+    FilePermission
+    Factory
+    Logger
+    Keystore
+    OuterHTML
+    Password
+    PomVersion
+    Port
+    Redirect
+    ReDOS
+    SQL
+    SSL
+    TaskTag
+    ThrowErrors
+    Token
+    Version
+  )
 end
 
 if list_test_cases

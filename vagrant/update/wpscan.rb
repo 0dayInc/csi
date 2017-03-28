@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
 print 'Updating WordPress Web Vulnerability Scanner (wpscan)...'
 Dir.chdir('/opt')
 wpscan_root = '/opt/wpscan-dev/'

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CSI
   module Plugins
     # This plugin was created to generate UTF-8 characters for fuzzing
