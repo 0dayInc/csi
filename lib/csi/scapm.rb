@@ -35,6 +35,7 @@ module CSI
     autoload :ThrowErrors, 'csi/scapm/throw_errors'
     autoload :Token, 'csi/scapm/token'
     autoload :Version, 'csi/scapm/version'
+    autoload :WindowLocationHash, 'csi/scapm/window_location_hash'
 
     # Display a List of Each Static Code Anti-Pattern Matching Module
 
