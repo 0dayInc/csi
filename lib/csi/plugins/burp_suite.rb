@@ -180,7 +180,7 @@ module CSI
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap['data'].each do |site|
-          next unless site['request']['host'] =~ /#{target_domain_name}/ # Accepts DNS name only - no IPs
+          next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
           puts "Adding #{site['request']['host']} to Active Scan"
           bool_ssl = if site['request']['port'].to_i == 443
                        true

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'nexpose'
+require 'ipaddr'
 
 module CSI
   module Plugins
@@ -108,7 +109,7 @@ module CSI
           assets.each do |ip_host_hash|
             begin
               current_ip = IPAddr.new(ip_host_hash[:ip].to_s.scrub.strip.chomp)
-              unless current_ip =~ /^255/ # || current_ip =~ /^[224-239]/ # Multicast?
+              unless current_ip.to_s.match?('255') # || current_ip =~ /^[224-239]/ # Multicast?
                 # TODO: try to reverse DNS word to see if an IP s available as well
                 @@logger.info("Adding #{current_ip}")
                 refresh_site.include_asset(current_ip)

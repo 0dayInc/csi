@@ -13,7 +13,7 @@ url = 'http://phantomjs.org/download.html'
 phantomjs_resp = RestClient.get(url)
 links = Nokogiri::HTML(phantomjs_resp).xpath('//a/@href')
 links.each do |link|
-  if link.value =~ /linux-x86_64\.tar\.bz2/
+  if link.value.match?(/linux-x86_64\.tar\.bz2/)
     phantomjs_tar_bz2 = "/opt/#{File.basename(link.value)}"
     phantomjs_linux_download = link.value
   end

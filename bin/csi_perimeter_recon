@@ -25,7 +25,6 @@ OptionParser.new do |options|
   options.on('-nNMAP', '--nmap-path=NMAP', '<Optional - Path to Nmap>') do |d|
     opts[:dnsrecon_path] = d
   end
-
 end.parse!
 
 if opts.empty?
@@ -75,8 +74,8 @@ unless nmap_path.nil?
   CSI::Plugins::NmapIt.parse_xml_results(xml_file: nmap_xml_results) do |xml|
     xml.each_host do |host|
       puts "#{green}#{host.ip}#{end_of_color}"
-   
-      host.scripts.each do |name, output|
+
+      host.scripts.each do |_name, output|
         output.each_line { |line| puts line }
       end
 
@@ -96,12 +95,12 @@ end
 burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_path, browser_type: :chrome)
 browser_obj = burp_obj[:browser_obj]
 
-File.readlines(sublist3r_results).each do |line| 
+File.readlines(sublist3r_results).each do |line|
   child_domain = line..to_s.scrub.strip.chomp
   begin
     puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
     browser_obj.goto("https://#{child_domain}")
-    puts "#{browser_obj.wait_until_present.title}"
+    puts browser_obj.wait_until_present.title.to_s.scrub.strip.chomp
   rescue => e
     puts "#{red}e#{end_of_color}"
     next

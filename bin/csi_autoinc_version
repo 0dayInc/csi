@@ -30,6 +30,7 @@ new_rev = placeholder_arr.join('.')
 puts "Upgrading to #{new_rev}..."
 File.open('./lib/csi/version.rb', 'w') do |f|
   f.puts '# frozen_string_literal: true'
+  f.puts "\n"
   f.puts 'module CSI'
   f.puts "  VERSION = '#{new_rev}'"
   f.puts 'end'
@@ -43,7 +44,7 @@ File.unlink(old_gem_pkg) if File.exist?(old_gem_pkg)
 old_readme_md = File.read(readme_md_path, encoding: 'utf-8')
 File.open(readme_md_path, 'w') do |file|
   old_readme_md.each_line do |line|
-    if line.to_s.scrub =~ /csi\[v#{old_rev}\]/
+    if line.to_s.scrub.match?(/csi\[v#{old_rev}\]/)
       new_line = line.to_s.gsub(/csi\[v#{old_rev}\]/, "csi\[v#{new_rev}\]")
       file.puts new_line
     else

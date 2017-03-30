@@ -257,7 +257,7 @@ module CSI
 
         jenkins_obj.job.list_all_with_details.each do |job|
           job_name = job['name']
-          if job_name =~ /#{regex}/
+          if job_name.match?(/#{regex}/)
             @@logger.info("Disabling #{job_name}")
             jenkins_obj.job.disable(job_name)
           end
@@ -280,7 +280,7 @@ module CSI
 
         jenkins_obj.job.list_all_with_details.each do |job|
           job_name = job['name']
-          if job_name =~ /#{regex}/
+          if job_name.match?(/#{regex}/)
             @@logger.info("Deleting #{job_name}")
             jenkins_obj.job.delete(job_name)
           end

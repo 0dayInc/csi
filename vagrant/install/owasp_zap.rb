@@ -13,7 +13,7 @@ browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
 browser_obj.goto(url)
 
 browser_obj.links.each do |link|
-  if link.href =~ /ZAP_.+_Linux\.tar\.gz/
+  if link.href.match?(/ZAP_.+_Linux\.tar\.gz/)
     owasp_zap_tar_gz = "/opt/#{File.basename(link.href)}"
     owasp_zap_linux_download = link.href
   end
