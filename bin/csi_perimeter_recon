@@ -27,7 +27,7 @@ OptionParser.new do |options|
   end
 
   options.on('-bBURP', '--burp-path=BURP', '<Optional - Path to Burp>') do |b|
-    opts[:burp_path] = n
+    opts[:burp_path] = b
   end
 end.parse!
 
