@@ -66,7 +66,6 @@ unless nmap_path.nil?
   nmap_xml_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-nmap_default.xml"
   File.readlines(sublist3r_results).each { |line| nmap_targets_arr.push(line.to_s.scrub.strip.chomp) }
   CSI::Plugins::NmapIt.port_scan do |nmap|
-    puts nmap.public_methods
     nmap.connect_scan = true
     nmap.service_scan = true
     nmap.verbose = true
@@ -97,8 +96,16 @@ end
 
 # TODO: make smarter based on nmap results instead of just https
 unless burp_path.nil?
-  burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_path, browser_type: :chrome)
-  browser_obj = burp_obj[:browser_obj]
+  burp_obj = CSI::Plugins::BurpSuite.start(
+    burp_jar_path: burp_path, 
+    browser_type: :chrome
+  )
+
+  CSI::Plugins::BurpSuite.disable_proxy(
+    burp_obj: burp_obj
+  )
+
+  browser_obj = burp_obj[:burp_browser]
 
   File.readlines(sublist3r_results).each do |line|
     child_domain = line..to_s.scrub.strip.chomp
