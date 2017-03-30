@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '5.0.1'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2017-02-13
+gem 'activesupport', '5.0.2'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2017-03-30
 gem 'anemone', '0.7.2'                 # Spider webpages
 gem 'authy', '2.7.1'                   # MFA API Access into Authy service ***2017-02-13
 gem 'aws-sdk', '2.7.7'                 # Amazon AWS SDK ***2017-02-13
@@ -23,15 +23,16 @@ gem 'highline', '1.7.8'                # Masking Authentication Credential Input
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
-gem 'json', '2.0.3'                    # Work w/ JSON objects ***2017-02-13 (jenkins_api_client depends on older version)
+gem 'json', '2.0.3'                    # Work w/ JSON objects ***2017-03-30 (jenkins_api_client depends on older version)
 gem 'jsonpath', '0.5.8'                # XPath-ify Complex JSON Data Structures ***2017-02-13
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mongo', '2.4.1'                   # Primarily for Data-Driven Security, pulling in various security tools' output ***2017-02-13
-gem 'msfrpc-client', '1.0.3'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2016-06-28
+gem 'msfrpc-client', '1.1.0'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2017-03-30
+gem 'msgpack', '1.1.0'                 # Pry Dependency ***2017-03-30
 gem 'net-ldap', '0.15.0'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-02-13
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '5.2.0'                 # Vuln Scan all the Things! ***2017-02-13
-gem 'nokogiri', '1.7.1'                # Parse HTML & XML Documents ***2017-02-13 (jenkins_api_client depends on older version)
+gem 'nokogiri', '1.7.1'                # Parse HTML & XML Documents ***2017-03-30 (jenkins_api_client depends on older version)
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-03-12
 gem 'os', '0.9.6'                      # Detect underlying operating system ***2017-02-13
 gem 'packetfu', '1.1.12'               # Bettercap dependency and misc packet mangler ***2017-02-13
