@@ -22,8 +22,12 @@ OptionParser.new do |options|
     opts[:sublist3r_path] = s
   end
 
-  options.on('-nNMAP', '--nmap-path=NMAP', '<Optional - Path to Nmap>') do |d|
-    opts[:dnsrecon_path] = d
+  options.on('-nNMAP', '--nmap-path=NMAP', '<Optional - Path to Nmap>') do |n|
+    opts[:nmap_path] = n
+  end
+
+  options.on('-bBURP', '--burp-path=BURP', '<Optional - Path to Burp>') do |n|
+    opts[:nmap_path] = n
   end
 end.parse!
 
@@ -43,14 +47,14 @@ target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
 
 sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
-dnsrecon_path = opts[:dnsrecon_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
+nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
 
 runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
 
 # Run Sublist3r to find as many domains as possible for a given FQDN
 unless sublist3r_path.nil?
-  sublist3r_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-sublist3r_brute.txt"
+  sublist3r_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-sublist3r.txt"
   print "#{green}Sublist3r Domain Discovery...#{end_of_color}"
   puts `python #{sublist3r_path} -v -d #{target_fqdn} -o #{sublist3r_results}`
   puts "#{green}complete.#{end_of_color}"
@@ -92,17 +96,20 @@ unless nmap_path.nil?
   puts "#{green}complete.#{end_of_color}"
 end
 
-burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_path, browser_type: :chrome)
-browser_obj = burp_obj[:browser_obj]
+# TODO: make smarter based on nmap results instead of just https
+unless burp_path.nil?
+  burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_path, browser_type: :chrome)
+  browser_obj = burp_obj[:browser_obj]
 
-File.readlines(sublist3r_results).each do |line|
-  child_domain = line..to_s.scrub.strip.chomp
-  begin
-    puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
-    browser_obj.goto("https://#{child_domain}")
-    puts browser_obj.wait_until_present.title.to_s.scrub.strip.chomp
-  rescue => e
-    puts "#{red}e#{end_of_color}"
-    next
+  File.readlines(sublist3r_results).each do |line|
+    child_domain = line..to_s.scrub.strip.chomp
+    begin
+      puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
+      browser_obj.goto("https://#{child_domain}")
+      puts browser_obj.wait_until_present.title.to_s.scrub.strip.chomp
+    rescue => e
+      puts "#{red}e#{end_of_color}"
+      next
+    end
   end
 end
