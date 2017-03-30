@@ -43,6 +43,7 @@ gem 'pry', git: 'https://github.com/tnorris/pry.git', branch: 'adds-duplicate-hi
 # gem 'pry', '0.10.4' # More feature-filled irb alternative
 gem 'puppet', '4.9.2'                  # Integrate CSI into Puppet automation ***2017-02-13
 gem 'rbvmomi', '1.9.4'                 # Required for VMware-Fu ***2017-02-13
+gem 'rb-readline', '0.5.4'             # Required for pry / csi prototyping driver ***2017-03-30
 gem 'rest-client', '2.0.0'             # Required for REST API Testing ***2017-02-13
 gem 'rex', '2.0.10'                    # Rex provides a variety of classes useful for security testing and exploit development ***2017-02-13
 gem 'rmagick', '2.16.0'                # Image processing gem ***2017-02-13
