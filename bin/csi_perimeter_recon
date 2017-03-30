@@ -70,7 +70,6 @@ unless nmap_path.nil?
     nmap.connect_scan = true
     nmap.service_scan = true
     nmap.verbose = true
-    nmap.ports = [1..65535]
     nmap.targets = nmap_targets_arr.uniq
     nmap.xml = nmap_xml_results
   end
