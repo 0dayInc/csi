@@ -1,0 +1,109 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-tURL', '--target-fqdn=FQDN', '<Required - FQDN to Target>') do |t|
+    opts[:target_fqdn] = t
+  end
+
+  options.on('-dDIR', '--output-dir=DIR', '<Required - Directory to Save Results>') do |d|
+    opts[:output_dir] = d
+  end
+
+  options.on('-sSUBLIST3R', '--sublist3r-path=SUBLIST3R', '<Optional - Path to Sublist3r>') do |s|
+    opts[:sublist3r_path] = s
+  end
+
+  options.on('-nNMAP', '--nmap-path=NMAP', '<Optional - Path to Nmap>') do |d|
+    opts[:dnsrecon_path] = d
+  end
+
+end.parse!
+
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
+# Colors!
+red = "\e[31m"
+green = "\e[32m"
+yellow = "\e[33m"
+end_of_color = "\e[0m"
+
+# Required Flag Variables
+target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
+output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+
+sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
+dnsrecon_path = opts[:dnsrecon_path].to_s.scrub.strip.chomp
+burp_path = opts[:burp_path].to_s.scrub.strip.chomp
+
+runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
+
+# Run Sublist3r to find as many domains as possible for a given FQDN
+unless sublist3r_path.nil?
+  sublist3r_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-sublist3r_brute.txt"
+  print "#{green}Sublist3r Domain Discovery...#{end_of_color}"
+  puts `python #{sublist3r_path} -v -d #{target_fqdn} -o #{sublist3r_results}`
+  puts "#{green}complete.#{end_of_color}"
+end
+
+unless nmap_path.nil?
+  print "#{green}Nmap all the results...#{end_of_color}"
+  nmap_targets_arr = []
+  nmap_xml_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-nmap_default.xml"
+  File.readlines(sublist3r_results).each { |line| nmap_targets_arr.push(line.to_s.scrub.strip.chomp) }
+  CSI::Plugins::NmapIt.port_scan do |nmap|
+    puts nmap.public_methods
+    nmap.connect_scan = true
+    nmap.service_scan = true
+    nmap.verbose = true
+    nmap.ports = [1..65535]
+    nmap.targets = nmap_targets_arr.uniq
+    nmap.xml = nmap_xml_results
+  end
+
+  CSI::Plugins::NmapIt.parse_xml_results(xml_file: nmap_xml_results) do |xml|
+    xml.each_host do |host|
+      puts "#{green}#{host.ip}#{end_of_color}"
+   
+      host.scripts.each do |name, output|
+        output.each_line { |line| puts line }
+      end
+
+      host.each_port do |port|
+        puts "#{yellow}#{port}#{end_of_color}"
+
+        port.scripts.each do |name, output|
+          puts name
+          output.each_line { |line| puts line }
+        end
+      end
+    end
+  end
+  puts "#{green}complete.#{end_of_color}"
+end
+
+burp_obj = CSI::Plugins::BurpSuite.start(burp_jar_path: burp_path, browser_type: :chrome)
+browser_obj = burp_obj[:browser_obj]
+
+File.readlines(sublist3r_results).each do |line| 
+  child_domain = line..to_s.scrub.strip.chomp
+  begin
+    puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
+    browser_obj.goto("https://#{child_domain}")
+    puts "#{browser_obj.wait_until_present.title}"
+  rescue => e
+    puts "#{red}e#{end_of_color}"
+    next
+  end
+end

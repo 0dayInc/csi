@@ -21,9 +21,9 @@ gem 'credit_card_validations', '3.4.0' # validate ccno from luhn generation
 gem 'fog', '1.38.0'                    # Other Cloud Provider Support than AWS (prefered to use aws-sdk gem for AWS) ***2017-02-13
 gem 'highline', '1.7.8'                # Masking Authentication Credential Input ***2016-06-28
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
-gem 'jenkins_api_client', '1.4.5'      # Support Jenkins Continuous Integration Automation ***2016-06-28
+gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
-gem 'json', '>=1.8.6'                  # Work w/ JSON objects ***2017-02-13 (jenkins_api_client depends on older version)
+gem 'json', '2.0.3'                    # Work w/ JSON objects ***2017-02-13 (jenkins_api_client depends on older version)
 gem 'jsonpath', '0.5.8'                # XPath-ify Complex JSON Data Structures ***2017-02-13
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mongo', '2.4.1'                   # Primarily for Data-Driven Security, pulling in various security tools' output ***2017-02-13
@@ -31,7 +31,7 @@ gem 'msfrpc-client', '1.0.3'           # Metasploit API - Per Rapid7 this is the
 gem 'net-ldap', '0.15.0'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-02-13
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '5.2.0'                 # Vuln Scan all the Things! ***2017-02-13
-gem 'nokogiri', '>=1.6.8'              # Parse HTML & XML Documents ***2017-02-13 (jenkins_api_client depends on older version)
+gem 'nokogiri', '1.7.1'                # Parse HTML & XML Documents ***2017-02-13 (jenkins_api_client depends on older version)
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-03-12
 gem 'os', '0.9.6'                      # Detect underlying operating system ***2017-02-13
 gem 'packetfu', '1.1.12'               # Bettercap dependency and misc packet mangler ***2017-02-13
