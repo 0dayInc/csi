@@ -75,14 +75,14 @@ unless nmap_path.nil?
 
   CSI::Plugins::NmapIt.parse_xml_results(xml_file: nmap_xml_results) do |xml|
     xml.each_host do |host|
-      puts "#{green}#{host.ip}#{end_of_color}"
+      puts "#{green}#{host.hostname}#{end_of_color}"
 
       host.scripts.each do |_name, output|
         output.each_line { |line| puts line }
       end
 
       host.each_port do |port|
-        puts "#{yellow}#{port}#{end_of_color}"
+        puts "#{yellow}#{port.protocol}|#{port.number}|#{port.service}|#{port.state}|#{port.reason}#{end_of_color}"
 
         port.scripts.each do |name, output|
           puts name
@@ -113,7 +113,7 @@ unless burp_path.nil?
       puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
       browser_obj.goto("https://#{child_domain}")
     rescue => e
-      puts "#{red}e#{end_of_color}"
+      puts "#{red}#{e}#{end_of_color}"
       next
     end
   end
