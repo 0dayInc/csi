@@ -71,7 +71,7 @@ unless nmap_path.nil?
   nmap_xml_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-nmap_default.xml"
   File.readlines(sublist3r_results).each do |line|
     nmap_target = line.to_s.scrub.strip.chomp
-    nmap_targets_arr.push(target) unless excluded_domains.include?(nmap_target)
+    nmap_targets_arr.push(nmap_target) unless excluded_domains.include?(nmap_target)
   end
 
   CSI::Plugins::NmapIt.port_scan do |nmap|
