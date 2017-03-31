@@ -120,8 +120,30 @@ unless burp_path.nil?
     child_domain = line.to_s.scrub.strip.chomp
     next if exclude_domains.include?(child_domain)
     begin
-      puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
+      puts "#{green}Navigating to: #{child_domain}#{end_of_color}"
       browser_obj.goto("https://#{child_domain}")
+
+      print "#{green}Invoking Active Scan...#{end_of_color}"
+      json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
+        burp_obj: burp_obj,
+        target_url: "https://#{child_domain}"
+      )
+      puts "#{green}complete.#{end_of_color}"
+
+      json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
+        burp_obj: burp_obj
+      )
+
+      puts "#{yellow}Burp Suite JSON Results:#{end_of_color}"
+      puts "#{red}json_scan_issues#{end_of_color}"
+
+      print "#{green}Generating Burp Suite Active Scan HTML Results...#{end_of_color}"
+      CSI::Plugins::BurpSuite.generate_scan_report(
+        burp_obj: burp_obj,
+        report_type: :html,
+        output_path: "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-burpsuite_activescan.html"
+      )
+      puts "#{green}complete.#{end_of_color}\n\n\n"
     rescue => e
       puts "#{red}#{e}#{end_of_color}"
       next
