@@ -50,7 +50,7 @@ end_of_color = "\e[0m"
 target_fqdn = opts[:target_fqdn].to_s.scrub.strip.chomp
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
 
-excluded_domains = opts[:excluded_domains].to_s.scrub.strip.chomp.delete("\s").split(',')
+exclude_domains = opts[:exclude_domains].to_s.scrub.strip.chomp.delete("\s").split(',')
 sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
 nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
@@ -71,7 +71,7 @@ unless nmap_path.nil?
   nmap_xml_results = "#{output_dir}/#{target_fqdn}-#{runtime_timestamp}-nmap_default.xml"
   File.readlines(sublist3r_results).each do |line|
     nmap_target = line.to_s.scrub.strip.chomp
-    nmap_targets_arr.push(nmap_target) unless excluded_domains.include?(nmap_target)
+    nmap_targets_arr.push(nmap_target) unless exclude_domains.include?(nmap_target)
   end
 
   CSI::Plugins::NmapIt.port_scan do |nmap|
@@ -118,7 +118,7 @@ unless burp_path.nil?
 
   File.readlines(sublist3r_results).each do |line|
     child_domain = line.to_s.scrub.strip.chomp
-    next if excluded_domains.include?(child_domain)
+    next if exclude_domains.include?(child_domain)
     begin
       puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
       browser_obj.goto("https://#{child_domain}")
