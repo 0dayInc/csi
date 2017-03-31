@@ -119,13 +119,12 @@ unless burp_path.nil?
   File.readlines(sublist3r_results).each do |line|
     child_domain = line.to_s.scrub.strip.chomp
     next if excluded_domains.include?(child_domain)
-      begin
-        puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
-        browser_obj.goto("https://#{child_domain}")
-      rescue => e
-        puts "#{red}#{e}#{end_of_color}"
-        next
-      end
+    begin
+      puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
+      browser_obj.goto("https://#{child_domain}")
+    rescue => e
+      puts "#{red}#{e}#{end_of_color}"
+      next
     end
   end
 end
