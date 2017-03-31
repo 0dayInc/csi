@@ -108,11 +108,10 @@ unless burp_path.nil?
   browser_obj = burp_obj[:burp_browser]
 
   File.readlines(sublist3r_results).each do |line|
-    child_domain = line..to_s.scrub.strip.chomp
+    child_domain = line.to_s.scrub.strip.chomp
     begin
       puts "#{yellow}Navigating to: #{child_domain}#{end_of_color}"
       browser_obj.goto("https://#{child_domain}")
-      puts browser_obj.wait_until_present.title.to_s.scrub.strip.chomp
     rescue => e
       puts "#{red}e#{end_of_color}"
       next
