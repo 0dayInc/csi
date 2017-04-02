@@ -51,6 +51,7 @@ end_of_color = "\e[0m"
 # Required Flag Variables
 targets = opts[:targets].to_s.scrub.strip.chomp.delete("\s").split(',')
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
+runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
 target_domains = "#{output_dir}/target_domains-#{runtime_timestamp}.txt"
 File.open(target_domains, 'w') do |f|
   targets.each do |target|
@@ -63,7 +64,6 @@ sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
 nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
 
-runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
 
 # Run Sublist3r to find as many domains as possible for a given FQDN
 unless sublist3r_path.nil?
