@@ -64,7 +64,6 @@ sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
 nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
 
-
 # Run Sublist3r to find as many domains as possible for a given FQDN
 unless sublist3r_path.nil?
   sublist3r_target_domains_arr = []
@@ -73,8 +72,8 @@ unless sublist3r_path.nil?
     sublist3r_results = "#{output_dir}/#{sublist3r_target}-#{runtime_timestamp}-sublist3r.txt"
     print "#{green}Sublist3r Domain Discovery #{sublist3r_target}...#{end_of_color}"
     puts `python #{sublist3r_path} -v -d #{sublist3r_target} -o #{sublist3r_results}`
-    File.readlines(sublist3r_results).uniq.each do |line|
-      discovered_domain = line.to_s.scrub.strip.chomp
+    File.readlines(sublist3r_results).uniq.each do |sline|
+      discovered_domain = sline.to_s.scrub.strip.chomp
       sublist3r_target_domains_arr.push(discovered_domain)
     end
     puts "#{green}complete.#{end_of_color}"
@@ -106,8 +105,9 @@ unless nmap_path.nil?
         xml.each_host do |host|
           puts "#{green}#{host.hostname}#{end_of_color}"
 
-          host.scripts.each do |_name, output|
-            output.each_line { |line| puts line }
+          host.scripts.each do |name, output|
+            puts name
+            output.each_line { |h_line| puts h_line }
           end
 
           host.each_port do |port|
@@ -115,7 +115,7 @@ unless nmap_path.nil?
 
             port.scripts.each do |name, output|
               puts name
-              output.each_line { |line| puts line }
+              output.each_line { |p_line| puts p_line }
             end
           end
         end
