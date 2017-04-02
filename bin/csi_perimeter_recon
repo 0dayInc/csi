@@ -162,7 +162,7 @@ unless nmap_path.nil?
           end
 
           host.each_port do |port|
-            puts "#{@yellow}#{port.number}|#{port.protocol}|#{port.state}|#{port.reason}|#{port.service}|#{port.version}#{@end_of_color}"
+            puts "#{@yellow}#{port.number}|#{port.protocol}|#{port.state}|#{port.reason}|#{port.service}#{@end_of_color}"
 
             case port.number.to_i
             when 80
