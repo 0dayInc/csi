@@ -176,7 +176,7 @@ module CSI
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
         target_url = opts[:target_url].to_s.scrub
-        #target_domain_name = URI(target_url).host.split('.')[-2..-1].join('.')
+        # target_domain_name = URI(target_url).host.split('.')[-2..-1].join('.')
         target_domain_name = URI.parse(target_url)
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)

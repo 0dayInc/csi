@@ -172,9 +172,9 @@ unless nmap_path.nil?
               burp_target = "http://#{nmap_target}"
               unless burp_path.nil?
                 invoke_burp(
-                  burp_path: burp_path, 
-                  burp_target: burp_target, 
-                  port_number: port.number, 
+                  burp_path: burp_path,
+                  burp_target: burp_target,
+                  port_number: port.number,
                   port_protocol: port.protocol,
                   output_dir: output_dir
                 )
@@ -184,9 +184,9 @@ unless nmap_path.nil?
               burp_target = "https://#{nmap_target}"
               unless burp_path.nil?
                 invoke_burp(
-                  burp_path: burp_path, 
-                  burp_target: burp_target, 
-                  port_number: port.number, 
+                  burp_path: burp_path,
+                  burp_target: burp_target,
+                  port_number: port.number,
                   port_protocol: port.protocol,
                   output_dir: output_dir
                 )
@@ -196,9 +196,9 @@ unless nmap_path.nil?
               burp_target = "http://#{nmap_target}:#{port.number}"
               unless burp_path.nil?
                 invoke_burp(
-                  burp_path: burp_path, 
-                  burp_target: burp_target, 
-                  port_number: port.number, 
+                  burp_path: burp_path,
+                  burp_target: burp_target,
+                  port_number: port.number,
                   port_protocol: port.protocol,
                   output_dir: output_dir
                 )
@@ -208,9 +208,9 @@ unless nmap_path.nil?
               burp_target = "https://#{nmap_target}:#{port.number}"
               unless burp_path.nil?
                 invoke_burp(
-                  burp_path: burp_path, 
-                  burp_target: burp_target, 
-                  port_number: port.number, 
+                  burp_path: burp_path,
+                  burp_target: burp_target,
+                  port_number: port.number,
                   port_protocol: port.protocol,
                   output_dir: output_dir
                 )
@@ -220,9 +220,9 @@ unless nmap_path.nil?
               burp_target = "http://#{nmap_target}:#{port.number}"
               unless burp_path.nil?
                 invoke_burp(
-                  burp_path: burp_path, 
-                  burp_target: burp_target, 
-                  port_number: port.number, 
+                  burp_path: burp_path,
+                  burp_target: burp_target,
+                  port_number: port.number,
                   port_protocol: port.protocol,
                   output_dir: output_dir
                 )
