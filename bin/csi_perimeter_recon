@@ -71,7 +71,7 @@ def invoke_burp(opts = {})
   port_number = opts[:port_number]
   port_protocol = opts[:port_protocol]
   output_dir = opts[:output_dir]
-  target_domain = URI.parse(burp_target)
+  target_domain = URI.parse(burp_target).host
 
   burp_obj = CSI::Plugins::BurpSuite.start(
     burp_jar_path: burp_path,
