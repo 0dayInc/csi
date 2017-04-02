@@ -166,23 +166,23 @@ unless nmap_path.nil?
 
             case port.number.to_i
             when 80
-              burp_path = "http://#{nmap_target}"
+              burp_target = "http://#{nmap_target}"
               invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
 
             when 443
-              burp_path = "https://#{nmap_target}"
+              burp_target = "https://#{nmap_target}"
               invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
 
             when 8080
-              burp_path = "http://#{nmap_target}:#{port.number}"
+              burp_target = "http://#{nmap_target}:#{port.number}"
               invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
 
             when 8443
-              burp_path = "https://#{nmap_target}:#{port.number}"
+              burp_target = "https://#{nmap_target}:#{port.number}"
               invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
 
             when 8888
-              burp_path = "http://#{nmap_target}:#{port.number}"
+              burp_target = "http://#{nmap_target}:#{port.number}"
               invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
 
             else
