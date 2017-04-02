@@ -3,6 +3,7 @@
 
 require 'csi'
 require 'optparse'
+require 'uri'
 
 opts = {}
 OptionParser.new do |options|
@@ -70,6 +71,7 @@ def invoke_burp(opts = {})
   port_number = opts[:port_number]
   port_protocol = opts[:port_protocol]
   output_dir = opts[:output_dir]
+  target_domain = URI.parse(burp_target)
 
   burp_obj = CSI::Plugins::BurpSuite.start(
     burp_jar_path: burp_path,
@@ -95,7 +97,7 @@ def invoke_burp(opts = {})
   json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
     burp_obj: burp_obj
   )
-  File.open("#{output_dir}/#{burp_target}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
+  File.open("#{output_dir}/#{target_domain}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
     f.puts json_scan_issues
   end
 
@@ -106,7 +108,7 @@ def invoke_burp(opts = {})
   CSI::Plugins::BurpSuite.generate_scan_report(
     burp_obj: burp_obj,
     report_type: :html,
-    output_path: "#{output_dir}/#{burp_target}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.html"
+    output_path: "#{output_dir}/#{target_domain}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.html"
   )
 
   browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
@@ -168,23 +170,63 @@ unless nmap_path.nil?
             case port.number.to_i
             when 80
               burp_target = "http://#{nmap_target}"
-              invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
+              unless burp_path.nil?
+                invoke_burp(
+                  burp_path: burp_path, 
+                  burp_target: burp_target, 
+                  port_number: port.number, 
+                  port_protocol: port.protocol,
+                  output_dir: output_dir
+                )
+              end
 
             when 443
               burp_target = "https://#{nmap_target}"
-              invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
+              unless burp_path.nil?
+                invoke_burp(
+                  burp_path: burp_path, 
+                  burp_target: burp_target, 
+                  port_number: port.number, 
+                  port_protocol: port.protocol,
+                  output_dir: output_dir
+                )
+              end
 
             when 8080
               burp_target = "http://#{nmap_target}:#{port.number}"
-              invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
+              unless burp_path.nil?
+                invoke_burp(
+                  burp_path: burp_path, 
+                  burp_target: burp_target, 
+                  port_number: port.number, 
+                  port_protocol: port.protocol,
+                  output_dir: output_dir
+                )
+              end
 
             when 8443
               burp_target = "https://#{nmap_target}:#{port.number}"
-              invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
+              unless burp_path.nil?
+                invoke_burp(
+                  burp_path: burp_path, 
+                  burp_target: burp_target, 
+                  port_number: port.number, 
+                  port_protocol: port.protocol,
+                  output_dir: output_dir
+                )
+              end
 
             when 8888
               burp_target = "http://#{nmap_target}:#{port.number}"
-              invoke_burp(burp_path: burp_path, burp_target: burp_target, port_number: port.number, port_protocol: port.protocol) unless burp_path.nil?
+              unless burp_path.nil?
+                invoke_burp(
+                  burp_path: burp_path, 
+                  burp_target: burp_target, 
+                  port_number: port.number, 
+                  port_protocol: port.protocol,
+                  output_dir: output_dir
+                )
+              end
 
             else
               puts "Nothing special implemented for #{port.protocol} #{port.number}"
