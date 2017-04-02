@@ -51,8 +51,8 @@ end
 # Required Flag Variables
 targets = opts[:targets].to_s.scrub.strip.chomp.delete("\s").split(',')
 output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output_dir].to_s.scrub.strip.chomp)
-runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
-target_domains = "#{output_dir}/target_domains-#{runtime_timestamp}.txt"
+@runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
+target_domains = "#{output_dir}/target_domains-#{@runtime_timestamp}.txt"
 File.open(target_domains, 'w') do |f|
   targets.each do |target|
     f.puts target
@@ -69,6 +69,7 @@ def invoke_burp(opts = {})
   burp_target = opts[:burp_target]
   port_number = opts[:port_number]
   port_protocol = opts[:port_protocol]
+  output_dir = opts[:output_dir]
 
   burp_obj = CSI::Plugins::BurpSuite.start(
     burp_jar_path: burp_path,
@@ -94,7 +95,7 @@ def invoke_burp(opts = {})
   json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
     burp_obj: burp_obj
   )
-  File.open("#{output_dir}/#{target_domains}-#{runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
+  File.open("#{output_dir}/#{burp_target}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
     f.puts json_scan_issues
   end
 
@@ -105,7 +106,7 @@ def invoke_burp(opts = {})
   CSI::Plugins::BurpSuite.generate_scan_report(
     burp_obj: burp_obj,
     report_type: :html,
-    output_path: "#{output_dir}/#{target_domains}-#{port_protocol}-#{port_number}-#{runtime_timestamp}-burpsuite_activescan.html"
+    output_path: "#{output_dir}/#{burp_target}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.html"
   )
 
   browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
@@ -120,7 +121,7 @@ unless sublist3r_path.nil?
   sublist3r_target_domains_arr = []
   File.readlines(target_domains).uniq.each do |s_line|
     sublist3r_target = s_line.to_s.scrub.strip.chomp
-    sublist3r_results = "#{output_dir}/#{sublist3r_target}-#{runtime_timestamp}-sublist3r.txt"
+    sublist3r_results = "#{output_dir}/#{sublist3r_target}-#{@runtime_timestamp}-sublist3r.txt"
     print "#{@green}Sublist3r Domain Discovery #{sublist3r_target}...#{@end_of_color}"
     puts `python #{sublist3r_path} -v -d #{sublist3r_target} -o #{sublist3r_results}`
     File.readlines(sublist3r_results).uniq.each do |sr_line|
@@ -142,7 +143,7 @@ unless nmap_path.nil?
     nmap_target = n_line.to_s.scrub.strip.chomp
     next if exclude_domains.include?(nmap_target)
     begin
-      nmap_xml_results = "#{output_dir}/#{nmap_target}-#{runtime_timestamp}-nmap_default.xml"
+      nmap_xml_results = "#{output_dir}/#{nmap_target}-#{@runtime_timestamp}-nmap_default.xml"
 
       CSI::Plugins::NmapIt.port_scan do |nmap|
         nmap.connect_scan = true
