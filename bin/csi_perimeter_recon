@@ -81,41 +81,38 @@ def invoke_burp(opts = {})
 
   browser_obj = burp_obj[:burp_browser]
 
-  begin
-    puts "#{@green}Navigating to: #{burp_target}#{@end_of_color}"
-    browser_obj.goto("http://#{burp_target}")
+  puts "#{@green}Navigating to: #{burp_target}#{@end_of_color}"
+  browser_obj.goto("http://#{burp_target}")
 
-    print "#{@green}Invoking Active Scan...#{@end_of_color}"
-    json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
-      burp_obj: burp_obj,
-      target_url: "http://#{burp_target}"
-    )
-    puts "#{@green}complete.#{@end_of_color}"
+  print "#{@green}Invoking Active Scan...#{@end_of_color}"
+  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
+    burp_obj: burp_obj,
+    target_url: "http://#{burp_target}"
+  )
+  puts "#{@green}complete.#{@end_of_color}"
 
-    json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
-      burp_obj: burp_obj
-    )
-    File.open("#{output_dir}/#{target_domains}-#{runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
-      f.puts json_scan_issues
-    end
-
-    puts "#{@yellow}Burp Suite JSON Results:#{@end_of_color}"
-    puts "#{@red}json_scan_issues#{@end_of_color}"
-
-    print "#{@green}Generating Burp Suite Active Scan HTML Results...#{@end_of_color}"
-    CSI::Plugins::BurpSuite.generate_scan_report(
-      burp_obj: burp_obj,
-      report_type: :html,
-      output_path: "#{output_dir}/#{target_domains}-#{port_protocol}-#{port_number}-#{runtime_timestamp}-burpsuite_activescan.html"
-    )
-
-    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
-    burp_obj = CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
-  rescue => e
-    puts "#{@red}#{e}#{@end_of_color}"
-    next
+  json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
+    burp_obj: burp_obj
+  )
+  File.open("#{output_dir}/#{target_domains}-#{runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
+    f.puts json_scan_issues
   end
+
+  puts "#{@yellow}Burp Suite JSON Results:#{@end_of_color}"
+  puts "#{@red}json_scan_issues#{@end_of_color}"
+
+  print "#{@green}Generating Burp Suite Active Scan HTML Results...#{@end_of_color}"
+  CSI::Plugins::BurpSuite.generate_scan_report(
+    burp_obj: burp_obj,
+    report_type: :html,
+    output_path: "#{output_dir}/#{target_domains}-#{port_protocol}-#{port_number}-#{runtime_timestamp}-burpsuite_activescan.html"
+  )
+
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
+  burp_obj = CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
   puts "#{@green}complete.#{@end_of_color}\n\n\n"
+rescue => e
+  puts "#{@red}#{e}#{@end_of_color}"
 end
 
 # Run Sublist3r to find as many domains as possible for a given FQDN
