@@ -93,7 +93,6 @@ unless nmap_path.nil?
     next if exclude_domains.include?(nmap_target)
     begin
       nmap_xml_results = "#{output_dir}/#{nmap_target}-#{runtime_timestamp}-nmap_default.xml"
-      nmap_targets_arr.push(nmap_target) unless exclude_domains.include?(nmap_target)
 
       CSI::Plugins::NmapIt.port_scan do |nmap|
         nmap.connect_scan = true
