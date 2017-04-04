@@ -187,7 +187,7 @@ module CSI
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap['data'].each do |site|
-          #next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
+          # next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
           json_host = site['request']['host'].to_s.scrub.strip.chomp
           next unless json_host == target_domain_name # Accepts DNS names only
           puts "Adding #{json_host} to Active Scan"
