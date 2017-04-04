@@ -206,10 +206,12 @@ module CSI
         scan_queue_total = json_scan_queue['data'].count
         json_scan_queue['data'].each do |scan_item|
           until scan_item['percentComplete'] == 100
+            percent = scan_item['percentComplete']
             this_scan_item_id = scan_item['id']
             scan_item_resp = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scan/active/#{this_scan_item_id}")
             scan_item = JSON.parse(scan_item_resp)
-            puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{scan_item['percentComplete']}% complete"
+            print "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{format('%-9.9s', percent)}% complete"
+            print "\r"
             sleep 1
           end
           puts "\n"

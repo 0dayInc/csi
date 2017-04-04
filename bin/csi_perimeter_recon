@@ -89,7 +89,7 @@ def invoke_burp(opts = {})
   puts "#{@green}Navigating to: #{burp_target}#{@end_of_color}"
   browser_obj.goto(burp_target)
 
-  print "#{@green}Invoking Active Scan...#{@end_of_color}"
+  puts "#{@green}Invoking Active Scan...#{@end_of_color}"
   json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
     burp_obj: burp_obj,
     target_url: burp_target,
