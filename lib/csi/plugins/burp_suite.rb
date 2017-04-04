@@ -176,7 +176,7 @@ module CSI
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
-        target_url = opts[:target_url].to_s.scrub
+        target_url = opts[:target_url].to_s.scrub.strip.chomp
         # target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
         target_domain_name = URI.parse(target_url).host
         if opts[:use_https] == false
@@ -187,9 +187,11 @@ module CSI
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap['data'].each do |site|
-          next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
-          puts "Adding #{site['request']['host']} to Active Scan"
-          post_body = "{ \"host\": \"#{site['request']['host']}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
+          #next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
+          json_host = site['request']['host'].to_s.scrub.strip.chomp
+          next unless json_host == target_domain_name # Accepts DNS names only
+          puts "Adding #{json_host} to Active Scan"
+          post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/scan/active", post_body, content_type: 'application/json')
         end
