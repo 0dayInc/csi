@@ -166,7 +166,8 @@ module CSI
       # Supported Method Parameters::
       # json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
       #   burp_obj: 'required - burp_obj returned by #start method',
-      #   target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
+      #   target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])',
+      #   use_https: 'optional - use SSL/TLS connection (defaults to true)'
       # )
 
       public
@@ -176,19 +177,19 @@ module CSI
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
         target_url = opts[:target_url].to_s.scrub
-        target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
-        # target_domain_name = URI.parse(target_url)
+        #target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
+        target_domain_name = URI.parse(target_url).host
+        if opts[:use_https] == false
+          use_https = false
+        else
+          use_https = true
+        end
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap['data'].each do |site|
           next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
           puts "Adding #{site['request']['host']} to Active Scan"
-          bool_ssl = if site['request']['port'].to_i == 443
-                       true
-                     else
-                       false
-                     end
-          post_body = "{ \"host\": \"#{site['request']['host']}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{bool_ssl}, \"request\": \"#{site['request']['raw']}\" }"
+          post_body = "{ \"host\": \"#{site['request']['host']}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/scan/active", post_body, content_type: 'application/json')
         end
@@ -336,7 +337,8 @@ module CSI
 
           json_scan_queue = #{self}.invoke_active_scan(
             burp_obj: 'required - burp_obj returned by #start method',
-            target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
+            target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])',
+            use_https: 'optional - use SSL/TLS connection (defaults to true)'
           )
 
           json_scan_issues = #{self}.get_scan_issues(

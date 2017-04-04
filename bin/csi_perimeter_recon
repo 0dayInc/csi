@@ -71,6 +71,7 @@ def invoke_burp(opts = {})
   port_number = opts[:port_number]
   port_protocol = opts[:port_protocol]
   output_dir = opts[:output_dir]
+  use_https = opts[:use_https]
   target_domain = URI.parse(burp_target).host
 
   burp_obj = CSI::Plugins::BurpSuite.start(
@@ -90,7 +91,8 @@ def invoke_burp(opts = {})
   print "#{@green}Invoking Active Scan...#{@end_of_color}"
   json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
     burp_obj: burp_obj,
-    target_url: burp_target
+    target_url: burp_target,
+    use_https: use_https
   )
   puts "#{@green}complete.#{@end_of_color}"
 
@@ -176,7 +178,8 @@ unless nmap_path.nil?
                   burp_target: burp_target,
                   port_number: port.number,
                   port_protocol: port.protocol,
-                  output_dir: output_dir
+                  output_dir: output_dir,
+                  use_https: false
                 )
               end
 
@@ -188,7 +191,8 @@ unless nmap_path.nil?
                   burp_target: burp_target,
                   port_number: port.number,
                   port_protocol: port.protocol,
-                  output_dir: output_dir
+                  output_dir: output_dir,
+                  use_https: true
                 )
               end
 
@@ -200,7 +204,8 @@ unless nmap_path.nil?
                   burp_target: burp_target,
                   port_number: port.number,
                   port_protocol: port.protocol,
-                  output_dir: output_dir
+                  output_dir: output_dir,
+                  use_https: false
                 )
               end
 
@@ -212,7 +217,8 @@ unless nmap_path.nil?
                   burp_target: burp_target,
                   port_number: port.number,
                   port_protocol: port.protocol,
-                  output_dir: output_dir
+                  output_dir: output_dir,
+                  use_https: true
                 )
               end
 
