@@ -177,7 +177,7 @@ module CSI
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
         target_url = opts[:target_url].to_s.scrub
-        #target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
+        # target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
         target_domain_name = URI.parse(target_url).host
         if opts[:use_https] == false
           use_https = false

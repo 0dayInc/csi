@@ -47,7 +47,7 @@ list_test_cases = opts[:list_test_cases]
 if chosen_test_cases && !list_test_cases
   test_cases = chosen_test_cases.to_s.scrub.chomp.strip.delete("\s").split(',').map(&:to_sym)
 else
-  test_cases = %i(
+  test_cases = %i[
     ApacheFileSystemUtilAPI
     AMQPConnectAsGuest
     AWS
@@ -78,7 +78,7 @@ else
     ThrowErrors
     Token
     Version
-  )
+  ]
 end
 
 if list_test_cases
