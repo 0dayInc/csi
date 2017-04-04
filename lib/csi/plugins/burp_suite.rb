@@ -190,6 +190,7 @@ module CSI
           # next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
           json_host = site['request']['host'].to_s.scrub.strip.chomp
           next unless json_host == target_domain_name # Accepts DNS names only
+          puts "Adding #{site['request']}"
           puts "Adding #{json_host} to Active Scan"
           post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
