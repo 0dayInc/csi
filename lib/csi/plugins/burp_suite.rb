@@ -179,6 +179,7 @@ module CSI
         target_url = opts[:target_url].to_s.scrub.strip.chomp
         # target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
         target_domain_name = URI.parse(target_url).host
+        target_port = URI.parse(target_url).port.to_i
         if opts[:use_https] == false
           use_https = false
         else
@@ -187,12 +188,14 @@ module CSI
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap['data'].each do |site|
-          # next unless site['request']['host'].to_s.match?(/#{target_domain_name}/) # Accepts DNS name only - no IPs
-          json_host = site['request']['host'].to_s.scrub.strip.chomp
-          next unless json_host == target_domain_name # Accepts DNS names only
-          puts "Adding #{site['request']}"
-          puts "Adding #{json_host} to Active Scan"
-          post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{site['request']['port']}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
+          json_req = site['request'].to_s.scrub
+          json_host = json_req['host'].to_s.scrub.strip.chomp
+          json_port = json_req['port'].to_i
+          json_uri = "#{json_req['url'].to_s.scrub.strip.chomp('/')}#{json_req['path'].to_s.scrub.strip.chomp}"
+
+          next unless json_host == target_domain_name && json_port == target_port
+          puts "Adding #{json_uri} to Active Scan"
+          post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
           cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/scan/active", post_body, content_type: 'application/json')
         end
