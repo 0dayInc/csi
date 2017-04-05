@@ -351,7 +351,7 @@ module CSI
 
           json_scan_issues = #{self}.get_scan_issues(
             burp_obj: 'required - burp_obj returned by #start method'
-          )
+          ).to_json
 
           #{self}.generate_scan_report(
             burp_obj: 'required - burp_obj returned by #start method',

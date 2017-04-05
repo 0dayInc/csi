@@ -97,15 +97,14 @@ def invoke_burp(opts = {})
   )
   puts "#{@green}complete.#{@end_of_color}"
 
-  json_scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(
+  print "#{@green}Generating Burp Suite Active Scan JSON Results...#{@end_of_color}"
+  scan_issues_hash = CSI::Plugins::BurpSuite.get_scan_issues(
     burp_obj: burp_obj
   )
   File.open("#{output_dir}/#{target_domain}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.json", 'w') do |f|
-    f.puts json_scan_issues
+    f.puts scan_issues_hash.to_json
   end
-
-  puts "#{@yellow}Burp Suite JSON Results:#{@end_of_color}"
-  puts "#{@red}json_scan_issues#{@end_of_color}"
+  puts "#{@green}complete.#{@end_of_color}\n\n\n"
 
   print "#{@green}Generating Burp Suite Active Scan HTML Results...#{@end_of_color}"
   CSI::Plugins::BurpSuite.generate_scan_report(
@@ -139,6 +138,15 @@ unless sublist3r_path.nil?
     sublist3r_target_domains_arr.uniq do |discovered_domain|
       f.puts discovered_domain unless exclude_domains.include?(discovered_domain)
     end
+  end
+end
+
+# Obtain additional information about the targeted hosts...
+File.readlines(target_domains).uniq.each do |h_line|
+  ip_info_target = h_line.to_s.scrub.strip.chomp
+  ip_info_struc = CSI::Plugins::IPInfo.get(ip_or_host: ip_info_target)
+  File.open("#{output_dir}/#{ip_info_target}-#{@runtime_timestamp}-ip_info.txt", 'w') do |f|
+    f.puts ip_info_struc.to_json
   end
 end
 

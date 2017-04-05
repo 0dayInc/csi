@@ -36,7 +36,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::IPInfo.get(
+      # ip_info_struc = CSI::Plugins::IPInfo.get(
       #   ip_or_host: 'required - IP or Host to lookup',
       #   proxy: 'optional - use a proxy'
       # )
@@ -90,7 +90,7 @@ module CSI
 
       def self.help
         puts "USAGE:
-          #{self}.get(
+          ip_info_struc = #{self}.get(
             ip_or_host: 'required - IP or Host to lookup',
             proxy: 'optional - use a proxy'
           )
