@@ -210,7 +210,7 @@ module CSI
             this_scan_item_id = scan_item['id']
             scan_item_resp = cmd_ctl_browser.get("http://#{burp_cmd_ctl_port}/scan/active/#{this_scan_item_id}")
             scan_item = JSON.parse(scan_item_resp)
-            print "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{format('%-2.2s', percent)}% complete"
+            print "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{format('%-3.3s', percent)}% complete"
             print "\r"
             sleep 1
           end
