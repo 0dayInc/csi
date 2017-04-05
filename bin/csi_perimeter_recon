@@ -136,7 +136,12 @@ unless sublist3r_path.nil?
   end
   File.open(target_domains, 'a') do |f|
     sublist3r_target_domains_arr.uniq do |discovered_domain|
-      f.puts discovered_domain unless exclude_domains.include?(discovered_domain)
+      if URI.parse(discovered_domain).host.nil?
+        f.puts discovered_domain unless exclude_domains.include?(discovered_domain)
+      else
+        parsed_domain = URI.parse(discovered_domain).host
+        f.puts parsed_domain unless exclude_domains.include?(parsed_domain)
+      end
     end
   end
 end
