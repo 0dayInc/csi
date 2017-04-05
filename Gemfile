@@ -20,6 +20,7 @@ gem 'bunny', '2.6.4'                   # RabbitMQ ***2017-04-04
 gem 'credit_card_validations', '3.4.0' # validate ccno from luhn generation
 gem 'highline', '1.7.8'                # Masking Authentication Credential Input ***2016-06-28
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
+gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '2.0.3'                    # Work w/ JSON objects ***2017-03-30 (jenkins_api_client depends on older version)
