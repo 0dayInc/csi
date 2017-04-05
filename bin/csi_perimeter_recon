@@ -149,7 +149,7 @@ end
 # Obtain additional information about the targeted hosts...
 File.readlines(target_domains).uniq.each do |h_line|
   ip_info_target = h_line.to_s.scrub.strip.chomp
-  next if exclude_domains.include?(nmap_target)
+  next if exclude_domains.include?(ip_info_target)
   ip_info_struc = CSI::Plugins::IPInfo.get(ip_or_host: ip_info_target)
   File.open("#{output_dir}/#{ip_info_target}-#{@runtime_timestamp}-ip_info.txt", 'w') do |f|
     f.puts ip_info_struc.to_json
