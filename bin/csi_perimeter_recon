@@ -27,6 +27,10 @@ OptionParser.new do |options|
     opts[:sublist3r_path] = s
   end
 
+  options.on('-i', '--[no-]ipinfo', '<Optional - Leverage ipinfo.com on Domains (Defaults to false)>') do |i|
+    opts[:ipinfo] = i
+  end
+
   options.on('-nNMAP', '--nmap-path=NMAP', '<Optional - Path to Nmap>') do |n|
     opts[:nmap_path] = n
   end
@@ -61,6 +65,7 @@ File.open(target_domains, 'w') do |f|
 end
 
 exclude_domains = opts[:exclude_domains].to_s.scrub.strip.chomp.delete("\s").split(',')
+ipinfo = opts[:ipinfo]
 sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
 nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
@@ -121,7 +126,7 @@ rescue => e
 end
 
 # Run Sublist3r to find as many domains as possible for a given FQDN
-unless sublist3r_path.nil?
+unless sublist3r_path == ''
   sublist3r_target_domains_arr = []
   File.readlines(target_domains).uniq.each do |s_line|
     sublist3r_target = s_line.to_s.scrub.strip.chomp
@@ -147,16 +152,18 @@ unless sublist3r_path.nil?
 end
 
 # Obtain additional information about the targeted hosts...
-File.readlines(target_domains).uniq.each do |h_line|
-  ip_info_target = h_line.to_s.scrub.strip.chomp
-  next if exclude_domains.include?(ip_info_target)
-  ip_info_struc = CSI::Plugins::IPInfo.get(ip_or_host: ip_info_target)
-  File.open("#{output_dir}/#{ip_info_target}-#{@runtime_timestamp}-ip_info.json", 'w') do |f|
-    f.puts ip_info_struc.to_json
+unless ipcheck.nil?
+  File.readlines(target_domains).uniq.each do |h_line|
+    ipinfo_target = h_line.to_s.scrub.strip.chomp
+    next if exclude_domains.include?(ipinfo_target)
+    ipinfo_struc = CSI::Plugins::IPInfo.get(ip_or_host: ipinfo_target)
+    File.open("#{output_dir}/#{ipinfo_target}-#{@runtime_timestamp}-ipinfo.json", 'w') do |f|
+      f.puts ipinfo_struc.to_json
+    end
   end
 end
 
-unless nmap_path.nil?
+unless nmap_path == ''
   print "#{@green}Nmap all the things...#{@end_of_color}"
   File.readlines(target_domains).uniq.each do |n_line|
     nmap_target = n_line.to_s.scrub.strip.chomp
@@ -187,7 +194,7 @@ unless nmap_path.nil?
             case port.number.to_i
             when 80
               burp_target = "http://#{nmap_target}"
-              unless burp_path.nil?
+              unless burp_path == ''
                 invoke_burp(
                   burp_path: burp_path,
                   burp_target: burp_target,
@@ -200,7 +207,7 @@ unless nmap_path.nil?
 
             when 443
               burp_target = "https://#{nmap_target}"
-              unless burp_path.nil?
+              unless burp_path == ''
                 invoke_burp(
                   burp_path: burp_path,
                   burp_target: burp_target,
@@ -213,7 +220,7 @@ unless nmap_path.nil?
 
             when 8080
               burp_target = "http://#{nmap_target}:#{port.number}"
-              unless burp_path.nil?
+              unless burp_path == ''
                 invoke_burp(
                   burp_path: burp_path,
                   burp_target: burp_target,
@@ -226,7 +233,7 @@ unless nmap_path.nil?
 
             when 8443
               burp_target = "https://#{nmap_target}:#{port.number}"
-              unless burp_path.nil?
+              unless burp_path == ''
                 invoke_burp(
                   burp_path: burp_path,
                   burp_target: burp_target,
@@ -239,7 +246,7 @@ unless nmap_path.nil?
 
             when 8888
               burp_target = "http://#{nmap_target}:#{port.number}"
-              unless burp_path.nil?
+              unless burp_path == ''
                 invoke_burp(
                   burp_path: burp_path,
                   burp_target: burp_target,
