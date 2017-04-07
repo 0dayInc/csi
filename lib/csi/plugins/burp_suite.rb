@@ -49,10 +49,10 @@ module CSI
 
         if opts[:headless]
           # burp_cmd_string = "java -Djava.awt.headless=true -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
-          burp_cmd_string = "java -Djava.awt.headless=true -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
+          burp_cmd_string = "java -Xmx3G -Djava.awt.headless=true -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
         else
           # burp_cmd_string = "java -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
-          burp_cmd_string = "java -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
+          burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
         end
 
         burp_obj = {}
@@ -298,7 +298,7 @@ module CSI
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
 
-        burp_browser&.close
+        burp_browser = CSI::Plugins::TransparentBrowser.close(browser_obj: burp_browser)
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/shutdown_session", nil)
       rescue => e
         raise e

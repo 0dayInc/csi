@@ -118,7 +118,6 @@ def invoke_burp(opts = {})
     output_path: "#{output_dir}/#{target_domain}-#{port_protocol}-#{port_number}-#{@runtime_timestamp}-burpsuite_activescan.html"
   )
 
-  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
   burp_obj = CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
   puts "#{@green}complete.#{@end_of_color}\n\n\n"
 rescue => e
