@@ -152,7 +152,7 @@ unless sublist3r_path == ''
 end
 
 # Obtain additional information about the targeted hosts...
-unless ipcheck.nil?
+unless ipinfo.nil?
   File.readlines(target_domains).uniq.each do |h_line|
     ipinfo_target = h_line.to_s.scrub.strip.chomp
     next if exclude_domains.include?(ipinfo_target)
