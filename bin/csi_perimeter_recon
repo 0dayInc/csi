@@ -74,7 +74,6 @@ else
   end
 end
 
-
 exclude_domains = opts[:exclude_domains].to_s.scrub.strip.chomp.delete("\s").split(',')
 ipinfo = opts[:ipinfo]
 sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
