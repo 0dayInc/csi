@@ -62,18 +62,18 @@ output_dir = opts[:output_dir].to_s.scrub.strip.chomp if Dir.exist?(opts[:output
 if opts[:resume_last_scan]
   @resume_last_scan = opts[:resume_last_scan]
   @runtime_timestamp = File.basename(Dir.glob("#{output_dir}/target_domains*")[-1]).split('-')[-6..-1].join('-').split('.txt')[0]
+  target_domains = "#{output_dir}/target_domains-#{@runtime_timestamp}.txt"
 else
   @resume_last_scan = nil
   @runtime_timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
-end
-
-target_domains = "#{output_dir}/target_domains-#{@runtime_timestamp}.txt"
-
-File.open(target_domains, 'w') do |f|
-  targets.each do |target|
-    f.puts target
+  target_domains = "#{output_dir}/target_domains-#{@runtime_timestamp}.txt"
+  File.open(target_domains, 'w') do |f|
+    targets.each do |target|
+      f.puts target
+    end
   end
 end
+
 
 exclude_domains = opts[:exclude_domains].to_s.scrub.strip.chomp.delete("\s").split(',')
 ipinfo = opts[:ipinfo]
