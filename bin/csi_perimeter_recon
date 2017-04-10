@@ -169,7 +169,7 @@ unless sublist3r_path == ''
       end
     end
   else
-    puts "#{yellow}Resuming scan from #{target_domains}...#{end_of_color}"
+    puts "#{@yellow}Resuming scan from #{target_domains}...#{@end_of_color}"
   end
 end
 
