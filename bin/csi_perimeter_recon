@@ -140,6 +140,8 @@ def invoke_burp(opts = {})
   end
 rescue => e
   puts "#{@red}#{e}#{@end_of_color}"
+ensure
+  burp_obj = CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj) unless burp_obj.nil?
 end
 
 # Run Sublist3r to find as many domains as possible for a given FQDN
