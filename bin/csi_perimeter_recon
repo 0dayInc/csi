@@ -4,6 +4,7 @@
 require 'csi'
 require 'optparse'
 require 'uri'
+require 'json'
 
 opts = {}
 OptionParser.new do |options|
