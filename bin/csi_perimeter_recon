@@ -201,6 +201,7 @@ unless nmap_path == ''
         CSI::Plugins::NmapIt.port_scan do |nmap|
           nmap.connect_scan = true
           nmap.service_scan = true
+          nmap.os_fingerprint = true
           nmap.verbose = true
           nmap.targets = nmap_target
           nmap.xml = nmap_xml_results
