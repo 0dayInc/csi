@@ -35,7 +35,7 @@ gem 'nexpose', '6.0.0'                 # Vuln Scan all the Things! ***2017-04-04
 gem 'nokogiri', '1.7.1'                # Parse HTML & XML Documents ***2017-03-30 (jenkins_api_client depends on older version)
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-03-12
 gem 'os', '1.0.0'                      # Detect underlying operating system ***2017-04-04
-gem 'packetfu', '1.1.12'               # Bettercap dependency and misc packet mangler ***2017-02-13
+gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
 gem 'pdf-reader', '2.0.0'              # Parsing PDF Reports ***2017-04-04
 gem 'pg', '0.20.0'                     # Required Postgres Gem for Postgres Data Access Object ***2017-04-04
 gem 'pony', '1.11'                     # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2015-12-15
