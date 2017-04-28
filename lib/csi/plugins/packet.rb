@@ -62,7 +62,7 @@ module CSI
             print \"TCP ACK: \#{p.tcp_ack_readable} \"
             print \"TCP SEQ: \#{p.tcp_seq_readable} \"
             print \"TCP SUM: \#{p.tcp_sum_readable} \"
-            print \"TCP OPTS: \#{p.tcp_opts_readable} \"
+            print \"TCP OPTS: \#{p.hexify(p.tcp_opts_readable)} \"
             puts \"BODY: \#{p.payload}\"
             puts \"\\n\\n\\n\"
           end
