@@ -47,6 +47,25 @@ module CSI
           pcap = #{self}.open_pcap_file(
             path: 'required - path to packet capture file'
           )
+          pcap[0].public_methods
+          pcap.each do |p|
+            print \"IP ID: \#{p.ip_id_readable} \"
+            print \"IP Sum: \#{p.ip_sum_readable} \"
+            print \"SRC IP: \#{p.ip_src_readable} \"
+            print \"SRC MAC: (\#{p.eth_src_readable}) \"
+            print \"TCP SRC PORT: \#{p.tcp_sport} => \"
+            print \"DST IP: \#{p.ip_dst_readable} \"
+            print \"DST MAC: (\#{p.eth_dst_readable}) \"
+            print \"TCP DST PORT: \#{p.tcp_dport} \"
+            print \"ETH PROTO: \#{p.eth_proto_readable} \"
+            print \"TCP FLAGS: \#{p.tcp_flags_readable} \"
+            print \"TCP ACK: \#{p.tcp_ack_readable} \"
+            print \"TCP SEQ: \#{p.tcp_seq_readable} \"
+            print \"TCP SUM: \#{p.tcp_sum_readable} \"
+            print \"TCP OPTS: \#{p.tcp_opts_readable} \"
+            puts \"BODY: \#{p.payload}\"
+            puts \"\\n\\n\\n\"
+          end
         "
       end
     end
