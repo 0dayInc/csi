@@ -6,7 +6,7 @@ require 'packetfu/protos/eth'
 
 module CSI
   module Plugins
-    # This plugin is used for interacting with PCAP files to map out and visualize in an 
+    # This plugin is used for interacting with PCAP files to map out and visualize in an
     # automated fashion what comprises a infrastructure, network, and/or application
     module Packet
       # Supported Method Parameters::
