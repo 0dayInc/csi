@@ -3,6 +3,7 @@
 require 'packetfu'
 require 'packetfu/protos/ipv6'
 require 'packetfu/protos/eth'
+require 'ipaddress'
 
 module CSI
   module Plugins
@@ -22,6 +23,47 @@ module CSI
         pcap = PacketFu::PcapFile.read_packets(path)
 
         return pcap
+      rescue => e
+        raise e.message
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::Packet.send(
+      #   src_ip: 'required - source ip of packet',
+      #   dst_ip: 'required - destination ip to send packet',
+      #   payload: 'optional - packet payload defaults to empty string',
+      #   ip_id: 'optional - defaults to 0xfeed',
+      #   int: 'optional - interface to send packet (defaults to eth0)',
+      # )
+
+      public
+
+      def self.send(opts = {})
+        src_ip = opts[:src_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:src_ip].to_s.scrub.strip.chomp) 
+        dst_ip = opts[:dst_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:dst_ip].to_s.scrub.strip.chomp) 
+        payload = opts[:payload].to_s
+
+        if opts[:ip_id]
+          ip_id = opts[:ip_id].to_s.scrub.strip.chomp
+        else
+          ip_id = '0xfeed'
+        end
+
+        if opts[:int]
+          interface = opts[:int].to_s.scrub.strip.chomp
+        else
+          interface = 'eth0'
+        end
+
+        pkt = PacketFu::IPPacket.new
+
+        pkt.ip_id = ip_id
+        pkt.ip_saddr = src_ip
+        pkt.ip_daddr = dst_ip
+        pkt.payload = payload
+        pkt.recalc
+
+        pkt.to_w(interface)
       rescue => e
         raise e.message
       end
@@ -66,6 +108,14 @@ module CSI
             puts \"BODY: \#{p.hexify(p.payload)}\"
             puts \"\\n\\n\\n\"
           end
+
+          #{self}.send(
+            src_ip: 'required - source ip of packet',
+            dst_ip: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            int: 'optional - interface to send packet (defaults to eth0)',
+          )
         "
       end
     end
