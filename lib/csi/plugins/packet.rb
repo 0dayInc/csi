@@ -39,8 +39,8 @@ module CSI
       public
 
       def self.send(opts = {})
-        src_ip = opts[:src_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:src_ip].to_s.scrub.strip.chomp) 
-        dst_ip = opts[:dst_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:dst_ip].to_s.scrub.strip.chomp) 
+        src_ip = opts[:src_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:src_ip].to_s.scrub.strip.chomp)
+        dst_ip = opts[:dst_ip].to_s.scrub.strip.chomp if IPAddress.valid?(opts[:dst_ip].to_s.scrub.strip.chomp)
         payload = opts[:payload].to_s
 
         if opts[:ip_id]
