@@ -116,7 +116,7 @@ module CSI
 
       public
 
-      def self.get_line_state
+      def self.get_line_state(opts = {})
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_signals
@@ -132,7 +132,7 @@ module CSI
 
       public
 
-      def self.get_modem_params
+      def self.get_modem_params(opts = {})
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_modem_params

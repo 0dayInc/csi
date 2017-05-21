@@ -49,6 +49,7 @@ module CSI
           )
         end
         browser_obj.goto('http://checkip.amazonaws.com')
+        puts "PUBLIC IP: #{browser_obj.text}"
 
         return browser_obj
       rescue => e
