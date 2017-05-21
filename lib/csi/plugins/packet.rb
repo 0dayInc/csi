@@ -80,7 +80,7 @@ module CSI
           arp_proto_len = 4
         end
 
-        if  opts[:arp_opcode]
+        if opts[:arp_opcode]
           arp_opcode = opts[:arp_opcode].to_i
         else
           arp_opcode = 1
@@ -238,7 +238,7 @@ module CSI
 
         # UDP Header
         udp_src_port = opts[:udp_src_port]
-        udp_dst_port= opts[:udp_dst_port]
+        udp_dst_port = opts[:udp_dst_port]
 
         if opts[:udp_len]
           udp_len = opts[:udp_len]
@@ -875,7 +875,7 @@ module CSI
 
         # TCP Header
         tcp_src_port = opts[:tcp_src_port]
-        tcp_dst_port= opts[:tcp_dst_port]
+        tcp_dst_port = opts[:tcp_dst_port]
 
         if opts[:tcp_seq]
           tcp_seq = opts[:tcp_seq]
@@ -1052,7 +1052,7 @@ module CSI
 
         # UDP Header
         udp_src_port = opts[:udp_src_port]
-        udp_dst_port= opts[:udp_dst_port]
+        udp_dst_port = opts[:udp_dst_port]
 
         if opts[:udp_len]
           udp_len = opts[:udp_len]
