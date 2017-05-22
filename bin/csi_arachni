@@ -29,7 +29,7 @@ begin
 
   target_url = opts[:target_url].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
-  `sudo /bin/bash --login -c "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *"`
+  puts `sudo /bin/bash --login -c "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *"`
 rescue => e
   raise e
 end
