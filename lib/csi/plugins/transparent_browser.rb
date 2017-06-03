@@ -90,7 +90,7 @@ module CSI
             if with_tor
               this_browser = Watir::Browser.new(
                 :phantomjs,
-                args: [
+                 args: [
                   '--proxy-type=socks5',
                   "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
                   '--ignore-ssl-errors=true',
@@ -101,7 +101,7 @@ module CSI
             else
               this_browser = Watir::Browser.new(
                 :phantomjs,
-                args: [
+                 args: [
                   "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
                   '--ignore-ssl-errors=true',
                   '--ssl-protocol=any',
@@ -112,7 +112,7 @@ module CSI
           else
             this_browser = Watir::Browser.new(
               :phantomjs,
-              args: [
+               args: [
                 '--ignore-ssl-errors=true',
                 '--ssl-protocol=any',
                 '--web-security=false'
