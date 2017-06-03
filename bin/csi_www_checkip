@@ -23,11 +23,6 @@ OptionParser.new do |options|
   end
 end.parse!
 
-if opts.empty?
-  puts `#{$PROGRAM_NAME} --help`
-  exit 1
-end
-
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
 with_tor = opts[:with_tor]
 ipinfo = opts[:ipinfo]
