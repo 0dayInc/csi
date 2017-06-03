@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'ipaddress'
+require 'nokogiri'
 
 module CSI
   module WWW
@@ -49,7 +50,8 @@ module CSI
           )
         end
         browser_obj.goto('http://checkip.amazonaws.com')
-        puts "PUBLIC IP: #{browser_obj.text}"
+        public_ip_address = Nokogiri::HTML.parse(browser_obj.html).xpath('//pre').text.chomp
+        puts "PUBLIC IP: #{public_ip_address}"
 
         return browser_obj
       rescue => e
