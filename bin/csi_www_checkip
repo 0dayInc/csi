@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
+    opts[:with_tor] = w
+  end
+
+  options.on('-i', '--[no-]ipinfo', '<Optional - Return Details about Public IP Returned from CheckIP>') do |i|
+    opts[:ipinfo] = i
+  end
+end.parse!
+
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+with_tor = opts[:with_tor]
+ipinfo = opts[:ipinfo]
+
+begin
+  if proxy != '' && with_tor
+    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless, proxy: proxy, with_tor: true)
+  elsif proxy != '' && with_tor.nil?
+    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless, proxy: proxy)
+  else
+    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless)
+  end
+
+  public_ip_adress = browser_obj.text
+  CSI::Plugins::IPInfo.get(ip_or_host: public_ip_address) unless ipinfo.nil?
+rescue => e
+  raise e
+ensure
+  unless browser_obj.nil?
+    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) if browser_obj.class == Watir::Browser
+  end
+end
