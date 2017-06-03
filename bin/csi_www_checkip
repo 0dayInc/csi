@@ -36,7 +36,7 @@ begin
     browser_obj = CSI::WWW::Checkip.open(browser_type: :headless)
   end
 
-  public_ip_adress = browser_obj.text
+  public_ip_address = browser_obj.text
   CSI::Plugins::IPInfo.get(ip_or_host: public_ip_address) unless ipinfo.nil?
 rescue => e
   raise e
