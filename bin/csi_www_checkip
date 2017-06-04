@@ -43,6 +43,6 @@ rescue => e
   raise e
 ensure
   unless browser_obj.nil?
-    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) if browser_obj.class == Watir::Browser
+    browser_obj = CSI::WWW::Checkip.close(browser_obj: browser_obj) if browser_obj.class == Watir::Browser
   end
 end
