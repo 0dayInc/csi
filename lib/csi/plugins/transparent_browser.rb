@@ -88,35 +88,41 @@ module CSI
         when :headless
           if proxy
             if with_tor
-              this_browser = Watir::Browser.new(
-                :phantomjs,
-                args: [
-                  '--proxy-type=socks5',
-                  "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-                  '--ignore-ssl-errors=true',
-                  '--ssl-protocol=any',
-                  '--web-security=false'
-                ]
-              )
-            else
-              this_browser = Watir::Browser.new(
-                :phantomjs,
-                args: [
-                  "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-                  '--ignore-ssl-errors=true',
-                  '--ssl-protocol=any',
-                  '--web-security=false'
-                ]
-              )
-            end
-          else
-            this_browser = Watir::Browser.new(
-              :phantomjs,
-              args: [
+              args = [
+                '--proxy-type=socks5',
+                "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
                 '--ignore-ssl-errors=true',
                 '--ssl-protocol=any',
                 '--web-security=false'
               ]
+
+              this_browser = Watir::Browser.new(
+                :phantomjs,
+                driver_opts: { args: args }
+              )
+            else
+              args = [
+                "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
+                '--ignore-ssl-errors=true',
+                '--ssl-protocol=any',
+                '--web-security=false'
+              ]
+
+              this_browser = Watir::Browser.new(
+                :phantomjs,
+                driver_opts: { args: args }
+              )
+            end
+          else
+            args = [
+              '--ignore-ssl-errors=true',
+              '--ssl-protocol=any',
+              '--web-security=false'
+            ]
+
+            this_browser = Watir::Browser.new(
+              :phantomjs,
+              driver_opts: { args: args }
             )
           end
         when :rest
