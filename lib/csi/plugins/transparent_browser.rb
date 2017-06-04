@@ -95,11 +95,6 @@ module CSI
                 '--ssl-protocol=any',
                 '--web-security=false'
               ]
-
-              this_browser = Watir::Browser.new(
-                :phantomjs,
-                driver_opts: { args: args }
-              )
             else
               args = [
                 "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
@@ -107,11 +102,6 @@ module CSI
                 '--ssl-protocol=any',
                 '--web-security=false'
               ]
-
-              this_browser = Watir::Browser.new(
-                :phantomjs,
-                driver_opts: { args: args }
-              )
             end
           else
             args = [
@@ -119,12 +109,13 @@ module CSI
               '--ssl-protocol=any',
               '--web-security=false'
             ]
-
-            this_browser = Watir::Browser.new(
-              :phantomjs,
-              driver_opts: { args: args }
-            )
           end
+
+          this_browser = Watir::Browser.new(
+            :phantomjs,
+            driver_opts: { args: args }
+          )
+
         when :rest
           this_browser = RestClient
           if proxy
