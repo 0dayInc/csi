@@ -14,6 +14,14 @@ OptionParser.new do |options|
     opts[:target_url] = t
   end
 
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy ADDRESS:PORT>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-xTYPE', '--proxy-type=TYPE', '<Optional - Proxy Type (See arachni --help)>') do |x|
+    opts[:proxy_type] = x
+  end
+
   options.on('-oDIR', '--report_output_dir=DIR', '<Required - Output Directory for Results Generation>') do |o|
     opts[:output_dir] = o
   end
@@ -28,8 +36,17 @@ begin
   logger = CSI::Plugins::CSILogger.create
 
   target_url = opts[:target_url].to_s.scrub
+  proxy = opts[:proxy].to_s.scrub
+  proxy_type = opts[:proxy_type].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
-  system("sudo /bin/bash --login -c \"arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *\"")
+
+  if proxy != '' && proxy_type == ''
+    system("sudo /bin/bash --login -c \"arachni --http-proxy #{proxy} #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *\"")
+  elsif proxy != '' && proxy_type != ''
+    system("sudo /bin/bash --login -c \"arachni --http-proxy #{proxy} --http-proxy-type #{proxy_type}  #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *\"")
+  else
+    system("sudo /bin/bash --login -c \"arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr && arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip && cd #{output_dir} && unzip -o arachni_results.html.zip && chown -R jenkins:jenkins *\"")
+  end
 rescue => e
   raise e
 end
