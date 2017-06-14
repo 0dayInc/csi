@@ -44,7 +44,7 @@ Waveform of a Fax Machine:
 
 AWS Rekognition Anyone?
 ```
-csi[v0.2.97]:001 >>> CSI::AWS::Rekognition.help
+csi[v0.2.98]:001 >>> CSI::AWS::Rekognition.help
 USAGE:
           rekognition_obj = CSI::AWS::Rekognition.connect(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
@@ -61,7 +61,7 @@ USAGE:
           CSI::AWS::Rekognition.authors
 
 => nil
-csi[v0.2.97]:002 >>>
+csi[v0.2.98]:002 >>>
 ```
 
 ### **Call to Arms** ###
@@ -73,7 +73,7 @@ If you're willing to provide access to commercial security tools (e.g. Rapid7's 
 
 ### **Clone CSI** ###
 
- `$ sudo git clone https://github.com/ninp0/csi.git /opt/csi`
+ `$ sudo git clone https://github.com/ninp0/csi.git /csi`
 
 
 
@@ -142,13 +142,13 @@ All installation methods are recommended :)
 #### **Install CSI in AWS EC2** ####
   # Be Sure to Take a Look at the AWS Acceptable Use Policy: https://aws.amazon.com/aup
   ```
-  $ sudo cp /opt/csi/etc/aws/vagrant.yaml.EXAMPLE /opt/csi/etc/aws/vagrant.yaml
-  $ sudo cp /opt/csi/etc/letsencrypt/vagrant.yaml.EXAMPLE /opt/csi/etc/letsencrypt/vagrant.yaml
+  $ sudo cp /csi/etc/aws/vagrant.yaml.EXAMPLE /csi/etc/aws/vagrant.yaml
+  $ sudo cp /csi/etc/letsencrypt/vagrant.yaml.EXAMPLE /csi/etc/letsencrypt/vagrant.yaml
   ```
   
   # Populate the necessary parameters in BOTH vagrant.yaml files and then execute the following:
 
-  `$ cd /opt/csi && sudo ./install.sh aws`
+  `$ cd /csi && sudo ./install.sh aws`
 
 
 
@@ -160,11 +160,11 @@ All installation methods are recommended :)
 
   ```
   $ sudo su -
-  # cd /opt/csi
+  # cd /csi
   # ./install.sh ruby-gem
   # exit
-  $ cd /opt/csi && csi
-  csi[v0.2.97]:001 >>> CSI.help
+  $ cd /csi && csi
+  csi[v0.2.98]:001 >>> CSI.help
   ```
 
   # Please note if the ruby gem, 'pg' fails to build in OSX, be sure to install Macports & the postgresql96-server package:
@@ -172,10 +172,10 @@ All installation methods are recommended :)
   ```
   $ sudo port install postgresql96-server
   $ sudo su -
-  # cd /opt/csi && ./install.sh ruby-gem
+  # cd /csi && ./install.sh ruby-gem
   # exit
-  $ cd /opt/csi && csi
-  csi[v0.2.97]:001 >>> CSI.help
+  $ cd /csi && csi
+  csi[v0.2.98]:001 >>> CSI.help
   ```
 
 
@@ -184,15 +184,15 @@ All installation methods are recommended :)
   # Without GUI:
 
   ```
-  $ sudo cp /opt/csi/etc/virtualbox/vagrant.yaml.EXAMPLE /opt/csi/etc/virtualbox/vagrant.yaml
-  $ cd /opt/csi && sudo ./install.sh virtualbox
+  $ sudo cp /csi/etc/virtualbox/vagrant.yaml.EXAMPLE /csi/etc/virtualbox/vagrant.yaml
+  $ cd /csi && sudo ./install.sh virtualbox
   ```
 
   # With GUI:
 
   ```
-  $ sudo cp /opt/csi/etc/virtualbox/vagrant.yaml.EXAMPLE /opt/csi/etc/virtualbox/vagrant.yaml
-  $ cd /opt/csi && sudo ./install.sh virtualbox-gui
+  $ sudo cp /csi/etc/virtualbox/vagrant.yaml.EXAMPLE /csi/etc/virtualbox/vagrant.yaml
+  $ cd /csi && sudo ./install.sh virtualbox-gui
   $ sudo vagrant ssh
   ubuntu@csi:~$ sudo passwd ubuntu <create new password and authenticate in lxdm VirtualBox window>
   ```
@@ -208,28 +208,28 @@ All installation methods are recommended :)
   It all starts in the csi prototyping driver:
   ```
   $ csi
-  csi[v0.2.97]:001 >>> CSI.help
-  csi[v0.2.97]:002 >>> CSI::Plugins.help
-  csi[v0.2.97]:003 >>> CSI::WWW.help
-  csi[v0.2.97]:004 >>> CSI::WWW::Google.help
-  csi[v0.2.97]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
-  csi[v0.2.97]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
-  csi[v0.2.97]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
-  csi[v0.2.97]:008 >>> CSI::WWW::Google.close
+  csi[v0.2.98]:001 >>> CSI.help
+  csi[v0.2.98]:002 >>> CSI::Plugins.help
+  csi[v0.2.98]:003 >>> CSI::WWW.help
+  csi[v0.2.98]:004 >>> CSI::WWW::Google.help
+  csi[v0.2.98]:005 >>> CSI::WWW::Google.open(:browser_type => :chrome)
+  csi[v0.2.98]:006 >>> CSI::WWW::Google.search(:q => 'site:github.com')
+  csi[v0.2.98]:007 >>> CSI::WWW::Google.search(:q => 'site:github.com inurl:"ninp0/csi"')
+  csi[v0.2.98]:008 >>> CSI::WWW::Google.close
   ```
 
   You say you want to write your own custom security tests for your own website using a mitm proxy?  That's cool chum, here's a few ways:
   
   ```
-  csi[v0.2.97]:001 >>> CSI::Plugins::TransparentBrowser.help
+  csi[v0.2.98]:001 >>> CSI::Plugins::TransparentBrowser.help
     USAGE:
       ...
 
-  csi[v0.2.97]:002 >>> CSI::Plugins::BurpSuite.help
+  csi[v0.2.98]:002 >>> CSI::Plugins::BurpSuite.help
     USAGE:
       ...
 
-  csi[v0.2.97]:003 >>> CSI::Plugins::OwaspZap.help
+  csi[v0.2.98]:003 >>> CSI::Plugins::OwaspZap.help
     USAGE:
       ...
   ```
@@ -239,7 +239,7 @@ All installation methods are recommended :)
 
   ```
   # csi
-  csi[v0.2.97]:001 >>> CSI::Plugins::NmapIt.help
+  csi[v0.2.98]:001 >>> CSI::Plugins::NmapIt.help
   USAGE:
           CSI::Plugins::NmapIt.port_scan do |nmap|
             puts nmap.public_methods
@@ -255,13 +255,13 @@ All installation methods are recommended :)
           CSI::Plugins::NmapIt.authors
         
   => nil
-  csi[v0.2.97]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
-  csi[v0.2.97]:003 ***   nmap.syn_scan = true
-  csi[v0.2.97]:004 ***   nmap.service_scan = true
-  csi[v0.2.97]:005 ***   nmap.os_fingerprint = true
-  csi[v0.2.97]:006 ***   nmap.ports = [1..1024,1337]
-  csi[v0.2.97]:007 ***   nmap.targets = '127.0.0.1'
-  csi[v0.2.97]:008 *** end  
+  csi[v0.2.98]:002 >>> CSI::Plugins::NmapIt.port_scan do |nmap|
+  csi[v0.2.98]:003 ***   nmap.syn_scan = true
+  csi[v0.2.98]:004 ***   nmap.service_scan = true
+  csi[v0.2.98]:005 ***   nmap.os_fingerprint = true
+  csi[v0.2.98]:006 ***   nmap.ports = [1..1024,1337]
+  csi[v0.2.98]:007 ***   nmap.targets = '127.0.0.1'
+  csi[v0.2.98]:008 *** end  
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:13 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -272,7 +272,7 @@ All installation methods are recommended :)
   Since the Pry gem is core to the CSI prototyping driver, we can record and replay automation sessions \o/--(Woohoo...Ya!!!)
 
   ```
-  csi[v0.2.97]:009 >>> hist
+  csi[v0.2.98]:009 >>> hist
   1: CSI::Plugins::NmapIt.help
   2: CSI::Plugins::NmapIt.port_scan do |nmap|
   3:   nmap.syn_scan = true
@@ -281,7 +281,7 @@ All installation methods are recommended :)
   6:   nmap.ports = [1..1024,1337]
   7:   nmap.targets = '127.0.0.1'
   8: end
-  csi[v0.2.97]:010 » hist -r 2..8
+  csi[v0.2.98]:010 » hist -r 2..8
 
   Starting Nmap 7.12 ( https://nmap.org ) at 2016-08-02 18:17 MDT
   Nmap scan report for localhost (127.0.0.1)
@@ -312,10 +312,10 @@ All installation methods are recommended :)
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
   ```
   $ csi
-  csi[v0.2.97]:002 >>> CSI.help
+  csi[v0.2.98]:002 >>> CSI.help
   => [:AWS, :MSF, :Plugins, :Reports, :SCAPM, :VERSION, :WWW, :WebApp]
 
-  csi[v0.2.97]:003 >>> CSI::AWS.help
+  csi[v0.2.98]:003 >>> CSI::AWS.help
   => [:ACM,
    :APIGateway,
    :AppStream,
@@ -406,7 +406,7 @@ All installation methods are recommended :)
    :Workspaces,
    :XRay]
 
-  csi[v0.2.97]:004 >>> CSI::Plugins.help
+  csi[v0.2.98]:004 >>> CSI::Plugins.help
   => [:Android,
    :AnsibleVault,
    :AuthenticationHelper,
@@ -445,7 +445,7 @@ All installation methods are recommended :)
    :TransparentBrowser,
    :UTF8]
 
-  csi[v0.2.97]:005 >>> CSI::SCAPM.help
+  csi[v0.2.98]:005 >>> CSI::SCAPM.help
   => [:AMQPConnectAsGuest,
    :AWS,
    :ApacheFileSystemUtilAPI,
@@ -477,7 +477,7 @@ All installation methods are recommended :)
    :Token,
    :Version]
 
-  csi[v0.2.97]:006 >>> CSI::WWW.help
+  csi[v0.2.98]:006 >>> CSI::WWW.help
   => [:AppCobaltIO,
   :Bing,
   :BugCrowd,
@@ -501,7 +501,7 @@ All installation methods are recommended :)
   It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
-  # cd /opt/csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
+  # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
   ```
 
 

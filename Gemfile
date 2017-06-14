@@ -32,7 +32,7 @@ gem 'msgpack', '1.1.0'                 # Pry Dependency ***2017-03-30
 gem 'net-ldap', '0.16.0'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-04-04
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '6.0.0'                 # Vuln Scan all the Things! ***2017-04-04
-gem 'nokogiri', '1.7.1'                # Parse HTML & XML Documents ***2017-03-30 (jenkins_api_client depends on older version)
+gem 'nokogiri', '1.8.0'                # Parse HTML & XML Documents ***2017-06-14 (jenkins_api_client depends on older version)
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-03-12
 gem 'os', '1.0.0'                      # Detect underlying operating system ***2017-04-04
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
