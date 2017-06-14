@@ -49,6 +49,4 @@ begin
   end
 rescue => e
   raise e
-ensure
-  # TODO: Ensure arachni is no longer running.
 end
