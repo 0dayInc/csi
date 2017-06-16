@@ -36,6 +36,10 @@ OptionParser.new do |options|
     opts[:nmap_path] = n
   end
 
+  options.on('-EWITNESS', '--eyewitness-path=WITNESS', '<Optional - Path to eyewitness/Requires Nmap Flag>') do |w|
+    opts[:eyewitness_path] = w
+  end
+
   options.on('-bBURP', '--burp-path=BURP', '<Optional - Path to Burp>') do |b|
     opts[:burp_path] = b
   end
@@ -80,6 +84,7 @@ ipinfo = opts[:ipinfo]
 sublist3r_path = opts[:sublist3r_path].to_s.scrub.strip.chomp
 burp_path = opts[:burp_path].to_s.scrub.strip.chomp
 nmap_path = opts[:nmap_path].to_s.scrub.strip.chomp
+eyewitness_path = opts[:eyewitness_path].to_s.scrub.strip.chomp
 
 def invoke_burp(opts = {})
   burp_path = opts[:burp_path]
@@ -206,6 +211,12 @@ unless nmap_path == ''
           nmap.targets = nmap_target
           nmap.xml = nmap_xml_results
         end
+      end
+
+      # Eyewitness Nmap XML Results
+      unless eyewitness_path == ''
+        print "#{@green}Eyewitness Nmap XML Results...#{@end_of_color}"
+        system("-x '#{nmap_xml_results}' -d '#{output_dir}/#{nmap_target}-#{@runtime_timestamp}' --no-prompt --all-protocols")
       end
 
       CSI::Plugins::NmapIt.parse_xml_results(xml_file: nmap_xml_results) do |xml|
