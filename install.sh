@@ -8,6 +8,12 @@ os=$(uname -s)
 # configure
 # TODO: install ansible in this script if not installed
 # to take advantage of encrypted configs early on
+if [[ ! -e "./etc/metasploit/msfrpcd.yaml" ]]; then
+  echo "ERROR: Missing msfrpcd.yaml Config"
+  echo "Use ./etc/metasploit/msfrpcd.yaml.EXAMPLE as a Template to Create ./etc/metasploit/msfrpcd.yaml"
+  exit 1
+fi
+
 case $csi_deploy_type in
   "aws") 
     if [[ -e "./etc/aws/vagrant.yaml" ]]; then
