@@ -14,7 +14,7 @@ function usage() {
   exit 1
 }
 
-if [[ $csi_deploy_type != '' ]]; then
+if [[ $# != 1 ]]; then
   usage
 fi
 
