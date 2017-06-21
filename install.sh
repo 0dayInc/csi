@@ -8,6 +8,16 @@ os=$(uname -s)
 # configure
 # TODO: install ansible in this script if not installed
 # to take advantage of encrypted configs early on
+
+function usage() {
+  echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui>"
+  exit 1
+}
+
+if [[ $csi_deploy_type != '' ]]; then
+  usage
+fi
+
 if [[ ! -e "./etc/metasploit/msfrpcd.yaml" ]]; then
   echo "ERROR: Missing msfrpcd.yaml Config"
   echo "Use ./etc/metasploit/msfrpcd.yaml.EXAMPLE as a Template to Create ./etc/metasploit/msfrpcd.yaml"
@@ -142,6 +152,6 @@ case $csi_deploy_type in
 #    ;;
   *)
     #echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui>"
-    echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui>"
-    exit 1
+    usage
+    ;;
 esac
