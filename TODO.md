@@ -4,6 +4,7 @@
 - Create Working OWASP ZAP Module
 - Add more comprehensive tests in RSpec to account for changes to gems in Gemfile, ruby, etc when upgrading components w/in the framwork.  Examples of tests would be ensuring that each method within every CSI module has not been deprecated, removed, and/or changed.
 - Add Kali Rolling box on Atlas Hashicorp & AWS Kali Rolling AMI for faster deployment for others.
+- Automate the task of keeping the Kali Rolling Vagrant box and AWS AMI updated.
 - Add docker as a provider w/in Vagrant
 - Add salt-stack as a provider w/in Vagrant
 - Add ansible as a provider w/in Vagrant
