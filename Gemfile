@@ -39,7 +39,6 @@ gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet ma
 gem 'pdf-reader', '2.0.0'              # Parsing PDF Reports ***2017-04-04
 gem 'pg', '0.20.0'                     # Required Postgres Gem for Postgres Data Access Object ***2017-04-04
 gem 'pony', '1.11'                     # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2015-12-15
-#gem 'pry', git: 'https://github.com/tnorris/pry.git', branch: 'adds-duplicate-history' # More feature-filled irb alternative
 gem 'pry', git: 'https://github.com/tnorris/pry.git', ref: 'adds-duplicate-history' # More feature-filled irb alternative
 # gem 'pry', '0.10.4' # More feature-filled irb alternative
 gem 'puppet', '4.9.4'                  # Integrate CSI into Puppet automation ***2017-04-02
