@@ -121,7 +121,7 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   # install packages after csi image has booted
-  config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: '#{hostname}', privileged: false
+  config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
   config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
   config.vm.provision :shell, path: './vagrant/install/imagemagick.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/install/tesseract.sh', privileged: false
