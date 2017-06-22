@@ -29,7 +29,7 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/virtualbox/vagrant.yaml'
 
     if File.exist?(config_path)
-      override.vm.box = 'ubuntu/xenial64'
+      override.vm.box = 'sfoger/kali'
       vb.gui = if vagrant_gui == 'gui'
                  true
                else
