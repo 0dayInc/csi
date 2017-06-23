@@ -10,20 +10,20 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
 
   # rsync local csi folder on csi image
-  config.vm.synced_folder(
-    '.',
-    '/csi',
-    type: 'rsync',
-    rsync__exclude: './etc/aws/vagrant.yaml',
-    rsync__args: [
-      '--progress',
-      '--verbose',
-      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
-      '--archive',
-      '--delete',
-      '-z'
-    ]
-  )
+  #config.vm.synced_folder(
+  #  '.',
+  #  '/csi',
+  #  type: 'rsync',
+  #  rsync__exclude: './etc/aws/vagrant.yaml',
+  #  rsync__args: [
+  #    '--progress',
+  #    '--verbose',
+  #    "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
+  #    '--archive',
+  #    '--delete',
+  #    '-z'
+  #  ]
+  #)
 
   config.vm.provider(:virtualbox) do |vb, override|
     config_path = './etc/virtualbox/vagrant.yaml'
@@ -123,52 +123,52 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   # install packages after csi image has booted
-  config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
-  config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/imagemagick.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/tesseract.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/rvm.sh', args: 'head', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/ruby.sh', args: '', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/csi.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/phantomjs.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/tor.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/burpsuite.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/sipp.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/owasp_zap.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
+  #config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/imagemagick.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/tesseract.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/rvm.sh', args: 'head', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/ruby.sh', args: '', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/csi.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/phantomjs.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/tor.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/burpsuite.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/sipp.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/owasp_zap.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
 
   # TODO: populate vagrant_gui via etc/virtualbox/vagrant.yaml
-  case vagrant_gui
+  #case vagrant_gui
     # VirtualBox Section
-  when 'gui' # GUI
+  #when 'gui' # GUI
     # TODO: enable devices (e.g. cdrom)
-    config.vm.provision :shell, path: './vagrant/install/terminator.sh', privileged: false
-    config.vm.provision :shell, path: './vagrant/install/firefox.sh', privileged: false
-    config.vm.provision :shell, path: './vagrant/install/chrome.sh', privileged: false
-    config.vm.provision :shell, path: './vagrant/install/lxde.sh', privileged: false
-    config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
-  when 'headless' # Headless
-    config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
-  else
+  #  config.vm.provision :shell, path: './vagrant/install/terminator.sh', privileged: false
+  #  config.vm.provision :shell, path: './vagrant/install/firefox.sh', privileged: false
+  #  config.vm.provision :shell, path: './vagrant/install/chrome.sh', privileged: false
+  #  config.vm.provision :shell, path: './vagrant/install/lxde.sh', privileged: false
+  #  config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
+  #when 'headless' # Headless
+  #  config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
+  #else
     # AWS Section
-    config.vm.provision :shell, path: './vagrant/install/letsencrypt.rb', args: 'head', privileged: false
-    config.vm.provision :shell, path: './vagrant/install/openvas.sh', privileged: false
-  end
+  #  config.vm.provision :shell, path: './vagrant/install/letsencrypt.rb', args: 'head', privileged: false
+  #  config.vm.provision :shell, path: './vagrant/install/openvas.sh', privileged: false
+  #end
 
   # Tools
-  config.vm.provision :shell, path: './vagrant/install/jenkins.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/nmap.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/sqlmap.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/arachni.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/metasploit.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/beef.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/scapy.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/wpscan.rb', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/sslyze.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/ssllabs-scan.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/exim4.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/jenkins.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/nmap.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/sqlmap.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/arachni.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/metasploit.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/beef.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/scapy.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/wpscan.rb', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/sslyze.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/ssllabs-scan.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
+  #config.vm.provision :shell, path: './vagrant/install/exim4.sh', privileged: false
 
   # TODO: Convert Scripts Above into Ansible Playbooks
   # config.vm.provision :ansible do |ansible|

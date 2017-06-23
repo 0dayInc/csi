@@ -24,6 +24,7 @@ tmp
 *.sublime-workspace
 *.sublime-project
 .vagrant/
+ansible/site.retry
 etc/aws/vagrant.yaml
 etc/burpsuite/navigation.instruct
 etc/jenkins/jenkins_admin_user.yaml
@@ -32,5 +33,6 @@ etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
-ansible/site.retry
+packer/packer_cache
+packer/output-virtualbox-iso
 ubuntu-*-cloudimg-console.log
