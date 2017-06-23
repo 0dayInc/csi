@@ -29,14 +29,15 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/virtualbox/vagrant.yaml'
 
     if File.exist?(config_path)
-      override.vm.box = 'sfoger/kali'
+      override.vm.box = '0dayinc/kali_rolling'
+      yaml_config = YAML.load_file(config_path)
+
       vb.gui = if vagrant_gui == 'gui'
                  true
                else
                  false
                end
 
-      yaml_config = YAML.load_file(config_path)
       vb.memory = yaml_config['memory']
       hostname = yaml_config['hostname']
       diskMB = yaml_config['diskMB']
@@ -54,13 +55,14 @@ Vagrant.configure(API_VERSION) do |config|
 
   # config.vm.provider(:vmware_fusion) do |vm, override|
   #   override.vm.box = 'ubuntu/xenial64_fusion'
+  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #
   #   if vagrant_gui == 'gui'
   #     vm.gui = true
   #   else
   #     vm.gui = false
   #   end
   #
-  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
   #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
   #   vm.memory = yaml_config['memory']
   #   hostname = yaml_config['hostname']
@@ -70,13 +72,13 @@ Vagrant.configure(API_VERSION) do |config|
 
   # config.vm.provider(:vmware_workstation) do |vm, override|
   #   override.vm.box = 'ubuntu/xenial64'
+  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+  #
   #   if vagrant_gui == 'gui'
   #     vm.gui = true
   #   else
   #     vm.gui = false
   #   end
-
-  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
   #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
   #   vm.memory = yaml_config['memory']
   #   hostname = yaml_config['hostname']
@@ -89,8 +91,8 @@ Vagrant.configure(API_VERSION) do |config|
 
     if File.exist?(config_path)
       override.vm.box = 'dummy'
-
       yaml_config = YAML.load_file(config_path)
+
       hostname = yaml_config['hostname']
 
       aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:ubuntu !requiretty' >> /etc/sudoers"
