@@ -42,6 +42,7 @@ Vagrant.configure(API_VERSION) do |config|
       hostname = yaml_config['hostname']
       diskMB = yaml_config['diskMB']
       override.vm.hostname = hostname
+      override.vm.guest = :debian
 
       # disk_uuid = ''
       # while disk_uuid == ''
