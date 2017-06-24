@@ -37,9 +37,8 @@
   }],
   "provisioners": [{
     "type": "shell",
-    "scripts": [
-      "provision_provider.sh virtualbox"
-    ]
+    "script": "provisioners/pack_virtualbox.sh",
+    "pause_before": "9s"
   }],
   "post-processors": [{
     "type": "vagrant",
