@@ -6,7 +6,7 @@
       ["modifyvm", "{{.Name}}", "--memory", "1024"],
       ["modifyvm", "{{.Name}}", "--cpus", "1"]
     ],
-    "disk_size": 30720,
+    "disk_size": 33792,
     "hard_drive_interface": "sata",
     "http_directory": "http",
     "iso_url": "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso",
@@ -37,7 +37,9 @@
   }],
   "provisioners": [{
     "type": "shell",
-    "inline": "/csi/packer/provision_provider.sh virtualbox"
+    "scripts": [
+      "provision_provider.sh virtualbox"
+    ]
   }],
   "post-processors": [{
     "type": "vagrant",
