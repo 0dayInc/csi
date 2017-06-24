@@ -35,4 +35,5 @@ etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
 packer/packer_cache
 packer/output-virtualbox-iso
+packer/kali_rolling_virtualbox.box
 ubuntu-*-cloudimg-console.log
