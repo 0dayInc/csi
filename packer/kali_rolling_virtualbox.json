@@ -29,7 +29,7 @@
     ],
     "boot_wait": "3s",
     "communicator": "ssh",
-    "ssh_username": "kalicsi",
+    "ssh_username": "vagrant",
     "ssh_password": "K4Lics1!",
     "ssh_port": 22,
     "ssh_wait_timeout": "999s",
