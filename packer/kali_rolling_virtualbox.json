@@ -33,7 +33,7 @@
     "ssh_password": "K4Lics1!",
     "ssh_port": 22,
     "ssh_wait_timeout": "999s",
-    "shutdown_command": "echo 'PACKER => shutting down' | sudo /sbin/shutdown -P now"
+    "shutdown_command": "sudo /sbin/shutdown -P now"
   }],
   "provisioners": [{
     "type": "shell",
