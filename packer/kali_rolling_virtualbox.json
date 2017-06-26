@@ -39,7 +39,13 @@
     "type": "shell",
     "scripts": [
       "provisioners/install_vagrant_ssh_key.sh",
-      "provisioners/update_os.sh"
+      "provisioners/update_os.sh",
+      "provisioners/rvm.sh",
+      "provisioners/ruby.sh",
+      "provisioners/terminator.sh",
+      "provisioners/openvas.sh",
+      "provisioners/tor.sh",
+      "provisioners/csi.sh"
     ],
     "pause_before": "9s"
   }],

@@ -124,17 +124,11 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   # install packages after csi image has booted
-  # config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
-  # config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/imagemagick.sh', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/tesseract.sh', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/rvm.sh', args: 'head', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/ruby.sh', args: '', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/csi.rb', privileged: false
+  config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
+  config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/phantomjs.rb', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/tor.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/burpsuite.sh', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
+  config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/sipp.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/owasp_zap.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
