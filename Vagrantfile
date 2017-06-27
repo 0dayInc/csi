@@ -10,20 +10,20 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
 
   # rsync local csi folder on csi image
-  # config.vm.synced_folder(
-  #   '.',
-  #   '/csi',
-  #   type: 'rsync',
-  #   rsync__exclude: './etc/aws/vagrant.yaml',
-  #   rsync__args: [
-  #     '--progress',
-  #     '--verbose',
-  #     "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
-  #     '--archive',
-  #     '--delete',
-  #     '-z'
-  #   ]
-  # )
+  config.vm.synced_folder(
+    '.',
+    '/csi',
+    type: 'rsync',
+    rsync__exclude: './etc/aws/vagrant.yaml',
+    rsync__args: [
+      '--progress',
+      '--verbose',
+      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
+      '--archive',
+      '--delete',
+      '-z'
+    ]
+  )
 
   config.vm.provider(:virtualbox) do |vb, override|
     config_path = './etc/virtualbox/vagrant.yaml'
