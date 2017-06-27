@@ -125,7 +125,8 @@ Vagrant.configure(API_VERSION) do |config|
 
   # install packages after csi image has booted
   config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
-  config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', args: '', privileged: false
+  config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', privileged: false
+  config.vm.provision :shell, path: 'cd /csi && ./build_csi_gem.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/phantomjs.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/burpsuite.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
