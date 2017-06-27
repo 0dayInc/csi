@@ -40,6 +40,7 @@
     "scripts": [
       "provisioners/install_vagrant_ssh_key.sh",
       "provisioners/update_os.sh",
+      "provisioners/virtualbox_guest_additions.sh",
       "provisioners/rvm.sh",
       "provisioners/ruby.sh",
       "provisioners/terminator.sh",
