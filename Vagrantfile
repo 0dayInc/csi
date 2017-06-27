@@ -14,7 +14,10 @@ Vagrant.configure(API_VERSION) do |config|
     '.',
     '/csi',
     type: 'rsync',
-    rsync__exclude: './etc/aws/vagrant.yaml',
+    rsync__exclude: [
+      './etc/aws/vagrant.yaml',
+      './packer',
+    ],
     rsync__args: [
       '--progress',
       '--verbose',
