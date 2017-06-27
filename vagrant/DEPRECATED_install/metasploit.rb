@@ -4,7 +4,6 @@
 require 'yaml'
 
 # Install Metasploit from Source
-# TODO: Install/Upgrade Metasploit w/in CSI::Plugins::Metasploit Module
 printf 'Installing Metasploit *****************************************************************'
 metasploit_root = '/opt/metasploit-framework-dev'
 `sudo git clone https://github.com/rapid7/metasploit-framework.git #{metasploit_root}`

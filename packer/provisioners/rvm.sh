@@ -1,5 +1,4 @@
 #!/bin/bash --login
-printf "Installing RVM ************************************************************************"
 sudo apt-get install -y gnupg2
 curl -sSL https://rvm.io/mpapis.asc | sudo gpg2 --import -
 

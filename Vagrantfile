@@ -15,8 +15,9 @@ Vagrant.configure(API_VERSION) do |config|
     '/csi',
     type: 'rsync',
     rsync__exclude: [
-      './etc/aws/vagrant.yaml',
-      './packer',
+      '.git/',
+      'etc/aws/vagrant.yaml',
+      'packer/'
     ],
     rsync__args: [
       '--progress',
@@ -47,6 +48,7 @@ Vagrant.configure(API_VERSION) do |config|
       override.vm.hostname = hostname
       override.vm.guest = :debian
 
+      # TODO: resize disk based on params listed in etc/virtualbox/vagrant.yaml
       # disk_uuid = ''
       # while disk_uuid == ''
       #   disk_uuid = `VBoxManage list hdds | grep -B 8 '10240 MBytes' | head -n 1 | awk '{print $2}'`.to_s.scrub.strip.chomp
@@ -127,26 +129,17 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   # install packages after csi image has booted
-  config.vm.provision :shell, path: './vagrant/install/init_env.sh', args: hostname, privileged: false
-  config.vm.provision :shell, path: './vagrant/update/linux_distribution.sh', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/phantomjs.rb', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/burpsuite.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/install/apache2.sh', privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/update_os.sh', privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/sipp.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/owasp_zap.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/dnsrecon.sh', privileged: false
 
-  # TODO: populate vagrant_gui via etc/virtualbox/vagrant.yaml
   # case vagrant_gui
   # VirtualBox Section
   # when 'gui' # GUI
   # TODO: enable devices (e.g. cdrom)
-  #  config.vm.provision :shell, path: './vagrant/install/terminator.sh', privileged: false
-  #  config.vm.provision :shell, path: './vagrant/install/firefox.sh', privileged: false
-  #  config.vm.provision :shell, path: './vagrant/install/chrome.sh', privileged: false
-  #  config.vm.provision :shell, path: './vagrant/install/lxde.sh', privileged: false
-  #  config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
-  # when 'headless' # Headless
   #  config.vm.provision :shell, path: './vagrant/install/drozer.sh', privileged: false
   # else
   # AWS Section
@@ -156,10 +149,9 @@ Vagrant.configure(API_VERSION) do |config|
 
   # Tools
   # config.vm.provision :shell, path: './vagrant/install/jenkins.sh', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/nmap.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/sqlmap.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/arachni.rb', privileged: false
-  # config.vm.provision :shell, path: './vagrant/install/metasploit.rb', privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/beef.rb', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/scapy.sh', privileged: false
   # config.vm.provision :shell, path: './vagrant/install/wpscan.rb', privileged: false

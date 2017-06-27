@@ -3,7 +3,7 @@
     "type": "virtualbox-iso",
     "guest_os_type": "Debian_64",
     "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "1024"],
+      ["modifyvm", "{{.Name}}", "--memory", "2048"],
       ["modifyvm", "{{.Name}}", "--cpus", "1"]
     ],
     "disk_size": 33792,
@@ -42,10 +42,14 @@
       "provisioners/update_os.sh",
       "provisioners/virtualbox_guest_additions.sh",
       "provisioners/rvm.sh",
+      "provisioners/bashrc.sh",
       "provisioners/ruby.sh",
       "provisioners/terminator.sh",
+      "provisioners/apache2.sh",
       "provisioners/openvas.sh",
       "provisioners/tor.sh",
+      "provisioners/arachni.sh",
+      "provisioners/eyewitness.sh",
       "provisioners/csi.sh"
     ],
     "pause_before": "9s"
