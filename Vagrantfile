@@ -133,10 +133,11 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: './vagrant/provisioners/update_os.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/rvm.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/gem.sh', privileged: false
-  config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/wpscan.rb', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/ssllabs-scsan.sh', privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/update_openvas-feeds.sh', privileged: false
+  config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', privileged: false
 
   # TODO: Convert Scripts Above into Ansible Playbooks
   # config.vm.provision :ansible do |ansible|
