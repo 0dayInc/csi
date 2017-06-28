@@ -18,4 +18,4 @@ msfrpcd_host = msfrpcd_config['msfrpcd_host'].to_s.scrub.strip.chomp
 msfrpcd_port = msfrpcd_config['port'].to_i
 msfrpcd_user = msfrpcd_config['username'].to_s.scrub.chomp # Don't strip leading space
 msfrpcd_pass = msfrpcd_config['password'].to_s.scrub.chomp # Don't strip leading space
-system("sudo bash --login -c \"source /etc/profile.d/rvm.sh && rvm use ruby-#{metasploit_ruby_version}@#{metasploit_gemset} && cp /csi/etc/systemd/msfrpcd.service /etc/systemd/system/ && systemctl enable msfrpcd.service && systemctl start msfrpcd.service\"")
+system("sudo bash --login -c \"source /etc/profile.d/rvm.sh && rvm use ruby-#{metasploit_ruby_version}@#{metasploit_gemset} && cp /csi/etc/metasploit/msfrpcd.yaml.EXAMPLE /csi/etc/metasploit/msfrpcd.yaml && cp /csi/etc/systemd/msfrpcd.service /etc/systemd/system/ && systemctl enable msfrpcd.service && systemctl start msfrpcd.service\"")
