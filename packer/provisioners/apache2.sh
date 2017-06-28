@@ -1,4 +1,5 @@
 #!/bin/bash --login
+domain_name=$(hostname -d)
 sudo apt-get install -y apache2
 sudo a2enmod proxy
 sudo a2enmod proxy_http
