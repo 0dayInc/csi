@@ -32,7 +32,7 @@ If you're willing to provide access to commercial security tools (e.g. Rapid7's 
 It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated solutions should be open for all eyes to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  
 
 #### **How CSI Works** ####
-Leveraging various pre-built modules and the csi prototyper, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."  The fastest way to getting rolling w/ csi is to deploy a pre-built Kali Rolling box we built w/ Packer.  This is made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  Feel free to also install it locally on your machine as a Ruby Gem!  See the quickstart for more details.
+Leveraging various pre-built modules and the csi prototyper, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."  The fastest way to getting rolling w/ csi is to deploy a pre-built Kali Rolling box we built w/ Packer.  This is made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  Feel free to also install it locally on your machine as a Ruby Gem!  See the i[Install or Deploy](#install-or-deploy) section for more details.
 
 #### **What is CSI** ####
 CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
@@ -88,7 +88,7 @@ It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
   # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.194]:001 >>> CSI.help
+  csi[v0.2.195]:001 >>> CSI.help
   ```
 
 
