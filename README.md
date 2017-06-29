@@ -10,11 +10,12 @@
   * [Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper](#creating-an-owasp-zap-scanning-driver-leveraging-the-csi-prototyper)
 - [Clone CSI](#clone-csi)
 - [Install or Deploy](#install-or-deploy)
-  * [Deploy in AWS EC2](deploy-in-aws-ec2)
-  * [Deploy in Docker Container](deploy-in-docker-container)
-  * [Install Locally on your Box](install-locally-on-your-box)
-  * [Deploy in VirtualBox](deploy-in-virtualbox)
-  * [Deploy in VMware](deploy-in-vmware)
+  * [Basic Installation Dependencies](#basic-installation-dependencies)
+  * [Deploy in AWS EC2](#deploy-in-aws-ec2)
+  * [Deploy in Docker Container](#deploy-in-docker-container)
+  * [Install Locally on your Box](#install-locally-on-your-box)
+  * [Deploy in VirtualBox](#deploy-in-virtualbox)
+  * [Deploy in VMware](#deploy-in-vmware)
 - [General Usage](#general-usage)
 - [Driver Documentation](#driver-documentation)
 
@@ -87,7 +88,7 @@ It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
   # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.193]:001 >>> CSI.help
+  csi[v0.2.194]:001 >>> CSI.help
   ```
 
 
