@@ -50,7 +50,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 #### **Basic Installation Dependencies** ###
 - RVM Latest (Multi-User Install)
 - Ruby 2.4.1
-- Packer (If you intend on contributing to the Kali Rolling VM hosted on https://atlas.hashicorp.com/0dayinc/kali_rolling)
+- Packer (If you intend on contributing to the Kali Rolling VM hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 - Vagrant
 
 #### **Deploy in AWS EC2** ####
