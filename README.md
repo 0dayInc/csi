@@ -3,14 +3,15 @@
 ### **Table of Contents** ###
 1. [Call to Arms](#call-to-arms)
 2. [Intro](#intro)
-  * [Why](#why-csi)
-  * [How](#how-csi-works)
+  * [Why CSI](#why-csi)
+  * [How CSI Works](#how-csi-works)
   * [What is CSI](#what-is-csi)
   * [CSI Modules Can be Mixed and Matched to Produce Your Own Tools](#csi-modules-can-be-mixed-and-matched-to-produce-your-own-tools)
   * [Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper](#creating-an-owasp-zap-scanning-driver-leveraging-the-csi-prototyper)
 3. [Clone CSI](#clone-csi)
 4. [Installation / Deployment](#installation)
 5. [General Usage](#general-usage)
+6. [Driver Documentation](#driver-documentation)
 
 
 ### **Call to Arms** ###
@@ -46,6 +47,12 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 
 ### **Installation / Deployment** ###
+#### **Basic Installation Dependencies** ###
+- RVM Latest (Multi-User Install)
+- Ruby 2.4.1
+- Packer (If you intend on contributing to the Kali Rolling VM hosted on https://atlas.hashicorp.com/0dayinc/kali_rolling)
+- Vagrant
+
 #### **Deploy in AWS EC2** ####
 [AWS EC2 Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-AWS-EC2-on-Top-of-Kali-Rolling)
 
@@ -76,6 +83,11 @@ It's wise to rebuild csi often as this repo has numerous releases/week:
   $ sudo su -
   # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
   ```
+
+
+### **Driver Documentation** ###
+[For a list of existing drivers and their usage](https://github.com/ninp0/csi/wiki/CSI-Driver-Documentation)
+
 
 
 I hope you enjoy CSI and remember...ensure you always have permission prior to carrying out any sort of hacktivities.  Now - go hacktivate all the things!
