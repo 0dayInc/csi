@@ -63,7 +63,7 @@ Vagrant.configure(API_VERSION) do |config|
     if File.exist?(config_path)
       override.vm.box = 'csi/kali_rolling'
       yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
- 
+
       if vagrant_gui == 'gui'
         vm.gui = true
       else
@@ -83,7 +83,7 @@ Vagrant.configure(API_VERSION) do |config|
     if File.exist?(config_path)
       override.vm.box = 'csi/kali_rolling'
       yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-   
+
       if vagrant_gui == 'gui'
         vm.gui = true
       else
