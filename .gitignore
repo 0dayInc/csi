@@ -25,6 +25,7 @@ tmp
 *.sublime-project
 .vagrant/
 ansible/site.retry
+bin/csi_userland*
 etc/aws/vagrant.yaml
 etc/burpsuite/navigation.instruct
 etc/jenkins/jenkins_admin_user.yaml
