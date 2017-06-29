@@ -60,6 +60,8 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   config.vm.provider(:vmware_fusion) do |vm, override|
+    config_path = './etc/virtualbox/vmware.yaml'
+
     if File.exist?(config_path)
       override.vm.box = 'csi/kali_rolling'
       yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
@@ -80,6 +82,8 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   config.vm.provider(:vmware_workstation) do |vm, override|
+    config_path = './etc/virtualbox/vmware.yaml'
+
     if File.exist?(config_path)
       override.vm.box = 'csi/kali_rolling'
       yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
