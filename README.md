@@ -1,17 +1,22 @@
 ![CSI](https://github.com/ninp0/csi/blob/master/third_party/virtualbox-gui_wallpaper.jpg)
 
 ### **Table of Contents** ###
-1. [Call to Arms](#call-to-arms)
-2. [Intro](#intro)
+- [Call to Arms](#call-to-arms)
+- [Intro](#intro)
   * [Why CSI](#why-csi)
   * [How CSI Works](#how-csi-works)
   * [What is CSI](#what-is-csi)
   * [CSI Modules Can be Mixed and Matched to Produce Your Own Tools](#csi-modules-can-be-mixed-and-matched-to-produce-your-own-tools)
   * [Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper](#creating-an-owasp-zap-scanning-driver-leveraging-the-csi-prototyper)
-3. [Clone CSI](#clone-csi)
-4. [Install or Deploy](#install-or-deploy)
-5. [General Usage](#general-usage)
-6. [Driver Documentation](#driver-documentation)
+- [Clone CSI](#clone-csi)
+- [Install or Deploy](#install-or-deploy)
+  * [Deploy in AWS EC2](deploy-in-aws-ec2)
+  * [Deploy in Docker Container](deploy-in-docker-container)
+  * [Install Locally on your Box](install-locally-on-your-box)
+  * [Deploy in VirtualBox](deploy-in-virtualbox)
+  * [Deploy in VMware](deploy-in-vmware)
+- [General Usage](#general-usage)
+- [Driver Documentation](#driver-documentation)
 
 
 ### **Call to Arms** ###
@@ -58,8 +63,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 
 
-#### **Deploy in Docker Container (Coming Soon)** ####
-[Docker Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-Docker-Container)
+#### **Deploy in Docker Container** ####
+[Docker Quick-Start (Coming Soon)](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-Docker-Container)
 
 
 #### **Install Locally on your Box** ####
@@ -81,7 +86,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
-  # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
+  # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
+  csi[v0.2.193]:001 >>> CSI.help
   ```
 
 
