@@ -34,6 +34,6 @@ etc/metasploit/msfrpcd.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
 packer/packer_cache
-packer/output-virtualbox-iso
+packer/output-*
 packer/*.box
 ubuntu-*-cloudimg-console.log
