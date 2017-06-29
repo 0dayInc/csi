@@ -1,6 +1,7 @@
 #!/bin/bash --login
 # USE THIS SCRIPT WHEN UPGRADING VERSIONS IN Gemfile
-source $HOME/.rvm/scripts/rvm
+#source $HOME/.rvm/scripts/rvm
+source /etc/profile.d/rvm.sh
 ruby_version=`cat .ruby-version`
 ruby_gemset=`cat .ruby-gemset`
 rvm use $ruby_version@global
