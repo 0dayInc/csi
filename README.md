@@ -9,7 +9,7 @@
   * [CSI Modules Can be Mixed and Matched to Produce Your Own Tools](#csi-modules-can-be-mixed-and-matched-to-produce-your-own-tools)
   * [Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper](#creating-an-owasp-zap-scanning-driver-leveraging-the-csi-prototyper)
 3. [Clone CSI](#clone-csi)
-4. [Installation / Deployment](#installation)
+4. [Install or Deploy](#install-or-deploy)
 5. [General Usage](#general-usage)
 6. [Driver Documentation](#driver-documentation)
 
@@ -46,7 +46,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 
 
-### **Installation / Deployment** ###
+### **Install or Deploy** ###
 #### **Basic Installation Dependencies** ###
 - RVM Latest (Multi-User Install)
 - Ruby 2.4.1
