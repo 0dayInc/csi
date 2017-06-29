@@ -1,0 +1,66 @@
+{
+  "builders": [{
+    "type": "vmware-iso",
+    "guest_os_type": "Debian_64",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "2048"],
+      ["modifyvm", "{{.Name}}", "--cpus", "1"]
+    ],
+    "disk_size": 33792,
+    "hard_drive_interface": "sata",
+    "http_directory": "http",
+    "iso_url": "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso",
+    "iso_checksum": "49b1c5769b909220060dc4c0e11ae09d97a270a80d259e05773101df62e11e9d",
+    "iso_checksum_type": "sha256",
+    "headless": false,
+    "boot_command": [
+      "<esc><wait>",
+      "install <wait>",
+      "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
+      "debian-installer=en_US <wait>",
+      "auto <wait>",
+      "locale=en_US.UTF8 <wait>",
+      "kbd-chooser/method=us <wait>",
+      "netcfg/get_hostname=rolling <wait>",
+      "netcfg/get_domain={{.Name}} <wait>",
+      "console-keymaps-at/keymap=us <wait>",
+      "keyboard-configuration/xkb-keymap=us <wait>",
+      "<enter><wait>"
+    ],
+    "boot_wait": "3s",
+    "communicator": "ssh",
+    "ssh_username": "vagrant",
+    "ssh_password": "changeme",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "999s",
+    "shutdown_command": "sudo /sbin/shutdown -P now"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "provisioners/install_vagrant_ssh_key.sh",
+      "provisioners/update_os.sh",
+      "provisioners/openvas.sh",
+      "provisioners/rvm.sh",
+      "provisioners/bashrc.sh",
+      "provisioners/ruby.sh",
+      "provisioners/metasploit.rb",
+      "provisioners/wpscan.rb",
+      "provisioners/ssllabs-scan.sh",
+      "provisioners/sublist3r.sh",
+      "provisioners/scapy.sh",
+      "provisioners/terminator.sh",
+      "provisioners/apache2.sh",
+      "provisioners/tor.sh",
+      "provisioners/arachni.sh",
+      "provisioners/eyewitness.sh",
+      "provisioners/csi.sh"
+    ],
+    "pause_before": "9s"
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": "9",
+    "output": "kali_rolling_vmware.box"
+  }]
+}
