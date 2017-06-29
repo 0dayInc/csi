@@ -1,2 +1,0 @@
-- name: Upgrade All Packages
-  yum: name=* state=latest

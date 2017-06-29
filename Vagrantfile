@@ -59,38 +59,44 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  # config.vm.provider(:vmware_fusion) do |vm, override|
-  #   override.vm.box = 'ubuntu/xenial64_fusion'
-  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-  #
-  #   if vagrant_gui == 'gui'
-  #     vm.gui = true
-  #   else
-  #     vm.gui = false
-  #   end
-  #
-  #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
-  #   vm.memory = yaml_config['memory']
-  #   hostname = yaml_config['hostname']
-  #   diskMB = yaml_config['diskMB']
-  #   override.vm.hostname = hostname
-  # end
+  config.vm.provider(:vmware_fusion) do |vm, override|
+    if File.exist?(config_path)
+      override.vm.box = 'csi/kali_rolling'
+      yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+ 
+      if vagrant_gui == 'gui'
+        vm.gui = true
+      else
+        vm.gui = false
+      end
 
-  # config.vm.provider(:vmware_workstation) do |vm, override|
-  #   override.vm.box = 'ubuntu/xenial64'
-  #   yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
-  #
-  #   if vagrant_gui == 'gui'
-  #     vm.gui = true
-  #   else
-  #     vm.gui = false
-  #   end
-  #   vagrant_vmware_license = yaml_config['vagrant_vmware_license']
-  #   vm.memory = yaml_config['memory']
-  #   hostname = yaml_config['hostname']
-  #   diskMB = yaml_config['diskMB']
-  #   override.vm.hostname = hostname
-  # end
+      vagrant_vmware_license = yaml_config['vagrant_vmware_license']
+      vm.memory = yaml_config['memory']
+      hostname = yaml_config['hostname']
+      diskMB = yaml_config['diskMB']
+      override.vm.hostname = hostname
+      override.vm.guest = :debian
+    end
+  end
+
+  config.vm.provider(:vmware_workstation) do |vm, override|
+    if File.exist?(config_path)
+      override.vm.box = 'csi/kali_rolling'
+      yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+   
+      if vagrant_gui == 'gui'
+        vm.gui = true
+      else
+        vm.gui = false
+      end
+      vagrant_vmware_license = yaml_config['vagrant_vmware_license']
+      vm.memory = yaml_config['memory']
+      hostname = yaml_config['hostname']
+      diskMB = yaml_config['diskMB']
+      override.vm.hostname = hostname
+      override.vm.guest = :debian
+    end
+  end
 
   config.vm.provider(:aws) do |aws, override|
     config_path = './etc/aws/vagrant.yaml'
@@ -138,13 +144,4 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.provision :shell, path: './vagrant/provisioners/ssllabs-scsan.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/update_openvas-feeds.sh', privileged: false
   config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', privileged: false
-
-  # TODO: Convert Scripts Above into Ansible Playbooks
-  # config.vm.provision :ansible do |ansible|
-  #  ansible.playbook = './ansible/site.yaml'
-  #  ansible.verbose = 'vvvv' # Useful for debugging
-  #  ansible.groups = {
-  #      'dev_servers' => ['default']
-  #  }
-  # end
 end
