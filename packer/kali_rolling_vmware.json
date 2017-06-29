@@ -2,12 +2,12 @@
   "builders": [{
     "type": "vmware-iso",
     "guest_os_type": "Debian_64",
-    "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "2048"],
-      ["modifyvm", "{{.Name}}", "--cpus", "1"]
-    ],
+    "vmx_data": {
+      "memsize": "2048",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    },
     "disk_size": 33792,
-    "hard_drive_interface": "sata",
     "http_directory": "http",
     "iso_url": "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso",
     "iso_checksum": "49b1c5769b909220060dc4c0e11ae09d97a270a80d259e05773101df62e11e9d",
