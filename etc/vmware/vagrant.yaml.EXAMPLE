@@ -1,4 +1,4 @@
 vagrant_vmware_license: "/tmp/license.lic"
 memory: 2048
 hostname: csi.local
-diskMB: 20480
+diskMB: 33792
