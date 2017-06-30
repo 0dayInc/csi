@@ -59,7 +59,7 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  %i(:vmware_fusion, :vmware_workstation).each do |vmware_provider|
+  %i[vmware_fusion, vmware_workstation].each do |vmware_provider|
     config.vm.provider(vmware_provider) do |vm, override|
       config_path = './etc/virtualbox/vmware.yaml'
 
