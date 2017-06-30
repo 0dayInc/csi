@@ -59,24 +59,26 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  config.vm.provider(:vmware_fusion, :vmware_workstation) do |vm, override|
-    config_path = './etc/virtualbox/vmware.yaml'
+  [:vmware_fusion, :vmware_workstation].each do |vmware_provider|
+    config.vm.provider(vmware_provider) do |vm, override|
+      config_path = './etc/virtualbox/vmware.yaml'
 
-    if File.exist?(config_path)
-      override.vm.box = 'csi/kali_rolling'
-      yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
+      if File.exist?(config_path)
+        override.vm.box = 'csi/kali_rolling'
+        yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
 
-      if vagrant_gui == 'gui'
-        vm.gui = true
-      else
-        vm.gui = false
+        if vagrant_gui == 'gui'
+          vm.gui = true
+        else
+          vm.gui = false
+        end
+        vagrant_vmware_license = yaml_config['vagrant_vmware_license']
+        vm.memory = yaml_config['memory']
+        hostname = yaml_config['hostname']
+        diskMB = yaml_config['diskMB']
+        override.vm.hostname = hostname
+        override.vm.guest = :debian
       end
-      vagrant_vmware_license = yaml_config['vagrant_vmware_license']
-      vm.memory = yaml_config['memory']
-      hostname = yaml_config['hostname']
-      diskMB = yaml_config['diskMB']
-      override.vm.hostname = hostname
-      override.vm.guest = :debian
     end
   end
 
