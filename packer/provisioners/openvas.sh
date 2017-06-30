@@ -7,4 +7,4 @@ sudo openvas-check-setup
 sudo update-rc.d openvas-manager defaults
 sudo /etc/init.d/openvas-manager start
 sudo update-rc.d greenbone-security-assistant defaults
-sudo /etc/init.d/greenbone-security-assistant start'
+sudo /etc/init.d/greenbone-security-assistant start
