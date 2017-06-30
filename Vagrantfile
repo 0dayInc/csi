@@ -8,6 +8,7 @@ API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 Vagrant.configure(API_VERSION) do |config|
   hostname = ''
+  config.vm.box = 'csi/kali_rolling'
 
   # rsync local csi folder on csi image
   config.vm.synced_folder(
@@ -33,7 +34,6 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/virtualbox/vagrant.yaml'
 
     if File.exist?(config_path)
-      override.vm.box = 'csi/kali_rolling'
       yaml_config = YAML.load_file(config_path)
 
       vb.gui = if vagrant_gui == 'gui'
@@ -64,7 +64,6 @@ Vagrant.configure(API_VERSION) do |config|
       config_path = './etc/virtualbox/vmware.yaml'
 
       if File.exist?(config_path)
-        override.vm.box = 'csi/kali_rolling'
         yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
 
         if vagrant_gui == 'gui'
