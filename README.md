@@ -88,7 +88,7 @@ It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
   # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.203]:001 >>> CSI.help
+  csi[v0.2.204]:001 >>> CSI.help
   ```
 
 

@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo /bin/bash --login -c 'apt-get install -y virtualbox-guest-x11'
+sudo apt-get install -y virtualbox-guest-x11
