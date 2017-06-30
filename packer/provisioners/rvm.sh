@@ -1,5 +1,18 @@
 #!/bin/bash --login
-sudo apt-get install -y gnupg2
+os=$(uname -s)
+
+case $os in
+  'Darwin')
+    sudo port -N install gnupg2
+    ;;
+  'Linux')
+    sudo apt-get install -y gnupg2
+    ;;
+  *)
+    echo "${os} not currently supported."
+    exit 1
+esac
+
 curl -sSL https://rvm.io/mpapis.asc | sudo gpg2 --import -
 
 # Multi-user install required due to the need to run MSFRPCD as root w/in metasploit gemset

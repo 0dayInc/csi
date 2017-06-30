@@ -37,73 +37,9 @@ case $csi_deploy_type in
     fi
     ;;
   "ruby-gem")
-    case $os in
-      "Darwin")
-        ruby_version=$(cat .ruby-version)
-        gemset=$(cat .ruby-gemset)
-        source /etc/profile.d/rvm.sh
-        rvm install ${ruby_version}
-        rvm use ${ruby_version}
-        rvm gemset create ${gemset}
-        rvm --default ${ruby_version}@${gemset}
-        rvm use ${ruby_version}@${gemset}
-        gem install bundler
-        bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
-    
-        echo "Installing wget to retrieve tesseract trained data..."
-        port install wget
-
-        echo "Installing Postgres Libraries for pg gem..."
-        port install postgresql96-server
-
-        echo "Installing libpcap Libraries..."
-        port install libpcap
-
-        echo "Installing ImageMagick..."
-        port install imagemagick
-
-        echo "Installing Tesseract OCR..."
-        port install tesseract
-        cd /opt/local/share/tessdata && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata && cd -
-        ;;
-      "Linux")
-        apt-get --version > /dev/null 2>&1
-        if [[ $? == 0 ]]; then
-          ruby_version=$(cat .ruby-version)
-          gemset=$(cat .ruby-gemset)
-          source /etc/profile.d/rvm.sh
-          rvm install ${ruby_version}
-          rvm use ${ruby_version}
-          rvm gemset create ${gemset}
-          rvm --default ${ruby_version}@${gemset}
-          rvm use ${ruby_version}@${gemset}
-          gem install bundler
-          
-          echo "Installing wget to retrieve tesseract trained data..."
-          apt-get install -y wget
-
-          echo "Installing Postgres Libraries for pg gem..."
-          apt-get install -y postgresql-server-dev-all
-
-          echo "Installing libpcap Libraries..."
-          apt-get install -y libpcap-dev
-
-          echo "Installing ImageMagick..."
-          ./vagrant/install/imagemagick.sh
-
-          echo "Installing Tesseract OCR..."
-          ./vagrant/install/tesseract.sh
-        else
-          echo "A Linux Distro was Detected, however, ${0} currently only supports OSX & Ubuntu for now...feel free to install manually."
-        fi
-        ;;
-      *)
-        echo "${os} not currently supported."
-        exit 1
-    esac
-
-    bundle install
-    ./build_csi_gem.sh
+    ./packer/provisioners/rvm.sh
+    ./packer/provisioners/ruby.sh
+    ./packer/provisioners/csi.sh
     ;;
   "virtualbox"|"virtualbox-gui")
     if [[ -e "./etc/virtualbox/vagrant.yaml" ]]; then

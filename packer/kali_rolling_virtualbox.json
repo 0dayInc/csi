@@ -39,6 +39,10 @@
     "type": "shell",
     "scripts": [
       "provisioners/install_vagrant_ssh_key.sh",
+      "provisioners/rvm.sh",
+      "provisioners/bashrc.sh",
+      "provisioners/ruby.sh",
+      "provisioners/csi.sh",
       "provisioners/update_os.sh",
       "provisioners/virtualbox_guest_additions.sh",
       "provisioners/openvas.sh",
@@ -54,8 +58,7 @@
       "provisioners/apache2.sh",
       "provisioners/tor.sh",
       "provisioners/arachni.sh",
-      "provisioners/eyewitness.sh",
-      "provisioners/csi.sh"
+      "provisioners/eyewitness.sh"
     ],
     "pause_before": "9s"
   }],

@@ -39,11 +39,13 @@
     "type": "shell",
     "scripts": [
       "provisioners/install_vagrant_ssh_key.sh",
-      "provisioners/update_os.sh",
-      "provisioners/openvas.sh",
       "provisioners/rvm.sh",
       "provisioners/bashrc.sh",
       "provisioners/ruby.sh",
+      "provisioners/csi.sh",
+      "provisioners/bashrc.sh",
+      "provisioners/update_os.sh",
+      "provisioners/openvas.sh",
       "provisioners/metasploit.rb",
       "provisioners/wpscan.rb",
       "provisioners/ssllabs-scan.sh",
@@ -53,8 +55,7 @@
       "provisioners/apache2.sh",
       "provisioners/tor.sh",
       "provisioners/arachni.sh",
-      "provisioners/eyewitness.sh",
-      "provisioners/csi.sh"
+      "provisioners/eyewitness.sh"
     ],
     "pause_before": "9s"
   }],
