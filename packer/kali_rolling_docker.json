@@ -1,0 +1,26 @@
+{
+  "builders": [{
+    "type": "docker",
+    "image": "kalilinux/kali-linux-docker",
+    "commit": true
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "provisioners/docker_rvm.sh",
+      "provisioners/docker_bashrc.sh",
+      "provisioners/ruby.sh",
+      "provisioners/csi.sh"
+    ],
+    "pause_before": "1s"
+  }],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "csi/kali_rolling",
+        "tag": "latest"
+      }
+    ]
+  ]
+}
