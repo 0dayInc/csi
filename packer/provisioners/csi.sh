@@ -57,4 +57,4 @@ case $os in
     exit 1
 esac
 
-sudo bash --login -c 'cd /csi && cp etc/metasploit/msfrpcd.yaml.EXAMPLE etc/metasploit/msfrpcd.yaml && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop'
+sudo bash --login -c 'cd /csi && cp etc/metasploit/msfrpcd.yaml.EXAMPLE etc/metasploit/msfrpcd.yaml && sudo ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop'
