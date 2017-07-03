@@ -65,7 +65,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 
 #### **Deploy in Docker Container** ####
-[Docker Quick-Start (Coming Soon)](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-Docker-Container)
+[Docker Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-Docker-Container)
 
 
 #### **Install Locally on your Box** ####
@@ -88,7 +88,7 @@ It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ sudo su -
   # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.210]:001 >>> CSI.help
+  csi[v0.2.211]:001 >>> CSI.help
   ```
 
 
