@@ -4,7 +4,7 @@ provider_type=$2
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <packer_provider_template.json> <docker_csi||virtualbox||vmware>"
+  echo "USAGE: ${0} <packer_provider_template.json> <docker||docker_csi||virtualbox||vmware>"
   exit 1
 }
 
@@ -13,6 +13,14 @@ if [[ $# < 1 ]]; then
 fi
 
 case $provider_type in
+  "docker")
+    #export PACKER_LOG=1
+    rm kali_rolling_docker.box || true
+    #packer build -debug -only docker $packer_file
+    packer build -only docker $packer_file
+    vagrant box remove kali_rolling_docker || true
+    vagrant box add kali_rolling_docker kali_rolling_docker.box
+    ;;
   "docker_csi")
     #export PACKER_LOG=1
     rm kali_rolling_docker_csi.box || true
