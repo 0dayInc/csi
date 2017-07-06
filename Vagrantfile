@@ -12,9 +12,9 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
 
-  config_path = './etc/virtualbox/vagrant.yaml'
-  if File.exist?(config_path) && vagrant_provider == 'virtualbox'
-    config.vm.provider(:virtualbox) do |vb, override|
+  config.vm.provider(:virtualbox) do |vb, override|
+    config_path = './etc/virtualbox/vagrant.yaml'
+    if File.exist?(config_path) && vagrant_provider == 'virtualbox'
       yaml_config = YAML.load_file(config_path)
 
       vb.gui = if vagrant_gui == 'true'
@@ -40,9 +40,9 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  config_path = './etc/virtualbox/vmware.yaml'
-  if File.exist?(config_path) && vagrant_provider == 'vmware'
-    %i[vmware_fusion vmware_workstation].each do |vmware_provider|
+  %i[vmware_fusion vmware_workstation].each do |vmware_provider|
+    config_path = './etc/virtualbox/vmware.yaml'
+    if File.exist?(config_path) && vagrant_provider == 'vmware'
       config.vm.provider(vmware_provider) do |vm, override|
         yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
 
@@ -61,9 +61,9 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  config_path = './etc/aws/vagrant.yaml'
-  if File.exist?(config_path) && vagrant_provider == 'aws'
-    config.vm.provider(:aws) do |aws, override|
+  config.vm.provider(:aws) do |aws, override|
+    config_path = './etc/aws/vagrant.yaml'
+    if File.exist?(config_path) && vagrant_provider == 'aws'
       override.vm.box = 'dummy'
       yaml_config = YAML.load_file(config_path)
 

@@ -87,7 +87,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ cd /csi && sudo ./reinstall_csi_gemset.sh && sudo ./build_csi_gem.sh && csi
-  csi[v0.2.230]:001 >>> CSI.help
+  csi[v0.2.231]:001 >>> CSI.help
   ```
 
 
