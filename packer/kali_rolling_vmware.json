@@ -45,6 +45,7 @@
       "provisioners/csi.sh",
       "provisioners/bashrc.sh",
       "provisioners/update_os.sh",
+      "provisioners/vmware_tools.sh",
       "provisioners/ansible.sh",
       "provisioners/openvas.sh",
       "provisioners/metasploit.rb",
