@@ -41,9 +41,9 @@ Vagrant.configure(API_VERSION) do |config|
   end
 
   %i[vmware_fusion vmware_workstation].each do |vmware_provider|
-    config_path = './etc/virtualbox/vmware.yaml'
-    if File.exist?(config_path) && vagrant_provider == 'vmware'
-      config.vm.provider(vmware_provider) do |vm, override|
+    config.vm.provider(vmware_provider) do |vm, override|
+      config_path = './etc/virtualbox/vmware.yaml'
+      if File.exist?(config_path) && vagrant_provider == 'vmware'
         yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
 
         if vagrant_gui == 'true'
