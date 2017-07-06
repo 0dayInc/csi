@@ -37,12 +37,12 @@ Leveraging various pre-built modules and the csi prototyper, you can mix-and-mat
 #### **What is CSI** ####
 CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
 
+#### **Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper** ####
+[![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
+
 #### **CSI Modules Can be Mixed and Matched to Produce Your Own Tools** ####
 Also known as, "Drivers" CSI can produce all sorts of useful tools by mixing and matching modules.
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
-
-#### **Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper** ####
-[![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
 
 
 
@@ -56,8 +56,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 #### **Basic Installation Dependencies** ###
 - RVM Latest (Multi-User Install)
 - Ruby 2.4.1
-- Packer (If you intend on contributing to the Kali Rolling VM hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
-- Vagrant
+- Packer (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
+- Latest Version of Vagrant: https://www.vagrantup.com/downloads.html
 
 #### **Deploy in AWS EC2** ####
 [AWS EC2 Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-AWS-EC2-on-Top-of-Kali-Rolling)
@@ -86,9 +86,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
-  $ sudo su -
-  # cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.227]:001 >>> CSI.help
+  $ cd /csi && sudo ./reinstall_csi_gemset.sh && sudo ./build_csi_gem.sh && csi
+  csi[v0.2.228]:001 >>> CSI.help
   ```
 
 

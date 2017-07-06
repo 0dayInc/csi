@@ -26,6 +26,7 @@ tmp
 .vagrant/
 ansible/site.retry
 etc/aws/vagrant.yaml
+etc/aws/packer_secrets.json
 etc/burpsuite/navigation.instruct
 etc/jenkins/jenkins_admin_user.yaml
 etc/jenkins/thinBackup
