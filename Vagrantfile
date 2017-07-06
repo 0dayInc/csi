@@ -6,6 +6,10 @@ require 'yaml'
 
 API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
+vagrant_provider = ENV['VAGRANT_PROVIDER'] if ENV['VAGRANT_PROVIDER']
+rsync_exclude = []
+File.readlines('.gitignore').each { |entry| rsync_exclude.push(entry.chomp) }
+
 Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
@@ -15,11 +19,7 @@ Vagrant.configure(API_VERSION) do |config|
     '.',
     '/csi',
     type: 'rsync',
-    rsync__exclude: [
-      '.git/',
-      'etc/aws/vagrant.yaml',
-      'packer/'
-    ],
+    rsync__exclude: rsync_exclude,
     rsync__args: [
       '--progress',
       '--verbose',
@@ -30,13 +30,12 @@ Vagrant.configure(API_VERSION) do |config|
     ]
   )
 
-  config.vm.provider(:virtualbox) do |vb, override|
-    config_path = './etc/virtualbox/vagrant.yaml'
-
-    if File.exist?(config_path)
+  config_path = './etc/virtualbox/vagrant.yaml'
+  if File.exist?(config_path) && vagrant_provider == 'virtualbox'
+    config.vm.provider(:virtualbox) do |vb, override|
       yaml_config = YAML.load_file(config_path)
 
-      vb.gui = if vagrant_gui == 'gui'
+      vb.gui = if vagrant_gui == 'true'
                  true
                else
                  false
@@ -59,14 +58,13 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  %i[vmware_fusion vmware_workstation].each do |vmware_provider|
-    config.vm.provider(vmware_provider) do |vm, override|
-      config_path = './etc/virtualbox/vmware.yaml'
-
-      if File.exist?(config_path)
+  config_path = './etc/virtualbox/vmware.yaml'
+  if File.exist?(config_path) && vagrant_provider == 'vmware'
+    %i[vmware_fusion vmware_workstation].each do |vmware_provider|
+      config.vm.provider(vmware_provider) do |vm, override|
         yaml_config = YAML.load_file('./etc/vmware/vagrant.yaml')
 
-        if vagrant_gui == 'gui'
+        if vagrant_gui == 'true'
           vm.gui = true
         else
           vm.gui = false
@@ -81,10 +79,9 @@ Vagrant.configure(API_VERSION) do |config|
     end
   end
 
-  config.vm.provider(:aws) do |aws, override|
-    config_path = './etc/aws/vagrant.yaml'
-
-    if File.exist?(config_path)
+  config_path = './etc/aws/vagrant.yaml'
+  if File.exist?(config_path) && vagrant_provider == 'aws'
+    config.vm.provider(:aws) do |aws, override|
       override.vm.box = 'dummy'
       yaml_config = YAML.load_file(config_path)
 

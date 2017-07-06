@@ -45,6 +45,7 @@
       "provisioners/csi.sh",
       "provisioners/update_os.sh",
       "provisioners/virtualbox_guest_additions.sh",
+      "provisioners/ansible.sh",
       "provisioners/openvas.sh",
       "provisioners/rvm.sh",
       "provisioners/bashrc.sh",
