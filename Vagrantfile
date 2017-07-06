@@ -7,28 +7,10 @@ require 'yaml'
 API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 vagrant_provider = ENV['VAGRANT_PROVIDER'] if ENV['VAGRANT_PROVIDER']
-rsync_exclude = []
-File.readlines('.gitignore').each { |entry| rsync_exclude.push(entry.chomp) }
 
 Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
-
-  # rsync local csi folder on csi image
-  config.vm.synced_folder(
-    '.',
-    '/csi',
-    type: 'rsync',
-    rsync__exclude: rsync_exclude,
-    rsync__args: [
-      '--progress',
-      '--verbose',
-      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
-      '--archive',
-      '--delete',
-      '-z'
-    ]
-  )
 
   config_path = './etc/virtualbox/vagrant.yaml'
   if File.exist?(config_path) && vagrant_provider == 'virtualbox'
