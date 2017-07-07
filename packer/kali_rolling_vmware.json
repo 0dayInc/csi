@@ -46,6 +46,7 @@
       "provisioners/bashrc.sh",
       "provisioners/update_os.sh",
       "provisioners/vmware_tools.sh",
+      "provisioners/baresip.sh",
       "provisioners/phantomjs.sh",
       "provisioners/ansible.sh",
       "provisioners/openvas.sh",
