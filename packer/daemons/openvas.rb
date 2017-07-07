@@ -22,7 +22,11 @@ action = opts[:action].to_s.scrub.to_sym
 
 private def start
   openvas = fork do
-    exec 'openvasmd --listen=127.0.0.1 && openvassd && gsad --listen=127.0.0.1 --port=9392 --http-only'
+    exec '/etc/init.d/openvas-manager start'
+  end
+  Process.detach(openvas)
+  openvas = fork do
+    exec '/etc/init.d/greenbone-security-assistant start'
   end
   Process.detach(openvas)
 end
@@ -35,7 +39,12 @@ end
 
 private def stop
   openvas = fork do
-    exec 'killall -9 gsad && killall -9 openvassd && killall -9 openvasmd'
+    exec '/etc/init.d/openvas-manager stop'
+  end
+  Process.detach(openvas)
+
+  openvas = fork do
+    exec '/etc/init.d/greenbone-security-assistant stop'
   end
   Process.detach(openvas)
 end

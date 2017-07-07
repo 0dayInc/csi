@@ -4,7 +4,7 @@ sudo systemctl enable redis-server
 sudo systemctl start redis-server
 sudo openvas-setup
 sudo openvas-check-setup
-sudo update-rc.d openvas-manager defaults
-sudo /etc/init.d/openvas-manager start
-sudo update-rc.d greenbone-security-assistant defaults
-sudo /etc/init.d/greenbone-security-assistant start
+# Add a working systemd daemon
+sudo cp /csi/etc/systemd/openvas.service /etc/systemd/system/
+sudo systemctl enable openvas
+sudo systemctl start openvas

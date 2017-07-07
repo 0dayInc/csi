@@ -4,9 +4,9 @@ Description=Open Vulnerability Assessment System (OpenVAS)
 [Service]
 User=root
 RemainAfterExit=yes
-ExecStart=/csi/vagrant/daemons/openvas.rb --action start
-ExecReload=/csi/vagrant/daemons/openvas.rb --action reload
-ExecStop=/csi/vagrant/daemons/openvas.rb --action stop
+ExecStart=/csi/packer/daemons/openvas.rb --action start
+ExecReload=/csi/packer/daemons/openvas.rb --action reload
+ExecStop=/csi/packer/daemons/openvas.rb --action stop
 
 [Install]
 WantedBy=multi-user.target
