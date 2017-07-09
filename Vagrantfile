@@ -12,6 +12,10 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
 
+  # TODO: Add rsync section here to ONLY sync user-defined configs
+  # required for daemons residing w/in /csi/etc (e.g. apache2, metasploit,
+  # letsencrypt, jenkins, openvas, etc)
+
   config.vm.provider(:virtualbox) do |vb, override|
     config_path = './etc/virtualbox/vagrant.yaml'
     if File.exist?(config_path) && vagrant_provider == 'virtualbox'

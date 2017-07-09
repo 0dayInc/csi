@@ -21,14 +21,20 @@ end
 action = opts[:action].to_s.scrub.to_sym
 
 private def start
-  openvas = fork do
+  openvas_mgr = fork do
     exec '/etc/init.d/openvas-manager start'
   end
-  Process.detach(openvas)
-  openvas = fork do
+  Process.detach(openvas_mgr)
+
+  openvas_scan = fork do
+    exec '/etc/init.d/openvas-scanner start'
+  end
+  Process.detach(openvas_scan)
+
+  gsad = fork do
     exec '/etc/init.d/greenbone-security-assistant start'
   end
-  Process.detach(openvas)
+  Process.detach(gsad)
 end
 
 private def reload
@@ -38,15 +44,20 @@ private def reload
 end
 
 private def stop
-  openvas = fork do
-    exec '/etc/init.d/openvas-manager stop'
-  end
-  Process.detach(openvas)
-
-  openvas = fork do
+  gsad = fork do
     exec '/etc/init.d/greenbone-security-assistant stop'
   end
-  Process.detach(openvas)
+  Process.detach(gsad)
+
+  openvas_scan = fork do
+    exec '/etc/init.d/openvas-scanner stop'
+  end
+  Process.detach(openvas_scan)
+
+  openvas_mgr = fork do
+    exec '/etc/init.d/openvas-manager stop'
+  end
+  Process.detach(openvas_mgr)
 end
 
 case action
