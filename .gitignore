@@ -24,7 +24,6 @@ tmp
 *.sublime-workspace
 *.sublime-project
 .vagrant/
-ansible/site.retry
 etc/aws/vagrant.yaml
 etc/aws/packer_secrets.json
 etc/burpsuite/navigation.instruct
