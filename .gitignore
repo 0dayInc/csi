@@ -27,7 +27,7 @@ tmp
 etc/aws/vagrant.yaml
 etc/aws/packer_secrets.json
 etc/burpsuite/navigation.instruct
-etc/jenkins/jenkins_admin_user.yaml
+etc/jenkins/vagrant.yaml
 etc/jenkins/thinBackup
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
