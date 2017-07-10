@@ -12,22 +12,11 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
 
-  # TODO: Add rsync section here to ONLY sync user-defined configs
-  # required for daemons residing w/in /csi/etc (e.g. metasploit,
-  # letsencrypt, jenkins, openvas, etc) - DISABLE the REST
-  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 
   config.vm.synced_folder(
-    'etc/ansible/ansible.cfg',
-    'etc/ansible/ansible.cfg.default',
-    'etc/ansible/hosts.default',
-    'etc/aws/packer_secrets.json',
-    'etc/aws/vagrant.yaml',
-    'etc/jenkins/vagrant.yaml',
-    'etc/letsencrypt/vagrant.yaml',
-    'etc/metasploit/msfrpcd.yaml',
-    'etc/virtualbox/vagrant.yaml',
-    'etc/vmware/vagrant.yaml',
+    'etc',
+    '/csi/etc',
     type: 'rsync',
     rsync__exclude: rsync_exclude,
     rsync__args: [
