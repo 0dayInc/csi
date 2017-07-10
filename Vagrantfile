@@ -12,13 +12,10 @@ Vagrant.configure(API_VERSION) do |config|
   hostname = ''
   config.vm.box = 'csi/kali_rolling'
 
-  config.vm.synced_folder '.', '/vagrant', disabled: true
-
   config.vm.synced_folder(
-    'etc',
-    '/csi/etc',
+    '.',
+    '/csi',
     type: 'rsync',
-    rsync__exclude: rsync_exclude,
     rsync__args: [
       '--progress',
       '--verbose',
