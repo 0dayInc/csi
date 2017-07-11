@@ -22,7 +22,8 @@ Vagrant.configure(API_VERSION) do |config|
       "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
       '--archive',
       '--delete',
-      '-z'
+      '-z',
+      "--include-from='vagrant_rsync_userland_configs.lst'"
     ]
   )
 
