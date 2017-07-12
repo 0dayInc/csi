@@ -16,7 +16,6 @@ Vagrant.configure(API_VERSION) do |config|
     '.',
     '/csi',
     type: 'rsync',
-    rsync__exclude: ['*'],
     rsync__args: [
       '--progress',
       '--verbose',
@@ -24,7 +23,8 @@ Vagrant.configure(API_VERSION) do |config|
       '--archive',
       '--delete',
       '-z',
-      "--include-from='vagrant_rsync_userland_configs.lst'"
+      '--files-from=vagrant_rsync_userland_configs.lst',
+      '--ignore-missing-args'
     ]
   )
 

@@ -25,7 +25,7 @@ tmp
 *.sublime-project
 .vagrant/
 etc/aws/vagrant.yaml
-etc/aws/packer_secrets.json
+packer/packer_secrets.json
 etc/burpsuite/navigation.instruct
 etc/jenkins/vagrant.yaml
 etc/jenkins/thinBackup

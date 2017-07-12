@@ -65,6 +65,7 @@
       "provisioners/tor.sh",
       "provisioners/arachni.sh",
       "provisioners/eyewitness.sh"
+      "provisioners/afl.sh"
     ],
     "pause_before": "9s"
   }],
