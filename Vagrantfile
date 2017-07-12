@@ -16,6 +16,7 @@ Vagrant.configure(API_VERSION) do |config|
     '.',
     '/csi',
     type: 'rsync',
+    rsync__exclude: ['*'],
     rsync__args: [
       '--progress',
       '--verbose',

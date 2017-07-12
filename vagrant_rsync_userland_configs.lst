@@ -1,6 +1,4 @@
 etc/aws/vagrant.yaml
-etc/aws/packer_secrets.json
-etc/burpsuite/navigation.instruct
 etc/jenkins/vagrant.yaml
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
