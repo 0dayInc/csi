@@ -8,7 +8,6 @@ API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 vagrant_provider = ENV['VAGRANT_PROVIDER'] if ENV['VAGRANT_PROVIDER']
 
-
 Vagrant.configure(API_VERSION) do |config|
   config.vm.box = 'csi/kali_rolling'
 
@@ -55,10 +54,10 @@ Vagrant.configure(API_VERSION) do |config|
                    false
                  end
 
-        vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-        vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
-        vb.customize ["modifyvm", :id, "--cpus", yaml_config['cpus'] ]
-        vb.customize ["modifyvm", :id, "--memory", yaml_config['memory'] ]
+        vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+        vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
+        vb.customize ['modifyvm', :id, '--cpus', yaml_config['cpus']]
+        vb.customize ['modifyvm', :id, '--memory', yaml_config['memory']]
         diskMB = yaml_config['diskMB']
         # TODO: resize disk based on params listed in etc/virtualbox/vagrant.yaml
         # disk_uuid = ''
