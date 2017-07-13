@@ -1,4 +1,4 @@
-![CSI](https://github.com/ninp0/csi/blob/master/third_party/virtualbox-gui_wallpaper.jpg)
+![CSI](https://github.com/ninp0/csi/blob/master/third_party/virtualbox-gui_wallpaper.jpg){:height="33%" width="33%"}
 
 ### **Table of Contents** ###
 - [Call to Arms](#call-to-arms)
@@ -56,6 +56,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 #### **Basic Installation Dependencies** ###
 - RVM Latest (Multi-User Install)
 - Ruby 2.4.1
+- MacPorts (Only a Local Install on a Mac - Advanced)
 - Packer (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 - Latest Version of Vagrant: https://www.vagrantup.com/downloads.html
 
@@ -86,8 +87,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
-  $ cd /csi && sudo ./reinstall_csi_gemset.sh && sudo ./build_csi_gem.sh && csi
-  csi[v0.2.248]:001 >>> CSI.help
+  $ cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
+  csi[v0.2.249]:001 >>> CSI.help
   ```
 
 
