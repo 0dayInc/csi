@@ -27,7 +27,7 @@ module CSI
       #   user_file: 'optional file containing users, one per line (defaults to /usr/local/share/csi/postgres_default_user.txt)
       # )
       # e.g. result = CSI::MSF::PostgresLogin.exploit(
-      #                msfrpcd_yaml_conf: '/usr/local/etc/msfrpcd.yaml',
+      #                msfrpcd_yaml_conf: '/csi/etc/metasploit/vagrant.yaml',
       #                rhosts: '<domain_name>',
       #                rport: 5432
       #              )

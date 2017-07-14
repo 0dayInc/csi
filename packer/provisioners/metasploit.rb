@@ -14,8 +14,8 @@ metasploit_gemset = File.readlines("#{metasploit_root}/.ruby-gemset")[0].to_s.sc
 
 # TODO: Startup MSFRPCD Daemon using SP config
 printf 'Starting up MSFRPCD *******************************************************************'
-system('sudo bash --login -c "cp /csi/etc/metasploit/msfrpcd.yaml.EXAMPLE /csi/etc/metasploit/msfrpcd.yaml"')
-msfrpcd_config = YAML.load_file('/csi/etc/metasploit/msfrpcd.yaml')
+system('sudo bash --login -c "cp /csi/etc/metasploit/vagrant.yaml.EXAMPLE /csi/etc/metasploit/vagrant.yaml"')
+msfrpcd_config = YAML.load_file('/csi/etc/metasploit/vagrant.yaml')
 msfrpcd_host = msfrpcd_config['msfrpcd_host'].to_s.scrub.strip.chomp
 msfrpcd_port = msfrpcd_config['port'].to_i
 msfrpcd_user = msfrpcd_config['username'].to_s.scrub.chomp # Don't strip leading space

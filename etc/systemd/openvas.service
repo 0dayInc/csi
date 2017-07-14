@@ -5,7 +5,7 @@ Description=Open Vulnerability Assessment System (OpenVAS)
 User=root
 RemainAfterExit=yes
 ExecStart=/csi/packer/daemons/openvas.rb --action start
-ExecReload=/csi/packer/daemons/openvas.rb --action reload
+ExecReload=/csi/packer/daemons/openvas.rb --action restart
 ExecStop=/csi/packer/daemons/openvas.rb --action stop
 
 [Install]

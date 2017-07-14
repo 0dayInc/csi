@@ -1,0 +1,8 @@
+tls_deployment_type: <self_signed || letsencrypt>
+country_name: <your country>
+state_or_prov: <your state or province>
+city_name: <your city>
+org_company_name: <your company>
+org_unit_name: <your dept>
+common_name_fqdn: <your fqdn>
+email_addr: <your email_address>
