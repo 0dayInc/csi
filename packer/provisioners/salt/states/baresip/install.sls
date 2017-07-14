@@ -1,0 +1,2 @@
+baresip:
+  pkg.installed: {}
