@@ -12,7 +12,8 @@ sudo apt-get update
 sudo apt-get install -y jenkins openjdk-8-jdk mongodb
 sudo /bin/bash --login -c "cp /csi/etc/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
-sudo /etc/init.d/jenkins restart
+sudo systemctl enable jenkins
+sudo systemctl restart jenkins
 
 printf "Sleeping 99s While Jenkins Daemon Wakes Up ********************************************"
 ruby -e "(0..99).each { print '.'; sleep 1 }"

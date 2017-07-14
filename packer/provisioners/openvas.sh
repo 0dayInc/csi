@@ -6,5 +6,7 @@ sudo openvas-setup
 sudo openvas-check-setup
 # Add a working systemd daemon
 sudo cp /csi/etc/systemd/openvas.service /etc/systemd/system/
+# We leverage Virtual Hosting w/in Apache2 to provide TLS connection
+sudo sed -i '9s/.*/ExecStart=\/usr\/sbin\/gsad --foreground --listen=127\.0\.0\.1 --port=9392 --mlisten=127\.0\.0\.1 --mport=9390 --http-only --no-redirect/' /lib/systemd/system/greenbone-security-assistant.service
 sudo systemctl enable openvas
 sudo systemctl start openvas

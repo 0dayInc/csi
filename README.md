@@ -1,4 +1,4 @@
-![CSI](https://github.com/ninp0/csi/blob/master/third_party/virtualbox-gui_wallpaper.jpg){:height="33%" width="33%"}
+![CSI](https://github.com/ninp0/csi/blob/master/third_party/virtualbox-gui_wallpaper.jpg)
 
 ### **Table of Contents** ###
 - [Call to Arms](#call-to-arms)
@@ -88,7 +88,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week:
   ```
   $ cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && csi
-  csi[v0.2.249]:001 >>> CSI.help
+  csi[v0.2.250]:001 >>> CSI.help
   ```
 
 

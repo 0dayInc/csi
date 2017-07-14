@@ -2,5 +2,6 @@ etc/aws/vagrant.yaml
 etc/jenkins/vagrant.yaml
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/msfrpcd.yaml
+etc/openvas/vagrant.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
