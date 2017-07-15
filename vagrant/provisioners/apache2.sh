@@ -38,18 +38,18 @@ case $tls_deployment_type in
       -subj "/C=${country_name}/ST=${state_or_prov}/L=${city_name}/O=${org_company_name}/OU=${org_unit_name}/CN=${common_name_fqdn}/emailAddress=${email_addr}"
     
     # Replace LetsEncrypt TLS Entries w/ Self-Signed for OpenVAS
-    sudo sed -i '11s/.*/SSLCertificateFile \/etc\/apache2\/ssl\/jenkins\.crt/' \
+    sudo sed -i '12s/.*/SSLCertificateFile \/etc\/apache2\/ssl\/jenkins\.crt/' \
       /etc/apache2/sites-available/jenkins_443.conf
-    sudo sed -i '12s/.*/SSLCertificateKeyFile \/etc\/apache2\/ssl\/jenkins\.key/' \
+    sudo sed -i '13s/.*/SSLCertificateKeyFile \/etc\/apache2\/ssl\/jenkins\.key/' \
       /etc/apache2/sites-available/jenkins_443.conf
-    sudo sed -i '13s/.*//' /etc/apache2/sites-available/jenkins_443.conf
+    sudo sed -i '14s/.*//' /etc/apache2/sites-available/jenkins_443.conf
 
     # Replace LetsEncrypt TLS Entries w/ Self-Signed for OpenVAS
-    sudo sed -i '11s/.*/SSLCertificateFile \/etc\/apache2\/ssl\/openvas\.crt/' \
+    sudo sed -i '12s/.*/SSLCertificateFile \/etc\/apache2\/ssl\/openvas\.crt/' \
       /etc/apache2/sites-available/openvas_443.conf
-    sudo sed -i '12s/.*/SSLCertificateKeyFile \/etc\/apache2\/ssl\/openvas\.key/' \
+    sudo sed -i '13s/.*/SSLCertificateKeyFile \/etc\/apache2\/ssl\/openvas\.key/' \
       /etc/apache2/sites-available/openvas_443.conf
-    sudo sed -i '13s/.*//' /etc/apache2/sites-available/openvas_443.conf
+    sudo sed -i '14s/.*//' /etc/apache2/sites-available/openvas_443.conf
     ;;
   *)
     echo "No tls_deployment_type Specified in /csi/etc/apache2/vagrant.yaml for Apache2 Virtual Hosting"
