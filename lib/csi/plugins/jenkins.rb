@@ -73,6 +73,62 @@ module CSI
         return e.message
       end
 
+      # CSI::Plugins::Jenkins.create_user(
+      #   jenkins_obj: 'required - jenkins_obj returned from login method',
+      #   username: 'required - user to create',
+      #   password: 'required - password for new user'
+      #   full_name: 'required - full name of new user'
+      #   email: 'required - email address of new user'
+      # )
+
+      public
+
+      def self.create_user(opts = {})
+        jenkins_obj = opts[:jenkins_obj]
+        username = opts[:username].to_s.scrub
+        password = opts[:password].to_s.scrub
+        password = CSI::Plugins::AuthenticationHelper.mask_password if password == ''
+        full_name = opts[:full_name].to_s.scrub
+        email = opts[:email].to_s.scrub
+
+        mode = 'hudson.model.ListView'
+
+        post_body = {
+          'name' => view_name,
+          'mode' => mode,
+          'json' => {
+            '': '0',
+            'credentials': {
+              'scope': 'GLOBAL',
+              'username' => username,
+              'password' => password,
+              'description' => full_name,
+              'email' => email
+            }
+          }.to_json
+        }
+
+          @@logger.info("Creating #{username}...")
+
+          resp = jenkins_obj.api_post_request(
+            '/credentials/store/system/domain/_/createCredentials',
+            post_body
+          )
+
+        if resp == '302'
+          return true # Successful creation occurred
+        else
+          return false # Something unexpected happened
+        end
+      # rescue JenkinsApi::Exceptions::UserAlreadyExists => e
+      #   @@logger.warn("Jenkins view: #{view_name} already exists")
+      #   return e.class
+      rescue => e
+        puts e.message
+        puts e.backtrace
+        puts e.class
+      end
+
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.get_all_job_git_repos(
       #   jenkins_obj: 'required jenkins_obj returned from login method'
@@ -350,6 +406,14 @@ module CSI
             ssl: 'optional connect over TLS (defaults to true)
           )
           puts jenkins_obj.public_methods
+
+          #{self}.create_user(
+            jenkins_obj: 'required - jenkins_obj returned from login method',
+            username: 'required - user to create',
+            password: 'optional - password for new user (will prompt if nil)'
+            full_name: 'required - full name of new user'
+            email: 'required - email address of new user'
+          )
 
           git_repo_arr = #{self}.get_all_job_git_repos(
             jenkins_obj: 'required jenkins_obj returned from connect method'
