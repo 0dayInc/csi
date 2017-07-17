@@ -11,4 +11,4 @@ new_user=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagran
 new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['pass']"`
 new_fullname=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['fullname']"`
 new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['email']"`
-csi_jenkins_useradd --jenkins_ip -s 127.0.0.1 -S 8080 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd
+csi_jenkins_useradd -s '127.0.0.1' -S 8080 -u "${new_user}" -p "${new_pass}" -U 'admin' -P "${initial_admin_pwd}"
