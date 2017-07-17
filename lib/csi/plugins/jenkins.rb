@@ -77,7 +77,7 @@ module CSI
       #   jenkins_obj: 'required - jenkins_obj returned from login method',
       #   username: 'required - user to create',
       #   password: 'required - password for new user'
-      #   full_name: 'required - full name of new user'
+      #   fullname: 'required - full name of new user'
       #   email: 'required - email address of new user'
       # )
 
@@ -88,30 +88,28 @@ module CSI
         username = opts[:username].to_s.scrub
         password = opts[:password].to_s.scrub
         password = CSI::Plugins::AuthenticationHelper.mask_password if password == ''
-        full_name = opts[:full_name].to_s.scrub
+        fullname = opts[:fullname].to_s.scrub
         email = opts[:email].to_s.scrub
 
-        mode = 'hudson.model.ListView'
-
         post_body = {
-          'name' => view_name,
-          'mode' => mode,
+          'username' => username,
+          'password1' => password,
+          'password2' => password,
+          'fullname' => fullname,
+          'email' => email
           'json' => {
-            '': '0',
-            'credentials': {
-              'scope': 'GLOBAL',
-              'username' => username,
-              'password' => password,
-              'description' => full_name,
-              'email' => email
-            }
+            'username' => username,
+            'password1' => password,
+            'password2' => password,
+            'fullname' => fullname,
+            'email' => email
           }.to_json
         }
 
           @@logger.info("Creating #{username}...")
 
           resp = jenkins_obj.api_post_request(
-            '/credentials/store/system/domain/_/createCredentials',
+            '/securityRealm/createAccountByAdmin',
             post_body
           )
 
@@ -411,7 +409,7 @@ module CSI
             jenkins_obj: 'required - jenkins_obj returned from login method',
             username: 'required - user to create',
             password: 'optional - password for new user (will prompt if nil)'
-            full_name: 'required - full name of new user'
+            fullname: 'required - full name of new user'
             email: 'required - email address of new user'
           )
 
