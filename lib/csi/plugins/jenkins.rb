@@ -96,7 +96,7 @@ module CSI
           'password1' => password,
           'password2' => password,
           'fullname' => fullname,
-          'email' => email
+          'email' => email,
           'json' => {
             'username' => username,
             'password1' => password,
