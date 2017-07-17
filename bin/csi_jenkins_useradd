@@ -51,9 +51,12 @@ new_email = opts[:new_email]
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
   jenkins_ip: jenkins_ip,
+  port: jenkins_port,
   username: admin_username,
   password: admin_password
 )
+
+sleep 3
 
 CSI::Plugins::Jenkins.create_user(
   jenkins_obj: jenkins_obj,
