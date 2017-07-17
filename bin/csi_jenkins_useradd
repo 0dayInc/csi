@@ -54,10 +54,10 @@ jenkins_obj = CSI::Plugins::Jenkins.connect(
 )
 
 CSI::Plugins::Jenkins.create_user(
-  jenkins_obj: jenkins_obj, 
-  username: new_username, 
-  password: new_password, 
-  fullname: new_fullname, 
+  jenkins_obj: jenkins_obj,
+  username: new_username,
+  password: new_password,
+  fullname: new_fullname,
   email: new_email
 )
 
