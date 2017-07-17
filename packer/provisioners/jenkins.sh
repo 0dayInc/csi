@@ -21,12 +21,6 @@ ruby -e "(0..99).each { print '.'; sleep 1 }"
 initial_admin_pwd=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 
 # TODO: Get this working
-# printf "Creating User *************************************************************************"
-# new_user=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['user']"`
-# new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['pass']"`
-# csi_jenkins_useradd --jenkins_ip 127.0.0.1 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd
-
-# TODO: Get this working
 # printf "Updating Pre-Installed Jenkins Plugins ************************************************"
 # csi_jenkins_update_plugins --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd --no-restart-jenkins
 
