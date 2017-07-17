@@ -1,4 +1,5 @@
 #!/bin/bash
+rm pkg/*.gem
 git pull
 rake
 rake install
