@@ -106,12 +106,12 @@ module CSI
           }.to_json
         }
 
-          @@logger.info("Creating #{username}...")
+        @@logger.info("Creating #{username}...")
 
-          resp = jenkins_obj.api_post_request(
-            '/securityRealm/createAccountByAdmin',
-            post_body
-          )
+        resp = jenkins_obj.api_post_request(
+          '/securityRealm/createAccountByAdmin',
+          post_body
+        )
 
         if resp == '302'
           return true # Successful creation occurred
