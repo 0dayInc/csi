@@ -47,7 +47,7 @@ jenkins_obj = CSI::Plugins::Jenkins.connect(
 )
 
 jenkins_obj.job.create(
-  job_name, 
+  job_name,
   config_xml
 )
 
