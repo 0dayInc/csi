@@ -56,6 +56,5 @@ case $tls_deployment_type in
     exit 1
 esac
 
-sudo systemctl enable apache2.service
-sudo apache2ctl configtest
-sudo systemctl start apache2.service
+sudo systemctl enable apache2
+sudo systemctl start apache2
