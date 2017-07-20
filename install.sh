@@ -19,9 +19,9 @@ if [[ $# != 1 ]]; then
   usage
 fi
 
-if [[ ! -e "./etc/metasploit/msfrpcd.yaml" ]]; then
-  echo "ERROR: Missing msfrpcd.yaml Config"
-  echo "Use ./etc/metasploit/msfrpcd.yaml.EXAMPLE as a Template to Create ./etc/metasploit/msfrpcd.yaml"
+if [[ ! -e "./etc/metasploit/vagrant.yaml" ]]; then
+  echo "ERROR: Missing vagrant.yaml Config"
+  echo "Use ./etc/metasploit/vagrant.yaml.EXAMPLE as a Template to Create ./etc/metasploit/vagrant.yaml"
   exit 1
 fi
 

@@ -18,32 +18,32 @@ case $provider_type in
     rm kali_rolling_docker.box || true
     #packer build -debug -only docker $packer_file
     packer build -only docker $packer_file
-    vagrant box remove kali_rolling_docker || true
-    vagrant box add kali_rolling_docker kali_rolling_docker.box
+    vagrant box remove csi/kali_rolling --provider=docker|| true
+    vagrant box add csi/kali_rolling kali_rolling_docker.box
     ;;
   "docker_csi")
     #export PACKER_LOG=1
     rm kali_rolling_docker_csi.box || true
     #packer build -debug -only docker $packer_file
     packer build -only docker $packer_file
-    vagrant box remove kali_rolling_docker_csi || true
-    vagrant box add kali_rolling_docker_csi kali_rolling_docker_csi.box
+    vagrant box remove csi/prototyper --provider=docker || true
+    vagrant box add csi/prototyper kali_rolling_docker_csi.box
     ;;
   "virtualbox")
     #export PACKER_LOG=1
     rm kali_rolling_virtualbox.box || true
     #packer build -debug -only virtualbox-iso $packer_file
     packer build -only virtualbox-iso $packer_file
-    vagrant box remove kali_rolling_virtualbox || true
-    vagrant box add kali_rolling_virtualbox kali_rolling_virtualbox.box
+    vagrant box remove csi/kali_rolling --provider=virtualbox || true
+    vagrant box add csi/kali_rolling kali_rolling_virtualbox.box
     ;;
   "vmware")
     #export PACKER_LOG=1
     rm kali_rolling_vmware.box || true
     #packer build -debug -only virtualbox-iso $packer_file
     packer build -only vmware-iso $packer_file
-    vagrant box remove kali_rolling_vmware || true
-    vagrant box add kali_rolling_vmware kali_rolling_vmware.box
+    vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
+    vagrant box add csi/kali_rolling kali_rolling_vmware.box
     ;;
   *)
     usage

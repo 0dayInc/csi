@@ -280,11 +280,11 @@ module CSI
       def self.help
         puts "USAGE:
           msfrpcd_conn1 = #{self}.connect(
-            msfrpcd_yaml_conf: 'optional path to YAML conf file (overrides parameters outlined below)',
-            msfrpcd_host: 'required Metasploit msfrpcd ip address',
-            port: 55553,
-            username: 'required username for msfrpcd',
-            password: 'required password for msfrpcd'
+            msfrpcd_yaml_conf: 'optional - path to YAML conf file (overrides parameters outlined below)',
+            msfrpcd_host: 'optional, less secure than YAML -  Metasploit msfrpcd ip address',
+            port: 'optional, less secure than YAML - port of msfrpcd daemon (default=55553)',
+            username: 'optional, less secure than YAML - username for msfrpcd',
+            password: 'optional, less secure than YAML - password for msfrpcd'
           )
 
           results = #{self}.exec(

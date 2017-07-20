@@ -11,6 +11,7 @@ OptionParser.new do |options|
   "
 
   options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') { |s| opts[:jenkins_ip] = s }
+  options.on('-SPORT', '--jenkins_port=PORT', '<Required - Jenkins Server Port>') { |p| opts[:jenkins_port] = p }
 
   options.on('-UAUSER', '--admin-username=AUSER', '<Required - Jenkins Admin Username>') do |auser|
     opts[:admin_username] = auser
@@ -24,6 +25,12 @@ OptionParser.new do |options|
   options.on('-pNPASS', '--new-password=NPASS', '<Required - Jenkins Password for New User>') do |npass|
     opts[:new_password] = npass
   end
+  options.on('-nNAME', '--new-fullname=NAME', '<Required - Full Name New User>') do |fullname|
+    opts[:new_fullname] = fullname
+  end
+  options.on('-eEMAIL', '--new-email=EMAIL', '<Required - email for New User>') do |email|
+    opts[:new_email] = email
+  end
 end.parse!
 
 if opts.empty?
@@ -32,21 +39,32 @@ if opts.empty?
 end
 
 jenkins_ip = opts[:jenkins_ip].to_s.scrub
+jenkins_port = opts[:jenkins_port].to_i
 
 admin_username = opts[:admin_username]
 admin_password = opts[:admin_password]
 
 new_username = opts[:new_username]
 new_password = opts[:new_password]
+new_fullname = opts[:new_fullname]
+new_email = opts[:new_email]
 
 jenkins_obj = CSI::Plugins::Jenkins.connect(
   jenkins_ip: jenkins_ip,
+  port: jenkins_port,
   username: admin_username,
   password: admin_password
 )
 
-# TODO: Create User in Jenkins
-puts "Created #{new_username}."
+sleep 3
+
+CSI::Plugins::Jenkins.create_user(
+  jenkins_obj: jenkins_obj,
+  username: new_username,
+  password: new_password,
+  fullname: new_fullname,
+  email: new_email
+)
 
 CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)
 puts 'complete.'

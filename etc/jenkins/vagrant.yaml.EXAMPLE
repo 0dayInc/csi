@@ -1,2 +1,4 @@
-user: <changeme>
-pass: <changeme>
+user: '<changeme>'
+pass: '<changeme>'
+fullname: '<changeme>'
+email: '<changeme>'
