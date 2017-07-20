@@ -5,4 +5,4 @@ rvm use $ruby_version@csi
 
 # This is needed to ensure other ruby installations aren't picked up
 # by #!/usr/bin/env ruby inside of the script below
-./phantomjs.rb
+/csi/packer/provisioners/phantomjs.rb
