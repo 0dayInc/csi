@@ -12,3 +12,14 @@ new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagran
 new_fullname=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['fullname']"`
 new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['email']"`
 csi_jenkins_useradd -s 127.0.0.1 -S 8080 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd -e $new_email
+
+# Begin Creating Self-Update Jobs in Jenkins and Template-Based Jobs to Describe how to Intgrate CSI into Jenkins
+printf "Creating Self-Update Jobs *************************************************************"
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-os -c /csi/etc/jenkins/jobs/selfupdate-os.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-rvm -c /csi/etc/jenkins/jobs/selfupdate-rvm.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-gem -c /csi/etc/jenkins/jobs/selfupdate-gem.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-csi -c /csi/etc/jenkins/jobs/selfupdate-csi.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-wpscan -c /csi/etc/jenkins/jobs/selfupdate-wpscan.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-metasploit -c /csi/etc/jenkins/jobs/selfupdate-metasploit.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-ssllabs-scan -c /csi/etc/jenkins/jobs/selfupdate-ssllabs-scan.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-openvas_sync -c /csi/etc/jenkins/jobs/selfupdate-openvas_sync.xml
