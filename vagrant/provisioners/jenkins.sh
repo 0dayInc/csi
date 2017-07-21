@@ -11,6 +11,9 @@ new_user=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagran
 new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['pass']"`
 new_fullname=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['fullname']"`
 new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['email']"`
+
+sudo systemctl restart jenkins
+sleep 60
 csi_jenkins_useradd -s 127.0.0.1 -S 8080 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd -e $new_email
 
 # Begin Creating Self-Update Jobs in Jenkins and Template-Based Jobs to Describe how to Intgrate CSI into Jenkins
