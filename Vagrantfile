@@ -124,6 +124,7 @@ Vagrant.configure(API_VERSION) do |config|
     # Provision Software Based on UserLand Configurations w/in vagrant_rsync_userland_configs.lst
     # After CSI Box has Booted
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
+    config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/openvas.sh', privileged: false
