@@ -125,8 +125,8 @@ Vagrant.configure(API_VERSION) do |config|
     # After CSI Box has Booted
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
-    config.vm.provision :shell, path: './vagrant/provisioners/jenkins.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/openvas.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/provisioners/jenkins.sh', privileged: false
   end
 end
