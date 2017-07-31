@@ -51,6 +51,7 @@
       "provisioners/android.sh",
       "provisioners/sox.sh",
       "provisioners/baresip.sh",
+      "provisioners/openvpn.sh",
       "provisioners/phantomjs_wrapper.sh",
       "provisioners/geckodriver.sh",
       "provisioners/chrome.sh",
