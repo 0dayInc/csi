@@ -51,7 +51,6 @@
       "provisioners/android.sh",
       "provisioners/sox.sh",
       "provisioners/baresip.sh",
-      "provisioners/openvpn.sh",
       "provisioners/phantomjs_wrapper.sh",
       "provisioners/geckodriver.sh",
       "provisioners/chrome.sh",
@@ -65,9 +64,11 @@
       "provisioners/terminator.sh",
       "provisioners/apache2.sh",
       "provisioners/tor.sh",
+      "provisioners/toggle_tor.sh",
       "provisioners/arachni.sh",
       "provisioners/eyewitness.sh",
-      "provisioners/afl.sh"
+      "provisioners/afl.sh",
+      "provisioners/openvpn.sh"
     ],
     "pause_before": "9s"
   }],
