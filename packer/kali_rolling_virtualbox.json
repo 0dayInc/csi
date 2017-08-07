@@ -86,7 +86,7 @@
       },
 
       {
-        "type": "vagrant",
+        "type": "vagrant-cloud",
         "box_tag": "csi/kali_rolling",
         "access_token": "{{user `vagrant_cloud_token`}}",
         "version": "{{user `box_version`}}"
