@@ -77,7 +77,7 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -c /csi/etc/jenkins/jobs/anonymization-toggle_tor.xml
 
 # Create any jobs residing in /csi/jenkins/jobs_userland
-ls /csi/etc/jenkins/jobs_userland/ | while read jenkins_xml_config; do
+ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
   job_name=${jenkins_xml_config%.*}
   csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
     -U admin \
