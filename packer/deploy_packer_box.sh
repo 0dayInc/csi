@@ -1,13 +1,14 @@
 #!/bin/bash
 provider_type=$1
+box_version=$2
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware>"
+  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2017.01.001>"
   exit 1
 }
 
-if [[ $# < 1 ]]; then
+if [[ $# < 2 ]]; then
   usage
 fi
 
@@ -29,14 +30,22 @@ case $provider_type in
   "virtualbox")
     #export PACKER_LOG=1
     rm kali_rolling_virtualbox.box || true
-    packer build -only virtualbox-iso -var-file=packer_secrets.json kali_rolling_virtualbox.json
+    packer build \
+      -only virtualbox-iso \
+      -var "box_version=${box_version}" \
+      -var-file=packer_secrets.json \
+      kali_rolling_virtualbox.json
     vagrant box remove csi/kali_rolling --provider=virtualbox || true
     vagrant box add csi/kali_rolling kali_rolling_virtualbox.box
     ;;
   "vmware")
     #export PACKER_LOG=1
     rm kali_rolling_vmware.box || true
-    packer build -only vmware-iso -var-file=packer_secrets.json kali_rolling_vmware.json
+    packer build \
+      -only vmware-iso \
+      -var "box_version=${box_version}" \
+      -var-file=packer_secrets.json \
+      kali_rolling_vmware.json
     vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
     vagrant box add csi/kali_rolling kali_rolling_vmware.box
     ;;
