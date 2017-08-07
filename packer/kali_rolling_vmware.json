@@ -1,4 +1,8 @@
 {
+  "variables": {
+    "vagrant_cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "box_version": "{{ env `BOX_VERSION` }}"
+  },
   "builders": [{
     "type": "vmware-iso",
     "guest_os_type": "debian7-64",
@@ -73,9 +77,20 @@
     ],
     "pause_before": "9s"
   }],
-  "post-processors": [{
-    "type": "vagrant",
-    "compression_level": "9",
-    "output": "kali_rolling_vmware.box"
-  }]
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": "9",
+        "output": "kali_rolling_vmware.box"
+      },
+      
+      {
+        "type": "vagrant",
+        "box_tag": "csi/kali_rolling",
+        "access_token": "{{user `vagrant_cloud_token`}}",
+        "version": "{{user `box_version`}}"
+      }
+    ]
+  ]
 }
