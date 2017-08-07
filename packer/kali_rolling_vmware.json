@@ -68,6 +68,7 @@
       "provisioners/arachni.sh",
       "provisioners/eyewitness.sh",
       "provisioners/afl.sh",
+      "provisioners/strace.sh",
       "provisioners/openvpn.sh"
     ],
     "pause_before": "9s"

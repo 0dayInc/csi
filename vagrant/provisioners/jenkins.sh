@@ -24,4 +24,5 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j 
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-ssllabs-scan -c /csi/etc/jenkins/jobs/selfupdate-ssllabs-scan.xml
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-openvas_sync -c /csi/etc/jenkins/jobs/selfupdate-openvas_sync.xml
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-csi -c /csi/etc/jenkins/jobs/selfupdate-csi.xml
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j selfupdate-exploit-db -c /csi/etc/jenkins/jobs/selfupdate-exploit-db.xml
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 -U admin -P $initial_admin_pwd -j anonymization-toggle_tor -c /csi/etc/jenkins/jobs/anonymization-toggle_tor.xml
