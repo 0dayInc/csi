@@ -1,4 +1,4 @@
 cpus: 1
 memory: 2048
 hostname: csi.local
-diskMB: 33792
+diskMB: 36864

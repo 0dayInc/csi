@@ -10,7 +10,7 @@
       ["modifyvm", "{{.Name}}", "--memory", "2048"],
       ["modifyvm", "{{.Name}}", "--cpus", "1"]
     ],
-    "disk_size": 33792,
+    "disk_size": 36864,
     "hard_drive_interface": "sata",
     "http_directory": "http",
     "iso_url": "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso",
