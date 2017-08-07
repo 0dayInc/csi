@@ -6,3 +6,4 @@ etc/metasploit/vagrant.yaml
 etc/openvas/vagrant.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
+etc/jenkins/jobs_userland/***
