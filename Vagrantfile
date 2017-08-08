@@ -17,11 +17,11 @@ Vagrant.configure(API_VERSION) do |config|
     type: 'rsync',
     rsync__args: [
       '--progress',
-      '--verbose',
       "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
       '--archive',
       '--delete',
-      '-z',
+      '-compress',
+      '--recursive',
       '--files-from=vagrant_rsync_userland_configs.lst',
       '--ignore-missing-args'
     ]
