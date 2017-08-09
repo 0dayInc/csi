@@ -84,5 +84,5 @@ ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
     -U admin \
     -P $initial_admin_pwd \
     -j $job_name \
-    -c /csi/etc/jenkins/jobs_userland/$jenkins_xml_config
+    -c $jenkins_xml_config
 done
