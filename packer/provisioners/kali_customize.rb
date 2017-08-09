@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # A list of these are available in /usr/share/applications/*.desktop
-panel_root='/usr/share/applications'
+panel_root = '/usr/share/applications'
 
 system("sudo chmod 777 #{panel_root}")
 File.open("#{panel_root}/csi-prototyper.desktop", 'w') do |f|
@@ -29,20 +29,20 @@ end
 system("sudo chown root:root #{panel_root}/*.desktop")
 system("sudo chmod 755 #{panel_root}")
 
-panel_items = %{
+panel_items = %(
 [
-  'gnome-control-center.desktop', 
-  'csi-prototyper.desktop', 
-  'terminator.desktop', 
-  'chromium.desktop', 
-  'firefox-esr.desktop', 
-  'kali-burpsuite.desktop', 
-  'kali-zaproxy.desktop', 
-  'csi-msfconsole.desktop', 
-  'kali-searchsploit.desktop', 
+  'gnome-control-center.desktop',
+  'csi-prototyper.desktop',
+  'terminator.desktop',
+  'chromium.desktop',
+  'firefox-esr.desktop',
+  'kali-burpsuite.desktop',
+  'kali-zaproxy.desktop',
+  'csi-msfconsole.desktop',
+  'kali-searchsploit.desktop',
   'org.gnome.Nautilus.desktop'
 ]
-}
+)
 
 # Create the Custom Kali Panel
 system("dconf write /org/gnome/shell/favorite-apps \"#{panel_items}\"")
