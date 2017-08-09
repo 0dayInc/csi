@@ -10,5 +10,6 @@ sudo /bin/bash --login -c "mkdir ${burp_root} && cp -a ${burpbuddy_tp_root} ${bu
 sudo /bin/bash --login -c 'echo "ifconfig lo:0 127.0.0.2 netmask 255.0.0.0 up" >> /etc/rc.local'
 sudo /bin/bash --login -c 'echo "ifconfig lo:0 127.0.0.3 netmask 255.0.0.0 up" >> /etc/rc.local'
 sudo /bin/bash --login -c 'echo "ifconfig lo:0 127.0.0.4 netmask 255.0.0.0 up" >> /etc/rc.local'
+sudo /bin/bash --login -c 'chmod 755 /etc/rc.local'
 
 #TODO: Install Burpsuite Pro? (May need to rely upon end-user to do this)
