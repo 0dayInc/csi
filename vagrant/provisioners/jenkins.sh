@@ -71,7 +71,7 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -c /csi/etc/jenkins/jobs/selfupdate-exploit-db.xml
 
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -U admin 
+  -U admin \
   -P $initial_admin_pwd \
   -j anonymization-toggle_tor \
   -c /csi/etc/jenkins/jobs/anonymization-toggle_tor.xml
