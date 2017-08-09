@@ -78,7 +78,8 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
 
 # Create any jobs residing in /csi/jenkins/jobs_userland
 ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
-  job_name=${jenkins_xml_config%.*}
+  file_name=`basename $jenkins_xml_config`
+  job_name=${file_name%.*}
   csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
     -U admin \
     -P $initial_admin_pwd \
