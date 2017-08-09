@@ -58,15 +58,6 @@ Vagrant.configure(API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
         vb.customize ['modifyvm', :id, '--cpus', yaml_config['cpus']]
         vb.customize ['modifyvm', :id, '--memory', yaml_config['memory']]
-        diskMB = yaml_config['diskMB']
-        # TODO: resize disk based on params listed in etc/virtualbox/vagrant.yaml
-        # disk_uuid = ''
-        # while disk_uuid == ''
-        #   disk_uuid = `VBoxManage list hdds | grep -B 8 '10240 MBytes' | head -n 1 | awk '{print $2}'`.to_s.scrub.strip.chomp
-        #   sleep 3
-        # end
-
-        # vb.customize ['modifyhd', "#{disk_uuid}", '--resize', "#{diskMB}"]
       end
     end
 
