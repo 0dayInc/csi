@@ -55,7 +55,7 @@ MAXOPENFILES=8192
 
 # port for HTTP connector (default 8080; disable with -1)
 HTTP_HOST="127.0.0.1"
-HTTP_PORT=8080
+HTTP_PORT=8888
 
 HTTPS_HOST="127.0.0.1"
 HTTPS_PORT=-1
