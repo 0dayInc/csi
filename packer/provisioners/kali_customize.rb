@@ -5,6 +5,7 @@
 panel_root = '/usr/share/applications'
 
 system("sudo chmod 777 #{panel_root}")
+
 File.open("#{panel_root}/csi-prototyper.desktop", 'w') do |f|
   f.puts '[Desktop Entry]'
   f.puts 'Name=csi'
@@ -14,6 +15,45 @@ File.open("#{panel_root}/csi-prototyper.desktop", 'w') do |f|
   f.puts 'StartupNotify=false'
   f.puts 'Terminal=true'
   f.puts 'Type=Application'
+end
+
+File.open("#{panel_root}/csi-drivers.desktop", 'w') do |f|
+  f.puts '[Desktop Entry]'
+  f.puts 'Name=csi drivers'
+  f.puts 'Encoding=UTF-8'
+  f.puts 'Exec=/bin/bash --login -c "cd /csi/bin && ls"'
+  f.puts 'Icon=org.gnome.Software'
+  f.puts 'StartupNotify=false'
+  f.puts 'Terminal=true'
+  f.puts 'Type=Application'
+end
+
+File.open("#{panel_root}/csi-chromium-jenkins.desktop", 'w') do |f|
+  f.puts '[Desktop Entry]'
+  f.puts 'Name=Jenkins'
+  f.puts 'Encoding=UTF-8'
+  f.puts 'Exec=/bin/bash --login -c "/usr/bin/chromium https://jenkins.$(hostname -d)"'
+  f.puts 'Icon=dconf-editor'
+  f.puts 'Type=Application'
+  f.puts 'Categories=Network;WebBrowser;'
+  f.puts 'MimeType=text/html;text/xml;application/xhtml_xml;application/x-mimearchive;x-scheme-handler/http;x-scheme-handler/https;'
+  f.puts 'StartupWMClass=chromium'
+  f.puts 'StartupNotify=true'
+end
+
+File.open("#{panel_root}/csi-chromium-openvas.desktop", 'w') do |f|
+  f.puts '[Desktop Entry]'
+  f.puts 'Name=OpenVAS'
+  f.puts 'Encoding=UTF-8'
+  f.puts 'Exec=/bin/bash --login -c "/usr/bin/chromium https://openvas.$(hostname -d)"'
+  f.puts 'Terminal=false'
+  f.puts 'X-MultipleArgs=false'
+  f.puts 'Type=Application'
+  f.puts 'Icon=kali-OpenVas.png'
+  f.puts 'Categories=Network;WebBrowser;'
+  f.puts 'MimeType=text/html;text/xml;application/xhtml_xml;application/x-mimearchive;x-scheme-handler/http;x-scheme-handler/https;'
+  f.puts 'StartupWMClass=chromium'
+  f.puts 'StartupNotify=true'
 end
 
 File.open("#{panel_root}/csi-msfconsole.desktop", 'w') do |f|
@@ -26,6 +66,7 @@ File.open("#{panel_root}/csi-msfconsole.desktop", 'w') do |f|
   f.puts 'Terminal=true'
   f.puts 'Type=Application'
 end
+
 system("sudo chown root:root #{panel_root}/*.desktop")
 system("sudo chmod 755 #{panel_root}")
 
@@ -33,7 +74,10 @@ panel_items = %(
 [
   'gnome-control-center.desktop',
   'csi-prototyper.desktop',
+  'csi-drivers.desktop',
   'terminator.desktop',
+  'csi-chromium-jenkins.desktop',
+  'csi-chromium-openvas.desktop',
   'chromium.desktop',
   'firefox-esr.desktop',
   'kali-burpsuite.desktop',
