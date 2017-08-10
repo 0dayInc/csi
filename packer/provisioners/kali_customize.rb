@@ -68,7 +68,7 @@ File.open("#{panel_root}/csi-msfconsole.desktop", 'w') do |f|
 end
 
 File.open("#{panel_root}/csi-setoolkit.desktop", 'w') do |f|
-[Desktop Entry]
+  f.puts '[Desktop Entry]'
   f.puts 'Name=social engineering toolkit'
   f.puts 'Encoding=UTF-8'
   f.puts 'Exec=/bin/bash --login -c "sudo setoolkit"'
