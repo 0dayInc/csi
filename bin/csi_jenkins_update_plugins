@@ -11,9 +11,15 @@ OptionParser.new do |options|
   "
 
   options.on('-sIP', '--jenkins_ip=IP', '<Required - Jenkins Server IP>') { |s| opts[:jenkins_ip] = s }
+
+  options.on('-dPORT', '--dest-port=PORT', '<Optional - Jenkins Server Port (Defaults to 8080)>') do |port|
+    opts[:port] = port
+  end
+
   options.on('-UUSER', '--username=USER', '<Required - Jenkins Username>') do |user|
     opts[:username] = user
   end
+
   options.on('-PPASS', '--password=PASS', '<Required - Jenkins Password>') do |pass|
     opts[:password] = pass
   end
@@ -29,6 +35,7 @@ if opts.empty?
 end
 
 jenkins_ip = opts[:jenkins_ip].to_s.scrub
+port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
 restart_jenkins = if opts[:restart_jenkins].nil?
@@ -37,11 +44,20 @@ restart_jenkins = if opts[:restart_jenkins].nil?
                     opts[:restart_jenkins]
                   end
 
-jenkins_obj = CSI::Plugins::Jenkins.connect(
-  jenkins_ip: jenkins_ip,
-  username: username,
-  password: password
-)
+if port > 0
+  jenkins_obj = CSI::Plugins::Jenkins.connect(
+    jenkins_ip: jenkins_ip,
+    port: port,
+    username: username,
+    password: password
+  )
+else
+  jenkins_obj = CSI::Plugins::Jenkins.connect(
+    jenkins_ip: jenkins_ip,
+    username: username,
+    password: password
+  )
+end
 
 jenkins_obj.plugin.list_updates.keys.each do |plugin|
   jenkins_obj.plugin.update(plugin)
