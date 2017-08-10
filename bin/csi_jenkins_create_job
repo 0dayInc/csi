@@ -45,7 +45,7 @@ password = opts[:password]
 job_name = opts[:job_name].to_s.scrub
 config_xml = File.read(opts[:config_xml]) if File.exist?(opts[:config_xml])
 
-if port > 0
+if port.positive?
   jenkins_obj = CSI::Plugins::Jenkins.connect(
     jenkins_ip: jenkins_ip,
     port: port,

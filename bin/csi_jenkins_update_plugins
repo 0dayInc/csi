@@ -44,7 +44,7 @@ restart_jenkins = if opts[:restart_jenkins].nil?
                     opts[:restart_jenkins]
                   end
 
-if port > 0
+if port.positive?
   jenkins_obj = CSI::Plugins::Jenkins.connect(
     jenkins_ip: jenkins_ip,
     port: port,

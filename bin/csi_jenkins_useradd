@@ -57,7 +57,7 @@ new_password = opts[:new_password]
 new_fullname = opts[:new_fullname]
 new_email = opts[:new_email]
 
-if port > 0
+if port.positive?
   jenkins_obj = CSI::Plugins::Jenkins.connect(
     jenkins_ip: jenkins_ip,
     port: port,
