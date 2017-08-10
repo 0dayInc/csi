@@ -75,6 +75,7 @@
       "provisioners/afl.sh",
       "provisioners/strace.sh",
       "provisioners/openvpn.sh",
+      "provisioners/rc.local.sh",
       "provisioners/kali_customize.rb"
     ],
     "pause_before": "9s"
