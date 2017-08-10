@@ -67,6 +67,19 @@ File.open("#{panel_root}/csi-msfconsole.desktop", 'w') do |f|
   f.puts 'Type=Application'
 end
 
+File.open("#{panel_root}/csi-setoolkit.desktop", 'w') do |f|
+[Desktop Entry]
+  f.puts 'Name=social engineering toolkit'
+  f.puts 'Encoding=UTF-8'
+  f.puts 'Exec=/bin/bash --login -c "sudo setoolkit"'
+  f.puts 'Icon=kali-set.png'
+  f.puts 'StartupNotify=false'
+  f.puts 'Terminal=true'
+  f.puts 'Type=Application'
+  f.puts 'Categories=08-exploitation-tools;13-social-engineering-tools;'
+  f.puts 'X-Kali-Package=set'
+end
+
 system("sudo chown root:root #{panel_root}/*.desktop")
 system("sudo chmod 755 #{panel_root}")
 
@@ -84,6 +97,7 @@ panel_items = %(
   'kali-zaproxy.desktop',
   'csi-msfconsole.desktop',
   'kali-searchsploit.desktop',
+  'csi-setoolkit.desktop',
   'org.gnome.Nautilus.desktop'
 ]
 )
