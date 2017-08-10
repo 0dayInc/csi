@@ -89,6 +89,7 @@ panel_items = %(
   'csi-prototyper.desktop',
   'csi-drivers.desktop',
   'terminator.desktop',
+  'kali-recon-ng.desktop',
   'csi-chromium-jenkins.desktop',
   'csi-chromium-openvas.desktop',
   'chromium.desktop',
