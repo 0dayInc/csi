@@ -31,13 +31,13 @@ case $tls_deployment_type in
       -x509 -nodes -days 999 -newkey rsa:4096 \
       -keyout /etc/apache2/ssl/jenkins.key \
       -out /etc/apache2/ssl/jenkins.crt \
-      -subj "/C=${country_name}/ST=${state_or_prov}/L=${city_name}/O=${org_company_name}/OU=${org_unit_name}/CN=${common_name_fqdn}/emailAddress=${email_addr}"
+      -subj "/C=${country_name}/ST=${state_or_prov}/L=${city_name}/O=${org_company_name}/OU=${org_unit_name}/CN=jenkins.${common_name_fqdn}/emailAddress=${email_addr}"
 
     sudo openssl req \
       -x509 -nodes -days 999 -newkey rsa:4096 \
       -keyout /etc/apache2/ssl/openvas.key \
       -out /etc/apache2/ssl/openvas.crt \
-      -subj "/C=${country_name}/ST=${state_or_prov}/L=${city_name}/O=${org_company_name}/OU=${org_unit_name}/CN=${common_name_fqdn}/emailAddress=${email_addr}"
+      -subj "/C=${country_name}/ST=${state_or_prov}/L=${city_name}/O=${org_company_name}/OU=${org_unit_name}/CN=openvas.${common_name_fqdn}/emailAddress=${email_addr}"
     
     # Replace LetsEncrypt TLS Entries w/ Self-Signed for OpenVAS
     sudo sed -i '12s/.*/SSLCertificateFile \/etc\/apache2\/ssl\/jenkins\.crt/' \
