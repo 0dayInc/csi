@@ -4,7 +4,6 @@ sudo apt-get update
 
 # Install Dependency to Automate Package Install Questions
 sudo apt-get install -y debconf-utils
-sudo apt-get install -y kali-linux-all
 
 # Automate Package Install Questions :)
 # Obtain values via: debconf-get-selections | less
