@@ -108,3 +108,4 @@ system("dconf write /org/gnome/shell/favorite-apps \"#{panel_items}\"")
 
 # Use the CSI Wallpaper
 system('gsettings set org.gnome.desktop.background picture-uri file:///csi/documentation/virtualbox-gui_wallpaper.jpg')
+system('gsettings set org.gnome.desktop.background picture-options "centered"')
