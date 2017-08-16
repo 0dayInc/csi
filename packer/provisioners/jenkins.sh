@@ -1,8 +1,8 @@
 #!/bin/bash --login
 # Make sure the csi gemset has been loaded
 source /etc/profile.d/rvm.sh
-ruby_version=`cat /csi/.ruby-version`
-rvm use $ruby_version@csi
+ruby_version=$(cat /csi/.ruby-version)
+rvm use ruby-$ruby_version@csi
 
 printf "Installing Jenkins ********************************************************************"
 domain_name=`hostname -d`
