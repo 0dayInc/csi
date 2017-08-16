@@ -86,6 +86,13 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -j anonymization-toggle_tor \
   -c /csi/etc/jenkins/jobs/anonymization-toggle_tor.xml
 
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -j pipeline-selfupdate \
+  -c /csi/etc/jenkins/jobs/pipeline-selfupdate.xml
+
 # Create any jobs residing in /csi/jenkins/jobs_userland
 ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
   file_name=`basename $jenkins_xml_config`
