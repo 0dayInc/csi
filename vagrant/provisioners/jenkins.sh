@@ -27,6 +27,13 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -d 8888 \
   -U admin \
   -P $initial_admin_pwd \
+  -j selfupdate-jenkins_plugins \
+  -c /csi/etc/jenkins/jobs/selfupdate-jenkins_plugins.xml
+
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
   -j selfupdate-rvm \
   -c /csi/etc/jenkins/jobs/selfupdate-rvm.xml
 

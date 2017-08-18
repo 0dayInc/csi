@@ -28,6 +28,10 @@ OptionParser.new do |options|
     opts[:plugins] = plugins
   end
 
+  options.on('-L', '--[no-]list-available', '<Optional - List Available Jenkins Plugins for Installation>') do |list_available_bool|
+    opts[:list_available_bool] = list_available_bool
+  end
+
   options.on('-R', '--[no-]restart-jenkins', '<Restart Jenkins - Defaults to true>') do |restart_bool|
     opts[:restart_jenkins] = restart_bool
   end
@@ -43,10 +47,16 @@ port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
 plugins = opts[:plugins].to_s.scrub
+list_available_bool = if opts[:list_available_bool].nil?
+                    true
+                  else
+                    false
+                  end
+
 restart_jenkins = if opts[:restart_jenkins].nil?
                     true
                   else
-                    opts[:restart_jenkins]
+                    false
                   end
 
 if port.positive?
@@ -64,18 +74,16 @@ else
   )
 end
 
-plugin_arr = []
-plugins.split(',').each do |p|
-  plugin_arr.push(p.strip.chomp)
+if list_available_bool
+  puts jenkins_obj.plugin.list_available
+else
+  plugin_arr = []
+  plugins.split(',').each do |p|
+    plugin_arr.push(p.strip.chomp)
+  end
+
+  jenkins_obj.plugin.install(plugin_arr)
+  jenkins_obj.system.restart if restart_jenkins
 end
-
-jenkins_obj.plugin.install(plugin_arr)
-
-# until jenkins_obj.plugin.restart_required?
-#  print "."
-#  sleep 1
-# end
-
-jenkins_obj.system.restart if restart_jenkins
 
 CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)

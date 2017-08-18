@@ -24,6 +24,14 @@ OptionParser.new do |options|
     opts[:password] = pass
   end
 
+  options.on('-pPLUGIN', '--plugin-name=PLUGIN', '<Optional - Update Specific Plugin>') do |plugin_name|
+    opts[:plugin_name] = plugin_name
+  end
+
+  options.on('-L', '--[no-]list-updates', '<Optional - List of Installed Plugins Requiring Updates>') do |list_updates_bool|
+    opts[:list_updates_bool] = list_updates_bool
+  end
+
   options.on('-R', '--[no-]restart-jenkins', '<Restart Jenkins - Defaults to true>') do |restart_bool|
     opts[:restart_jenkins] = restart_bool
   end
@@ -38,10 +46,17 @@ jenkins_ip = opts[:jenkins_ip].to_s.scrub
 port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
+plugin = opts[:plugin]
+list_updates_bool = if opts[:list_updates_bool].nil?
+                    true
+                  else
+                    false
+                  end
+
 restart_jenkins = if opts[:restart_jenkins].nil?
                     true
                   else
-                    opts[:restart_jenkins]
+                    false
                   end
 
 if port.positive?
@@ -59,15 +74,18 @@ else
   )
 end
 
-jenkins_obj.plugin.list_updates.keys.each do |plugin|
-  jenkins_obj.plugin.update(plugin)
+if list_updates_bool
+  puts jenkins_obj.plugin.list_updates
+else
+  if plugin_name.nil?
+    jenkins_obj.plugin.list_updates.keys.each do |plugin|
+      jenkins_obj.plugin.update(plugin)
+    end
+  else
+    jenkins_obj.plugin.update(plugin_name)
+  end
+
+  jenkins_obj.system.restart if restart_jenkins
 end
-
-# until jenkins_obj.plugin.restart_required?
-#  print "."
-#  sleep 1
-# end
-
-jenkins_obj.system.restart if restart_jenkins
 
 CSI::Plugins::Jenkins.disconnect(jenkins_obj: jenkins_obj)
