@@ -46,12 +46,12 @@ jenkins_ip = opts[:jenkins_ip].to_s.scrub
 port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
-plugin = opts[:plugin]
+plugin_name = opts[:plugin_name]
 list_updates_bool = if opts[:list_updates_bool].nil?
-                    true
-                  else
-                    false
-                  end
+                      true
+                    else
+                      false
+                    end
 
 restart_jenkins = if opts[:restart_jenkins].nil?
                     true
@@ -78,8 +78,8 @@ if list_updates_bool
   puts jenkins_obj.plugin.list_updates
 else
   if plugin_name.nil?
-    jenkins_obj.plugin.list_updates.keys.each do |plugin|
-      jenkins_obj.plugin.update(plugin)
+    jenkins_obj.plugin.list_updates.keys.each do |current_plugin_name|
+      jenkins_obj.plugin.update(current_plugin_name)
     end
   else
     jenkins_obj.plugin.update(plugin_name)

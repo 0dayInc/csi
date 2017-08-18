@@ -4,8 +4,8 @@
 require 'yaml'
 
 print 'Updating Jenkins Plugins...'
-ruby_version = File.readlines("/csi/.ruby-version")[0].to_s.scrub.strip.chomp
-rvm_gemset = File.readlines("/csi/.ruby-version")[0].to_s.scrub.strip.chomp
+ruby_version = File.readlines('/csi/.ruby-version')[0].to_s.scrub.strip.chomp
+rvm_gemset = File.readlines('/csi/.ruby-gemset')[0].to_s.scrub.strip.chomp
 
 jenkins_userland_config = YAML.load_file('/csi/etc/jenkins/vagrant.yaml')
 userland_user = jenkins_userland_config['user']
