@@ -60,6 +60,7 @@
       "provisioners/chrome.sh",
       "provisioners/ansible.sh",
       "provisioners/openvas.sh",
+      "provisioners/openvas_wrappers.sh",
       "provisioners/metasploit.rb",
       "provisioners/wpscan.rb",
       "provisioners/ssllabs-scan.sh",

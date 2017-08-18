@@ -55,6 +55,13 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -d 8888 \
   -U admin \
   -P $initial_admin_pwd \
+  -j selfupdate-nmap_all_live_hosts \
+  -c /csi/etc/jenkins/jobs/selfupdate-nmap_all_live_hosts.xml
+
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
   -j selfupdate-ssllabs-scan \
   -c /csi/etc/jenkins/jobs/selfupdate-ssllabs-scan.xml
 
@@ -64,6 +71,13 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -P $initial_admin_pwd \
   -j selfupdate-openvas_sync \
   -c /csi/etc/jenkins/jobs/selfupdate-openvas_sync.xml
+
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -j selfupdate-openvas_wrappers \
+  -c /csi/etc/jenkins/jobs/selfupdate-openvas_wrappers.xml
 
 csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -d 8888 \
