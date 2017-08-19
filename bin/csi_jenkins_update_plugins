@@ -47,7 +47,7 @@ port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
 plugin_name = opts[:plugin_name]
-list_updates_bool = if opts[:list_updates_bool].nil?
+list_updates_bool = if opts[:list_updates_bool]
                       true
                     else
                       false

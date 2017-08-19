@@ -47,7 +47,7 @@ port = opts[:port].to_i
 username = opts[:username]
 password = opts[:password]
 plugins = opts[:plugins].to_s.scrub
-list_available_bool = if opts[:list_available_bool].nil?
+list_available_bool = if opts[:list_available_bool]
                         true
                       else
                         false
