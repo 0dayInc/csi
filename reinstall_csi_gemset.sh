@@ -1,8 +1,8 @@
 #!/bin/bash --login
 # USE THIS SCRIPT WHEN UPGRADING VERSIONS IN Gemfile
 source /etc/profile.d/rvm.sh
-ruby_version=$(cat .ruby-version)
-ruby_gemset=$(cat .ruby-gemset)
+ruby_version=$(cat /csi/.ruby-version)
+ruby_gemset=$(cat /csi/.ruby-gemset)
 rvm use ruby-$ruby_version@global
 rvm gemset --force delete $ruby_gemset
 rm Gemfile.lock
