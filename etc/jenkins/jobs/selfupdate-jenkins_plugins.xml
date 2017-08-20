@@ -22,7 +22,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>/csi/vagrant/provisioners/update_jenkins_plugins.rb</command>
+      <command>sudo /csi/vagrant/provisioners/update_jenkins_plugins.rb</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
