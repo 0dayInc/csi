@@ -61,6 +61,7 @@ module CSI
             :firefox,
             profile: this_profile
           )
+
         when :chrome
           this_profile = Selenium::WebDriver::Chrome::Profile.new
           this_profile['download.prompt_for_download'] = false
@@ -83,8 +84,8 @@ module CSI
             end
           else
             this_browser = Watir::Browser.new(:chrome)
-
           end
+
         when :headless
           this_profile = Selenium::WebDriver::Chrome::Profile.new
           this_profile['download.prompt_for_download'] = false
@@ -94,8 +95,8 @@ module CSI
             if with_tor
               this_browser = Watir::Browser.new(
                 :chrome,
+                headless: true,
                 switches: [
-                  '--headless',
                   "--proxy-server=#{proxy}",
                   "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
                 ]
@@ -103,15 +104,17 @@ module CSI
             else
               this_browser = Watir::Browser.new(
                 :chrome,
+                headless: true,
                 switches: [
-                  '--headless',
                   "--proxy-server=#{proxy}"
                 ]
               )
             end
           else
-            this_browser = Watir::Browser.new(:chrome)
-
+            this_browser = Watir::Browser.new(
+              :chrome,
+              headless: true
+            )
           end
           # if proxy
           #   if with_tor
