@@ -88,7 +88,7 @@ module CSI
 
         when :headless
           # Soon Selenium will Deprecate PhantomJS...when they do, we'll be ready.
-          # This hasn't been transitioned yet because we're waiting for the 
+          # This hasn't been transitioned yet because we're waiting for the
           # chromedriver team to sort out headless and --proxy-server when combined
           # which currently results in the browser to hang.
 
