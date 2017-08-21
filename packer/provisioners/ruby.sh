@@ -18,7 +18,6 @@ esac
 # per the latest value of .ruby-version in the repo.
 sudo /bin/bash --login -c 'cd / && git clone https://github.com/ninp0/csi.git'
 
-source /etc/profile.d/rvm.sh
 ruby_version=$(cat /csi/.ruby-version)
 ruby_gemset=$(cat /csi/.ruby-gemset)
 sudo /bin/bash --login -c "source /etc/profile.d/rvm.sh && rvm install ruby-${ruby_version}"
