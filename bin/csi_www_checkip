@@ -3,7 +3,6 @@
 
 require 'csi'
 require 'optparse'
-require 'nokogiri'
 
 opts = {}
 OptionParser.new do |options|
@@ -30,19 +29,19 @@ ipinfo = opts[:ipinfo]
 
 begin
   if proxy != '' && with_tor
-    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless, proxy: proxy, with_tor: true)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: proxy, with_tor: true)
   elsif proxy != '' && with_tor.nil?
-    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless, proxy: proxy)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: proxy)
   else
-    browser_obj = CSI::WWW::Checkip.open(browser_type: :headless)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
   end
 
-  public_ip_address = Nokogiri::HTML.parse(browser_obj.html).xpath('//pre').text.chomp
+  public_ip_address = browser_obj.get('http://checkip.amazonaws.com').to_s.chomp
   puts CSI::Plugins::IPInfo.get(ip_or_host: public_ip_address) unless ipinfo.nil?
 rescue => e
   raise e
 ensure
   unless browser_obj.nil?
-    browser_obj = CSI::WWW::Checkip.close(browser_obj: browser_obj) if browser_obj.class == Watir::Browser
+    browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) if browser_obj == RestClient
   end
 end
