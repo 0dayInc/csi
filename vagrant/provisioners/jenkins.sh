@@ -69,6 +69,13 @@ csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
   -d 8888 \
   -U admin \
   -P $initial_admin_pwd \
+  -j selfupdate-toggle_tor \
+  -c /csi/etc/jenkins/jobs/selfupdate-toggle_tor.xml
+
+csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
   -j selfupdate-ssllabs-scan \
   -c /csi/etc/jenkins/jobs/selfupdate-ssllabs-scan.xml
 
