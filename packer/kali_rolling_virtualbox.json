@@ -39,49 +39,69 @@
     "ssh_wait_timeout": "999s",
     "shutdown_command": "sudo /sbin/shutdown -P now"
   }],
-  "provisioners": [{
-    "type": "shell",
-    "scripts": [
-      "provisioners/install_vagrant_ssh_key.sh",
-      "provisioners/update_os.sh",
-      "provisioners/reboot_os.sh",
-      "provisioners/virtualbox_guest_additions.sh",
-      "provisioners/reboot_os.sh",
-      "provisioners/rvm.sh",
-      "provisioners/bashrc.sh",
-      "provisioners/ruby.sh",
-      "provisioners/csi.sh",
-      "provisioners/beef.rb",
-      "provisioners/burpsuite.sh",
-      "provisioners/jenkins.sh",
-      "provisioners/android.sh",
-      "provisioners/sox.sh",
-      "provisioners/baresip.sh",
-      "provisioners/phantomjs_wrapper.sh",
-      "provisioners/geckodriver.sh",
-      "provisioners/chrome.sh",
-      "provisioners/ansible.sh",
-      "provisioners/openvas.sh",
-      "provisioners/openvas_wrappers.sh",
-      "provisioners/metasploit.rb",
-      "provisioners/wpscan.rb",
-      "provisioners/ssllabs-scan.sh",
-      "provisioners/sublist3r.sh",
-      "provisioners/scapy.sh",
-      "provisioners/terminator.sh",
-      "provisioners/apache2.sh",
-      "provisioners/tor.sh",
-      "provisioners/toggle_tor.sh",
-      "provisioners/nmap_all_live_hosts.sh",
-      "provisioners/arachni.sh",
-      "provisioners/eyewitness.sh",
-      "provisioners/afl.sh",
-      "provisioners/strace.sh",
-      "provisioners/openvpn.sh",
-      "provisioners/rc.local.sh",
-      "provisioners/kali_customize.rb"
-    ]
-  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/install_vagrant_ssh_key.sh",
+        "provisioners/update_os.sh"
+      ]
+    },
+
+    {
+      "type": "posix-restart"
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/virtualbox_guest_additions.sh"
+      ]
+    },
+
+    {
+      "type": "posix-restart"
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/rvm.sh",
+        "provisioners/bashrc.sh",
+        "provisioners/ruby.sh",
+        "provisioners/csi.sh",
+        "provisioners/beef.rb",
+        "provisioners/burpsuite.sh",
+        "provisioners/jenkins.sh",
+        "provisioners/android.sh",
+        "provisioners/sox.sh",
+        "provisioners/baresip.sh",
+        "provisioners/phantomjs_wrapper.sh",
+        "provisioners/geckodriver.sh",
+        "provisioners/chrome.sh",
+        "provisioners/ansible.sh",
+        "provisioners/openvas.sh",
+        "provisioners/openvas_wrappers.sh",
+        "provisioners/metasploit.rb",
+        "provisioners/wpscan.rb",
+        "provisioners/ssllabs-scan.sh",
+        "provisioners/sublist3r.sh",
+        "provisioners/scapy.sh",
+        "provisioners/terminator.sh",
+        "provisioners/apache2.sh",
+        "provisioners/tor.sh",
+        "provisioners/toggle_tor.sh",
+        "provisioners/nmap_all_live_hosts.sh",
+        "provisioners/arachni.sh",
+        "provisioners/eyewitness.sh",
+        "provisioners/afl.sh",
+        "provisioners/strace.sh",
+        "provisioners/openvpn.sh",
+        "provisioners/rc.local.sh",
+        "provisioners/kali_customize.rb"
+      ]
+    }
+  ],
   "post-processors": [
     [
       {
