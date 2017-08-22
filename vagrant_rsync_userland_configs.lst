@@ -8,3 +8,4 @@ etc/metasploit/vagrant.yaml
 etc/openvas/vagrant.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
+third_party/burpsuite-pro.jar
