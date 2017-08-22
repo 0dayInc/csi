@@ -56,11 +56,11 @@
     },
 
     {
+      "pause_before": "36s",
       "type": "shell",
       "scripts": [
         "provisioners/virtualbox_guest_additions.sh"
-      ],
-      "pause_before": "36s"
+      ]
     },
 
     {
@@ -71,6 +71,7 @@
     },
 
     {
+      "pause_before": "36s",
       "type": "shell",
       "scripts": [
         "provisioners/rvm.sh",
@@ -106,8 +107,7 @@
         "provisioners/openvpn.sh",
         "provisioners/rc.local.sh",
         "provisioners/kali_customize.rb"
-      ],
-      "pause_before": "36s"
+      ]
     }
   ],
   "post-processors": [
