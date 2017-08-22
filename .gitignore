@@ -26,6 +26,7 @@ tmp
 .vagrant/
 etc/apache2/vagrant.yaml
 etc/aws/vagrant.yaml
+etc/burpsuite/burpsuite.yaml
 etc/burpsuite/navigation.instruct
 etc/jenkins/jobs_userland/*
 !etc/jenkins/jobs_userland/.gitkeep
@@ -40,4 +41,5 @@ packer/packer_cache
 packer/packer_secrets.json
 packer/output-*
 packer/*.box
+third_party/burpsuite-pro.jar
 ubuntu-*-cloudimg-console.log
