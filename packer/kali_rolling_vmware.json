@@ -49,18 +49,25 @@
     },
 
     {
-      "type": "posix-restart"
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
     },
 
     {
       "type": "shell",
       "scripts": [
         "provisioners/vmware_tools.sh"
-      ]
+      ],
+      "pause_before": "36s"
     },
 
     {
-      "type": "posix-restart"
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
     },
 
     {
@@ -99,7 +106,8 @@
         "provisioners/openvpn.sh",
         "provisioners/rc.local.sh",
         "provisioners/kali_customize.rb"
-      ]
+      ],
+      "pause_before": "36s"
     }
   ],
   "post-processors": [
