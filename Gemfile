@@ -59,6 +59,6 @@ gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e
 gem 'spreadsheet', '1.1.4'             # Generate Excel Spreadsheets (.xls files) ***2017-02-13
 gem 'sqlite3', '1.3.13'                # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2017-02-13
 gem 'thin', '1.7.2'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-08-20
-gem 'watir', '6.7.2'                   # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2017-08-20
+gem 'watir', '6.7.3'                   # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2017-08-20
 gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
 gem 'wicked_pdf', '1.1.0'              # Convert HTML to PDF Documents ***2017-02-13
