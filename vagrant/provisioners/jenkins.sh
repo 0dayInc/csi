@@ -132,3 +132,25 @@ ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
     -j $job_name \
     -c $jenkins_xml_config
 done
+
+printf "Creating Jenkins Views ****************************************************************"
+csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -v 'Self-Update' \
+  -r '^selfupdate-.+$'
+
+csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -v 'Pipeline' \
+  -r '^pipeline-.+$'
+
+csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -v 'User-Land' \
+  -r '^userland-.+$'
