@@ -60,7 +60,7 @@ else
   )
 end
 
-jenkins_obj.plugin.create_list_view(
+jenkins_obj.view.create_list_view(
   name: view_name,
   regex: regex_filter
 )
