@@ -1,4 +1,8 @@
 {
+  "variables": {
+    "vagrant_cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "box_version": "{{ env `BOX_VERSION` }}"
+  },
   "builders": [{
     "type": "vmware-iso",
     "guest_os_type": "debian7-64",
@@ -7,7 +11,7 @@
       "numvcpus": "1",
       "cpuid.coresPerSocket": "1"
     },
-    "disk_size": 33792,
+    "disk_size": 36864,
     "http_directory": "http",
     "iso_url": "http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso",
     "iso_checksum": "49b1c5769b909220060dc4c0e11ae09d97a270a80d259e05773101df62e11e9d",
@@ -35,44 +39,91 @@
     "ssh_wait_timeout": "999s",
     "shutdown_command": "sudo /sbin/shutdown -P now"
   }],
-  "provisioners": [{
-    "type": "shell",
-    "scripts": [
-      "provisioners/install_vagrant_ssh_key.sh",
-      "provisioners/update_os.sh",
-      "provisioners/vmware_tools.sh",
-      "provisioners/rvm.sh",
-      "provisioners/bashrc.sh",
-      "provisioners/ruby.sh",
-      "provisioners/csi.sh",
-      "provisioners/beef.rb",
-      "provisioners/burpsuite.sh",
-      "provisioners/jenkins.sh",
-      "provisioners/android.sh",
-      "provisioners/sox.sh",
-      "provisioners/baresip.sh",
-      "provisioners/phantomjs_wrapper.sh",
-      "provisioners/geckodriver.sh",
-      "provisioners/chrome.sh",
-      "provisioners/ansible.sh",
-      "provisioners/openvas.sh",
-      "provisioners/metasploit.rb",
-      "provisioners/wpscan.rb",
-      "provisioners/ssllabs-scan.sh",
-      "provisioners/sublist3r.sh",
-      "provisioners/scapy.sh",
-      "provisioners/terminator.sh",
-      "provisioners/apache2.sh",
-      "provisioners/tor.sh",
-      "provisioners/arachni.sh",
-      "provisioners/eyewitness.sh",
-      "provisioners/afl.sh"
-    ],
-    "pause_before": "9s"
-  }],
-  "post-processors": [{
-    "type": "vagrant",
-    "compression_level": "9",
-    "output": "kali_rolling_vmware.box"
-  }]
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/install_vagrant_ssh_key.sh",
+        "provisioners/update_os.sh"
+       ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "90s",
+      "type": "shell",
+      "scripts": [
+        "provisioners/vmware_tools.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "90s",
+      "type": "shell",
+      "scripts": [
+        "provisioners/rvm.sh",
+        "provisioners/bashrc.sh",
+        "provisioners/ruby.sh",
+        "provisioners/csi.sh",
+        "provisioners/beef.rb",
+        "provisioners/burpsuite.sh",
+        "provisioners/jenkins.sh",
+        "provisioners/android.sh",
+        "provisioners/sox.sh",
+        "provisioners/baresip.sh",
+        "provisioners/phantomjs_wrapper.sh",
+        "provisioners/geckodriver.sh",
+        "provisioners/chrome.sh",
+        "provisioners/ansible.sh",
+        "provisioners/openvas.sh",
+        "provisioners/openvas_wrappers.sh",
+        "provisioners/metasploit.rb",
+        "provisioners/wpscan.rb",
+        "provisioners/ssllabs-scan.sh",
+        "provisioners/sublist3r.sh",
+        "provisioners/scapy.sh",
+        "provisioners/terminator.sh",
+        "provisioners/apache2.sh",
+        "provisioners/tor.sh",
+        "provisioners/toggle_tor.sh",
+        "provisioners/nmap_all_live_hosts.sh",
+        "provisioners/arachni.sh",
+        "provisioners/eyewitness.sh",
+        "provisioners/afl.sh",
+        "provisioners/strace.sh",
+        "provisioners/openvpn.sh",
+        "provisioners/rc.local.sh",
+        "provisioners/kali_customize.rb"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "vagrant",
+        "compression_level": "9",
+        "output": "kali_rolling_vmware.box"
+      },
+      
+      {
+        "type": "vagrant-cloud",
+        "box_tag": "csi/kali_rolling",
+        "access_token": "{{user `vagrant_cloud_token`}}",
+        "version": "{{user `box_version`}}"
+      }
+    ]
+  ]
 }

@@ -11,3 +11,5 @@ sudo sed -i '9s/.*/ExecStart=\/usr\/sbin\/gsad --foreground --listen=127\.0\.0\.
 sudo systemctl daemon-reload
 sudo systemctl enable openvas.service
 sudo systemctl start openvas.service
+# Symlink to folder containing NASL files
+sudo ln -s /var/lib/openvas/plugins /opt/openvas_plugins

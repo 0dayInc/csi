@@ -61,6 +61,7 @@ module CSI
             :firefox,
             profile: this_profile
           )
+
         when :chrome
           this_profile = Selenium::WebDriver::Chrome::Profile.new
           this_profile['download.prompt_for_download'] = false
@@ -83,9 +84,44 @@ module CSI
             end
           else
             this_browser = Watir::Browser.new(:chrome)
-
           end
+
         when :headless
+          # Soon Selenium will Deprecate PhantomJS...when they do, we'll be ready.
+          # This hasn't been transitioned yet because we're waiting for the
+          # chromedriver team to sort out headless and --proxy-server when combined
+          # which currently results in the browser to hang.
+
+          # this_profile = Selenium::WebDriver::Chrome::Profile.new
+          # this_profile['download.prompt_for_download'] = false
+          # this_profile['download.default_directory'] = '~/Downloads'
+
+          # if proxy
+          #   if with_tor
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}",
+          #         "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+          #       ]
+          #     )
+          #   else
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}"
+          #       ]
+          #     )
+          #   end
+          # else
+          #   this_browser = Watir::Browser.new(
+          #     :chrome,
+          #     headless: true
+          #   )
+          # end
+
           if proxy
             if with_tor
               args = [

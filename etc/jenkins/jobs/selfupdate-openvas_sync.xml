@@ -18,21 +18,17 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>@daily</spec>
-    </hudson.triggers.TimerTrigger>
-  </triggers>
+  <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c greenbone-certdata-sync</command>
+      <command>sudo /bin/bash --login -c greenbone-nvt-sync</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>sudo /bin/bash --login -c greenbone-scapdata-sync</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c greenbone-nvt-sync</command>
+      <command>sudo /bin/bash --login -c greenbone-certdata-sync</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

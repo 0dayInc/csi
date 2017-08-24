@@ -1,8 +1,11 @@
 etc/apache2/vagrant.yaml
+etc/burpsuite/burpsuite.yaml
 etc/aws/vagrant.yaml
+etc/jenkins/jobs_userland
 etc/jenkins/vagrant.yaml
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/vagrant.yaml
 etc/openvas/vagrant.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
+third_party/burpsuite-pro.jar

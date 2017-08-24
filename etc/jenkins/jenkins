@@ -7,7 +7,7 @@ NAME=jenkins
 JAVA=/usr/bin/java
 
 # arguments to pass to java
-JAVA_ARGS="-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true -Dmail.smtp.starttls.enable=true -Dhudson.model.DirectoryBrowserSupport.CSP= -Xmx2g"  # Allow graphs etc. to work even when an X server is present
+JAVA_ARGS="-Djava.awt.headless=true -Dhudson.DNSMultiCast.disabled=true -Djava.net.preferIPv4Stack=true -Dmail.smtp.starttls.enable=true -Dhudson.model.DirectoryBrowserSupport.CSP= -Xmx2g"  # Allow graphs etc. to work even when an X server is present
 #JAVA_ARGS="-Xmx256m"
 #JAVA_ARGS="-Djava.net.preferIPv4Stack=true" # make jenkins listen on IPv4 address
 
@@ -55,7 +55,7 @@ MAXOPENFILES=8192
 
 # port for HTTP connector (default 8080; disable with -1)
 HTTP_HOST="127.0.0.1"
-HTTP_PORT=8080
+HTTP_PORT=8888
 
 HTTPS_HOST="127.0.0.1"
 HTTPS_PORT=-1
