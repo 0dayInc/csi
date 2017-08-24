@@ -1,2 +1,3 @@
 baresip:
-  pkg.installed: {}
+  pkg.installed:
+    - name: baresip

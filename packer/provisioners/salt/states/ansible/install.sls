@@ -1,2 +1,3 @@
 ansible:
-  pkg.installed: {}
+  pkg.installed:
+    - name: ansible

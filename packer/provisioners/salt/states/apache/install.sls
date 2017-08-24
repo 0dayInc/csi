@@ -1,2 +1,3 @@
 apache2:
-  pkg.installed: {}
+  pkg.installed:
+    - name: apache2
