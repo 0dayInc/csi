@@ -103,6 +103,8 @@
         "provisioners/arachni.sh",
         "provisioners/eyewitness.sh",
         "provisioners/afl.sh",
+        "provisioners/peda.sh",
+        "provisioners/pwntools.sh",
         "provisioners/strace.sh",
         "provisioners/openvpn.sh",
         "provisioners/rc.local.sh",
