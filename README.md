@@ -32,7 +32,7 @@ If you're willing to provide access to commercial security tools (e.g. Rapid7's 
 It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated solutions should be open for all eyes to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  
 
 #### **How CSI Works** ####
-Leveraging various pre-built modules and the csi prototyper, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."  The fastest way to getting rolling w/ csi is to deploy a pre-built Kali Rolling box we built w/ Packer.  This is a special deployment of Kali Rolling - WORKING rollouts of OpenVAS, Metasploit, Arachni, and Jenkins (w/ preconfigured various jobs) are just some of the numerous security and CI/CD tools made available for your convenience...updated on a daily basis.  CSI driver integration is made to be seamless w/ OS dependencies already installed.  This is all made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  Feel free to also install it locally on your machine as a Ruby Gem!  See the [Install or Deploy](#install-or-deploy) section for more details.
+Leveraging various pre-built modules and the csi prototyper, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."  The fastest way to getting rolling w/ csi is to deploy a pre-built Kali Rolling box we built w/ Packer.  This is a special deployment of Kali Rolling - WORKING rollouts of AFL w/ QEMU instrumentation ready-to-go, OpenVAS, latest clone of Metasploit, Arachni, and Jenkins (w/ pre-canned jobs and the ability to create your own prior to deployment aka User-Land!) are just some of the numerous security and CI/CD tools made available for your convenience...updated on a daily basis.  CSI driver integration is made to be seamless w/ OS dependencies already installed.  This is all made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  Feel free to also install it locally on your machine as a Ruby Gem!  See the [Install or Deploy](#install-or-deploy) section for more details.
 
 #### **What is CSI** ####
 CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
@@ -88,7 +88,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.2.367]:001 >>> CSI.help
+  csi[v0.2.368]:001 >>> CSI.help
   ```
 
 
