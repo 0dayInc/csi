@@ -22,10 +22,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c greenbone-nvt-sync</command>
+      <command>sudo /bin/bash --login -c greenbone-nvt-sync &amp;&amp; sleep 9</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c greenbone-scapdata-sync</command>
+      <command>sudo /bin/bash --login -c greenbone-scapdata-sync &amp;&amp; sleep 9</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>sudo /bin/bash --login -c greenbone-certdata-sync</command>
