@@ -105,6 +105,7 @@
         "provisioners/afl.sh",
         "provisioners/peda.sh",
         "provisioners/pwntools.sh",
+        "provisioners/scout2.sh",
         "provisioners/strace.sh",
         "provisioners/openvpn.sh",
         "provisioners/rc.local.sh",
