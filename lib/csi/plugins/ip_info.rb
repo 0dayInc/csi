@@ -28,7 +28,7 @@ module CSI
           end
           ip_resp_str = rest_client.get("http://ip-api.com/json/#{ip}?fields=country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,reverse,mobile,proxy,query,status,message")
           ip_resp_json = JSON.parse(ip_resp_str)
-    
+
           # Ensure the max number of IPs we can query / min = 120 to avoid being banned
           # Per http://ip-api.com/docs/api:json:
           # "Our system will automatically ban any IP address doing over 150 requests per minute"
