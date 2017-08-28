@@ -26,7 +26,7 @@ module CSI
           else
             rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
           end
-          ip_resp_str = rest_client.get("http://ip-api.com/json/##{ip}")
+          ip_resp_str = rest_client.get("http://ip-api.com/json/#{ip}?fields=country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,reverse,mobile,proxy,query,status,message")
           ip_resp_json = JSON.parse(ip_resp_str)
     
           # Ensure the max number of IPs we can query / min = 120 to avoid being banned
