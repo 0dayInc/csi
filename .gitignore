@@ -39,6 +39,7 @@ etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
 packer/packer_cache
 packer/packer_secrets.json
+packer/provisioners/salt/states/install.sh
 packer/output-*
 packer/*.box
 third_party/burpsuite-pro.jar

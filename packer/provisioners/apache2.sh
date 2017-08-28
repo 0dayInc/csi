@@ -1,5 +1,5 @@
 #!/bin/bash --login
-sudo apt-get install -y apache2
+sudo apt install -y apache2
 sudo a2enmod proxy
 sudo a2enmod proxy_http
 sudo a2enmod rewrite

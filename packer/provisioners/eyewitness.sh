@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y eyewitness
+sudo apt install -y eyewitness

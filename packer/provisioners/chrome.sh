@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y chromium chromium-driver
+sudo apt install -y chromium chromium-driver

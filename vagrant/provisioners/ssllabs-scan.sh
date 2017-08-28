@@ -1,6 +1,6 @@
 #!/bin/bash --login
 printf "Updating ssllabs-scan Dependencies..."
-sudo apt-get install -y golang
+sudo apt install -y golang
 echo "complete."
 
 

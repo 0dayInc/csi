@@ -8,8 +8,8 @@ printf "Installing Jenkins *****************************************************
 domain_name=`hostname -d`
 wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
 sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt-get update
-sudo apt-get install -y jenkins openjdk-8-jdk mongodb
+sudo apt update
+sudo apt install -y jenkins openjdk-8-jdk mongodb
 sudo /bin/bash --login -c "cp /csi/etc/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
 sudo usermod -a -G sudo jenkins

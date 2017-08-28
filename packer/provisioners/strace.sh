@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y strace
+sudo apt install -y strace

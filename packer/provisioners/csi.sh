@@ -26,28 +26,28 @@ case $os in
     sudo /bin/bash --login -c 'cd /opt/local/share/tessdata && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
     ;;
   "Linux")
-    apt-get --version > /dev/null 2>&1
+    apt --version > /dev/null 2>&1
     if [[ $? == 0 ]]; then
       echo "Installing wget to retrieve tesseract trained data..."
-      sudo apt-get install -y wget
+      sudo apt install -y wget
 
       echo "Installing fontconfig..."
-      sudo apt-get install -y fontconfig
+      sudo apt install -y fontconfig
 
       echo "Installing Postgres Libraries for pg gem..."
-      sudo apt-get install -y postgresql-server-dev-all
+      sudo apt install -y postgresql-server-dev-all
 
       echo "Installing libpcap Libraries..."
-      sudo apt-get install -y libpcap-dev
+      sudo apt install -y libpcap-dev
 
       echo "Installing libsndfile1 & libsndfile1-dev Libraries..."
-      sudo apt-get install -y libsndfile1 libsndfile1-dev
+      sudo apt install -y libsndfile1 libsndfile1-dev
 
       echo "Installing imagemagick & libmagickwand-dev Libraries..."
-      sudo apt-get install -y imagemagick libmagickwand-dev
+      sudo apt install -y imagemagick libmagickwand-dev
 
       echo "Installing tesseract-ocr-all & trainers..."
-      sudo /bin/bash --login -c 'apt-get install -y tesseract-ocr-all && cd /usr/share/tesseract-ocr && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
+      sudo /bin/bash --login -c 'apt install -y tesseract-ocr-all && cd /usr/share/tesseract-ocr && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
     else
       echo "A Linux Distro was Detected, however, ${0} currently only supports Kali Rolling, Ubuntu, & OSX for now...feel free to install manually."
     fi

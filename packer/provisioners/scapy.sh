@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt-get install -y python-scapy
+sudo apt install -y python-scapy

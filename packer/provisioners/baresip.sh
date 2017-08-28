@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y baresip
+sudo apt install -y baresip

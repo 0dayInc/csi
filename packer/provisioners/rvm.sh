@@ -6,7 +6,7 @@ case $os in
     sudo port -N install gnupg2
     ;;
   'Linux')
-    sudo apt-get install -y gnupg2
+    sudo apt install -y gnupg2
     ;;
   *)
     echo "${os} not currently supported."

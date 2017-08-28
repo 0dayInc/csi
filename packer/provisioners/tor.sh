@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y tor tor-geoipdb torsocks
+sudo apt install -y tor tor-geoipdb torsocks

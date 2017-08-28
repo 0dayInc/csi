@@ -1,2 +1,2 @@
 #!/bin/bash --login
-sudo apt-get install -y terminator
+sudo apt install -y terminator

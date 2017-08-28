@@ -1,5 +1,5 @@
 #!/bin/bash --login
-sudo apt-get install -y rpm alien nsis openvas redis-server
+sudo apt install -y rpm alien nsis openvas redis-server
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
 sudo openvas-setup
