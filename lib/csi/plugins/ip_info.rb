@@ -5,7 +5,7 @@ require 'resolv'
 
 module CSI
   module Plugins
-    # This plugin leverages ipinfo.io's REST API to discover information about IP addresses
+    # This plugin leverages ip-api.com's REST API to discover information about IP addresses
     # 1,000 daily requests are allowed for free
     module IPInfo
       # Supported Method Parameters::
@@ -26,7 +26,7 @@ module CSI
           else
             rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
           end
-          ip_resp_str = rest_client.get("http://ipinfo.io/#{ip}")
+          ip_resp_str = rest_client.get("http://ip-api.com/json/##{ip}")
           ip_resp_json = JSON.parse(ip_resp_str)
 
           return ip_resp_json
