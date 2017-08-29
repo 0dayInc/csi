@@ -146,7 +146,7 @@ module CSI
         key_passphrase = opts[:key_passphrase].to_s.scrub
         description = opts[:description].to_s.scrub
 
-        if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL'
+        if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL' or opts[:domain].nil?
           uri_path = '/credentials/store/system/domain/_/createCredentials'
         else
           domain = opts[:domain].to_s.strip.chomp.scrub
@@ -166,11 +166,19 @@ module CSI
           'passphrase' => key_passphrase,
           'description' => description,
           'json' => {
-            'scope' => scope,
-            'username' => username,
-            'private_key' => private_key_path,
-            'passphrase' => key_passphrase,
-            'description' => description
+            'credentials' => {
+              'scope' => scope,
+              'username' => username,
+              'privateKeySource' => {
+                'value' => '1', 
+                'privateKeyFile' => private_key_path,
+                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+              }
+              'passphrase' => key_passphrase,
+              'description' => description,
+              'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
+              '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+            }
           }.to_json
         }
 
