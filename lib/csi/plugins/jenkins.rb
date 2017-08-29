@@ -152,7 +152,7 @@ module CSI
           uri_path = "/credentials/store/system/domain/#{domain}/createCredentials"
         end
 
-        if opts[:scope].to_s.strip.chomp.scrub.upcase == 'SYSTEM'
+        if opts[:scope].to_s.strip.chomp.scrub.casecmp('SYSTEM')
           scope = 'SYSTEM'
         else
           scope = 'GLOBAL'
@@ -169,7 +169,7 @@ module CSI
             'username' => username,
             'private_key' => private_key_path,
             'passphrase' => key_passphrase,
-            'description' => description,
+            'description' => description
           }.to_json
         }
 
