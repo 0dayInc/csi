@@ -146,7 +146,7 @@ module CSI
         key_passphrase = opts[:key_passphrase].to_s.scrub
         description = opts[:description].to_s.scrub
 
-        if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL' or opts[:domain].nil?
+        if opts[:domain].to_s.strip.chomp.scrub.casecmp('GLOBAL') || opts[:domain].nil?
           uri_path = '/credentials/store/system/domain/_/createCredentials'
         else
           domain = opts[:domain].to_s.strip.chomp.scrub
@@ -170,7 +170,7 @@ module CSI
               'scope' => scope,
               'username' => username,
               'privateKeySource' => {
-                'value' => '1', 
+                'value' => '1',
                 'privateKeyFile' => private_key_path,
                 'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
               },
