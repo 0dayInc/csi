@@ -127,6 +127,68 @@ module CSI
         puts e.class
       end
 
+      # CSI::Plugins::Jenkins.create_ssh_credential(
+      #   jenkins_obj: 'required - jenkins_obj returned from login method',
+      #   username: 'required - username for new credential'
+      #   private_key_path: 'required - path of private ssh key for new credential'
+      #   key_passphrase: 'optional - private key passphrase for new credential'
+      #   description: 'optional - description of new credential'
+      #   domain: 'optional - defaults to GLOBAL',
+      #   scope: 'optional - GLOBAL or SYSTEM (defaults to GLOBAL)'
+      # )
+
+      public
+
+      def self.create_ssh_credential(opts = {})
+        jenkins_obj = opts[:jenkins_obj]
+        username = opts[:username].to_s.scrub
+        private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub if File.exist?(opts[:private_key_path].to_s.strip.chomp.scrub)
+        key_passphrase = opts[:key_passphrase].to_s.scrub
+
+        if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL'
+          uri_path = '/credentials/store/system/domain/_/createCredentials'
+        else
+          domain = opts[:domain].to_s.strip.chomp.scrub
+          uri_path = "/credentials/store/system/domain/#{domain}/createCredentials"
+        end
+
+        if opts[:scope].to_s.strip.chomp.scrub.upcase == 'SYSTEM'
+          scope = 'SYSTEM'
+        else
+          scope = 'GLOBAL'
+        end
+
+        post_body = {
+          'scope' => scope,
+          'username' => username,
+          'private_key' => private_key_path,
+          'passphrase' => key_passphrase,
+          'description' => description,
+          'json' => {
+            'scope' => scope,
+            'username' => username,
+            'private_key' => private_key_path,
+            'passphrase' => key_passphrase,
+            'description' => description,
+          }.to_json
+        }
+
+        resp = jenkins_obj.api_post_request(
+          uri_path,
+          post_body
+        )
+
+        if resp == '302'
+          return true # Successful creation occurred
+        else
+          return false # Something unexpected happened
+        end
+      rescue => e
+        puts e.message
+        puts e.backtrace
+        puts e.class
+      end
+
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.get_all_job_git_repos(
       #   jenkins_obj: 'required jenkins_obj returned from login method'
@@ -411,6 +473,16 @@ module CSI
             password: 'optional - password for new user (will prompt if nil)'
             fullname: 'required - full name of new user'
             email: 'required - email address of new user'
+          )
+
+          #{self}.create_ssh_credential(
+            jenkins_obj: 'required - jenkins_obj returned from login method',
+            username: 'required - username for new credential'
+            private_key_path: 'required - path of private ssh key for new credential'
+            key_passphrase: 'optional - private key passphrase for new credential'
+            description: 'optional - description of new credential'
+            domain: 'optional - defaults to GLOBAL',
+            scope: 'optional - GLOBAL or SYSTEM (defaults to GLOBAL)'
           )
 
           git_repo_arr = #{self}.get_all_job_git_repos(

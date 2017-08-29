@@ -1,4 +1,5 @@
 #!/bin/bash --login
+# TODO: Always grab latest release
 arachni_root='/opt/arachni'
 arachni_build_path="${arachni_root}/arachni-1.5.1-0.5.12"
 arachni_pkg='arachni-1.5.1-0.5.12-linux-x86_64.tar.gz'

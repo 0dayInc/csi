@@ -119,8 +119,8 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/openvas.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/provisioners/burpsuite_pro.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins_ssh-keygen.rb', privileged: false
-    config.vm.provision :shell, path: './vagrant/provisioners/burpsuite_pro.rb', privileged: false
   end
 end
