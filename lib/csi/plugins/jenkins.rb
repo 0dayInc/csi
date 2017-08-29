@@ -144,6 +144,7 @@ module CSI
         username = opts[:username].to_s.scrub
         private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub if File.exist?(opts[:private_key_path].to_s.strip.chomp.scrub)
         key_passphrase = opts[:key_passphrase].to_s.scrub
+        description = opts[:description].to_s.scrub
 
         if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL'
           uri_path = '/credentials/store/system/domain/_/createCredentials'
