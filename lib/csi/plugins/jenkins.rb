@@ -132,6 +132,7 @@ module CSI
       #   username: 'required - username for new credential'
       #   private_key_path: 'required - path of private ssh key for new credential'
       #   key_passphrase: 'optional - private key passphrase for new credential'
+      #   credential_id: 'optional but recommended - useful when creating userland jobs',
       #   description: 'optional - description of new credential'
       #   domain: 'optional - defaults to GLOBAL',
       #   scope: 'optional - GLOBAL or SYSTEM (defaults to GLOBAL)'
@@ -144,6 +145,7 @@ module CSI
         username = opts[:username].to_s.scrub
         private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub if File.exist?(opts[:private_key_path].to_s.strip.chomp.scrub)
         key_passphrase = opts[:key_passphrase].to_s.scrub
+        credential_id = opts[:credential_id].to_s.scrub
         description = opts[:description].to_s.scrub
 
         if opts[:domain].to_s.strip.chomp.scrub.casecmp('GLOBAL') || opts[:domain].nil?
@@ -159,28 +161,54 @@ module CSI
           scope = 'GLOBAL'
         end
 
-        post_body = {
-          'scope' => scope,
-          'username' => username,
-          'private_key' => private_key_path,
-          'passphrase' => key_passphrase,
-          'description' => description,
-          'json' => {
-            'credentials' => {
-              'scope' => scope,
-              'username' => username,
-              'privateKeySource' => {
-                'value' => '1',
-                'privateKeyFile' => private_key_path,
-                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
-              },
-              'passphrase' => key_passphrase,
-              'description' => description,
-              'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
-              '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
-            }
-          }.to_json
-        }
+        if credential_id != ''
+          post_body = {
+            'scope' => scope,
+            'username' => username,
+            'private_key' => private_key_path,
+            'passphrase' => key_passphrase,
+            'id' => credential_id,
+            'description' => description,
+            'json' => {
+              'credentials' => {
+                'scope' => scope,
+                'username' => username,
+                'privateKeySource' => {
+                  'value' => '1',
+                  'privateKeyFile' => private_key_path,
+                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                },
+                'passphrase' => key_passphrase,
+                'description' => description,
+                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
+                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+              }
+            }.to_json
+          }
+        else
+          post_body = {
+            'scope' => scope,
+            'username' => username,
+            'private_key' => private_key_path,
+            'passphrase' => key_passphrase,
+            'description' => description,
+            'json' => {
+              'credentials' => {
+                'scope' => scope,
+                'username' => username,
+                'privateKeySource' => {
+                  'value' => '1',
+                  'privateKeyFile' => private_key_path,
+                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                },
+                'passphrase' => key_passphrase,
+                'description' => description,
+                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
+                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+              }
+            }.to_json
+          }
+        end
 
         resp = jenkins_obj.api_post_request(
           uri_path,
@@ -489,6 +517,7 @@ module CSI
             username: 'required - username for new credential'
             private_key_path: 'required - path of private ssh key for new credential'
             key_passphrase: 'optional - private key passphrase for new credential'
+            credential_id: 'optional but recommended - useful when creating userland jobs',
             description: 'optional - description of new credential'
             domain: 'optional - defaults to GLOBAL',
             scope: 'optional - GLOBAL or SYSTEM (defaults to GLOBAL)'
