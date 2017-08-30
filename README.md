@@ -13,7 +13,6 @@
   * [Basic Installation Dependencies](#basic-installation-dependencies)
   * [Deploy in AWS EC2](#deploy-in-aws-ec2)
   * [Deploy in Docker Container](#deploy-in-docker-container)
-  * [Install Locally on your Box](#install-locally-on-your-box)
   * [Deploy in VirtualBox](#deploy-in-virtualbox)
   * [Deploy in VMware](#deploy-in-vmware)
 - [General Usage](#general-usage)
@@ -56,7 +55,6 @@ Certain Constraints Mandate CSI be Installed in /csi:
 #### **Basic Installation Dependencies** ###
 - RVM Latest (Multi-User Install)
 - Ruby 2.4.1
-- MacPorts (Only a Local Install on a Mac - Advanced)
 - Packer (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 - Latest Version of Vagrant: https://www.vagrantup.com/downloads.html
 
@@ -84,7 +82,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.2.398]:001 >>> CSI.help
+  csi[v0.2.399]:001 >>> CSI.help
   ```
 
 
