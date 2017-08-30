@@ -163,12 +163,6 @@ module CSI
 
         if credential_id != ''
           post_body = {
-            'scope' => scope,
-            'username' => username,
-            'private_key' => private_key_path,
-            'passphrase' => key_passphrase,
-            'id' => credential_id,
-            'description' => description,
             'json' => {
               'credentials' => {
                 'scope' => scope,
@@ -188,11 +182,12 @@ module CSI
           }
         else
           post_body = {
-            'scope' => scope,
-            'username' => username,
+            '.scope' => scope,
+            '_.username' => username,
             'private_key' => private_key_path,
             'passphrase' => key_passphrase,
             'description' => description,
+            'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource',
             'json' => {
               'credentials' => {
                 'scope' => scope,
