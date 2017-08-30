@@ -53,10 +53,8 @@ Certain Constraints Mandate CSI be Installed in /csi:
 
 ### **Deploy** ###
 #### **Basic Installation Dependencies** ###
-- RVM Latest (Multi-User Install)
-- Ruby 2.4.1
-- Packer (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 - Latest Version of Vagrant: https://www.vagrantup.com/downloads.html
+- Packer (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 
 #### **Deploy in AWS EC2** ####
 [AWS EC2 Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-AWS-EC2-on-Top-of-Kali-Rolling)
@@ -82,7 +80,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.2.401]:001 >>> CSI.help
+  csi[v0.2.402]:001 >>> CSI.help
   ```
 
 
