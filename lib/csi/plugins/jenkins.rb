@@ -155,7 +155,7 @@ module CSI
           uri_path = "/credentials/store/system/domain/#{domain}/createCredentials"
         end
 
-        if opts[:scope].to_s.strip.chomp.scrub.casecmp('SYSTEM')
+        if opts[:scope].to_s.strip.chomp.scrub.casecmp('SYSTEM') || opts[:scope].nil?
           scope = 'SYSTEM'
         else
           scope = 'GLOBAL'
