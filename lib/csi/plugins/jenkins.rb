@@ -169,9 +169,8 @@ module CSI
                 'scope' => scope,
                 'username' => username,
                 'privateKeySource' => {
-                  'value' => '1',
-                  'privateKeyFile' => private_key_path,
                   'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                  'privateKeyFile' => private_key_path,
                 },
                 'passphrase' => key_passphrase,
                 'id' => credential_id,
@@ -189,9 +188,8 @@ module CSI
                 'scope' => scope,
                 'username' => username,
                 'privateKeySource' => {
-                  'value' => '1',
-                  'privateKeyFile' => private_key_path,
                   'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                  'privateKeyFile' => private_key_path,
                 },
                 'passphrase' => key_passphrase,
                 'description' => description,
