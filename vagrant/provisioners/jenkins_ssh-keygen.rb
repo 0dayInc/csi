@@ -26,13 +26,26 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
     jenkins_userland_config['jenkins_job_credentials'].each do |j_creds_hash|
       ssh_username = j_creds_hash['ssh_username']
       description = j_creds_hash['description']
-      CSI::Plugins::Jenkins.create_ssh_credential(
-        jenkins_obj: jenkins_obj,
-        username: ssh_username,
-        private_key_path: '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins',
-        key_passphrase: userland_ssh_keygen_pass,
-        description: description
-      )
+      credential_id = j_creds_hash['credential_id'].to_s
+
+      if credential_id == ''
+        CSI::Plugins::Jenkins.create_ssh_credential(
+          jenkins_obj: jenkins_obj,
+          username: ssh_username,
+          private_key_path: '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins',
+          key_passphrase: userland_ssh_keygen_pass,
+          description: description
+        )
+      else
+        CSI::Plugins::Jenkins.create_ssh_credential(
+          jenkins_obj: jenkins_obj,
+          username: ssh_username,
+          private_key_path: '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins',
+          key_passphrase: userland_ssh_keygen_pass,
+          credential_id: credential_id,
+          description: description
+        )
+      end
     end
   end
 end
