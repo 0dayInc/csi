@@ -171,24 +171,18 @@ module CSI
                 'privateKeySource' => {
                   'value' => '1',
                   'privateKeyFile' => private_key_path,
-                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey\$FileOnMasterPrivateKeySource'
                 },
                 'passphrase' => key_passphrase,
                 'id' => credential_id,
                 'description' => description,
                 'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
-                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+                '\$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
             }.to_json
           }
         else
           post_body = {
-            '.scope' => scope,
-            '_.username' => username,
-            'private_key' => private_key_path,
-            'passphrase' => key_passphrase,
-            'description' => description,
-            'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource',
             'json' => {
               '' => '4',
               'credentials' => {
@@ -197,12 +191,12 @@ module CSI
                 'privateKeySource' => {
                   'value' => '1',
                   'privateKeyFile' => private_key_path,
-                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$FileOnMasterPrivateKeySource'
+                  'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey\$FileOnMasterPrivateKeySource'
                 },
                 'passphrase' => key_passphrase,
                 'description' => description,
                 'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
-                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+                '\$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
             }.to_json
           }
