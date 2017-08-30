@@ -20,7 +20,7 @@ if File.exist?(userland_burpsuite_pro_jar_path)
     system("sudo cp #{userland_burpsuite_pro_jar_path} #{burpsuite_pro_jar_dest_path}")
   else
     puts "#{burpsuite_pro_jar_dest_path} (SHA256 Sum #{this_sha256_sum}) != #{userland_config} (SHA256 Sum: #{burpsuite_pro_jar_sha256_sum})"
-    pprint "removing..."
+    pprint 'removing...'
     system("sudo rm #{userland_burpsuite_pro_jar_path} #{burpsuite_pro_jar_dest_path}")
   end
   puts 'complete.'
