@@ -15,9 +15,13 @@ if File.exist?(userland_burpsuite_pro_jar_path)
 
   this_sha256_sum = Digest::SHA256.file(userland_burpsuite_pro_jar_path).to_s
 
-  unless this_sha256_sum == burpsuite_pro_jar_sha256_sum
-    puts "BurpSuite Pro jar:  #{burpsuite_pro_jar_dest_path}"
-    puts "Doesn't Match SHA256 Sum in #{userland_config}...removing."
+  if this_sha256_sum == burpsuite_pro_jar_sha256_sum
+    print "Copying #{userland_burpsuite_pro_jar_path} to #{burpsuite_pro_jar_dest_path}..."
+    system("sudo cp #{userland_burpsuite_pro_jar_path} #{burpsuite_pro_jar_dest_path}")
+  else
+    puts "#{burpsuite_pro_jar_dest_path} (SHA256 Sum #{this_sha256_sum}) != #{userland_config} (SHA256 Sum: #{burpsuite_pro_jar_sha256_sum})"
+    pprint "removing..."
     system("sudo rm #{userland_burpsuite_pro_jar_path} #{burpsuite_pro_jar_dest_path}")
   end
+  puts 'complete.'
 end
