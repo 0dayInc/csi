@@ -26,9 +26,8 @@ tmp
 .vagrant/
 etc/apache2/vagrant.yaml
 etc/aws/vagrant.yaml
-etc/burpsuite/burpsuite.yaml
-etc/burpsuite/vagrant.yaml
 etc/burpsuite/navigation.instruct
+etc/burpsuite/vagrant.yaml
 etc/jenkins/jobs_userland/*
 !etc/jenkins/jobs_userland/.gitkeep
 etc/jenkins/vagrant.yaml
