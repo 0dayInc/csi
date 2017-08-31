@@ -34,11 +34,10 @@ Vagrant.configure(API_VERSION) do |config|
   when 'virtualbox'
     config_path = './etc/virtualbox/vagrant.yaml'
     # Configure VM to use bridged networking
-    config.vm.network('public_network', use_dhcp_assigned_default_route: true)
+    config.vm.network :public_network
   when 'vmware'
     config_path = './etc/vmware/vagrant.yaml'
-    # Configure VM to use bridged networking
-    config.vm.network('public_network', use_dhcp_assigned_default_route: true)
+    config.vm.network :public_network
   else
     # This is needed when vagrant ssh is executed
     config_path = ''
@@ -62,6 +61,7 @@ Vagrant.configure(API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
         vb.customize ['modifyvm', :id, '--cpus', yaml_config['cpus']]
         vb.customize ['modifyvm', :id, '--memory', yaml_config['memory']]
+        vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
       end
     end
 
@@ -78,6 +78,7 @@ Vagrant.configure(API_VERSION) do |config|
           vm.vmx['numvcpus'] = yaml_config['cpus']
           vm.vmx['memsize'] = yaml_config['memory']
           vm.vmx['vhv.enable'] = 'true'
+          vm.vmx['ethernet1.present'] = 'TRUE'
           diskMB = yaml_config['diskMB']
           vm.guest = :debian
         end
