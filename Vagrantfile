@@ -35,7 +35,6 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/virtualbox/vagrant.yaml'
   when 'vmware'
     config_path = './etc/vmware/vagrant.yaml'
-    config.vm.network(:public_network)
   else
     # This is needed when vagrant ssh is executed
     config_path = ''
