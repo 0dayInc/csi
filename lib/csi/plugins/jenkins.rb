@@ -148,14 +148,14 @@ module CSI
         credential_id = opts[:credential_id].to_s.scrub
         description = opts[:description].to_s.scrub
 
-        if opts[:domain].to_s.strip.chomp.scrub.casecmp('GLOBAL') || opts[:domain].nil?
+        if opts[:domain].to_s.strip.chomp.scrub == 'GLOBAL' || opts[:domain].nil?
           uri_path = '/credentials/store/system/domain/_/createCredentials'
         else
           domain = opts[:domain].to_s.strip.chomp.scrub
           uri_path = "/credentials/store/system/domain/#{domain}/createCredentials"
         end
 
-        if opts[:scope].to_s.strip.chomp.scrub.casecmp('SYSTEM') || opts[:scope].nil?
+        if opts[:scope].to_s.strip.chomp.scrub == 'SYSTEM'
           scope = 'SYSTEM'
         else
           scope = 'GLOBAL'
