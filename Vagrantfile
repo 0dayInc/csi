@@ -35,6 +35,7 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/virtualbox/vagrant.yaml'
   when 'vmware'
     config_path = './etc/vmware/vagrant.yaml'
+    config.vm.network(:public_network)
   else
     # This is needed when vagrant ssh is executed
     config_path = ''
@@ -74,6 +75,7 @@ Vagrant.configure(API_VERSION) do |config|
           vm.vmx['numvcpus'] = yaml_config['cpus']
           vm.vmx['memsize'] = yaml_config['memory']
           vm.vmx['vhv.enable'] = 'true'
+          vm.vmz['ethernet1.present'] = 'true'
           diskMB = yaml_config['diskMB']
           vm.guest = :debian
         end
