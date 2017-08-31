@@ -5,13 +5,14 @@ require 'yaml'
 require 'csi'
 
 jenkins_userland_config = YAML.load_file('/csi/etc/jenkins/vagrant.yaml')
+private_key_path = '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins'
 userland_ssh_keygen_pass = jenkins_userland_config['ssh_keygen_pass']
 userland_user = jenkins_userland_config['user']
 userland_pass = jenkins_userland_config['pass']
 hostname = `hostname`.to_s.chomp.strip.scrub
 
 print 'Creating SSH Key for Userland Jenkins Jobs...'
-puts `sudo -H -u jenkins ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins'`
+puts `sudo -H -u jenkins ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f #{private_key_path}`
 
 # TODO: Create Jenkins SSH Credentials for all hosts referenced in vagrant.yaml (User-Land Config)
 jenkins_obj = CSI::Plugins::Jenkins.connect(
@@ -33,7 +34,7 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
           jenkins_obj: jenkins_obj,
           scope: 'GLOBAL',
           username: ssh_username,
-          private_key_path: '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins',
+          private_key_path: private_key_path,
           key_passphrase: userland_ssh_keygen_pass,
           description: description
         )
@@ -42,7 +43,7 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
           jenkins_obj: jenkins_obj,
           scope: 'GLOBAL',
           username: ssh_username,
-          private_key_path: '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins',
+          private_key_path: private_key_path,
           key_passphrase: userland_ssh_keygen_pass,
           credential_id: credential_id,
           description: description

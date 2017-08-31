@@ -143,7 +143,7 @@ module CSI
       def self.create_ssh_credential(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         username = opts[:username].to_s.scrub
-        private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub if File.exist?(opts[:private_key_path].to_s.strip.chomp.scrub)
+        private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub
         key_passphrase = opts[:key_passphrase].to_s.scrub
         credential_id = opts[:credential_id].to_s.scrub
         description = opts[:description].to_s.scrub
