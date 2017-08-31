@@ -163,10 +163,8 @@ module CSI
 
         if credential_id != ''
           post_body = {
-            '_.scope' => scope,
-            '_.privateKeyFile' => private_key_path,
             'json' => {
-              '' => '4',
+              '' => '0',
               'credentials' => {
                 'scope' => scope,
                 'username' => username,
@@ -177,17 +175,14 @@ module CSI
                 'passphrase' => key_passphrase,
                 'id' => credential_id,
                 'description' => description,
-                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
-                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
             }.to_json
           }
         else
           post_body = {
-            '_.scope' => scope,
-            '_.privateKeyFile' => private_key_path,
             'json' => {
-              '' => '4',
+              '' => '0',
               'credentials' => {
                 'scope' => scope,
                 'username' => username,
@@ -197,8 +192,7 @@ module CSI
                 },
                 'passphrase' => key_passphrase,
                 'description' => description,
-                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey',
-                '$class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
+                'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
             }.to_json
           }
