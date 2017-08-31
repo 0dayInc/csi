@@ -33,8 +33,12 @@ Vagrant.configure(API_VERSION) do |config|
     config_path = './etc/aws/vagrant.yaml'
   when 'virtualbox'
     config_path = './etc/virtualbox/vagrant.yaml'
+    # Configure VM to use bridged networking
+    config.vm.network('public_network', use_dhcp_assigned_default_route: true)
   when 'vmware'
     config_path = './etc/vmware/vagrant.yaml'
+    # Configure VM to use bridged networking
+    config.vm.network('public_network', use_dhcp_assigned_default_route: true)
   else
     # This is needed when vagrant ssh is executed
     config_path = ''
