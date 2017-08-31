@@ -32,7 +32,6 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
       if credential_id == ''
         CSI::Plugins::Jenkins.create_ssh_credential(
           jenkins_obj: jenkins_obj,
-          scope: 'GLOBAL',
           username: ssh_username,
           private_key_path: private_key_path,
           key_passphrase: userland_ssh_keygen_pass,
@@ -41,7 +40,6 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
       else
         CSI::Plugins::Jenkins.create_ssh_credential(
           jenkins_obj: jenkins_obj,
-          scope: 'GLOBAL',
           username: ssh_username,
           private_key_path: private_key_path,
           key_passphrase: userland_ssh_keygen_pass,
