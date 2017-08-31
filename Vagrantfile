@@ -37,6 +37,7 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.network :public_network
   when 'vmware'
     config_path = './etc/vmware/vagrant.yaml'
+    # Configure VM to use bridged networking
     config.vm.network :public_network
   else
     # This is needed when vagrant ssh is executed
