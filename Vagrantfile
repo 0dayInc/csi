@@ -75,7 +75,7 @@ Vagrant.configure(API_VERSION) do |config|
           vm.vmx['numvcpus'] = yaml_config['cpus']
           vm.vmx['memsize'] = yaml_config['memory']
           vm.vmx['vhv.enable'] = 'true'
-          vm.vmz['ethernet1.present'] = 'true'
+          vm.vmx['ethernet1.present'] = 'true'
           diskMB = yaml_config['diskMB']
           vm.guest = :debian
         end
