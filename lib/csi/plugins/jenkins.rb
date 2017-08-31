@@ -163,6 +163,8 @@ module CSI
 
         if credential_id != ''
           post_body = {
+            '_.scope' => scope,
+            '_.privateKeyFile' => private_key_path,
             'json' => {
               '' => '4',
               'credentials' => {
@@ -182,6 +184,8 @@ module CSI
           }
         else
           post_body = {
+            '_.scope' => scope,
+            '_.privateKeyFile' => private_key_path,
             'json' => {
               '' => '4',
               'credentials' => {
