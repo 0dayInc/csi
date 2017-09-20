@@ -303,8 +303,7 @@ module CSI
       rescue => e
         raise e
       ensure
-        Process.kill('KILL', burp_obj[:pid]) rescue false
-        Process.wait
+        Process.kill('0', burp_obj[:pid])
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

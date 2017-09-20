@@ -130,7 +130,7 @@ module CSI
           )
           appscan_cookie = n_appscan_obj[:cookie]
           # "copy" the new app obj over the old app obj
-          appscan_obj.keys.each do |k|
+          appscan_obj.each_key do |k|
             appscan_obj[k] = n_appscan_obj[k]
           end
           retry_count -= 1
@@ -463,7 +463,7 @@ module CSI
           post_body = ''
           value.to_s.scrub.split(',').each_with_index do |url, index|
             post_body << '&' unless index == 0
-            post_body << "value=#{URI.encode(url.strip.chomp)}"
+            post_body << "value=#{URI.encode_www_form(url.strip.chomp)}"
           end
         when :ebCOTHttpAuthentication
           post_body = if value == false

@@ -78,7 +78,7 @@ if list_updates_bool
   puts jenkins_obj.plugin.list_updates
 else
   if plugin_name.nil?
-    jenkins_obj.plugin.list_updates.keys.each do |current_plugin_name|
+    jenkins_obj.plugin.list_updates.each_key do |current_plugin_name|
       jenkins_obj.plugin.update(current_plugin_name)
     end
   else
