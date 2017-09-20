@@ -302,8 +302,6 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/shutdown_session", nil)
       rescue => e
         raise e
-      ensure
-        Process.kill('0', burp_obj[:pid])
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
