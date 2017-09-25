@@ -90,8 +90,8 @@ case $csi_deploy_type in
       if [[ $? == 0 ]]; then
         vagrant halt
       fi
-      vmx_basename = $(basename $vmx)
-      ova = "/tmp/${vmx_basename}.ova"
+      vmx_basename=$(basename $vmx)
+      ova="/tmp/${vmx_basename}.ova"
       ovftool $vmx $ova
       if [[ $? == 0 ]]; then
         echo "vSphere Image: ${ova}"
