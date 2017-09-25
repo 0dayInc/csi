@@ -22,10 +22,10 @@ module CSI
         host = opts[:host].to_s.scrub
         username = opts[:username].to_s.scrub
         password = if opts[:password].nil?
-                  CSI::Plugins::AuthenticationHelper.mask_password
-                else
-                  opts[:password].to_s.scrub
-                end
+                     CSI::Plugins::AuthenticationHelper.mask_password
+                   else
+                     opts[:password].to_s.scrub
+                   end
 
         @@logger.info("Logging into vSphere: #{host}")
         vsphere_obj = RbVmomi::VIM.connect(
