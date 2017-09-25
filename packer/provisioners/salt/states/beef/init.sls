@@ -1,12 +1,6 @@
 {%- set beef_ruby_version = salt['cmd.run']('cat /opt/wpscan-dev/.ruby-version') -%}
 {%- set beef_gemset = salt['cmd.run']('cat /opt/wpscan-dev/.ruby-gemset') -%}
 
-beef_git_clone:
-  git.latest:
-    - name: https://github.com/beefproject/beef.git beef-dev
-    - target: {{ beef_root }}
-    - force_fetch: True
-
 checkout_wpscan:
   git.latest:
     - name: https://github.com/wpscanteam/wpscan.git
