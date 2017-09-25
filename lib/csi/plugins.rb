@@ -43,6 +43,7 @@ module CSI
     autoload :ThreadPool, 'csi/plugins/thread_pool'
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
     autoload :UTF8, 'csi/plugins/utf8'
+    autoload :Vsphere, 'csi/plugins/vsphere'
 
     # Display a List of Every CSI Plugin
 
