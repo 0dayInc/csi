@@ -11,7 +11,7 @@ export VAGRANT_PROVIDER=''
 # to take advantage of encrypted configs early on
 
 function usage() {
-  echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui>"
+  echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui|vsphere>"
   exit 1
 }
 
@@ -55,33 +55,61 @@ case $csi_deploy_type in
       echo "Use ./etc/virtualbox/vagrant.yaml.EXAMPLE as a Template to Create ./etc/virtualbox/vagrant.yaml"
     fi
     ;;
-  "vmware-fusion"|"vmware-fusion-gui")
+  "vmware-fusion"|"vmware-fusion-gui"|"vmware-workstation"|"vmware-workstation-gui")
     if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
       export VAGRANT_PROVIDER="vmware"
-      if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
-        export VAGRANT_GUI="true"
-      fi
-      vagrant plugin install vagrant-vmware-fusion
       license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
-      vagrant plugin license vagrant-vmware-fusion $license_file
-      vagrant up --provider=vmware_fusion
+      
+      case $csi_deploy_type in
+        "vmware-fusion"|"vmware-fusion-gui")
+          if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
+            export VAGRANT_GUI="true"
+          fi
+          vagrant plugin install vagrant-vmware-fusion
+          vagrant plugin license vagrant-vmware-fusion $license_file
+          vagrant up --provider=vmware_fusion
+          ;;
+        "vmware-workstation"|"vmware-workstation-gui")
+          if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
+            export VAGRANT_GUI="true"
+          fi
+          vagrant plugin install vagrant-vmware-workstation
+          vagrant plugin license vagrant-vmware-workstation $license_file
+          vagrant up --provider=vmware_workstation
+          ;;        
+      esac
     else
       echo "ERROR: Missing vagrant.yaml Config"
       echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
     fi
     ;;
-  "vmware-workstation"|"vmware-workstation-gui")
-    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
-      if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
-        export VAGRANT_GUI="true"
+  "vsphere")
+    vmx=$(find /csi/.vagrant/machines/default/ -name "packer-vmware-iso.vmx")
+    if [[ -e $vmx ]]; then
+      vagrant status | grep running
+      if [[ $? == 0 ]]; then
+        vagrant halt
       fi
-      vagrant plugin install vagrant-vmware-workstation
-      license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
-      vagrant plugin license vagrant-vmware-workstation $license_file
-      vagrant up --provider=vmware_workstation
+      vmx_basename = $(basename $vmx)
+      ova = "/tmp/${vmx_basename}.ova"
+      ovftool $vmx $ova
+      if [[ $? == 0 ]]; then
+        echo "vSphere Image: ${ova}"
+        echo "Ready for deployment."
+      else
+        echo "There was an issue with the ovftool command."
+        echo "Ensure ovftool is in your path (i.e. Symlink to /usr/local/bin)"
+      fi
     else
-      echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
+      echo "ERROR: VMware VMX file missing."
+      echo "HINTS: Before running ${0} vsphere"
+      echo "Run one of the following to deploy the local VMX necessary to create the vSphere OVA file:"
+      echo "${0} vmware-fusion"
+      echo "${0} vmware-fusion-gui"
+      echo "${0} vmware-workstation"
+      echo "${0} vmware-workstation-gui"
+      echo -e "Implement all of your userland requirements, update your SSH keys (if applicable), and try again.\n"
+      echo "Good Luck!"
     fi
     ;;
   *)
