@@ -128,7 +128,7 @@ module CSI
           stdout.each do |line|
             puts line
             if line.include?(return_pattern)
-              Process.daemon(nochdir=true,noclose=true)
+              Process.daemon(nochdir = true, noclose = true)
               # Process.detach(pid)
             end
           end
