@@ -123,11 +123,12 @@ module CSI
         zap_daemon_pid = ''
         PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
           stdout.sync = true
+          zap_daemon_pid = pid
           return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
           stdout.each do |line|
             puts line
             if line.include?(return_pattern)
-              Process.daemon(true)
+              Process.daemon(nochdir=true,noclose=true)
               # Process.detach(pid)
             end
           end
