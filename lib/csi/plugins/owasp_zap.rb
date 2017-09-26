@@ -120,8 +120,7 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        spawn_zap = "#{owasp_zap_cmd} &"
-        PTY.spawn(spawn_zap) do |stdout, _stdin, pid|
+        PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
           stdout.sync = true
           zap_obj[:pid] = pid
           return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
