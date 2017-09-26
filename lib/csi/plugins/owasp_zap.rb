@@ -131,7 +131,7 @@ module CSI
           end
         end
       rescue PTY::ChildExited
-        puts 'PTTY::ChildExited Rescued'
+        Process.detach(pid)
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
