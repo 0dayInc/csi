@@ -131,6 +131,7 @@ module CSI
             return zap_ob jf line_detected == 2
           end
         end
+      rescue PTY::ChildExited
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
