@@ -126,8 +126,8 @@ module CSI
           zap_obj[:pid] = pid
           return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
           stdout.each do |line|
-            next unless line.include?(return_pattern)
-            return zap_ob
+            puts line
+            return zap_obj if line.include?(return_pattern)
           end
         end
       rescue PTY::ChildExited
