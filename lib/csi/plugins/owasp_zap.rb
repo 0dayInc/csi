@@ -124,7 +124,7 @@ module CSI
           line_detected = 0
           stdout.sync = true
           zap_obj[:pid] = pid
-          return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
+          return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - dataFileCache open end'
           stdout.each do |line|
             puts line
             return zap_obj if line.include?(return_pattern)
