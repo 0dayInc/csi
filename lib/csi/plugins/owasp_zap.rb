@@ -128,7 +128,7 @@ module CSI
 
         # zap_obj[:pid] = pid
         # return zap_obj
-        Process.fork do
+        fork_pid = Process.fork do
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
             zap_obj[:pid] = pid
             stdout.sync = true
@@ -139,6 +139,7 @@ module CSI
             end
           end
         end
+        Process.detach(fork_pid)
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
