@@ -126,7 +126,7 @@ module CSI
           return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
           stdout.each do |line|
             puts line
-            line.include?(return_pattern)
+            if line.include?(return_pattern)
               Process.detach(pid)
               return zap_obj
             end
