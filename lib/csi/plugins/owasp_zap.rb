@@ -91,6 +91,8 @@ module CSI
           underlying_os = CSI::Plugins::DetectOS.type
 
           case underlying_os
+          when :linux
+            zap_bin_path = '/usr/share/zaproxy/zap.sh'
           when :osx
             zap_bin_path = "'/Applications/OWASP ZAP.app/Contents/Java/zap.sh'"
           else
@@ -99,7 +101,7 @@ module CSI
         end
 
         if headless
-          owasp_zap_cmd = "#{zap_bin_path} -daemon"
+          owasp_zap_cmd = "/bin/bash --login -c \"#{zap_bin_path} -daemon\""
         else
           owasp_zap_cmd = zap_bin_path
         end
