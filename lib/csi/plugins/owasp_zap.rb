@@ -127,8 +127,7 @@ module CSI
             zap_obj[:pid] = pid
             stdout.sync = true
             stdout.each do |line|
-              line = fork_stdout
-              puts fork_stdout.string
+              fork_stdout.puts line
             end
           end
         end
