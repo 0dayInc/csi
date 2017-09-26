@@ -94,16 +94,19 @@ module CSI
           when :linux
             zap_bin_path = '/usr/share/zaproxy/zap.sh'
           when :osx
-            zap_bin_path = "'/Applications/OWASP ZAP.app/Contents/Java/zap.sh'"
+            zap_bin_path = '/Applications/OWASP ZAP.app/Contents/Java/zap.sh'
           else
             raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
           end
         end
 
+        zap_bin = File.basename(zap_bin_path)
+        zap_dir = File.dirname(zap_bin_path)
+
         if headless
-          owasp_zap_cmd = "/bin/bash --login -c \"#{zap_bin_path} -daemon\""
+          owasp_zap_cmd = "cd #{zap_dir} && ./#{zap_bin} -daemon"
         else
-          owasp_zap_cmd = "/bin/bash --login -c #{zap_bin_path}"
+          owasp_zap_cmd = "cd #{zap_dir} && ./#{zap_bin}"
         end
 
         if opts[:proxy]
@@ -117,7 +120,9 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+        spawn_zap = "/bin/bash --login -c \"#{owasp_zap_cmd}\""
+
+        PTY.spawn(spawn_zap) do |stdout, _stdin, pid|
           line_detected = 0
           stdout.sync = true
           zap_obj[:pid] = pid
