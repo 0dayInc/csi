@@ -120,9 +120,7 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        spawn_zap = "/bin/bash --login -c \"#{owasp_zap_cmd}\" &"
-
-        PTY.spawn(spawn_zap) do |stdout, _stdin, pid|
+        PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
           line_detected = 0
           stdout.sync = true
           zap_obj[:pid] = pid
