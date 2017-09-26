@@ -120,21 +120,25 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        pid = fork do
-          exec owasp_zap_cmd
-        end
-        Process.detach(pid)
-        zap_obj[:pid] = pid
-        return zap_obj
-        # PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
-        #   zap_obj[:pid] = pid
-        #   stdout.sync = true
-        #   return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        #   stdout.each do |line|
-        #     puts line
-        #     return zap_ob if line.include?(return_pattern)
-        #   end
+        # return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+        # pid = Process.fork do
+        #   Process.exec owasp_zap_cmd
         # end
+        # Process.detach(pid)
+
+        # zap_obj[:pid] = pid
+        # return zap_obj
+        Process.fork do
+          PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
+            zap_obj[:pid] = pid
+            stdout.sync = true
+            return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+            stdout.each do |line|
+              puts line
+              return zap_ob if line.include?(return_pattern)
+            end
+          end
+        end
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -217,7 +221,7 @@ module CSI
         zap_obj = opts[:zap_obj]
         pid = zap_obj[:pid]
 
-        Process.kill('KILL', pid)
+        Process.kill('TERM', pid)
         Process.wait
       rescue => e
         raise e.message
