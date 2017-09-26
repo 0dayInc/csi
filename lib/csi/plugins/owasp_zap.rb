@@ -128,12 +128,11 @@ module CSI
           zap_obj[:pid] = pid
           return_pattern = 'INFO hsqldb.db..ENGINE  - dataFileCache open end'
           stdout.each do |line|
-            if line.include?(return_pattern)
-              line_detected += 1
-              if line_detected == 2
-                Process.detach(pid)
-                return zap_obj
-              end
+            next if line.include?(return_pattern)
+            line_detected += 1
+            if line_detected == 2
+              Process.wait(pid)
+              return zap_obj
             end
           end
         end
