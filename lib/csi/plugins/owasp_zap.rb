@@ -122,17 +122,15 @@ module CSI
 
         spawn_zap = "#{owasp_zap_cmd} &"
         PTY.spawn(spawn_zap) do |stdout, _stdin, pid|
-          line_detected = 0
           stdout.sync = true
           zap_obj[:pid] = pid
           return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
           stdout.each do |line|
             puts line
-            break if line.include?(return_pattern)
+            return zap_obj if line.include?(return_pattern)
           end
         end
 
-        return zap_obj
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
