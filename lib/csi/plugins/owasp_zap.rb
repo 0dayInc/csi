@@ -103,7 +103,7 @@ module CSI
         if headless
           owasp_zap_cmd = "/bin/bash --login -c \"#{zap_bin_path} -daemon\""
         else
-          owasp_zap_cmd = "/bin/bash --login -c \"#{zap_bin_path}"
+          owasp_zap_cmd = "/bin/bash --login -c #{zap_bin_path}"
         end
 
         if opts[:proxy]
