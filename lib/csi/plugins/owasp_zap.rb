@@ -128,10 +128,7 @@ module CSI
           stdout.each do |line|
             next if line.include?(return_pattern)
             line_detected += 1
-            if line_detected == 2
-              Process.detach(pid)
-              return zap_obj
-            end
+            return zap_ob jf line_detected == 2
           end
         end
       rescue => e
