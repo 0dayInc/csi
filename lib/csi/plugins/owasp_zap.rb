@@ -128,18 +128,22 @@ module CSI
 
         # zap_obj[:pid] = pid
         # return zap_obj
+        fork_stdout = StringIO.new
+
         fork_pid = Process.fork do
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
             zap_obj[:pid] = pid
             stdout.sync = true
-            return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
             stdout.each do |line|
+              line = fork_stdout
               puts line
-              return zap_obj if line.include?(return_pattern)
             end
           end
         end
         Process.detach(fork_pid)
+
+        return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+        return zap_obj if fork_stdout.string.include?(return_pattern)
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
