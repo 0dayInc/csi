@@ -127,7 +127,7 @@ module CSI
           stdout.each do |line|
             puts line
             if line.include?(return_pattern)
-              Process.detach(pid)
+              Process.daemon(pid)
               return zap_obj
             end
           end
