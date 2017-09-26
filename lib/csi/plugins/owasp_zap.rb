@@ -120,14 +120,6 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        # return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        # pid = Process.fork do
-        #   Process.exec owasp_zap_cmd
-        # end
-        # Process.detach(pid)
-
-        # zap_obj[:pid] = pid
-        # return zap_obj
         fork_stdout = StringIO.new
 
         fork_pid = Process.fork do
@@ -136,7 +128,7 @@ module CSI
             stdout.sync = true
             stdout.each do |line|
               line = fork_stdout
-              puts line
+              puts fork_stdout.string
             end
           end
         end
