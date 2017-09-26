@@ -129,7 +129,7 @@ module CSI
             next if line.include?(return_pattern)
             line_detected += 1
             if line_detected == 2
-              Process.wait(pid)
+              Process.detach(pid)
               return zap_obj
             end
           end
