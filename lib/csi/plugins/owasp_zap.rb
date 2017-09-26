@@ -130,7 +130,6 @@ module CSI
             return zap_obj if line.include?(return_pattern)
           end
         end
-
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
