@@ -128,7 +128,6 @@ module CSI
             puts line
             if line.include?(return_pattern)
               Process.detach(pid)
-              Process.daemon(true)
               return zap_obj
             end
           end
