@@ -135,7 +135,7 @@ module CSI
           end
         end
       rescue => e
-        stop(zap_obj) unless zap_obj.nil?
+        # stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
 
