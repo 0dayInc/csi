@@ -120,26 +120,21 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        io = StringIO.new
         fork_pid = Process.fork do
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
             zap_obj[:pid] = pid
             stdout.sync = true
+            csi_stdout_log = File.new('/tmp/csi_plugins_owasp.log', 'w')
             stdout.each do |line|
               puts line
-              io.puts line
+              csi_stdout_log.puts line
             end
           end
         end
         Process.detach(fork_pid)
 
         return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        # sleep 3 until @fork_stdout.string.include?(return_pattern)
-        until io.string.include?(return_pattern)
-          puts io.string.inspect
-          puts "\n\n\n"
-          sleep 3
-        end
+        sleep 3 until File.read('/tmp/csi_plugins_owasp.log').include?(return_pattern)
 
         return zap_obj
       rescue => e
