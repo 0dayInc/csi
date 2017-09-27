@@ -227,7 +227,6 @@ module CSI
         File.unlink zap_obj[:stdout_log]
 
         Process.kill('TERM', pid)
-        Process.wait
       rescue => e
         raise e.message
       end
