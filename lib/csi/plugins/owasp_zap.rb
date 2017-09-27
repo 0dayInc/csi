@@ -138,7 +138,9 @@ module CSI
         zap_obj[:stdout_log] = csi_stdout_log_path
         return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
         loop do
-          return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
+          if File.exist?(csi_stdout_log_path)
+            return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
+          end
           sleep 3
         end
       rescue => e
