@@ -120,7 +120,6 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-
         fork_pid = Process.fork do
           @fork_stdout = StringIO.new
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, pid|
