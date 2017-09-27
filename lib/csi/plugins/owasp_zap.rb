@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'pty'
+require 'securerandom'
 require 'json'
 
 module CSI
@@ -120,7 +121,7 @@ module CSI
         zap_obj[:host] = proxy_uri.host.to_s.scrub
         zap_obj[:port] = proxy_uri.port.to_i
 
-        csi_stdout_log_path = '/tmp/csi_plugins_owasp.log'
+        csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         fork_pid = Process.fork do
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
             stdout.sync = true
@@ -136,9 +137,10 @@ module CSI
         zap_obj[:pid] = fork_pid
         zap_obj[:stdout_log] = csi_stdout_log_path
         return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        sleep 3 until File.read(csi_stdout_log_path).include?(return_pattern)
-
-        return zap_obj
+        while true
+          return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
+          sleep 3
+        end
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
