@@ -133,7 +133,13 @@ module CSI
         Process.detach(fork_pid)
 
         return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        sleep 3 until fork_stdout_arr.include?(return_pattern)
+        # sleep 3 until fork_stdout.string.include?(return_pattern)
+        until fork_stdout_arr.include?(return_pattern)
+          puts fork_stdout_arr.inspect
+          puts "\n\n\n"
+          sleep 3
+        end
+
         return zap_obj
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
