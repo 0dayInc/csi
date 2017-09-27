@@ -137,7 +137,7 @@ module CSI
         zap_obj[:pid] = fork_pid
         zap_obj[:stdout_log] = csi_stdout_log_path
         return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
-        Kernel.loop do
+        loop do
           return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
           sleep 3
         end
