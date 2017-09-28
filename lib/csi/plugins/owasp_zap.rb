@@ -239,6 +239,7 @@ module CSI
           scan_policy = opts[:scan_policy].to_s.scrub.strip.chomp
         end
 
+        # TODO: Implement adding target to scope so that inScopeOnly can be changed to true
         params = {
           zapapiformat: 'JSON',
           apikey: api_key,
