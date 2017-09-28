@@ -30,7 +30,7 @@ module CSI
         http_body = opts[:http_body].to_s.scrub
         host = zap_obj[:host]
         port = zap_obj[:port]
-        base_zap_api_uri = "http://#{host}:#{port}"
+        base_zap_api_uri = "http://#{host}:#{port}/JSON"
 
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
@@ -193,7 +193,7 @@ module CSI
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'JSON/spider/action/scan/',
+          rest_call: 'spider/action/scan/',
           params: params
         )
 
@@ -209,7 +209,7 @@ module CSI
 
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'JSON/spider/view/status/',
+            rest_call: 'spider/view/status/',
             params: params
           )
 
@@ -253,7 +253,7 @@ module CSI
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'JSON/ascan/action/scan/',
+          rest_call: 'ascan/action/scan/',
           params: params
         )
 
@@ -269,7 +269,7 @@ module CSI
 
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'JSON/ascan/view/status/',
+            rest_call: 'ascan/view/status/',
             params: params
           )
 
