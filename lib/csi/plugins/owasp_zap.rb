@@ -204,8 +204,20 @@ module CSI
       def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
 
-        return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
-        return zap_obj
+        params = {
+          zapapiformat: 'JSON',
+          apikey: api_key,
+          url: target,
+          maxChildren: 9,
+          recurse: true,
+          inScopeOnly: true,
+        }
+
+        response = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: 'JSON/ascan/action/scan/',
+          params: params
+        )
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
