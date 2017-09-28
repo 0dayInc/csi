@@ -59,9 +59,7 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-      rescue SystemExit, Interrupt
-        stop(zap_obj) unless zap_obj.nil?
-      rescue => e
+      rescue StandardError => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -148,8 +146,8 @@ module CSI
           sleep 3
         end
       rescue SystemExit, Interrupt
-        stop(zap_obj) unless zap_obj.nil?
-      rescue => e
+        File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
+      rescue Exception => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -182,9 +180,7 @@ module CSI
           rest_call: 'JSON/spider/action/scan/',
           params: params
         )
-      rescue SystemExit, Interrupt
-        stop(zap_obj) unless zap_obj.nil?
-      rescue => e
+      rescue StandardError => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -201,9 +197,7 @@ module CSI
 
         return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
         return zap_obj
-      rescue SystemExit, Interrupt
-        stop(zap_obj) unless zap_obj.nil?
-      rescue => e
+      rescue StandardError => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -219,9 +213,7 @@ module CSI
         zap_obj = opts[:zap_obj]
 
         return zap_obj.alerts.view
-      rescue SystemExit, Interrupt
-        stop(zap_obj) unless zap_obj.nil?
-      rescue => e
+      rescue StandardError => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -236,10 +228,10 @@ module CSI
       def self.stop(opts = {})
         zap_obj = opts[:zap_obj]
         pid = zap_obj[:pid]
-        File.unlink zap_obj[:stdout_log]
+        File.unlink(zap_obj[:stdout_log])
 
         Process.kill('TERM', pid)
-      rescue => e
+      rescue StandardError => e
         raise e.message
       end
 
