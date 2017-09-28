@@ -128,10 +128,9 @@ module CSI
         fork_pid = Process.fork do
           begin
             IO.popen(owasp_zap_cmd) do |stdout|
-                stdout.each do |line|
-                  puts line
-                  csi_stdout_log.puts line
-                end
+              stdout.each do |line|
+                puts line
+                csi_stdout_log.puts line
               end
             end
 
