@@ -123,6 +123,7 @@ module CSI
 
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         fork_pid = Process.fork do
+          STDOUT.sync = true
           begin
             PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
               STDOUT.sync = true
@@ -239,7 +240,7 @@ module CSI
         pid = zap_obj[:pid]
         File.unlink(zap_obj[:stdout_log]) if File.exist?(zap_obj[:stdout_log])
 
-        Process.kill('TERM', pid)
+        Process.kill('TERM', pid) unless pid.nil?
       rescue StandardError => e
         raise e.message
       end
