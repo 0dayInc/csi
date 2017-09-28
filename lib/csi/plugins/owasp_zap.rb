@@ -137,7 +137,7 @@ module CSI
               end
             end
           rescue PTY::ChildExited, StandardError, SystemExit, Interrupt => e
-            puts "Spawned process exiting..."
+            puts 'Spawned process exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
             raise e.message
           end
