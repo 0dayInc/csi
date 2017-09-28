@@ -124,16 +124,13 @@ module CSI
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         fork_pid = Process.fork do
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
-            STDOUT.sync = true
-            # stdout.sync = true
-            STDOUT.reopen(
-              File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
-                stdout.each do |line|
-                  puts line
-                  csi_stdout_log.puts line
-                end
+            stdout.sync = true
+            File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
+              stdout.each do |line|
+                puts line
+                csi_stdout_log.puts line
               end
-            )
+            end
           end
         end
         Process.detach(fork_pid)
