@@ -197,7 +197,7 @@ module CSI
           params: params
         )
 
-        spider = JSON.parse(response.body, symbolize_names: true)
+        spider = JSON.parse(response, symbolize_names: true)
         spider_id = spider[:scan]
 
         loop do
@@ -258,7 +258,7 @@ module CSI
           params: params
         )
 
-        active_scan = JSON.parse(response.body, symbolize_names: true)
+        active_scan = JSON.parse(response, symbolize_names: true)
         active_scan_id = active_scan[:scan]
 
         loop do
