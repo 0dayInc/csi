@@ -149,7 +149,12 @@ module CSI
         zap_obj[:pid] = fork_pid
         zap_obj[:stdout_log] = csi_stdout_log_path
         # This is how we'll know OWSAP Zap is in a ready state.
-        return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+        if headless
+          return_pattern = '[ZAP-daemon] INFO org.zaproxy.zap.DaemonBootstrap  - ZAP is now listening'
+        else
+          return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+        end
+
         loop do
           if File.exist?(csi_stdout_log_path)
             return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
