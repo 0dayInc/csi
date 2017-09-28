@@ -123,7 +123,7 @@ module CSI
 
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         csi_stdout_log = File.new(csi_stdout_log_path, 'w')
-        csi_stdout_log.sync = true
+        csi_stdout_log.fsync = true
 
         fork_pid = Process.fork do
           begin
@@ -133,20 +133,6 @@ module CSI
                 csi_stdout_log.puts line
               end
             end
-
-            # PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
-            #   STDOUT.sync = true
-            #   stdout.sync = true
-            #   File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
-            #     stdout.each do |line|
-            #       puts line
-            #       csi_stdout_log.puts line
-            #       stdout.flush
-            #       STDOUT.flush
-            #     end
-            #   end
-            # end
-            # rescue PTY::ChildExited, SystemExit, Interrupt
           rescue SystemExit, Interrupt
             puts 'Spawned OWASP Zap PTY exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
@@ -160,7 +146,8 @@ module CSI
 
         zap_obj[:pid] = fork_pid
         zap_obj[:stdout_log] = csi_stdout_log_path
-        return_pattern = '[AWT-EventQueue-1] INFO info.hsqldb.db..ENGINE  - Database closed'
+        # This is how we'll know OWSAP Zap is in a ready state.
+        return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
         loop do
           if File.exist?(csi_stdout_log_path)
             return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
