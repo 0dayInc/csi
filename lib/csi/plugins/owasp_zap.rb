@@ -59,6 +59,8 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
+
+        sleep 3
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -199,7 +201,6 @@ module CSI
         spider_id = spider[:scan].to_i
 
         loop do
-          sleep 3
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
@@ -259,7 +260,6 @@ module CSI
         active_scan_id = active_scan[:scan].to_i
 
         loop do
-          sleep 3
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
