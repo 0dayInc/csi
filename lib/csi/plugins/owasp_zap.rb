@@ -146,8 +146,7 @@ module CSI
             #     end
             #   end
             # end
-
-          # rescue PTY::ChildExited, SystemExit, Interrupt
+            # rescue PTY::ChildExited, SystemExit, Interrupt
           rescue SystemExit, Interrupt
             puts 'Spawned OWASP Zap PTY exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
