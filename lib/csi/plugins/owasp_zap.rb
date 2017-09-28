@@ -214,6 +214,7 @@ module CSI
           )
 
           spider = JSON.parse(response, symbolize_names: true)
+          puts "Spider ID: #{spider_id} => #{spider[:status]}% Complete"
           break unless spider[:status] == '100'
         end
       rescue StandardError, SystemExit, Interrupt => e
@@ -273,6 +274,7 @@ module CSI
           )
 
           active_scan = JSON.parse(response, symbolize_names: true)
+          puts "Active Scan ID: #{active_scan_id} => #{active_scan[:status]}% Complete"
           break unless active_scan[:status] == 100
         end
       rescue StandardError, SystemExit, Interrupt => e
