@@ -195,7 +195,17 @@ module CSI
           params: params
         )
 
+        spider = JSON.parse(response, symbolize_names: true)
+        spider_id = spider[:scan].to_i
+
+
         loop do
+          params = {
+            zapapiformat: 'JSON',
+            apikey: api_key,
+            scanId: active_scan_id
+          }
+
           response = zap_rest_call(
             zap_obj: zap_obj,
             rest_call: 'JSON/spider/view/status/',
@@ -244,8 +254,17 @@ module CSI
           rest_call: 'JSON/ascan/action/scan/',
           params: params
         )
+    
+        active_scan = JSON.parse(response, symbolize_names: true)
+        active_scan_id = active_scan[:scan].to_i
 
         loop do
+          params = {
+            zapapiformat: 'JSON',
+            apikey: api_key,
+            scanId: active_scan_id
+          }
+
           response = zap_rest_call(
             zap_obj: zap_obj,
             rest_call: 'JSON/ascan/view/status/',
