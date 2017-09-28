@@ -244,7 +244,7 @@ module CSI
           apikey: api_key,
           url: target,
           recurse: true,
-          inScopeOnly: true,
+          inScopeOnly: false,
           scanPolicyName: scan_policy
         }
 
