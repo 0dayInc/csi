@@ -145,10 +145,12 @@ module CSI
           end
           sleep 3
         end
-      rescue SystemExit, Interrupt
-        File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
-      rescue Exception => e
-        stop(zap_obj) unless zap_obj.nil?
+      rescue StandardError => e
+        if zap_obj.nil?
+          File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
+        else
+          stop(zap_obj) unless zap_obj.nil?
+        end
         raise e.message
       end
 
