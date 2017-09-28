@@ -146,6 +146,7 @@ module CSI
             #     end
             #   end
             # end
+
           # rescue PTY::ChildExited, SystemExit, Interrupt
           rescue SystemExit, Interrupt
             puts 'Spawned OWASP Zap PTY exiting...'
