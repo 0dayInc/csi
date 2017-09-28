@@ -217,7 +217,8 @@ module CSI
           apikey: api_key,
           url: target,
           recurse: true,
-          inScopeOnly: true
+          inScopeOnly: true,
+          scanPolicyName: 'Default Policy'
         }
 
         response = zap_rest_call(
