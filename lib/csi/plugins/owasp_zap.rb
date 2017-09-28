@@ -129,6 +129,7 @@ module CSI
               stdout.each do |line|
                 puts line
                 csi_stdout_log.puts line
+                stdout.flush
               end
             end
           end
