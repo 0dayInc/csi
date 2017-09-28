@@ -242,7 +242,7 @@ module CSI
         loop do
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'JSON/spider/view/status/',
+            rest_call: 'JSON/ascan/view/status/',
             params: params
           )
 
