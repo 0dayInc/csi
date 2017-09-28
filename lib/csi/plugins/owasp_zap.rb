@@ -122,11 +122,12 @@ module CSI
         zap_obj[:port] = proxy_uri.port.to_i
 
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
+        csi_stdout_log = File.new(csi_stdout_log_path, 'w')
+        csi_stdout_log.sync = true
+
         fork_pid = Process.fork do
-          STDOUT.sync = true
           begin
             IO.popen(owasp_zap_cmd) do |stdout|
-              File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
                 stdout.each do |line|
                   puts line
                   csi_stdout_log.puts line
