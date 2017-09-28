@@ -125,19 +125,29 @@ module CSI
         fork_pid = Process.fork do
           STDOUT.sync = true
           begin
-            PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
-              STDOUT.sync = true
-              stdout.sync = true
+            IO.popen(owasp_zap_cmd) do |stdout|
               File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
                 stdout.each do |line|
                   puts line
                   csi_stdout_log.puts line
-                  stdout.flush
-                  STDOUT.flush
                 end
               end
             end
-          rescue PTY::ChildExited, SystemExit, Interrupt
+
+            # PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
+            #   STDOUT.sync = true
+            #   stdout.sync = true
+            #   File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
+            #     stdout.each do |line|
+            #       puts line
+            #       csi_stdout_log.puts line
+            #       stdout.flush
+            #       STDOUT.flush
+            #     end
+            #   end
+            # end
+          # rescue PTY::ChildExited, SystemExit, Interrupt
+          rescue SystemExit, Interrupt
             puts 'Spawned OWASP Zap PTY exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
           rescue StandardError => e
@@ -237,10 +247,12 @@ module CSI
 
       def self.stop(opts = {})
         zap_obj = opts[:zap_obj]
-        pid = zap_obj[:pid]
-        File.unlink(zap_obj[:stdout_log]) if File.exist?(zap_obj[:stdout_log])
+        unless zap_obj.nil?
+          pid = zap_obj[:pid]
+          File.unlink(zap_obj[:stdout_log]) if File.exist?(zap_obj[:stdout_log])
 
-        Process.kill('TERM', pid) unless pid.nil?
+          Process.kill('TERM', pid)
+        end
       rescue StandardError => e
         raise e.message
       end
