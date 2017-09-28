@@ -208,9 +208,8 @@ module CSI
           zapapiformat: 'JSON',
           apikey: api_key,
           url: target,
-          maxChildren: 9,
           recurse: true,
-          inScopeOnly: true,
+          inScopeOnly: true
         }
 
         response = zap_rest_call(
