@@ -210,6 +210,7 @@ module CSI
       def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
+        target = opts[:target]
 
         params = {
           zapapiformat: 'JSON',
