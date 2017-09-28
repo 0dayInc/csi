@@ -215,7 +215,7 @@ module CSI
       # CSI::Plugins::OwaspZap.active_scan(
       #   zap_obj: 'required - zap_obj returned from #open method',
       #   target:  'required - url to scan',
-      #   scan_policy: 'optional - scan policy to use (defaults to "Default Policy")'
+      #   scan_policy: 'optional - scan policy to use (defaults to Default Policy)'
       # )
 
       public
@@ -252,8 +252,8 @@ module CSI
             params: params
           )
 
-          spider = JSON.parse(response, symbolize_names: true)
-          break unless spider[:status].to_i == 100
+          active_scan = JSON.parse(response, symbolize_names: true)
+          break unless active_scan[:status].to_i == 100
           sleep 3
         end
       rescue StandardError, SystemExit, Interrupt => e
@@ -329,7 +329,8 @@ module CSI
 
           #{self}.active_scan(
             zap_obj: 'required - zap_obj returned from #open method'
-            target: 'required - url to scan'
+            target: 'required - url to scan',
+            scan_policy: 'optional - scan policy to use (defaults to Default Policy)'
           )
 
           json_alerts = #{self}.alerts(
