@@ -199,6 +199,7 @@ module CSI
         spider_id = spider[:scan].to_i
 
         loop do
+          sleep 9
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
@@ -213,7 +214,6 @@ module CSI
 
           spider = JSON.parse(response, symbolize_names: true)
           break unless spider[:status].to_i == 100
-          sleep 3
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
@@ -258,6 +258,7 @@ module CSI
         active_scan_id = active_scan[:scan].to_i
 
         loop do
+          sleep 9
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
@@ -272,7 +273,6 @@ module CSI
 
           active_scan = JSON.parse(response, symbolize_names: true)
           break unless active_scan[:status].to_i == 100
-          sleep 3
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
