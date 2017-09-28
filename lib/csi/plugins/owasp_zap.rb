@@ -214,7 +214,7 @@ module CSI
           )
 
           spider = JSON.parse(response, symbolize_names: true)
-          break unless spider[:status].to_i == 100
+          break unless spider[:status] == '100'
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
@@ -273,7 +273,7 @@ module CSI
           )
 
           active_scan = JSON.parse(response, symbolize_names: true)
-          break unless active_scan[:status].to_i == 100
+          break unless active_scan[:status] == 100
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
