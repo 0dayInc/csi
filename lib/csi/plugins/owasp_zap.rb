@@ -201,13 +201,15 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.active_scan(
-      #   zap_obj: 'required - zap_obj returned from #open method'
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   target:  'required - url to scan'
       # )
 
       public
 
       def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
 
         params = {
           zapapiformat: 'JSON',
@@ -295,6 +297,7 @@ module CSI
 
           #{self}.active_scan(
             zap_obj: 'required - zap_obj returned from #open method'
+            target: 'required - url to scan'
           )
 
           json_alerts = #{self}.alerts(
