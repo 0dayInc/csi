@@ -129,13 +129,13 @@ module CSI
 
         fork_pid = Process.fork do
           begin
-            IO.popen(owasp_zap_cmd) do |stdout|
+            PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
               stdout.each do |line|
                 puts line
                 csi_stdout_log.puts line
               end
             end
-          rescue SystemExit, Interrupt
+          rescue PTY::ChildExited, SystemExit, Interrupt
             puts 'Spawned OWASP Zap PTY exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
           rescue StandardError => e
