@@ -59,7 +59,7 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-      rescue StandardError => e
+      rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -144,7 +144,7 @@ module CSI
           end
           sleep 3
         end
-      rescue StandardError => e
+      rescue StandardError, SystemExit, Interrupt => e
         if zap_obj.nil?
           File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
         else
@@ -181,7 +181,7 @@ module CSI
           rest_call: 'JSON/spider/action/scan/',
           params: params
         )
-      rescue StandardError => e
+      rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -198,7 +198,7 @@ module CSI
 
         return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
         return zap_obj
-      rescue StandardError => e
+      rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
@@ -214,7 +214,7 @@ module CSI
         zap_obj = opts[:zap_obj]
 
         return zap_obj.alerts.view
-      rescue StandardError => e
+      rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
       end
