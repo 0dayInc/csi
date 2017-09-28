@@ -126,10 +126,11 @@ module CSI
           PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
             STDOUT.sync = true
             # stdout.sync = true
-            csi_stdout_log = File.new(csi_stdout_log_path, 'w')
-            stdout.each do |line|
-              puts line
-              csi_stdout_log.puts line
+            File.open(csi_stdout_log_path, 'w') do |csi_stdout_log|
+              stdout.each do |line|
+                puts line
+                csi_stdout_log.puts line
+              end
             end
           end
         end
