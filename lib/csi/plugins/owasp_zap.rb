@@ -123,6 +123,7 @@ module CSI
 
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         fork_pid = Process.fork do
+          STDOUT.sync = true
           begin
             PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
               stdout.sync = true
@@ -131,13 +132,13 @@ module CSI
                   puts line
                   csi_stdout_log.puts line
                   stdout.flush
+                  STDOUT.flush
                 end
               end
             end
-          rescue StandardError, SystemExit, Interrupt => e
-            if zap_obj.nil?
-              File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
-            end
+          rescue PTY::ChildExited, StandardError, SystemExit, Interrupt => e
+            puts "Spawned process exiting..."
+            File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
             raise e.message
           end
         end
