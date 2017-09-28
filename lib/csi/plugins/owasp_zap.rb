@@ -200,7 +200,7 @@ module CSI
         )
 
         spider = JSON.parse(response.body, symbolize_names: true)
-        spider_id = spider[:scan]
+        spider_id = spider[:scan].to_i
 
         loop do
           params = {
@@ -216,9 +216,9 @@ module CSI
           )
 
           spider = JSON.parse(response.body, symbolize_names: true)
-          status = spider[:status]
+          status = spider[:status].to_i
           puts "Spider ID: #{spider_id} => #{status}% Complete"
-          break unless spider[:status] == '100'
+          break if status == '100'
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
@@ -261,7 +261,7 @@ module CSI
         )
 
         active_scan = JSON.parse(response.body, symbolize_names: true)
-        active_scan_id = active_scan[:scan]
+        active_scan_id = active_scan[:scan].to_i
 
         loop do
           params = {
@@ -277,9 +277,9 @@ module CSI
           )
 
           active_scan = JSON.parse(response.body, symbolize_names: true)
-          status = active_scan[:status]
+          status = active_scan[:status].to_i
           puts "Active Scan ID: #{active_scan_id} => #{status}% Complete"
-          break unless active_scan[:status] == 100
+          break if status == 100
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
