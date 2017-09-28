@@ -201,7 +201,7 @@ module CSI
             rest_call: 'JSON/spider/view/status/',
             params: params
           )
-        
+
           spider = JSON.parse(response, symbolize_names: true)
           break unless spider[:status].to_i == 100
           sleep 3
@@ -238,6 +238,18 @@ module CSI
           rest_call: 'JSON/ascan/action/scan/',
           params: params
         )
+
+        loop do
+          response = zap_rest_call(
+            zap_obj: zap_obj,
+            rest_call: 'JSON/spider/view/status/',
+            params: params
+          )
+
+          spider = JSON.parse(response, symbolize_names: true)
+          break unless spider[:status].to_i == 100
+          sleep 3
+        end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
