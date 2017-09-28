@@ -214,7 +214,8 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.active_scan(
       #   zap_obj: 'required - zap_obj returned from #open method',
-      #   target:  'required - url to scan'
+      #   target:  'required - url to scan',
+      #   scan_policy: 'optional - scan policy to use (defaults to "Default Policy")'
       # )
 
       public
@@ -223,6 +224,11 @@ module CSI
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         target = opts[:target]
+        if opts[:scan_policy].nil?
+          scan_policy = 'Default Policy'
+        else
+          scan_policy = opts[:scan_policy].to_s.scrub.strip.chomp
+        end
 
         params = {
           zapapiformat: 'JSON',
@@ -230,7 +236,7 @@ module CSI
           url: target,
           recurse: true,
           inScopeOnly: true,
-          scanPolicyName: 'default'
+          scanPolicyName: scan_policy
         }
 
         response = zap_rest_call(
