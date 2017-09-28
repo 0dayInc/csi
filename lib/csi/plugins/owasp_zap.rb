@@ -218,7 +218,7 @@ module CSI
           spider = JSON.parse(response.body, symbolize_names: true)
           status = spider[:status].to_i
           puts "Spider ID: #{spider_id} => #{status}% Complete"
-          break if status == '100'
+          break if status == 100
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
