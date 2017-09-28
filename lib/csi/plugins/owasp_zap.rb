@@ -124,8 +124,8 @@ module CSI
         csi_stdout_log_path = "/tmp/csi_plugins_owasp-#{SecureRandom.hex}.log"
         csi_stdout_log = File.new(csi_stdout_log_path, 'w')
         # Immediately writes all buffered data in IO to disk
+        csi_stdout_log.sync = true
         csi_stdout_log.fsync
-        # csi_stdout_log.sync = true
 
         fork_pid = Process.fork do
           begin
