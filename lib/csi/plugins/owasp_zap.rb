@@ -59,6 +59,8 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
+      rescue SystemExit, Interrupt
+        stop(zap_obj) unless zap_obj.nil?
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -138,13 +140,15 @@ module CSI
 
         zap_obj[:pid] = fork_pid
         zap_obj[:stdout_log] = csi_stdout_log_path
-        return_pattern = 'Initializing Tips and Tricks'
+        return_pattern = '[AWT-EventQueue-1] INFO info.hsqldb.db..ENGINE  - Database closed'
         loop do
           if File.exist?(csi_stdout_log_path)
             return zap_obj if File.read(csi_stdout_log_path).include?(return_pattern)
           end
           sleep 3
         end
+      rescue SystemExit, Interrupt
+        stop(zap_obj) unless zap_obj.nil?
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -178,6 +182,8 @@ module CSI
           rest_call: 'JSON/spider/action/scan/',
           params: params
         )
+      rescue SystemExit, Interrupt
+        stop(zap_obj) unless zap_obj.nil?
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -195,6 +201,8 @@ module CSI
 
         return_pattern = 'INFO org.parosproxy.paros.core.scanner.Scanner  - scanner completed'
         return zap_obj
+      rescue SystemExit, Interrupt
+        stop(zap_obj) unless zap_obj.nil?
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -211,6 +219,8 @@ module CSI
         zap_obj = opts[:zap_obj]
 
         return zap_obj.alerts.view
+      rescue SystemExit, Interrupt
+        stop(zap_obj) unless zap_obj.nil?
       rescue => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
