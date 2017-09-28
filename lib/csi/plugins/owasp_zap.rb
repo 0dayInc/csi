@@ -199,11 +199,11 @@ module CSI
         spider_id = spider[:scan].to_i
 
         loop do
-          sleep 9
+          sleep 3
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
-            scanId: active_scan_id
+            scanId: spider_id
           }
 
           response = zap_rest_call(
@@ -259,7 +259,7 @@ module CSI
         active_scan_id = active_scan[:scan].to_i
 
         loop do
-          sleep 9
+          sleep 3
           params = {
             zapapiformat: 'JSON',
             apikey: api_key,
