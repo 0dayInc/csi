@@ -336,7 +336,7 @@ module CSI
 
         params = {
           zapapiformat: 'JSON',
-          apikey: api_key,
+          apikey: api_key
         }
 
         response = zap_rest_call(
