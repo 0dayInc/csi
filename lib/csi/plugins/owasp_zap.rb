@@ -7,6 +7,7 @@ require 'json'
 module CSI
   module Plugins
     # This plugin converts images to readable text
+    # TODO: Convert all rest requests to POST instead of GET
     module OwaspZap
       # Supported Method Parameters::
       # zap_rest_call(
@@ -288,15 +289,32 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.alerts(
-      #   zap_obj: 'required - zap_obj returned from #open method'
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   target: 'required - base url to return alerts'
       # )
 
       public
 
       def self.alerts(opts = {})
         zap_obj = opts[:zap_obj]
+        target = opts[:target]
 
-        return zap_obj.alerts.view
+        # TODO: Implement adding target to scope so that inScopeOnly can be changed to true
+        params = {
+          zapapiformat: 'JSON',
+          apikey: api_key,
+          url: target
+        }
+
+        response = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: 'core/view/alerts/',
+          params: params
+        )
+
+        json_alerts = JSON.parse(response.body, symbolize_names: true)
+
+        return json_alerts
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -360,6 +378,7 @@ module CSI
 
           json_alerts = #{self}.alerts(
             zap_obj: 'required - zap_obj returned from #open method'
+            target: 'required - base url to return alerts'
           )
 
           #{self}.stop(
