@@ -297,6 +297,7 @@ module CSI
 
       def self.alerts(opts = {})
         zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
         target = opts[:target]
 
         # TODO: Implement adding target to scope so that inScopeOnly can be changed to true
