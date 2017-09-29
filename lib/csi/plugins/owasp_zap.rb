@@ -331,7 +331,7 @@ module CSI
       def self.html_report(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
-        output_dir = zap_obj[:output_dir] if Dir.exist?(zap_obj[:output_dir])
+        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
         owasp_zap_html_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
 
         params = {
