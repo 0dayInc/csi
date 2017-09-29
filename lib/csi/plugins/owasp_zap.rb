@@ -345,7 +345,7 @@ module CSI
           params: params
         )
 
-        html_report =response.body
+        html_report = response.body
 
         return html_report
       rescue StandardError, SystemExit, Interrupt => e
