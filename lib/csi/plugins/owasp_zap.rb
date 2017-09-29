@@ -300,7 +300,6 @@ module CSI
         api_key = zap_obj[:api_key].to_s.scrub
         target = opts[:target]
 
-        # TODO: Implement adding target to scope so that inScopeOnly can be changed to true
         params = {
           zapapiformat: 'JSON',
           apikey: api_key,
@@ -316,6 +315,39 @@ module CSI
         json_alerts = JSON.parse(response.body, symbolize_names: true)
 
         return json_alerts
+      rescue StandardError, SystemExit, Interrupt => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZap.html_report(
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   output_dir: 'required - directory to save report'
+      # )
+
+      public
+
+      def self.html_report(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
+        output_dir = zap_obj[:output_dir] if Dir.exist?(zap_obj[:output_dir])
+        owasp_zap_html_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
+
+        params = {
+          zapapiformat: 'JSON',
+          apikey: api_key,
+        }
+
+        response = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: 'core/other/htmlreport/',
+          params: params
+        )
+
+        html_report = JSON.parse(response.body, symbolize_names: true)
+
+        return html_report
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -380,6 +412,11 @@ module CSI
           json_alerts = #{self}.alerts(
             zap_obj: 'required - zap_obj returned from #open method'
             target: 'required - base url to return alerts'
+          )
+
+          html_report = #{self}.alerts(
+            zap_obj: 'required - zap_obj returned from #open method',
+            output_dir: 'required - directory to save report'
           )
 
           #{self}.stop(
