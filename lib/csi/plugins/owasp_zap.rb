@@ -345,7 +345,7 @@ module CSI
           params: params
         )
 
-        html_report = JSON.parse(response.body, symbolize_names: true)
+        html_report =response.body
 
         return html_report
       rescue StandardError, SystemExit, Interrupt => e
