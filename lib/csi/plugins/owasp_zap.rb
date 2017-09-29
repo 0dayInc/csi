@@ -350,6 +350,74 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # CSI::Plugins::OwaspZap.markdown_report(
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   output_dir: 'required - directory to save report'
+      # )
+
+      public
+
+      def self.markdown_report(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
+        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
+        owasp_zap_md_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.md"
+
+        params = {
+          apikey: api_key
+        }
+
+        response = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: 'OTHER/core/other/mdreport/',
+          params: params
+        )
+
+        markdown_report = response.body
+
+        File.open(owasp_zap_md_report, 'w') do |f|
+          f.puts markdown_report
+        end
+      rescue StandardError, SystemExit, Interrupt => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZap.xml_report(
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   output_dir: 'required - directory to save report'
+      # )
+
+      public
+
+      def self.xml_report(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
+        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
+        owasp_zap_xml_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xml"
+
+        params = {
+          apikey: api_key
+        }
+
+        response = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: 'OTHER/core/other/xmlreport/',
+          params: params
+        )
+
+        xml_report = response.body
+
+        File.open(owasp_zap_xml_report, 'w') do |f|
+          f.puts xml_report
+        end
+      rescue StandardError, SystemExit, Interrupt => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e.message
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
@@ -411,6 +479,16 @@ module CSI
           )
 
           html_report = #{self}.alerts(
+            zap_obj: 'required - zap_obj returned from #open method',
+            output_dir: 'required - directory to save report'
+          )
+
+          markdown_report = #{self}.alerts(
+            zap_obj: 'required - zap_obj returned from #open method',
+            output_dir: 'required - directory to save report'
+          )
+
+          xml_report = #{self}.alerts(
             zap_obj: 'required - zap_obj returned from #open method',
             output_dir: 'required - directory to save report'
           )
