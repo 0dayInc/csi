@@ -31,7 +31,7 @@ module CSI
         http_body = opts[:http_body].to_s.scrub
         host = zap_obj[:host]
         port = zap_obj[:port]
-        base_zap_api_uri = "http://#{host}:#{port}/JSON"
+        base_zap_api_uri = "http://#{host}:#{port}"
 
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
@@ -185,7 +185,6 @@ module CSI
         api_key = zap_obj[:api_key].to_s.scrub
 
         params = {
-          zapapiformat: 'JSON',
           apikey: api_key,
           url: target,
           maxChildren: 9,
@@ -196,7 +195,7 @@ module CSI
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'spider/action/scan/',
+          rest_call: 'JSON/spider/action/scan/',
           params: params
         )
 
@@ -205,14 +204,13 @@ module CSI
 
         loop do
           params = {
-            zapapiformat: 'JSON',
             apikey: api_key,
             scanId: spider_id
           }
 
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'spider/view/status/',
+            rest_call: 'JSON/spider/view/status/',
             params: params
           )
 
@@ -247,7 +245,6 @@ module CSI
 
         # TODO: Implement adding target to scope so that inScopeOnly can be changed to true
         params = {
-          zapapiformat: 'JSON',
           apikey: api_key,
           url: target,
           recurse: true,
@@ -257,7 +254,7 @@ module CSI
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'ascan/action/scan/',
+          rest_call: 'JSON/ascan/action/scan/',
           params: params
         )
 
@@ -266,14 +263,13 @@ module CSI
 
         loop do
           params = {
-            zapapiformat: 'JSON',
             apikey: api_key,
             scanId: active_scan_id
           }
 
           response = zap_rest_call(
             zap_obj: zap_obj,
-            rest_call: 'ascan/view/status/',
+            rest_call: 'JSON/ascan/view/status/',
             params: params
           )
 
@@ -301,14 +297,13 @@ module CSI
         target = opts[:target]
 
         params = {
-          zapapiformat: 'JSON',
           apikey: api_key,
           url: target
         }
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'core/view/alerts/',
+          rest_call: 'JSON/core/view/alerts/',
           params: params
         )
 
@@ -335,19 +330,20 @@ module CSI
         owasp_zap_html_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
 
         params = {
-          zapapiformat: 'JSON',
           apikey: api_key
         }
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'core/other/htmlreport/',
+          rest_call: 'OTHER/core/other/htmlreport/',
           params: params
         )
 
         html_report = response.body
 
-        return html_report
+        File.open(owasp_zap_html_report, 'w') do |f|
+          f.puts html_report
+        end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
