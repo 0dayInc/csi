@@ -51,9 +51,9 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provider(:virtualbox) do |vb, _override|
       if vagrant_provider == 'virtualbox'
         if vagrant_gui == 'true'
-          vm.gui = true
+          vb.gui = true
         else
-          vm.gui = false
+          vb.gui = false
         end
 
         vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
