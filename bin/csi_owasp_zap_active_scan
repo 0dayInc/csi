@@ -65,7 +65,7 @@ begin
 
   target_url = opts[:target_url].to_s.strip.chomp.scrub
   output_dir = opts[:output_dir].to_s.strip.chomp.scrub
-  report_type = opts[:report_type].to_s.strip.chomp.to_sym
+  report_type = opts[:report_type].to_s.strip.chomp.scrub
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
   zap_bin_path = opts[:zap_bin_path].to_s.strip.chomp.scrub if File.exist?(opts[:zap_bin_path].to_s.strip.chomp.scrub)
   headless = opts[:headless]
