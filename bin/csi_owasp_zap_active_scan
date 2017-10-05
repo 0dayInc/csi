@@ -47,6 +47,7 @@ end
 begin
   logger = CSI::Plugins::CSILogger.create
 
+  api_key = opts[:api_key].to_s.scrub
   target_url = opts[:target_url].to_s.scrub
   output_path = opts[:output_path].to_s.scrub
   report_type = opts[:report_type].to_sym

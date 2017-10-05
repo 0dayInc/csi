@@ -348,7 +348,6 @@ module CSI
           raise @@logger.error("ERROR: Unsupported report type: #{report_type}\nValid report types are <html|markdown|xml>")
         end
 
-
         response = zap_rest_call(
           zap_obj: zap_obj,
           rest_call: rest_call,
