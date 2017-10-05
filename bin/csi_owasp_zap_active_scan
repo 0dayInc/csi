@@ -15,7 +15,7 @@ OptionParser.new do |options|
   end
 
   options.on('-bTYPE', '--browser_type=TYPE', '<Optional - Browser Type <:firefox|:chrome|:headless|:rest> (Defaults to :chrome)>') do |b|
-    opts[:browser_type = b
+    opts[:browser_type] = b
   end
 
   options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t|
