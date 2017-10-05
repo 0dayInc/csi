@@ -316,102 +316,50 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZap.html_report(
+      # report_path = CSI::Plugins::OwaspZap.generate_report(
       #   zap_obj: 'required - zap_obj returned from #open method',
-      #   output_dir: 'required - directory to save report'
+      #   output_dir: 'required - directory to save report',
+      #   report_type: 'required - <html|markdown|xml>'
       # )
 
       public
 
-      def self.html_report(opts = {})
+      def self.generate_report(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
-        owasp_zap_html_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
+        report_type = zap_obj[:report_type].to_s.strip.chomp.scrub.to_sym
 
         params = {
           apikey: api_key
         }
 
-        response = zap_rest_call(
-          zap_obj: zap_obj,
-          rest_call: 'OTHER/core/other/htmlreport/',
-          params: params
-        )
-
-        html_report = response.body
-
-        File.open(owasp_zap_html_report, 'w') do |f|
-          f.puts html_report
+        case report_type
+        when :html
+          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
+          rest_call = 'OTHER/core/other/htmlreport/'
+        when :markdown
+          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.md"
+          rest_call = 'OTHER/core/other/mdreport/'
+        when :xml
+          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xml"
+          rest_call = 'OTHER/core/other/xmlreport/'
+        else
+          raise @@logger.error("ERROR: Unsupported report type: #{report_type}\nValid report types are <html|markdown|xml>")
         end
-      rescue StandardError, SystemExit, Interrupt => e
-        stop(zap_obj) unless zap_obj.nil?
-        raise e.message
-      end
 
-      # Supported Method Parameters::
-      # CSI::Plugins::OwaspZap.markdown_report(
-      #   zap_obj: 'required - zap_obj returned from #open method',
-      #   output_dir: 'required - directory to save report'
-      # )
-
-      public
-
-      def self.markdown_report(opts = {})
-        zap_obj = opts[:zap_obj]
-        api_key = zap_obj[:api_key].to_s.scrub
-        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
-        owasp_zap_md_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.md"
-
-        params = {
-          apikey: api_key
-        }
 
         response = zap_rest_call(
           zap_obj: zap_obj,
-          rest_call: 'OTHER/core/other/mdreport/',
+          rest_call: rest_call,
           params: params
         )
 
-        markdown_report = response.body
-
-        File.open(owasp_zap_md_report, 'w') do |f|
-          f.puts markdown_report
+        File.open(report_path, 'w') do |f|
+          f.puts response.body
         end
-      rescue StandardError, SystemExit, Interrupt => e
-        stop(zap_obj) unless zap_obj.nil?
-        raise e.message
-      end
 
-      # Supported Method Parameters::
-      # CSI::Plugins::OwaspZap.xml_report(
-      #   zap_obj: 'required - zap_obj returned from #open method',
-      #   output_dir: 'required - directory to save report'
-      # )
-
-      public
-
-      def self.xml_report(opts = {})
-        zap_obj = opts[:zap_obj]
-        api_key = zap_obj[:api_key].to_s.scrub
-        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
-        owasp_zap_xml_report = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xml"
-
-        params = {
-          apikey: api_key
-        }
-
-        response = zap_rest_call(
-          zap_obj: zap_obj,
-          rest_call: 'OTHER/core/other/xmlreport/',
-          params: params
-        )
-
-        xml_report = response.body
-
-        File.open(owasp_zap_xml_report, 'w') do |f|
-          f.puts xml_report
-        end
+        return report_path
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e.message
@@ -478,19 +426,10 @@ module CSI
             target: 'required - base url to return alerts'
           )
 
-          html_report = #{self}.alerts(
+          report_path = #{self}.generate_report(
             zap_obj: 'required - zap_obj returned from #open method',
-            output_dir: 'required - directory to save report'
-          )
-
-          markdown_report = #{self}.alerts(
-            zap_obj: 'required - zap_obj returned from #open method',
-            output_dir: 'required - directory to save report'
-          )
-
-          xml_report = #{self}.alerts(
-            zap_obj: 'required - zap_obj returned from #open method',
-            output_dir: 'required - directory to save report'
+            output_dir: 'required - directory to save report',
+            report_type: 'required - <html|markdown|xml>'
           )
 
           #{self}.stop(

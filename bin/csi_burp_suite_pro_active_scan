@@ -33,8 +33,6 @@ OptionParser.new do |options|
   options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>') do |i|
     opts[:navigation_instruct] = i
   end
-
-  # TODO: Headless
 end.parse!
 
 if opts.empty?
