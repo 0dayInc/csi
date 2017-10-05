@@ -9,6 +9,8 @@ module CSI
     # This plugin converts images to readable text
     # TODO: Convert all rest requests to POST instead of GET
     module OwaspZap
+      @@logger = CSI::Plugins::CSILogger.create
+
       # Supported Method Parameters::
       # zap_rest_call(
       #   zap_obj: 'required zap_obj returned from #start method',
