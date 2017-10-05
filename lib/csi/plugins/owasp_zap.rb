@@ -66,7 +66,7 @@ module CSI
         return response
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -146,7 +146,7 @@ module CSI
           rescue StandardError => e
             puts 'Spawned process exiting...'
             File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
-            raise e.message
+            raise e
           end
         end
         Process.detach(fork_pid)
@@ -168,7 +168,7 @@ module CSI
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -221,7 +221,7 @@ module CSI
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -280,7 +280,7 @@ module CSI
         end
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -312,7 +312,7 @@ module CSI
         return json_alerts
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -361,7 +361,7 @@ module CSI
         return report_path
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -380,7 +380,7 @@ module CSI
           Process.kill('TERM', pid)
         end
       rescue StandardError => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
