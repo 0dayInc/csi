@@ -84,14 +84,10 @@ begin
   start_args[:headless] = true if headless
   start_args[:proxy] = proxy
   zap_obj = CSI::Plugins::OwaspZap.start(start_args)
-  
 
   logger.info(zap_obj)
 
-  navb = CSI::Plugins::TransparentBrowser.open(
-           browser_type: browser_type,
-           proxy: proxy
-         )
+  navb = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
 
   if browser_type == :rest
     navb.get(target)
