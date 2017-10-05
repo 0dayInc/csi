@@ -80,7 +80,7 @@ begin
   # Dynamically build arguments hash based on flags passed and Open Zap
   start_args = {}
   start_args[:api_key] = api_key
-  start_args[:zap_bin_path] = zap_bin_path if zap_bin_path
+  start_args[:zap_bin_path] = zap_bin_path if zap_bin_path != ''
   start_args[:headless] = true if headless
   start_args[:proxy] = proxy
   zap_obj = CSI::Plugins::OwaspZap.start(start_args)
