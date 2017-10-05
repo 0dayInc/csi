@@ -10,8 +10,12 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-aAPIKEY', '--api_key=APIKEY', '<Required - OWASP Zap API Key (Tools>Options>API)>') do |t|
-    opts[:target_url] = t
+  options.on('-aAPIKEY', '--api_key=APIKEY', '<Required - OWASP Zap API Key (Tools>Options>API)>') do |a|
+    opts[:api_key] = a
+  end
+
+  options.on('-bTYPE', '--browser_type=TYPE', '<Optional - Browser Type <:firefox|:chrome|:headless|:rest> (Defaults to :chrome)>') do |b|
+    opts[:browser_type = b
   end
 
   options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t|
@@ -19,23 +23,27 @@ OptionParser.new do |options|
   end
 
   options.on('-oDIR', '--report_output_dir=DIR', '<Required - Output Directory for Active Scan Report>') do |o|
-    opts[:output_path] = o
+    opts[:output_dir] = o
   end
 
   options.on('-rRTYPE', '--report_type=RTYPE', '<Required - Report Type html|markdown|xml>') do |r|
     opts[:report_type] = r
   end
 
-  options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>') do |i|
+  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>') do |i|
     opts[:navigation_instruct] = i
   end
 
-  options.on('-h', '--[no-]headless', '<Optional - Run Owasp Zap and Browser Headless>') do |h|
+  options.on('-zZPATH', '--zap_bin_path=ZPATH', '<Optional - Path to zap.sh>') do |z|
+    opts[:zap_bin_path] = z
+  end
+
+  options.on('-h', '--[no-]headless', '<Optional - Run OWASP Zap Headless>') do |h|
     opts[:headless] = h
   end
 
-  options.on('-zZPATH', '--zap_path=ZPATH', '<Optional - Path to zap.sh>') do |z|
-    opts[:zap_path] = z
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - Change Local Zap Proxy Listener (Default http://127.0.0.1:8080)>') do |p|
+    opts[:proxy] = p
   end
 end.parse!
 
@@ -47,63 +55,71 @@ end
 begin
   logger = CSI::Plugins::CSILogger.create
 
-  api_key = opts[:api_key].to_s.scrub
-  target_url = opts[:target_url].to_s.scrub
-  output_path = opts[:output_path].to_s.scrub
-  report_type = opts[:report_type].to_sym
-  headless = opts[:headless]
-  burp_jar_path = opts[:zap_path].to_s.scrub
+  api_key = opts[:api_key].to_s.strip.chomp.scrub
 
-  navigation_instruct = opts[:navigation_instruct]
-  raise 'Invalid path to browser instructions.  Please check your spelling and try again.' unless File.exist?(navigation_instruct)
+  if opts[:browser_type].nil?
+    browser_type = :chrome
+  else
+    browser_type = opts[:browser_type].to_s.strip.chomp.scrub.to_sym
+  end
+
+  target_url = opts[:target_url].to_s.strip.chomp.scrub
+  output_dir = opts[:output_dir].to_s.strip.chomp.scrub
+  report_type = opts[:report_type].to_s.strip.chomp.to_sym
+  navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct])
+  zap_bin_path = opts[:zap_bin_path].to_s.strip.chomp.scrub
+  headless = opts[:headless]
+
+  if opts[:proxy].nil?
+    proxy = 'http://127.0.0.1:8080'
+  else
+    proxy = opts[:proxy].to_s.strip.chomp.scrub
+  end
 
   # ------
-  # Open Burp
-  if headless
-    burp_obj = CSI::Plugins::BurpSuite.start(
-      burp_jar_path: burp_jar_path,
-      headless: true,
-      browser_type: :headless
-    )
+  # Dynamically build arguments hash based on flags passed and Open Zap
+  start_args = {}
+  start_args[:api_key] = api_key
+  start_args[:zap_bin_path] = zap_bin_path if zap_bin_path
+  start_args[:headless] = true if headless
+  start_args[:proxy] = proxy
+  zap_obj = CSI::Plugins::OwaspZap.start(start_args)
+  
+
+  logger.info(zap_obj)
+
+  navb = CSI::Plugins::TransparentBrowser.open(
+           browser_type: browser_type,
+           proxy: proxy
+         )
+
+  if browser_type == :rest
+    navb.get(target)
   else
-    burp_obj = CSI::Plugins::BurpSuite.start(
-      burp_jar_path: burp_jar_path,
-      browser_type: :firefox
-    )
+    navb.goto(target)
   end
 
-  logger.info(burp_obj)
-  # Disable Proxy Intercepting Capabilities for this Driver
-  CSI::Plugins::BurpSuite.disable_proxy(burp_obj: burp_obj)
-
-  # Use a headless browser w/ JavaScript Support to Load Our Target
-  # and Optionally Authenticate to Provide the Capability to Conduct
-  # a Burp Active Scan in a Post-AuthN state.  Since our browsers
-  # support JavaScript, DOM-based XSS vuln attempts are
-  # possible as well since we have a DOM to interact w/
-  # (Burp's DOM-XSS checks are based on static code analysis)
-  navb = burp_obj[:burp_browser]
-  File.read(navigation_instruct).each_line do |instruction|
-    navb.instance_eval(instruction.to_s.scrub.strip.chomp)
+  if navigation_instruct != ''
+    File.read(navigation_instruct).each_line do |instruction|
+      navb.instance_eval(instruction.to_s.scrub.strip.chomp)
+    end
+    sleep 60 # Sleep for now so everythign loads the way we expect - blech.
   end
-  sleep 60 # Sleep for now so everythign loads the way we expect - blech.
 
-  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(burp_obj: burp_obj, target_url: target_url)
+  CSI::Plugins::OwaspZap.spider(zap_obj: zap_obj, target: target)
+  CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj, target: target)
 
-  # Dump a list of scan issues from Active Scan result
-  # scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
-  # puts scan_issues
-
-  # TODO: Generate HTML REPORT
-  CSI::Plugins::BurpSuite.generate_scan_report(
-    burp_obj: burp_obj,
-    report_type: report_type,
-    output_path: output_path
+  report_path = CSI::Plugins::OwaspZap.generate_report(
+    zap_obj: zap_obj,
+    output_dir: output_dir,
+    report_type: report_type
   )
 
-  CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
+  logger.info("Report can be found here: #{report_path}")
+
+  CSI::Plugins::OwaspZap.stop(zap_obj: zap_obj)
 rescue => e
   raise e
 ensure
-  CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj) unless burp_obj.nil?
+  CSI::Plugins::OwaspZap.stop(zap_obj: zap_obj) unless zap_obj.nil?
 end
