@@ -85,9 +85,9 @@ begin
   navb = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
 
   if browser_type == :rest
-    navb.get(target)
+    navb.get(target_url)
   else
-    navb.goto(target)
+    navb.goto(target_url)
   end
 
   if navigation_instruct != ''
@@ -97,8 +97,8 @@ begin
     sleep 60 # Sleep for now so everythign loads the way we expect - blech.
   end
 
-  CSI::Plugins::OwaspZap.spider(zap_obj: zap_obj, target: target)
-  CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj, target: target)
+  CSI::Plugins::OwaspZap.spider(zap_obj: zap_obj, target: target_url)
+  CSI::Plugins::OwaspZap.active_scan(zap_obj: zap_obj, target: target_url)
 
   report_path = CSI::Plugins::OwaspZap.generate_report(
     zap_obj: zap_obj,
