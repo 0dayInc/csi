@@ -330,7 +330,7 @@ module CSI
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
-        report_type = zap_obj[:report_type].to_s.strip.chomp.scrub.to_sym
+        report_type = opts[:report_type].to_s.strip.chomp.scrub.to_sym
 
         params = {
           apikey: api_key
