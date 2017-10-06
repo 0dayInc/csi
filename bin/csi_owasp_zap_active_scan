@@ -105,7 +105,7 @@ begin
     when 3
       report_type = 'xml'
     end
-   
+
     report_path = CSI::Plugins::OwaspZap.generate_report(
       zap_obj: zap_obj,
       output_dir: output_dir,
