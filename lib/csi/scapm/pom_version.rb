@@ -76,9 +76,9 @@ module CSI
                                                                                  author: '--')
               end
               result_arr.push(hash_line)
-              logger_results << 'x' # Catching bugs is good :)
+              logger_results = "#{logger_results}x" # Catching bugs is good :)
             else
-              logger_results << '~' # Seeing progress is good :)
+              logger_results = "#{logger_results}~" # Seeing progress is good :)
             end
           end
         end

@@ -120,7 +120,7 @@ module CSI
         if opts[:proxy]
           proxy = opts[:proxy].to_s.scrub.strip.chomp
           proxy_uri = URI.parse(proxy)
-          owasp_zap_cmd << " -host #{proxy_uri.host} -port #{proxy_uri.port}"
+          owasp_zap_cmd = "#{owasp_zap_cmd} -host #{proxy_uri.host} -port #{proxy_uri.port}"
         else
           proxy = 'http://127.0.0.1:8080'
           proxy_uri = URI.parse(proxy)
