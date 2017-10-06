@@ -338,13 +338,13 @@ module CSI
 
         case report_type
         when :html
-          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.html"
+          report_path = "#{output_dir}/OWASP_Zap_Results.html"
           rest_call = 'OTHER/core/other/htmlreport/'
         when :markdown
-          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.md"
+          report_path = "#{output_dir}/OWASP_Zap_Results.md"
           rest_call = 'OTHER/core/other/mdreport/'
         when :xml
-          report_path = "#{output_dir}/OWASP_Zap_Results-#{Time.now.strftime('%Y-%m-%d-%H-%M-%S')}.xml"
+          report_path = "#{output_dir}/OWASP_Zap_Results.xml"
           rest_call = 'OTHER/core/other/xmlreport/'
         else
           raise @@logger.error("ERROR: Unsupported report type: #{report_type}\nValid report types are <html|markdown|xml>")
