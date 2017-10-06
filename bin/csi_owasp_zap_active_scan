@@ -26,7 +26,7 @@ OptionParser.new do |options|
     opts[:browser_type] = b
   end
 
-  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see ./etc/navigation.instruct for an example)>') do |i|
+  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/owasp_zap/navigation.instruct for an example)>') do |i|
     opts[:navigation_instruct] = i
   end
 
