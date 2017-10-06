@@ -65,6 +65,7 @@ begin
   zap_bin_path = opts[:zap_bin_path].to_s.strip.chomp.scrub if File.exist?(opts[:zap_bin_path].to_s.strip.chomp.scrub)
   headless = opts[:headless]
   proxy = opts[:proxy].to_s.strip.chomp.scrub
+  proxy = 'http://127.0.0.1:8080' if proxy == ''
 
   # ------
   # Dynamically build arguments hash based on flags passed and Open Zap
@@ -72,7 +73,7 @@ begin
   start_args[:api_key] = api_key
   start_args[:zap_bin_path] = zap_bin_path if zap_bin_path != ''
   start_args[:headless] = true if headless
-  start_args[:proxy] = proxy if proxy != ''
+  start_args[:proxy] = proxy
   zap_obj = CSI::Plugins::OwaspZap.start(start_args)
 
   logger.info(zap_obj)
