@@ -3,6 +3,7 @@
 
 require 'csi'
 require 'optparse'
+require 'securerandom'
 
 opts = {}
 OptionParser.new do |options|
@@ -50,7 +51,7 @@ begin
     browser_type = opts[:browser_type].to_s.strip.chomp.scrub.to_sym
   end
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  proxy = opts[:proxy].to_s.scrub
+  proxy = opts[:proxy]
   proxy_type = opts[:proxy_type].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
 
@@ -62,10 +63,22 @@ begin
     browser.goto(target_url)
   end
 
+  if navigation_instruct
+    File.read(navigation_instruct).each_line do |instruction|
+      browser.instance_eval(instruction.to_s.scrub.strip.chomp)
+    end
+
+    # We should have an authenticated session by now in our browser object...
+    cookie_jar = ("/tmp/csi_arachni-cookie_jar-#{SecureRandom.hex}.txt")
+    File.open(cookie_jar, 'w') do |f|
+      f.puts browser.cookies.to_a
+    end
+  end
+
   arachni_cmd_str = "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --plugin=login_script:script=#{navigation_instruct}" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-jar #{cookie_jar}" if navigation_instruct
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
