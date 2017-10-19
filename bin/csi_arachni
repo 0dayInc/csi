@@ -69,7 +69,7 @@ begin
     end
 
     # We should have an authenticated session by now in our browser object...
-    cookie_jar = ("/tmp/csi_arachni-cookie_jar-#{SecureRandom.hex}.txt")
+    cookie_jar = "/tmp/csi_arachni-cookie_jar-#{SecureRandom.hex}.txt"
     File.open(cookie_jar, 'w') do |f|
       f.puts browser.cookies.to_a
     end
