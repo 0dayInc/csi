@@ -5,10 +5,10 @@ require 'csi'
 require 'pry'
 
 begin
-  # Overwrite Pry::History.push method in History class to get duplicate history entries
-  # in order to properly replay automation in this prototyping driver
   # TODO: Remove once this feature is available in mainline
   class Pry
+    # Overwrite Pry::History.push method in History class to get duplicate history entries
+    # in order to properly replay automation in this prototyping driver
     class History
       def push(line)
         unless line.empty?
