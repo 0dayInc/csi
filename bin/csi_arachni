@@ -45,6 +45,7 @@ begin
   logger = CSI::Plugins::CSILogger.create
 
   target_url = opts[:target_url].to_s.scrub
+  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   if opts[:browser_type].nil?
     browser_type = :chrome
   else
@@ -52,8 +53,7 @@ begin
   end
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
   proxy = opts[:proxy]
-  proxy_type = opts[:proxy_type].to_s.scrub
-  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
+  proxy_type = opts[:proxy_type]
 
   browser = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
 
