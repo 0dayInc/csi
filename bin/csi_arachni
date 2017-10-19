@@ -14,6 +14,10 @@ OptionParser.new do |options|
     opts[:target_url] = t
   end
 
+  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/arachni/navigation.instruct for an example)>') do |i|
+    opts[:navigation_instruct] = i
+  end
+
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy ADDRESS:PORT>') do |p|
     opts[:proxy] = p
   end
@@ -36,6 +40,7 @@ begin
   logger = CSI::Plugins::CSILogger.create
 
   target_url = opts[:target_url].to_s.scrub
+  navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
   proxy = opts[:proxy].to_s.scrub
   proxy_type = opts[:proxy_type].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)

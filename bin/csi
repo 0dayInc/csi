@@ -6,6 +6,7 @@ require 'pry'
 
 begin
   cli = Pry
+  cli.config.history.should_add_duplicates = true
 
   cli::Commands.create_command 'toggle-pager' do
     description 'Toggle less on returned objects surpassing the terminal.'
