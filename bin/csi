@@ -5,6 +5,25 @@ require 'csi'
 require 'pry'
 
 begin
+  # Overwrite Pry::History.push method in History class to get duplicate history entries
+  # in order to properly replay automation in this prototyping driver
+  # TODO: Remove once this feature is available in mainline
+  class Pry
+    class History
+      def push(line)
+        unless line.empty?
+          @pusher.call(line)
+          @history << line
+          if !should_ignore?(line) && Pry.config.history.should_save
+            @saver.call(line)
+          end
+        end
+        line
+      end
+      alias << push
+    end
+  end
+
   cli = Pry
   cli.config.history.should_add_duplicates = true
 
