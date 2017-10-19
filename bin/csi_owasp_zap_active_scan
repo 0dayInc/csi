@@ -78,17 +78,17 @@ begin
 
   logger.info(zap_obj)
 
-  navb = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
+  browser = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
 
   if browser_type == :rest
-    navb.get(target_url)
+    browser.get(target_url)
   else
-    navb.goto(target_url)
+    browser.goto(target_url)
   end
 
   if navigation_instruct
     File.read(navigation_instruct).each_line do |instruction|
-      navb.instance_eval(instruction.to_s.scrub.strip.chomp)
+      browser.instance_eval(instruction.to_s.scrub.strip.chomp)
     end
   end
 

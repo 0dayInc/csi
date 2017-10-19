@@ -1,4 +1,3 @@
-goto(target_url)
 text_field(id: 'username').wait_until_present.set('<target username>')
 text_field(id: 'password').wait_until_present.set('<target passsword>')
 button(name: 'login').wait_until_present.click
