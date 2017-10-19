@@ -2,7 +2,6 @@
 # frozen_string_literal: false
 
 require 'csi'
-require 'thread'
 require 'optparse'
 
 opts = {}
