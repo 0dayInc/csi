@@ -1,3 +1,6 @@
 browser.text_field(:id => 'username').wait_until_present.set('<target username>')
 browser.text_field(:id => 'password').wait_until_present.set('<target passsword>')
 browser.button(:name => 'login').wait_until_present.click
+
+framework.options.session.check_url = browser.url
+framework.options.session.check_pattern = />Logout</
