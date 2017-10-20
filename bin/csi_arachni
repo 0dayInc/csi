@@ -92,5 +92,6 @@ begin
 rescue => e
   raise e
 ensure
+  puts File.read(cookie_jar)
   File.unlink(cookie_jar) if File.exist?(cookie_jar)
 end
