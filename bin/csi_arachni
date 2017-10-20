@@ -33,6 +33,10 @@ OptionParser.new do |options|
   options.on('-xTYPE', '--proxy-type=TYPE', '<Optional - Proxy Type (See arachni --help)>') do |x|
     opts[:proxy_type] = x
   end
+
+  options.on('-ePATTERN', '--exclude-pattern=PATTERN', '<Optional - Exclude resources whose URL matches pattern>') do |e|
+    opts[:exclude_pattern] = e
+  end
 end.parse!
 
 if opts.empty?
@@ -44,6 +48,7 @@ begin
   logger = CSI::Plugins::CSILogger.create
 
   target_url = opts[:target_url].to_s.scrub
+  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   if opts[:browser_type].nil?
     browser_type = :chrome
   else
@@ -52,7 +57,7 @@ begin
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
   proxy = opts[:proxy]
   proxy_type = opts[:proxy_type]
-  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
+  exclude_pattern = opts[:exclude_pattern]
 
   browser = CSI::Plugins::TransparentBrowser.open(browser_type: browser_type, proxy: proxy)
 
@@ -91,6 +96,7 @@ begin
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-string '#{http_cookie_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --scope-exclude-pattern #{exclude_pattern}" if exclude_pattern
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
