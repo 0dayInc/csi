@@ -3,7 +3,6 @@
 
 require 'csi'
 require 'optparse'
-require 'securerandom'
 
 opts = {}
 OptionParser.new do |options|
@@ -69,17 +68,24 @@ begin
     end
 
     # We should have an authenticated session by now in our browser object...
-    cookie_jar = "/tmp/csi_arachni-cookie_jar-#{SecureRandom.hex}.txt"
-    browser.cookies.save(cookie_jar)
-    # File.open(cookie_jar, 'w') do |f|
-    #   f.puts browser.cookies
-    # end
+    http_header_cookie = ''
+    b.cookies.to_a.each_with_index do |this_symbolized_cookie_hash, index|
+      this_cookie = {}
+      this_symbolized_cookie_hash.each do |key, val|
+        this_cookie[key.to_s] = val
+      end
+      if index == 0
+        http_cookie_header = CGI::Cookie.new(this_cookie).to_s
+      else
+        http_cookie_header = "#{http_cookie_header}, #{CGI::Cookie.new(this_cookie).to_s}"
+      end
+    end
   end
 
   arachni_cmd_str = "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-jar #{cookie_jar}" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-string '#{http_cookie_header}'" if navigation_instruct
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
@@ -91,7 +97,4 @@ begin
   system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
 rescue => e
   raise e
-ensure
-  puts File.read(cookie_jar)
-  File.unlink(cookie_jar) if File.exist?(cookie_jar)
 end
