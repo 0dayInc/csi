@@ -68,7 +68,7 @@ begin
     end
 
     # We should have an authenticated session by now in our browser object...
-    http_header_cookie = ''
+    http_cookie_header = ''
     browser.cookies.to_a.each_with_index do |this_symbolized_cookie_hash, index|
       # Need to convert symbolized key names in browser.cookies.to_a[index]
       # to strings for proper CGI::Cookie consumption
