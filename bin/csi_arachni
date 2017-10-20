@@ -95,7 +95,7 @@ begin
   arachni_cmd_str = "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-string '#{http_cookie_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-string='#{http_cookie_header}'" if navigation_instruct
   if exclude_pattern
     exclude_pattern.to_s.split(',').each do |exclude_entry|
       arachni_cmd_str = "#{arachni_cmd_str} --scope-exclude-pattern #{exclude_entry}"
