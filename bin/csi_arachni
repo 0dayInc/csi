@@ -69,15 +69,20 @@ begin
 
     # We should have an authenticated session by now in our browser object...
     http_header_cookie = ''
-    b.cookies.to_a.each_with_index do |this_symbolized_cookie_hash, index|
+    browser.cookies.to_a.each_with_index do |this_symbolized_cookie_hash, index|
+      # Need to convert symbolized key names in browser.cookies.to_a[index]
+      # to strings for proper CGI::Cookie consumption
       this_cookie = {}
       this_symbolized_cookie_hash.each do |key, val|
         this_cookie[key.to_s] = val
       end
-      if index == 0
-        http_cookie_header = CGI::Cookie.new(this_cookie).to_s
+
+      cgi_cookie_str = CGI::Cookie.new(this_cookie).to_s
+
+      if index.zero?
+        http_cookie_header = cgi_cookie_str
       else
-        http_cookie_header = "#{http_cookie_header}, #{CGI::Cookie.new(this_cookie).to_s}"
+        http_cookie_header = "#{http_cookie_header}, #{cgi_cookie_str}"
       end
     end
   end
