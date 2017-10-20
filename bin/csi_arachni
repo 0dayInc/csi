@@ -70,9 +70,10 @@ begin
 
     # We should have an authenticated session by now in our browser object...
     cookie_jar = "/tmp/csi_arachni-cookie_jar-#{SecureRandom.hex}.txt"
-    File.open(cookie_jar, 'w') do |f|
-      f.puts browser.cookies
-    end
+    browser.cookies.save(cookie_jar)
+    # File.open(cookie_jar, 'w') do |f|
+    #   f.puts browser.cookies
+    # end
   end
 
   arachni_cmd_str = "arachni #{target_url} --report-save-path=#{output_dir}/arachni_results.afr"
