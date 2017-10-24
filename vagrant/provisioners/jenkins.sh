@@ -15,113 +15,20 @@ new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagra
 csi_jenkins_useradd -s 127.0.0.1 -d 8888 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd -e $new_email
 
 # Begin Creating Self-Update Jobs in Jenkins and Template-Based Jobs to Describe how to Intgrate CSI into Jenkins
-printf "Creating Self-Update Jobs *************************************************************"
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-os \
-  -c /csi/etc/jenkins/jobs/selfupdate-os.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-jenkins_plugins \
-  -c /csi/etc/jenkins/jobs/selfupdate-jenkins_plugins.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-rvm \
-  -c /csi/etc/jenkins/jobs/selfupdate-rvm.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-gem \
-  -c /csi/etc/jenkins/jobs/selfupdate-gem.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-wpscan \
-  -c /csi/etc/jenkins/jobs/selfupdate-wpscan.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-metasploit \
-  -c /csi/etc/jenkins/jobs/selfupdate-metasploit.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-nmap_all_live_hosts \
-  -c /csi/etc/jenkins/jobs/selfupdate-nmap_all_live_hosts.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-toggle_tor \
-  -c /csi/etc/jenkins/jobs/selfupdate-toggle_tor.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-ssllabs-scan \
-  -c /csi/etc/jenkins/jobs/selfupdate-ssllabs-scan.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-openvas_sync \
-  -c /csi/etc/jenkins/jobs/selfupdate-openvas_sync.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-openvas_wrappers \
-  -c /csi/etc/jenkins/jobs/selfupdate-openvas_wrappers.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-csi \
-  -c /csi/etc/jenkins/jobs/selfupdate-csi.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j selfupdate-exploit-db \
-  -c /csi/etc/jenkins/jobs/selfupdate-exploit-db.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j anonymization-toggle_tor \
-  -c /csi/etc/jenkins/jobs/anonymization-toggle_tor.xml
-
-csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-  -d 8888 \
-  -U admin \
-  -P $initial_admin_pwd \
-  -j pipeline-selfupdate \
-  -c /csi/etc/jenkins/jobs/pipeline-selfupdate.xml
+printf "Creating Self-Update and CSI-Template Jobs ********************************************"
+ls /csi/etc/jenkins/jobs/*.xml | while read jenkins_xml_config; do
+  file_name=`basename $jenkins_xml_config`
+  job_name=${file_name%.*}
+  csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+    -d 8888 \
+    -U admin \
+    -P $initial_admin_pwd \
+    -j $job_name \
+    -c $jenkins_xml_config
+done
 
 # Create any jobs residing in /csi/jenkins/jobs_userland
+printf "Creating User-Land Jobs ***************************************************************"
 ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
   file_name=`basename $jenkins_xml_config`
   job_name=${file_name%.*}
@@ -134,6 +41,13 @@ ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
 done
 
 printf "Creating Jenkins Views ****************************************************************"
+csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
+  -d 8888 \
+  -U admin \
+  -P $initial_admin_pwd \
+  -v 'CSI-Templates' \
+  -r '^csitemplate-.+$'
+
 csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
   -d 8888 \
   -U admin \
