@@ -89,68 +89,68 @@ module CSI
         when :headless
           # Soon Selenium will Deprecate PhantomJS...when they do, we'll be ready.
           # This hasn't been transitioned yet because we're waiting for the
-          # chromedriver team to sort out headless and --proxy-server when combined
-          # which currently results in the browser to hang.
+          # chromedriver team to sort out headless w/ accepting insecure TLS and --proxy-server when combined
+          # which currently results in the browser to refuse to display a webpage and/or hang.
 
-          this_profile = Selenium::WebDriver::Chrome::Profile.new
-          this_profile['download.prompt_for_download'] = false
-          this_profile['download.default_directory'] = '~/Downloads'
-
-          if proxy
-            if with_tor
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}",
-                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                ]
-              )
-            else
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}"
-                ]
-              )
-            end
-          else
-            this_browser = Watir::Browser.new(
-              :chrome,
-              headless: true
-            )
-          end
+          # this_profile = Selenium::WebDriver::Chrome::Profile.new
+          # this_profile['download.prompt_for_download'] = false
+          # this_profile['download.default_directory'] = '~/Downloads'
 
           # if proxy
           #   if with_tor
-          #     args = [
-          #       '--proxy-type=socks5',
-          #       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-          #       '--ignore-ssl-errors=true',
-          #       '--ssl-protocol=any',
-          #       '--web-security=false'
-          #     ]
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}",
+          #         "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+          #       ]
+          #     )
           #   else
-          #     args = [
-          #       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-          #       '--ignore-ssl-errors=true',
-          #       '--ssl-protocol=any',
-          #       '--web-security=false'
-          #     ]
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}"
+          #       ]
+          #     )
           #   end
           # else
-          #   args = [
-          #     '--ignore-ssl-errors=true',
-          #     '--ssl-protocol=any',
-          #     '--web-security=false'
-          #   ]
+          #   this_browser = Watir::Browser.new(
+          #     :chrome,
+          #     headless: true
+          #   )
           # end
 
-          # this_browser = Watir::Browser.new(
-          #   :phantomjs,
-          #   driver_opts: { args: args }
-          # )
+          if proxy
+            if with_tor
+              args = [
+                '--proxy-type=socks5',
+                "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
+                '--ignore-ssl-errors=true',
+                '--ssl-protocol=any',
+                '--web-security=false'
+              ]
+            else
+              args = [
+                "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
+                '--ignore-ssl-errors=true',
+                '--ssl-protocol=any',
+                '--web-security=false'
+              ]
+            end
+          else
+            args = [
+              '--ignore-ssl-errors=true',
+              '--ssl-protocol=any',
+              '--web-security=false'
+            ]
+          end
+
+          this_browser = Watir::Browser.new(
+            :phantomjs,
+            driver_opts: { args: args }
+          )
 
         when :rest
           this_browser = RestClient
