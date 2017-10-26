@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 alias_file = '/etc/profile.d/aliases.sh'
+system("sudo touch #{alias_file}")
+File.chmod(0o777, alias_file)
 File.open(alias_file, 'w') do |f|
   f.puts '#!/bin/bash'
   f.puts "alias kpid='kill -15'"
