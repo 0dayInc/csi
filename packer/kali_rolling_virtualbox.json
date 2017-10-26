@@ -110,6 +110,7 @@
         "provisioners/strace.sh",
         "provisioners/openvpn.sh",
         "provisioners/rc.local.sh",
+        "provisioners/vim.sh",
         "provisioners/kali_customize.rb"
       ]
     }
