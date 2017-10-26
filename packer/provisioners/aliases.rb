@@ -3,7 +3,7 @@
 
 alias_file = '/etc/profile.d/aliases.sh'
 system("sudo touch #{alias_file}")
-File.chmod(0o777, alias_file)
+system("sudo chmod 777 #{alias_file}")
 File.open(alias_file, 'w') do |f|
   f.puts '#!/bin/bash'
   f.puts "alias kpid='kill -15'"
@@ -12,5 +12,4 @@ File.open(alias_file, 'w') do |f|
   f.puts "alias vi='vim -i NONE'"
   f.puts "alias vim='vim -i NONE'"
 end
-# 0o755 is not a typo - Octal literals are required by rubocop
-File.chmod(0o755, alias_file)
+system("sudo chmod 755 #{alias_file}")
