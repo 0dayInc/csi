@@ -109,6 +109,7 @@
         "provisioners/scout2.sh",
         "provisioners/strace.sh",
         "provisioners/openvpn.sh",
+        "provisioners/fuzzdb.sh",
         "provisioners/rc.local.sh",
         "provisioners/vim.sh",
         "provisioners/kali_customize.rb"
