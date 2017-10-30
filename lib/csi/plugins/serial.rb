@@ -190,6 +190,17 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # session_data = CSI::Plugins::Serial.flush_session_data
+
+      public
+
+      def self.flush_session_data
+        @session_data.clear
+      rescue => e
+        raise e.message
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::Serial.disconnect(
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
@@ -200,6 +211,7 @@ module CSI
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         session_thread = serial_obj[:session_thread]
+        flush_session_data
         session_thread.terminate
         serial_conn.close
         serial_conn = nil
@@ -252,6 +264,8 @@ module CSI
           )
 
           session_data_arr = #{self}.dump_session_data
+
+          #{self}.flush_session_data
 
           #{self}.disconnect(
             serial_obj: 'required serial_obj returned from #connect method'
