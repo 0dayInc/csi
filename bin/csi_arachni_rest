@@ -58,7 +58,7 @@ begin
 
   if navigation_instruct
     rest_api_auth_header = ''
-    rest_client.instance_eval(read(navigation_instruct), navigation_instruct)
+    instance_eval(read(navigation_instruct), navigation_instruct)
 
     rest_api_auth_header = rest_api_auth_header
   end

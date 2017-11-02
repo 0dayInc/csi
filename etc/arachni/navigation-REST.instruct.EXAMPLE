@@ -2,7 +2,7 @@ rest_response = rest_client.execute(
   method: :post,
   url: '<target_url>',
   verify_ssl: false,
-  headers: { content-type: 'application/json' },
+  headers: { content_type: 'application/json' },
   payload: '{ "username":"<target_username>", "password":"<target_password>" }'
 )
 
