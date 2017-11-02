@@ -11,8 +11,12 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-tTARGET', '--target_url=TARGET', '<Required - Target URI to Scan>') do |t|
+  options.on('-tTARGET', '--target_url=TARGET', '<Required if -f is Blank - Target URI to Scan>') do |t|
     opts[:target_url] = t
+  end
+
+  options.on('-fFILE', '--target_file=FILE', '<Required if -t is Blank - File of URIs to Scan>') do |f|
+    opts[:target_file] = f
   end
 
   options.on('-oDIR', '--report_output_dir=DIR', '<Required - Output Directory for Results Generation>') do |o|
@@ -41,48 +45,66 @@ if opts.empty?
   exit 1
 end
 
-begin
-  logger = CSI::Plugins::CSILogger.create
-
+private
+def scan(opts = {})
   target_url = opts[:target_url].to_s.scrub
-  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
-  navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  proxy = opts[:proxy]
-  proxy_type = opts[:proxy_type]
-  exclude_pattern = opts[:exclude_pattern]
 
   rest_client = CSI::Plugins::TransparentBrowser.open(
     browser_type: :rest,
-    proxy: proxy
+    proxy: @proxy
   )::Request
 
-  if navigation_instruct
+  if @navigation_instruct
     rest_api_auth_header = ''
-    instance_eval(File.read(navigation_instruct), navigation_instruct)
+    instance_eval(File.read(@navigation_instruct), @navigation_instruct)
 
     rest_api_auth_header = rest_api_auth_header
   end
 
   arachni_cmd_str = "arachni #{target_url} --audit-with-both-methods --audit-parameter-names"
-  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
-  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
-  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
+  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{@output_dir}/arachni_results.afr"
+  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{@proxy}" if @proxy
+  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{@proxy_type}" if @proxy_type
+  arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if @navigation_instruct
 
-  if exclude_pattern
-    exclude_pattern.to_s.split(',').each do |exclude_entry|
+  if @exclude_pattern
+    @exclude_pattern.to_s.split(',').each do |exclude_entry|
       arachni_cmd_str = "#{arachni_cmd_str} --scope-exclude-pattern #{exclude_entry}"
     end
   end
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
+rescue StandardError, SystemExit, Interrupt => e
+  raise e
+end
+
+begin
+  logger = CSI::Plugins::CSILogger.create
+
+  target_url = opts[:target_url].to_s.scrub
+  target_file = opts[:target_file].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
+  @output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
+  @navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
+  @proxy = opts[:proxy]
+  @proxy_type = opts[:proxy_type]
+  @exclude_pattern = opts[:exclude_pattern]
+
+  if target_file != ''
+    File.readlines(target_file).each do |target_line|
+      target_url = target_line.to_s.scrub.strip.chomp
+      scan(target_url: target_url)
+    end
+  else
+    scan(target_url: target_url)
+  end
 
   # Report Scan Results
-  system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
+  system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/arachni_results.afr --reporter=html:outfile=#{@output_dir}/arachni_results.html.zip\"")
 
   # Unzip Results in Output Dir
-  system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
-rescue => e
+  system("sudo /bin/bash --login -c \"cd #{@output_dir} && unzip -o arachni_results.html.zip\"")
+rescue StandardError, SystemExit, Interrupt => e
   raise e
 end
