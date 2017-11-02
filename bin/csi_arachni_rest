@@ -58,9 +58,7 @@ begin
 
   if navigation_instruct
     rest_api_auth_header = ''
-    File.read(navigation_instruct).each_line do |instruction|
-      rest_client.instance_eval(instruction.to_s.scrub.strip.chomp)
-    end
+    rest_client.instance_eval(read(navigation_instruct), navigation_instruct)
 
     rest_api_auth_header = rest_api_auth_header
   end
