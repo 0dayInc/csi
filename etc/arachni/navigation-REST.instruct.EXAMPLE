@@ -1,0 +1,14 @@
+rest_response = rest_client.execute(
+  method: :post,
+  url: '<target_url>',
+  verify_ssl: false,
+  headers: { content-type: 'application/json' },
+  payload: '{ "username":"<target_username>", "password":"<target_password>" }'
+)
+
+token_hash = JSON.parse(rest_response.body, symbolize_names: true)
+
+# Constructing the Custom HTTP Request Header 
+# in the Navigation File is Mandatory
+# as it's passed to arachni for proper AuthN
+rest_api_auth_header = "Authorization: #{token_hash[:token]}"
