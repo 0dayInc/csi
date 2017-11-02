@@ -30,7 +30,7 @@ OptionParser.new do |options|
     opts[:report_type] = r
   end
 
-  options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/burpsuite/navigation.instruct for an example)>') do |i|
+  options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/burpsuite/navigation.instruct.EXAMPLE)>') do |i|
     opts[:navigation_instruct] = i
   end
 end.parse!

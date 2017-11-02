@@ -10,5 +10,5 @@ token_hash = JSON.parse(rest_response.body, symbolize_names: true)
 
 # Constructing the Custom HTTP Request Header 
 # in the Navigation File is Mandatory
-# as it's passed to arachni for proper AuthN
+# as it's passed to csi_arachni_rest for proper AuthN
 rest_api_auth_header = "Authorization: #{token_hash[:token]}"

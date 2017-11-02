@@ -19,7 +19,7 @@ OptionParser.new do |options|
     opts[:output_dir] = o
   end
 
-  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/arachni/navigation.instruct for an example)>') do |i|
+  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/arachni/navigation-REST.instruct.EXAMPLE)>') do |i|
     opts[:navigation_instruct] = i
   end
 
