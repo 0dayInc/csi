@@ -62,7 +62,6 @@ begin
       rest_client.instance_eval(instruction.to_s.scrub.strip.chomp)
     end
 
-    token_hash = JSON.parse(rest_response.body, symbolize_names: true)
     rest_api_auth_header = rest_api_auth_header
   end
 
