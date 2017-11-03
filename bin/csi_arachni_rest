@@ -93,7 +93,7 @@ begin
 
   @output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   @navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  @api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
+  @api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:api_calls].to_s.scrub)
   @proxy = opts[:proxy]
   @proxy_type = opts[:proxy_type]
   @exclude_pattern = opts[:exclude_pattern]
