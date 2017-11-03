@@ -87,7 +87,7 @@ begin
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
 
   # Report Scan Results
-  system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{securerandom_afr_output}/arachni_results.html.zip\"")
+  system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
 
   # Unzip Results in Output Dir
   system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
