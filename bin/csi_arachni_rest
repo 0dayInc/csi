@@ -93,43 +93,30 @@ begin
   @exclude_pattern = opts[:exclude_pattern]
 
   target_file = opts[:target_file].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
-  securerandom_afr_merge_list = ''
+  securerandom_afr_arr = []
   if target_file
     File.readlines(target_file).each do |target_line|
       target_url = target_line.to_s.scrub.strip.chomp
       securerandom_afr = "arachni_results-#{SecureRandom.hex}.afr"
-      securerandom_afr_merge_list = "#{securerandom_afr_merge_list} #{securerandom_afr}"
+      securerandom_afr_arr.push(securerandom_afr)
       scan(target_url: target_url, afr_results: securerandom_afr)
     end
   else
     target_url = opts[:target_url].to_s.scrub
     securerandom_afr = "arachni_results-#{SecureRandom.hex}.afr"
-    securerandom_afr_merge_list = "#{securerandom_afr_merge_list} #{securerandom_afr}"
+    securerandom_afr_arr.push(securerandom_afr)
     scan(target_url: target_url, afr_results: securerandom_afr)
   end
 
-  # Ugly hack - create a script on the fly to merge afr results
-  arachni_merge_script = '/tmp/arachni_merge_reports.rb'
-  unless File.exist?(arachni_merge_script)
-    File.open(arachni_merge_script, 'w') do |f|
-      f.puts 'report_name = ARGV.pop'
-      f.puts 'report = Report.load( ARGV.pop )'
-      f.puts 'ARGV.each do |report_file|'
-      f.puts '  report.issues |= Report.load( report_file ).issues'
-      f.puts 'end'
-      f.puts 'report.save report_name'
-    end
-  end
-
-  # Now we execute this ugly bastard to merge all afr files into one afr result
-  puts "Merging the following results: #{securerandom_afr_merge_list}"
-  system("sudo /bin/bash --login -c \"arachni_script #{arachni_merge_script} #{securerandom_afr_merge_list} arachni_results.afr\"")
-
   # Report Scan Results
-  system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/arachni_results.afr --reporter=html:outfile=#{@output_dir}/arachni_results.html.zip\"")
+  securerandom_afr_arr.each do |securerandom_afr|
+    securerandom_afr_output = "#{@output_dir}/#{File.basename(securerandom_afr, File.extname(securerandom_afr))}"
+    File.mkdir(securerandom_afr_output)
+    system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/#{securerandom_afr} --reporter=html:outfile=#{securerandom_afr_output}/#{securerandom_afr}.html.zip\"")
 
-  # Unzip Results in Output Dir
-  system("sudo /bin/bash --login -c \"cd #{@output_dir} && unzip -o arachni_results.html.zip\"")
+    # Unzip Results in Output Dir
+    system("sudo /bin/bash --login -c \"cd #{securerandom_afr_output} && unzip -o #{securerandom_afr}.html.zip\"")
+  end
 rescue StandardError, SystemExit, Interrupt => e
   raise e
 end
