@@ -98,7 +98,7 @@ begin
     File.readlines(target_file).each do |target_line|
       target_url = target_line.to_s.scrub.strip.chomp
       securerandom_afr = "arachni_results-#{SecureRandom.hex}.afr"
-      securerandom_merge_afr_list = "#{securerandom_merge_afr_list} #{securerandom_afr}"
+      securerandom_afr_merge_list = "#{securerandom_afr_merge_list} #{securerandom_afr}"
       scan(target_url: target_url, afr_results: securerandom_afr)
     end
   else
