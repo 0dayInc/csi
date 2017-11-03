@@ -9,7 +9,7 @@ module CSI
       # Supported Method Parameters::
       # browser_obj = CSI::WWW::Paypal.open(
       #   browser_type: :firefox|:chrome|:ie|:headless,
-      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
@@ -210,7 +210,7 @@ module CSI
         puts %{USAGE:
           browser_obj = #{self}.open(
             browser_type: 'optional - :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
-            proxy: 'optional - http(s)://proxy_host:port',
+            proxy: 'optional - scheme://proxy_host:port',
             with_tor: 'optional - boolean (defaults to false)'
           )
           puts "browser_obj.public_methods"

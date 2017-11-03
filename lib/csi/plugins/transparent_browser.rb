@@ -18,7 +18,7 @@ module CSI
       # Supported Method Parameters::
       # browser_obj = CSI::Plugins::TransparentBrowser.open(
       #   browser_type: :firefox|:chrome|:headless|:rest,
-      #   proxy: 'optional - http(s)://proxy_host:port',
+      #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
@@ -257,7 +257,7 @@ module CSI
         puts %{USAGE:
           browser_obj1 = #{self}.open(
             browser_type: :firefox|:chrome|:headless|:rest,
-            proxy: 'optional http(s)://proxy_host:port',
+            proxy: 'optional scheme://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)'
           )
           puts "browser_obj1.public_methods"

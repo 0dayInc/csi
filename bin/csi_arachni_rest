@@ -27,7 +27,7 @@ OptionParser.new do |options|
     opts[:navigation_instruct] = i
   end
 
-  options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy ADDRESS:PORT>') do |p|
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy SCHEME://ADDRESS:PORT>') do |p|
     opts[:proxy] = p
   end
 
@@ -91,7 +91,7 @@ begin
   @proxy_type = opts[:proxy_type]
   @exclude_pattern = opts[:exclude_pattern]
 
-  if target_file != ''
+  if target_file
     File.readlines(target_file).each do |target_line|
       target_url = target_line.to_s.scrub.strip.chomp
       scan(target_url: target_url)
