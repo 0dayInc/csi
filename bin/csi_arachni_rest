@@ -109,13 +109,13 @@ begin
   end
 
   # Report Scan Results
-  securerandom_afr_arr.each do |securerandom_afr|
-    securerandom_afr_output = "#{@output_dir}/#{File.basename(securerandom_afr, File.extname(securerandom_afr))}"
+  securerandom_afr_arr.each do |this_securerandom_afr|
+    securerandom_afr_output = "#{@output_dir}/#{File.basename(this_securerandom_afr, File.extname(this_securerandom_afr))}"
     File.mkdir(securerandom_afr_output)
-    system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/#{securerandom_afr} --reporter=html:outfile=#{securerandom_afr_output}/#{securerandom_afr}.html.zip\"")
+    system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/#{this_securerandom_afr} --reporter=html:outfile=#{securerandom_afr_output}/#{this_securerandom_afr}.html.zip\"")
 
     # Unzip Results in Output Dir
-    system("sudo /bin/bash --login -c \"cd #{securerandom_afr_output} && unzip -o #{securerandom_afr}.html.zip\"")
+    system("sudo /bin/bash --login -c \"cd #{securerandom_afr_output} && unzip -o #{this_securerandom_afr}.html.zip\"")
   end
 rescue StandardError, SystemExit, Interrupt => e
   raise e
