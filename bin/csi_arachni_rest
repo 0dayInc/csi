@@ -4,6 +4,7 @@
 require 'csi'
 require 'optparse'
 require 'json'
+require 'securerandom'
 
 opts = {}
 OptionParser.new do |options|
@@ -45,58 +46,89 @@ if opts.empty?
   exit 1
 end
 
-begin
-  logger = CSI::Plugins::CSILogger.create
-
-  target_file = opts[:target_file].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
-  if target_file
-    target_url = ''
-    File.readlines(target_file).each do |target_line|
-      target_url = "#{target_url} #{target_line.to_s.scrub.strip.chomp}"
-    end
-  else
-    target_url = opts[:target_url].to_s.scrub
-  end
-
-  output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
-  navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  proxy = opts[:proxy]
-  proxy_type = opts[:proxy_type]
-  exclude_pattern = opts[:exclude_pattern]
+private
+def scan(opts = {})
+  target_url = opts[:target_url].to_s.scrub
+  afr_results = opts[:afr_results].to_s.scrub
 
   rest_client = CSI::Plugins::TransparentBrowser.open(
     browser_type: :rest,
-    proxy: proxy
+    proxy: @proxy
   )::Request
 
-  if navigation_instruct
+  if @navigation_instruct
     rest_api_auth_header = ''
-    instance_eval(File.read(navigation_instruct), navigation_instruct)
+    instance_eval(File.read(@navigation_instruct), @navigation_instruct)
 
     rest_api_auth_header = rest_api_auth_header
   end
 
-  arachni_cmd_str = 'arachni --audit-with-both-methods --audit-parameter-names'
+  arachni_cmd_str = "arachni --audit-with-both-methods --audit-parameter-names"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
-  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
-  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
-  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{@output_dir}/#{afr_results}"
+  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{@proxy}" if @proxy
+  arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{@proxy_type}" if @proxy_type
+  arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if @navigation_instruct
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
-  if exclude_pattern
-    exclude_pattern.to_s.split(',').each do |exclude_entry|
+  if @exclude_pattern
+    @exclude_pattern.to_s.split(',').each do |exclude_entry|
       arachni_cmd_str = "#{arachni_cmd_str} --scope-exclude-pattern #{exclude_entry}"
     end
   end
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
+rescue StandardError, SystemExit, Interrupt => e
+  raise e
+end
+
+begin
+  logger = CSI::Plugins::CSILogger.create
+
+  @output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
+  @navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
+  @proxy = opts[:proxy]
+  @proxy_type = opts[:proxy_type]
+  @exclude_pattern = opts[:exclude_pattern]
+
+  target_file = opts[:target_file].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
+  securerandom_afr_merge_list = ''
+  if target_file
+    File.readlines(target_file).each do |target_line|
+      target_url = target_line.to_s.scrub.strip.chomp
+      securerandom_afr = "arachni_results-#{SecureRandom.hex}.afr"
+      securerandom_merge_afr_list = "#{securerandom_merge_afr_list} #{securerandom_afr}"
+      scan(target_url: target_url, afr_results: securerandom_afr)
+    end
+  else
+    target_url = opts[:target_url].to_s.scrub
+    securerandom_afr = "arachni_results-#{SecureRandom.hex}.afr"
+    securerandom_afr_merge_list = "#{securerandom_afr_merge_list} #{securerandom_afr}"
+    scan(target_url: target_url, afr_results: securerandom_afr)
+  end
+
+  # Ugly hack - create a script on the fly to merge afr results
+  arachni_merge_script = '/tmp/arachni_merge_reports.rb'
+  unless File.exist?(arachni_merge_script)
+    File.open(arachni_merge_script, 'w') do |f|
+      f.puts 'report_name = ARGV.pop'
+      f.puts 'report = Report.load( ARGV.pop )'
+      f.puts 'ARGV.each do |report_file|'
+      f.puts '  report.issues |= Report.load( report_file ).issues'
+      f.puts 'end'
+      f.puts 'report.save report_name'
+    end
+  end
+
+  # Now we execute this ugly bastard to merge all afr files into one afr result
+  system("sudo /bin/bash --login -c \"arachni_script #{arachni_merge_script} #{securerandom_afr_merge_list} arachni_results.afr") 
+
   # Report Scan Results
-  system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
+  system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/arachni_results.afr --reporter=html:outfile=#{@output_dir}/arachni_results.html.zip\"")
 
   # Unzip Results in Output Dir
-  system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
+  system("sudo /bin/bash --login -c \"cd #{@output_dir} && unzip -o arachni_results.html.zip\"")
 rescue StandardError, SystemExit, Interrupt => e
   raise e
 end
