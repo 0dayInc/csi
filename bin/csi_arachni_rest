@@ -122,6 +122,7 @@ begin
   end
 
   # Now we execute this ugly bastard to merge all afr files into one afr result
+  puts "Merging the following results: #{securerandom_afr_merge_list}"
   system("sudo /bin/bash --login -c \"arachni_script #{arachni_merge_script} #{securerandom_afr_merge_list} arachni_results.afr\"")
 
   # Report Scan Results
