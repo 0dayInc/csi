@@ -111,7 +111,7 @@ begin
   # Report Scan Results
   securerandom_afr_arr.each do |this_securerandom_afr|
     securerandom_afr_output = "#{@output_dir}/#{File.basename(this_securerandom_afr, File.extname(this_securerandom_afr))}"
-    File.mkdir(securerandom_afr_output)
+    Dir.mkdir(securerandom_afr_output)
     system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/#{this_securerandom_afr} --reporter=html:outfile=#{securerandom_afr_output}/#{this_securerandom_afr}.html.zip\"")
 
     # Unzip Results in Output Dir
