@@ -28,6 +28,10 @@ OptionParser.new do |options|
     opts[:navigation_instruct] = i
   end
 
+  options.on('-aCALLS', '--api_calls=FILE', '<Optional - File Containing API Call Paths>') do |a|
+    opts[:api_calls] = a
+  end
+
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy SCHEME://ADDRESS:PORT>') do |p|
     opts[:proxy] = p
   end
@@ -69,6 +73,7 @@ def scan(opts = {})
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{@proxy}" if @proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{@proxy_type}" if @proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if @navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --scope-extend-paths='#{@api_calls}'" if @api_calls
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
   if @exclude_pattern
@@ -88,6 +93,7 @@ begin
 
   @output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   @navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
+  @api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:target_file].to_s.scrub)
   @proxy = opts[:proxy]
   @proxy_type = opts[:proxy_type]
   @exclude_pattern = opts[:exclude_pattern]
