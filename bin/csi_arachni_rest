@@ -70,7 +70,7 @@ begin
 
   arachni_cmd_str = 'arachni --audit-with-both-methods --audit-parameter-names'
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
-  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/#{afr_results}"
+  arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
