@@ -63,7 +63,7 @@ def scan(opts = {})
     rest_api_auth_header = rest_api_auth_header
   end
 
-  arachni_cmd_str = "arachni --audit-with-both-methods --audit-parameter-names"
+  arachni_cmd_str = 'arachni --audit-with-both-methods --audit-parameter-names'
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{@output_dir}/#{afr_results}"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{@proxy}" if @proxy
@@ -122,7 +122,7 @@ begin
   end
 
   # Now we execute this ugly bastard to merge all afr files into one afr result
-  system("sudo /bin/bash --login -c \"arachni_script #{arachni_merge_script} #{securerandom_afr_merge_list} arachni_results.afr") 
+  system("sudo /bin/bash --login -c \"arachni_script #{arachni_merge_script} #{securerandom_afr_merge_list} arachni_results.afr")
 
   # Report Scan Results
   system("sudo /bin/bash --login -c \"arachni_reporter #{@output_dir}/arachni_results.afr --reporter=html:outfile=#{@output_dir}/arachni_results.html.zip\"")
