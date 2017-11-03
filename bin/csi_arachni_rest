@@ -76,12 +76,13 @@ begin
     rest_api_auth_header = rest_api_auth_header
   end
 
-  arachni_cmd_str = "arachni #{target_url} --audit-with-both-methods --audit-parameter-names"
+  arachni_cmd_str = 'arachni --audit-with-both-methods --audit-parameter-names'
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
   if exclude_pattern
     exclude_pattern.to_s.split(',').each do |exclude_entry|
