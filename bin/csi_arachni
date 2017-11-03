@@ -113,6 +113,6 @@ begin
 
   # Unzip Results in Output Dir
   system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
-rescue => e
+rescue StandardError, SystemExit, Interrupt => e
   raise e
 end
