@@ -112,7 +112,7 @@ begin
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
   instance_eval(File.read(navigation_instruct), navigation_instruct)
   puts "REST API Training Complete: #{navigation_instruct}"
-  puts "Sleeping for 9s prior to proceeding..."
+  puts 'Sleeping for 9s prior to proceeding...'
   sleep 9
 
   # Close rest_client used for training Arachni
@@ -138,7 +138,7 @@ begin
   # Unzip Results in Output Dir
   system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
 rescue StandardError, SystemExit, Interrupt => e
-  puts "ERROR: Something Happened"
+  puts 'ERROR: Something Happened'
   raise e
 ensure
   Process.kill('TERM', fork_pid) unless fork_pid.nil?
