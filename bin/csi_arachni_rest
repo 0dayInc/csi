@@ -115,8 +115,8 @@ begin
   # rest_api_auth_header = ''
   instance_eval(File.read(navigation_instruct), navigation_instruct)
   puts "REST API Traning Complete: #{navigation_instruct}"
-  puts "Sleeping for 30s prior to proceeding..."
-  sleep 30
+  puts "Sleeping for 9s prior to proceeding..."
+  sleep 9
 
   rest_client.execute(
     method: :get,
@@ -129,6 +129,7 @@ begin
   # Unzip Results in Output Dir
   system("sudo /bin/bash --login -c \"cd #{output_dir} && unzip -o arachni_results.html.zip\"")
 rescue StandardError, SystemExit, Interrupt => e
+  "ERROR: Something Happened"
   raise e
 ensure
   Process.kill('TERM', fork_pid) unless fork_pid.nil?
