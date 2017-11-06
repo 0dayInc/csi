@@ -123,5 +123,5 @@ begin
 rescue StandardError, SystemExit, Interrupt => e
   raise e
 ensure
-  Process.kill('TERM', fork_pid)
+  Process.kill('TERM', fork_pid) unless fork_pid.nil?
 end
