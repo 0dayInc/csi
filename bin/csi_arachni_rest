@@ -3,8 +3,9 @@
 
 require 'csi'
 require 'optparse'
-require 'json'
 require 'securerandom'
+require 'pty'
+require 'json'
 
 opts = {}
 OptionParser.new do |options|
