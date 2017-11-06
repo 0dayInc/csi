@@ -4,6 +4,7 @@
 require 'csi'
 require 'optparse'
 require 'json'
+require 'securerandom'
 
 opts = {}
 OptionParser.new do |options|
@@ -87,26 +88,38 @@ begin
 
   # Kick off scan as defined by csi_arachni flags
   # system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
+  arachni_stdout_log_path = "/tmp/csi_arachni_rest-#{SecureRandom.hex}.log"
+  arachni_stdout_log = File.new(arachni_stdout_log_path, 'w')
   fork_pid = Process.fork do
     begin
       PTY.spawn("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"") do |stdout, _stdin, _pid|
         stdout.each do |line|
           puts line
+          arachni_stdout_log.puts line
         end
       end
     rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
       puts 'Spawned process exiting...'
+      File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
     rescue StandardError => e
       puts 'ERROR: Spawned process exiting...'
+      File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
       raise e
     end
   end
   Process.detach(fork_pid)
 
+  return_pattern = 'Proxy: The scan will resume once you visit the shutdown URL.'
+  loop do
+    if File.exist?(arachni_stdout_log_path)
+      break if File.read(arachni_stdout_log_path).include?(return_pattern)
+    end
+    sleep 3
+  end
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
   # if navigation_instruct
-  rest_api_auth_header = ''
+  # rest_api_auth_header = ''
   instance_eval(File.read(navigation_instruct), navigation_instruct)
 
   # rest_api_auth_header = rest_api_auth_header
@@ -128,4 +141,5 @@ rescue StandardError, SystemExit, Interrupt => e
   raise e
 ensure
   Process.kill('TERM', fork_pid) unless fork_pid.nil?
+  File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
 end
