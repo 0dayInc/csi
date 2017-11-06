@@ -75,7 +75,7 @@ begin
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
+  # arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
   # arachni_cmd_str = "#{arachni_cmd_str} --scope-extend-paths='#{api_calls}'" if api_calls
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
@@ -90,12 +90,12 @@ begin
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
-  if navigation_instruct
+  # if navigation_instruct
     rest_api_auth_header = ''
     instance_eval(File.read(navigation_instruct), navigation_instruct)
 
-    rest_api_auth_header = rest_api_auth_header
-  end
+    # rest_api_auth_header = rest_api_auth_header
+  # end
 
   # The actual Arachni scan begins here, once the proxy plugin is shutdown
   # following navigation-REST.instruct
