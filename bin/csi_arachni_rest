@@ -19,13 +19,13 @@ OptionParser.new do |options|
     opts[:output_dir] = o
   end
 
-  options.on('-IINST', '--navigation_instruct=INST', '<Optional - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/arachni/navigation-REST.instruct.EXAMPLE)>') do |i|
+  options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/arachni/navigation-REST.instruct.EXAMPLE)>') do |i|
     opts[:navigation_instruct] = i
   end
 
-  options.on('-aCALLS', '--api_calls=FILE', '<Optional - File Containing API Call Paths>') do |a|
-    opts[:api_calls] = a
-  end
+  # options.on('-aCALLS', '--api_calls=FILE', '<Optional - File Containing API Call Paths>') do |a|
+  #   opts[:api_calls] = a
+  # end
 
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy SCHEME://ADDRESS:PORT>') do |p|
     opts[:proxy] = p
@@ -51,30 +51,32 @@ begin
   target_url = opts[:target_url].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:api_calls].to_s.scrub)
+  # api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:api_calls].to_s.scrub)
   proxy = opts[:proxy]
   proxy_type = opts[:proxy_type]
   exclude_pattern = opts[:exclude_pattern]
 
+  # Initiate rest_client object to pump requests through Arachni proxy plugin.
   rest_client = CSI::Plugins::TransparentBrowser.open(
     browser_type: :rest,
-    proxy: proxy
+    proxy: 'http://127.0.0.1:8282'
   )::Request
 
-  if navigation_instruct
-    rest_api_auth_header = ''
-    instance_eval(File.read(navigation_instruct), navigation_instruct)
+  # if navigation_instruct
+  #   rest_api_auth_header = ''
+  #   instance_eval(File.read(navigation_instruct), navigation_instruct)
 
-    rest_api_auth_header = rest_api_auth_header
-  end
+  #   rest_api_auth_header = rest_api_auth_header
+  # end
 
-  arachni_cmd_str = 'arachni --audit-with-both-methods --audit-parameter-names'
+  arachni_cmd_str = 'arachni --plugin=proxy'
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
-  arachni_cmd_str = "#{arachni_cmd_str} --scope-extend-paths='#{api_calls}'" if api_calls
+  # arachni_cmd_str = "#{arachni_cmd_str} --scope-extend-paths='#{api_calls}'" if api_calls
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
   if exclude_pattern
@@ -85,6 +87,22 @@ begin
 
   # Kick off scan as defined by csi_arachni flags
   system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
+
+  # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
+  # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
+  if navigation_instruct
+    rest_api_auth_header = ''
+    instance_eval(File.read(navigation_instruct), navigation_instruct)
+
+    rest_api_auth_header = rest_api_auth_header
+  end
+
+  # The actual Arachni scan begins here, once the proxy plugin is shutdown
+  # following navigation-REST.instruct
+  rest_client.execute(
+    method: :get,
+    url: 'http://arachni.proxy/shutdown'
+  )
 
   # Report Scan Results
   system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
