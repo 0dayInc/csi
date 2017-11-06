@@ -63,6 +63,7 @@ begin
   arachni_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-jsons --audit-xmls" 
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
@@ -88,12 +89,11 @@ begin
           arachni_stdout_log.puts line
         end
       end
-    # rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
-    #   puts 'Spawned process exiting...'
-    #   Process.kill('TERM', fork_pid) unless fork_pid.nil?
-    #   File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
+    rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
+      puts 'Arachni proxy plugin process exiting...'
+      File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
     rescue StandardError => e
-      puts 'ERROR: Spawned process exiting...'
+      puts 'ERROR: Arachni proxy plugin process exiting...'
       File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
       raise e
     end
@@ -111,6 +111,7 @@ begin
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
+  rest_authz_header = ''
   instance_eval(File.read(navigation_instruct), navigation_instruct)
   puts "REST API Training Complete: #{navigation_instruct}"
   puts 'Sleeping for 9s prior to proceeding...'
@@ -124,6 +125,8 @@ begin
   system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
 
   arachni_trained_cmd_str = "arachni --plugin=vector_feed:yaml_file=#{trained_attack_vectors_yaml}"
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-request-header='#{rest_authz_header}'" if rest_authz_header != '' 
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-jsons --audit-xmls" 
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-with-both-methods --audit-parameter-names"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"

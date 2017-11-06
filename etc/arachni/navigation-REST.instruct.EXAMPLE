@@ -21,3 +21,7 @@ rest_response = rest_client.execute(
     }
   }
 )
+
+# If you want to force a Custom HTTP Header to Be Passed to csi_arachni_rest
+# the following example is reserved for such cases:
+rest_authz_header = "Authorization: #{token_hash[:bearer_token]}"
