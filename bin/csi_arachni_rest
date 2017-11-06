@@ -91,6 +91,10 @@ begin
   # system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
   arachni_stdout_log_path = "/tmp/csi_arachni_rest-#{SecureRandom.hex}.log"
   arachni_stdout_log = File.new(arachni_stdout_log_path, 'w')
+  # Immediately writes all buffered data in IO to disk
+  arachni_stdout_log.sync = true
+  arachni_stdout_log.fsync
+
   fork_pid = Process.fork do
     begin
       PTY.spawn("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"") do |stdout, _stdin, _pid|
