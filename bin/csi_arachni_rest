@@ -114,14 +114,13 @@ begin
   # if navigation_instruct
   # rest_api_auth_header = ''
   instance_eval(File.read(navigation_instruct), navigation_instruct)
-  puts "REST API Traning Complete: #{navigation_instruct}"
+  puts "REST API Training Complete: #{navigation_instruct}"
   puts "Sleeping for 9s prior to proceeding..."
   sleep 9
 
-  rest_client.execute(
-    method: :get,
-    url: 'http://arachni.proxy/shutdown'
-  )
+  system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
+
+  CSI::Plugins::TransparentBrowser.close(browser_obj: rest_client)
 
   # Report Scan Results
   system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
