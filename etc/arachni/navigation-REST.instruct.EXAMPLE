@@ -14,7 +14,7 @@ rest_response = rest_client.execute(
   verify_ssl: false,
   headers: {
     content_type: 'application/json',
-    authorization: token_hash,
+    authorization: token_hash[:bearer_token],
     params: {
       sort: 'desc',
       max_records: 36

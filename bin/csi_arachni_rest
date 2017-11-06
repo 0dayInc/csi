@@ -90,6 +90,7 @@ begin
       end
     rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
       puts 'Spawned process exiting...'
+      Process.kill('TERM', fork_pid) unless fork_pid.nil?
       File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
     rescue StandardError => e
       puts 'ERROR: Spawned process exiting...'
@@ -118,7 +119,7 @@ begin
   # Close rest_client used for training Arachni
   CSI::Plugins::TransparentBrowser.close(browser_obj: rest_client)
 
-  trained_attack_vectors_yaml = "#{File.dirname(arachni_stdout_log_path)}/#{File.basename(arachni_stdout_log_path, File.extname(arachni_stdout_log_path))}.yaml"
+  trained_attack_vectors_yaml = "#{File.dirname(arachni_stdout_log_path)}/#{File.basename(arachni_stdout_log_path, File.extname(arachni_stdout_log_path))}.yml"
   system("/bin/bash --login -c \"http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/panel/vectors.yml -o #{trained_attack_vectors_yaml}\"")
   system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
 
