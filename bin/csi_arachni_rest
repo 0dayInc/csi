@@ -99,12 +99,6 @@ begin
   end
   Process.detach(fork_pid)
 
-  # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
-  # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
-  # if navigation_instruct
-  # rest_api_auth_header = ''
-  instance_eval(File.read(navigation_instruct), navigation_instruct)
-
   # The actual Arachni scan begins here, once the proxy plugin is shutdown
   # following navigation-REST.instruct
   return_pattern = 'Proxy: The scan will resume once you visit the shutdown URL.'
@@ -114,6 +108,15 @@ begin
     end
     sleep 3
   end
+
+  # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
+  # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
+  # if navigation_instruct
+  # rest_api_auth_header = ''
+  instance_eval(File.read(navigation_instruct), navigation_instruct)
+  puts "REST API Traning Complete: #{navigation_instruct}"
+  puts "Sleeping for 30s prior to proceeding..."
+  sleep 30
 
   rest_client.execute(
     method: :get,
