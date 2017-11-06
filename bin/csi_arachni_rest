@@ -25,10 +25,6 @@ OptionParser.new do |options|
     opts[:navigation_instruct] = i
   end
 
-  # options.on('-aCALLS', '--api_calls=FILE', '<Optional - File Containing API Call Paths>') do |a|
-  #   opts[:api_calls] = a
-  # end
-
   options.on('-pPROXY', '--proxy=PROXY', '<Optional - Proxy SCHEME://ADDRESS:PORT>') do |p|
     opts[:proxy] = p
   end
@@ -53,7 +49,6 @@ begin
   target_url = opts[:target_url].to_s.scrub
   output_dir = opts[:output_dir].to_s.scrub if Dir.exist?(opts[:output_dir].to_s.scrub)
   navigation_instruct = opts[:navigation_instruct].to_s.strip.chomp.scrub if File.exist?(opts[:navigation_instruct].to_s.strip.chomp.scrub)
-  # api_calls = opts[:api_calls].to_s.scrub if File.exist?(opts[:api_calls].to_s.scrub)
   proxy = opts[:proxy]
   proxy_type = opts[:proxy_type]
   exclude_pattern = opts[:exclude_pattern]
@@ -64,21 +59,12 @@ begin
     proxy: 'http://127.0.0.1:8282'
   )::Request
 
-  # if navigation_instruct
-  #   rest_api_auth_header = ''
-  #   instance_eval(File.read(navigation_instruct), navigation_instruct)
-
-  #   rest_api_auth_header = rest_api_auth_header
-  # end
-
   arachni_cmd_str = 'arachni --plugin=proxy'
   arachni_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  # arachni_cmd_str = "#{arachni_cmd_str} --http-request-header='#{rest_api_auth_header}'" if navigation_instruct
-  # arachni_cmd_str = "#{arachni_cmd_str} --scope-extend-paths='#{api_calls}'" if api_calls
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
   if exclude_pattern
@@ -87,14 +73,13 @@ begin
     end
   end
 
-  # Kick off scan as defined by csi_arachni flags
-  # system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
   arachni_stdout_log_path = "/tmp/csi_arachni_rest-#{SecureRandom.hex}.log"
   arachni_stdout_log = File.new(arachni_stdout_log_path, 'w')
   # Immediately writes all buffered data in IO to disk
   arachni_stdout_log.sync = true
   arachni_stdout_log.fsync
 
+  # Kick off scan as defined by csi_arachni_rest flags
   fork_pid = Process.fork do
     begin
       PTY.spawn("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"") do |stdout, _stdin, _pid|
@@ -114,6 +99,14 @@ begin
   end
   Process.detach(fork_pid)
 
+  # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
+  # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
+  # if navigation_instruct
+  # rest_api_auth_header = ''
+  instance_eval(File.read(navigation_instruct), navigation_instruct)
+
+  # The actual Arachni scan begins here, once the proxy plugin is shutdown
+  # following navigation-REST.instruct
   return_pattern = 'Proxy: The scan will resume once you visit the shutdown URL.'
   loop do
     if File.exist?(arachni_stdout_log_path)
@@ -121,17 +114,7 @@ begin
     end
     sleep 3
   end
-  # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
-  # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
-  # if navigation_instruct
-  # rest_api_auth_header = ''
-  instance_eval(File.read(navigation_instruct), navigation_instruct)
 
-  # rest_api_auth_header = rest_api_auth_header
-  # end
-
-  # The actual Arachni scan begins here, once the proxy plugin is shutdown
-  # following navigation-REST.instruct
   rest_client.execute(
     method: :get,
     url: 'http://arachni.proxy/shutdown'

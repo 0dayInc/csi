@@ -8,7 +8,16 @@ rest_response = rest_client.execute(
 
 token_hash = JSON.parse(rest_response.body, symbolize_names: true)
 
-# Constructing the Custom HTTP Request Header 
-# in the Navigation File is Mandatory
-# as it's passed to csi_arachni_rest for proper AuthN
-rest_api_auth_header = "Authorization: #{token_hash[:token]}"
+rest_response = rest_client.execute(
+  method: :get,
+  url: '<post_authn_target_url>',
+  verify_ssl: false,
+  headers: {
+    content_type: 'application/json',
+    authorization: token_hash,
+    params: {
+      sort: 'desc',
+      max_records: 36
+    }
+  }
+)
