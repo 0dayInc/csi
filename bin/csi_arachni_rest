@@ -89,7 +89,11 @@ begin
   # system("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"")
   fork_pid = Process.fork do
     begin
-
+      PTY.spawn("sudo /bin/bash --login -c \"#{arachni_cmd_str}\"") do |stdout, _stdin, _pid|
+        stdout.each do |line|
+          puts line
+        end
+      end
     rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
       puts 'Spawned process exiting...'
     rescue StandardError => e
