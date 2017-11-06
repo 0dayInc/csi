@@ -99,8 +99,7 @@ begin
   end
   Process.detach(fork_pid)
 
-  # The actual Arachni scan begins here, once the proxy plugin is shutdown
-  # following navigation-REST.instruct
+  # Watch for Arachni proxy plugin to intialize prior to invoking navigation-REST.instruct
   return_pattern = 'Proxy: The scan will resume once you visit the shutdown URL.'
   loop do
     if File.exist?(arachni_stdout_log_path)
@@ -111,16 +110,27 @@ begin
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
-  # if navigation_instruct
-  # rest_api_auth_header = ''
   instance_eval(File.read(navigation_instruct), navigation_instruct)
   puts "REST API Training Complete: #{navigation_instruct}"
   puts "Sleeping for 9s prior to proceeding..."
   sleep 9
 
+  # Close rest_client used for training Arachni
+  CSI::Plugins::TransparentBrowser.close(browser_obj: rest_client)
+
+  trained_attack_vectors_yaml = "#{File.dirname(arachni_stdout_log_path)}/#{File.basname(arachni_stdout_log_path, File.extname(arachni_stdout_log_path))}.yaml"
+  system("/bin/bash --login -c \"http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/panel/vectors.yaml -o #{trained_attack_vectors_yaml}\"")
   system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
 
-  CSI::Plugins::TransparentBrowser.close(browser_obj: rest_client)
+  arachni_trained_cmd_str = "arachni --plugin=vector_feed:yaml_file=#{trained_attack_vectors_yaml}"
+  arachni_trained_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names"
+  arachni_trained_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
+  arachni_trained_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
+  arachni_trained_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
+  arachni_trained_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
+  arachni_trained_cmd_str = "#{arachni_cmd_str} #{target_url}"
+
+  system("sudo /bin/bash --login -c \"#{arachni_trained_cmd_str}\"")
 
   # Report Scan Results
   system("sudo /bin/bash --login -c \"arachni_reporter #{output_dir}/arachni_results.afr --reporter=html:outfile=#{output_dir}/arachni_results.html.zip\"")
@@ -133,4 +143,5 @@ rescue StandardError, SystemExit, Interrupt => e
 ensure
   Process.kill('TERM', fork_pid) unless fork_pid.nil?
   File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
+  File.unlink(trained_attack_vectors_yaml) if File.exist?(trained_attack_vectors_yaml)
 end
