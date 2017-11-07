@@ -151,7 +151,7 @@ rescue StandardError, SystemExit, Interrupt => e
   puts 'ERROR: Something Happened'
   raise e
 ensure
-  Process.kill('TERM', fork_pid) unless fork_pid.nil?
+  # Process.kill('TERM', fork_pid) unless fork_pid.nil?
   File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
   File.unlink(trained_attack_vectors_yaml) if File.exist?(trained_attack_vectors_yaml)
 end
