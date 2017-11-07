@@ -98,7 +98,6 @@ begin
   end
 
   arachni_cmd_str = "arachni #{target_url} --audit-parameter-names"
-  arachni_cmd_str = "#{arachni_cmd_str} --audit-headers --audit-with-both-methods --audit-cookies-extensively" if deep_scan
   arachni_cmd_str = "#{arachni_cmd_str} --audit-ui-inputs --audit-ui-forms"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-jsons --audit-xmls"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
@@ -106,6 +105,7 @@ begin
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
   arachni_cmd_str = "#{arachni_cmd_str} --http-cookie-string='#{http_cookie_header}'" if navigation_instruct
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-headers --audit-with-both-methods --audit-cookies-extensively" if deep_scan
 
   if exclude_pattern
     exclude_pattern.to_s.split(',').each do |exclude_entry|
