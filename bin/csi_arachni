@@ -37,6 +37,10 @@ OptionParser.new do |options|
   options.on('-ePATTERN', '--exclude-pattern=PATTERN', '<Optional - Exclude comma-delimited resources whose URL matches pattern>') do |e|
     opts[:exclude_pattern] = e
   end
+
+  options.on('-d', '--[no-]deep', '<Optional - Enable Deep Scanning (Much Longer to Complete)>') do |d|
+    opts[:deep_scan] = d
+  end
 end.parse!
 
 if opts.empty?
@@ -58,6 +62,7 @@ begin
   proxy = opts[:proxy]
   proxy_type = opts[:proxy_type]
   exclude_pattern = opts[:exclude_pattern]
+  deep_scan = opts[:deep_scan]
 
   raise 'ERROR: please use csi_arachni_rest for REST Scanning.' if browser_type == :rest
   browser = CSI::Plugins::TransparentBrowser.open(
@@ -93,7 +98,7 @@ begin
   end
 
   arachni_cmd_str = "arachni #{target_url} --audit-parameter-names"
-  arachni_cmd_str = "#{arachni_cmd_str} --audit-headers --audit-with-both-methods"
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-headers --audit-with-both-methods --audit-cookies-extensively" if deep_scan
   arachni_cmd_str = "#{arachni_cmd_str} --audit-ui-inputs --audit-ui-forms"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-jsons --audit-xmls"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
