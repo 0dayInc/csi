@@ -58,6 +58,9 @@ begin
   exclude_pattern = opts[:exclude_pattern]
   deep_scan = opts[:deep_scan]
 
+  arachni_stdout_log_path = ''
+  trained_attack_vectors_yaml = ''
+
   # Initiate rest_client object to pump requests through Arachni proxy plugin.
   rest_client = CSI::Plugins::TransparentBrowser.open(
     browser_type: :rest,
