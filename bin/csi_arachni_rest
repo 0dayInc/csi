@@ -129,6 +129,7 @@ begin
   trained_attack_vectors_yaml = "#{File.dirname(arachni_stdout_log_path)}/#{File.basename(arachni_stdout_log_path, File.extname(arachni_stdout_log_path))}.yml"
   system("/bin/bash --login -c \"http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/panel/vectors.yml -o #{trained_attack_vectors_yaml}\"")
   system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
+  fork_pid = nil
 
   arachni_trained_cmd_str = "arachni --plugin=vector_feed:yaml_file=#{trained_attack_vectors_yaml}"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-request-header='#{csi_arachni_rest_custom_http_header}'" if csi_arachni_rest_custom_http_header != ''
@@ -151,7 +152,7 @@ rescue StandardError, SystemExit, Interrupt => e
   puts 'ERROR: Something Happened'
   raise e
 ensure
-  # Process.kill('TERM', fork_pid) unless fork_pid.nil?
+  Process.kill('TERM', fork_pid) unless fork_pid.nil?
   File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
   File.unlink(trained_attack_vectors_yaml) if File.exist?(trained_attack_vectors_yaml)
 end
