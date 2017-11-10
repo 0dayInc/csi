@@ -65,12 +65,13 @@ begin
   )::Request
 
   arachni_cmd_str = 'arachni --plugin=proxy'
-  arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
+  arachni_cmd_str = "#{arachni_cmd_str} --scope-page-limit=0"
+  arachni_cmd_str = "#{arachni_cmd_str} --checks=*,-common_*,-backup*,-backdoors,-directory_listing"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-jsons --audit-xmls"
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_cmd_str = "#{arachni_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names --audit-cookies-extensively" if deep_scan
+  arachni_cmd_str = "#{arachni_cmd_str} --audit-with-both-methods --audit-parameter-names" if deep_scan
   arachni_cmd_str = "#{arachni_cmd_str} #{target_url}"
 
   if exclude_pattern
@@ -134,13 +135,14 @@ begin
   fork_pid = nil
 
   arachni_trained_cmd_str = "arachni --plugin=vector_feed:yaml_file=#{trained_attack_vectors_yaml}"
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --scope-page-limit=0"
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --checks=*,-common_*,-backup*,-backdoors,-directory_listing"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-request-header='#{csi_arachni_rest_custom_http_header}'" if csi_arachni_rest_custom_http_header != ''
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-jsons --audit-xmls"
-  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-links --audit-forms --audit-cookies"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-proxy #{proxy}" if proxy
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-proxy-type #{proxy_type}" if proxy_type
-  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-with-both-methods --audit-parameter-names --audit-cookies-extensively" if deep_scan
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --audit-with-both-methods --audit-parameter-names" if deep_scan
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} #{target_url}"
 
   system("sudo /bin/bash --login -c \"#{arachni_trained_cmd_str}\"")
