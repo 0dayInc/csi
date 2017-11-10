@@ -4,7 +4,7 @@ rest_response = rest_client.execute(
   verify_ssl: false,
   headers: { content_type: 'application/json' },
   payload: '{ "username":"<target_username>", "password":"<target_password>" }'
-) { |request, response, result| return response } # Don't raise exceptions and simply return the response
+) { |request, response, result| response } # Don't raise exceptions and simply return the response
 
 token_hash = JSON.parse(rest_response.body, symbolize_names: true)
 
@@ -20,7 +20,7 @@ rest_response = rest_client.execute(
       max_records: 36
     }
   }
-) {|request, response, result| return response } # Don't raise exceptions and simply return the response
+) {|request, response, result| response } # Don't raise exceptions and simply return the response
 
 # If you want to force a Custom HTTP Header to Be Passed to csi_arachni_rest
 # the following example is reserved for such cases:
