@@ -1,3 +1,3 @@
 text_field(id: 'username').wait_until_present.set('<target username>')
-text_field(id: 'password').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mask_password))
+text_field(id: 'password').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mask_password)
 button(name: 'login').wait_until_present.click
