@@ -98,6 +98,7 @@ begin
   end
 
   arachni_cmd_str = "arachni #{target_url} --audit-parameter-names"
+  arachni_cmd_str = "#{arachni_cmd_str} --checks=*"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-ui-inputs --audit-ui-forms"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-jsons --audit-xmls"
   arachni_cmd_str = "#{arachni_cmd_str} --audit-links --audit-forms --audit-cookies"
