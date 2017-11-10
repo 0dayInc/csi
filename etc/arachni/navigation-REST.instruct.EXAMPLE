@@ -1,6 +1,8 @@
+base_url = '<base_target_api_url>'
+
 rest_response = rest_client.execute(
   method: :post,
-  url: '<target_url>',
+  url: "#{base_url}/<login_path>",
   verify_ssl: false,
   headers: { content_type: 'application/json' },
   payload: '{ "username":"<target_username>", "password":"<target_password>" }'
@@ -10,7 +12,7 @@ token_hash = JSON.parse(rest_response.body, symbolize_names: true)
 
 rest_response = rest_client.execute(
   method: :get,
-  url: '<post_authn_target_url>',
+  url: "#{base_url}/<misc_api_path>",
   verify_ssl: false,
   headers: {
     content_type: 'application/json',
