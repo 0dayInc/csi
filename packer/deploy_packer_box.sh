@@ -4,7 +4,7 @@ box_version=$2
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2017.01.001>"
+  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2017.3.001>"
   exit 1
 }
 
