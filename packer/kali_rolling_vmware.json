@@ -13,8 +13,8 @@
     },
     "disk_size": 36864,
     "http_directory": "http",
-    "iso_url": "http://cdimage.kali.org/kali-2017.2/kali-linux-2017.2-amd64.iso",
-    "iso_checksum": "4556775bfb981ae64a3cb19aa0b73e8dcac6e4ba524f31c4bc14c9137b99725d",
+    "iso_url": "http://cdimage.kali.org/kali-2017.3/kali-linux-2017.3-amd64.iso",
+    "iso_checksum": "395bc0af107806e5bf06edc6ac4af1f96caaf04f465831abf2f33ce51b73968d",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
