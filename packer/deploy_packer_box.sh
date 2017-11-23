@@ -2,6 +2,7 @@
 provider_type=$1
 box_version=$2
 debug=false
+export PACKER_LOG=1
 set -e
 
 function usage() {
@@ -15,7 +16,6 @@ fi
 
 if [[ $3 != '' ]]; then
   debug=true
-  export PACKER_LOG=1
 fi
 
 case $provider_type in
