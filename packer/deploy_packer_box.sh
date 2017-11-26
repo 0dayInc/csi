@@ -10,6 +10,28 @@ function usage() {
   exit 1
 }
 
+function pack() {
+  provider_type=$1
+  packer_provider_template=$2
+  debug=$3
+  packer_secrets='packer_secrets.json'
+
+  if $debug; then
+    packer build \
+      -debug \
+      -only $provider_type \
+      -var "box_version=${box_version}" \
+      -var-file=$packer_secrets \
+      $packer_provider_template
+  else
+    packer build \
+      -only $provider_type \
+      -var "box_version=${box_version}" \
+      -var-file=$packer_secrets \
+      $packer_provider_template
+  fi 
+}
+
 if [[ $# < 2 ]]; then
   usage
 fi
@@ -21,70 +43,26 @@ fi
 case $provider_type in
   "docker")
     rm kali_rolling_docker.box || true
-    if $debug; then
-      packer build \
-        -debug \
-        -only docker \
-        kali_rolling_docker.json
-    else
-      packer build \
-        -only docker \
-        kali_rolling_docker.json
-    fi
+    pack(docker, kali_rolling_docker.json, $debug)
     vagrant box remove csi/kali_rolling --provider=docker|| true
     vagrant box add csi/kali_rolling kali_rolling_docker.box
     ;;
   "docker_csi")
     rm kali_rolling_docker_csi.box || true
-    if $debug; then
-      packer build \
-        -debug \
-        -only docker \
-        kali_rolling_docker_csi.json
-    else
-      packer build \
-        -only docker \
-        kali_rolling_docker_csi.json
-    fi
+    pack(docker, kali_rolling_docker_csi.json, $debug)
     vagrant box remove csi/prototyper --provider=docker || true
     vagrant box add csi/prototyper kali_rolling_docker_csi.box
     ;;
   "virtualbox")
     rm kali_rolling_virtualbox.box || true
-    if $debug; then
-      packer build \
-        -debug \
-        -only virtualbox-iso \
-        -var "box_version=${box_version}" \
-        -var-file=packer_secrets.json \
-        kali_rolling_virtualbox.json
-    else
-      packer build \
-        -only virtualbox-iso \
-        -var "box_version=${box_version}" \
-        -var-file=packer_secrets.json \
-        kali_rolling_virtualbox.json
-    fi
+    pack(virtualbox-iso, kali_rolling_virtualbox.json, $debug)
     vagrant box remove csi/kali_rolling --provider=virtualbox || true
     vagrant box add csi/kali_rolling kali_rolling_virtualbox.box
     ;;
   "vmware")
     echo $debug
     rm kali_rolling_vmware.box || true
-    if $debug; then
-      packer build \
-        -debug \
-        -only vmware-iso \
-        -var "box_version=${box_version}" \
-        -var-file=packer_secrets.json \
-        kali_rolling_vmware.json
-    else
-      packer build \
-        -only vmware-iso \
-        -var "box_version=${box_version}" \
-        -var-file=packer_secrets.json \
-        kali_rolling_vmware.json
-    fi
+    pack(vmware-iso, kali_rolling_vmware.json, $debug)
     vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
     vagrant box add csi/kali_rolling kali_rolling_vmware.box
     ;;
