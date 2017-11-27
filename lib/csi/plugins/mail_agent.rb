@@ -46,8 +46,10 @@ module CSI
         authentication = opts[:authentication]
         attachments_hash = {}
         # opts[:attachments_hash]&.each do |attachment_name, attachment_path|
-        opts[:attachments_hash].each do |attachment_name, attachment_path|
-          attachments_hash[attachment_name] = File.binread(attachment_path)
+        unless attachments_hash.empty?
+          opts[:attachments_hash].each do |attachment_name, attachment_path|
+            attachments_hash[attachment_name] = File.binread(attachment_path)
+          end
         end
 
         debug = opts[:debug]
