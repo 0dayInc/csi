@@ -22,7 +22,6 @@ OptionParser.new do |options|
   options.on('-mYAML', '--msg-body-yaml=YAML', '<Required - Mail Agent YAML File>') do |m|
     opts[:msg_body_yaml] = m
   end
-
 end.parse!
 
 if opts.empty?
@@ -33,7 +32,8 @@ end
 begin
   logger = CSI::Plugins::CSILogger.create
 
-  agent_type = opts[:agent_type].to_s.scrub.strip.chomp.to_sym
+  agent_type = opts[:agent_type].to_s.scrub.strip.chomp
+  agent_type_sym = agent_type.to_sym
   list_agent_opts = opts[:list_agent_opts]
   # Needs to be YAML instead of JSON to better support backslashes.
   # Technically backslashes shouldn't exist in JSON, # however, they're
@@ -41,9 +41,9 @@ begin
   # like office365.
   msg_body_yaml = YAML.load_file(opts[:msg_body_yaml].to_s.scrub.strip.chomp) if File.exist?(opts[:msg_body_yaml].to_s.scrub.strip.chomp)
 
-  case agent_type
+  case agent_type_sym
   when :office365
-    example_msg_body_yaml = "
+    example_msg_body_yaml = %q{
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -58,11 +58,12 @@ begin
       username: 'required domain\username'
       password: 'optional (but will be prompted if not submitted)'
       debug: true
-    "
+    }
     if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type.to_s}:\n#{example_msg_body_yaml}"
+      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
       exit
     else
+      puts agent_type
     end
   when :gmail
     example_msg_body_yaml = "
@@ -82,9 +83,10 @@ begin
       debug: true
     "
     if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type.to_s}:\n#{example_msg_body_yaml}"
+      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
       exit
     else
+      puts agent_type
     end
   when :hotmail_n_live
     example_msg_body_yaml = "
@@ -104,9 +106,10 @@ begin
       debug: true
     "
     if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type.to_s}:\n#{example_msg_body_yaml}"
+      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
       exit
     else
+      puts agent_type
     end
   when :yahoo
     example_msg_body_yaml = "
@@ -126,9 +129,10 @@ begin
       debug: true
     "
     if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type.to_s}:\n#{example_msg_body_yaml}"
+      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
       exit
     else
+      puts agent_type
     end
   when :spoof
     example_msg_body_yaml = "
@@ -152,9 +156,10 @@ begin
       password: 'optional (but will be prompted if not submitted)'
     "
     if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type.to_s}:\n#{example_msg_body_yaml}"
+      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
       exit
     else
+      puts agent_type
     end
   else
     raise "ERROR: #{agent_type} is not supported."
