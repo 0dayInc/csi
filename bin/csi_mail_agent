@@ -59,100 +59,100 @@ begin
   case @agent_type_sym
   when :office365
     @example_msg_body_yaml = %q{
-      from: 'required'
-      to: 'required'
-      cc: 'optional'
-      bcc: 'optional'
-      reply_to: 'optional'
-      subject: 'optional'
-      html_body: 'optional'
-      txt_body: 'optional alternative to :html_body'
-      attachments_hash:
+      :from: 'required'
+      :to: 'required'
+      :cc: 'optional'
+      :bcc: 'optional'
+      :reply_to: 'optional'
+      :subject: 'optional'
+      :html_body: 'optional'
+      :txt_body: 'optional alternative to :html_body'
+      :attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      username: 'required domain\username'
-      password: 'optional (but will be prompted if not submitted)'
-      debug: true
+      :username: 'required domain\username'
+      :password: 'optional (but will be prompted if not submitted)'
+      :debug: true
     }
 
     initiate_action
   when :gmail
     @example_msg_body_yaml = "
-      from: 'required'
-      to: 'required'
-      cc: 'optional'
-      bcc: 'optional'
-      reply_to: 'optional'
-      subject: 'optional'
-      html_body: 'optional'
-      txt_body: 'optional alternative to :html_body'
-      attachments_hash:
+      :from: 'required'
+      :to: 'required'
+      :cc: 'optional'
+      :bcc: 'optional'
+      :reply_to: 'optional'
+      :subject: 'optional'
+      :html_body: 'optional'
+      :txt_body: 'optional alternative to :html_body'
+      :attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      username: 'required'
-      password: 'optional (but will be prompted if not submitted)'
-      debug: true
+      :username: 'required'
+      :password: 'optional (but will be prompted if not submitted)'
+      :debug: true
     "
 
     initiate_action
   when :hotmail_n_live
     @example_msg_body_yaml = "
-      from: 'required'
-      to: 'required'
-      cc: 'optional'
-      bcc: 'optional'
-      reply_to: 'optional'
-      subject: 'optional'
-      html_body: 'optional'
-      txt_body: 'optional alternative to :html_body'
-      attachments_hash:
+      :from: 'required'
+      :to: 'required'
+      :cc: 'optional'
+      :bcc: 'optional'
+      :reply_to: 'optional'
+      :subject: 'optional'
+      :html_body: 'optional'
+      :txt_body: 'optional alternative to :html_body'
+      :attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      username: 'required'
-      password: 'optional (but will be prompted if not submitted)'
-      debug: true
+      :username: 'required'
+      :password: 'optional (but will be prompted if not submitted)'
+      :debug: true
     "
 
     initiate_action
   when :yahoo
     @example_msg_body_yaml = "
-      from: 'required'
-      to: 'required'
-      cc: 'optional'
-      bcc: 'optional'
-      reply_to: 'optional'
-      subject: 'optional'
-      html_body: 'optional'
-      txt_body: 'optional alternative to :html_body'
-      attachments_hash:
+      :from: 'required'
+      :to: 'required'
+      :cc: 'optional'
+      :bcc: 'optional'
+      :reply_to: 'optional'
+      :subject: 'optional'
+      :html_body: 'optional'
+      :txt_body: 'optional alternative to :html_body'
+      :attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      username: 'required'
-      password: 'optional (but will be prompted if not submitted)'
-      debug: true
+      :username: 'required'
+      :password: 'optional (but will be prompted if not submitted)'
+      :debug: true
     "
 
     initiate_action
   when :spoof
     @example_msg_body_yaml = "
-      from: 'required'
-      to: 'required'
-      cc: 'optional'
-      bcc: 'optional'
-      reply_to: 'optional'
-      subject: 'optional'
-      html_body: 'optional'
-      txt_body: 'optional alternative to :html_body'
-      attachments_hash:
+      :from: 'required'
+      :to: 'required'
+      :cc: 'optional'
+      :bcc: 'optional'
+      :reply_to: 'optional'
+      :subject: 'optional'
+      :html_body: 'optional'
+      :txt_body: 'optional alternative to :html_body'
+      :attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      address: 'smtp server ip or domain'
-      port: 'smtp port'
-      tls_auto: true
-      authentication: 'optional defaults to :plain - available :login, :plain, or :cram_md5'
-      username: 'required'
-      password: 'optional (but will be prompted if not submitted)'
-      debug: true
+      :address: 'smtp server ip or domain'
+      :port: 'smtp port'
+      :tls_auto: true
+      :authentication: 'optional defaults to :plain - available :login, :plain, or :cram_md5'
+      :username: 'required'
+      :password: 'optional (but will be prompted if not submitted)'
+      :debug: true
     "
 
     initiate_action
