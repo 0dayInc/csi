@@ -20,15 +20,15 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
-      #   debug: true|false,
       #   address: 'smtp server ip or domain',
       #   port: 'smtp port',
       #   tls_auto: true|false,
       #   username: 'optional',
-      #   password: 'optional'
+      #   password: 'optional',
+      #   debug: true|false
       # )
       @@logger = CSI::Plugins::CSILogger.create
 
@@ -101,8 +101,8 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
       #   username: 'required username',
       #   password: 'optional (but will be prompted if not submitted)',
@@ -133,8 +133,8 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
       #   username: 'required',
       #   password: 'optional (but will be prompted if not submitted)'
@@ -164,8 +164,8 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
       #   username: 'required',
       #   password: 'optional (but will be prompted if not submitted)'
@@ -195,8 +195,8 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
       #   username: 'required',
       #   password: 'optional (but will be prompted if not submitted)'
@@ -226,15 +226,15 @@ module CSI
       #   html_body: 'optional',
       #   txt_body: 'optional alternative to :html_body',
       #   attachments_hash: {
-      #     'attachment_name1.doc' => 'attachment file path 1',
-      #     'attachment_name2.xls' => 'attachment file path 2'
+      #     'attachment_name1.doc': 'attachment file path 1',
+      #     'attachment_name2.xls': 'attachment file path 2'
       #   },
-      #   debug: true|false,
       #   address: 'smtp server ip or domain',
       #   port: 'smtp port',
       #   tls_auto: true|false,
       #   username: 'optional',
-      #   password: 'optional'
+      #   password: 'optional',
+      #   debug: true|false
       # )
 
       public
@@ -275,8 +275,8 @@ module CSI
             html_body: 'optional',
             txt_body: 'optional alternative to :html_body',
             attachments_hash: {
-              'attachment_name1.doc' => 'attachment file path 1',
-              'attachment_name2.xls' => 'attachment file path 2'
+              'attachment_name1.doc': 'attachment file path 1',
+              'attachment_name2.xls': 'attachment file path 2'
             },
             username: 'required domain\\username',
             password: 'optional (but will be prompted if not submitted)',
@@ -293,8 +293,8 @@ module CSI
             html_body: 'optional',
             txt_body: 'optional alternative to :html_body',
             attachments_hash: {
-              'attachment_name1.doc' => 'attachment file path 1',
-              'attachment_name2.xls' => 'attachment file path 2'
+              'attachment_name1.doc': 'attachment file path 1',
+              'attachment_name2.xls': 'attachment file path 2'
             },
             username: 'required',
             password: 'optional (but will be prompted if not submitted)'
@@ -311,8 +311,8 @@ module CSI
             html_body: 'optional',
             txt_body: 'optional alternative to :html_body',
             attachments_hash: {
-              'attachment_name1.doc' => 'attachment file path 1',
-              'attachment_name2.xls' => 'attachment file path 2'
+              'attachment_name1.doc': 'attachment file path 1',
+              'attachment_name2.xls': 'attachment file path 2'
             },
             username: 'required',
             password: 'optional (but will be prompted if not submitted)'
@@ -329,8 +329,8 @@ module CSI
             html_body: 'optional',
             txt_body: 'optional alternative to :html_body',
             attachments_hash: {
-              'attachment_name1.doc' => 'attachment file path 1',
-              'attachment_name2.xls' => 'attachment file path 2'
+              'attachment_name1.doc': 'attachment file path 1',
+              'attachment_name2.xls': 'attachment file path 2'
             },
             username: 'required',
             password: 'optional (but will be prompted if not submitted)'
@@ -347,16 +347,16 @@ module CSI
             html_body: 'optional',
             txt_body: 'optional alternative to :html_body',
             attachments_hash: {
-              'attachment_name1.doc' => 'attachment file path 1',
-              'attachment_name2.xls' => 'attachment file path 2'
+              'attachment_name1.doc': 'attachment file path 1',
+              'attachment_name2.xls': 'attachment file path 2'
             },
-            debug: true|false,
             address: 'smtp server ip or domain',
             port: 'smtp port',
             tls_auto: true|false,
             authentication: 'optional defaults to :plain - available :login, :plain, or :cram_md5',
             username: 'optional',
-            password: 'optional'
+            password: 'optional',
+            debug: true|false
           )
 
           #{self}.authors

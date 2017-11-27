@@ -29,21 +29,36 @@ if opts.empty?
   exit 1
 end
 
+private
+
+def initiate_action
+  puts @list_agent_opts
+  if @list_agent_opts
+    puts "The following is an example YAML file for #{@agent_type}:\n#{@example_msg_body_yaml}"
+    exit
+  else
+    CSI::Plugins::MailAgent.public_send(@agent_type_sym, @msg_body_yaml)
+  end
+rescue StandardError, Interrupt => e
+  puts 'ERROR: Something Happened'
+  raise e
+end
+
 begin
   logger = CSI::Plugins::CSILogger.create
 
-  agent_type = opts[:agent_type].to_s.scrub.strip.chomp
-  agent_type_sym = agent_type.to_sym
-  list_agent_opts = opts[:list_agent_opts]
+  @agent_type = opts[:agent_type].to_s.scrub.strip.chomp
+  @agent_type_sym = @agent_type.to_sym
+  @list_agent_opts = opts[:list_agent_opts]
   # Needs to be YAML instead of JSON to better support backslashes.
   # Technically backslashes shouldn't exist in JSON, # however, they're
   # needed in this case for specifying domains in usernames for agents
   # like office365.
-  msg_body_yaml = YAML.load_file(opts[:msg_body_yaml].to_s.scrub.strip.chomp) if File.exist?(opts[:msg_body_yaml].to_s.scrub.strip.chomp)
+  @msg_body_yaml = YAML.load_file(opts[:msg_body_yaml].to_s.scrub.strip.chomp) if File.exist?(opts[:msg_body_yaml].to_s.scrub.strip.chomp)
 
-  case agent_type_sym
+  case @agent_type_sym
   when :office365
-    example_msg_body_yaml = %q{
+    @example_msg_body_yaml = %q{
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -59,14 +74,10 @@ begin
       password: 'optional (but will be prompted if not submitted)'
       debug: true
     }
-    if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
-      exit
-    else
-      puts agent_type
-    end
+
+    initiate_action
   when :gmail
-    example_msg_body_yaml = "
+    @example_msg_body_yaml = "
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -82,14 +93,10 @@ begin
       password: 'optional (but will be prompted if not submitted)'
       debug: true
     "
-    if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
-      exit
-    else
-      puts agent_type
-    end
+
+    initiate_action
   when :hotmail_n_live
-    example_msg_body_yaml = "
+    @example_msg_body_yaml = "
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -105,14 +112,10 @@ begin
       password: 'optional (but will be prompted if not submitted)'
       debug: true
     "
-    if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
-      exit
-    else
-      puts agent_type
-    end
+
+    initiate_action
   when :yahoo
-    example_msg_body_yaml = "
+    @example_msg_body_yaml = "
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -128,14 +131,10 @@ begin
       password: 'optional (but will be prompted if not submitted)'
       debug: true
     "
-    if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
-      exit
-    else
-      puts agent_type
-    end
+
+    initiate_action
   when :spoof
-    example_msg_body_yaml = "
+    @example_msg_body_yaml = "
       from: 'required'
       to: 'required'
       cc: 'optional'
@@ -147,24 +146,20 @@ begin
       attachments_hash:
         attachment_name1.doc: 'attachment file path 1'
         attachment_name2.xls: 'attachment file path 2'
-      debug: true
       address: 'smtp server ip or domain'
       port: 'smtp port'
       tls_auto: true
       authentication: 'optional defaults to :plain - available :login, :plain, or :cram_md5'
       username: 'required'
       password: 'optional (but will be prompted if not submitted)'
+      debug: true
     "
-    if list_agent_opts
-      puts "The following is an example YAML file for #{agent_type}:\n#{example_msg_body_yaml}"
-      exit
-    else
-      puts agent_type
-    end
+
+    initiate_action
   else
-    raise "ERROR: #{agent_type} is not supported."
+    raise "ERROR: #{@agent_type} is not supported."
   end
-rescue StandardError, SystemExit, Interrupt => e
+rescue StandardError, Interrupt => e
   puts 'ERROR: Something Happened'
   raise e
 end
