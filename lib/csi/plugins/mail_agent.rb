@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'mail'
-
 module CSI
   module Plugins
     # This plugin is used for sending email from multiple mail agents such as
@@ -67,29 +65,27 @@ module CSI
           @@logger.debug("DEBUG ENABLED: from=>#{from.inspect}, to=>#{to.inspect}, cc=>#{cc.inspect}, bcc=>#{bcc.inspect}, subject=>#{subject.inspect}, html_body=>#{html_body.inspect}, txt_body=>#{txt_body.inspect}, attachments=>#{attachments_hash.inspect}, address=>#{address.inspect}, port=>#{port.inspect}, username=>#{username.inspect}, :enable_starttls_auto=>#{tls_auto.inspect}")
         end
         # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
-        # Pony.mail(
-        #   from: from,
-        #   to: to,
-        #   cc: cc,
-        #   bcc: bcc,
-        #   reply_to: reply_to,
-        #   subject: subject,
-        #   html_body: html_body,
-        #   body: txt_body,
-        #   attachments: attachments_hash,
-        #   via: :smtp,
-        #   via_options: {
-        #     address: address,
-        #     port: port,
-        #     enable_starttls_auto: tls_auto,
-        #     user_name: username,
-        #     password: password,
-        #     authentication: authentication,
-        #     domain: 'localhost.localdomain'
-        #   }
-        # )
-        mail = Mail.new do |m|
-        end
+        CSI::Plugins::Pony.mail(
+          from: from,
+          to: to,
+          cc: cc,
+          bcc: bcc,
+          reply_to: reply_to,
+          subject: subject,
+          html_body: html_body,
+          body: txt_body,
+          attachments: attachments_hash,
+          via: :smtp,
+          via_options: {
+            address: address,
+            port: port,
+            enable_starttls_auto: tls_auto,
+            user_name: username,
+            password: password,
+            authentication: authentication,
+            domain: 'localhost.localdomain'
+          }
+        )
       rescue => e
         raise e
       end

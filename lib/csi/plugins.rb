@@ -35,6 +35,7 @@ module CSI
     autoload :OwaspZap, 'csi/plugins/owasp_zap'
     autoload :Packet, 'csi/plugins/packet'
     autoload :PDFParse, 'csi/plugins/pdf_parse'
+    autoload :Pony, 'csi/plugins/pony'
     autoload :RabbitMQHole, 'csi/plugins/rabbit_mq_hole'
     autoload :Serial, 'csi/plugins/serial'
     autoload :Shodan, 'csi/plugins/shodan'
