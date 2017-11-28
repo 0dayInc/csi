@@ -39,9 +39,6 @@ def initiate_action
   else
     CSI::Plugins::MailAgent.public_send(@agent_type_sym, @msg_body_yaml)
   end
-rescue StandardError, Interrupt => e
-  puts 'ERROR: Something Happened'
-  raise e
 end
 
 begin
