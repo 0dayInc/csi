@@ -62,7 +62,7 @@ module CSI
                    end
 
         if debug == true
-          @@logger.debug("DEBUG ENABLED: from=>#{from.inspect}, to=>#{to.inspect}, cc=>#{cc.inspect}, bcc=>#{bcc.inspect}, subject=>#{subject.inspect}, html_body=>#{html_body.inspect}, txt_body=>#{txt_body.inspect}, attachments=>#{attachments_hash.inspect}, address=>#{address.inspect}, port=>#{port.inspect}, username=>#{username.inspect}, :enable_starttls_auto=>#{tls_auto.inspect}")
+          @@logger.info("DEBUG ENABLED: from=>#{from.inspect}, to=>#{to.inspect}, cc=>#{cc.inspect}, bcc=>#{bcc.inspect}, subject=>#{subject.inspect}, html_body=>#{html_body.inspect}, txt_body=>#{txt_body.inspect}, attachments=>#{attachments_hash.inspect}, address=>#{address.inspect}, port=>#{port.inspect}, username=>#{username.inspect}, :enable_starttls_auto=>#{tls_auto.inspect}")
         end
         # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
         CSI::Plugins::Pony.mail(
