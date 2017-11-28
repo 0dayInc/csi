@@ -26,6 +26,7 @@ gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability 
 gem 'json', '2.1.0'                    # Work w/ JSON objects ***2017-08-20
 gem 'jsonpath', '0.8.7'                # XPath-ify Complex JSON Data Structures ***2017-08-20
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
+gem 'mail', '2.7.0'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2017-11-27
 gem 'mongo', '2.4.3'                   # Primarily for Data-Driven Security, pulling in various security tools' output ***2017-08-20
 gem 'msfrpc-client', '1.1.1'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2017-08-20
 gem 'msgpack', '1.1.0'                 # Pry Dependency ***2017-03-30
@@ -38,7 +39,7 @@ gem 'os', '1.0.0'                      # Detect underlying operating system ***2
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
 gem 'pdf-reader', '2.0.0'              # Parsing PDF Reports ***2017-04-04
 gem 'pg', '0.21.0'                     # Required Postgres Gem for Postgres Data Access Object ***2017-08-20
-gem 'pony', '1.11'                     # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2015-12-15
+# gem 'pony', '1.11'                     # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2015-12-15
 gem 'pry', '0.11.2'                    # More feature-filled irb alternative ***2017-10-19
 # gem 'pry', '0.10.4' # More feature-filled irb alternative
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
