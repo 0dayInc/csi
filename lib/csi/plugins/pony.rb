@@ -197,7 +197,7 @@ module CSI
             body options[:body]
           end
 
-          delivery_method options[:via], options[:via_options]
+          default_delivery_method options[:via], options[:via_options]
         end
 
         (options[:headers] ||= {}).each do |key, value|
