@@ -146,7 +146,7 @@ begin
       :address: 'smtp server ip or domain'
       :port: 'smtp port'
       :tls_auto: true
-      :authentication: 'optional defaults to :plain - available :login, :plain, or :cram_md5'
+      :authentication: 'optional defaults to plain - available login, plain, or cram_md5'
       :username: 'required'
       :password: 'optional (but will be prompted if not submitted)'
       :debug: true

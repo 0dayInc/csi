@@ -82,7 +82,7 @@ module CSI
             enable_starttls_auto: tls_auto,
             user_name: username,
             password: password,
-            authentication: authentication,
+            authentication: authentication.to_sym,
             domain: 'localhost.localdomain'
           }
         )
