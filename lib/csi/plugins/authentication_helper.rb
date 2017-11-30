@@ -10,6 +10,18 @@ module CSI
     # of other SP plugins/modules.
     module AuthenticationHelper
       # Supported Method Parameters::
+      # CSI::Plugins::AuthenticationHelper.username
+
+      public
+
+      def self.username
+        user = HighLine.new.ask('Username: ')
+        user.to_s.scrub.chomp
+      rescue => e
+        raise e.message
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::AuthenticationHelper.mask_password
 
       public
@@ -17,6 +29,21 @@ module CSI
       def self.mask_password
         pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
         pass.to_s.scrub.chomp
+      rescue => e
+        raise e.message
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::AuthenticationHelper.mfa(
+      #   prompt: 'optional - string to display at prompt'
+      # )
+
+      public
+
+      def self.mfa(opts = {})
+        prompt = opts[:prompt].to_s.scrub.strip.chomp
+        mfa = HighLine.new.ask("#{prompt}: ")
+        mfa.to_s.scrub.chomp
       rescue => e
         raise e.message
       end
@@ -39,7 +66,13 @@ module CSI
 
       def self.help
         puts "USAGE:
+          #{self}.get_username
+
           #{self}.mask_password
+
+          #{self}.get_mfa(
+            prompt: 'optional - string to display at prompt'
+          )
 
           #{self}.authors
         "
