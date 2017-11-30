@@ -216,7 +216,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::MailAgent.spoof(
+      # CSI::Plugins::MailAgent.manual(
       #   from: 'required',
       #   to: 'required',
       #   cc: 'optional',
@@ -239,7 +239,7 @@ module CSI
 
       public
 
-      def self.spoof(opts = {})
+      def self.manual(opts = {})
         # Spoof mail from known relay
         opts[:authentication] = :plain if opts[:authentication].nil?
         parent_mail_agent(opts)
@@ -337,7 +337,7 @@ module CSI
             debug: true|false
           )
 
-          #{self}.spoof(
+          #{self}.manual(
             from: 'required',
             to: 'required',
             cc: 'optional',

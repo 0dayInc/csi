@@ -71,8 +71,10 @@ else
     Port
     Redirect
     ReDOS
+    Shell
     SQL
     SSL
+    Sudo
     TaskTag
     ThrowErrors
     Token
