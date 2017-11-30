@@ -86,9 +86,7 @@ module CSI
 
         if mfa
           until browser_obj.url == 'https://bugcrowd.com/programs'
-            print 'enter mfa token: '
-            mfa_token = gets.to_s.scrub.strip.chomp
-            browser_obj.text_field(name: 'otp_attempt').wait_until_present.set(mfa_token)
+            browser_obj.text_field(name: 'otp_attempt').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
             browser_obj.button(name: 'commit').wait_until_present.click
             sleep 3
           end
