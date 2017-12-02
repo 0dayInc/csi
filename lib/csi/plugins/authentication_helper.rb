@@ -66,11 +66,11 @@ module CSI
 
       def self.help
         puts "USAGE:
-          #{self}.get_username
+          #{self}.username
 
           #{self}.mask_password
 
-          #{self}.get_mfa(
+          #{self}.mfa(
             prompt: 'optional - string to display at prompt'
           )
 
