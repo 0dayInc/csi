@@ -95,6 +95,10 @@ module CSI
           # this_profile = Selenium::WebDriver::Chrome::Profile.new
           # this_profile['download.prompt_for_download'] = false
           # this_profile['download.default_directory'] = '~/Downloads'
+          this_profile = Selenium::WebDriver::Chrome::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
 
           if proxy
             if with_tor
@@ -102,8 +106,6 @@ module CSI
                 :chrome,
                 headless: true,
                 switches: [
-                  '--ignore-certificate-errors',
-                  '--ignore-certificate-errors-spki-list',
                   "--proxy-server=#{proxy}",
                   "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
                 ]
@@ -113,8 +115,6 @@ module CSI
                 :chrome,
                 headless: true,
                 switches: [
-                  '--ignore-certificate-errors',
-                  '--ignore-certificate-errors-spki-list',
                   "--proxy-server=#{proxy}"
                 ]
               )
@@ -122,11 +122,7 @@ module CSI
           else
             this_browser = Watir::Browser.new(
               :chrome,
-              headless: true,
-              switches: [
-                '--ignore-certificate-errors',
-                '--ignore-certificate-errors-spki-list'
-              ]
+              headless: true
             )
           end
 
