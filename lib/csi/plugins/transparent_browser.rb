@@ -102,8 +102,8 @@ module CSI
                 :chrome,
                 headless: true,
                 switches: [
-                  "--ignore-certificate-errors",
-                  "--ignore-certificate-errors-spki-list",
+                  '--ignore-certificate-errors',
+                  '--ignore-certificate-errors-spki-list',
                   "--proxy-server=#{proxy}",
                   "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
                 ]
@@ -113,8 +113,8 @@ module CSI
                 :chrome,
                 headless: true,
                 switches: [
-                  "--ignore-certificate-errors",
-                  "--ignore-certificate-errors-spki-list",
+                  '--ignore-certificate-errors',
+                  '--ignore-certificate-errors-spki-list',
                   "--proxy-server=#{proxy}"
                 ]
               )
@@ -124,8 +124,8 @@ module CSI
               :chrome,
               headless: true,
               switches: [
-                "--ignore-certificate-errors",
-                "--ignore-certificate-errors-spki-list"
+                '--ignore-certificate-errors',
+                '--ignore-certificate-errors-spki-list'
               ]
             )
           end
