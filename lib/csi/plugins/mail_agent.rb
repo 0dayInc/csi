@@ -42,11 +42,8 @@ module CSI
         txt_body = opts[:txt_body] # If HTML is NOT supported or desired
         authentication = opts[:authentication]
         attachments_hash = {}
-        # opts[:attachments_hash]&.each do |attachment_name, attachment_path|
-        unless attachments_hash.empty?
-          opts[:attachments_hash].each do |attachment_name, attachment_path|
-            attachments_hash[attachment_name] = File.binread(attachment_path)
-          end
+        opts[:attachments_hash]&.each do |attachment_name, attachment_path|
+          attachments_hash[attachment_name] = File.binread(attachment_path)
         end
 
         debug = opts[:debug]
