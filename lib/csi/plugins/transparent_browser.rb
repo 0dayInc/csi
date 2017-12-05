@@ -39,28 +39,30 @@ module CSI
 
         case browser_type
         when :firefox
-          this_profile = Selenium::WebDriver::Firefox::Profile.new
-          this_profile.native_events = false
-          this_profile.proxy = Selenium::WebDriver::Proxy.new(no_proxy: true)
+          caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          caps[:acceptInsecureCerts] = true
 
           if proxy
             if with_tor
-              this_profile['javascript.enabled'] = false
-              this_profile.proxy = Selenium::WebDriver::Proxy.new(
+              # BUG: Setting SOCKS Proxy doesn't work
+              # Selenium::WebDriver::Error::SessionNotCreatedError:
+              # InvalidArgumentError: Expected [object Undefined] undefined to be an integer
+              # from WebDriverError@chrome://marionette/content/error.js:235:5
+
+              caps[:javascript_enabled] = false
+              caps[:proxy] = Selenium::WebDriver::Proxy.new(
                 socks: "#{URI(proxy).host}:#{URI(proxy).port}"
               )
             else
-              this_profile.proxy = Selenium::WebDriver::Proxy.new(
+              caps[:proxy] = Selenium::WebDriver::Proxy.new(
                 http: "#{URI(proxy).host}:#{URI(proxy).port}",
                 ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
               )
             end
           end
 
-          this_browser = Watir::Browser.new(
-            :firefox,
-            profile: this_profile
-          )
+          driver = Selenium::WebDriver.for(:firefox, desired_capabilities: caps)
+          this_browser = Watir::Browser.new(driver)
 
         when :chrome
           this_profile = Selenium::WebDriver::Chrome::Profile.new
@@ -87,70 +89,62 @@ module CSI
           end
 
         when :headless
-          # Soon Selenium will Deprecate PhantomJS...when they do, we'll be ready.
-          # This hasn't been transitioned yet because we're waiting for the
-          # chromedriver team to sort out headless w/ accepting insecure TLS and --proxy-server when combined
-          # which currently results in the browser to refuse to display a webpage and/or hang.
-
-          this_profile = Selenium::WebDriver::Chrome::Profile.new
-          this_profile['download.prompt_for_download'] = false
-          this_profile['download.default_directory'] = '~/Downloads'
+          caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          caps[:acceptInsecureCerts] = true
 
           if proxy
             if with_tor
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}",
-                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                ]
+              # BUG: Setting SOCKS Proxy doesn't work
+              # Selenium::WebDriver::Error::SessionNotCreatedError:
+              # InvalidArgumentError: Expected [object Undefined] undefined to be an integer
+              # from WebDriverError@chrome://marionette/content/error.js:235:5
+
+              caps[:javascript_enabled] = false
+              caps[:proxy] = Selenium::WebDriver::Proxy.new(
+                socks: "#{URI(proxy).host}:#{URI(proxy).port}"
               )
             else
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}"
-                ]
+              caps[:proxy] = Selenium::WebDriver::Proxy.new(
+                http: "#{URI(proxy).host}:#{URI(proxy).port}",
+                ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
               )
             end
-          else
-            this_browser = Watir::Browser.new(
-              :chrome,
-              headless: true
-            )
           end
+
+          options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          this_browser = Watir::Browser.new(driver)
+
+          # Chrome headless
+          # this_profile = Selenium::WebDriver::Chrome::Profile.new
+          # this_profile['download.prompt_for_download'] = false
+          # this_profile['download.default_directory'] = '~/Downloads'
 
           # if proxy
           #   if with_tor
-          #     args = [
-          #       '--proxy-type=socks5',
-          #       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-          #       '--ignore-ssl-errors=true',
-          #       '--ssl-protocol=any',
-          #       '--web-security=false'
-          #     ]
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}",
+          #         "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+          #       ]
+          #     )
           #   else
-          #     args = [
-          #       "--proxy=#{URI(proxy).host}:#{URI(proxy).port}",
-          #       '--ignore-ssl-errors=true',
-          #       '--ssl-protocol=any',
-          #       '--web-security=false'
-          #     ]
+          #     this_browser = Watir::Browser.new(
+          #       :chrome,
+          #       headless: true,
+          #       switches: [
+          #         "--proxy-server=#{proxy}"
+          #       ]
+          #     )
           #   end
           # else
-          #   args = [
-          #     '--ignore-ssl-errors=true',
-          #     '--ssl-protocol=any',
-          #     '--web-security=false'
-          #   ]
+          #   this_browser = Watir::Browser.new(
+          #     :chrome,
+          #     headless: true
+          #   )
           # end
-
-          # this_browser = Watir::Browser.new(
-          #   :phantomjs,
-          #   driver_opts: { args: args }
-          # )
 
         when :rest
           this_browser = RestClient
