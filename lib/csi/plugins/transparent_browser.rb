@@ -39,7 +39,13 @@ module CSI
 
         case browser_type
         when :firefox
-          caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          this_profile = Selenium::WebDriver::Firefox::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
+          caps = Selenium::WebDriver::Remote::Capabilities.firefox(
+            firefox_profile: this_profile
+          )
           caps[:acceptInsecureCerts] = true
 
           if proxy
@@ -89,7 +95,13 @@ module CSI
           end
 
         when :headless
-          caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          this_profile = Selenium::WebDriver::Firefox::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
+          caps = Selenium::WebDriver::Remote::Capabilities.firefox(
+            firefox_profile: this_profile
+          )
           caps[:acceptInsecureCerts] = true
 
           if proxy
