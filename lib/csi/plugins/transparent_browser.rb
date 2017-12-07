@@ -40,13 +40,11 @@ module CSI
         case browser_type
         when :firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
-          this_profile['browser.download.dir'] = '~/Downloads'
+          # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
-          caps['download.prompt_for_download'] = false
-          caps['download.default_directory'] = '~/Downloads'
 
           if proxy
             if with_tor
@@ -96,13 +94,11 @@ module CSI
 
         when :headless
           this_profile = Selenium::WebDriver::Firefox::Profile.new
-          this_profile['browser.download.dir'] = '~/Downloads'
+          # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
-          caps['download.prompt_for_download'] = false
-          caps['download.default_directory'] = '~/Downloads'
 
           if proxy
             if with_tor
