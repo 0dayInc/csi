@@ -42,7 +42,14 @@ module CSI
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
-          this_profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/*; audio/*; image/*; text/*; video/*;'
+          this_profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/*, audio/*, image/*, text/*, video/*'
+
+          # disable Firefox's built-in PDF viewer
+          this_profile["pdfjs.disabled"] = true
+
+          # disable Adobe Acrobat PDF preview plugin
+          this_profile["plugin.scan.plid.all"] = false
+          this_profile["plugin.scan.Acrobat"] = '99.0'
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
@@ -93,7 +100,14 @@ module CSI
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
-          this_profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/*; audio/*; image/*; text/*; video/*;'
+          this_profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/*, audio/*, image/*, text/*, video/*'
+
+          # disable Firefox's built-in PDF viewer
+          this_profile["pdfjs.disabled"] = true
+
+          # disable Adobe Acrobat PDF preview plugin
+          this_profile["plugin.scan.plid.all"] = false
+          this_profile["plugin.scan.Acrobat"] = '99.0'
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
