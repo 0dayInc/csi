@@ -1,4 +1,5 @@
 #!/bin/bash --login
+# NOTE: As soon as firefox esr supports the headless flag, this provisioner can be removed.
 printf "Installing Firefox ********************************************************************"
 debian_unstable_sources='/etc/apt/sources.list.d/debian-unstable.list'
 sudo /bin/bash --login -c "echo deb http://ftp.debian.org/debian unstable main contrib non-free > ${debian_unstable_sources}"
