@@ -69,10 +69,6 @@ module CSI
           this_browser = Watir::Browser.new(driver, profile: this_profile)
 
         when :chrome
-          this_profile = Selenium::WebDriver::Chrome::Profile.new
-          this_profile['download.prompt_for_download'] = false
-          this_profile['download.default_directory'] = '~/Downloads'
-
           if proxy
             if with_tor
               this_browser = Watir::Browser.new(
