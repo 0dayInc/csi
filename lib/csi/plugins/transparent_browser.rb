@@ -40,8 +40,8 @@ module CSI
         case browser_type
         when :firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
-          this_profile['download.prompt_for_download'] = false
-          this_profile['download.default_directory'] = '~/Downloads'
+          this_profile['browser.download.dir'] = '~/Downloads'
+          this_profile['browser.download.folderList'] = 2
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
@@ -96,8 +96,8 @@ module CSI
 
         when :headless
           this_profile = Selenium::WebDriver::Firefox::Profile.new
-          this_profile['download.prompt_for_download'] = false
-          this_profile['download.default_directory'] = '~/Downloads'
+          this_profile['browser.download.dir'] = '~/Downloads'
+          this_profile['browser.download.folderList'] = 2
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
