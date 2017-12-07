@@ -39,6 +39,10 @@ module CSI
 
         case browser_type
         when :firefox
+          this_profile = Selenium::WebDriver::Firefox::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
           caps['download.prompt_for_download'] = false
@@ -64,7 +68,7 @@ module CSI
           end
 
           driver = Selenium::WebDriver.for(:firefox, desired_capabilities: caps)
-          this_browser = Watir::Browser.new(driver)
+          this_browser = Watir::Browser.new(driver, profile: this_profile)
 
         when :chrome
           this_profile = Selenium::WebDriver::Chrome::Profile.new
@@ -91,6 +95,10 @@ module CSI
           end
 
         when :headless
+          this_profile = Selenium::WebDriver::Firefox::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
           caps['download.prompt_for_download'] = false
@@ -117,7 +125,7 @@ module CSI
 
           options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
           driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
-          this_browser = Watir::Browser.new(driver)
+          this_browser = Watir::Browser.new(driver, profile: this_profile)
 
           # Chrome headless
           # this_profile = Selenium::WebDriver::Chrome::Profile.new
