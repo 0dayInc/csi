@@ -41,7 +41,7 @@ module CSI
         when :firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           this_profile['browser.download.dir'] = '~/Downloads'
-          this_profile['browser.download.folderList'] = 2
+          this_profile['browser.download.folderList'] = 1
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
@@ -97,7 +97,7 @@ module CSI
         when :headless
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           this_profile['browser.download.dir'] = '~/Downloads'
-          this_profile['browser.download.folderList'] = 2
+          this_profile['browser.download.folderList'] = 1
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
