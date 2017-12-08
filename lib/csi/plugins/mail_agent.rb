@@ -238,6 +238,7 @@ module CSI
 
       def self.manual(opts = {})
         # Spoof mail from known relay
+        puts opts
         opts[:authentication] = :plain if opts[:authentication].nil?
         parent_mail_agent(opts)
       rescue => e
