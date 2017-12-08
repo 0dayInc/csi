@@ -73,8 +73,10 @@ module CSI
             end
           end
 
-          driver = Selenium::WebDriver.for(:firefox, desired_capabilities: caps)
-          this_browser = Watir::Browser.new(driver, profile: this_profile)
+          options = Selenium::WebDriver::Firefox::Options.new
+          options.profile = this_profile
+          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          this_browser = Watir::Browser.new(driver)
 
         when :chrome
           if proxy
@@ -132,8 +134,9 @@ module CSI
           end
 
           options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+          options.profile = this_profile
           driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
-          this_browser = Watir::Browser.new(driver, profile: this_profile)
+          this_browser = Watir::Browser.new(driver)
 
           # Chrome headless
           # this_profile = Selenium::WebDriver::Chrome::Profile.new
