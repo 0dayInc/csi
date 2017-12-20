@@ -22,7 +22,7 @@ if [[ $new_ruby_version != '' ]]; then
   rvm install ruby-$new_ruby_version
   echo $new_ruby_version > /csi/.ruby-version
 
-  cd /csi && ./reinstall_csi_gemset.sh
+  cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
 else
   usage
 fi
