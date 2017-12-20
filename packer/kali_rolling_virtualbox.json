@@ -112,6 +112,8 @@
         "provisioners/fuzzdb.sh",
         "provisioners/rc.local.sh",
         "provisioners/vim.sh",
+        "provisioners/firefox.sh",
+        "provisioners/docker.sh",
         "provisioners/kali_customize.rb"
       ]
     }
