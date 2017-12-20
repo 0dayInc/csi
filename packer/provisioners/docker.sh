@@ -6,6 +6,6 @@ sudo /bin/bash --login -c "apt-get install -y apt-transport-https ca-certificate
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo bash --login -c "echo 'deb https://download.docker.com/linux/debian stretch stable' > ${docker_sources}"
 sudo apt update
-sudo apt install -y docker-ce
+sudo apt install -y docker-ce docker-compose
 sudo usermod -aG docker vagrant
 sudo systemctl enable docker
