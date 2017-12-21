@@ -62,15 +62,15 @@ module CSI
               # InvalidArgumentError: Expected [object Undefined] undefined to be an integer
               # from WebDriverError@chrome://marionette/content/error.js:235:5
 
-              #c aps[:javascript_enabled] = false
-              #c aps[:proxy] = Selenium::WebDriver::Proxy.new(
-              #   socks: "#{URI(proxy).host}:#{URI(proxy).port}"
-              #) 
+              # c aps[:javascript_enabled] = false
+              # c aps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #    socks: "#{URI(proxy).host}:#{URI(proxy).port}"
+              # )
               this_profile['network.proxy.socks_version'] = 5
               this_profile['network.proxy.socks'] = URI(proxy).host
               this_profile['network.proxy.socks_port'] = URI(proxy).port
             else
-              #c aps[:proxy] = Selenium::WebDriver::Proxy.new(
+              # c aps[:proxy] = Selenium::WebDriver::Proxy.new(
               #   http: "#{URI(proxy).host}:#{URI(proxy).port}",
               #   ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
               # )
@@ -146,10 +146,10 @@ module CSI
               this_profile['network.proxy.http_port'] = URI(proxy).port
               this_profile['network.proxy.ssl'] = URI(proxy).host
               this_profile['network.proxy.ssl_port'] = URI(proxy).port
-              #caps[:proxy] = Selenium::WebDriver::Proxy.new(
-              #  http: "#{URI(proxy).host}:#{URI(proxy).port}",
-              #  ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
-              #)
+              # caps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #   http: "#{URI(proxy).host}:#{URI(proxy).port}",
+              #   ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
+              # )
             end
           end
 
