@@ -55,21 +55,31 @@ module CSI
           caps[:acceptInsecureCerts] = true
 
           if proxy
+            this_profile['network.proxy.type'] = 1
             if with_tor
               # BUG: Setting SOCKS Proxy doesn't work
               # Selenium::WebDriver::Error::SessionNotCreatedError:
               # InvalidArgumentError: Expected [object Undefined] undefined to be an integer
               # from WebDriverError@chrome://marionette/content/error.js:235:5
 
-              caps[:javascript_enabled] = false
-              caps[:proxy] = Selenium::WebDriver::Proxy.new(
-                socks: "#{URI(proxy).host}:#{URI(proxy).port}"
-              )
+              #c aps[:javascript_enabled] = false
+              #c aps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #   socks: "#{URI(proxy).host}:#{URI(proxy).port}"
+              #) 
+              this_profile['network.proxy.socks_version'] = 5
+              this_profile['network.proxy.socks'] = URI(proxy).host
+              this_profile['network.proxy.socks_port'] = URI(proxy).port
             else
-              caps[:proxy] = Selenium::WebDriver::Proxy.new(
-                http: "#{URI(proxy).host}:#{URI(proxy).port}",
-                ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
-              )
+              #c aps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #   http: "#{URI(proxy).host}:#{URI(proxy).port}",
+              #   ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
+              # )
+              this_profile['network.proxy.ftp'] = URI(proxy).host
+              this_profile['network.proxy.ftp_port'] = URI(proxy).port
+              this_profile['network.proxy.http'] = URI(proxy).host
+              this_profile['network.proxy.http_port'] = URI(proxy).port
+              this_profile['network.proxy.ssl'] = URI(proxy).host
+              this_profile['network.proxy.ssl_port'] = URI(proxy).port
             end
           end
 
@@ -115,21 +125,31 @@ module CSI
           caps[:acceptInsecureCerts] = true
 
           if proxy
+            this_profile['network.proxy.type'] = 1
             if with_tor
               # BUG: Setting SOCKS Proxy doesn't work
               # Selenium::WebDriver::Error::SessionNotCreatedError:
               # InvalidArgumentError: Expected [object Undefined] undefined to be an integer
               # from WebDriverError@chrome://marionette/content/error.js:235:5
 
-              caps[:javascript_enabled] = false
-              caps[:proxy] = Selenium::WebDriver::Proxy.new(
-                socks: "#{URI(proxy).host}:#{URI(proxy).port}"
-              )
+              # caps[:javascript_enabled] = false
+              # caps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #   socks: "#{URI(proxy).host}:#{URI(proxy).port}"
+              # )
+              this_profile['network.proxy.socks_version'] = 5
+              this_profile['network.proxy.socks'] = URI(proxy).host
+              this_profile['network.proxy.socks_port'] = URI(proxy).port
             else
-              caps[:proxy] = Selenium::WebDriver::Proxy.new(
-                http: "#{URI(proxy).host}:#{URI(proxy).port}",
-                ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
-              )
+              this_profile['network.proxy.ftp'] = URI(proxy).host
+              this_profile['network.proxy.ftp_port'] = URI(proxy).port
+              this_profile['network.proxy.http'] = URI(proxy).host
+              this_profile['network.proxy.http_port'] = URI(proxy).port
+              this_profile['network.proxy.ssl'] = URI(proxy).host
+              this_profile['network.proxy.ssl_port'] = URI(proxy).port
+              #caps[:proxy] = Selenium::WebDriver::Proxy.new(
+              #  http: "#{URI(proxy).host}:#{URI(proxy).port}",
+              #  ssl: "#{URI(proxy).host}:#{URI(proxy).port}"
+              #)
             end
           end
 
