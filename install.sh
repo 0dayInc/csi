@@ -116,7 +116,7 @@ case $csi_deploy_type in
         echo "Ready for deployment."
       else
         echo "There was an issue with the ovftool command."
-        echo "Ensure ovftool is in your path (i.e. Symlink to /usr/local/bin)"
+        echo "Ensure the VM is powered down and ovftool is in your path (i.e. Symlink to /usr/local/bin)"
       fi
     else
       vmx=$(vboxmanage list vms | grep csi | awk '{print $1}' | sed 's/"//g')
@@ -128,9 +128,10 @@ case $csi_deploy_type in
           echo "Ready for deployment."
         else
           echo "There was an issue with the vboxmanage command."
+          echo "Ensure the VM is powered down and vboxmanage is in your path"
         fi
       else
-        echo "ERROR: VMware VMX file missing."
+        echo "ERROR: VMware VMX file or VirtualBox VM for CSI is missing."
         echo "HINTS: Before running ${0} vsphere"
         echo "Run one of the following to deploy the local VMX necessary to create the vSphere OVA file:"
         echo "${0} vmware-fusion"
