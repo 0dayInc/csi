@@ -101,7 +101,8 @@ case $csi_deploy_type in
     fi
     ;;
   "vsphere")
-    vmx=$(find /csi/.vagrant/machines/default/ -name "packer-vmware-iso.vmx")
+    # vmx=$(find /csi/.vagrant/machines/default/ -name "packer-vmware-iso.vmx")
+    vmx='/csi/.vagrant/machines/default/packer-vmware-iso.vmx'
     if [[ -e $vmx ]]; then
       vagrant status | grep running
       if [[ $? == 0 ]]; then
@@ -118,15 +119,27 @@ case $csi_deploy_type in
         echo "Ensure ovftool is in your path (i.e. Symlink to /usr/local/bin)"
       fi
     else
-      echo "ERROR: VMware VMX file missing."
-      echo "HINTS: Before running ${0} vsphere"
-      echo "Run one of the following to deploy the local VMX necessary to create the vSphere OVA file:"
-      echo "${0} vmware-fusion"
-      echo "${0} vmware-fusion-gui"
-      echo "${0} vmware-workstation"
-      echo "${0} vmware-workstation-gui"
-      echo -e "Implement all of your userland requirements, update your SSH keys (if applicable), and try again.\n"
-      echo "Good Luck!"
+      vmx=$(vboxmanage list vms | grep csi | awk '{print $1}')
+      if [[ $vmx != '' ]]; then
+        ova="$HOME/${vmx}.ova"
+        vboxmanage export $vmx -o $ova
+        if [[ $? == 0 ]]; then
+          echo "vSphere Image: ${ova}"
+          echo "Ready for deployment."
+        else
+          echo "There was an issue with the vboxmanage command."
+        fi
+      else
+        echo "ERROR: VMware VMX file missing."
+        echo "HINTS: Before running ${0} vsphere"
+        echo "Run one of the following to deploy the local VMX necessary to create the vSphere OVA file:"
+        echo "${0} vmware-fusion"
+        echo "${0} vmware-fusion-gui"
+        echo "${0} vmware-workstation"
+        echo "${0} vmware-workstation-gui"
+        echo -e "Implement all of your userland requirements, update your SSH keys (if applicable), and try again.\n"
+        echo "Good Luck!"
+      fi
     fi
     ;;
   *)
