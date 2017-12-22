@@ -16,7 +16,7 @@ function usage() {
   exit 1
 }
 
-if [[ $# != 1 ]]; then
+if [[ $# != 1  ]] && [[ $# != 2 ]]; then
   usage
 fi
 
