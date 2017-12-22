@@ -119,7 +119,7 @@ case $csi_deploy_type in
         echo "Ensure ovftool is in your path (i.e. Symlink to /usr/local/bin)"
       fi
     else
-      vmx=$(vboxmanage list vms | grep csi | awk '{print $1}')
+      vmx=$(vboxmanage list vms | grep csi | awk '{print $1}' | sed 's/"//g')
       if [[ $vmx != '' ]]; then
         ova="$HOME/${vmx}.ova"
         vboxmanage export $vmx -o $ova
