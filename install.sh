@@ -1,4 +1,5 @@
 #!/bin/bash
+debug=$2
 csi_deploy_type=$1
 os=$(uname -s)
 export VAGRANT_PROVIDER=''
@@ -32,7 +33,11 @@ case $csi_deploy_type in
       vagrant plugin install vagrant-aws
       vagrant plugin install vagrant-aws-dns
       vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box --force
-      vagrant up --provider=aws
+      if [[ $debug == '' ]]; then
+        vagrant up --provider=aws
+      else
+        vagrant up --provider=aws --debug
+      fi
     else
       echo "ERROR: Missing vagrant.yaml Config"
       echo "Use ./etc/aws/vagrant.yaml.EXAMPLE as a Template to Create ./etc/aws/vagrant.yaml"
@@ -49,7 +54,11 @@ case $csi_deploy_type in
       if [[ $csi_deploy_type == "virtualbox-gui" ]]; then
         export VAGRANT_GUI="true"
       fi
-      vagrant up --provider=virtualbox
+      if [[ $debug == '' ]]; then
+        vagrant up --provider=virtualbox
+      else
+        vagrant up --provider=virtualbox --debug
+      fi
     else
       echo "ERROR: Missing vagrant.yaml Config"
       echo "Use ./etc/virtualbox/vagrant.yaml.EXAMPLE as a Template to Create ./etc/virtualbox/vagrant.yaml"
@@ -67,7 +76,11 @@ case $csi_deploy_type in
           fi
           vagrant plugin install vagrant-vmware-fusion
           vagrant plugin license vagrant-vmware-fusion $license_file
-          vagrant up --provider=vmware_fusion
+          if [[ $debug == '' ]]; then
+            vagrant up --provider=vmware_fusion
+          else
+            vagrant up --provider=vmware_fusion --debug
+          fi
           ;;
         "vmware-workstation"|"vmware-workstation-gui")
           if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
@@ -75,7 +88,11 @@ case $csi_deploy_type in
           fi
           vagrant plugin install vagrant-vmware-workstation
           vagrant plugin license vagrant-vmware-workstation $license_file
-          vagrant up --provider=vmware_workstation
+          if [[ $debug == '' ]]; then
+            vagrant up --provider=vmware_workstation
+          else
+            vagrant up --provider=vmware_workstation --debug
+          fi
           ;;        
       esac
     else
