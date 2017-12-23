@@ -121,14 +121,20 @@ case $csi_deploy_type in
     else
       vmx=$(vboxmanage list vms | grep csi | awk '{print $1}' | sed 's/"//g')
       if [[ $vmx != '' ]]; then
-        ova="$HOME/${vmx}.ova"
-        vboxmanage export $vmx -o $ova
+        vb_ova="$HOME/${vmx}.ova"
+        ova="$HOME/packer-virtualbox-iso.ova"
+        vboxmanage export $vmx -o $vb_ova
+        if [[ $? != 0 ]]; then
+          echo "There was an issue with the vboxmanage command."
+          echo "Ensure the VM is powered down and vboxmanage is in your path"
+        fi
+        ovftool --lax $vb_ova $ova
         if [[ $? == 0 ]]; then
           echo "vSphere Image: ${ova}"
           echo "Ready for deployment."
         else
-          echo "There was an issue with the vboxmanage command."
-          echo "Ensure the VM is powered down and vboxmanage is in your path"
+          echo "There was an issue with the ovftool command."
+          echo "Ensure the VM is powered down and ovftool is in your path (i.e. Symlink to /usr/local/bin)"
         fi
       else
         echo "ERROR: VMware VMX file or VirtualBox VM for CSI is missing."
