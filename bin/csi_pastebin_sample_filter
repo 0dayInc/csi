@@ -43,7 +43,7 @@ begin
     browser_obj.div(id: 'menu_2').links[0].click
     code_frame = browser_obj.div(id: 'code_frame').text
     if code_frame.match?(/#{regex}/mi)
-      puts "Current Link: #{browser_obj.url}"
+      puts "\nCurrent Link: #{browser_obj.url}"
       puts "#{code_frame}\n\n\n"
     else
       print '.'
