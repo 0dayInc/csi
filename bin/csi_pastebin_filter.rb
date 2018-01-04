@@ -32,7 +32,7 @@ proxy = opts[:proxy]
 with_tor = opts[:with_tor]
 regex = opts[:regex]
 
-b = CSI::WWW::Pastebin.open(
+browser_obj = CSI::WWW::Pastebin.open(
   browser_type: :headless,
   proxy: proxy,
   with_tor: with_tor
@@ -40,14 +40,14 @@ b = CSI::WWW::Pastebin.open(
 
 begin
   loop do
-    puts "Navigating to: #{b.div(id: 'menu_2').links[0].text}"
-    b.div(id: 'menu_2').links[0].click
-    puts "Current Link: #{b.url}"
-    code_frame = b.div(id: 'code_frame').text
+    puts "Navigating to: #{browser_obj.div(id: 'menu_2').links[0].text}"
+    browser_obj.div(id: 'menu_2').links[0].click
+    puts "Current Link: #{browser_obj.url}"
+    code_frame = browser_obj.div(id: 'code_frame').text
     if code_frame.match?(/#{regex}/)
       puts "#{code_frame}\n"
     else
-      print "Regex: #{regex} not found in #{b.url}"
+      print "Regex: #{regex} not found in #{browser_obj.url}"
     end
     sleep 9
   end
