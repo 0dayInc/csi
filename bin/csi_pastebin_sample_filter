@@ -40,14 +40,13 @@ browser_obj = CSI::WWW::Pastebin.open(
 
 begin
   loop do
-    puts "Navigating to: #{browser_obj.div(id: 'menu_2').links[0].text}"
     browser_obj.div(id: 'menu_2').links[0].click
-    puts "Current Link: #{browser_obj.url}"
     code_frame = browser_obj.div(id: 'code_frame').text
     if code_frame.match?(/#{regex}/mi)
+      puts "Current Link: #{browser_obj.url}"
       puts "#{code_frame}\n\n\n"
     else
-      puts "Regex: #{regex} not found in #{browser_obj.url}\n\n\n"
+      print '.'
     end
     sleep 9
   end
