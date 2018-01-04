@@ -19,7 +19,7 @@ OptionParser.new do |options|
   end
 
   options.on('-r', '--regex', '<Required - Regex Pattern for Interesting Pastes (* for All)>') do |r|
-    opts[:ipinfo] = r
+    opts[:regex] = r
   end
 end.parse!
 
