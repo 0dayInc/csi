@@ -18,7 +18,7 @@ OptionParser.new do |options|
     opts[:with_tor] = w
   end
 
-  options.on('-rPATTERN', '--regex=PATTERN', '<Required - Regex Pattern for Interesting Pastes (* for All)>') do |r|
+  options.on('-rPATTERN', '--regex=PATTERN', "<Required - Regex Pattern for Interesting Pastes ('.*' for All)>") do |r|
     opts[:regex] = r
   end
 end.parse!
