@@ -44,7 +44,7 @@ begin
     browser_obj.div(id: 'menu_2').links[0].click
     puts "Current Link: #{browser_obj.url}"
     code_frame = browser_obj.div(id: 'code_frame').text
-    if code_frame.match?(/#{regex}/)
+    if code_frame.match?(/#{regex}/mi)
       puts "#{code_frame}\n"
     else
       print "Regex: #{regex} not found in #{browser_obj.url}"
