@@ -4,7 +4,7 @@ require 'rbvmomi'
 
 module CSI
   module Plugins
-    # This plugin is used for interacting w/ HackerOne's REST API using
+    # This plugin is used for interacting w/ VMware ESXI's REST API using
     # the 'rest' browser type of CSI::Plugins::TransparentBrowser.
     module Vsphere
       @@logger = CSI::Plugins::CSILogger.create
@@ -13,7 +13,8 @@ module CSI
       # vsphere_obj = CSI::Plugins::Vsphere.login(
       #   host: 'required - vsphere host or ip',
       #   username: 'required - username',
-      #   password: 'optional - password (will prompt if nil)'
+      #   password: 'optional - password (will prompt if nil)',
+      #   insecure: 'optional - ignore ssl checks (defaults to false)
       # )
 
       public
@@ -26,12 +27,14 @@ module CSI
                    else
                      opts[:password].to_s.scrub
                    end
+        insecure = opts[:insecure] ||= false
 
         @@logger.info("Logging into vSphere: #{host}")
         vsphere_obj = RbVmomi::VIM.connect(
           host: host,
           user: username,
-          password: password
+          password: password,
+          insecure: insecure
         )
         return vsphere_obj
       rescue => e
@@ -74,7 +77,8 @@ module CSI
           vsphere_obj = #{self}.login(
             host: 'required - vsphere host or ip',
             username: 'required - username',
-            password: 'optional - password (will prompt if nil)'
+            password: 'optional - password (will prompt if nil)',
+            insecure: 'optional - ignore ssl checks (defaults to false)
           )
 
           vsphere_obj = #{self}.logout(
