@@ -101,7 +101,7 @@ case $csi_deploy_type in
     fi
     ;;
   "vsphere")
-    vmx='/csi/.vagrant/machines/default/packer-vmware-iso.vmx'
+    vmx=$(find /csi/.vagrant/machines/default/ -name packer-vmware-iso.vmx | grep vmware)
     if [[ -e $vmx ]]; then
       vagrant status | grep running
       if [[ $? == 0 ]]; then
