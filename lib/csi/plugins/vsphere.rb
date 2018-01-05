@@ -38,7 +38,7 @@ module CSI
         )
         return vsphere_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -53,7 +53,7 @@ module CSI
         @@logger.info('Logging out...')
         vsphere_obj = nil
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
