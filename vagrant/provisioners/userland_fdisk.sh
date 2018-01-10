@@ -18,4 +18,4 @@ echo 8e # Change to Linux LVM partition ID
 echo w # Write changes to disk
 echo y # Confirm changes
 echo q # Quit
-) | sudo fdisk -W never /dev/sda 2> /dev/null
+) | sudo fdisk -W never /dev/sda > /dev/null 2>&1
