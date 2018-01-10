@@ -19,3 +19,4 @@ echo w # Write changes to disk
 echo y # Confirm changes
 echo q # Quit
 ) | sudo fdisk -W never /dev/sda
+echo "complete."
