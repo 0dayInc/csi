@@ -118,7 +118,7 @@ Vagrant.configure(API_VERSION) do |config|
     # After CSI Box has Booted
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/userland_fdisk.sh', args: hostname, privileged: false
-    config.vm.provision :reboot
+    config.vm.provision :reload
     config.vm.provision :shell, path: './vagrant/provisioners/userland_lvm.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false

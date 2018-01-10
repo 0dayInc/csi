@@ -26,6 +26,8 @@ if [[ ! -e "./etc/metasploit/vagrant.yaml" ]]; then
   exit 1
 fi
 
+vagrant plugin install vagrant-reload
+
 case $csi_deploy_type in
   "aws") 
     export VAGRANT_PROVIDER="aws"
