@@ -1,0 +1,3 @@
+---
+
+- script: phantomjs_wrapper.sh

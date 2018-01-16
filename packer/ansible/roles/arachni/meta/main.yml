@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: nmap_all_live_hosts }

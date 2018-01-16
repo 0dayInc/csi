@@ -1,0 +1,4 @@
+---
+
+# Execute Jenkins shell script
+- script: jenkins.sh

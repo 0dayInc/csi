@@ -1,0 +1,4 @@
+---
+
+- script: virtualbox_guest_additions.sh
+- script: reboot_os.sh
