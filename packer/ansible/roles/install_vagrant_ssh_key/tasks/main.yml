@@ -1,0 +1,3 @@
+---
+
+- script: install_vagrant_ssh_key.sh

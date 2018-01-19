@@ -1,0 +1,4 @@
+---
+
+- name: wait for reboot
+  local_action: wait_for_host={{ ansible_ssh_host | default(inventory_hostname) }} state=started timeout=300 

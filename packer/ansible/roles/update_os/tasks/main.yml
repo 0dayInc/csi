@@ -1,0 +1,5 @@
+---
+
+# Execute an OS upgrade
+- script: update_os.sh
+- script: reboot_os.sh

@@ -1,0 +1,48 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: yes
+  tasks:
+    - script: /tmp/provisioner-ansible/roles/aliases/files/aliases.rb
+    - script: /tmp/provisioner-ansible/roles/rvm/files/rvm.sh
+    - script: /tmp/provisioner-ansible/roles/bashrc/files/bashrc.sh
+    - script: /tmp/provisioner-ansible/roles/ruby/files/ruby.sh
+    - script: /tmp/provisioner-ansible/roles/csi/files/csi.sh
+    - script: /tmp/provisioner-ansible/roles/beef/files/beef.rb
+    - script: /tmp/provisioner-ansible/roles/burpsuite/files/burpsuite.sh
+    - script: /tmp/provisioner-ansible/roles/jenkins/files/jenkins.sh
+    - script: /tmp/provisioner-ansible/roles/android/files/android.sh
+    - script: /tmp/provisioner-ansible/roles/sox/files/sox.sh
+    - script: /tmp/provisioner-ansible/roles/baresip/files/baresip.sh
+    - script: /tmp/provisioner-ansible/roles/phantomjs_wrapper/files/phantomjs_wrapper.sh
+    - script: /tmp/provisioner-ansible/roles/geckodriver/files/geckodriver.sh
+    - script: /tmp/provisioner-ansible/roles/chrome/files/chrome.sh
+    - script: /tmp/provisioner-ansible/roles/ansible/files/ansible.sh
+    - script: /tmp/provisioner-ansible/roles/openvas/files/openvas.sh
+    - script: /tmp/provisioner-ansible/roles/openvas_wrappers/files/openvas_wrappers.sh
+    - script: /tmp/provisioner-ansible/roles/metasploit/files/metasploit.rb
+    - script: /tmp/provisioner-ansible/roles/wpscan/files/wpscan.rb
+    - script: /tmp/provisioner-ansible/roles/ssllabs-scan/files/ssllabs-scan.sh
+    - script: /tmp/provisioner-ansible/roles/sublist3r/files/sublist3r.sh
+    - script: /tmp/provisioner-ansible/roles/scapy/files/scapy.sh
+    - script: /tmp/provisioner-ansible/roles/terminator/files/terminator.sh
+    - script: /tmp/provisioner-ansible/roles/apache2/files/apache2.sh
+    - script: /tmp/provisioner-ansible/roles/tor/files/tor.sh
+    - script: /tmp/provisioner-ansible/roles/toggle_tor/files/toggle_tor.sh
+    - script: /tmp/provisioner-ansible/roles/nmap_all_live_hosts/files/nmap_all_live_hosts.sh
+    - script: /tmp/provisioner-ansible/roles/arachni/files/arachni.sh
+    - script: /tmp/provisioner-ansible/roles/eyewitness/files/eyewitness.sh
+    - script: /tmp/provisioner-ansible/roles/afl/files/afl.sh
+    - script: /tmp/provisioner-ansible/roles/peda/files/peda.sh
+    - script: /tmp/provisioner-ansible/roles/pwntools/files/pwntools.sh
+    - script: /tmp/provisioner-ansible/roles/scout2/files/scout2.sh
+    - script: /tmp/provisioner-ansible/roles/strace/files/strace.sh
+    - script: /tmp/provisioner-ansible/roles/openvpn/files/openvpn.sh
+    - script: /tmp/provisioner-ansible/roles/fuzzdb/files/fuzzdb.sh
+    - script: /tmp/provisioner-ansible/roles/rc.local/files/rc.local.sh
+    - script: /tmp/provisioner-ansible/roles/vim/files/vim.sh
+    - script: /tmp/provisioner-ansible/roles/firefox/files/firefox.sh
+    - script: /tmp/provisioner-ansible/roles/docker/files/docker.sh
+    - script: /tmp/provisioner-ansible/roles/kali_customize/files/kali_customize.rb

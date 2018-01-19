@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: wait_for_reboot }
