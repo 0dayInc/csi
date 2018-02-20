@@ -13,8 +13,8 @@
     "disk_size": 36864,
     "hard_drive_interface": "sata",
     "http_directory": "http",
-    "iso_url": "http://cdimage.kali.org/kali-2017.3/kali-linux-2017.3-amd64.iso",
-    "iso_checksum": "395bc0af107806e5bf06edc6ac4af1f96caaf04f465831abf2f33ce51b73968d",
+    "iso_url": "http://cdimage.kali.org/kali-2018.1/kali-linux-2018.1-amd64.iso",
+    "iso_checksum": "ed88466834ceeba65f426235ec191fb3580f71d50364ac5131daec1bf976b317",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
