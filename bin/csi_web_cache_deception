@@ -71,18 +71,6 @@ output_results = opts[:output_results].to_s.scrub.strip.chomp
 
 # Optional Flag Variables
 csi_www_mod_str = opts[:csi_www_mod_str].to_s.scrub.strip.chomp
-begin
-  csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
-  unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login') && csi_www_mod.respond_to?('logout')
-    puts "#{@dark_red}Module CSI::WWW::#{csi_www_mod_str} Missing #open #login and/or #logout Method(s)#{@end_of_color}"
-    puts `#{$PROGRAM_NAME} -l`
-    exit
-  end
-rescue => NAME_ERROR
-  puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
-  puts `#{$PROGRAM_NAME} -l`
-  exit
-end
 
 username = opts[:username].to_s.scrub.strip.chomp
 
@@ -150,7 +138,20 @@ begin
   end
 
   # Script starts crunching here...
-  if csi_www_mod
+  if csi_www_mod_str != ''
+    begin
+      csi_www_mod = CSI::WWW.const_get(csi_www_mod_str)
+      unless csi_www_mod.respond_to?('open') && csi_www_mod.respond_to?('login') && csi_www_mod.respond_to?('logout')
+        puts "#{@dark_red}Module CSI::WWW::#{csi_www_mod_str} Missing #open #login and/or #logout Method(s)#{@end_of_color}"
+        puts `#{$PROGRAM_NAME} -l`
+        exit
+      end
+    rescue => NAME_ERROR
+      puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
+      puts `#{$PROGRAM_NAME} -l`
+      exit
+    end
+
     puts "#{@green}Leveraging CSI::WWW::#{csi_www_mod_str} to Obtain a Post AuhN State...#{@end_of_color}"
     if proxy
       if with_tor
@@ -176,7 +177,7 @@ begin
       mfa: mfa
     )
     puts "#{@green}complete.#{@end_of_color}\n\n\n"
-  elsif !csi_www_mod && proxy
+  elsif csi_www_mod_str == '' && proxy
     if with_tor
       browser_obj = CSI::Plugins::TransparentBrowser.open(
         browser_type: :chrome,
