@@ -22,7 +22,7 @@
       "install <wait>",
       "debug <wait>",
       "dbg/flags=all-x <wait>",
-      "debconf/priority=low <wait>",
+      "debconf/priority=high <wait>",
       "DEBCONF_DEBUG=5 <wait>",
       "auto=true <wait>",
       "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
