@@ -120,4 +120,5 @@ rescue => e
   raise e
 ensure
   CSI::Plugins::OwaspZap.stop(zap_obj: zap_obj) unless zap_obj.nil?
+  browser = CSI::Plugins::TransparentBrowser.close(browser_obj: browser) unless browser.nil?
 end
