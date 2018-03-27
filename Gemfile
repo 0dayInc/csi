@@ -48,7 +48,7 @@ gem 'rtesseract', '2.2.0'              # Gem for image ocr (e.g. decoding captch
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
 gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
 gem 'ruby-nmap', '0.9.2'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2017-02-13
-gem 'ruby-saml', '1.6.1'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2018-02-22
+gem 'ruby-saml', '1.7.2'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2018-02-22
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
 gem 'sinatra', '2.0.1'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2018-02-21
