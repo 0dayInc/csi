@@ -14,5 +14,5 @@ if [[ $old_ruby_version == $new_ruby_version ]]; then
   echo "Invoking bundle-audit Gemfile Scanner..."
   bundle-audit
 else
-  ./upgrade_ruby $new_ruby_version
+  ./upgrade_ruby $new_ruby_version $old_ruby_version
 fi
