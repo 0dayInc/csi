@@ -4,7 +4,6 @@ os=$(uname -s)
 case $os in
   'Darwin')
     sudo port -N install bison openssl curl git zlib libyaml libxml2 autoconf ncurses automake libtool libpcap
-    rvm autolibs macports
     ;;
   'Linux')
     sudo apt install -y build-essential bison openssl libreadline-dev curl git-core git zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool libpcap-dev libsqlite3-dev libgmp-dev
