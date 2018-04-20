@@ -20,10 +20,7 @@
 
 
 ### **Call to Arms** ###
-If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM us as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.  Lastly, this project accepts donations, so if you want to see this thing blow the door off the hinges, please donate!!! 
-
-[![Click here to lend your support to CSI and make a donation via pledgie.com](https://pledgie.com/campaigns/32329.png?skin_name=chrome)](https://pledgie.com/campaigns/32329)
-
+If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM us as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.
 
 
 ### **Intro** ###
@@ -80,7 +77,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.2.827]:001 >>> CSI.help
+  csi[v0.2.828]:001 >>> CSI.help
   ```
 
 
