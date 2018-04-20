@@ -1,2 +1,3 @@
 #!/bin/bash --login
-sudo apt install -y baresip
+# BUG - commenting until we can discover where baresip went
+#sudo apt install -y baresip
