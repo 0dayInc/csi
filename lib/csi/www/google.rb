@@ -67,7 +67,7 @@ module CSI
         q = opts[:q].to_s
 
         browser_obj.text_field(name: 'q').wait_until_present.set(q)
-        browser_obj.button(name: 'btnG').wait_until_present.click
+        browser_obj.button(text: 'Google Search').wait_until_present.click
 
         return browser_obj
       rescue => e
