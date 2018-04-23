@@ -125,5 +125,5 @@ begin
 rescue StandardError, SystemExit, Interrupt => e
   raise e
 ensure
-  CSI::Plugins::TransparentBrowser.close(browser_obj: browser)
+  browser = CSI::Plugins::TransparentBrowser.close(browser_obj: browser) unless browser.nil?
 end
