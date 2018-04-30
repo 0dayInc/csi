@@ -1,2 +1,0 @@
-sox:
-  pkg.installed: {}
