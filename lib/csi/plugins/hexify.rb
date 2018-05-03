@@ -16,7 +16,7 @@ module CSI
       def self.short_int(opts = {})
         # TODO: big endian and little endian parameters
         int = opts[:int].to_i
-        short_int = [int].pack('S>').unpack('H*')[0].scan(/../).map{|h| '\x'+h }.join
+        short_int = [int].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
       rescue => e
         return e.message
       end
@@ -31,7 +31,7 @@ module CSI
       def self.long_int(opts = {})
         # TODO: big endian and little endian parameters
         int = opts[:int].to_i
-        long_int = [int].pack('L>').unpack('H*')[0].scan(/../).map{|h| '\x'+h }.join
+        long_int = [int].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
       rescue => e
         return e.message
       end
