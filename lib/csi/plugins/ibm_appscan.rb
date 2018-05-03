@@ -749,7 +749,7 @@ module CSI
         res = rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE)
 
         # Now get the file
-        f = open(output_name, 'wb')
+        f = File.open(output_name, 'wb')
         location['Export'] = 'Stream'
         begin
           rb.get(location, 'Cookie' => appscan_obj[:cookie], :verify_ssl => OpenSSL::SSL::VERIFY_NONE) do |resp|

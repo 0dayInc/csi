@@ -58,11 +58,6 @@ Naming/VariableName:
   Exclude:
     - 'Vagrantfile'
 
-# Offense count: 1
-Security/Open:
-  Exclude:
-    - 'lib/csi/plugins/ibm_appscan.rb'
-
 # Offense count: 151
 Style/ClassVars:
   Enabled: false
