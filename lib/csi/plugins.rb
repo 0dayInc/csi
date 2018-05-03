@@ -21,6 +21,7 @@ module CSI
     autoload :FileFu, 'csi/plugins/file_fu'
     autoload :Git, 'csi/plugins/git'
     autoload :HackerOne, 'csi/plugins/hacker_one'
+    autoload :Hexify, 'csi/plugins/hexify'
     autoload :IBMAppscan, 'csi/plugins/ibm_appscan'
     autoload :IPInfo, 'csi/plugins/ip_info'
     autoload :Jenkins, 'csi/plugins/jenkins'
