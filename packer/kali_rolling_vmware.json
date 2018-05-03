@@ -13,8 +13,8 @@
     },
     "disk_size": 36864,
     "http_directory": "http",
-    "iso_url": "http://cdimage.kali.org/kali-2018.1/kali-linux-2018.1-amd64.iso",
-    "iso_checksum": "ed88466834ceeba65f426235ec191fb3580f71d50364ac5131daec1bf976b317",
+    "iso_url": "http://cdimage.kali.org/kali-2018.2/kali-linux-2018.2-amd64.iso",
+    "iso_checksum": "56f677e2edfb2efcd0b08662ddde824e254c3d53567ebbbcdbbf5c03efd9bc0f",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
