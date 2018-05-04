@@ -85,7 +85,7 @@ module CSI
       public
 
       def self.hash_to_raw(opts = {})
-        request_hash = opts[:request_hash].to_s
+        request_hash = opts[:request_hash]
 
         # Populate HTTP Request Line
         request_raw = request_hash[:http_method]
