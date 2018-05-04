@@ -26,6 +26,9 @@ module CSI
         request_hash[:http_resource_path] = URI.parse(raw_request_line_arr[1])
         request_hash[:http_version] = raw_request_line_arr[-1]
 
+        # Begin Parsing HTTP Headers & Body (If Applicable)
+        request_hash[:http_headers] = {}
+
         case request_hash[:http_method]
         when :CONNECT
           puts request_hash[:http_method]
@@ -40,6 +43,7 @@ module CSI
         when :PATCH
           puts request_hash[:http_method]
         when :POST
+          # Parse HTTP Headers
           raw_intercepted_request_arr[1..-1].each do |val|
             key = ''
             val.each_char do |char|
@@ -52,6 +56,7 @@ module CSI
             request_hash[:http_headers][key.to_sym] = header_val
           end
 
+          # Parse HTTP Body
           raw_request_body = []
           raw_intercepted_request_arr[1..-1].each_with_index do |val, index|
             next if val != ''
@@ -68,7 +73,7 @@ module CSI
 
         return request_hash
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
