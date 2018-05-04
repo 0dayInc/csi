@@ -87,18 +87,19 @@ module CSI
       def self.hash_to_raw(opts = {})
         request_hash = opts[:request_hash].to_s
 
-        request_raw = ''
+        # Populate HTTP Request Line
         request_raw = request_hash[:http_method]
         request_raw = "#{request_raw}#{request_hash[:http_resource_path]}"
         request_raw = "#{request_raw}#{request_hash[:http_version]}\r\n"
+
+        # Populate HTTP Headers
         request_hash[:http_headers].each do |key, header_val|
-          request_raw = "#{request_raw}#{key.to_s}: #{header_val}\r\n"
+          request_raw = "#{request_raw}#{key}: #{header_val}\r\n"
         end
 
-        request_raw = "#{request_raw}#\r\n"
+        # Populate HTTP Body (If Applicable)
+        request_raw = "#{request_raw}\r\n"
         request_raw = "#{request_raw}#{request_hash[:http_body]}" unless request_hash[:http_body] == ''
-
-        return request_raw
       rescue => e
         return e
       end
