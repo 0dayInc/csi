@@ -164,8 +164,6 @@ module CSI
             return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
           when :osx
             return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - Database closed'
-          else
-            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
           end
         end
 
