@@ -88,9 +88,9 @@ module CSI
         request_hash = opts[:request_hash]
 
         # Populate HTTP Request Line
-        request_raw = request_hash[:http_method]
-        request_raw = " #{request_raw}#{request_hash[:http_resource_path]}"
-        request_raw = " #{request_raw}#{request_hash[:http_version]}\r\n"
+        request_raw = "#{request_hash[:http_method]} "
+        request_raw = "#{request_raw}#{request_hash[:http_resource_path]} "
+        request_raw = "#{request_raw}#{request_hash[:http_version]}\r\n"
 
         # Populate HTTP Headers
         request_hash[:http_headers].each do |key, header_val|
