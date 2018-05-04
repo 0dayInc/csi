@@ -91,7 +91,7 @@ module CSI
         request_raw = "#{request_raw}#{request_hash[:http_resource_path]}"
         request_raw = "#{request_raw}#{request_hash[:http_version]}\r\n"
         request_hash[:http_headers].each do |key, header_val|
-          request_raw = "#{request_raw}#{key}: #{header_val}\r\n"
+          request_raw = "#{request_raw}#{key.to_s}: #{header_val}\r\n"
         end
 
         if request_hash[:http_body] != ''
