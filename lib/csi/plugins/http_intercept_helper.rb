@@ -40,10 +40,7 @@ module CSI
         when :PATCH
           puts request_hash[:http_method]
         when :POST
-          headers_arr_of_hashes = []
-          puts 'HTTP Request Headers:'
           raw_intercepted_request_arr[1..-1].each do |val|
-            header_hash = {}
             key = ''
             val.each_char do |char|
               break if char == ':'
@@ -52,10 +49,8 @@ module CSI
 
             header_val = val.gsub(/^#{key}:/, '').strip
 
-            header_hash[key.to_sym] = header_val
-            headers_arr_of_hashes.push(header_hash)
+            request_hash[:http_headers][key.to_sym] = header_val
           end
-          request_hash[:http_headers] = headers_arr_of_hashes
 
           raw_request_body = []
           raw_intercepted_request_arr[1..-1].each_with_index do |val, index|
