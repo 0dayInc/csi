@@ -159,7 +159,14 @@ module CSI
         if headless
           return_pattern = '[ZAP-daemon] INFO org.zaproxy.zap.DaemonBootstrap  - ZAP is now listening'
         else
-          return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - Database closed'
+          case underlying_os
+          when :linux
+            return_pattern = '[AWT-EventQueue-1] INFO hsqldb.db..ENGINE  - Database closed'
+          when :osx
+            return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - Database closed'
+          else
+            raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
+          end
         end
 
         loop do
