@@ -51,6 +51,9 @@ module CSI
           this_profile['plugin.scan.plid.all'] = false
           this_profile['plugin.scan.Acrobat'] = '99.0'
 
+          # ensure localhost proxy capabilities are enabled
+          this_profile['network.proxy.no_proxies_on'] = ''
+
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
 
@@ -107,6 +110,9 @@ module CSI
           # disable Adobe Acrobat PDF preview plugin
           this_profile['plugin.scan.plid.all'] = false
           this_profile['plugin.scan.Acrobat'] = '99.0'
+
+          # ensure localhost proxy capabilities are enabled
+          this_profile['network.proxy.no_proxies_on'] = ''
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
