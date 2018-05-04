@@ -159,7 +159,7 @@ module CSI
         if headless
           return_pattern = '[ZAP-daemon] INFO org.zaproxy.zap.DaemonBootstrap  - ZAP is now listening'
         else
-          return_pattern = '[AWT-EventQueue-0 INFO hsqldb.db..ENGINE  - Database closed'
+          return_pattern = '[AWT-EventQueue-0] INFO hsqldb.db..ENGINE  - Database closed'
         end
 
         loop do
