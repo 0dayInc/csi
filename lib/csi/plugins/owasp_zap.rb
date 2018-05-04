@@ -102,7 +102,7 @@ module CSI
           when :linux
             zap_bin_path = '/usr/share/zaproxy/zap.sh'
           when :osx
-            zap_bin_path = '/Applications/OWASP ZAP.app/Contents/Java/zap.sh'
+            zap_bin_path = '/Applications/OWASP\ ZAP.app/Contents/Java/zap.sh'
           else
             raise "ERROR: zap.sh not found for #{underlying_os}. Please pass the :zap_bin_path parameter to this method for proper execution"
           end
