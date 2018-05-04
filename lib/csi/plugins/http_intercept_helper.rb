@@ -45,6 +45,7 @@ module CSI
         when :POST
           # Parse HTTP Headers
           raw_intercepted_request_arr[1..-1].each do |val|
+            break if val == '' # This may cause issues
             key = ''
             val.each_char do |char|
               break if char == ':'
@@ -59,7 +60,7 @@ module CSI
           # Parse HTTP Body
           raw_request_body = []
           raw_intercepted_request_arr[1..-1].each_with_index do |val, index|
-            next if val != ''
+            next if val != '' # This may cause issues
             break_index = index + 2
             request_hash[:http_body] = raw_intercepted_request_arr[break_index..-1].join(',')
           end
@@ -94,11 +95,8 @@ module CSI
           request_raw = "#{request_raw}#{key.to_s}: #{header_val}\r\n"
         end
 
-        if request_hash[:http_body] != ''
-          request_raw = "#{request_raw}#{request_hash[:http_body]}"
-        else
-          request_raw = "#{request_raw}#\r\n"
-        end
+        request_raw = "#{request_raw}#\r\n"
+        request_raw = "#{request_raw}#{request_hash[:http_body]}" unless request_hash[:http_body] == ''
 
         return request_raw
       rescue => e
