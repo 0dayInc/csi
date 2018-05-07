@@ -9,7 +9,7 @@ module CSI
     module SCAPM
       # Main Class that Comprises the Entire Web Application
       class Application < Sinatra::Base
-        private
+        private_class_method
 
         def saml_settings
           idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new

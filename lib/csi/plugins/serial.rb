@@ -83,7 +83,7 @@ module CSI
       #   serial_conn: 'required SerialPort.new object'
       # )
 
-      private
+      private_class_method
 
       def self.init_session_thread(opts = {})
         serial_conn = opts[:serial_conn]

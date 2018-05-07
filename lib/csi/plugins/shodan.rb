@@ -20,7 +20,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private
+      private_class_method
 
       def self.shodan_rest_call(opts = {})
         shodan_obj = opts[:shodan_obj]

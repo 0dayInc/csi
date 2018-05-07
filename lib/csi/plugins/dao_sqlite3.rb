@@ -45,7 +45,7 @@ module CSI
       #   sqlite3_conn: sqlite3_conn
       # )
 
-      private
+      private_class_method
 
       def self.validate_sqlite3_conn(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]

@@ -19,7 +19,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private
+      private_class_method
 
       def self.zap_rest_call(opts = {})
         zap_obj = opts[:zap_obj]

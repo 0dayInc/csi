@@ -65,7 +65,7 @@ module CSI
       #   :mongo_conn => mongo_conn
       # )
 
-      private
+      private_class_method
 
       def self.validate_mongo_conn(opts = {})
         mongo_conn = opts[:mongo_conn]

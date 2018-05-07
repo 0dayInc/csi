@@ -14,7 +14,7 @@ module CSI
       #   proxy: 'optional - use a proxy'
       # )
 
-      private
+      private_class_method
 
       def self.ip_info_rest_call(opts = {})
         ip = opts[:ip].to_s.scrub.strip.chomp

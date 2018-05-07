@@ -112,7 +112,7 @@ module CSI
       #   entry_beautified: entry_beautified
       # )
 
-      private
+      private_class_method
 
       def self.get_author(opts = {})
         repo_root = opts[:repo_root]

@@ -188,7 +188,7 @@ module CSI
       #   pg_conn: pg_conn
       # )
 
-      private
+      private_class_method
 
       def self.validate_pg_conn(opts = {})
         pg_conn = opts[:pg_conn]
