@@ -45,9 +45,7 @@ module CSI
       #   sqlite3_conn: sqlite3_conn
       # )
 
-      private_class_method
-
-      def self.validate_sqlite3_conn(opts = {})
+      private_class_method def self.validate_sqlite3_conn(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         unless sqlite3_conn.class == SQLite3::Database
           raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}"

@@ -188,9 +188,7 @@ module CSI
       #   pg_conn: pg_conn
       # )
 
-      private_class_method
-
-      def self.validate_pg_conn(opts = {})
+      private_class_method def self.validate_pg_conn(opts = {})
         pg_conn = opts[:pg_conn]
         unless pg_conn.class == PG::Connection
           raise "Error: Invalid pg_conn Object #{pg_conn}"

@@ -65,9 +65,7 @@ module CSI
       #   :mongo_conn => mongo_conn
       # )
 
-      private_class_method
-
-      def self.validate_mongo_conn(opts = {})
+      private_class_method def self.validate_mongo_conn(opts = {})
         mongo_conn = opts[:mongo_conn]
         unless mongo_conn.class == Mongo::Client
           raise "Error: Invalid mongo_conn Object #{mongo_conn}"

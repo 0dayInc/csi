@@ -72,9 +72,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private_class_method
-
-      def self.beef_rest_call(opts = {})
+      private_class_method def self.beef_rest_call(opts = {})
         beef_obj = opts[:beef_obj]
         http_method = if opts[:http_method].nil?
                         :get

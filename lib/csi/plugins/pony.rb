@@ -105,9 +105,7 @@ module CSI
 
       # Method usage N/A
 
-      private_class_method
-
-      def self.deliver(mail)
+      private_class_method def self.deliver(mail)
         mail.deliver!
       end
 

@@ -69,9 +69,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private_class_method
-
-      def self.h1_rest_call(opts = {})
+      private_class_method def self.h1_rest_call(opts = {})
         h1_obj = opts[:h1_obj]
         http_method = if opts[:http_method].nil?
                         :get

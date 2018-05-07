@@ -29,9 +29,7 @@ module CSI
       # )
       @@logger = CSI::Plugins::CSILogger.create
 
-      private_class_method
-
-      def self.parent_mail_agent(opts = {})
+      private_class_method def self.parent_mail_agent(opts = {})
         from = opts[:from]
         to = opts[:to]
         cc = opts[:cc]

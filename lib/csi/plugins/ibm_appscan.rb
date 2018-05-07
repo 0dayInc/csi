@@ -79,9 +79,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private_class_method
-
-      def self.appscan_rest_call(opts = {})
+      private_class_method def self.appscan_rest_call(opts = {})
         appscan_obj = opts[:appscan_obj]
         http_method = if opts[:http_method].nil?
                         :get
@@ -731,9 +729,7 @@ module CSI
       #   report_link: 'required report link to start report generation
       #   output_name: 'required name to save generated report'
 
-      private_class_method
-
-      def self.get_report_data(opts = {})
+      private_class_method def self.get_report_data(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_link = opts[:report_link]
         output_name = opts[:output_name]

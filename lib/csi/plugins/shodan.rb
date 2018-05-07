@@ -20,9 +20,7 @@ module CSI
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
-      private_class_method
-
-      def self.shodan_rest_call(opts = {})
+      private_class_method def self.shodan_rest_call(opts = {})
         shodan_obj = opts[:shodan_obj]
         http_method = if opts[:http_method].nil?
                         :get
