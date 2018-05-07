@@ -131,7 +131,8 @@
         "type": "vagrant-cloud",
         "box_tag": "csi/kali_rolling",
         "access_token": "{{user `vagrant_cloud_token`}}",
-        "version": "{{user `box_version`}}"
+        "version": "{{user `box_version`}}",
+        "version_description": "Continuous Security Integration Framework built on top of Kali Rolling.  For information around this security framework, visit the project on GitHub: https://github.com/ninp0/csi"
       }
     ]
   ]
