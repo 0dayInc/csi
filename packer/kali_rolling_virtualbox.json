@@ -84,7 +84,6 @@
         "provisioners/jenkins.sh",
         "provisioners/android.sh",
         "provisioners/sox.sh",
-        "provisioners/baresip.sh",
         "provisioners/phantomjs_wrapper.sh",
         "provisioners/geckodriver.sh",
         "provisioners/chrome.sh",
@@ -115,6 +114,7 @@
         "provisioners/vim.sh",
         "provisioners/firefox.sh",
         "provisioners/docker.sh",
+        "provisioners/baresip.sh",
         "provisioners/kali_customize.rb"
       ]
     }
