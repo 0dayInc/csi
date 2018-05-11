@@ -23,7 +23,7 @@ module CSI
 
       # Supported Method Parameters::
       # long_int = CSI::Plugins::Hexify.long_int(
-      #   int: 'required = integer ranging from 0-2147483647 to convert to long_int hex bytes'
+      #   int: 'required = integer ranging from 0-4294967295 to convert to long_int hex bytes'
       # )
 
       public
@@ -59,7 +59,7 @@ module CSI
           )
 
           long_int = #{self}.long_int(
-            int: 'required = integer ranging from 0-2147483647 to convert to long_int hex bytes'
+            int: 'required = integer ranging from 0-4294967295 to convert to long_int hex bytes'
           )
         "
       end
