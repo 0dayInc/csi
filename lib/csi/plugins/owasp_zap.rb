@@ -376,7 +376,9 @@ module CSI
       #   enabled: 'optional - boolean (defaults to true)'
       # )
 
-      public def self.intercept(opts = {})
+      public
+
+      def self.intercept(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         domain = opts[:domain]
