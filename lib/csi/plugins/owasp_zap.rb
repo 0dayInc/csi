@@ -370,6 +370,37 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # CSI::Plugins::OwaspZap.intercept(
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   domain: 'required - FQDN to intercept (e.g. test.domain.local)',
+      #   enabled: 'optional - boolean (defaults to true)'
+      # )
+
+      public
+
+      def self.intercept(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
+        domain = opts[:domain]
+        enabled = opts[:enabled] || true
+        
+        if enabled
+          action = 'addHttpBreakpoint'
+        else
+          action = 'removeHttpBreakpoint'
+        end
+
+        zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: "JSON/break/action/#{action}/?zapapiformat=JSON&apikey=#{api_key}&string=#{domain}&location=url&match=contains&inverse=false&ignorecase=true",
+          http_method: :get
+        )
+      rescue StandardError, SystemExit, Interrupt => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
@@ -434,6 +465,12 @@ module CSI
             zap_obj: 'required - zap_obj returned from #open method',
             output_dir: 'required - directory to save report',
             report_type: 'required - <html|markdown|xml>'
+          )
+
+          #{self}.intercept(
+            zap_obj: 'required - zap_obj returned from #open method',
+            domain: 'required - FQDN to intercept (e.g. test.domain.local)',
+            enabled: 'optional - boolean (defaults to true)'
           )
 
           #{self}.stop(
