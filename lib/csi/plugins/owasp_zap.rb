@@ -382,7 +382,7 @@ module CSI
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         domain = opts[:domain]
-        enabled = opts[:enabled] || true
+        enabled = opts[:enabled]
         
         if enabled
           action = 'addHttpBreakpoint'
