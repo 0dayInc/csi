@@ -385,7 +385,7 @@ module CSI
         if enabled
           action = 'addHttpBreakpoint'
         else
-          action = 'removeHttpBreakpoint',
+          action = 'removeHttpBreakpoint'
         end
 
         zap_rest_call(
