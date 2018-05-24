@@ -384,7 +384,7 @@ module CSI
         domain = opts[:domain]
         enabled = opts[:enabled]
         
-        if enabled
+        if enabled.nil?
           action = 'addHttpBreakpoint'
         else
           action = 'removeHttpBreakpoint'
