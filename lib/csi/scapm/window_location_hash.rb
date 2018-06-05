@@ -127,7 +127,7 @@ module CSI
                                              from_line: 1,
                                              to_line: target_file_line_length,
                                              target_file: target_file
-          ))
+                                           ))
         else
           if from_line.to_i && to_line.to_i < 1
             from_line = 1
@@ -138,7 +138,7 @@ module CSI
                                              from_line: from_line,
                                              to_line: to_line,
                                              target_file: target_file
-          ))
+                                           ))
         end
 
         author

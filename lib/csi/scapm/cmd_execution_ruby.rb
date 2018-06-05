@@ -73,7 +73,7 @@ module CSI
                                                      from_line: line_no,
                                                      to_line: line_no,
                                                      target_file: entry
-                  ))
+                                                   ))
                 else
                   author = 'N/A'
                 end
