@@ -17,6 +17,7 @@ module CSI
     autoload :DAOMongo, 'csi/plugins/dao_mongo'
     autoload :DAOPostgres, 'csi/plugins/dao_postgres'
     autoload :DAOSQLite3, 'csi/plugins/dao_sqlite3'
+    autoload :DefectDojo, 'csi/plugins/defect_dojo'
     autoload :DetectOS, 'csi/plugins/detect_os'
     autoload :FileFu, 'csi/plugins/file_fu'
     autoload :Git, 'csi/plugins/git'
