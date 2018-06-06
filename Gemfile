@@ -51,7 +51,7 @@ gem 'ruby-nmap', '0.9.2'               # A Ruby interface to nmap, the explorati
 gem 'ruby-saml', '1.7.2'               # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2018-02-22
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
-gem 'sinatra', '2.0.1'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2018-02-21
+gem 'sinatra', '2.0.2'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2018-06-06
 gem 'slack-ruby-client', '0.11.1'      # Used for interacting w/ Slack via bots ***2018-02-22
 gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e.g. tor) ***2017-08-20
 gem 'spreadsheet', '1.1.5'             # Generate Excel Spreadsheets (.xls files) ***2017-12-18
