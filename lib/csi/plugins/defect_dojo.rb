@@ -22,10 +22,10 @@ module CSI
       def self.login(opts = {})
         dd_ip = opts[:dd_ip]
         dd_port = if opts[:dd_port]
-                      opts[:dd_port].to_i
-                    else
-                      3000
-                    end
+                    opts[:dd_port].to_i
+                  else
+                    8000
+                  end
 
         username = opts[:username].to_s.scrub
         base_dd_api_uri = "http://#{dd_ip}:#{dd_port}/api".to_s.scrub
