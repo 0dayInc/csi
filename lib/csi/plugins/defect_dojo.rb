@@ -40,7 +40,7 @@ module CSI
         auth_payload[:content_type] = 'application/json'
         auth_payload[:authorization] = "ApiKey #{username}:#{api_key}"
 
-        @@logger.info("Logging into DefectDojo REST API: #{dd_ip}")
+        @@logger.info("Logging into DefectDojo REST API: #{base_dd_api_uri}")
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
           method: :post,
