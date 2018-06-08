@@ -50,7 +50,7 @@ module CSI
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
           method: :post,
-          url: "#{base_dd_api_uri}/api-token-auth",
+          url: "#{base_dd_api_uri}/api-token-auth/",
           verify_ssl: false,
           headers: http_headers,
           payload: http_body.to_json
