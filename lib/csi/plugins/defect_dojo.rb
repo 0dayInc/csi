@@ -28,7 +28,11 @@ module CSI
                end
 
         username = opts[:username].to_s.scrub
-        base_dd_api_uri = "#{host}:#{port}/api/v1".to_s.scrub
+        if (host.include?('https://') && port == 443) || (host.include?('http://') && port == 80)
+          base_dd_api_uri = "#{host}/api/v1".to_s.scrub
+        else
+          base_dd_api_uri = "#{host}:#{port}/api/v1".to_s.scrub
+        end
 
         api_key = if opts[:api_key].nil?
                     CSI::Plugins::AuthenticationHelper.mask_password
