@@ -47,10 +47,10 @@ module CSI
         @@logger.info("Logging into DefectDojo REST API: #{base_dd_api_uri}")
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
-          method: :post,
+          method: :get,
           url: "#{base_dd_api_uri}/users",
           verify_ssl: false,
-          headers: auth_payload.to_json
+          headers: auth_payload
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
