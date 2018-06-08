@@ -13,13 +13,15 @@ module CSI
       # dd_obj = CSI::Plugins::DefectDojo.login(
       #   host: 'required - host/ip of DefectDojo Server',
       #   port: 'optional - port of DefectDojo server (defaults to 8000)',
-      #   username: 'required - username to AuthN w/ api)',
-      #   api_key: 'optional - defect dojo api key (will prompt if nil)'
+      #   username: 'required - username to AuthN w/ api v2)',
+      #   password: 'optional - defect dojo api key (will prompt if nil)'
       # )
 
       public
 
       def self.login(opts = {})
+        http_body = {}
+
         host = opts[:host]
         port = if opts[:port]
                  opts[:port].to_i
@@ -27,30 +29,31 @@ module CSI
                  8000
                end
 
-        username = opts[:username].to_s.scrub
+        http_body[:username] = opts[:username].to_s.scrub
+
         if (host.include?('https://') && port == 443) || (host.include?('http://') && port == 80)
-          base_dd_api_uri = "#{host}/api/v1".to_s.scrub
+          base_dd_api_uri = "#{host}/api/v2".to_s.scrub
         else
-          base_dd_api_uri = "#{host}:#{port}/api/v1".to_s.scrub
+          base_dd_api_uri = "#{host}:#{port}/api/v2".to_s.scrub
         end
 
-        api_key = if opts[:api_key].nil?
-                    CSI::Plugins::AuthenticationHelper.mask_password
-                  else
-                    opts[:api_key].to_s.scrub
-                  end
+        http_body[:password] = if opts[:password].nil?
+                                 CSI::Plugins::AuthenticationHelper.mask_password
+                               else
+                                 opts[:password].to_s.scrub
+                               end
 
-        auth_payload = {}
-        auth_payload[:content_type] = 'application/json'
-        auth_payload[:authorization] = "ApiKey #{username}:#{api_key}"
+        http_headers = {}
+        http_headers[:content_type] = 'application/json'
 
         @@logger.info("Logging into DefectDojo REST API: #{base_dd_api_uri}")
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
-          method: :get,
-          url: "#{base_dd_api_uri}/users",
+          method: :post,
+          url: "#{base_dd_api_uri}/api-token-auth",
           verify_ssl: false,
-          headers: auth_payload
+          headers: http_headers,
+          payload: http_body
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
@@ -165,8 +168,8 @@ module CSI
           dd_obj = #{self}.login(
             host: 'required - host/ip of DefectDojo Server',
             port: 'optional - port of DefectDojo server (defaults to 8000)',
-            username: 'required - username to AuthN w/ api v1)',
-            api_key: 'optional - defect dojo api key (will prompt if nil)'
+            username: 'required - username to AuthN w/ api v2)',
+            password: 'optional - defect dojo api key (will prompt if nil)'
           )
 
           #{self}.logout(
