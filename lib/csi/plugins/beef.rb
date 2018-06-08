@@ -11,7 +11,7 @@ module CSI
 
       # Supported Method Parameters::
       # beef_obj = CSI::Plugins::BeEF.login(
-      #   beef_ip: 'required - host/ip of IBM Appscan Server',
+      #   beef_ip: 'required - host/ip of BeEF Server',
       #   beef_port: 'optional - port of BeEF server (defaults to 3000)',
       #   username: 'required - username',
       #   password: 'optional - password (will prompt if nil)'

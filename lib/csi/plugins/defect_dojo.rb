@@ -11,53 +11,55 @@ module CSI
 
       # Supported Method Parameters::
       # dd_obj = CSI::Plugins::DefectDojo.login(
-      #   dd_ip: 'required - host/ip of IBM Appscan Server',
-      #   dd_port: 'optional - port of DefectDojo server (defaults to 8000)',
-      #   username: 'required - username',
-      #   password: 'optional - password (will prompt if nil)'
+      #   host: 'required - host/ip of DefectDojo Server',
+      #   port: 'optional - port of DefectDojo server (defaults to 8000)',
+      #   username: 'required - username to AuthN w/ api)',
+      #   api_key: 'optional - defect dojo api key (will prompt if nil)'
       # )
 
       public
 
       def self.login(opts = {})
-        dd_ip = opts[:dd_ip]
-        dd_port = if opts[:dd_port]
-                    opts[:dd_port].to_i
+        host = opts[:host]
+        port = if opts[:port]
+                    opts[:port].to_i
                   else
                     8000
                   end
 
         username = opts[:username].to_s.scrub
-        base_dd_api_uri = "http://#{dd_ip}:#{dd_port}/api".to_s.scrub
+        base_dd_api_uri = "#{host}:#{dd_port}/api/v2".to_s.scrub
 
-        password = if opts[:password].nil?
+        api_key = if opts[:api_key].nil?
                      CSI::Plugins::AuthenticationHelper.mask_password
                    else
-                     opts[:password].to_s.scrub
+                     opts[:api_key].to_s.scrub
                    end
 
         auth_payload = {}
-        auth_payload[:username] = username
-        auth_payload[:password] = password
+        auth_payload[:content_type] = 'application/json'
+        auth_payload[:authorization] = "ApiKey #{username}:#{api_key}"
 
         @@logger.info("Logging into DefectDojo REST API: #{dd_ip}")
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
           method: :post,
-          url: "#{base_dd_api_uri}/admin/login",
-          payload: auth_payload.to_json
+          url: "#{base_dd_api_uri}/users",
+          verify_ssl: false,
+          headers: auth_payload.to_json
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
         json_response = JSON.parse(response)
-        dd_success = json_response['success']
-        api_token = json_response['token']
-        dd_obj = {}
-        dd_obj[:dd_ip] = dd_ip
-        dd_obj[:dd_port] = dd_port
-        dd_obj[:dd_success] = dd_success
-        dd_obj[:api_token] = api_token
-        dd_obj[:raw_response] = response
+        # dd_success = json_response['success']
+        # api_token = json_response['token']
+        # dd_obj = {}
+        # dd_obj[:dd_ip] = dd_ip
+        # dd_obj[:dd_port] = dd_port
+        # dd_obj[:dd_success] = dd_success
+        # dd_obj[:api_token] = api_token
+        # dd_obj[:raw_response] = response
+        dd_obj = json_response
 
         return dd_obj
       rescue => e
@@ -156,6 +158,17 @@ module CSI
 
       def self.help
         puts "USAGE:
+          dd_obj = #{self}.login(
+            host: 'required - host/ip of DefectDojo Server',
+            port: 'optional - port of DefectDojo server (defaults to 8000)',
+            username: 'required - username to AuthN w/ api v1)',
+            api_key: 'optional - defect dojo api key (will prompt if nil)'
+          )
+
+          #{self}.logout(
+            dd_obj: 'required dd_obj returned from #login method'
+          )
+
           #{self}.authors
         "
       end
