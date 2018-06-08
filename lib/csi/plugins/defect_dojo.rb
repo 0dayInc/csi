@@ -22,19 +22,19 @@ module CSI
       def self.login(opts = {})
         host = opts[:host]
         port = if opts[:port]
-                    opts[:port].to_i
-                  else
-                    8000
-                  end
+                 opts[:port].to_i
+               else
+                 8000
+               end
 
         username = opts[:username].to_s.scrub
-        base_dd_api_uri = "#{host}:#{dd_port}/api/v2".to_s.scrub
+        base_dd_api_uri = "#{host}:#{dd_port}/api/v1".to_s.scrub
 
         api_key = if opts[:api_key].nil?
-                     CSI::Plugins::AuthenticationHelper.mask_password
-                   else
-                     opts[:api_key].to_s.scrub
-                   end
+                    CSI::Plugins::AuthenticationHelper.mask_password
+                  else
+                    opts[:api_key].to_s.scrub
+                  end
 
         auth_payload = {}
         auth_payload[:content_type] = 'application/json'
