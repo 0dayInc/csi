@@ -70,7 +70,7 @@ module CSI
         when '400 Bad Request'
           return "#{e.message}: #{e.response}"
         else
-          raise "#{e.message}: #{e.response}"
+          raise e
         end
       end
 
@@ -103,7 +103,7 @@ module CSI
         end
         services_by_ips
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -143,7 +143,7 @@ module CSI
 
         return query_result_totals
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -182,7 +182,7 @@ module CSI
 
         return search_results
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -210,7 +210,7 @@ module CSI
         tokens_result = JSON.parse(response)
         return tokens_result
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -232,7 +232,7 @@ module CSI
         ports_shodan_crawls = JSON.parse(response)
         return ports_shodan_crawls
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -254,7 +254,7 @@ module CSI
         protocols = JSON.parse(response)
         return protocols
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -281,7 +281,7 @@ module CSI
         scan_network_response = JSON.parse(response)
         return scan_network_response
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -310,7 +310,7 @@ module CSI
         scan_internet_response = JSON.parse(response)
         return scan_internet_response
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -337,7 +337,7 @@ module CSI
         scan_status_result = JSON.parse(response)
         return scan_status_result
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -359,7 +359,7 @@ module CSI
         services_shodan_crawls = JSON.parse(response)
         return services_shodan_crawls
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -392,7 +392,7 @@ module CSI
         services_shodan_crawls = JSON.parse(response)
         return services_shodan_crawls
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -424,7 +424,7 @@ module CSI
         most_popular_tags_result = JSON.parse(response)
         return most_popular_tags_result
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -446,7 +446,7 @@ module CSI
         my_profile = JSON.parse(response)
         return my_profile
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -468,7 +468,7 @@ module CSI
         my_pub_ip = response
         return my_pub_ip
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -490,7 +490,7 @@ module CSI
         api_info = JSON.parse(response)
         return api_info
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -517,7 +517,7 @@ module CSI
         end
         return honeypot_probability_scores
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

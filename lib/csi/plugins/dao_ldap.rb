@@ -63,7 +63,7 @@ module CSI
 
         return ldap_obj
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -84,7 +84,7 @@ module CSI
 
         return employee
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -98,7 +98,7 @@ module CSI
         ldap_obj = opts[:ldap_obj]
         ldap_obj = nil
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

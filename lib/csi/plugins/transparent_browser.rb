@@ -187,7 +187,7 @@ module CSI
 
         return this_browser
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -206,7 +206,7 @@ module CSI
 
         return this_browser_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -231,7 +231,7 @@ module CSI
           sleep Random.rand(rand_sleep_float)
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -251,7 +251,7 @@ module CSI
 
         return this_browser_obj
       rescue => e
-        puts e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

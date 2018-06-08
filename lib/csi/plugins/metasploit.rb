@@ -92,7 +92,7 @@ module CSI
 
         results
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -108,7 +108,7 @@ module CSI
 
         auxiliary
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -126,7 +126,7 @@ module CSI
 
         compat_payloads
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -142,7 +142,7 @@ module CSI
 
         encoders
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -158,7 +158,7 @@ module CSI
 
         exploits
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -174,7 +174,7 @@ module CSI
 
         nops
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -194,7 +194,7 @@ module CSI
 
         options
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -210,7 +210,7 @@ module CSI
 
         payloads
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -226,7 +226,7 @@ module CSI
 
         post
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -242,7 +242,7 @@ module CSI
 
         post
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -257,7 +257,7 @@ module CSI
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
         msfrpcd_conn = nil # TODO: Find a way to terminate RPC socket connection to msfrpcd daemon
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

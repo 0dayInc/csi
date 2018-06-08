@@ -31,7 +31,7 @@ module CSI
 
         return slack_obj
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -56,7 +56,7 @@ module CSI
 
         return slack_obj
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -73,7 +73,7 @@ module CSI
         slack_obj = nil
         @@logger.info('Complete.')
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -37,7 +37,7 @@ module CSI
 
         return sqlite3_conn
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -51,7 +51,7 @@ module CSI
           raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}"
         end
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -79,7 +79,7 @@ module CSI
         end
         return res
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -95,7 +95,7 @@ module CSI
 
         sqlite3_conn.close
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

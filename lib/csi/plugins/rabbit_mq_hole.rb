@@ -23,7 +23,7 @@ module CSI
         this_amqp_obj = Bunny.new("amqp://#{user}:#{pass}@#{host}")
         this_amqp_obj.start
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -37,7 +37,7 @@ module CSI
         this_amqp_obj = opts[:amqp_obj]
         this_amqp_obj.close_connection
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

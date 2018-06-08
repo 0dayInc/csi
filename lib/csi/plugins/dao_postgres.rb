@@ -76,7 +76,7 @@ module CSI
         validate_pg_conn(pg_conn: pg_conn)
         return pg_conn
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -104,7 +104,7 @@ module CSI
               end
         return res
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -161,7 +161,7 @@ module CSI
 
         res
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -177,10 +177,10 @@ module CSI
         begin
           pg_conn.close
         rescue => e
-          return e.message
+          return e
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -194,7 +194,7 @@ module CSI
           raise "Error: Invalid pg_conn Object #{pg_conn}"
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

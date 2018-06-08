@@ -18,7 +18,7 @@ module CSI
           yield(nmap)
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -51,7 +51,7 @@ module CSI
           yield(xml)
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

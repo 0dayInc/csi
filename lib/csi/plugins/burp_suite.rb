@@ -103,7 +103,7 @@ module CSI
         return burp_obj
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -121,7 +121,7 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/enable", nil)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -139,7 +139,7 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/proxy/intercept/disable", nil)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -160,7 +160,7 @@ module CSI
         return json_sitemap
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -227,7 +227,7 @@ module CSI
         return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -248,7 +248,7 @@ module CSI
         return json_scan_issues
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -272,7 +272,7 @@ module CSI
         cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/generate_scan_report", post_body, content_type: 'application/json')
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::

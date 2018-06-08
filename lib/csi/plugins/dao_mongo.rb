@@ -42,7 +42,7 @@ module CSI
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -57,7 +57,7 @@ module CSI
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn.close
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -71,7 +71,7 @@ module CSI
           raise "Error: Invalid mongo_conn Object #{mongo_conn}"
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

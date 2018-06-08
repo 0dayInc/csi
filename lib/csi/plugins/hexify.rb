@@ -18,7 +18,7 @@ module CSI
         int = opts[:int].to_i
         short_int = [int].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -33,7 +33,7 @@ module CSI
         int = opts[:int].to_i
         long_int = [int].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

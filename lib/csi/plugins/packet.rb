@@ -30,7 +30,7 @@ module CSI
 
         return pcap
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -115,7 +115,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -153,7 +153,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -354,7 +354,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -485,7 +485,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -595,7 +595,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -703,7 +703,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -790,7 +790,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -967,7 +967,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -1096,7 +1096,7 @@ module CSI
 
         return pkt
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -1119,7 +1119,7 @@ module CSI
         pkt.recalc
         pkt.to_w(iface)
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

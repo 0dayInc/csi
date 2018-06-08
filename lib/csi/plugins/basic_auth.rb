@@ -22,7 +22,7 @@ module CSI
         @base64_encoded_auth = Base64.encode64(base64_str).to_s.chomp
         @base64_encoded_auth
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -37,7 +37,7 @@ module CSI
         @base64_decoded_auth = Base64.decode64(base64_str)
         @base64_decoded_auth
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

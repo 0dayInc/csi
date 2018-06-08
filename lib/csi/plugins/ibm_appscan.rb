@@ -68,7 +68,7 @@ module CSI
 
         return appscan_obj
       rescue => e
-        return e.message
+        return e
       end
 
       # Supported Method Parameters::
@@ -120,7 +120,7 @@ module CSI
       rescue => e
         if (e.message == '401 Unauthorized') && retry_count > 0 && appscan_obj[:logged_in]
           # Try logging back in to refresh the connection
-          @@logger.warn("Got Response: #{e.message}...Attempting to Re-Authenticate; Retries left #{retry_count}")
+          @@logger.warn("Got Response: #{e}...Attempting to Re-Authenticate; Retries left #{retry_count}")
           n_appscan_obj = login(
             appscan_ip: appscan_obj[:appscan_ip],
             username: appscan_obj[:username],
@@ -134,7 +134,7 @@ module CSI
           retry_count -= 1
           retry
         end
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -152,7 +152,7 @@ module CSI
         schema[:xml_response] = Nokogiri::XML(response)
         schema
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -182,7 +182,7 @@ module CSI
         ).text
         version
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -200,7 +200,7 @@ module CSI
         folders[:xml_response] = Nokogiri::XML(response)
         folders
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -220,7 +220,7 @@ module CSI
         subfolders[:xml_response] = Nokogiri::XML(response)
         subfolders
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -240,7 +240,7 @@ module CSI
         folder[:xml_response] = Nokogiri::XML(response)
         folder
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -258,7 +258,7 @@ module CSI
         folder_items[:xml_response] = Nokogiri::XML(response)
         folder_items
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -312,7 +312,7 @@ module CSI
         a_folders_folder_items[:xml_response] = Nokogiri::XML(response)
         a_folders_folder_items
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -337,7 +337,7 @@ module CSI
         )
         folder_item_options
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -355,7 +355,7 @@ module CSI
         templates[:xml_response] = Nokogiri::XML(response)
         templates
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -437,7 +437,7 @@ module CSI
 
         return scan
       rescue => e
-        return @@logger.error("Error #{e.message}:\nREST response returned:\n#{response}")
+        return @@logger.error("Error #{e}:\nREST response returned:\n#{response}")
       end
 
       # Supported Method Parameters::
@@ -508,7 +508,7 @@ module CSI
 
         scan_config
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -591,7 +591,7 @@ module CSI
 
         scan_action
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -619,7 +619,7 @@ module CSI
 
         report_collection
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -642,7 +642,7 @@ module CSI
 
         report
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -668,7 +668,7 @@ module CSI
 
         report_data
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -694,7 +694,7 @@ module CSI
 
         report_schema
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -720,7 +720,7 @@ module CSI
 
         issue_collection
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -757,7 +757,7 @@ module CSI
           f.close
         end
       rescue => e
-        return @@logger.error("Could not get report data: #{e.message}")
+        return @@logger.error("Could not get report data: #{e}")
       end
 
       # Supported Method Parameters::
@@ -823,7 +823,7 @@ module CSI
         #             end
         #           end
       rescue => e
-        @@logger.error("Error retrieving report for '#{scan_name}': #{e.message}")
+        @@logger.error("Error retrieving report for '#{scan_name}': #{e}")
       ensure
         # make sure we always logout
         h_browser.goto logout_uri.to_s.to_s.scrub
@@ -848,7 +848,7 @@ module CSI
           return response
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

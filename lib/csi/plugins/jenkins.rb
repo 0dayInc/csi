@@ -70,7 +70,7 @@ module CSI
         jenkins_obj.system.wait_for_ready
         return jenkins_obj
       rescue => e
-        return e.message
+        return e
       end
 
       # CSI::Plugins::Jenkins.create_user(
@@ -122,9 +122,7 @@ module CSI
       #   @@logger.warn("Jenkins view: #{view_name} already exists")
       #   return e.class
       rescue => e
-        puts e.message
-        puts e.backtrace
-        puts e.class
+        raise e
       end
 
       # CSI::Plugins::Jenkins.create_ssh_credential(
@@ -209,9 +207,7 @@ module CSI
           return false # Something unexpected happened
         end
       rescue => e
-        puts e.message
-        puts e.backtrace
-        puts e.class
+        raise e
       end
 
       # Supported Method Parameters::
@@ -246,7 +242,7 @@ module CSI
 
         git_repo_arr
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -265,7 +261,7 @@ module CSI
 
         nested_jobs_arr
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -284,7 +280,7 @@ module CSI
 
         nested_views_arr
       rescue => e
-        raise e.message
+        raise e
       end
 
       # CSI::Plugins::Jenkins.create_nested_view(
@@ -339,9 +335,7 @@ module CSI
         @@logger.warn("Jenkins view: #{view_name} already exists")
         return e.class
       rescue => e
-        puts e.message
-        puts e.backtrace
-        puts e.class
+        raise e
       end
 
       # Supported Method Parameters::
@@ -357,7 +351,7 @@ module CSI
         resp = jenkins_obj.api_post_request("#{view_path}/addJobToView?name=#{job_name}")
         resp
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -379,9 +373,7 @@ module CSI
         @@logger.warn("Jenkins job: #{new_job_name} already exists")
         return e.class
       rescue => e
-        puts e.message
-        puts e.backtrace
-        puts e.class
+        raise e
       end
 
       # Supported Method Parameters::
@@ -404,7 +396,7 @@ module CSI
           end
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -427,7 +419,7 @@ module CSI
           end
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -445,7 +437,7 @@ module CSI
           jenkins_obj.job.stop_build(job_name)
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -461,7 +453,7 @@ module CSI
         jenkins_obj = nil
         'complete'
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

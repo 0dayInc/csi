@@ -75,7 +75,7 @@ module CSI
         return serial_obj
       rescue => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -104,7 +104,7 @@ module CSI
         serial_conn&.close
         serial_conn = nil
 
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -120,7 +120,7 @@ module CSI
         serial_conn.get_signals
       rescue => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -136,7 +136,7 @@ module CSI
         serial_conn.get_modem_params
       rescue => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -156,7 +156,7 @@ module CSI
         return chars_written
       rescue => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -173,7 +173,7 @@ module CSI
         return response
       rescue => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -184,7 +184,7 @@ module CSI
       def self.dump_session_data
         @session_data
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -195,7 +195,7 @@ module CSI
       def self.flush_session_data
         @session_data.clear
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -214,7 +214,7 @@ module CSI
         serial_conn.close
         serial_conn = nil
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

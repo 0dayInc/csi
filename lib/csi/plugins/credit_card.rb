@@ -25,7 +25,7 @@ module CSI
 
         cc_result_arr
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -36,7 +36,7 @@ module CSI
           return ip_resp_json
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -73,7 +73,7 @@ module CSI
           end
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

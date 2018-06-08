@@ -18,7 +18,7 @@ module CSI
         user = HighLine.new.ask('Username: ')
         user.to_s.scrub.chomp
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -30,7 +30,7 @@ module CSI
         pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
         pass.to_s.scrub.chomp
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -45,7 +45,7 @@ module CSI
         mfa = HighLine.new.ask("#{prompt}: ")
         mfa.to_s.scrub.chomp
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

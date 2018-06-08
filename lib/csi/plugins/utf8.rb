@@ -33,7 +33,7 @@ module CSI
 
         return utf8_arr
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -46,7 +46,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -59,7 +59,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -72,7 +72,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -85,7 +85,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -98,7 +98,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -111,7 +111,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -124,7 +124,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -137,7 +137,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -150,7 +150,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -163,7 +163,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -176,7 +176,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -189,7 +189,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -202,7 +202,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -215,7 +215,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -228,7 +228,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -241,7 +241,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -254,7 +254,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -267,7 +267,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -280,7 +280,7 @@ module CSI
 
         utf8_hash
       rescue => e
-        return e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

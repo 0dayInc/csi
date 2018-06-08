@@ -40,7 +40,7 @@ module CSI
 
         git_pull_output
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -70,7 +70,7 @@ module CSI
           return -1
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -86,7 +86,7 @@ module CSI
 
         all_repo_branches
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

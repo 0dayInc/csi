@@ -29,7 +29,7 @@ module CSI
         # recurse_dir(:dir_path => 'path to dir') {|entry| puts entry}
         Dir.glob("#{dir_path}/**/*").each { |entry| yield Shellwords.escape(entry) }
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -47,7 +47,7 @@ module CSI
 
         nil
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

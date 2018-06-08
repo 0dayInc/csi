@@ -43,7 +43,7 @@ module CSI
         max_threads.times { queue << :END }
         threads.each(&:join)
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

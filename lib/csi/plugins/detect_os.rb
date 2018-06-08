@@ -17,7 +17,7 @@ module CSI
         return :osx if OS.osx?
         return :windows if OS.windows?
       rescue => e
-        return e.message
+        return e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

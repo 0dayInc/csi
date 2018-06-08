@@ -58,7 +58,7 @@ module CSI
 
         return h1_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -109,7 +109,7 @@ module CSI
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -124,7 +124,7 @@ module CSI
         @@logger.info('Logging out...')
         h1_obj = nil
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

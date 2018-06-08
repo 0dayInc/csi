@@ -63,7 +63,7 @@ module CSI
 
         return dd_obj
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -137,7 +137,7 @@ module CSI
         # TODO: Terminate Session if Possible via API Call
         dd_obj = nil
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
