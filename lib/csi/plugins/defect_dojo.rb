@@ -53,7 +53,7 @@ module CSI
           url: "#{base_dd_api_uri}/api-token-auth",
           verify_ssl: false,
           headers: http_headers,
-          payload: http_body
+          payload: http_body.to_json
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
