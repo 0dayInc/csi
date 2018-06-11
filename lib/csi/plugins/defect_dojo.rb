@@ -10,7 +10,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # dd_obj = CSI::Plugins::DefectDojo.login(
+      # authz_token = CSI::Plugins::DefectDojo.login(
       #   host: 'required - host/ip of DefectDojo Server',
       #   port: 'optional - port of DefectDojo server (defaults to 8000)',
       #   username: 'required - username to AuthN w/ api v2)',
@@ -57,32 +57,24 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response)
-        # dd_success = json_response['success']
-        # api_token = json_response['token']
-        # dd_obj = {}
-        # dd_obj[:dd_ip] = dd_ip
-        # dd_obj[:dd_port] = dd_port
-        # dd_obj[:dd_success] = dd_success
-        # dd_obj[:api_token] = api_token
-        # dd_obj[:raw_response] = response
-        dd_obj = json_response
+        json_response = JSON.parse(response, symbolize_names: true)
+        authz_token = json_response[:token]
 
-        return dd_obj
+        return authz_token
       rescue => e
         raise e
       end
 
       # Supported Method Parameters::
       # defect_dojo_rest_call(
-      #   dd_obj: 'required dd_obj returned from #login method',
+      #   authz_token: 'required authz_token returned from #login method',
       #   rest_call: 'required rest call to make per the schema',
       #   http_method: 'optional HTTP method (defaults to GET)
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
       # )
 
       private_class_method def self.dd_rest_call(opts = {})
-        dd_obj = opts[:dd_obj]
+        authz_token = opts[:authz_token]
         rest_call = opts[:rest_call].to_s.scrub
         http_method = if opts[:http_method].nil?
                         :get
@@ -91,8 +83,8 @@ module CSI
                       end
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
-        host = dd_obj[:host]
-        port = dd_obj[:port]
+        host = authz_token[:host]
+        port = authz_token[:port]
         base_zap_api_uri = "http://#{host}:#{port}"
 
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
@@ -127,22 +119,22 @@ module CSI
 
         return response
       rescue StandardError, SystemExit, Interrupt => e
-        logout(dd_obj) unless dd_obj.nil?
+        logout(authz_token) unless authz_token.nil?
         raise e
       end
 
       # Supported Method Parameters::
       # CSI::Plugins::DefectDojo.logout(
-      #   dd_obj: 'required dd_obj returned from #login method'
+      #   authz_token: 'required authz_token returned from #login method'
       # )
 
       public
 
       def self.logout(opts = {})
-        dd_obj = opts[:dd_obj]
+        authz_token = opts[:authz_token]
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
-        dd_obj = nil
+        authz_token = nil
       rescue => e
         raise e
       end
@@ -165,7 +157,7 @@ module CSI
 
       def self.help
         puts "USAGE:
-          dd_obj = #{self}.login(
+          authz_token = #{self}.login(
             host: 'required - host/ip of DefectDojo Server',
             port: 'optional - port of DefectDojo server (defaults to 8000)',
             username: 'required - username to AuthN w/ api v2)',
@@ -173,7 +165,7 @@ module CSI
           )
 
           #{self}.logout(
-            dd_obj: 'required dd_obj returned from #login method'
+            authz_token: 'required authz_token returned from #login method'
           )
 
           #{self}.authors
