@@ -16,7 +16,7 @@ module CSI
 
       def self.username
         user = HighLine.new.ask('Username: ')
-        user.to_s.scrub.chomp
+        user.to_s.strip.chomp.scrub
       rescue => e
         raise e
       end
@@ -28,7 +28,7 @@ module CSI
 
       def self.mask_password
         pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
-        pass.to_s.scrub.chomp
+        pass.to_s.strip.chomp.scrub
       rescue => e
         raise e
       end
@@ -43,7 +43,7 @@ module CSI
       def self.mfa(opts = {})
         prompt = opts[:prompt].to_s.scrub.strip.chomp
         mfa = HighLine.new.ask("#{prompt}: ")
-        mfa.to_s.scrub.chomp
+        mfa.to_s.strip.chomp.scrub
       rescue => e
         raise e
       end
