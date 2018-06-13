@@ -23,10 +23,10 @@ module CSI
 
         consumer_key = opts[:consumer_key].to_s.strip.chomp.scrub
         consumer_secret = if opts[:consumer_secret].nil?
-                                CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Access Token Secret')
-                              else
-                                opts[:consumer_secret].to_s.chomp.strip.scrub
-                              end
+                            CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Access Token Secret')
+                          else
+                            opts[:consumer_secret].to_s.chomp.strip.scrub
+                          end
 
         authz_str = Base64.strict_encode64("#{consumer_key}:#{consumer_secret}")
         http_headers = {}
