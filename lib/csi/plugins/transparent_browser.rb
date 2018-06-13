@@ -245,7 +245,8 @@ module CSI
         this_browser_obj = opts[:browser_obj]
 
         unless this_browser_obj.to_s.include?('RestClient')
-          this_browser_obj.close unless this_browser_obj.nil?
+          # Close the browser unless this_browser_obj.nil? (thus the &)
+          this_browser_obj&.close
         end
         this_browser_obj = nil
 
