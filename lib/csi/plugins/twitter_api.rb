@@ -34,7 +34,7 @@ module CSI
         http_headers[:authorization] = "Basic #{authz_str}"
 
         @@logger.info("Logging into TwitterAPI REST API: #{base_api_uri}")
-        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest), proxy: 'http://127.0.0.1:8080')::Request
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8080')::Request
         response = rest_client.execute(
           method: :post,
           url: "#{base_api_uri}/oauth2/token",
