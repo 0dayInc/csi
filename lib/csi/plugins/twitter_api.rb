@@ -23,9 +23,9 @@ module CSI
 
         access_token = opts[:access_token].to_s.scrub
         access_token_secret = if opts[:access_token_secret].nil?
-                                CSI::Plugins::AuthenticationHelper.mask_password
+                                CSI::Plugins::AuthenticationHelper.mask_password.to_s.strip.chomp.scrub
                               else
-                                opts[:access_token_secret].to_s.scrub
+                                opts[:access_token_secret].to_s.chomp.strip.scrub
                               end
 
         authz_str = Base64.encode64("#{access_token}:#{access_token_secret}")
