@@ -46,6 +46,7 @@ module CSI
     autoload :Spider, 'csi/plugins/spider'
     autoload :ThreadPool, 'csi/plugins/thread_pool'
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
+    autoload :TwitterAPI, 'csi/plugins/twitter_api'
     autoload :UTF8, 'csi/plugins/utf8'
     autoload :Vsphere, 'csi/plugins/vsphere'
 
