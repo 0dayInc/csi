@@ -38,7 +38,6 @@ module CSI
         response = rest_client.execute(
           method: :post,
           url: "#{base_dd_api_uri}/oauth2/token",
-          verify_ssl: false,
           headers: http_headers,
           payload: 'grant_type=client_crdentials'
         )
