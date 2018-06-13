@@ -11,9 +11,9 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # bearer_token = CSI::Plugins::TwitterAPI.login(
-      #   consumer_key: 'required - access token for api requests on your own behalf',
-      #   consumer_secret: 'optional - access token secret (will prompt if nil)'
+      # bearer_token = CSI::Plugins::TwitterAPI.app_only_login(
+      #   consumer_key: 'required - consumer key for app-only authentication',
+      #   consumer_secret: 'optional - consumer secret (will prompt if nil)'
       # )
 
       public
@@ -23,7 +23,7 @@ module CSI
 
         consumer_key = opts[:consumer_key].to_s.strip.chomp.scrub
         consumer_secret = if opts[:consumer_secret].nil?
-                            CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Access Token Secret')
+                            CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Consumer Secret')
                           else
                             opts[:consumer_secret].to_s.chomp.strip.scrub
                           end
@@ -144,11 +144,11 @@ module CSI
       def self.help
         puts "USAGE:
           bearer_token = #{self}.app_only_login(
-            consumer_key: 'required - access token for api requests on your own behalf',
-            consumer_secret: 'optional - access token secret (will prompt if nil)'
+            consumer_key: 'required - consumer key for app-only authentication',
+            consumer_secret: 'optional - consumer secret (will prompt if nil)'
           )
 
-          #{self}.logout(
+          #{self}.app_only_logout(
             bearer_token: 'required bearer_token returned from #app_only_login method'
           )
 
