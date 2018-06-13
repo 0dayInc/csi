@@ -22,12 +22,20 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::AuthenticationHelper.mask_password
+      # CSI::Plugins::AuthenticationHelper.mask_password(
+      #   prompt: 'optional - string to display at prompt'
+      # )
 
       public
 
       def self.mask_password
-        pass = HighLine.new.ask('Password: ') { |q| q.echo = "\*" }
+        if opts[:prompt].nil?
+          prompt = 'Password'
+        else
+          prompt = opts[:prompt].to_s.scrub.strip.chomp
+        end
+
+        pass = HighLine.new.ask("#{prompt}: ") { |q| q.echo = "\*" }
         pass.to_s.strip.chomp.scrub
       rescue => e
         raise e
@@ -41,7 +49,12 @@ module CSI
       public
 
       def self.mfa(opts = {})
-        prompt = opts[:prompt].to_s.scrub.strip.chomp
+        if opts[:prompt].nil?
+          prompt = 'MFA Token'
+        else
+          prompt = opts[:prompt].to_s.scrub.strip.chomp
+        end
+
         mfa = HighLine.new.ask("#{prompt}: ")
         mfa.to_s.strip.chomp.scrub
       rescue => e

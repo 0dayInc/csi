@@ -23,7 +23,7 @@ module CSI
 
         access_token = opts[:access_token].to_s.strip.chomp.scrub
         access_token_secret = if opts[:access_token_secret].nil?
-                                CSI::Plugins::AuthenticationHelper.mfa(prompt: 'Access Token Secret')
+                                CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Access Token Secret')
                               else
                                 opts[:access_token_secret].to_s.chomp.strip.scrub
                               end
