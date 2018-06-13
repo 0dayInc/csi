@@ -23,10 +23,10 @@ module CSI
 
         access_token = opts[:access_token].to_s.scrub
         access_token_secret = if opts[:access_token_secret].nil?
-                                 CSI::Plugins::AuthenticationHelper.mask_password
-                               else
-                                 opts[:access_token_secret].to_s.scrub
-                               end
+                                CSI::Plugins::AuthenticationHelper.mask_password
+                              else
+                                opts[:access_token_secret].to_s.scrub
+                              end
 
         authz_str = Base64.encode64("#{access_token}:#{access_token_secret}")
         http_headers = {}
@@ -145,10 +145,8 @@ module CSI
       def self.help
         puts "USAGE:
           bearer_token = #{self}.login(
-            host: 'required - host/ip of TwitterAPI Server',
-            port: 'optional - port of TwitterAPI server (defaults to 8000)',
-            username: 'required - username to AuthN w/ api v2)',
-            password: 'optional - defect dojo api key (will prompt if nil)'
+            access_token: 'required - access token for api requests on your own behalf',
+            access_token_secret: 'optional - access token secret (will prompt if nil)'
           )
 
           #{self}.logout(
