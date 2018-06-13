@@ -37,7 +37,7 @@ module CSI
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         response = rest_client.execute(
           method: :post,
-          url: "#{base_dd_api_uri}/oauth/access_token",
+          url: "#{base_dd_api_uri}/oauth2/token",
           headers: http_headers,
           payload: 'grant_type=client_crdentials'
         )
