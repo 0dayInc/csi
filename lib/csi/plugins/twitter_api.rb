@@ -30,7 +30,7 @@ module CSI
 
         authz_str = Base64.encode64("#{access_token}:#{access_token_secret}")
         http_headers = {}
-        http_headers[:content_type] = 'application/json'
+        http_headers[:content_type] = 'application/x-www-form-urlencoded;charset=UTF-8'
         http_headers[:authorization] = "Basic #{authz_str}"
 
         @@logger.info("Logging into TwitterAPI REST API: #{base_dd_api_uri}")
