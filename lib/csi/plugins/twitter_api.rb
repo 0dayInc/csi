@@ -28,7 +28,7 @@ module CSI
                                 opts[:access_token_secret].to_s.chomp.strip.scrub
                               end
 
-        authz_str = Base64.encode64("#{access_token}:#{access_token_secret}")
+        authz_str = Base64.strict_encode64("#{access_token}:#{access_token_secret}")
         http_headers = {}
         http_headers[:content_type] = 'application/x-www-form-urlencoded;charset=UTF-8'
         http_headers[:authorization] = "Basic #{authz_str}"
