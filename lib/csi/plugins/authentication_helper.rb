@@ -28,7 +28,7 @@ module CSI
 
       public
 
-      def self.mask_password
+      def self.mask_password(opts = {})
         if opts[:prompt].nil?
           prompt = 'Password'
         else
