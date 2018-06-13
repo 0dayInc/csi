@@ -19,7 +19,7 @@ module CSI
       public
 
       def self.login(opts = {})
-        base_dd_api_uri = 'https://api.twitter.com'
+        base_api_uri = 'https://api.twitter.com'
 
         access_token = opts[:access_token].to_s.strip.chomp.scrub
         access_token_secret = if opts[:access_token_secret].nil?
@@ -33,11 +33,11 @@ module CSI
         http_headers[:content_type] = 'application/x-www-form-urlencoded;charset=UTF-8'
         http_headers[:authorization] = "Basic #{authz_str}"
 
-        @@logger.info("Logging into TwitterAPI REST API: #{base_dd_api_uri}")
-        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        @@logger.info("Logging into TwitterAPI REST API: #{base_api_uri}")
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest), proxy: 'http://127.0.0.1:8080')::Request
         response = rest_client.execute(
           method: :post,
-          url: "#{base_dd_api_uri}/oauth2/token",
+          url: "#{base_api_uri}/oauth2/token",
           headers: http_headers,
           payload: 'grant_type=client_crdentials'
         )
