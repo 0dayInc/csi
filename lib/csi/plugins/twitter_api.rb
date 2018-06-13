@@ -12,23 +12,23 @@ module CSI
 
       # Supported Method Parameters::
       # bearer_token = CSI::Plugins::TwitterAPI.login(
-      #   access_token: 'required - access token for api requests on your own behalf',
-      #   access_token_secret: 'optional - access token secret (will prompt if nil)'
+      #   consumer_key: 'required - access token for api requests on your own behalf',
+      #   consumer_secret: 'optional - access token secret (will prompt if nil)'
       # )
 
       public
 
-      def self.login(opts = {})
+      def self.app_only_login(opts = {})
         base_api_uri = 'https://api.twitter.com'
 
-        access_token = opts[:access_token].to_s.strip.chomp.scrub
-        access_token_secret = if opts[:access_token_secret].nil?
+        consumer_key = opts[:consumer_key].to_s.strip.chomp.scrub
+        consumer_secret = if opts[:consumer_secret].nil?
                                 CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'Access Token Secret')
                               else
-                                opts[:access_token_secret].to_s.chomp.strip.scrub
+                                opts[:consumer_secret].to_s.chomp.strip.scrub
                               end
 
-        authz_str = Base64.strict_encode64("#{access_token}:#{access_token_secret}")
+        authz_str = Base64.strict_encode64("#{consumer_key}:#{consumer_secret}")
         http_headers = {}
         http_headers[:content_type] = 'application/x-www-form-urlencoded;charset=UTF-8'
         http_headers[:authorization] = "Basic #{authz_str}"
@@ -53,7 +53,7 @@ module CSI
 
       # Supported Method Parameters::
       # twitter_rest_call(
-      #   bearer_token: 'required bearer_token returned from #login method',
+      #   bearer_token: 'required bearer_token returned from #app_only_login method',
       #   rest_call: 'required rest call to make per the schema',
       #   http_method: 'optional HTTP method (defaults to GET)
       #   http_body: 'optional HTTP body sent in HTTP methods that support it e.g. POST'
@@ -111,12 +111,12 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::TwitterAPI.logout(
-      #   bearer_token: 'required bearer_token returned from #login method'
+      #   bearer_token: 'required bearer_token returned from #app_only_login method'
       # )
 
       public
 
-      def self.logout(opts = {})
+      def self.app_only_logout(opts = {})
         bearer_token = opts[:bearer_token]
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
@@ -143,13 +143,13 @@ module CSI
 
       def self.help
         puts "USAGE:
-          bearer_token = #{self}.login(
-            access_token: 'required - access token for api requests on your own behalf',
-            access_token_secret: 'optional - access token secret (will prompt if nil)'
+          bearer_token = #{self}.app_only_login(
+            consumer_key: 'required - access token for api requests on your own behalf',
+            consumer_secret: 'optional - access token secret (will prompt if nil)'
           )
 
           #{self}.logout(
-            bearer_token: 'required bearer_token returned from #login method'
+            bearer_token: 'required bearer_token returned from #app_only_login method'
           )
 
           #{self}.authors
