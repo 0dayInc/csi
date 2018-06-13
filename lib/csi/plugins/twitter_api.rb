@@ -39,7 +39,7 @@ module CSI
           method: :post,
           url: "#{base_dd_api_uri}/oauth2/token",
           headers: http_headers,
-          payload: { grant_type: 'client_crdentials' }
+          payload: 'grant_type=client_crdentials'
         )
 
         # Return array containing the post-authenticated TwitterAPI REST API token

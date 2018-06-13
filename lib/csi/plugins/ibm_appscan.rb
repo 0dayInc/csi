@@ -63,7 +63,7 @@ module CSI
         appscan_obj[:username] = appscan_obj[:xml_response].xpath(
           '/xmlns:version/xmlns:user-name'
         ).text
-        appscan_obj[:password] = Base64.encode64(password)
+        appscan_obj[:password] = Base64.strict_encode64(password)
         appscan_obj[:logged_in] = true
 
         return appscan_obj

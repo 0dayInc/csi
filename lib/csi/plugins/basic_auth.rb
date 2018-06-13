@@ -19,7 +19,7 @@ module CSI
         basic_user = opts[:username].to_s.chomp unless opts[:username].nil?
         basic_pass = opts[:password].to_s.chomp unless opts[:password].nil?
         base64_str = "#{basic_user}:#{basic_pass}"
-        @base64_encoded_auth = Base64.encode64(base64_str).to_s.chomp
+        @base64_encoded_auth = Base64.strict_encode64(base64_str).to_s.chomp
         @base64_encoded_auth
       rescue => e
         raise e

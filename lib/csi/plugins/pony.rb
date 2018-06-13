@@ -279,7 +279,7 @@ module CSI
           # mime-types wants to send these as "quoted-printable"
           if name.match?('.xlsx')
             mail.attachments[name] = {
-              content: Base64.encode64(body),
+              content: Base64.strict_encode64(body),
               transfer_encoding: :base64
             }
           else

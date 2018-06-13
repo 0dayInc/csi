@@ -33,7 +33,7 @@ module CSI
         auth_payload[:token] = token
 
         base64_str = "#{username}:#{token}"
-        base64_encoded_auth = Base64.encode64(base64_str).to_s.chomp
+        base64_encoded_auth = Base64.strict_encode64(base64_str).to_s.chomp
         basic_auth_header = "Basic #{base64_encoded_auth}"
 
         @@logger.info("Logging into HackerOne REST API: #{base_h1_api_uri}")
