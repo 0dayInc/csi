@@ -230,7 +230,7 @@ module CSI
         json_response = JSON.parse(response, symbolize_names: true)
         test_list = json_response
 
-        return engagement_list
+        return test_list
       rescue => e
         raise e
       end
