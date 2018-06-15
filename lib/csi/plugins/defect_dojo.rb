@@ -30,13 +30,13 @@ module CSI
 
         username = opts[:username].to_s.scrub
 
-        dd_obj[:api_key] = if opts[:api_key].nil?
-                                CSI::Plugins::AuthenticationHelper.mask_password(
-                                  prompt: 'API Key'
-                                )
-                              else
-                                opts[:api_key].to_s.scrub
-                              end
+        api_key = if opts[:api_key].nil?
+                    CSI::Plugins::AuthenticationHelper.mask_password(
+                      prompt: 'API Key'
+                    )
+                  else
+                    opts[:api_key].to_s.scrub
+                  end
 
         dd_obj[:authz_header] = "ApiKey #{username}:#{api_key}"
 
