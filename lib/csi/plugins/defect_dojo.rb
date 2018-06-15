@@ -170,7 +170,7 @@ module CSI
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
-          rest_call: 'products'
+          rest_call: 'products/'
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
