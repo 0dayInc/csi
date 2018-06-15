@@ -147,17 +147,24 @@ module CSI
 
       # Supported Method Parameters::
       # product_list = CSI::Plugins::DefectDojo.product_list(
-      #   dd_obj: 'required dd_obj returned from #login_v1 method'
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single product by id, otherwise return all'
       # )
 
       public
 
       def self.product_list(opts = {})
         dd_obj = opts[:dd_obj]
+        if opts[:id].nil?
+          rest_call = 'products'
+        else
+          rest_call = "products/#{opts[:id].to_i}"
+        end
+
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
-          rest_call: 'products'
+          rest_call: rest_call
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
@@ -193,6 +200,36 @@ module CSI
         # Return array containing the post-authenticated DefectDojo REST API token
         json_response = JSON.parse(response, symbolize_names: true)
         engagement_list = json_response
+
+        return engagement_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # test_list = CSI::Plugins::DefectDojo.test_list(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single test by id, otherwise return all'
+      # )
+
+      public
+
+      def self.test_list(opts = {})
+        dd_obj = opts[:dd_obj]
+        if opts[:id].nil?
+          rest_call = 'tests'
+        else
+          rest_call = "tests/#{opts[:id].to_i}"
+        end
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        test_list = json_response
 
         return engagement_list
       rescue => e
@@ -246,12 +283,18 @@ module CSI
           )
 
           product_list = #{self}.product_list(
-            dd_obj: 'required dd_obj returned from #login_v1 method'
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single product by id, otherwise return all'
           )
 
           engagement_list = #{self}.engagement_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single engagement by id, otherwise return all'
+          )
+
+          test_list = #{self}.test_list(
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single test by id, otherwise return all'
           )
 
           #{self}.logout(
