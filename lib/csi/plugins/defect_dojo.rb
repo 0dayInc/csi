@@ -141,7 +141,7 @@ module CSI
 
         return response
       rescue StandardError, SystemExit, Interrupt => e
-        logout(dd_obj) unless dd_obj.nil?
+        dd_obj = logout(dd_obj) unless dd_obj.nil?
         raise e
       end
 
