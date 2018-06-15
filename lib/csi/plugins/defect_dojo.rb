@@ -78,7 +78,7 @@ module CSI
 
         # Return array containing the post-authenticated DefectDojo REST API token
         json_response = JSON.parse(response, symbolize_names: true)
-        dd_obj = json_response[:token]
+        dd_obj = json_response
 
         return dd_obj
       rescue => e
@@ -164,7 +164,7 @@ module CSI
         json_response = JSON.parse(response, symbolize_names: true)
         product_list = json_response
 
-        return dd_obj
+        return product_list
       rescue => e
         raise e
       end
