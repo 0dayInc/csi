@@ -11,8 +11,7 @@ module CSI
 
       # Supported Method Parameters::
       # dd_obj = CSI::Plugins::DefectDojo.login_v1(
-      #   host: 'required - host/ip of DefectDojo Server',
-      #   port: 'optional - port of DefectDojo server (defaults to 8000)',
+      #   url: 'required - url of DefectDojo Server',
       #   username: 'required - username to AuthN w/ api v1)',
       #   api_key: 'optional - defect dojo api key (will prompt if nil)'
       # )
@@ -21,12 +20,7 @@ module CSI
 
       def self.login_v1(opts = {})
         dd_obj = {}
-        dd_obj[:host] = opts[:host]
-        dd_obj[:port] = if opts[:port]
-                          opts[:port].to_i
-                        else
-                          8000
-                        end
+        dd_obj[:url] = opts[:url]
 
         username = opts[:username].to_s.scrub
 
@@ -47,8 +41,7 @@ module CSI
 
       # Supported Method Parameters::
       # dd_obj = CSI::Plugins::DefectDojo.login_v2(
-      #   host: 'required - host/ip of DefectDojo Server',
-      #   port: 'optional - port of DefectDojo server (defaults to 8000)',
+      #   url: 'required - url of DefectDojo Server',
       #   username: 'required - username to AuthN w/ api v2)',
       #   password: 'optional - defect dojo api key (will prompt if nil)'
       # )
@@ -58,16 +51,11 @@ module CSI
       def self.login_v2(opts = {})
         http_body = {}
 
-        host = opts[:host]
-        port = if opts[:port]
-                 opts[:port].to_i
-               else
-                 8000
-               end
+        url = opts[:url]
 
         http_body[:username] = opts[:username].to_s.scrub
 
-        base_dd_api_uri = "#{host}:#{port}/api/v2".to_s.scrub
+        base_dd_api_uri = "#{url}/api/v2".to_s.scrub
 
         http_body[:password] = if opts[:password].nil?
                                  CSI::Plugins::AuthenticationHelper.mask_password
@@ -115,9 +103,8 @@ module CSI
                       end
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
-        host = dd_obj[:host]
-        port = dd_obj[:port]
-        base_dd_api_uri = "http://#{host}:#{port}/api/v1".to_s.scrub
+        url = dd_obj[:url]
+        base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
         rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
 
@@ -217,15 +204,13 @@ module CSI
       def self.help
         puts "USAGE:
           dd_obj = #{self}.login_v1(
-            host: 'required - host/ip of DefectDojo Server',
-            port: 'optional - port of DefectDojo server (defaults to 8000)',
+            url: 'required - url of DefectDojo Server',
             username: 'required - username to AuthN w/ api v1)',
             api_key: 'optional - defect dojo api key (will prompt if nil)'
           )
 
           dd_obj = #{self}.login_v2(
-            host: 'required - host/ip of DefectDojo Server',
-            port: 'optional - port of DefectDojo server (defaults to 8000)',
+            url: 'required - url of DefectDojo Server',
             username: 'required - username to AuthN w/ api v2)',
             password: 'optional - defect dojo api key (will prompt if nil)'
           )
