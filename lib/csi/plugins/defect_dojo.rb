@@ -236,6 +236,36 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # finding_list = CSI::Plugins::DefectDojo.finding_list(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single finding by id, otherwise return all'
+      # )
+
+      public
+
+      def self.finding_list(opts = {})
+        dd_obj = opts[:dd_obj]
+        if opts[:id].nil?
+          rest_call = 'findings'
+        else
+          rest_call = "findings/#{opts[:id].to_i}"
+        end
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        finding_list = json_response
+
+        return finding_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::DefectDojo.logout(
       #   dd_obj: 'required dd_obj returned from #login_v1 or #login_v2 method'
       # )
@@ -294,6 +324,11 @@ module CSI
           test_list = #{self}.test_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single test by id, otherwise return all'
+          )
+
+          finding_list = #{self}.finding_list(
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single finding by id, otherwise return all'
           )
 
           #{self}.logout(
