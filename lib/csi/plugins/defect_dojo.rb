@@ -31,12 +31,12 @@ module CSI
         username = opts[:username].to_s.scrub
 
         http_body[:api_key] = if opts[:api_key].nil?
-                                 CSI::Plugins::AuthenticationHelper.mask_password(
-                                   prompt: 'API Key'
-                                 )
-                               else
-                                 opts[:api_key].to_s.scrub
-                               end
+                                CSI::Plugins::AuthenticationHelper.mask_password(
+                                  prompt: 'API Key'
+                                )
+                              else
+                                opts[:api_key].to_s.scrub
+                              end
 
         dd_obj[:authz_header] = "ApiKey #{username}:#{api_key}"
 
@@ -128,7 +128,7 @@ module CSI
             url: "#{base_dd_api_uri}/#{rest_call}",
             headers: {
               content_type: 'application/json; charset=UTF-8',
-              authorization: dd_obj[:authz_header]
+              authorization: dd_obj[:authz_header],
               params: params
             },
             verify_ssl: false
@@ -166,6 +166,8 @@ module CSI
       public
 
       def self.product_list(opts = {})
+        dd_obj = opts[:dd_obj]
+
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: 'products'
