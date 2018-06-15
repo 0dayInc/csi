@@ -157,7 +157,7 @@ module CSI
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
-          rest_call: 'products/'
+          rest_call: 'products'
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
@@ -165,6 +165,36 @@ module CSI
         product_list = json_response
 
         return product_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # engagement_list = CSI::Plugins::DefectDojo.engagement_list(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single engagement by id, otherwise return all'
+      # )
+
+      public
+
+      def self.engagement_list(opts = {})
+        dd_obj = opts[:dd_obj]
+        if opts[:id].nil?
+          rest_call = 'engagements'
+        else
+          rest_call = "engagements/#{opts[:id].to_i}"
+        end
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        engagement_list = json_response
+
+        return engagement_list
       rescue => e
         raise e
       end
@@ -217,6 +247,11 @@ module CSI
 
           product_list = #{self}.product_list(
             dd_obj: 'required dd_obj returned from #login_v1 method'
+          )
+
+          engagement_list = #{self}.engagement_list(
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single engagement by id, otherwise return all'
           )
 
           #{self}.logout(
