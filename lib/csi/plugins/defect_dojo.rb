@@ -30,7 +30,7 @@ module CSI
 
         username = opts[:username].to_s.scrub
 
-        http_body[:api_key] = if opts[:api_key].nil?
+        dd_obj[:api_key] = if opts[:api_key].nil?
                                 CSI::Plugins::AuthenticationHelper.mask_password(
                                   prompt: 'API Key'
                                 )
@@ -216,6 +216,13 @@ module CSI
 
       def self.help
         puts "USAGE:
+          dd_obj = #{self}.login_v1(
+            host: 'required - host/ip of DefectDojo Server',
+            port: 'optional - port of DefectDojo server (defaults to 8000)',
+            username: 'required - username to AuthN w/ api v1)',
+            api_key: 'optional - defect dojo api key (will prompt if nil)'
+          )
+
           dd_obj = #{self}.login_v2(
             host: 'required - host/ip of DefectDojo Server',
             port: 'optional - port of DefectDojo server (defaults to 8000)',
