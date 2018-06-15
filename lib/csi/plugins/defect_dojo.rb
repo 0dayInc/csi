@@ -161,7 +161,6 @@ module CSI
           rest_call = "products/#{opts[:id].to_i}"
         end
 
-
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: rest_call
