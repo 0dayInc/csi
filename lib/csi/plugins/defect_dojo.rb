@@ -215,9 +215,7 @@ module CSI
         http_body[:status] = opts[:status]
         http_body[:product] = opts[:product]
         http_body[:description] = opts[:description]
-
-        # Defaults to 'related'
-        opts[:lead] ? (http_body[:lead] = opts[:lead]) : (http_body[:lead] = 'related')
+        http_body[:lead] = opts[:lead])
 
         # Defaults to true
         opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
@@ -257,7 +255,7 @@ module CSI
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
-          rest_call: rest_call,
+          rest_call: 'engagements',
           http_method: :post,
           http_body: http_body.to_json
         )
