@@ -106,9 +106,9 @@ module CSI
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
-        if opts[:debug] 
+        if opts[:debug]
           rest_client = CSI::Plugins::TransparentBrowser.open(
-            browser_type: :rest, 
+            browser_type: :rest,
             proxy: 'http://127.0.0.1:8080'
           )::Request
         else
