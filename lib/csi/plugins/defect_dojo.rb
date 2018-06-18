@@ -222,12 +222,12 @@ module CSI
 
         http_body[:description] = opts[:description]
         lead_username = opts[:lead_username].to_s.strip.chomp.scrub.downcase
-        # Ok lets determine the resource_uri for the product name
-        user_list = self.user_list(dd_obj: dd_obj)
-        user_by_username_object = user_list[:objects].select { |user| user[:name].downcase == lead_username }
-        # Should only ever return 1 result so we should be good here
-        http_body[:lead] = user_by_name_object.first[:resource_uri]
 
+        # Ok lets determine the resource_uri for the lead username
+        user_list = self.user_list(dd_obj: dd_obj)
+        username_by_user_object = user_list[:objects].select { |user| user[:username].downcase == lead_username }
+        # Should only ever return 1 result so we should be good here
+        http_body[:lead] = username_by_user_object.first[:resource_uri]
 
         # Defaults to true
         opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
@@ -423,6 +423,11 @@ module CSI
           finding_list = #{self}.finding_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single finding by id, otherwise return all'
+          )
+
+          user_list = #{self}.user_list(
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single user by id, otherwise return all'
           )
 
           #{self}.logout(
