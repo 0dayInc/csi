@@ -215,7 +215,7 @@ module CSI
         http_body[:status] = opts[:status]
         http_body[:product] = opts[:product]
         http_body[:description] = opts[:description]
-        http_body[:lead] = opts[:lead])
+        http_body[:lead] = opts[:lead]
 
         # Defaults to true
         opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
