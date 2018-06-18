@@ -213,9 +213,21 @@ module CSI
         # HTTP POST body options w/ optional params set to default values
         http_body[:tmodel_path] = opts[:tmodel_path]
         http_body[:status] = opts[:status]
-        http_body[:product] = opts[:product]
+        product_name = opts[:product_name].to_s.strip.chomp.scrub.downcase
+        # Ok lets determine the resource_uri for the product name
+        product_list = self.product_list(dd_obj: dd_obj)
+        product_by_name_object = product_list[:objects].select { |product| product[:name].downcase == product_name }
+        # Should only ever return 1 result so we should be good here
+        http_body[:product] = product_by_name_object.first[:resource_uri]
+
         http_body[:description] = opts[:description]
-        http_body[:lead] = opts[:lead]
+        lead_username = opts[:lead_username].to_s.strip.chomp.scrub.downcase
+        # Ok lets determine the resource_uri for the product name
+        user_list = self.user_list(dd_obj: dd_obj)
+        user_by_username_object = user_list[:objects].select { |user| user[:name].downcase == lead_username }
+        # Should only ever return 1 result so we should be good here
+        http_body[:lead] = user_by_name_object.first[:resource_uri]
+
 
         # Defaults to true
         opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
@@ -306,6 +318,32 @@ module CSI
       def self.finding_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "findings/#{opts[:id].to_i}") : (rest_call = 'findings')
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        finding_list = json_response
+
+        return finding_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # user_list = CSI::Plugins::DefectDojo.user_list(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single user by id, otherwise return all'
+      # )
+
+      public
+
+      def self.user_list(opts = {})
+        dd_obj = opts[:dd_obj]
+        opts[:id] ? (rest_call = "users/#{opts[:id].to_i}") : (rest_call = 'users')
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
