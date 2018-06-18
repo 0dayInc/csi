@@ -222,7 +222,6 @@ module CSI
         # Defaults to true
         opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
 
-
         http_body[:name] = opts[:name]
 
         # Defaults to Time.now.strftime('%Y-%m-%d')
