@@ -106,7 +106,14 @@ module CSI
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
-        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8080')::Request
+        if opts[:debug] 
+          rest_client = CSI::Plugins::TransparentBrowser.open(
+                          browser_type: :rest, 
+                          proxy: 'http://127.0.0.1:8080'
+                        )::Request
+        else
+          rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        end
 
         case http_method
         when :get
@@ -200,7 +207,6 @@ module CSI
       # Supported Method Parameters::
       # engagement_list = CSI::Plugins::DefectDojo.engagement_create(
       #   dd_obj: 'required dd_obj returned from #login_v1 method',
-      #   id: 'optional - retrieve single engagement by id, otherwise return all'
       # )
 
       public
