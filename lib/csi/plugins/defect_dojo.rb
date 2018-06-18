@@ -211,7 +211,6 @@ module CSI
         dd_obj = opts[:dd_obj]
 
         # HTTP POST body options w/ optional params set to default values
-        http_body[:tmodel_path] = opts[:tmodel_path]
         http_body[:status] = opts[:status]
         product_name = opts[:product_name].to_s.strip.chomp.scrub
         # Ok lets determine the resource_uri for the product name
@@ -230,7 +229,7 @@ module CSI
         http_body[:lead] = username_by_user_object.first[:resource_uri]
 
         # Defaults to true
-        opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
+        opts[:check_list] ? (http_body[:check_list] = true) : (http_body[:check_list] = false)
 
         http_body[:name] = opts[:name]
 
@@ -246,19 +245,19 @@ module CSI
         # Defaults to false
         opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
 
-        # Defaults to true
-        opts[:pen_test] ? (http_body[:pen_test] = false) : (http_body[:pen_test] = true)
+        # Defaults to false
+        opts[:pen_test] ? (http_body[:pen_test] = true) : (http_body[:pen_test] = false)
 
         http_body[:progress] = opts[:progress]
 
-        # Defaults to true
-        opts[:threat_model] ? (http_body[:threat_model] = false) : (http_body[:threat_model] = true)
+        # Defaults to false
+        opts[:threat_model] ? (http_body[:threat_model] = true) : (http_body[:threat_model] = false)
 
         # Defaults to Time.now.strftime('%Y-%m-%d')
         opts[:first_contacted] ? (http_body[:first_contacted] = opts[:first_contacted]) : (http_body[:first_contacted] = Time.now.strftime('%Y-%m-%d'))
 
-        # Defaults to true
-        opts[:active] ? (http_body[:active] = false) : (http_body[:active] = true)
+        # Defaults to false
+        opts[:active] ? (http_body[:active] = true) : (http_body[:active] = false)
 
         http_body[:test_strategy] = opts[:test_strategy]
 
