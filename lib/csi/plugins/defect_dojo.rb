@@ -220,7 +220,7 @@ module CSI
       #   first_contacted: 'optional - date of engagement request e.g. 2018-06-18 (Defaults to current day)',
       #   target_start: 'optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)',
       #   target_end: 'optional - date of engagement completion e.g. 2018-06-20 (Defaults to current day)',
-      #   done_testing: 'optional - boolean to denote testing has completed' 
+      #   done_testing: 'optional - boolean to denote testing has completed'
       # )
 
       public
@@ -449,7 +449,7 @@ module CSI
             first_contacted: 'optional - date of engagement request e.g. 2018-06-18 (Defaults to current day)',
             target_start: 'optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)',
             target_end: 'optional - date of engagement completion e.g. 2018-06-20 (Defaults to current day)',
-            done_testing: 'optional - boolean to denote testing has completed' 
+            done_testing: 'optional - boolean to denote testing has completed'
           )
 
           test_list = #{self}.test_list(
