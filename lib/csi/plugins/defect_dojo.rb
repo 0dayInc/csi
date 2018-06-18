@@ -108,9 +108,9 @@ module CSI
 
         if opts[:debug] 
           rest_client = CSI::Plugins::TransparentBrowser.open(
-                          browser_type: :rest, 
-                          proxy: 'http://127.0.0.1:8080'
-                        )::Request
+            browser_type: :rest, 
+            proxy: 'http://127.0.0.1:8080'
+          )::Request
         else
           rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
         end
