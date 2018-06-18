@@ -205,8 +205,22 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # engagement_list = CSI::Plugins::DefectDojo.engagement_create(
-      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      # engagement_create_response = CSI::Plugins::DefectDojo.engagement_create(
+      #   dd_obj: 'required - dd_obj returned from #login_v1 method',
+      #   name: 'required - name of the engagement',
+      #   description: 'optional - description of engagement',
+      #   status: 'optional - status of the engagement In Progress || On Hold (defaults to In Progress)',
+      #   lead_username: 'required - username of lead to tie to engagement',
+      #   product_name: 'required - product name in which to create engagement',
+      #   test_strategy: 'required - URL of test strategy documentation (e.g. OWASP ASVS URL)',
+      #   api_test: 'optional - boolean to set an engagement as an api assessment (defaults to false)',
+      #   pen_test: 'optional - boolean to set an engagement as a manual penetration test (defaults to false)',
+      #   threat_model: 'optional - boolean to set an engagement as a threat model (defaults to false)',
+      #   check_list: 'optional - boolean to set an engagement as a checkbox assessment (defaults to false)',
+      #   first_contacted: 'optional - date of engagement request e.g. 2018-06-18 (Defaults to current day)',
+      #   target_start: 'optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)',
+      #   target_end: 'optional - date of engagement completion e.g. 2018-06-20 (Defaults to current day)',
+      #   done_testing: 'optional - boolean to denote testing has completed' 
       # )
 
       public
@@ -217,36 +231,38 @@ module CSI
         dd_obj = opts[:dd_obj]
 
         # HTTP POST body options w/ optional params set to default values
-        http_body[:status] = opts[:status]
-        product_name = opts[:product_name].to_s.strip.chomp.scrub
-        # Ok lets determine the resource_uri for the product name
-        product_list = self.product_list(dd_obj: dd_obj)
-        product_by_name_object = product_list[:objects].select { |product| product[:name] == product_name }
-        # Should only ever return 1 result so we should be good here
-        http_body[:product] = product_by_name_object.first[:resource_uri]
+        # Defaults to true
+        http_body[:active] = true
+
+        http_body[:name] = opts[:name]
 
         http_body[:description] = opts[:description]
-        lead_username = opts[:lead_username].to_s.strip.chomp.scrub
+
+        # Defaults to 'In Progress'
+        case opts[:status]
+        when 'In Progress', 'On Hold'
+          http_body[:status] = opts[:status]
+        when 'Completed'
+          raise 'Completed status not implemented for #engagement_create - use #engagement_update instead'
+        else
+          raise "Unknown engagement status: #{opts[:status]}.  Options for this method are 'In Progress' || 'On Hold'"
+        end
 
         # Ok lets determine the resource_uri for the lead username
+        lead_username = opts[:lead_username].to_s.strip.chomp.scrub
         user_list = self.user_list(dd_obj: dd_obj)
         username_by_user_object = user_list[:objects].select { |user| user[:username] == lead_username }
         # Should only ever return 1 result so we should be good here
         http_body[:lead] = username_by_user_object.first[:resource_uri]
 
-        # Defaults to true
-        opts[:check_list] ? (http_body[:check_list] = true) : (http_body[:check_list] = false)
+        # Ok lets determine the resource_uri for the product name
+        product_name = opts[:product_name].to_s.strip.chomp.scrub
+        product_list = self.product_list(dd_obj: dd_obj)
+        product_by_name_object = product_list[:objects].select { |product| product[:name] == product_name }
+        # Should only ever return 1 result so we should be good here
+        http_body[:product] = product_by_name_object.first[:resource_uri]
 
-        http_body[:name] = opts[:name]
-
-        # Defaults to Time.now.strftime('%Y-%m-%d')
-        opts[:target_start] ? (http_body[:target_start] = opts[:target_start]) : (http_body[:target_start] = Time.now.strftime('%Y-%m-%d'))
-
-        # Defaults to false
-        opts[:done_testing] ? (http_body[:done_testing] = true) : (http_body[:done_testing] = false)
-        http_body[:risk_path] = opts[:risk_path]
-        http_body[:reason] = opts[:reason]
-        http_body[:version] = opts[:version]
+        http_body[:test_strategy] = opts[:test_strategy]
 
         # Defaults to false
         opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
@@ -254,21 +270,23 @@ module CSI
         # Defaults to false
         opts[:pen_test] ? (http_body[:pen_test] = true) : (http_body[:pen_test] = false)
 
-        http_body[:progress] = opts[:progress]
-
         # Defaults to false
         opts[:threat_model] ? (http_body[:threat_model] = true) : (http_body[:threat_model] = false)
+
+        # Defaults to false
+        opts[:check_list] ? (http_body[:check_list] = true) : (http_body[:check_list] = false)
 
         # Defaults to Time.now.strftime('%Y-%m-%d')
         opts[:first_contacted] ? (http_body[:first_contacted] = opts[:first_contacted]) : (http_body[:first_contacted] = Time.now.strftime('%Y-%m-%d'))
 
-        # Defaults to false
-        opts[:active] ? (http_body[:active] = true) : (http_body[:active] = false)
-
-        http_body[:test_strategy] = opts[:test_strategy]
+        # Defaults to Time.now.strftime('%Y-%m-%d')
+        opts[:target_start] ? (http_body[:target_start] = opts[:target_start]) : (http_body[:target_start] = Time.now.strftime('%Y-%m-%d'))
 
         # Defaults to Time.now.strftime('%Y-%m-%d')
         opts[:target_end] ? (http_body[:target_end] = opts[:target_end]) : (http_body[:target_end] = Time.now.strftime('%Y-%m-%d'))
+
+        # Defaults to false
+        http_body[:done_testing] = false
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
@@ -414,6 +432,24 @@ module CSI
           engagement_list = #{self}.engagement_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single engagement by id, otherwise return all'
+          )
+
+          engagement_create_response =#{self}.engagement_create(
+            dd_obj: 'required - dd_obj returned from #login_v1 method',
+            name: 'required - name of the engagement',
+            description: 'optional - description of engagement',
+            status: 'optional - status of the engagement In Progress || On Hold (defaults to In Progress)',
+            lead_username: 'required - username of lead to tie to engagement',
+            product_name: 'required - product name in which to create engagement',
+            test_strategy: 'required - URL of test strategy documentation (e.g. OWASP ASVS URL)',
+            api_test: 'optional - boolean to set an engagement as an api assessment (defaults to false)',
+            pen_test: 'optional - boolean to set an engagement as a manual penetration test (defaults to false)',
+            threat_model: 'optional - boolean to set an engagement as a threat model (defaults to false)',
+            check_list: 'optional - boolean to set an engagement as a checkbox assessment (defaults to false)',
+            first_contacted: 'optional - date of engagement request e.g. 2018-06-18 (Defaults to current day)',
+            target_start: 'optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)',
+            target_end: 'optional - date of engagement completion e.g. 2018-06-20 (Defaults to current day)',
+            done_testing: 'optional - boolean to denote testing has completed' 
           )
 
           test_list = #{self}.test_list(
