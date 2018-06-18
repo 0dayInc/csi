@@ -272,11 +272,7 @@ module CSI
           http_body: http_body.to_json
         )
 
-        # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        engagement_list = json_response
-
-        return engagement_list
+        return response
       rescue => e
         raise e
       end
