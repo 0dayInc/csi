@@ -213,19 +213,19 @@ module CSI
         # HTTP POST body options w/ optional params set to default values
         http_body[:tmodel_path] = opts[:tmodel_path]
         http_body[:status] = opts[:status]
-        product_name = opts[:product_name].to_s.strip.chomp.scrub.downcase
+        product_name = opts[:product_name].to_s.strip.chomp.scrub
         # Ok lets determine the resource_uri for the product name
         product_list = self.product_list(dd_obj: dd_obj)
-        product_by_name_object = product_list[:objects].select { |product| product[:name].downcase == product_name }
+        product_by_name_object = product_list[:objects].select { |product| product[:name] == product_name }
         # Should only ever return 1 result so we should be good here
         http_body[:product] = product_by_name_object.first[:resource_uri]
 
         http_body[:description] = opts[:description]
-        lead_username = opts[:lead_username].to_s.strip.chomp.scrub.downcase
+        lead_username = opts[:lead_username].to_s.strip.chomp.scrub
 
         # Ok lets determine the resource_uri for the lead username
         user_list = self.user_list(dd_obj: dd_obj)
-        username_by_user_object = user_list[:objects].select { |user| user[:username].downcase == lead_username }
+        username_by_user_object = user_list[:objects].select { |user| user[:username] == lead_username }
         # Should only ever return 1 result so we should be good here
         http_body[:lead] = username_by_user_object.first[:resource_uri]
 
