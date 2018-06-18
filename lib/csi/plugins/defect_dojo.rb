@@ -255,7 +255,7 @@ module CSI
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
-          rest_call: 'engagements',
+          rest_call: 'engagements/',
           http_method: :post,
           http_body: http_body.to_json
         )
