@@ -106,7 +106,7 @@ module CSI
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
-        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)::Request
+        rest_client = CSI::Plugins::TransparentBrowser.open(browser_type: :rest, proxy: 'http://127.0.0.1:8080')::Request
 
         case http_method
         when :get
@@ -155,11 +155,7 @@ module CSI
 
       def self.product_list(opts = {})
         dd_obj = opts[:dd_obj]
-        if opts[:id].nil?
-          rest_call = 'products'
-        else
-          rest_call = "products/#{opts[:id].to_i}"
-        end
+        opts[:id] ? (rest_call = "products/#{opts[:id].to_i}") : (rest_call = 'products')
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
@@ -185,15 +181,86 @@ module CSI
 
       def self.engagement_list(opts = {})
         dd_obj = opts[:dd_obj]
-        if opts[:id].nil?
-          rest_call = 'engagements'
-        else
-          rest_call = "engagements/#{opts[:id].to_i}"
-        end
+        opts[:id] ? (rest_call = "engagements/#{opts[:id].to_i}") : (rest_call = 'engagements')
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        engagement_list = json_response
+
+        return engagement_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # engagement_list = CSI::Plugins::DefectDojo.engagement_create(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single engagement by id, otherwise return all'
+      # )
+
+      public
+
+      def self.engagement_create(opts = {})
+        http_body = {}
+
+        dd_obj = opts[:dd_obj]
+
+        # HTTP POST body options w/ optional params set to default values
+        http_body[:tmodel_path] = opts[:tmodel_path]
+        http_body[:status] = opts[:status]
+        http_body[:product] = opts[:product]
+        http_body[:description] = opts[:description]
+
+        # Defaults to 'related'
+        opts[:lead] ? (http_body[:lead] = opts[:lead]) : (http_body[:lead] = 'related')
+
+        # Defaults to true
+        opts[:check_list] ? (http_body[:cheeck_list] = false) : (http_body[:cheeck_list] = true)
+
+
+        http_body[:name] = opts[:name]
+
+        # Defaults to Time.now.strftime('%Y-%m-%d')
+        opts[:target_start] ? (http_body[:target_start] = opts[:target_start]) : (http_body[:target_start] = Time.now.strftime('%Y-%m-%d'))
+
+        # Defaults to false
+        opts[:done_testing] ? (http_body[:done_testing] = true) : (http_body[:done_testing] = false)
+        http_body[:risk_path] = opts[:risk_path]
+        http_body[:reason] = opts[:reason]
+        http_body[:version] = opts[:version]
+
+        # Defaults to false
+        opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
+
+        # Defaults to true
+        opts[:pen_test] ? (http_body[:pen_test] = false) : (http_body[:pen_test] = true)
+
+        http_body[:progress] = opts[:progress]
+
+        # Defaults to true
+        opts[:threat_model] ? (http_body[:threat_model] = false) : (http_body[:threat_model] = true)
+
+        # Defaults to Time.now.strftime('%Y-%m-%d')
+        opts[:first_contacted] ? (http_body[:first_contacted] = opts[:first_contacted]) : (http_body[:first_contacted] = Time.now.strftime('%Y-%m-%d'))
+
+        # Defaults to true
+        opts[:active] ? (http_body[:active] = false) : (http_body[:active] = true)
+
+        http_body[:test_strategy] = opts[:test_strategy]
+
+        # Defaults to Time.now.strftime('%Y-%m-%d')
+        opts[:target_end] ? (http_body[:target_end] = opts[:target_end]) : (http_body[:target_end] = Time.now.strftime('%Y-%m-%d'))
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call,
+          http_method: :post,
+          http_body: http_body.to_json
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
@@ -215,11 +282,7 @@ module CSI
 
       def self.test_list(opts = {})
         dd_obj = opts[:dd_obj]
-        if opts[:id].nil?
-          rest_call = 'tests'
-        else
-          rest_call = "tests/#{opts[:id].to_i}"
-        end
+        opts[:id] ? (rest_call = "tests/#{opts[:id].to_i}") : (rest_call = 'tests')
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
@@ -245,11 +308,7 @@ module CSI
 
       def self.finding_list(opts = {})
         dd_obj = opts[:dd_obj]
-        if opts[:id].nil?
-          rest_call = 'findings'
-        else
-          rest_call = "findings/#{opts[:id].to_i}"
-        end
+        opts[:id] ? (rest_call = "findings/#{opts[:id].to_i}") : (rest_call = 'findings')
 
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
