@@ -238,7 +238,9 @@ module CSI
         http_body[:description] = opts[:description]
 
         # Defaults to 'In Progress'
-        case opts[:status]
+        http_body[:status] = 'In Progress' if opts[:status].nil?
+
+        case opts[:status].to_s.strip.chomp.scrub
         when 'In Progress', 'On Hold'
           http_body[:status] = opts[:status]
         when 'Completed'
