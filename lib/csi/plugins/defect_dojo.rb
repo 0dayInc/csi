@@ -237,13 +237,12 @@ module CSI
 
         http_body[:description] = opts[:description]
 
-        # Defaults to 'In Progress'
-
         status = opts[:status].to_s.strip.chomp.scrub
+
         case status
         when 'In Progress', 'On Hold', ''
-          status == '' ? (http_body[:status] = 'In Progress') : http_body[:status] = opts[:status]
-          http_body[:status] = opts[:status]
+          # Defaults to 'In Progress'
+          status == '' ? (http_body[:status] = 'In Progress') : (http_body[:status] = opts[:status])
         when 'Completed'
           raise 'Completed status not implemented for #engagement_create - use #engagement_update instead'
         else
