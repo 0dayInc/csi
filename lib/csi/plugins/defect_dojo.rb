@@ -360,7 +360,7 @@ module CSI
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
 
         http_body[:multipart] = true
-        http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub) if File.exist?(opts[:file].to_s.strip.chomp.scrub)
+        http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub, 'rb') if File.exist?(opts[:file].to_s.strip.chomp.scrub)
 
         # Ok lets determine the resource_uri for the lead username
         lead_username = opts[:lead_username].to_s.strip.chomp.scrub
@@ -390,6 +390,7 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'importscan/',
           http_method: :post,
+          content_type: 'multipart/form-data',
           http_body: http_body.to_json
         )
 
