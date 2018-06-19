@@ -99,6 +99,7 @@ module CSI
 
         opts[:http_method] ? (http_method = opts[:http_method].to_s.scrub.to_sym) : (http_method = :get)
         opts[:content_type] ? (content_type = opts[:content_type].to_s.scrub.to_sym) : (content_type = 'application/json; charset=UTF-8')
+        content_type = nil if http_body.keys.include?(:multipart)
 
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
@@ -390,7 +391,6 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'importscan/',
           http_method: :post,
-          content_type: nil,
           http_body: http_body,
           debug: true
         )
