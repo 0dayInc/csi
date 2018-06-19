@@ -391,7 +391,7 @@ module CSI
           rest_call: 'importscan/',
           http_method: :post,
           content_type: 'multipart/form-data',
-          http_body: http_body.to_json
+          http_body: http_body
         )
 
         return response
