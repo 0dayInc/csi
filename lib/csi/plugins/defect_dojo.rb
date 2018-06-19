@@ -372,6 +372,7 @@ module CSI
 
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
 
+        http_body[:multipart] = true
         http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub, 'rb') if File.exist?(opts[:file].to_s.strip.chomp.scrub)
 
         # Ok lets determine the resource_uri for the lead username
