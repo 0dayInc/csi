@@ -391,7 +391,8 @@ module CSI
           rest_call: 'importscan/',
           http_method: :post,
           content_type: nil,
-          http_body: http_body
+          http_body: http_body,
+          debug: true
         )
 
         return response
