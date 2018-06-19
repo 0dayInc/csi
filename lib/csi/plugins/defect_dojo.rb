@@ -96,11 +96,10 @@ module CSI
       private_class_method def self.dd_v1_rest_call(opts = {})
         dd_obj = opts[:dd_obj]
         rest_call = opts[:rest_call].to_s.scrub
-        http_method = if opts[:http_method].nil?
-                        :get
-                      else
-                        opts[:http_method].to_s.scrub.to_sym
-                      end
+
+        opts[:http_method] ? (http_method = opts[:http_method].to_s.scrub.to_sym) : (http_method = :get)
+        opts[:content_type] ? (content_type = opts[:content_type].to_s.scrub.to_sym) : (content_type = 'application/json; charset=UTF-8')
+
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
         url = dd_obj[:url]
@@ -121,7 +120,7 @@ module CSI
             method: :get,
             url: "#{base_dd_api_uri}/#{rest_call}",
             headers: {
-              content_type: 'application/json; charset=UTF-8',
+              content_type: content_type,
               authorization: dd_obj[:authz_header],
               params: params
             },
@@ -133,7 +132,7 @@ module CSI
             method: :post,
             url: "#{base_dd_api_uri}/#{rest_call}",
             headers: {
-              content_type: 'application/json; charset=UTF-8',
+              content_type: content_type,
               authorization: dd_obj[:authz_header]
             },
             payload: http_body,
@@ -360,7 +359,8 @@ module CSI
 
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
 
-        http_body[:file] = File.open(opts[:file].to_s.strip.chomp.scrub) if File.exist?(opts[:file].to_s.strip.chomp.scrub)
+        http_body[:multipart] = true
+        http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub) if File.exist?(opts[:file].to_s.strip.chomp.scrub)
 
         # Ok lets determine the resource_uri for the lead username
         lead_username = opts[:lead_username].to_s.strip.chomp.scrub
