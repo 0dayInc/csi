@@ -390,7 +390,8 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'importscan/',
           http_method: :post,
-          http_body: http_body.to_json
+          content_type: nil,
+          http_body: http_body
         )
 
         return response
