@@ -98,11 +98,13 @@ module CSI
         rest_call = opts[:rest_call].to_s.scrub
 
         opts[:http_method] ? (http_method = opts[:http_method].to_s.scrub.to_sym) : (http_method = :get)
-        opts[:content_type] ? (content_type = opts[:content_type].to_s.scrub.to_sym) : (content_type = 'application/json; charset=UTF-8')
-        content_type = nil if http_body.key?(:multipart)
 
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
+
+        opts[:content_type] ? (content_type = opts[:content_type].to_s.scrub.to_sym) : (content_type = 'application/json; charset=UTF-8')
+        content_type = nil if http_body.is_a?(Hash) && http_body.key?(:multipart)
+
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
