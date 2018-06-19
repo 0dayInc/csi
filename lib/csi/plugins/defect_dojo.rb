@@ -100,7 +100,7 @@ module CSI
         opts[:http_method] ? (http_method = opts[:http_method].to_s.scrub.to_sym) : (http_method = :get)
 
         params = opts[:params]
-        http_body = opts[:http_body].to_s.scrub
+        http_body = opts[:http_body]
 
         content_type = 'application/json; charset=UTF-8'
 
