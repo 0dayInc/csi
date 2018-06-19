@@ -102,8 +102,7 @@ module CSI
         params = opts[:params]
         http_body = opts[:http_body].to_s.scrub
 
-        opts[:content_type] ? (content_type = opts[:content_type].to_s.scrub.to_sym) : (content_type = 'application/json; charset=UTF-8')
-        content_type = nil if http_body.is_a?(Hash) && http_body.key?(:multipart)
+        content_type = 'application/json; charset=UTF-8'
 
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
@@ -131,17 +130,28 @@ module CSI
           )
 
         when :post
-          response = rest_client.execute(
-            method: :post,
-            url: "#{base_dd_api_uri}/#{rest_call}",
-            headers: {
-              content_type: content_type,
-              authorization: dd_obj[:authz_header]
-            },
-            payload: http_body,
-            verify_ssl: false
-          )
-
+          if http_body.key?(:multipart)
+            response = rest_client.execute(
+              method: :post,
+              url: "#{base_dd_api_uri}/#{rest_call}",
+              headers: {
+                authorization: dd_obj[:authz_header]
+              },
+              payload: http_body,
+              verify_ssl: false
+            )
+          else
+            response = rest_client.execute(
+              method: :post,
+              url: "#{base_dd_api_uri}/#{rest_call}",
+              headers: {
+                content_type: content_type,
+                authorization: dd_obj[:authz_header]
+              },
+              payload: http_body.to_json,
+              verify_ssl: false
+            )
+          end
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
@@ -295,7 +305,7 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'engagements/',
           http_method: :post,
-          http_body: http_body.to_json
+          http_body: http_body
         )
 
         return response
@@ -362,7 +372,6 @@ module CSI
 
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
 
-        http_body[:multipart] = true
         http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub, 'rb') if File.exist?(opts[:file].to_s.strip.chomp.scrub)
 
         # Ok lets determine the resource_uri for the lead username
