@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-uURL', '--url=URL', '<Required - DefectDojo URL>') do |u|
+    opts[:username] = u
+  end
+
+  options.on('-UUSER', '--username=USER', '<Optional - DefectDojo Username (Will Prompt if nil)>') do |u|
+    opts[:username] = u
+  end
+
+  options.on('-aKEY', '--api-key=KEY', '<Optional - Proxy w/ TOR (Will Prompt if nil)>') do |a|
+    opts[:api_key] = a
+  end
+
+  options.on('-nNAME', '--enagagement-name=NAME', '<Required - Engagement Name to Create>') do |n|
+    opts[:name] = n
+  end
+
+  options.on('-dDESC', '--description=DESC', '<Required - Engagement Description>') do |d|
+    opts[:description] = d
+  end
+
+  options.on('-sSTATUS', '--status=STATUS', '<Optional - status of the engagement In Progress || On Hold (defaults to In Progress)>') do |s|
+    opts[:status] = s
+  end
+
+  options.on('-lUSER', '--lead-username=USER', '<Required - username of lead to tie to engagement') do |s|
+    opts[:status] = s
+  end
+
+  options.on('-pNAME', '--product-name=NAME', '<Required - product name in which to create engagement') do |p|
+    opts[:product_name] = p
+  end
+
+  options.on('-tSTRATEGY', '--test-strategy=STRATEGY', '<Required - URL of test strategy documentation (e.g. OWASP ASVS URL)') do |t|
+    opts[:test_strategy] = t
+  end
+
+  options.on('-A', '--[no-]api-test', '<Optional - API Test in Scope for Engagement (Defaults to false)>') do |a|
+    opts[:api_test] = a
+  end
+
+  options.on('-P', '--[no-]pen-test', '<Optional - Pen Test in Scope for Engagement (Defaults to false)>') do |p|
+    opts[:pen_test] = p
+  end
+
+  options.on('-T', '--[no-]threat-model', '<Optional - API Test in Scope for Engagement (Defaults to false)>') do |t|
+    opts[:threat_model] = t
+  end
+
+  options.on('-C', '--[no-]check-list', '<Optional - Checkbox Test in Scope for Engagement (Defaults to false)>') do |a|
+    opts[:api_test] = a
+  end
+
+  options.on('-cCONTACTED', '--first-contacted=CONTACTED', '<Optional - date of engagement request e.g. 2018-06-18 (Defaults to current day))') do |c|
+    opts[:first_contacted] = c
+  end
+
+  options.on('-SSTART', '--target-start=START', '<Optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)') do |s|
+    opts[:target_start] = s
+  end
+
+  options.on('-EEND', '--target-end=END', '<Optional - date to end enagement e.g. 2018-06-20 (Defaults to current day)') do |e|
+    opts[:target_end] = e
+  end
+end.parse!
+
+# Construct AuthN Args
+url = opts[:url]
+opts[:username] ? (username = opts[:username]) : (username = CSI::Plugins::AuthenticationHelper.username)
+opts[:api_key] ? (api_key = opts[:api_key]) : (api_key = CSI::Plugins::AuthenticationHelper.mask_password(prompt: 'API Key'))
+
+# Create Engagement Args
+name = opts[:name]
+description = opts[:description]
+status = opts[:status]
+lead_username = opts[:lead_username]
+product_name = opts[:product_name]
+test_strategy = opts[:test_strategy]
+api_test = opts[:api_test]
+pen_test = opts[:pen_test]
+threat_model = opts[:threat_model]
+check_list = opts[:check_list]
+first_contacted = opts[:first_contacted]
+target_start = opts[:target_start]
+target_end = opts[:target_end]
+
+begin
+  dd_obj = CSI::Plugins::DefectDojo.login_v1(
+    url: url,
+    username: username,
+    api_key: api_key
+  )
+
+  engagement_create_response = CSI::Plugins::DefectDojo.engagement_create(
+    dd_obj: dd_obj,
+    name: name,
+    description: description,
+    status: status,
+    lead_username: lead_username,
+    product_name: product_name,
+    test_strategy: test_stratgegy,
+    api_test: api_test,
+    pen_test: pen_test,
+    threat_model: threat_model,
+    check_list: check_list,
+    first_contacted: first_contacted,
+    target_start: target_start,
+    target_end: target_end
+  )
+rescue => e
+  raise e
+end
