@@ -520,7 +520,7 @@ module CSI
             id: 'optional - retrieve single engagement by id, otherwise return all'
           )
 
-          engagement_create_response =#{self}.engagement_create(
+          engagement_create_response = #{self}.engagement_create(
             dd_obj: 'required - dd_obj returned from #login_v1 method',
             name: 'required - name of the engagement',
             description: 'optional - description of engagement',
@@ -548,7 +548,7 @@ module CSI
             scan_type: 'required - type of scan importing (see <DEFECTDOJO_URL>/admin/dojo/test_type/ for listing)',
             file: 'required - path of scan results file',
             lead_username: 'required - username of lead to tie to scan',
-            tags: 'optional - tag names to tie to scan',
+            tags: 'optional - comma-delimited list of tag names to tie to scan',
             minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
             scan_date: 'optional - date in which scan was kicked off (defaults to now)',
             verified: 'optional - flag finding as verified by a tester (defaults to false)',

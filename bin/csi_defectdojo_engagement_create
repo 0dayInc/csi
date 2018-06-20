@@ -34,8 +34,8 @@ OptionParser.new do |options|
     opts[:status] = s
   end
 
-  options.on('-lUSER', '--lead-username=USER', '<Required - username of lead to tie to engagement') do |s|
-    opts[:status] = s
+  options.on('-lUSER', '--lead-username=USER', '<Required - username of lead to tie to engagement') do |l|
+    opts[:lead_username] = l
   end
 
   options.on('-pNAME', '--product-name=NAME', '<Required - product name in which to create engagement') do |p|
@@ -58,8 +58,8 @@ OptionParser.new do |options|
     opts[:threat_model] = t
   end
 
-  options.on('-C', '--[no-]check-list', '<Optional - Checkbox Test in Scope for Engagement (Defaults to false)>') do |a|
-    opts[:api_test] = a
+  options.on('-C', '--[no-]check-list', '<Optional - Checkbox Test in Scope for Engagement (Defaults to false)>') do |c|
+    opts[:check_list] = c
   end
 
   options.on('-cCONTACTED', '--first-contacted=CONTACTED', '<Optional - date of engagement request e.g. 2018-06-18 (Defaults to current day))') do |c|
