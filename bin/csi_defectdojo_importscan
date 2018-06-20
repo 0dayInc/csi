@@ -34,7 +34,7 @@ OptionParser.new do |options|
     opts[:file] = f
   end
 
-  options.on('-lUSER', '--lead-username=USER', '<Required - username of lead to tie to engagement>') do |l|
+  options.on('-lUSER', '--lead-username=USER', '<Optional - username of lead to tie to engagement (Defaults to username)>') do |l|
     opts[:lead_username] = l
   end
 
