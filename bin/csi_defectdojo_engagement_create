@@ -34,15 +34,15 @@ OptionParser.new do |options|
     opts[:status] = s
   end
 
-  options.on('-lUSER', '--lead-username=USER', '<Required - username of lead to tie to engagement') do |l|
+  options.on('-lUSER', '--lead-username=USER', '<Optional - username of lead to tie to engagement (Defaults to username)>') do |l|
     opts[:lead_username] = l
   end
 
-  options.on('-pNAME', '--product-name=NAME', '<Required - product name in which to create engagement') do |p|
+  options.on('-pNAME', '--product-name=NAME', '<Required - product name in which to create engagement>') do |p|
     opts[:product_name] = p
   end
 
-  options.on('-tSTRATEGY', '--test-strategy=STRATEGY', '<Required - URL of test strategy documentation (e.g. OWASP ASVS URL)') do |t|
+  options.on('-tSTRATEGY', '--test-strategy=STRATEGY', '<Required - URL of test strategy documentation (e.g. OWASP ASVS URL)>') do |t|
     opts[:test_strategy] = t
   end
 
@@ -62,15 +62,15 @@ OptionParser.new do |options|
     opts[:check_list] = c
   end
 
-  options.on('-cCONTACTED', '--first-contacted=CONTACTED', '<Optional - date of engagement request e.g. 2018-06-18 (Defaults to current day))') do |c|
+  options.on('-cCONTACTED', '--first-contacted=CONTACTED', '<Optional - date of engagement request e.g. 2018-06-18 (Defaults to current day)>') do |c|
     opts[:first_contacted] = c
   end
 
-  options.on('-SSTART', '--target-start=START', '<Optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)') do |s|
+  options.on('-SSTART', '--target-start=START', '<Optional - date to start enagement e.g. 2018-06-19 (Defaults to current day)>') do |s|
     opts[:target_start] = s
   end
 
-  options.on('-EEND', '--target-end=END', '<Optional - date to end enagement e.g. 2018-06-20 (Defaults to current day)') do |e|
+  options.on('-EEND', '--target-end=END', '<Optional - date to end enagement e.g. 2018-06-20 (Defaults to current day)>') do |e|
     opts[:target_end] = e
   end
 end.parse!
@@ -84,7 +84,7 @@ opts[:api_key] ? (api_key = opts[:api_key]) : (api_key = CSI::Plugins::Authentic
 name = opts[:name]
 description = opts[:description]
 status = opts[:status]
-lead_username = opts[:lead_username]
+opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username = username)
 product_name = opts[:product_name]
 test_strategy = opts[:test_strategy]
 api_test = opts[:api_test]
@@ -109,7 +109,7 @@ begin
     status: status,
     lead_username: lead_username,
     product_name: product_name,
-    test_strategy: test_stratgegy,
+    test_strategy: test_strategy,
     api_test: api_test,
     pen_test: pen_test,
     threat_model: threat_model,
