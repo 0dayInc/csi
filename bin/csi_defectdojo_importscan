@@ -11,7 +11,7 @@ OptionParser.new do |options|
   "
 
   options.on('-uURL', '--url=URL', '<Required - DefectDojo URL>') do |u|
-    opts[:username] = u
+    opts[:url] = u
   end
 
   options.on('-UUSER', '--username=USER', '<Optional - DefectDojo Username (Will Prompt if nil)>') do |u|
