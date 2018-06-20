@@ -27,6 +27,9 @@ If you're willing to provide access to commercial security tools (e.g. Rapid7's 
 #### **What is CSI** ####
 CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
 
+#### **Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper** ####
+[![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
+
 #### **Why CSI** ####
 It's easy to agree that while corporate automation is a collection of proprietary source code, the core modules used to produce automated solutions should be open for all eyes to continuously promote trust and innovation...broad collaboration is key to any automation framework's success, particularly in the cyber security arena.  
 
@@ -36,9 +39,6 @@ Leveraging various pre-built modules and the csi prototyper, you can mix-and-mat
 The fastest way to get rolling w/ csi is to deploy a pre-built Kali Rolling box, available on [Vagrant Cloud](https://app.vagrantup.com/csi/boxes/kali_rolling).  This is a special deployment of Kali Rolling - WORKING rollouts of AFL w/ QEMU instrumentation ready-to-go, PEDA (Python Exploit Development Assistance for GDB), OpenVAS, latest clone of Metasploit, Arachni, Jenkins (w/ pre-canned jobs and the ability to create your own prior to deployment aka User-Land!), etc.  These are just some of the numerous security and CI/CD tools made available for your convenience...updated on a daily basis.  
 
 An instance of [DefectDojo](http://defectdojo.readthedocs.io/en/latest/) is stood up on the box to facilitate common security tools integration, resulting in a centralized place to manage scan results, track the lifecycle of vulnerabilities, and analyze trends via metrics and reporting!  CSI driver integration is made to be seamless w/ OS dependencies already installed.  This is all made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  See the [Deploy](#deploy) section for more details.
-
-#### **Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper** ####
-[![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
 
 #### **CSI Modules Can be Mixed and Matched to Produce Your Own Tools** ####
 Also known as, "Drivers" CSI can produce all sorts of useful tools by mixing and matching modules.
@@ -81,7 +81,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.2.971]:001 >>> CSI.help
+  csi[v0.2.972]:001 >>> CSI.help
   ```
 
 
