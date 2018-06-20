@@ -64,7 +64,7 @@ opts[:api_key] ? (api_key = opts[:api_key]) : (api_key = CSI::Plugins::Authentic
 engagement_name = opts[:engagement_name]
 scan_type = opts[:scan_type]
 file = opts[:file]
-lead_username = opts[:lead_username]
+opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username = username)
 tags = opts[:tags]
 minimum_severity = opts[:minimum_severity]
 scan_date = opts[:scan_date]
