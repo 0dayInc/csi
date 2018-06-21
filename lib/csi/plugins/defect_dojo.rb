@@ -359,6 +359,7 @@ module CSI
       #   minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
       #   scan_date: 'optional - date in which scan was kicked off (defaults to now)',
       #   verified: 'optional - flag finding as verified by a tester (defaults to false)',
+      #   reimport: 'optional - flag scan as already existing w/ new updates (defaults to false)
       # )
 
       public
@@ -409,12 +410,21 @@ module CSI
         # Defaults to false
         opts[:verified] ? (http_body[:verified] = true) : (http_body[:verified] = false)
 
-        response = dd_v1_rest_call(
-          dd_obj: dd_obj,
-          rest_call: 'importscan/',
-          http_method: :post,
-          http_body: http_body
-        )
+        if opts[:reimport].nil?
+          response = dd_v1_rest_call(
+            dd_obj: dd_obj,
+            rest_call: 'importscan/',
+            http_method: :post,
+            http_body: http_body
+          )
+        else
+          response = dd_v1_rest_call(
+            dd_obj: dd_obj,
+            rest_call: 'reimportscan/',
+            http_method: :post,
+            http_body: http_body
+          )
+        end
 
         return response
       rescue => e
@@ -561,6 +571,7 @@ module CSI
             minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
             scan_date: 'optional - date in which scan was kicked off (defaults to now)',
             verified: 'optional - flag finding as verified by a tester (defaults to false)',
+            reimport: 'optional - flag scan as already existing w/ new updates (defaults to false)
           )
 
           finding_list = #{self}.finding_list(
