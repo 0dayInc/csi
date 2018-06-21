@@ -384,7 +384,8 @@ module CSI
         domain = opts[:domain]
         enabled = opts[:enabled]
 
-        enabled.nil? ? (action = 'addHttpBreakpoint') : (action = 'removeHttpBreakpoint')
+        enabled = true if enabled.nil?
+        enabled ? (action = 'addHttpBreakpoint') : (action = 'removeHttpBreakpoint')
 
         zap_rest_call(
           zap_obj: zap_obj,
