@@ -94,6 +94,9 @@ module CSI
       # )
 
       private_class_method def self.dd_v1_rest_call(opts = {})
+        # Some scan reports are huge and require long timeouts...defaulting to 9 mins.
+        request_timeout = 540
+
         dd_obj = opts[:dd_obj]
         rest_call = opts[:rest_call].to_s.scrub
 
@@ -126,7 +129,9 @@ module CSI
               authorization: dd_obj[:authz_header],
               params: params
             },
-            verify_ssl: false
+            verify_ssl: false,
+            timeout: request_timeout,
+            open_timeout: request_timeout
           )
 
         when :post
@@ -138,7 +143,9 @@ module CSI
                 authorization: dd_obj[:authz_header]
               },
               payload: http_body,
-              verify_ssl: false
+              verify_ssl: false,
+              timeout: request_timeout,
+              open_timeout: request_timeout
             )
           else
             response = rest_client.execute(
@@ -149,7 +156,9 @@ module CSI
                 authorization: dd_obj[:authz_header]
               },
               payload: http_body.to_json,
-              verify_ssl: false
+              verify_ssl: false,
+              timeout: request_timeout,
+              open_timeout: request_timeout
             )
           end
         else
