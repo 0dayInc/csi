@@ -240,7 +240,7 @@ module CSI
 
       def self.nonblocking_goto(opts = {})
         this_browser_obj = opts[:browser_obj]
-        raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser.is_a?(Watir::Browser)
+        raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser_obj.is_a?(Watir::Browser)
         url = opts[:url].to_s
 
         timeout = 0.000000000000000001
