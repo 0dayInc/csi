@@ -249,7 +249,7 @@ module CSI
 
         this_browser_obj.goto(url)
       rescue Timeout::Error
-        rubocop_workaround = Time.now
+        puts "nonblocking mode detected for #{url}"
       rescue => e
         raise e
       end
