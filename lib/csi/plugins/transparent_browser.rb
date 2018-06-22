@@ -240,18 +240,16 @@ module CSI
 
       def self.nonblocking_goto(opts = {})
         this_browser_obj = opts[:browser_obj]
-        
-        if this_browser.is_a?(Watir::Browser)
-          timeout = 0.000000000000000001
-          this_browser_obj.driver.manage.timeouts.page_load = timeout
-          this_browser_obj.driver.manage.timeouts.script_timeout = timeout
-        else
-          raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser:"
-        end
+        raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser.is_a?(Watir::Browser)
+        url = opts[:url].to_s
+
+        timeout = 0.000000000000000001
+        this_browser_obj.driver.manage.timeouts.page_load = timeout
+        this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
         this_browser_obj.goto(url)
-
       rescue Timeout::Error
+        rubocop_workaround = Time.now
       rescue => e
         raise e
       end
