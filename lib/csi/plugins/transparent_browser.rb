@@ -252,8 +252,6 @@ module CSI
 
         this_browser_obj.instance_eval(instruction)
       rescue Timeout::Error
-        puts "nonblocking mode detected for #{url}"
-
         # Now set all the timeouts back to default:
         # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
         this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
