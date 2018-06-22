@@ -240,7 +240,7 @@ module CSI
 
       def self.nonblocking_goto(opts = {})
         this_browser_obj = opts[:browser_obj]
-        raise "browser_obj.class == #{this_browser_obj.class}...#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser && browser_obj.driver.browser == :firefox" unless (this_browser_obj.is_a?(Watir::Browser) && this_browser_obj.driver.browser == :firefox)
+        raise "browser_obj.class == #{this_browser_obj.class}...#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser && browser_obj.driver.browser == :firefox" unless this_browser_obj.is_a?(Watir::Browser) && this_browser_obj.driver.browser == :firefox
         url = opts[:url].to_s
 
         timeout = 0
