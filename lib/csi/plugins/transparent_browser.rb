@@ -232,7 +232,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::TransparentBrowser.nonblocking_goto(
-      #   browser_obj: 'required - browser_obj returned from #open method)',
+      #   browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
       #   url: 'required - site to goto'
       # )
 
@@ -240,10 +240,10 @@ module CSI
 
       def self.nonblocking_goto(opts = {})
         this_browser_obj = opts[:browser_obj]
-        raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser_obj.is_a?(Watir::Browser)
+        raise "browser_obj.class == #{this_browser_obj.class}...#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser && browser_obj.driver.browser == :firefox" unless (this_browser_obj.is_a?(Watir::Browser) && this_browser_obj.driver.browser == :firefox)
         url = opts[:url].to_s
 
-        timeout = 0.000000000000000001
+        timeout = 0
         # this_browser_obj.driver.manage.timeouts.implicit_wait = timeout
         this_browser_obj.driver.manage.timeouts.page_load = timeout
         # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
@@ -254,7 +254,7 @@ module CSI
 
         # Now set all the timeouts back to default:
         # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
-        this_browser_obj.driver.manage.timeouts.page_load = b.driver.capabilities[:page_load_timeout]
+        this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
         # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
       rescue => e
         raise e
@@ -316,7 +316,7 @@ module CSI
           ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
           #{self}.nonblocking_goto(
-            browser_obj: 'required - browser_obj returned from #open method)',
+            browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
             url: 'required - site to goto'
           )
 
