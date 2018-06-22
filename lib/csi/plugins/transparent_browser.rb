@@ -240,6 +240,7 @@ module CSI
 
       def self.nonblocking_watir(opts = {})
         this_browser_obj = opts[:browser_obj]
+        instruction = opts[:instruction].to_s.strip.chomp.scrub
 
         raise "\nbrowser_obj.class == #{this_browser_obj.class} browser_obj == #{this_browser_obj}\n#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser_obj.is_a?(Watir::Browser)
         raise "\nthis_browser_obj.driver.browser == #{this_browser_obj.driver.browser}\n#{self}.nonblocking_goto only supports this_browser_obj.driver.browser == :firefox" unless this_browser_obj.driver.browser == :firefox
@@ -249,7 +250,7 @@ module CSI
         this_browser_obj.driver.manage.timeouts.page_load = timeout
         # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
-        this_browser_obj.instance_eval(instruction.to_s.strip.chomp.scrub)
+        this_browser_obj.instance_eval(instruction)
       rescue Timeout::Error
         puts "nonblocking mode detected for #{url}"
 
