@@ -231,7 +231,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj1 = CSI::Plugins::TransparentBrowser.nonblocking_watir(
+      # watir_resp = CSI::Plugins::TransparentBrowser.nonblocking_watir(
       #   browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
       #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
       # )
@@ -250,14 +250,14 @@ module CSI
         this_browser_obj.driver.manage.timeouts.page_load = timeout
         # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
-        this_browser_obj.instance_eval(instruction)
+        watir_resp = this_browser_obj.instance_eval(instruction)
       rescue Timeout::Error
         # Now set all the timeouts back to default:
         # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
         this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
         # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
 
-        return this_browser_obj
+        return watir_resp
       rescue => e
         raise e
       end
@@ -317,7 +317,7 @@ module CSI
             rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
           ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
-          browser_obj1 = #{self}.nonblocking_watir(
+          watir_resp = #{self}.nonblocking_watir(
             browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
             instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
           )
