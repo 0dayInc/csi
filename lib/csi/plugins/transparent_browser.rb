@@ -16,7 +16,7 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # browser_obj = CSI::Plugins::TransparentBrowser.open(
+      # browser_obj1 = CSI::Plugins::TransparentBrowser.open(
       #   browser_type: :firefox|:chrome|:headless|:rest,
       #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
@@ -28,11 +28,7 @@ module CSI
         this_browser = nil
         browser_type = opts[:browser_type]
         proxy = opts[:proxy].to_s unless opts[:proxy].nil?
-        with_tor = if opts[:with_tor]
-                     true
-                   else
-                     false
-                   end
+        opts[:with_tor] ? (with_tor = true) : (with_tor = false)
 
         # Let's crank up the default timeout from 30 seconds to 15 min for slow sites
         Watir.default_timeout = 900
@@ -235,8 +231,34 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj = CSI::Plugins::TransparentBrowser.close(
-      #   :browser_obj => browser_obj1
+      # CSI::Plugins::TransparentBrowser.nonblocking_goto(
+      #   browser_obj: 'required - browser_obj returned from #open method)',
+      #   url: 'required - site to goto'
+      # )
+
+      public
+
+      def self.nonblocking_goto(opts = {})
+        this_browser_obj = opts[:browser_obj]
+        
+        if this_browser.is_a?(Watir::Browser)
+          timeout = 0.000000000000000001
+          this_browser_obj.driver.manage.timeouts.page_load = timeout
+          this_browser_obj.driver.manage.timeouts.script_timeout = timeout
+        else
+          raise "#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser:"
+        end
+
+        this_browser_obj.goto(url)
+
+      rescue Timeout::Error
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # browser_obj1 = CSI::Plugins::TransparentBrowser.close(
+      #   browser_obj: 'required - browser_obj returned from #open method)'
       # )
 
       public
@@ -280,14 +302,23 @@ module CSI
           )
           puts "browser_obj1.public_methods"
 
-          browser_obj1 = #{self}.linkout(browser_obj: browser_obj1)
+          browser_obj1 = #{self}.linkout(
+            browser_obj: 'required - browser_obj returned from #open method)'
+          )
 
           #{self}.type_as_human(
             q: 'required - query string to randomize',
             rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
           ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
-          browser_obj1 = #{self}.close(browser_obj: browser_obj1)
+          #{self}.nonblocking_goto(
+            browser_obj: 'required - browser_obj returned from #open method)',
+            url: 'required - site to goto'
+          )
+
+          browser_obj1 = #{self}.close(
+            browser_obj: 'required - browser_obj returned from #open method)'
+          )
 
           #{self}.authors
         }
