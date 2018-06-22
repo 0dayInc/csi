@@ -231,27 +231,25 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # browser_obj1 = CSI::Plugins::TransparentBrowser.nonblocking_goto(
+      # browser_obj1 = CSI::Plugins::TransparentBrowser.nonblocking_watir(
       #   browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
-      #   url: 'required - site to goto'
+      #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
       # )
 
       public
 
-      def self.nonblocking_goto(opts = {})
+      def self.nonblocking_watir(opts = {})
         this_browser_obj = opts[:browser_obj]
 
         raise "\nbrowser_obj.class == #{this_browser_obj.class} browser_obj == #{this_browser_obj}\n#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser_obj.is_a?(Watir::Browser)
         raise "\nthis_browser_obj.driver.browser == #{this_browser_obj.driver.browser}\n#{self}.nonblocking_goto only supports this_browser_obj.driver.browser == :firefox" unless this_browser_obj.driver.browser == :firefox
-
-        url = opts[:url].to_s
 
         timeout = 0
         # this_browser_obj.driver.manage.timeouts.implicit_wait = timeout
         this_browser_obj.driver.manage.timeouts.page_load = timeout
         # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
-        this_browser_obj.goto(url)
+        this_browser_obj.instance_eval(instruction.to_s.strip.chomp.scrub)
       rescue Timeout::Error
         puts "nonblocking mode detected for #{url}"
 
@@ -320,9 +318,9 @@ module CSI
             rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
           ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
-          browser_obj1 = #{self}.nonblocking_goto(
+          browser_obj1 = #{self}.nonblocking_watir(
             browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
-            url: 'required - site to goto'
+            instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
           )
 
           browser_obj1 = #{self}.close(
