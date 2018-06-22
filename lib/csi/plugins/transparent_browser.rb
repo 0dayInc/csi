@@ -232,7 +232,7 @@ module CSI
 
       # Supported Method Parameters::
       # watir_resp = CSI::Plugins::TransparentBrowser.nonblocking_watir(
-      #   browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
+      #   browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
       #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
       # )
 
@@ -318,7 +318,7 @@ module CSI
           ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
 
           watir_resp = #{self}.nonblocking_watir(
-            browser_obj: 'required - browser_obj w/ browser_type: :firefox returned from #open method',
+            browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
             instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
           )
 
