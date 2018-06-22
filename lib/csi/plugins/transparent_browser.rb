@@ -244,12 +244,18 @@ module CSI
         url = opts[:url].to_s
 
         timeout = 0.000000000000000001
+        # this_browser_obj.driver.manage.timeouts.implicit_wait = timeout
         this_browser_obj.driver.manage.timeouts.page_load = timeout
-        this_browser_obj.driver.manage.timeouts.script_timeout = timeout
+        # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
         this_browser_obj.goto(url)
       rescue Timeout::Error
         puts "nonblocking mode detected for #{url}"
+
+        # Now set all the timeouts back to default:
+        # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
+        this_browser_obj.driver.manage.timeouts.page_load = b.driver.capabilities[:page_load_timeout]
+        # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
       rescue => e
         raise e
       end
