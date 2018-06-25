@@ -273,9 +273,9 @@ module CSI
         # Ok lets determine the resource_uri for the lead username
         lead_username = opts[:lead_username].to_s.strip.chomp.scrub
         user_list = self.user_list(dd_obj: dd_obj)
-        username_by_user_object = user_list[:objects].select { |user| user[:username] == lead_username }
+        user_by_username_object = user_list[:objects].select { |user| user[:username] == lead_username }
         # Should only ever return 1 result so we should be good here
-        http_body[:lead] = username_by_user_object.first[:resource_uri]
+        http_body[:lead] = user_by_username_object.first[:resource_uri]
 
         # Ok lets determine the resource_uri for the product name
         product_name = opts[:product_name].to_s.strip.chomp.scrub
@@ -388,9 +388,9 @@ module CSI
         # Ok lets determine the resource_uri for the lead username
         lead_username = opts[:lead_username].to_s.strip.chomp.scrub
         user_list = self.user_list(dd_obj: dd_obj)
-        username_by_user_object = user_list[:objects].select { |user| user[:username] == lead_username }
+        user_by_username_object = user_list[:objects].select { |user| user[:username] == lead_username }
         # Should only ever return 1 result so we should be good here
-        http_body[:lead] = username_by_user_object.first[:resource_uri]
+        http_body[:lead] = user_by_username_object.first[:resource_uri]
 
         http_body[:tags] = opts[:tags].to_s.strip.chomp.scrub
 
@@ -412,6 +412,82 @@ module CSI
         response = dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: 'importscan/',
+          http_method: :post,
+          http_body: http_body
+        )
+
+        return response
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # reimportscan_response = CSI::Plugins::DefectDojo.reimportscan(
+      #   dd_obj: 'required - dd_obj returned from #login_v1 method',
+      #   engagement_name: 'required - name of engagement to associate w/ scan',
+      #   scan_type: 'required - type of scan importing (see <DEFECTDOJO_URL>/admin/dojo/test_type/ for listing)',
+      #   file: 'required - path of scan results file',
+      #   tags: 'required - comma-delimited list of tag names to tie to scan for unique test resource_uri retrival',
+      #   minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
+      #   scan_date: 'optional - date in which scan was kicked off (defaults to now)',
+      #   verified: 'optional - flag finding as verified by a tester (defaults to false)'
+      # )
+
+      public
+
+      def self.reimportscan(opts = {})
+        http_body = {}
+
+        dd_obj = opts[:dd_obj]
+
+        # HTTP POST body options w/ optional params set to default values
+        # Defaults to true
+        http_body[:active] = true
+
+        # Ok lets determine the resource_uri for the engagement name
+        engagement_name = opts[:engagement_name].to_s.strip.chomp.scrub
+        engagement_list = self.engagement_list(dd_obj: dd_obj)
+        engagement_by_name_object = engagement_list[:objects].select { |engagement| engagement[:name] == engagement_name }
+        # Should only ever return 1 result so we should be good here
+        engagement_resource_uri = engagement_by_name_object.first[:resource_uri]
+        http_body[:engagement] = engagement_resource_uri
+
+        http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
+
+        # Necessary to upload file to remote host
+        http_body[:multipart] = true
+        http_body[:file] = File.new(opts[:file].to_s.strip.chomp.scrub, 'rb') if File.exist?(opts[:file].to_s.strip.chomp.scrub)
+
+        # Ok lets determine the resource_uri for the test we're looking to remimport
+        test_list = self.test_list(dd_obj: dd_obj)
+        tests_by_engagement_object = test_list[:objects].select { |test| test[:engagement] == engagement_resource_uri }
+
+        tags = opts[:tags].to_s.strip.chomp.scrub
+        # TODO: wait for solution to:
+        # https://github.com/DefectDojo/django-DefectDojo/issues/457
+        # in order to obtain the unique test resource_uri
+        # by searching tags for unique identifier (would be better to have a unique test names)
+
+        http_body[:tags] = tags
+
+        minimum_severity = opts[:minimum_severity].to_s.strip.chomp.scrub.downcase.capitalize
+        case minimum_severity
+        when '', 'Info', 'Low', 'Medium', 'High', 'Critical'
+          # Defaults to 'Info'
+          minimum_severity == '' ? (http_body[:minimum_severity] = 'Info') : (http_body[:minimum_severity] = minimum_severity)
+        else
+          raise "Unknown minimum severity: #{opts[:minimum_severity]}.  Options are Info||Low||Medium||High||Critical'"
+        end
+
+        # Defaults to Time.now.strftime('%Y-%m-%d')
+        opts[:scan_date] ? (http_body[:scan_date] = opts[:scan_date]) : (http_body[:scan_date] = Time.now.strftime('%Y-%m-%d'))
+
+        # Defaults to false
+        opts[:verified] ? (http_body[:verified] = true) : (http_body[:verified] = false)
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: 'reimportscan/',
           http_method: :post,
           http_body: http_body
         )
