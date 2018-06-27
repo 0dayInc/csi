@@ -453,6 +453,7 @@ module CSI
         engagement_resource_uri = engagement_by_name_object.first[:resource_uri]
         http_body[:engagement] = engagement_resource_uri
 
+        # TODO: lookup scan_type for test resource_uri since the scan_type should never change
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
 
         # Necessary to upload file to remote host
@@ -492,7 +493,8 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'reimportscan/',
           http_method: :post,
-          http_body: http_body
+          http_body: http_body,
+          debug: true
         )
 
         return response
