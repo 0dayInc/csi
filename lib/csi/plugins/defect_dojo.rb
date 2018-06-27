@@ -484,7 +484,7 @@ module CSI
         end
 
         # Defaults to Time.now.strftime('%Y-%m-%d')
-        opts[:scan_date] ? (http_body[:scan_date] = opts[:scan_date]) : (http_body[:scan_date] = Time.now.strftime('%Y-%m-%d'))
+        opts[:scan_date] ? (http_body[:scan_date] = opts[:scan_date]) : (http_body[:scan_date] = Time.now.strftime('%Y/%m/%d'))
 
         # Defaults to false
         opts[:verified] ? (http_body[:verified] = true) : (http_body[:verified] = false)
