@@ -472,7 +472,7 @@ module CSI
 
         http_body[:tags] = tags
 
-        http_body[:resource_uri] = opts[:test_resource_uri] if opts[:test_resource_uri]
+        http_body[:test] = opts[:test_resource_uri] if opts[:test_resource_uri]
 
         minimum_severity = opts[:minimum_severity].to_s.strip.chomp.scrub.downcase.capitalize
         case minimum_severity
@@ -493,8 +493,7 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'reimportscan/',
           http_method: :post,
-          http_body: http_body,
-          debug: true
+          http_body: http_body
         )
 
         return response
