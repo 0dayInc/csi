@@ -427,7 +427,8 @@ module CSI
       #   engagement_name: 'required - name of engagement to associate w/ scan',
       #   scan_type: 'required - type of scan importing (see <DEFECTDOJO_URL>/admin/dojo/test_type/ for listing)',
       #   file: 'required - path of scan results file',
-      #   tags: 'required - comma-delimited list of tag names to tie to scan for unique test resource_uri retrival',
+      #   tags: 'optional - comma-delimited list of tag names to tie to scan for unique test resource_uri retrival',
+      #   test_resource_uri: 'optional - alternative to tag names to know which test to reimport',
       #   minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
       #   scan_date: 'optional - date in which scan was kicked off (defaults to now)',
       #   verified: 'optional - flag finding as verified by a tester (defaults to false)'
@@ -469,6 +470,8 @@ module CSI
         # by searching tags for unique identifier (would be better to have a unique test names)
 
         http_body[:tags] = tags
+
+        http_body[:resource_uri] = opts[:test_resource_uri] if opts[:test_resource_uri]
 
         minimum_severity = opts[:minimum_severity].to_s.strip.chomp.scrub.downcase.capitalize
         case minimum_severity
