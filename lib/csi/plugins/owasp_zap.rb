@@ -398,6 +398,38 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # watir_resp = CSI::Plugins::TransparentBrowser.nonblocking_watir(
+      #   browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
+      #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
+      # )
+
+      public
+
+      def self.nonblocking_watir(opts = {})
+        this_browser_obj = opts[:browser_obj]
+        instruction = opts[:instruction].to_s.strip.chomp.scrub
+
+        raise "\nbrowser_obj.class == #{this_browser_obj.class} browser_obj == #{this_browser_obj}\n#{self}.nonblocking_goto only supports browser_obj.class == Watir::Browser" unless this_browser_obj.is_a?(Watir::Browser)
+        raise "\nthis_browser_obj.driver.browser == #{this_browser_obj.driver.browser}\n#{self}.nonblocking_goto only supports this_browser_obj.driver.browser == :firefox" unless this_browser_obj.driver.browser == :firefox
+
+        timeout = 0
+        # this_browser_obj.driver.manage.timeouts.implicit_wait = timeout
+        this_browser_obj.driver.manage.timeouts.page_load = timeout
+        # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
+
+        watir_resp = this_browser_obj.instance_eval(instruction)
+      rescue Timeout::Error
+        # Now set all the timeouts back to default:
+        # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
+        this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
+        # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
+
+        return watir_resp
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::OwaspZap.stop(
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
@@ -468,6 +500,11 @@ module CSI
             zap_obj: 'required - zap_obj returned from #open method',
             domain: 'required - FQDN to intercept (e.g. test.domain.local)',
             enabled: 'optional - boolean (defaults to true)'
+          )
+
+          watir_resp = #{self}.nonblocking_watir(
+            browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
+            instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
           )
 
           #{self}.stop(
