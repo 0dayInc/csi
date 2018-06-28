@@ -79,7 +79,6 @@ module CSI
 
       public_class_method def self.start(opts = {})
         zap_obj = {}
-
         api_key = opts[:api_key].to_s.scrub.strip.chomp
         zap_obj[:api_key] = api_key
 
@@ -360,13 +359,47 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::OwaspZap.intercept(
+      # CSI::Plugins::OwaspZap.breakpoint(
       #   zap_obj: 'required - zap_obj returned from #open method',
-      #   domain: 'required - FQDN to intercept (e.g. test.domain.local)',
+      #   regex_type: 'required - :url, :request_header, :request_body, :response_header or :response_body',
+      #   regex_pattern: 'required - regex pattern to search for respective regex_type',
       #   enabled: 'optional - boolean (defaults to true)'
       # )
 
-      public_class_method def self.intercept(opts = {})
+      public_class_method def self.breakpoint(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
+
+        case opts[:regex_type].to_sym
+        when :url, :request_header, :request_body, :response_header, :response_body
+          regex_type = opts[:regex_type].to_sym
+        else
+          raise "Unknown regex_type: #{opts[:regex_type].to_sym}\noptions are :url, :request_header, :request_body, :response_header or :response_body"
+        end
+        regex_pattern = opts[:regex_pattern]
+        enabled = opts[:enabled]
+
+        enabled = true if enabled.nil?
+        enabled ? (action = 'addHttpBreakpoint') : (action = 'removeHttpBreakpoint')
+
+        zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: "JSON/break/action/#{action}/?zapapiformat=JSON&apikey=#{api_key}&string=#{regex_pattern}&location=#{regex_type}&match=regex&inverse=false&ignorecase=true",
+          http_method: :get
+        )
+      rescue StandardError, SystemExit, Interrupt => e
+        stop(zap_obj) unless zap_obj.nil?
+        raise e
+      end
+
+      # Supported Method Parameters::
+      # CSI::Plugins::OwaspZap.tamper(
+      #   zap_obj: 'required - zap_obj returned from #open method',
+      #   domain: 'required - FQDN to tamper (e.g. test.domain.local)',
+      #   enabled: 'optional - boolean (defaults to true)'
+      # )
+
+      public_class_method def self.tamper(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         domain = opts[:domain]
@@ -380,18 +413,27 @@ module CSI
           rest_call: "JSON/break/action/#{action}/?zapapiformat=JSON&apikey=#{api_key}&string=#{domain}&location=url&match=contains&inverse=false&ignorecase=true",
           http_method: :get
         )
+
+        zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: "JSON/break/action/break/?zapapiformat=JSON&apikey=#{api_key}&type=http-request&state=#{enabled}",
+          http_method: :get
+        )
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e
       end
 
       # Supported Method Parameters::
-      # watir_resp = CSI::Plugins::TransparentBrowser.nonblocking_watir(
+      # watir_resp = CSI::Plugins::OwaspZap.request(
+      #   zap_obj: 'required - zap_obj returned from #open method',
       #   browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
       #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
       # )
 
-      public_class_method def self.nonblocking_watir(opts = {})
+      public_class_method def self.request(opts = {})
+        zap_obj = opts[:zap_obj]
+        api_key = zap_obj[:api_key].to_s.scrub
         this_browser_obj = opts[:browser_obj]
         instruction = opts[:instruction].to_s.strip.chomp.scrub
 
@@ -405,12 +447,19 @@ module CSI
 
         watir_resp = this_browser_obj.instance_eval(instruction)
       rescue Timeout::Error
+        sleep 0.9
+        request_content = zap_rest_call(
+          zap_obj: zap_obj,
+          rest_call: "JSON/break/view/httpMessage/?zapapiformat=JSON&apikey=#{api_key}",
+          http_method: :get
+        ).body
+
         # Now set all the timeouts back to default:
         # this_browser_obj.driver.manage.timeouts.implicit_wait = b.driver.capabilities[:implicit_timeout]
         this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
         # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
 
-        return watir_resp
+        return request_content
       rescue => e
         raise e
       end
@@ -476,13 +525,14 @@ module CSI
             report_type: 'required - <html|markdown|xml>'
           )
 
-          #{self}.intercept(
+          #{self}.breakpoint(
             zap_obj: 'required - zap_obj returned from #open method',
             domain: 'required - FQDN to intercept (e.g. test.domain.local)',
             enabled: 'optional - boolean (defaults to true)'
           )
 
-          watir_resp = #{self}.nonblocking_watir(
+          watir_resp = #{self}.request(
+            zap_obj: 'required - zap_obj returned from #open method',
             browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
             instruction: 'required - watir instruction to make (e.g. button(text: \"Google Search\").click)'
           )
