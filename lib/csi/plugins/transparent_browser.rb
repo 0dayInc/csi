@@ -274,7 +274,7 @@ module CSI
             proxy: 'optional scheme://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)'
           )
-          puts "browser_obj1.public_methods"
+          puts browser_obj1.public_methods
 
           browser_obj1 = #{self}.linkout(
             browser_obj: 'required - browser_obj returned from #open method)'
