@@ -268,7 +268,7 @@ module CSI
       public
 
       def self.help
-        puts %{USAGE:
+        puts "USAGE:
           browser_obj1 = #{self}.open(
             browser_type: :firefox|:chrome|:headless|:rest,
             proxy: 'optional scheme://proxy_host:port',
@@ -290,7 +290,7 @@ module CSI
           )
 
           #{self}.authors
-        }
+        "
       end
     end
   end

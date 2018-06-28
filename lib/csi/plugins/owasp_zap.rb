@@ -504,7 +504,7 @@ module CSI
 
           watir_resp = #{self}.nonblocking_watir(
             browser_obj: 'required - browser_obj w/ browser_type: :firefox||:headless returned from #open method',
-            instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
+            instruction: 'required - watir instruction to make (e.g. button(text: \"Google Search\").click)'
           )
 
           #{self}.stop(
