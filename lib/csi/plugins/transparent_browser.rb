@@ -283,7 +283,7 @@ module CSI
           #{self}.type_as_human(
             q: 'required - query string to randomize',
             rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
-          ) {|char| browser_obj1.text_field(name: "q").send_keys(char) }
+          ) {|char| browser_obj1.text_field(name: \"q\").send_keys(char) }
 
           browser_obj1 = #{self}.close(
             browser_obj: 'required - browser_obj returned from #open method)'
