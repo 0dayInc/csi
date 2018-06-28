@@ -19,9 +19,7 @@ module CSI
 
   # Display Usage for the CSI Framework ~
 
-  public
-
-  def self.help
+  public_class_method def self.help
     constants.sort
   end
 end
