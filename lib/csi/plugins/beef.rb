@@ -17,9 +17,7 @@ module CSI
       #   password: 'optional - password (will prompt if nil)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         beef_ip = opts[:beef_ip]
         beef_port = if opts[:beef_port]
                       opts[:beef_port].to_i
@@ -122,9 +120,7 @@ module CSI
       #   beef_obj: 'required beef_obj returned from #login method'
       # )
 
-      public
-
-      def self.hooks(opts = {})
+      public_class_method def self.hooks(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Hooks...')
 
@@ -145,9 +141,7 @@ module CSI
       #   browser_session: 'required - browser session id returned from #hooks method'
       # )
 
-      public
-
-      def self.hooked_browser_info(opts = {})
+      public_class_method def self.hooked_browser_info(opts = {})
         beef_obj = opts[:beef_obj]
         browser_session = opts[:browser_session].to_s.scrub
 
@@ -169,9 +163,7 @@ module CSI
       #   beef_obj: 'required beef_obj returned from #login method'
       # )
 
-      public
-
-      def self.logs(opts = {})
+      public_class_method def self.logs(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Logs...')
 
@@ -192,9 +184,7 @@ module CSI
       #   browser_session: 'required - browser session id returned from #hooks method'
       # )
 
-      public
-
-      def self.hooked_browser_logs(opts = {})
+      public_class_method def self.hooked_browser_logs(opts = {})
         beef_obj = opts[:beef_obj]
         browser_session = opts[:browser_session].to_s.scrub
 
@@ -216,9 +206,7 @@ module CSI
       #   beef_obj: 'required beef_obj returned from #login method'
       # )
 
-      public
-
-      def self.modules(opts = {})
+      public_class_method def self.modules(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Retrieving BeEF Modules...')
 
@@ -239,9 +227,7 @@ module CSI
       #   module_id: 'required - module id returned from #modules method'
       # )
 
-      public
-
-      def self.module_info(opts = {})
+      public_class_method def self.module_info(opts = {})
         beef_obj = opts[:beef_obj]
         module_id = opts[:module_id].to_i
 
@@ -263,9 +249,7 @@ module CSI
       #   beef_obj: 'required beef_obj returned from #login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         beef_obj = opts[:beef_obj]
         @@logger.info('Logging out...')
         beef_obj = nil
@@ -275,9 +259,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -287,9 +269,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           beef_obj = #{self}.login(
             beef_ip: 'required host/ip of Nexpose Console (server)',

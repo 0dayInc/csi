@@ -19,9 +19,7 @@ module CSI
       #   sslmode: :disable|:allow|:prefer|:require
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         host = opts[:host].to_s
 
         port = if opts[:port].nil? || opts[:port] == 0
@@ -86,9 +84,7 @@ module CSI
       #   statement_params: ['Active']
       # )
 
-      public
-
-      def self.sql_statement(opts = {})
+      public_class_method def self.sql_statement(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
@@ -138,9 +134,7 @@ module CSI
       #   table_name: 'required table name'
       # )
 
-      public
-
-      def self.list_all_columns_by_table(opts = {})
+      public_class_method def self.list_all_columns_by_table(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
 
@@ -169,9 +163,7 @@ module CSI
       #   pg_conn: pg_conn
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
         begin
@@ -199,9 +191,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -211,9 +201,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           pg_conn = #{self}.connect(
             host: 'required host or IP',

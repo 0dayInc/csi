@@ -13,9 +13,7 @@ module CSI
       #   region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         access_key_id = opts[:access_key_id].to_s.scrub.chomp.strip
         secret_access_key = opts[:secret_access_key].to_s.scrub.chomp.strip
@@ -48,9 +46,7 @@ module CSI
       #   eb_obj: 'required - eb_obj returned from #connect method'
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         eb_obj = opts[:eb_obj]
         @@logger.info('Disconnecting...')
         eb_obj = nil
@@ -63,9 +59,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -75,9 +69,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           eb_obj = #{self}.connect(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',

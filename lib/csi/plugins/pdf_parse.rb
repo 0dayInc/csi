@@ -11,9 +11,7 @@ module CSI
       #   pdf_path: 'optional path to dir defaults to .'
       # )
 
-      public
-
-      def self.read_text(opts = {})
+      public_class_method def self.read_text(opts = {})
         pdf_path = opts[:pdf_path].to_s.scrub if File.exist?(opts[:pdf_path].to_s.scrub)
         raise "CSI Error: Invalid Directory #{pdf_path}" if pdf_path.nil?
 
@@ -33,9 +31,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -45,9 +41,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           pdf_pages_hash = #{self}.read_text(
             pdf_path: 'required path to pdf file'

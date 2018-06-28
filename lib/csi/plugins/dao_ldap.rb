@@ -17,9 +17,7 @@ module CSI
       #   password: 'optional (prompts if left blank)',
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         host = opts[:host].to_s
         port = opts[:port].to_i
         base = opts[:base]
@@ -72,9 +70,7 @@ module CSI
       #   username: 'required username of employee to retrieve from LDAP server'
       # )
 
-      public
-
-      def self.get_employee_by_username(opts = {})
+      public_class_method def self.get_employee_by_username(opts = {})
         ldap_obj = opts[:ldap_obj]
         username = opts[:username].to_s.scrub
         treebase = ldap_obj.base
@@ -92,9 +88,7 @@ module CSI
       #   ldap_obj: ldap_obj
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         ldap_obj = opts[:ldap_obj]
         ldap_obj = nil
       rescue => e
@@ -103,9 +97,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -115,9 +107,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           ldap_obj = #{self}.connect(
             host: 'required host or IP',

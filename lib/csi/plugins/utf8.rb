@@ -12,9 +12,7 @@ module CSI
       #   to: 'required - integer to end UTF-8 generation'
       # )
 
-      public
-
-      def self.generate_by_range(opts = {})
+      public_class_method def self.generate_by_range(opts = {})
         from = opts[:from].to_i
         to = opts[:to].to_i
 
@@ -39,9 +37,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.c0_controls_latin_basic
 
-      public
-
-      def self.c0_controls_latin_basic
+      public_class_method def self.c0_controls_latin_basic
         utf8_hash = generate_by_range(from: 0, to: 127)
 
         utf8_hash
@@ -52,9 +48,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.c1_controls_latin_supplement
 
-      public
-
-      def self.c1_controls_latin_supplement
+      public_class_method def self.c1_controls_latin_supplement
         utf8_hash = generate_by_range(from: 128, to: 255)
 
         utf8_hash
@@ -65,9 +59,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.latin_extended_a
 
-      public
-
-      def self.latin_extended_a
+      public_class_method def self.latin_extended_a
         utf8_hash = generate_by_range(from: 256, to: 383)
 
         utf8_hash
@@ -78,9 +70,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.latin_extended_b
 
-      public
-
-      def self.latin_extended_b
+      public_class_method def self.latin_extended_b
         utf8_hash = generate_by_range(from: 384, to: 591)
 
         utf8_hash
@@ -91,9 +81,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.spacing_modifiers
 
-      public
-
-      def self.spacing_modifiers
+      public_class_method def self.spacing_modifiers
         utf8_hash = generate_by_range(from: 688, to: 767)
 
         utf8_hash
@@ -104,9 +92,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.diacritical_marks
 
-      public
-
-      def self.diacritical_marks
+      public_class_method def self.diacritical_marks
         utf8_hash = generate_by_range(from: 768, to: 879)
 
         utf8_hash
@@ -117,9 +103,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.greek_coptic
 
-      public
-
-      def self.greek_coptic
+      public_class_method def self.greek_coptic
         utf8_hash = generate_by_range(from: 880, to: 1023)
 
         utf8_hash
@@ -130,9 +114,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.cyrillic_basic
 
-      public
-
-      def self.cyrillic_basic
+      public_class_method def self.cyrillic_basic
         utf8_hash = generate_by_range(from: 1024, to: 1279)
 
         utf8_hash
@@ -143,9 +125,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.cyrillic_supplement
 
-      public
-
-      def self.cyrillic_supplement
+      public_class_method def self.cyrillic_supplement
         utf8_hash = generate_by_range(from: 1280, to: 1327)
 
         utf8_hash
@@ -156,9 +136,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.punctuation
 
-      public
-
-      def self.punctuation
+      public_class_method def self.punctuation
         utf8_hash = generate_by_range(from: 8192, to: 8303)
 
         utf8_hash
@@ -169,9 +147,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.currency_symbols
 
-      public
-
-      def self.currency_symbols
+      public_class_method def self.currency_symbols
         utf8_hash = generate_by_range(from: 8352, to: 8399)
 
         utf8_hash
@@ -182,9 +158,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.letterlike_symbols
 
-      public
-
-      def self.letterlike_symbols
+      public_class_method def self.letterlike_symbols
         utf8_hash = generate_by_range(from: 8448, to: 8527)
 
         utf8_hash
@@ -195,9 +169,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.arrows
 
-      public
-
-      def self.arrows
+      public_class_method def self.arrows
         utf8_hash = generate_by_range(from: 8592, to: 8703)
 
         utf8_hash
@@ -208,9 +180,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.math_operators
 
-      public
-
-      def self.math_operators
+      public_class_method def self.math_operators
         utf8_hash = generate_by_range(from: 8704, to: 8959)
 
         utf8_hash
@@ -221,9 +191,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.box_drawings
 
-      public
-
-      def self.box_drawings
+      public_class_method def self.box_drawings
         utf8_hash = generate_by_range(from: 9472, to: 9599)
 
         utf8_hash
@@ -234,9 +202,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.block_elements
 
-      public
-
-      def self.block_elements
+      public_class_method def self.block_elements
         utf8_hash = generate_by_range(from: 9600, to: 9631)
 
         utf8_hash
@@ -247,9 +213,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.geometric_shapes
 
-      public
-
-      def self.geometric_shapes
+      public_class_method def self.geometric_shapes
         utf8_hash = generate_by_range(from: 9632, to: 9727)
 
         utf8_hash
@@ -260,9 +224,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.misc_symbols
 
-      public
-
-      def self.misc_symbols
+      public_class_method def self.misc_symbols
         utf8_hash = generate_by_range(from: 9728, to: 9983)
 
         utf8_hash
@@ -273,9 +235,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::UTF8.dingbats
 
-      public
-
-      def self.dingbats
+      public_class_method def self.dingbats
         utf8_hash = generate_by_range(from: 9984, to: 10_175)
 
         utf8_hash
@@ -285,9 +245,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -297,9 +255,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           utf8_chars = #{self}.generate_by_range(
             from:> 'required - integer to start from',

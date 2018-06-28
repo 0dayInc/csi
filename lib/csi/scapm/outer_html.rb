@@ -17,9 +17,7 @@ module CSI
       #   git_repo_root_uri: 'optional http uri of git repo scanned'
       # )
 
-      public
-
-      def self.scan(opts = {})
+      public_class_method def self.scan(opts = {})
         dir_path = opts[:dir_path]
         git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
         result_arr = []
@@ -151,9 +149,7 @@ module CSI
       # to CSI Exploit & Static Code Anti-Pattern Matching Modules to
       # Determine the level of Testing Coverage w/ CSI.
 
-      public
-
-      def self.nist_800_53_requirements
+      public_class_method def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
           section: 'MALICIOUS CODE PROTECTION',
@@ -166,9 +162,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -178,9 +172,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           port_arr = #{self}.scan(
             dir_path: 'optional path to dir defaults to .',

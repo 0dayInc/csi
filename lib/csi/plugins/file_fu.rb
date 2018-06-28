@@ -16,9 +16,7 @@ module CSI
       #   dir_path: 'optional path to dir defaults to .'
       # )
 
-      public
-
-      def self.recurse_dir(opts = {})
+      public_class_method def self.recurse_dir(opts = {})
         if opts[:dir_path].nil?
           dir_path = '.'
         else
@@ -38,9 +36,7 @@ module CSI
       #   destination: 'required - destination folder to save extracted contents'
       # )
 
-      public
-
-      def self.untar_gz_file(opts = {})
+      public_class_method def self.untar_gz_file(opts = {})
         tar_gz_file = opts[:tar_gz_file].to_s.scrub if File.exist?(opts[:tar_gz_file].to_s.scrub)
         destination = opts[:destination].to_s.scrub if Dir.exist?(File.dirname(tar_gz_file))
         puts `tar -xzvf #{tar_gz_file} -C #{destination}`
@@ -52,9 +48,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -64,9 +58,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.recurse_dir(dir_path: 'optional path to dir defaults to .') {|entry| puts entry}
 

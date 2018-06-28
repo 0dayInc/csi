@@ -14,9 +14,7 @@ module CSI
       #   database: 'optional database name'
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         # Set host
         host = if opts[:host].nil?
                  '127.0.0.1' # Defaults to localhost
@@ -50,9 +48,7 @@ module CSI
       #   mongo_conn: mongo_conn
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         mongo_conn = opts[:mongo_conn]
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn.close
@@ -76,9 +72,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -88,9 +82,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           mongo_conn = #{self}.connect(
             host: 'optional host or IP defaults to 127.0.0.1',

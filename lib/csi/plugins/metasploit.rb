@@ -17,9 +17,7 @@ module CSI
       #   password: 'optional password for msfrpcd'
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         msfrpcd_yaml_conf = YAML.load_file(opts[:msfrpcd_yaml_conf].to_s) if File.exist?(opts[:msfrpcd_yaml_conf])
 
         if msfrpcd_yaml_conf
@@ -100,9 +98,7 @@ module CSI
       #   msfrpc_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_auxiliary(opts = {})
+      public_class_method def self.show_auxiliary(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         auxiliary = msfrpcd_conn.call('module.auxiliary')
 
@@ -117,9 +113,7 @@ module CSI
       #   msf_module: "required msf module name"
       # )
 
-      public
-
-      def self.show_compatible_payloads(opts = {})
+      public_class_method def self.show_compatible_payloads(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module = opts[:msf_module].to_s
         compat_payloads = msfrpcd_conn.call('module.compatible_payloads', msf_module)
@@ -134,9 +128,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_encoders(opts = {})
+      public_class_method def self.show_encoders(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         encoders = msfrpcd_conn.call('module.encoders')
 
@@ -150,9 +142,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_exploits(opts = {})
+      public_class_method def self.show_exploits(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         exploits = msfrpcd_conn.call('module.exploits')
 
@@ -166,9 +156,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_nops(opts = {})
+      public_class_method def self.show_nops(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         nops = msfrpcd_conn.call('module.nops')
 
@@ -184,9 +172,7 @@ module CSI
       #   msf_module: "required msf module name"
       # )
 
-      public
-
-      def self.show_options(opts = {})
+      public_class_method def self.show_options(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msf_module_type = opts[:msf_module_type].to_s
         msf_module = opts[:msf_module].to_s
@@ -202,9 +188,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_payloads(opts = {})
+      public_class_method def self.show_payloads(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         payloads = msfrpcd_conn.call('module.payloads')
 
@@ -218,9 +202,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_post(opts = {})
+      public_class_method def self.show_post(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('module.post')
 
@@ -234,9 +216,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.show_version(opts = {})
+      public_class_method def self.show_version(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         post = msfrpcd_conn.call('core.version')
 
@@ -250,9 +230,7 @@ module CSI
       #   msfrpcd_conn: msfrpcd_conn1
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
         msfrpcd_conn = nil # TODO: Find a way to terminate RPC socket connection to msfrpcd daemon
@@ -262,9 +240,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -274,9 +250,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           msfrpcd_conn1 = #{self}.connect(
             msfrpcd_yaml_conf: 'optional - path to YAML conf file (overrides parameters outlined below)',

@@ -17,9 +17,7 @@ module CSI
       #            # <do more stuff>
       #          end
 
-      public
-
-      # def self.fill(opts = {}, &block)
+      public_class_method # def self.fill(opts = {}, &block)
       def self.fill(opts = {})
         enumerable_array = opts[:enumerable_array]
 
@@ -48,9 +46,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -60,9 +56,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.fill(
             enumerable_array. => 'required array for proper thread pool assignment',

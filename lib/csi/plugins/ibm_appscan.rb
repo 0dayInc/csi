@@ -21,9 +21,7 @@ module CSI
       #   password: 'optional password (will prompt if nil)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         appscan_ip = opts[:appscan_ip]
         username = opts[:username].to_s.scrub
         base_appscan_api_uri = "https://#{appscan_ip}/ase/services".to_s.scrub
@@ -142,9 +140,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.schema(opts = {})
+      public_class_method def self.schema(opts = {})
         appscan_obj = opts[:appscan_obj]
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'schema')
         schema = {}
@@ -160,9 +156,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.version(opts = {})
+      public_class_method def self.version(opts = {})
         appscan_obj = opts[:appscan_obj]
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'version')
         version = {}
@@ -190,9 +184,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.get_folders(opts = {})
+      public_class_method def self.get_folders(opts = {})
         appscan_obj = opts[:appscan_obj]
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'folders')
         folders = {}
@@ -209,9 +201,7 @@ module CSI
       #   folder_id: 'required folder to retrieve'
       # )
 
-      public
-
-      def self.get_subfolders_of_folder(opts = {})
+      public_class_method def self.get_subfolders_of_folder(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_id].to_i
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}/folders")
@@ -229,9 +219,7 @@ module CSI
       #   folder_id: 'required folder to retrieve'
       # )
 
-      public
-
-      def self.get_folder_by_id(opts = {})
+      public_class_method def self.get_folder_by_id(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_id].to_i
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}")
@@ -248,9 +236,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.get_folder_items(opts = {})
+      public_class_method def self.get_folder_items(opts = {})
         appscan_obj = opts[:appscan_obj]
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'folderitems')
         folder_items = {}
@@ -267,9 +253,7 @@ module CSI
       #   folder_item_id: 'required folder item to retrieve'
       # )
 
-      public
-
-      def self.get_folder_item_by_id(opts = {})
+      public_class_method def self.get_folder_item_by_id(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_item_id = opts[:folder_item_id].to_i
         retry_count = 3
@@ -301,9 +285,7 @@ module CSI
       #   folder_id: 'required folder to retrieve'
       # )
 
-      public
-
-      def self.get_a_folders_folder_items(opts = {})
+      public_class_method def self.get_a_folders_folder_items(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_id = opts[:folder_item_id].to_i
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "folders/#{folder_id}/folderitems")
@@ -321,9 +303,7 @@ module CSI
       #   folder_item_id: 'required folder item to retrieve'
       # )
 
-      public
-
-      def self.get_folder_item_options(opts = {})
+      public_class_method def self.get_folder_item_options(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_item_id = opts[:folder_item_id].to_i
         # TODO: Discover why not all options are returned
@@ -345,9 +325,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.get_scan_templates(opts = {})
+      public_class_method def self.get_scan_templates(opts = {})
         appscan_obj = opts[:appscan_obj]
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'templates')
         templates = {}
@@ -366,9 +344,7 @@ module CSI
       #   scan_desc: 'required description of scan'
       # )
 
-      public
-
-      def self.create_scan_based_on_template(opts = {})
+      public_class_method def self.create_scan_based_on_template(opts = {})
         appscan_obj = opts[:appscan_obj]
         template_id = opts[:template_id].to_i
         scan_name = opts[:scan_name].to_s.scrub
@@ -448,9 +424,7 @@ module CSI
       #   value: 'required option value(s)'
       # )
 
-      public
-
-      def self.configure_scan_options(opts = {})
+      public_class_method def self.configure_scan_options(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_item_id = opts[:folder_item_id].to_i
         option = opts[:option].to_s.scrub
@@ -519,9 +493,7 @@ module CSI
       #   poll_interval: 'optional setting to determine length in seconds to poll for scan state (defaults to 60)'
       # )
 
-      public
-
-      def self.folder_item_scan_action(opts = {})
+      public_class_method def self.folder_item_scan_action(opts = {})
         appscan_obj = opts[:appscan_obj]
         folder_item_id = opts[:folder_item_id].to_i
         action = opts[:action].to_s.scrub.to_sym
@@ -600,9 +572,7 @@ module CSI
       #   report_folder_item_id: 'required report folder item id'
       # )
 
-      public
-
-      def self.get_report_collection(opts = {})
+      public_class_method def self.get_report_collection(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_folder_item_id = opts[:report_folder_item_id].to_i
 
@@ -628,9 +598,7 @@ module CSI
       #   report_id: 'required report id'
       # )
 
-      public
-
-      def self.get_single_report(opts = {})
+      public_class_method def self.get_single_report(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: "reports/#{report_id}")
@@ -651,9 +619,7 @@ module CSI
       #   report_id: 'required report id'
       # )
 
-      public
-
-      def self.get_single_report_data(opts = {})
+      public_class_method def self.get_single_report_data(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
@@ -677,9 +643,7 @@ module CSI
       #   report_id: 'required report id'
       # )
 
-      public
-
-      def self.get_single_report_schema(opts = {})
+      public_class_method def self.get_single_report_schema(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
@@ -703,9 +667,7 @@ module CSI
       #   report_id: 'required report id'
       # )
 
-      public
-
-      def self.get_issue_collection(opts = {})
+      public_class_method def self.get_issue_collection(opts = {})
         appscan_obj = opts[:appscan_obj]
         report_id = opts[:report_id].to_i
         response = appscan_rest_call(
@@ -766,9 +728,7 @@ module CSI
       #   scan_name: 'required name of scan for which to generate a report'
       #   output_path: 'required path to save generated report'
 
-      public
-
-      def self.generate_scan_report(opts = {})
+      public_class_method def self.generate_scan_report(opts = {})
         appscan_obj = opts[:appscan_obj]
         scan_name = opts[:scan_name]
         output_path = opts[:output_path]
@@ -835,9 +795,7 @@ module CSI
       #   appscan_obj: 'required appscan_obj returned from login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         appscan_obj = opts[:appscan_obj]
         @@logger.info('Logging out...')
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'logout')
@@ -853,9 +811,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -865,9 +821,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           appscan_obj = #{self}.login(
             appscan_ip: 'required host/ip of Nexpose Console (server)',

@@ -20,9 +20,7 @@ module CSI
       #   flow_control: 'optional (defaults to SerialPort::HARD) SerialPort::NONE|SerialPort::SOFT|SerialPort::HARD'
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         if opts[:block_dev].nil?
           block_dev = '/dev/ttyUSB0'
         else
@@ -112,9 +110,7 @@ module CSI
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
-      public
-
-      def self.get_line_state(opts = {})
+      public_class_method def self.get_line_state(opts = {})
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_signals
@@ -128,9 +124,7 @@ module CSI
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
-      public
-
-      def self.get_modem_params(opts = {})
+      public_class_method def self.get_modem_params(opts = {})
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_modem_params
@@ -145,9 +139,7 @@ module CSI
       #   request: 'required string to write to serial device'
       # )
 
-      public
-
-      def self.request(opts = {})
+      public_class_method def self.request(opts = {})
         serial_obj = opts[:serial_obj]
         request = opts[:request].to_s.scrub
         serial_conn = serial_obj[:serial_conn]
@@ -164,9 +156,7 @@ module CSI
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
-      public
-
-      def self.response(opts = {})
+      public_class_method def self.response(opts = {})
         serial_obj = opts[:serial_obj]
         response = @session_data[-1]
 
@@ -179,9 +169,7 @@ module CSI
       # Supported Method Parameters::
       # session_data = CSI::Plugins::Serial.dump_session_data
 
-      public
-
-      def self.dump_session_data
+      public_class_method def self.dump_session_data
         @session_data
       rescue => e
         raise e
@@ -190,9 +178,7 @@ module CSI
       # Supported Method Parameters::
       # session_data = CSI::Plugins::Serial.flush_session_data
 
-      public
-
-      def self.flush_session_data
+      public_class_method def self.flush_session_data
         @session_data.clear
       rescue => e
         raise e
@@ -203,9 +189,7 @@ module CSI
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         session_thread = serial_obj[:session_thread]
@@ -219,9 +203,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -231,9 +213,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           serial_obj = #{self}.connect(
             block_dev: 'optional serial block device path (defaults to /dev/ttyUSB0)',

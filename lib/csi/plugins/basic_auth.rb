@@ -13,9 +13,7 @@ module CSI
       #   password: 'optional password'
       # )
 
-      public
-
-      def self.encode(opts = {})
+      public_class_method def self.encode(opts = {})
         basic_user = opts[:username].to_s.chomp unless opts[:username].nil?
         basic_pass = opts[:password].to_s.chomp unless opts[:password].nil?
         base64_str = "#{basic_user}:#{basic_pass}"
@@ -30,9 +28,7 @@ module CSI
       #   base64_str: 'required base64 encoded string'
       # )
 
-      public
-
-      def self.decode(opts = {})
+      public_class_method def self.decode(opts = {})
         base64_str = opts[:base64_str]
         @base64_decoded_auth = Base64.decode64(base64_str)
         @base64_decoded_auth
@@ -42,9 +38,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -54,9 +48,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.encode(
             username: 'optional username',

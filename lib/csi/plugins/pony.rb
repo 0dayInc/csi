@@ -21,49 +21,37 @@ module CSI
       #   Pony.options = { :from => 'noreply@example.com', :via => :smtp, :via_options => { :host => 'smtp.yourserver.com' } }
       #   Pony.mail(:to => 'foo@bar') # Sends mail to foo@bar from noreply@example.com using smtp
       #   Pony.mail(:from => 'pony@example.com', :to => 'foo@bar') # Sends mail to foo@bar from pony@example.com using smtp
-      public
-
-      def self.options=(value)
+      public_class_method def self.options=(value)
         @@options = value
       end
 
       # Method usage N/A
 
-      public
-
-      def self.options
+      public_class_method def self.options
         @@options
       end
 
       # Method usage N/A
 
-      public
-
-      def self.override_options=(value)
+      public_class_method def self.override_options=(value)
         @@override_options = value
       end
 
       # Method usage N/A
 
-      public
-
-      def self.override_options
+      public_class_method def self.override_options
         @@override_options
       end
 
       # Method usage N/A
 
-      public
-
-      def self.subject_prefix(value)
+      public_class_method def self.subject_prefix(value)
         @@subject_prefix = value
       end
 
       # Method usage N/A
 
-      public
-
-      def self.append_inputs
+      public_class_method def self.append_inputs
         @@append_inputs = true
       end
 
@@ -71,9 +59,7 @@ module CSI
       #   Pony.mail(:to => 'you@example.com', :from => 'me@example.com', :subject => 'hi', :body => 'Hello there.')
       #   Pony.mail(:to => 'you@example.com', :html_body => '<h1>Hello there!</h1>', :body => "In case you can't read html, Hello there.")
       #   Pony.mail(:to => 'you@example.com', :cc => 'him@example.com', :from => 'me@example.com', :subject => 'hi', :body => 'Howsit!')
-      public
-
-      def self.mail(options)
+      public_class_method def self.mail(options)
         options[:body] = "#{options[:body]}/n #{options}" if @@append_inputs
 
         options = @@options.merge options
@@ -97,9 +83,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.permissable_options
+      public_class_method def self.permissable_options
         standard_options + non_standard_options
       end
 
@@ -111,17 +95,13 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.default_delivery_method
+      public_class_method def self.default_delivery_method
         File.executable?(sendmail_binary) ? :sendmail : :smtp
       end
 
       # Method usage N/A
 
-      public
-
-      def self.standard_options
+      public_class_method def self.standard_options
         %i[
           to
           cc
@@ -138,9 +118,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.non_standard_options
+      public_class_method def self.non_standard_options
         %i[
           attachments
           body
@@ -158,9 +136,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.build_mail(options)
+      public_class_method def self.build_mail(options)
         mail = Mail.new do |m|
           options[:date] ||= Time.now
           options[:from] ||= 'pony@unknown'
@@ -215,9 +191,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.build_html_part(options)
+      public_class_method def self.build_html_part(options)
         Mail::Part.new(content_type: 'text/html;charset=UTF-8') do
           content_transfer_encoding 'quoted-printable'
           body Mail::Encodings::QuotedPrintable.encode(options[:html_body])
@@ -231,9 +205,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.build_text_part(options)
+      public_class_method def self.build_text_part(options)
         Mail::Part.new(content_type: 'text/plain') do
           content_type options[:charset] if options[:charset]
           body options[:body]
@@ -247,9 +219,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.set_content_type(mail, user_content_type)
+      public_class_method def self.set_content_type(mail, user_content_type)
         params = mail.content_type_parameters || {}
         case params
         when user_content_type
@@ -270,9 +240,7 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.add_attachments(mail, attachments)
+      public_class_method def self.add_attachments(mail, attachments)
         attachments.each do |name, body|
           name = name.gsub(/\s+/, ' ')
 
@@ -291,18 +259,14 @@ module CSI
 
       # Method usage N/A
 
-      public
-
-      def self.sendmail_binary
+      public_class_method def self.sendmail_binary
         sendmail = `which sendmail`.chomp
         sendmail.empty? ? '/usr/sbin/sendmail' : sendmail
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -312,9 +276,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           This module is deprecated.  Please Use CSI::Plugins::MailAgent instead.
           #{self}.authors

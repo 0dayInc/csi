@@ -13,9 +13,7 @@ module CSI
       #   oauth2_token: 'required oauth2 token'
       # )
 
-      public
-
-      def self.decode(opts)
+      public_class_method def self.decode(opts)
         oauth2_token = opts[:oauth2_token]
         Base64.decode64(oauth2_token)
       rescue => e
@@ -28,9 +26,7 @@ module CSI
       #   key: 'required oauth2 token key name located within the Base64 encoded token as symbol, e.g. :company_id'
       # )
 
-      public
-
-      def self.get_value_by_key(opts)
+      public_class_method def self.get_value_by_key(opts)
         oauth2_token = opts[:oauth2_token]
         # Make sure we're receiving a symbol.  Convert to string first in case an int is passed.
         key = opts[:key].to_s.to_sym
@@ -46,9 +42,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -58,9 +52,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           #{self}.decode(oauth2_token: 'required oauth2 token')"
 

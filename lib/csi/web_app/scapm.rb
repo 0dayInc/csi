@@ -9,9 +9,7 @@ module CSI
     module SCAPM
       # Main Class that Comprises the Entire Web Application
       class Application < Sinatra::Base
-        private_class_method
-
-        def saml_settings
+        private_class_method def saml_settings
           idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
           # Returns OneLogin::RubySaml::Settings prepopulated with idp metadata
           settings = idp_metadata_parser.parse_remote('https://example.com/auth/saml2/idp/metadata')
@@ -62,9 +60,7 @@ module CSI
       #   No Method Parameters Implemented.
       # )
 
-      public
-
-      def self.start
+      public_class_method def self.start
         self::Application.run!
       rescue => e
         raise e.message
@@ -75,9 +71,7 @@ module CSI
       #   No Method Parameters Implemented.
       # )
 
-      public
-
-      def self.stop
+      public_class_method def self.stop
         # Stop spear phishing server ;)
       rescue => e
         raise e.message
@@ -85,9 +79,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -97,9 +89,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.start
 

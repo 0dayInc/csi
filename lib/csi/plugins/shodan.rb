@@ -80,9 +80,7 @@ module CSI
       #   target_ips: 'required - comma-delimited list of ip addresses to target'
       # )
 
-      public
-
-      def self.services_by_ips(opts = {})
+      public_class_method def self.services_by_ips(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '').split(',')
 
@@ -113,9 +111,7 @@ module CSI
       #   facets: 'optional - comma-separated list of properties to get summary information'
       # )
 
-      public
-
-      def self.query_result_totals(opts = {})
+      public_class_method def self.query_result_totals(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
         facets = opts[:facets].to_s.scrub
@@ -153,9 +149,7 @@ module CSI
       #   facets: 'optional - comma-separated list of properties to get summary information'
       # )
 
-      public
-
-      def self.search(opts = {})
+      public_class_method def self.search(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
         facets = opts[:facets].to_s.scrub
@@ -191,9 +185,7 @@ module CSI
       #   query: 'required - shodan search query',
       # )
 
-      public
-
-      def self.tokens(opts = {})
+      public_class_method def self.tokens(opts = {})
         api_key = opts[:api_key].to_s.scrub
         query = opts[:query].to_s.scrub
 
@@ -218,9 +210,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.ports_shodan_crawls(opts = {})
+      public_class_method def self.ports_shodan_crawls(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -240,9 +230,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.list_on_demand_scan_protocols(opts = {})
+      public_class_method def self.list_on_demand_scan_protocols(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -263,9 +251,7 @@ module CSI
       #   target_ips: 'required - comma-delimited list of ip addresses to target'
       # )
 
-      public
-
-      def self.scan_network(opts = {})
+      public_class_method def self.scan_network(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '')
 
@@ -291,9 +277,7 @@ module CSI
       #   protocol: 'required - supported shodan protocol (see #list_on_demand_scan_protocols for list)'
       # )
 
-      public
-
-      def self.scan_internet(opts = {})
+      public_class_method def self.scan_internet(opts = {})
         api_key = opts[:api_key].to_s.scrub
         port = opts[:port].to_i
         protocol = opts[:protocol].to_s.scrub
@@ -319,9 +303,7 @@ module CSI
       #   scan_id: 'required - unique ID returned by #scan_network',
       # )
 
-      public
-
-      def self.scan_status(opts = {})
+      public_class_method def self.scan_status(opts = {})
         api_key = opts[:api_key].to_s.scrub
         scan_id = opts[:scan_id].to_s.scrub
 
@@ -345,9 +327,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.services_shodan_crawls(opts = {})
+      public_class_method def self.services_shodan_crawls(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -370,9 +350,7 @@ module CSI
       #   order: 'optional - sort :asc|:desc (ascending or descending)'
       # )
 
-      public
-
-      def self.saved_search_queries(opts = {})
+      public_class_method def self.saved_search_queries(opts = {})
         api_key = opts[:api_key].to_s.scrub
         page = opts[:page].to_i
         sort = opts[:sort].to_sym
@@ -401,9 +379,7 @@ module CSI
       #   result_count: 'optional - number of results to return (defaults to 10)'
       # )
 
-      public
-
-      def self.most_popular_tags(opts = {})
+      public_class_method def self.most_popular_tags(opts = {})
         api_key = opts[:api_key].to_s.scrub
         result_count = opts[:result_count].to_i
 
@@ -432,9 +408,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.my_profile(opts = {})
+      public_class_method def self.my_profile(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -454,9 +428,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.my_pub_ip(opts = {})
+      public_class_method def self.my_pub_ip(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -476,9 +448,7 @@ module CSI
       #   api_key: 'required shodan api key'
       # )
 
-      public
-
-      def self.api_info(opts = {})
+      public_class_method def self.api_info(opts = {})
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
@@ -499,9 +469,7 @@ module CSI
       #   target_ips: 'required - comma-delimited list of ip addresses to target'
       # )
 
-      public
-
-      def self.honeypot_probability_scores(opts = {})
+      public_class_method def self.honeypot_probability_scores(opts = {})
         api_key = opts[:api_key].to_s.scrub
         target_ips = opts[:target_ips].to_s.scrub.gsub(/\s/, '').split(',')
 
@@ -522,9 +490,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -534,9 +500,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           services_by_ips = #{self}.services_by_ips(
             api_key: 'required - shodan api key',

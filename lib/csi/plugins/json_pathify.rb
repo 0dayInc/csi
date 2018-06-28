@@ -12,9 +12,7 @@ module CSI
       #   key: "required key to find in JSON data structure. returns key values"
       # )
 
-      public
-
-      def self.search_key(opts = {})
+      public_class_method def self.search_key(opts = {})
         key = opts[:key]
         json_data_struct = opts[:json_data_struct]
 
@@ -28,9 +26,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -40,9 +36,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           json_path_arr = #{self}.search_key(
             json_data_struct: "required JSON data structure",

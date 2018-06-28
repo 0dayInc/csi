@@ -11,9 +11,7 @@ module CSI
       #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
-      public
-
-      def self.open(opts = {})
+      public_class_method def self.open(opts = {})
         browser_type = if opts[:browser_type].nil?
                          :firefox
                        else
@@ -60,9 +58,7 @@ module CSI
       #   q: 'required - search string'
       # )
 
-      public
-
-      def self.search(opts = {})
+      public_class_method def self.search(opts = {})
         browser_obj = opts[:browser_obj]
         q = opts[:q].to_s
 
@@ -80,9 +76,7 @@ module CSI
       #   company: 'required - company string'
       # )
 
-      public
-
-      def self.search_linkedin_for_employees_by_company(opts = {})
+      public_class_method def self.search_linkedin_for_employees_by_company(opts = {})
         browser_obj = opts[:browser_obj]
         company = opts[:company].to_s.scrub
         q = "site:linkedin.com inurl:in intext:\"#{company}\""
@@ -101,9 +95,7 @@ module CSI
       #   browser_obj: 'required - browser_obj returned from #open method',
       # )
 
-      public
-
-      def self.close(opts = {})
+      public_class_method def self.close(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
@@ -112,9 +104,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -124,9 +114,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           browser_obj = #{self}.open(
             browser_type: 'optional :firefox|:chrome|:ie|:headless (Defaults to :firefox)',

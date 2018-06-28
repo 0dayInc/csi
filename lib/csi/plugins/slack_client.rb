@@ -13,9 +13,7 @@ module CSI
       #   api_token: 'required slack api token'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         api_token = opts[:api_token]
 
         if opts[:api_token].nil?
@@ -41,9 +39,7 @@ module CSI
       #   message: 'required message to post'
       # )
 
-      public
-
-      def self.post_message(opts = {})
+      public_class_method def self.post_message(opts = {})
         slack_obj = opts[:slack_obj]
         channel = opts[:channel].to_s.scrub
         message = opts[:message].to_s.scrub
@@ -64,9 +60,7 @@ module CSI
       #   slack_obj: 'required slack_obj returned from login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         slack_obj = opts[:slack_obj]
         @@logger.info('Logging out...')
         slack_obj.token = nil
@@ -78,9 +72,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -90,9 +82,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           slack_obj = #{self}.login(
             api_token: 'optional slack api token (will prompt if blank)'

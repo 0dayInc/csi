@@ -33,9 +33,7 @@ module CSI
 
       @@logger = CSI::Plugins::CSILogger.create
 
-      public
-
-      def self.start(opts = {})
+      public_class_method def self.start(opts = {})
         burp_jar_path = opts[:burp_jar_path]
         raise 'Invalid path to burp jar file.  Please check your spelling and try again.' unless File.exist?(burp_jar_path)
 
@@ -111,9 +109,7 @@ module CSI
       #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
-      public
-
-      def self.enable_proxy(opts = {})
+      public_class_method def self.enable_proxy(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -129,9 +125,7 @@ module CSI
       #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
-      public
-
-      def self.disable_proxy(opts = {})
+      public_class_method def self.disable_proxy(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -147,9 +141,7 @@ module CSI
       #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
-      public
-
-      def self.get_current_sitemap(opts = {})
+      public_class_method def self.get_current_sitemap(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -170,9 +162,7 @@ module CSI
       #   use_https: 'optional - use SSL/TLS connection (defaults to true)'
       # )
 
-      public
-
-      def self.invoke_active_scan(opts = {})
+      public_class_method def self.invoke_active_scan(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -235,9 +225,7 @@ module CSI
       #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
-      public
-
-      def self.get_scan_issues(opts = {})
+      public_class_method def self.get_scan_issues(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -258,9 +246,7 @@ module CSI
       #   output_path: 'required - path to save report results'
       # )
 
-      public
-
-      def self.generate_scan_report(opts = {})
+      public_class_method def self.generate_scan_report(opts = {})
         burp_obj = opts[:burp_obj]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
         burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
@@ -279,9 +265,7 @@ module CSI
       # CSI::Plugins::BurpSuite.update_burp_jar(
       # )
 
-      public
-
-      def self.update_burp_jar
+      public_class_method def self.update_burp_jar
         # TODO: Do this.
       end
 
@@ -290,9 +274,7 @@ module CSI
       #   burp_obj: 'required - burp_obj returned by #start method'
       # )
 
-      public
-
-      def self.stop(opts = {})
+      public_class_method def self.stop(opts = {})
         burp_obj = opts[:burp_obj]
         burp_browser = burp_obj[:burp_browser]
         cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
@@ -306,9 +288,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -318,9 +298,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           burp_obj = #{self}.start(
             burp_jar_path: 'required - path of burp suite pro jar file',

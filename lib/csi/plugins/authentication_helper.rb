@@ -12,9 +12,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::AuthenticationHelper.username
 
-      public
-
-      def self.username
+      public_class_method def self.username
         user = HighLine.new.ask('Username: ')
         user.to_s.strip.chomp.scrub
       rescue => e
@@ -26,9 +24,7 @@ module CSI
       #   prompt: 'optional - string to display at prompt'
       # )
 
-      public
-
-      def self.mask_password(opts = {})
+      public_class_method def self.mask_password(opts = {})
         if opts[:prompt].nil?
           prompt = 'Password'
         else
@@ -46,9 +42,7 @@ module CSI
       #   prompt: 'optional - string to display at prompt'
       # )
 
-      public
-
-      def self.mfa(opts = {})
+      public_class_method def self.mfa(opts = {})
         if opts[:prompt].nil?
           prompt = 'MFA Token'
         else
@@ -63,9 +57,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -75,9 +67,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.username
 

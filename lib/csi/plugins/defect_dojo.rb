@@ -16,9 +16,7 @@ module CSI
       #   api_key: 'optional - defect dojo api key (will prompt if nil)'
       # )
 
-      public
-
-      def self.login_v1(opts = {})
+      public_class_method def self.login_v1(opts = {})
         dd_obj = {}
         dd_obj[:url] = opts[:url]
 
@@ -46,9 +44,7 @@ module CSI
       #   password: 'optional - defect dojo api key (will prompt if nil)'
       # )
 
-      public
-
-      def self.login_v2(opts = {})
+      public_class_method def self.login_v2(opts = {})
         http_body = {}
 
         url = opts[:url]
@@ -179,9 +175,7 @@ module CSI
       #   id: 'optional - retrieve single product by id, otherwise return all'
       # )
 
-      public
-
-      def self.product_list(opts = {})
+      public_class_method def self.product_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "products/#{opts[:id].to_i}") : (rest_call = 'products')
 
@@ -205,9 +199,7 @@ module CSI
       #   id: 'optional - retrieve single engagement by id, otherwise return all'
       # )
 
-      public
-
-      def self.engagement_list(opts = {})
+      public_class_method def self.engagement_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "engagements/#{opts[:id].to_i}") : (rest_call = 'engagements')
 
@@ -243,9 +235,7 @@ module CSI
       #   target_end: 'optional - date of engagement completion e.g. 2018-06-20 (Defaults to current day)'
       # )
 
-      public
-
-      def self.engagement_create(opts = {})
+      public_class_method def self.engagement_create(opts = {})
         http_body = {}
 
         dd_obj = opts[:dd_obj]
@@ -328,9 +318,7 @@ module CSI
       #   id: 'optional - retrieve single test by id, otherwise return all'
       # )
 
-      public
-
-      def self.test_list(opts = {})
+      public_class_method def self.test_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "tests/#{opts[:id].to_i}") : (rest_call = 'tests')
 
@@ -361,9 +349,7 @@ module CSI
       #   verified: 'optional - flag finding as verified by a tester (defaults to false)'
       # )
 
-      public
-
-      def self.importscan(opts = {})
+      public_class_method def self.importscan(opts = {})
         http_body = {}
 
         dd_obj = opts[:dd_obj]
@@ -434,9 +420,7 @@ module CSI
       #   verified: 'optional - flag finding as verified by a tester (defaults to false)'
       # )
 
-      public
-
-      def self.reimportscan(opts = {})
+      public_class_method def self.reimportscan(opts = {})
         http_body = {}
 
         dd_obj = opts[:dd_obj]
@@ -507,9 +491,7 @@ module CSI
       #   id: 'optional - retrieve single finding by id, otherwise return all'
       # )
 
-      public
-
-      def self.finding_list(opts = {})
+      public_class_method def self.finding_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "findings/#{opts[:id].to_i}") : (rest_call = 'findings')
 
@@ -533,9 +515,7 @@ module CSI
       #   id: 'optional - retrieve single user by id, otherwise return all'
       # )
 
-      public
-
-      def self.user_list(opts = {})
+      public_class_method def self.user_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "users/#{opts[:id].to_i}") : (rest_call = 'users')
 
@@ -558,9 +538,7 @@ module CSI
       #   dd_obj: 'required dd_obj returned from #login_v1 or #login_v2 method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         dd_obj = opts[:dd_obj]
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
@@ -571,9 +549,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -583,9 +559,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           dd_obj = #{self}.login_v1(
             url: 'required - url of DefectDojo Server',

@@ -52,9 +52,7 @@ module CSI
 
     # Display a List of Every CSI Plugin
 
-    public
-
-    def self.help
+    public_class_method def self.help
       constants.sort
     end
   end

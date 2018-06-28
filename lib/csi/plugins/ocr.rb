@@ -11,9 +11,7 @@ module CSI
       #   file: 'required - path to image file',
       # )
 
-      public
-
-      def self.process(opts = {})
+      public_class_method def self.process(opts = {})
         file = opts[:file].to_s.scrub.strip.chomp if File.exist?(opts[:file].to_s.scrub.strip.chomp)
         image = RTesseract.new(file)
         text = image.to_s
@@ -25,9 +23,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -37,9 +33,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.process(
             file: 'required - path to image file'

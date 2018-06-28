@@ -26,9 +26,7 @@ module CSI
 
     # Display a List of Every CSI WWW module
 
-    public
-
-    def self.help
+    public_class_method def self.help
       constants.sort
     end
   end

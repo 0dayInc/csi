@@ -16,9 +16,7 @@ module CSI
       #   consumer_secret: 'optional - consumer secret (will prompt if nil)'
       # )
 
-      public
-
-      def self.app_only_login(opts = {})
+      public_class_method def self.app_only_login(opts = {})
         base_api_uri = 'https://api.twitter.com'
 
         consumer_key = opts[:consumer_key].to_s.strip.chomp.scrub
@@ -114,9 +112,7 @@ module CSI
       #   bearer_token: 'required bearer_token returned from #app_only_login method'
       # )
 
-      public
-
-      def self.app_only_logout(opts = {})
+      public_class_method def self.app_only_logout(opts = {})
         bearer_token = opts[:bearer_token]
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
@@ -127,9 +123,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -139,9 +133,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           bearer_token = #{self}.app_only_login(
             consumer_key: 'required - consumer key for app-only authentication',

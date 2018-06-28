@@ -17,9 +17,7 @@ module CSI
       #   since: 'optional date, otherwise default to last pull'
       # )
 
-      public
-
-      def self.gen_html_diff(opts = {})
+      public_class_method def self.gen_html_diff(opts = {})
         git_repo_name = opts[:repo].to_s
         git_repo_branch = opts[:branch].to_s
         since_date = opts[:since]
@@ -51,9 +49,7 @@ module CSI
       #   target_file: 'require file in which line range is queried'
       # )
 
-      public
-
-      def self.get_author_by_line_range(opts = {})
+      public_class_method def self.get_author_by_line_range(opts = {})
         repo_root = if opts[:repo_root].nil?
                       '.'
                     else
@@ -78,9 +74,7 @@ module CSI
       #   git_url: 'required git repo url'
       # )
 
-      public
-
-      def self.dump_all_repo_branches(opts = {})
+      public_class_method def self.dump_all_repo_branches(opts = {})
         git_url = opts[:git_url].to_s.scrub
         all_repo_branches = `git ls-remote #{git_url}`.to_s.scrub
 
@@ -91,9 +85,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -103,9 +95,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           git_html_resp = #{self}.gen_html_diff(
             repo: 'required git repo name',

@@ -14,9 +14,7 @@ module CSI
       #   vpassfile: 'required - path to anisble-vault pass file'
       # )
 
-      public
-
-      def self.encrypt(opts = {})
+      public_class_method def self.encrypt(opts = {})
         yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config].to_s.scrub)
         vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile].to_s.scrub)
 
@@ -33,9 +31,7 @@ module CSI
       #   vpassfile: 'required - path to anisble-vault pass file'
       # )
 
-      public
-
-      def self.decrypt(opts = {})
+      public_class_method def self.decrypt(opts = {})
         yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config].to_s.scrub)
         vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile].to_s.scrub)
 
@@ -52,9 +48,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -64,9 +58,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
 
           #{self}.encrypt(

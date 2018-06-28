@@ -13,9 +13,7 @@ module CSI
       #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
-      public
-
-      def self.open(opts = {})
+      public_class_method def self.open(opts = {})
         browser_type = if opts[:browser_type].nil?
                          :firefox
                        else
@@ -63,9 +61,7 @@ module CSI
       #   password: 'optional - passwd (will prompt if blank)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         browser_obj = opts[:browser_obj]
         username = opts[:username].to_s.scrub.strip.chomp
         password = opts[:password]
@@ -92,9 +88,7 @@ module CSI
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj.span(class: 'organization-selector').wait_until_present.click
         browser_obj.link(index: 39).wait_until_present.click
@@ -109,9 +103,7 @@ module CSI
       #   browser_obj: 'required - browser_obj returned from #open method'
       # )
 
-      public
-
-      def self.close(opts = {})
+      public_class_method def self.close(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
       rescue => e
@@ -120,9 +112,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -132,9 +122,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           browser_obj = #{self}.open(
             browser_type: 'optional - :firefox|:chrome|:ie|:headless (Defaults to :firefox)',

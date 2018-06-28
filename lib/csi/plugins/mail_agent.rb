@@ -104,9 +104,7 @@ module CSI
       #   debug: true|false
       # )
 
-      public
-
-      def self.office365(opts = {})
+      public_class_method def self.office365(opts = {})
         # Send mail from corporate mail solution
         opts[:address] = 'smtp.office365.com'
         opts[:port] = 587
@@ -136,9 +134,7 @@ module CSI
       #   debug: true|false
       # )
 
-      public
-
-      def self.gmail(opts = {})
+      public_class_method def self.gmail(opts = {})
         opts[:address] = 'smtp.gmail.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -167,9 +163,7 @@ module CSI
       #   debug: true|false
       # )
 
-      public
-
-      def self.hotmail_n_live(opts = {})
+      public_class_method def self.hotmail_n_live(opts = {})
         opts[:address] = 'smtp.live.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -198,9 +192,7 @@ module CSI
       #   debug: true|false
       # )
 
-      public
-
-      def self.yahoo(opts = {})
+      public_class_method def self.yahoo(opts = {})
         opts[:address] = 'smtp.mail.yahoo.com'
         opts[:port] = 587
         opts[:tls_auto] = true
@@ -232,9 +224,7 @@ module CSI
       #   debug: true|false
       # )
 
-      public
-
-      def self.manual(opts = {})
+      public_class_method def self.manual(opts = {})
         # Spoof mail from known relay
         opts[:authentication] = :plain if opts[:authentication].nil?
         parent_mail_agent(opts)
@@ -244,9 +234,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -256,9 +244,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.office365(
             from: 'required',

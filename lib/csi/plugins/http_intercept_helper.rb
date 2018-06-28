@@ -11,9 +11,7 @@ module CSI
       #   request_raw: 'required => raw http request string to convert to hash'
       # )
 
-      public
-
-      def self.raw_to_hash(opts = {})
+      public_class_method def self.raw_to_hash(opts = {})
         request_raw = opts[:request_raw].to_s
         request_hash = {}
 
@@ -82,9 +80,7 @@ module CSI
       #   request_hash: 'required => request_hash object returned by #raw_to_hash method'
       # )
 
-      public
-
-      def self.hash_to_raw(opts = {})
+      public_class_method def self.hash_to_raw(opts = {})
         request_hash = opts[:request_hash]
 
         # Populate HTTP Request Line
@@ -106,9 +102,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -118,9 +112,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           request_hash = CSI::Plugins::HTTPInterceptHelper.raw_to_hash(
             request_raw: 'required => raw http request string to convert to hash'

@@ -17,9 +17,7 @@ module CSI
       #   insecure: 'optional - ignore ssl checks (defaults to false)
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         host = opts[:host].to_s.scrub
         username = opts[:username].to_s.scrub
         password = if opts[:password].nil?
@@ -46,9 +44,7 @@ module CSI
       #   vsphere_obj: 'required vsphere_obj returned from #login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         vsphere_obj = opts[:vsphere_obj]
         @@logger.info('Logging out...')
         vsphere_obj = nil
@@ -58,9 +54,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -70,9 +64,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           vsphere_obj = #{self}.login(
             host: 'required - vsphere host or ip',

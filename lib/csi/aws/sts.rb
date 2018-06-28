@@ -16,9 +16,7 @@ module CSI
       #   duration_seconds: 'required - seconds in which sts credentials will expire'
       # )
 
-      public
-
-      def self.get_temp_credentials(opts = {})
+      public_class_method def self.get_temp_credentials(opts = {})
         region = opts[:region].to_s.scrub.chomp.strip
         role_arn = opts[:role_arn].to_s.scrub.chomp.strip
         role_session_name = opts[:role_session_name].to_s.scrub.chomp.strip
@@ -40,9 +38,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -52,9 +48,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           credentials = #{self}.get_temp_credentials(
             region: 'required - region name to connect (eu-west-1, ap-southeast-1, ap-southeast-2, eu-central-1, ap-northeast-2, ap-northeast-1, us-east-1, sa-east-1, us-west-1, us-west-2)',

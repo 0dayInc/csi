@@ -11,9 +11,7 @@ module CSI
       #   int: 'required = integer ranging from 0-65535 to convert to short_int hex bytes'
       # )
 
-      public
-
-      def self.short_int(opts = {})
+      public_class_method def self.short_int(opts = {})
         # TODO: big endian and little endian parameters
         int = opts[:int].to_i
         short_int = [int].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
@@ -26,9 +24,7 @@ module CSI
       #   int: 'required = integer ranging from 0-4294967295 to convert to long_int hex bytes'
       # )
 
-      public
-
-      def self.long_int(opts = {})
+      public_class_method def self.long_int(opts = {})
         # TODO: big endian and little endian parameters
         int = opts[:int].to_i
         long_int = [int].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
@@ -38,9 +34,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -50,9 +44,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           short_int = CSI::Plugins::Hexify.short_int(
             int: 'required = integer ranging from 0-65535 to convert to short_int hex bytes'

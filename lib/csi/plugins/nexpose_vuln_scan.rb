@@ -16,9 +16,7 @@ module CSI
       #   password: 'optional password (will prompt if nil)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         console_ip = opts[:console_ip]
         username = opts[:username].to_s
 
@@ -44,9 +42,7 @@ module CSI
       #  site_name: 'required Nexpose site name to update (case-sensitive)'
       # )
 
-      public
-
-      def self.list_all_individual_site_assets(opts = {})
+      public_class_method def self.list_all_individual_site_assets(opts = {})
         nsc_obj = opts[:nsc_obj]
         site_name = opts[:site_name]
 
@@ -78,9 +74,7 @@ module CSI
       #  assets: 'required array of hashes containing called :ip => values being IP address (All IPs not included in the :assets parameter will be removed from Nexpose)'
       # )
 
-      public
-
-      def self.update_site_assets(opts = {})
+      public_class_method def self.update_site_assets(opts = {})
         nsc_obj = opts[:nsc_obj]
         site_name = opts[:site_name]
         assets = opts[:assets]
@@ -134,9 +128,7 @@ module CSI
       #  days: 'required assets to remove older than number of days in this parameter'
       # )
 
-      public
-
-      def self.delete_site_assets_older_than(opts = {})
+      public_class_method def self.delete_site_assets_older_than(opts = {})
         nsc_obj = opts[:nsc_obj]
         site_name = opts[:site_name]
         days = opts[:days].to_i
@@ -170,9 +162,7 @@ module CSI
       #  poll_interval: 'optional poll interval to check the completion status of the scan (defaults to 3 minutes)
       # )
 
-      public
-
-      def self.scan_site_by_name(opts = {})
+      public_class_method def self.scan_site_by_name(opts = {})
         nsc_obj = opts[:nsc_obj]
         site_name = opts[:site_name].to_s
         site_id = nil
@@ -221,9 +211,7 @@ module CSI
       #   config_id: 'relevant r.config_id returned when invoking the block nsc_obj.reports.each {|r| puts "#{r.name} => #{r.config_id}"}',
       # )
 
-      public
-
-      def self.generate_report_via_existing_config(opts = {})
+      public_class_method def self.generate_report_via_existing_config(opts = {})
         nsc_obj = opts[:nsc_obj]
         config_id = opts[:config_id].to_i
 
@@ -242,9 +230,7 @@ module CSI
       #   poll_interval: 'optional poll interval to check the completion status of report generation (defaults to 60 seconds)
       # )
 
-      public
-
-      def self.download_recurring_report(opts = {})
+      public_class_method def self.download_recurring_report(opts = {})
         nsc_obj = opts[:nsc_obj]
         report_names = opts[:report_names].to_s.scrub.split(',')
         @@logger.info("Generating #{report_names.count} Report(s): #{report_names.inspect}...")
@@ -301,9 +287,7 @@ module CSI
       #   nsc_obj: 'required nsc_obj returned from login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         nsc_obj = opts[:nsc_obj]
 
         # config = Nexpose::Console.load(nsc_obj)
@@ -317,9 +301,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -329,9 +311,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           nsc_obj = #{self}.login(
             console_ip: 'required host/ip of Nexpose Console (server)',

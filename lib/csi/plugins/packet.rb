@@ -21,9 +21,7 @@ module CSI
       #   path: 'required - path to packet capture file'
       # )
 
-      public
-
-      def self.open_pcap_file(opts = {})
+      public_class_method def self.open_pcap_file(opts = {})
         path = opts[:path].to_s.scrub.strip.chomp if File.exist?(opts[:path].to_s.scrub.strip.chomp)
 
         pcap = PacketFu::PcapFile.read_packets(path)
@@ -42,9 +40,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_arp(opts = {})
+      public_class_method def self.construct_arp(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -127,9 +123,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.contruct_eth(opts = {})
+      public_class_method def self.contruct_eth(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -165,9 +159,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_hsrp(opts = {})
+      public_class_method def self.construct_hsrp(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -366,9 +358,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_icmp(opts = {})
+      public_class_method def self.construct_icmp(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -497,9 +487,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_icmpv6(opts = {})
+      public_class_method def self.construct_icmpv6(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -607,9 +595,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_ip(opts = {})
+      public_class_method def self.construct_ip(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -715,9 +701,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.contruct_ipv6(opts = {})
+      public_class_method def self.contruct_ipv6(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -802,9 +786,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_tcp(opts = {})
+      public_class_method def self.construct_tcp(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -979,9 +961,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.construct_udp(opts = {})
+      public_class_method def self.construct_udp(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -1105,9 +1085,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public
-
-      def self.send(opts = {})
+      public_class_method def self.send(opts = {})
         pkt = opts[:pkt]
 
         if opts[:iface]
@@ -1124,9 +1102,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -1136,9 +1112,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           pcap = #{self}.open_pcap_file(
             path: 'required - path to packet capture file'

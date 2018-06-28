@@ -15,9 +15,7 @@ module CSI
       #   password: 'optional password (will prompt if nil)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         openvas_ip = opts[:openvas_ip].to_s.scrub
         openvas_port = if opts[:openvas_port].nil?
                          9390
@@ -46,9 +44,7 @@ module CSI
       #   openvas_obj: 'required openvas_obj returned from login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         openvas_obj = opts[:openvas_obj]
 
         openvas_obj = nil
@@ -59,9 +55,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -71,9 +65,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           openvas_obj = #{self}.login(
             openvas_ip: 'required host/ip of OpenVAS Management Daemon(openvasmd)',

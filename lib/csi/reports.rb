@@ -13,9 +13,7 @@ module CSI
 
     # Display a List of Every CSI Report
 
-    public
-
-    def self.help
+    public_class_method def self.help
       constants.sort
     end
   end

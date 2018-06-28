@@ -77,9 +77,7 @@ module CSI
       #   proxy: 'optional - change local zap proxy listener (defaults to http://127.0.0.1:8080)',
       # )
 
-      public
-
-      def self.start(opts = {})
+      public_class_method def self.start(opts = {})
         zap_obj = {}
 
         api_key = opts[:api_key].to_s.scrub.strip.chomp
@@ -182,9 +180,7 @@ module CSI
       #   target: 'required - url to spider'
       # )
 
-      public
-
-      def self.spider(opts = {})
+      public_class_method def self.spider(opts = {})
         zap_obj = opts[:zap_obj]
         target = opts[:target].to_s.scrub
         api_key = zap_obj[:api_key].to_s.scrub
@@ -236,9 +232,7 @@ module CSI
       #   scan_policy: 'optional - scan policy to use (defaults to Default Policy)'
       # )
 
-      public
-
-      def self.active_scan(opts = {})
+      public_class_method def self.active_scan(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         target = opts[:target]
@@ -294,9 +288,7 @@ module CSI
       #   target: 'required - base url to return alerts'
       # )
 
-      public
-
-      def self.alerts(opts = {})
+      public_class_method def self.alerts(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         target = opts[:target]
@@ -327,9 +319,7 @@ module CSI
       #   report_type: 'required - <html|markdown|xml>'
       # )
 
-      public
-
-      def self.generate_report(opts = {})
+      public_class_method def self.generate_report(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
@@ -376,9 +366,7 @@ module CSI
       #   enabled: 'optional - boolean (defaults to true)'
       # )
 
-      public
-
-      def self.intercept(opts = {})
+      public_class_method def self.intercept(opts = {})
         zap_obj = opts[:zap_obj]
         api_key = zap_obj[:api_key].to_s.scrub
         domain = opts[:domain]
@@ -403,9 +391,7 @@ module CSI
       #   instruction: 'required - watir instruction to make (e.g. button(text: "Google Search").click)'
       # )
 
-      public
-
-      def self.nonblocking_watir(opts = {})
+      public_class_method def self.nonblocking_watir(opts = {})
         this_browser_obj = opts[:browser_obj]
         instruction = opts[:instruction].to_s.strip.chomp.scrub
 
@@ -434,9 +420,7 @@ module CSI
       #   :zap_obj => 'required - zap_obj returned from #open method'
       # )
 
-      public
-
-      def self.stop(opts = {})
+      public_class_method def self.stop(opts = {})
         zap_obj = opts[:zap_obj]
         unless zap_obj.nil?
           pid = zap_obj[:pid]
@@ -450,9 +434,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -462,9 +444,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           zap_obj = #{self}.start(
             api_key: 'required - api key for API authorization',

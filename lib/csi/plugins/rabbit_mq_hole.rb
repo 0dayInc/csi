@@ -13,9 +13,7 @@ module CSI
       #   password: 'optional'
       # )
 
-      public
-
-      def self.open(opts = {})
+      public_class_method def self.open(opts = {})
         host = opts[:hostname].to_s
         user = opts[:username].to_s
         pass = opts[:password].to_s
@@ -31,9 +29,7 @@ module CSI
       #   amqp_oject: amqp_conn1
       # )
 
-      public
-
-      def self.close(opts = {})
+      public_class_method def self.close(opts = {})
         this_amqp_obj = opts[:amqp_obj]
         this_amqp_obj.close_connection
       rescue => e
@@ -42,9 +38,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -54,9 +48,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           amqp_conn1 = #{self}.open(
             hostname: 'required',

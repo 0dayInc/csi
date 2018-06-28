@@ -22,9 +22,7 @@ module CSI
       #   with_tor: 'optional - boolean (defaults to false)'
       # )
 
-      public
-
-      def self.open(opts = {})
+      public_class_method def self.open(opts = {})
         this_browser = nil
         browser_type = opts[:browser_type]
         proxy = opts[:proxy].to_s unless opts[:proxy].nil?
@@ -191,9 +189,7 @@ module CSI
       #   browser_obj: browser_obj1
       # )
 
-      public
-
-      def self.linkout(opts = {})
+      public_class_method def self.linkout(opts = {})
         this_browser_obj = opts[:browser_obj]
 
         this_browser_obj.links.each do |link|
@@ -211,9 +207,7 @@ module CSI
       #   rand_sleep_float: 'optional - float timing in between keypress (defaults to 0.09)'
       # )
 
-      public
-
-      def self.type_as_human(opts = {})
+      public_class_method def self.type_as_human(opts = {})
         query_string = opts[:q].to_s
 
         rand_sleep_float = if opts[:rand_sleep_float]
@@ -235,9 +229,7 @@ module CSI
       #   browser_obj: 'required - browser_obj returned from #open method)'
       # )
 
-      public
-
-      def self.close(opts = {})
+      public_class_method def self.close(opts = {})
         this_browser_obj = opts[:browser_obj]
 
         unless this_browser_obj.to_s.include?('RestClient')
@@ -253,9 +245,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -265,9 +255,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           browser_obj1 = #{self}.open(
             browser_type: :firefox|:chrome|:headless|:rest,

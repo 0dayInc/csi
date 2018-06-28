@@ -45,9 +45,7 @@ module CSI
       #   proxy: 'optional - use a proxy'
       # )
 
-      public
-
-      def self.get(opts = {})
+      public_class_method def self.get(opts = {})
         ip_or_host = opts[:ip_or_host].to_s.scrub.strip.chomp
         proxy = opts[:proxy]
 
@@ -78,9 +76,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -90,9 +86,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           ip_info_struc = #{self}.get(
             ip_or_host: 'required - IP or Host to lookup',

@@ -12,9 +12,7 @@ module CSI
       #   dir_path: 'Required - Path of SQLite3 DB File'
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         dir_path = opts[:dir_path]
 
         sqlite3_conn = SQLite3::Database.new(dir_path)
@@ -61,9 +59,7 @@ module CSI
       #   statement_params: ['Active']
       # )
 
-      public
-
-      def self.sql_statement(opts = {})
+      public_class_method def self.sql_statement(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
@@ -87,9 +83,7 @@ module CSI
       #   sqlite3_conn: sqlite3_conn
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
 
@@ -100,9 +94,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -112,9 +104,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           sqlite3_conn = #{self}.connect(:dir_path => 'Required - Path of SQLite3 DB File')
 

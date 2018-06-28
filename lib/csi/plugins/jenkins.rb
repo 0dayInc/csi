@@ -19,9 +19,7 @@ module CSI
       #   ssl: 'optional connect over TLS (defaults to true)
       # )
 
-      public
-
-      def self.connect(opts = {})
+      public_class_method def self.connect(opts = {})
         jenkins_ip = opts[:jenkins_ip]
         port = if opts[:port]
                  opts[:port].to_i
@@ -81,9 +79,7 @@ module CSI
       #   email: 'required - email address of new user'
       # )
 
-      public
-
-      def self.create_user(opts = {})
+      public_class_method def self.create_user(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         username = opts[:username].to_s.scrub
         password = opts[:password].to_s.scrub
@@ -136,9 +132,7 @@ module CSI
       #   scope: 'optional - GLOBAL or SYSTEM (defaults to GLOBAL)'
       # )
 
-      public
-
-      def self.create_ssh_credential(opts = {})
+      public_class_method def self.create_ssh_credential(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         username = opts[:username].to_s.scrub
         private_key_path = opts[:private_key_path].to_s.strip.chomp.scrub
@@ -215,9 +209,7 @@ module CSI
       #   jenkins_obj: 'required jenkins_obj returned from login method'
       # )
 
-      public
-
-      def self.get_all_job_git_repos(opts = {})
+      public_class_method def self.get_all_job_git_repos(opts = {})
         jenkins_obj = opts[:jenkins_obj]
 
         @@logger.info('Retrieving a List of Git Repos from Every Job...')
@@ -251,9 +243,7 @@ module CSI
       #   view_path: 'required view path to list jobs'
       # )
 
-      public
-
-      def self.list_nested_jobs(opts = {})
+      public_class_method def self.list_nested_jobs(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
@@ -270,9 +260,7 @@ module CSI
       #   view_path: 'required view path list sub-views'
       # )
 
-      public
-
-      def self.list_nested_views(opts = {})
+      public_class_method def self.list_nested_views(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
@@ -289,9 +277,7 @@ module CSI
       #   create_in_view_path: 'optional creates nested view within an existing nested view, defaults to / views'
       # )
 
-      public
-
-      def self.create_nested_view(opts = {})
+      public_class_method def self.create_nested_view(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         view_name = opts[:view_name].to_s.scrub
         create_in_view_path = opts[:create_in_view_path].to_s.scrub
@@ -361,9 +347,7 @@ module CSI
       #   new_job_name: 'required name of new job'
       # )
 
-      public
-
-      def self.copy_job_no_fail_on_exist(opts = {})
+      public_class_method def self.copy_job_no_fail_on_exist(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         existing_job_name = opts[:existing_job_name]
         new_job_name = opts[:new_job_name]
@@ -382,9 +366,7 @@ module CSI
       #   regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
 
-      public
-
-      def self.disable_jobs_by_regex(opts = {})
+      public_class_method def self.disable_jobs_by_regex(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
 
@@ -405,9 +387,7 @@ module CSI
       #   regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
 
-      public
-
-      def self.delete_jobs_by_regex(opts = {})
+      public_class_method def self.delete_jobs_by_regex(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         regex = opts[:regex].to_s.scrub
 
@@ -427,9 +407,7 @@ module CSI
       #   jenkins_obj: 'required jenkins_obj returned from login method',
       # )
 
-      public
-
-      def self.clear_build_queue(opts = {})
+      public_class_method def self.clear_build_queue(opts = {})
         jenkins_obj = opts[:jenkins_obj]
 
         jenkins_obj.queue.list.each do |job_name|
@@ -445,9 +423,7 @@ module CSI
       #   jenkins_obj: 'required jenkins_obj returned from login method'
       # )
 
-      public
-
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         jenkins_obj = opts[:jenkins_obj]
         @@logger.info('Disconnecting from Jenkins...')
         jenkins_obj = nil
@@ -458,9 +434,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -470,9 +444,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts %{USAGE:
           jenkins_obj = #{self}.connect(
             jenkins_ip: 'required host/ip of Jenkins Server',

@@ -9,9 +9,7 @@ module CSI
 
     # Display a List of Every CSI Exploit Module
 
-    public
-
-    def self.help
+    public_class_method def self.help
       constants.sort
     end
   end

@@ -16,9 +16,7 @@ module CSI
       #   token: 'optional - api token (will prompt if nil)'
       # )
 
-      public
-
-      def self.login(opts = {})
+      public_class_method def self.login(opts = {})
         username = opts[:username].to_s.scrub
         base_h1_api_uri = 'https://api.hackerone.com/v1/'.to_s.scrub
 
@@ -117,9 +115,7 @@ module CSI
       #   h1_obj: 'required h1_obj returned from #login method'
       # )
 
-      public
-
-      def self.logout(opts = {})
+      public_class_method def self.logout(opts = {})
         h1_obj = opts[:h1_obj]
         @@logger.info('Logging out...')
         h1_obj = nil
@@ -129,9 +125,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -141,9 +135,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           h1_obj = #{self}.login(
             username: 'required username',

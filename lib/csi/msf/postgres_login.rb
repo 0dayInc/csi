@@ -32,9 +32,7 @@ module CSI
       #                rport: 5432
       #              )
 
-      public
-
-      def self.exploit(opts = {})
+      public_class_method def self.exploit(opts = {})
         msfrpcd_yaml_conf = opts[:msfrpcd_yaml_conf]
 
         msf_client = CSI::Plugins::Metasploit.connect(msfrpcd_yaml_conf: msfrpcd_yaml_conf)
@@ -176,9 +174,7 @@ module CSI
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
-      public
-
-      def self.authors
+      public_class_method def self.authors
         authors = "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
@@ -191,9 +187,7 @@ module CSI
       # to CSI Exploit & Static Code Analysis Modules to
       # Determine the level of Testing Coverage w/ CSI.
 
-      public
-
-      def self.nist_800_53_requirements
+      public_class_method def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
           section: '1.7.7',
@@ -204,9 +198,7 @@ module CSI
 
       # Display Usage for this Module
 
-      public
-
-      def self.help
+      public_class_method def self.help
         puts "USAGE:
           #{self}.exploit(
             msfrpcd_yaml_conf: '/path/to/yaml/conf/file',
