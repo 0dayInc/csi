@@ -617,6 +617,18 @@ module CSI
             verified: 'optional - flag finding as verified by a tester (defaults to false)'
           )
 
+          reimportscan_response = #{self}.reimportscan(
+            dd_obj: 'required - dd_obj returned from #login_v1 method',
+            engagement_name: 'required - name of engagement to associate w/ scan',
+            scan_type: 'required - type of scan importing (see <DEFECTDOJO_URL>/admin/dojo/test_type/ for listing)',
+            file: 'required - path of scan results file',
+            tags: 'optional - comma-delimited list of tag names to tie to scan for unique test resource_uri retrival',
+            test_resource_uri: 'optional - alternative to tag names to know which test to reimport',
+            minimum_severity: 'optional - minimum finding severity Info||Low||Medium||High||Critical (Defaults to Info)',
+            scan_date: 'optional - date in which scan was kicked off (defaults to now)',
+            verified: 'optional - flag finding as verified by a tester (defaults to false)'
+          )
+
           finding_list = #{self}.finding_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single finding by id, otherwise return all'

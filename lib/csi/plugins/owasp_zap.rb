@@ -527,7 +527,8 @@ module CSI
 
           #{self}.breakpoint(
             zap_obj: 'required - zap_obj returned from #open method',
-            domain: 'required - FQDN to intercept (e.g. test.domain.local)',
+            regex_type: 'required - :url, :request_header, :request_body, :response_header or :response_body',
+            regex_pattern: 'required - regex pattern to search for respective regex_type',
             enabled: 'optional - boolean (defaults to true)'
           )
 
