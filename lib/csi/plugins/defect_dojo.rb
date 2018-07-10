@@ -435,7 +435,7 @@ module CSI
         engagement_by_name_object = engagement_list[:objects].select { |engagement| engagement[:name] == engagement_name }
         # Should only ever return 1 result so we should be good here
         engagement_resource_uri = engagement_by_name_object.first[:resource_uri]
-        http_body[:engagement] = engagement_resource_uri
+        # http_body[:engagement] = engagement_resource_uri
 
         # TODO: lookup scan_type for test resource_uri since the scan_type should never change
         http_body[:scan_type] = opts[:scan_type].to_s.strip.chomp.scrub
