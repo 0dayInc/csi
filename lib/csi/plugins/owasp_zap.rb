@@ -446,7 +446,8 @@ module CSI
         # this_browser_obj.driver.manage.timeouts.script_timeout = timeout
 
         watir_resp = this_browser_obj.instance_eval(instruction)
-      rescue Timeout::Error
+      rescue Timeout::Error => t
+        puts t.full_message
         sleep 0.9
         request_content = zap_rest_call(
           zap_obj: zap_obj,
