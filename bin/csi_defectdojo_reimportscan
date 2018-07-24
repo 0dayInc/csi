@@ -18,7 +18,7 @@ OptionParser.new do |options|
     opts[:username] = u
   end
 
-  options.on('-aKEY', '--api-key=KEY', '<Optional - Proxy w/ TOR (Will Prompt if nil)>') do |a|
+  options.on('-aKEY', '--api-key=KEY', '<Optional - DefectDojo API Key (Will Prompt if nil)>') do |a|
     opts[:api_key] = a
   end
 
