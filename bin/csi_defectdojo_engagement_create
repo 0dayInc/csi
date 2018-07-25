@@ -26,8 +26,12 @@ OptionParser.new do |options|
     opts[:name] = n
   end
 
-  options.on('-dDESC', '--description=DESC', '<Required - Engagement Description>') do |d|
+  options.on('-dDESC', '--description=DESC', '<Optional - Engagement Description>') do |d|
     opts[:description] = d
+  end
+
+  options.on('-xTYPE', '--enagagement-type=TYPE', '<Optional - type of engagement Interactive||CI/CD (Defaults to CI/CD)>') do |x|
+    opts[:engagement_name] = x
   end
 
   options.on('-sSTATUS', '--status=STATUS', '<Optional - status of the engagement In Progress || On Hold (defaults to In Progress)>') do |s|
@@ -83,6 +87,7 @@ opts[:api_key] ? (api_key = opts[:api_key]) : (api_key = CSI::Plugins::Authentic
 # Create Engagement Args
 name = opts[:name]
 description = opts[:description]
+opts[:engagement_type]
 status = opts[:status]
 opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username = username)
 product_name = opts[:product_name]
@@ -106,6 +111,7 @@ begin
     dd_obj: dd_obj,
     name: name,
     description: description,
+    engagement_type: engagement_type,
     status: status,
     lead_username: lead_username,
     product_name: product_name,
