@@ -13,7 +13,8 @@ module CSI
       # dd_obj = CSI::Plugins::DefectDojo.login_v1(
       #   url: 'required - url of DefectDojo Server',
       #   username: 'required - username to AuthN w/ api v1)',
-      #   api_key: 'optional - defect dojo api key (will prompt if nil)'
+      #   api_key: 'optional - defect dojo api key (will prompt if nil)',
+      #   debug: 'optional - proxy all traffic through http://127.0.0.1:8080 for debug (defaults to false)'
       # )
 
       public_class_method def self.login_v1(opts = {})
@@ -106,7 +107,7 @@ module CSI
         url = dd_obj[:url]
         base_dd_api_uri = "#{url}/api/v1".to_s.scrub
 
-        if opts[:debug]
+        if dd_obj[:debug]
           rest_client = CSI::Plugins::TransparentBrowser.open(
             browser_type: :rest,
             proxy: 'http://127.0.0.1:8080'
@@ -478,7 +479,6 @@ module CSI
           rest_call: 'reimportscan/',
           http_method: :post,
           http_body: http_body,
-          debug: true
         )
 
         return response
@@ -565,7 +565,8 @@ module CSI
           dd_obj = #{self}.login_v1(
             url: 'required - url of DefectDojo Server',
             username: 'required - username to AuthN w/ api v1)',
-            api_key: 'optional - defect dojo api key (will prompt if nil)'
+            api_key: 'optional - defect dojo api key (will prompt if nil)',
+            debug: 'optional - proxy all traffic through http://127.0.0.1:8080 for debug (defaults to false)'
           )
 
           dd_obj = #{self}.login_v2(
