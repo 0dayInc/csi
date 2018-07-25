@@ -87,7 +87,7 @@ opts[:api_key] ? (api_key = opts[:api_key]) : (api_key = CSI::Plugins::Authentic
 # Create Engagement Args
 name = opts[:name]
 description = opts[:description]
-opts[:engagement_type]
+engagement_type = opts[:engagement_type]
 status = opts[:status]
 opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username = username)
 product_name = opts[:product_name]
