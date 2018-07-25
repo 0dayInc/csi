@@ -593,6 +593,7 @@ module CSI
             dd_obj: 'required - dd_obj returned from #login_v1 method',
             name: 'required - name of the engagement',
             description: 'optional - description of engagement',
+            engagement_type: 'optional - type of engagement Interactive||CI/CD (defaults to CI/CD),
             status: 'optional - status of the engagement In Progress || On Hold (defaults to In Progress)',
             lead_username: 'required - username of lead to tie to engagement',
             product_name: 'required - product name in which to create engagement',
