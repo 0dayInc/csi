@@ -478,7 +478,7 @@ module CSI
           dd_obj: dd_obj,
           rest_call: 'reimportscan/',
           http_method: :post,
-          http_body: http_body,
+          http_body: http_body
         )
 
         return response
