@@ -32,6 +32,7 @@ module CSI
                   end
 
         dd_obj[:authz_header] = "ApiKey #{username}:#{api_key}"
+        dd_obj[:debug] = opts[:debug]
 
         return dd_obj
       rescue => e
