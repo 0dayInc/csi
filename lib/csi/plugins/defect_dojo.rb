@@ -285,7 +285,7 @@ module CSI
         http_body[:test_strategy] = opts[:test_strategy]
         http_body[:orchestration_engine] = opts[:orchestration_engine]
         http_body[:build_server] = opts[:build_server]
-        http_body[:scm_server] = opts[:scm_server]
+        http_body[:source_code_management_server] = opts[:scm_server]
 
         # Defaults to false
         opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
