@@ -50,6 +50,10 @@ OptionParser.new do |options|
     opts[:test_strategy] = t
   end
 
+  options.on('-oENGINE', '--orchestration-engine=ENGINE', '<Optional - name of orchestration engine tied to CI/CD engagement>') do |o|
+    opts[:orchestration_engine] = o
+  end
+
   options.on('-A', '--[no-]api-test', '<Optional - API Test in Scope for Engagement (Defaults to false)>') do |a|
     opts[:api_test] = a
   end
@@ -92,6 +96,7 @@ status = opts[:status]
 opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username = username)
 product_name = opts[:product_name]
 test_strategy = opts[:test_strategy]
+orchestration_engine = opts[:orchestration_engine]
 api_test = opts[:api_test]
 pen_test = opts[:pen_test]
 threat_model = opts[:threat_model]
@@ -116,6 +121,7 @@ begin
     lead_username: lead_username,
     product_name: product_name,
     test_strategy: test_strategy,
+    orchestration_engine: orchestration_engine,
     api_test: api_test,
     pen_test: pen_test,
     threat_model: threat_model,
