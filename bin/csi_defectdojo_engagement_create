@@ -50,6 +50,14 @@ OptionParser.new do |options|
     opts[:test_strategy] = t
   end
 
+  options.on('-bSERVER', '--build-server=SERVER', '<Optional - name of build server tied to CI/CD engagement>') do |b|
+    opts[:build_server] = b
+  end
+
+  options.on('-zSERVER', '--scm-server=SERVER', '<Optional - name of SCM server tied to CI/CD engagement>') do |z|
+    opts[:scm_server] = z
+  end
+
   options.on('-oENGINE', '--orchestration-engine=ENGINE', '<Optional - name of orchestration engine tied to CI/CD engagement>') do |o|
     opts[:orchestration_engine] = o
   end
@@ -97,6 +105,8 @@ opts[:lead_username] ? (lead_username = opts[:lead_username]) : (lead_username =
 product_name = opts[:product_name]
 test_strategy = opts[:test_strategy]
 orchestration_engine = opts[:orchestration_engine]
+build_server = opts[:build_server]
+scm_server = opts[:scm_server]
 api_test = opts[:api_test]
 pen_test = opts[:pen_test]
 threat_model = opts[:threat_model]
@@ -122,6 +132,8 @@ begin
     product_name: product_name,
     test_strategy: test_strategy,
     orchestration_engine: orchestration_engine,
+    build_server: build_server,
+    scm_server: scm_server,
     api_test: api_test,
     pen_test: pen_test,
     threat_model: threat_model,

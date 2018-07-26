@@ -230,6 +230,8 @@ module CSI
       #   product_name: 'required - product name in which to create engagement',
       #   test_strategy: 'required - URL of test strategy documentation (e.g. OWASP ASVS URL)',
       #   orchestration_engine: 'optional - name of orchestration engine tied to CI/CD engagement',
+      #   build_server: 'optional - name of build server tied to CI/CD engagement',
+      #   scm_server: 'optional - name of SCM server tied to CI/CD engagement',
       #   api_test: 'optional - boolean to set an engagement as an api assessment (defaults to false)',
       #   pen_test: 'optional - boolean to set an engagement as a manual penetration test (defaults to false)',
       #   threat_model: 'optional - boolean to set an engagement as a threat model (defaults to false)',
@@ -282,6 +284,8 @@ module CSI
 
         http_body[:test_strategy] = opts[:test_strategy]
         http_body[:orchestration_engine] = opts[:orchestration_engine]
+        http_body[:build_server] = opts[:build_server]
+        http_body[:scm_server] = opts[:scm_server]
 
         # Defaults to false
         opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
@@ -601,6 +605,8 @@ module CSI
             product_name: 'required - product name in which to create engagement',
             test_strategy: 'required - URL of test strategy documentation (e.g. OWASP ASVS URL)',
             orchestration_engine: 'optional - name of orchestration engine tied to CI/CD engagement',
+            build_server: 'optional - name of build server tied to CI/CD engagement',
+            scm_server: 'optional - name of SCM server tied to CI/CD engagement',
             api_test: 'optional - boolean to set an engagement as an api assessment (defaults to false)',
             pen_test: 'optional - boolean to set an engagement as a manual penetration test (defaults to false)',
             threat_model: 'optional - boolean to set an engagement as a threat model (defaults to false)',
