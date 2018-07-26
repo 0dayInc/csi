@@ -588,7 +588,7 @@ module CSI
       #   id: 'optional - retrieve single test by id, otherwise return all'
       # )
 
-      public_class_method def self.test_list(opts = {})
+      public_class_method def self.tool_configuration_list(opts = {})
         dd_obj = opts[:dd_obj]
         opts[:id] ? (rest_call = "tool_configurations/#{opts[:id].to_i}") : (rest_call = 'tool_configurations')
 
