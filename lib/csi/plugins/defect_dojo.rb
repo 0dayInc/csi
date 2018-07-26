@@ -172,6 +172,28 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # tool_configuration_resource_uri_by_name(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   tool_config_name: 'required tool configuration name'
+      # )
+
+      private_class_method def self.tool_configuration_resource_uri_by_name(opts = {})
+        dd_obj = opts[:dd_obj]
+        tool_config_name = opts[:tool_config_name].to_s.scrub
+
+        tool_configuration_list = self.tool_configuration_list(dd_obj: dd_obj)
+        tool_configuration_by_name_object = tool_configuration_list[:objects].select do |tool_configuration|
+          tool_configuration[:name] == tool_config_name
+        end
+        tool_config_resource_uri = tool_configuration_by_name_object.first[:resource_uri]
+
+        return tool_config_resource_uri
+      rescue StandardError, SystemExit, Interrupt => e
+        dd_obj = logout(dd_obj) unless dd_obj.nil?
+        raise e
+      end
+
+      # Supported Method Parameters::
       # product_list = CSI::Plugins::DefectDojo.product_list(
       #   dd_obj: 'required dd_obj returned from #login_v1 method',
       #   id: 'optional - retrieve single product by id, otherwise return all'
@@ -283,9 +305,25 @@ module CSI
         http_body[:product] = product_by_name_object.first[:resource_uri]
 
         http_body[:test_strategy] = opts[:test_strategy]
-        http_body[:orchestration_engine] = opts[:orchestration_engine]
-        http_body[:build_server] = opts[:build_server]
-        http_body[:source_code_management_server] = opts[:scm_server]
+
+        # Ok lets determine the resource_uri orchestration, build_server, and scm_server
+        orchestration_engine = opts[:orchestration_engine].to_s.strip.chomp.scrub
+        http_body[:orchestration_engine] = tool_configuration_resource_uri_by_name(
+          dd_obj: dd_obj,
+          tool_config_name: orchestration_engine
+        )
+
+        build_server = opts[:build_server].to_s.strip.chomp.scrub
+        http_body[:build_server] = tool_configuration_resource_uri_by_name(
+          dd_obj: dd_obj,
+          tool_config_name: build_server
+        )
+
+        scm_server = opts[:scm_server].to_s.strip.chomp.scrub
+        http_body[:source_code_management_server] = tool_configuration_resource_uri_by_name(
+          dd_obj: dd_obj,
+          tool_config_name: scm_server
+        )
 
         # Defaults to false
         opts[:api_test] ? (http_body[:api_test] = true) : (http_body[:api_test] = false)
@@ -545,6 +583,30 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # tool_configuration_list = CSI::Plugins::DefectDojo.tool_configuration_list(
+      #   dd_obj: 'required dd_obj returned from #login_v1 method',
+      #   id: 'optional - retrieve single test by id, otherwise return all'
+      # )
+
+      public_class_method def self.test_list(opts = {})
+        dd_obj = opts[:dd_obj]
+        opts[:id] ? (rest_call = "tool_configurations/#{opts[:id].to_i}") : (rest_call = 'tool_configurations')
+
+        response = dd_v1_rest_call(
+          dd_obj: dd_obj,
+          rest_call: rest_call
+        )
+
+        # Return array containing the post-authenticated DefectDojo REST API token
+        json_response = JSON.parse(response, symbolize_names: true)
+        tool_configuration_list = json_response
+
+        return tool_configuration_list
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
       # CSI::Plugins::DefectDojo.logout(
       #   dd_obj: 'required dd_obj returned from #login_v1 or #login_v2 method'
       # )
@@ -653,6 +715,11 @@ module CSI
           user_list = #{self}.user_list(
             dd_obj: 'required dd_obj returned from #login_v1 method',
             id: 'optional - retrieve single user by id, otherwise return all'
+          )
+
+          tool_configuration_list = #{self}.tool_configuration_list(
+            dd_obj: 'required dd_obj returned from #login_v1 method',
+            id: 'optional - retrieve single test by id, otherwise return all'
           )
 
           #{self}.logout(
