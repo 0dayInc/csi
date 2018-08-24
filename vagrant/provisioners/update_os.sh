@@ -11,5 +11,5 @@ while true
   else
     printf '.'
     sleep 30
-  end
+  fi
 end
