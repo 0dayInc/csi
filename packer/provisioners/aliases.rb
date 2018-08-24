@@ -8,7 +8,7 @@ File.open(alias_file, 'w') do |f|
   f.puts '#!/bin/bash'
   f.puts "alias kpid='kill -15'"
   f.puts "alias prep='ps -ef | grep'"
-  f.puts "alias sup='sudo su -'"
+  f.puts "alias sup='sudo -i'"
   f.puts "alias vi='vim -i NONE'"
   f.puts "alias vim='vim -i NONE'"
 end
