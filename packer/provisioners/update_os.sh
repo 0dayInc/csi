@@ -6,7 +6,7 @@ sudo screen -S update_os -d -m /bin/bash --login -c "apt update && apt install -
 while true; do
   # Wait until screen exits session
   screen -ls | grep update_os
-  if [[ $? == 0 ]]; then
+  if [[ $? == 1 ]]; then
     exit 0
   else
     printf '.'
