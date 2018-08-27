@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2018.2.1> <debug>"
+  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2018.3.1> <debug>"
   exit 1
 }
 
@@ -45,26 +45,26 @@ case $provider_type in
     rm kali_rolling_docker.box || true
     pack docker kali_rolling_docker.json $debug
     vagrant box remove csi/kali_rolling --provider=docker|| true
-    vagrant box add csi/kali_rolling kali_rolling_docker.box
+    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_docker.box
     ;;
   "docker_csi")
     rm kali_rolling_docker_csi.box || true
     pack docker kali_rolling_docker_csi.json $debug
     vagrant box remove csi/prototyper --provider=docker || true
-    vagrant box add csi/prototyper kali_rolling_docker_csi.box
+    vagrant box add --box-version $box_version csi/prototyper kali_rolling_docker_csi.box
     ;;
   "virtualbox")
     rm kali_rolling_virtualbox.box || true
     pack virtualbox-iso kali_rolling_virtualbox.json $debug
     vagrant box remove csi/kali_rolling --provider=virtualbox || true
-    vagrant box add csi/kali_rolling kali_rolling_virtualbox.box
+    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_virtualbox.box
     ;;
   "vmware")
     echo $debug
     rm kali_rolling_vmware.box || true
     pack vmware-iso kali_rolling_vmware.json $debug
     vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
-    vagrant box add csi/kali_rolling kali_rolling_vmware.box
+    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_vmware.box
     ;;
   *)
     usage
