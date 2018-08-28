@@ -2,6 +2,7 @@
 *.swp
 *.gem
 *.rbc
+**/screenlog.*
 .bundle
 .config
 .DS_Store
