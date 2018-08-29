@@ -115,7 +115,7 @@ begin
     if File.exist?(arachni_stdout_log_path)
       break if File.read(arachni_stdout_log_path).include?(return_pattern)
     end
-    sleep 3
+    sleep 9
   end
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni

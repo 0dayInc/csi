@@ -4,7 +4,7 @@ global_vimrc='/etc/vim/vimrc'
 
 sudo apt install -y vim
 
-sudo cp $global_vimrc $global_vimrc.BAK
+sudo cp $global_vimrc $global_vimrc.dpkg-ORIG
 sudo cat $default_vimrc > $global_vimrc
 # Disable auto-indent
 sudo sed -i 's/  filetype plugin indent on/  filetype plugin indent off/g' $global_vimrc
