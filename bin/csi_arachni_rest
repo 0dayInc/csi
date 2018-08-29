@@ -113,9 +113,14 @@ begin
   return_pattern = 'Proxy: The scan will resume once you visit the shutdown URL.'
   loop do
     if File.exist?(arachni_stdout_log_path)
-      break if File.read(arachni_stdout_log_path).include?(return_pattern)
+      if File.read(arachni_stdout_log_path).include?(return_pattern)
+        print "#{return_pattern} found in #{arachni_stdout_log_path}...sleeping for 9s prior to proceeding..."
+        sleep 9
+        puts 'ready.'
+        break
+      end
     end
-    sleep 9
+    sleep 3
   end
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
