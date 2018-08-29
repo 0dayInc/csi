@@ -8,7 +8,14 @@ while true; do
   sudo screen -ls | grep update_os
   if [[ $? == 1 ]]; then
     # TODO: grok screenlog.0 to ensure we should be exiting w/ 0 & not 1
-    exit 0
+    grep -i -e error -e exception screenlog.*
+    if [[ $? == 0 ]]; then
+      echo 'Errors encountered in screenlog for update_os session!!!'
+      cat screenlog.*
+      exit 1
+    else
+      exit 0
+    fi
   else
     printf '.'
     sleep 30
