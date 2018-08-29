@@ -59,7 +59,7 @@ begin
   deep_scan = opts[:deep_scan]
 
   # Proxy defaults to 127.0.0.1:8282
-  arachni_cmd_str = 'arachni --plugin=proxy'
+  arachni_cmd_str = 'arachni --plugin=proxy:address=127.0.0.1,port=8282'
   arachni_cmd_str = "#{arachni_cmd_str} --scope-page-limit=0"
   arachni_cmd_str = "#{arachni_cmd_str} --checks=*,-common_*,-backup*,-backdoors,-directory_listing,-csrf"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
