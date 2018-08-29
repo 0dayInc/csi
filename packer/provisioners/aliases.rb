@@ -7,6 +7,7 @@ system("sudo chmod 777 #{alias_file}")
 File.open(alias_file, 'w') do |f|
   f.puts '#!/bin/bash'
   f.puts "alias kpid='kill -15'"
+  f.puts "alias phantomjs='export QT_QPA_PLATFORM=offscreen; phantomjs'"
   f.puts "alias prep='ps -ef | grep'"
   f.puts "alias sup='sudo -i'"
   f.puts "alias vi='vim -i NONE'"
