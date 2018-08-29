@@ -114,9 +114,9 @@ begin
   loop do
     if File.exist?(arachni_stdout_log_path)
       if File.read(arachni_stdout_log_path).include?(return_pattern)
-        print "#{return_pattern} found in #{arachni_stdout_log_path}...sleeping for 9s prior to proceeding..."
+        print 'Proxy started...sleeping for 9s.  '
         sleep 9
-        puts 'ready.'
+        puts 'Ready to proceed.'
         break
       end
     end
@@ -125,6 +125,7 @@ begin
 
   # Now that the proxy is up, we can run the navigation-REST.instruct through the Arachni
   # proxy plugin (http://127.0.0.1:8282) to train arachni how to interact w/ the API.
+  puts "Initialize REST API Training: #{navigation_instruct}"
   csi_arachni_rest_custom_http_header = instance_eval(File.read(navigation_instruct), navigation_instruct)
   puts "REST API Training Complete: #{navigation_instruct}"
   puts 'Sleeping for 9s prior to proceeding...'
