@@ -14,6 +14,7 @@ ls $arachni_build_path/bin/* | while read arachni_bin; do
 done
 
 # Add CA cert for testing
-sudo mkdir $arachni_ca_root
-sudo cp $arachni_build_path/system/gems/gems/arachni-1.5.1/lib/arachni/http/proxy_server/ssl-interceptor-ca-cert.pem $arachni_ca_root
-sudo update-ca-certificates --fresh
+# Comment out for now - rely upon drivers to reference CA instead
+# sudo mkdir $arachni_ca_root
+# sudo cp $arachni_build_path/system/gems/gems/arachni-1.5.1/lib/arachni/http/proxy_server/ssl-interceptor-ca-cert.pem $arachni_ca_root
+# sudo update-ca-certificates --fresh
