@@ -165,7 +165,7 @@ rescue StandardError, SystemExit, Interrupt => e
 ensure
   if fork_pid
     system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
-    puts "Killing PID: #{fork_pid}"
+    puts "Killing PID: #{fork_pid}, #{Process.pid}"
     Process.kill('TERM', fork_pid)
   end
   File.unlink(arachni_stdout_log_path) if File.exist?(arachni_stdout_log_path)
