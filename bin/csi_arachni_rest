@@ -171,7 +171,7 @@ rescue StandardError, SystemExit, Interrupt => e
   raise e
 ensure
   if fork_pid
-  # TODO: Use Process.spawn instead of system to capture pid for proper cleanup
+    # TODO: Use Process.spawn instead of system to capture pid for proper cleanup
     system('/bin/bash --login -c "http_proxy=http://127.0.0.1:8282 curl http://arachni.proxy/shutdown"')
     puts "Killing PID: #{fork_pid}"
     Process.kill('TERM', fork_pid)
