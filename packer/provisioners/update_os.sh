@@ -16,7 +16,7 @@ grok_error() {
         cat screenlog.*
         exit 1
       else
-        exit 0
+        break 
       fi
     else
       printf '.'
@@ -28,9 +28,8 @@ grok_error() {
 screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
 
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-sudo echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl
-
 update_os_recipe=(
+  'echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl'
   "apt update"
   "apt install -y debconf-utils"
   "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections"
@@ -50,5 +49,5 @@ update_os_recipe=(
 # to mitigate introduction of bugs during updgrades.
 for instruction in ${update_os_recipe[@]} ; do
   $screen_cmd $instruction
-  grok_error
+grok_error
 done
