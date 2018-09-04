@@ -25,11 +25,12 @@ grok_error() {
   done
 }
 
-screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
 
+# PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
+sudo echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl
+
 update_os_recipe=(
-  'echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl'
   "apt update"
   "apt install -y debconf-utils"
   "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections"
@@ -48,6 +49,7 @@ update_os_recipe=(
 # Update OS per update_os_recipe function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.
 for instruction in ${update_os_recipe[@]} ; do
-  $screen_cmd $instruction
-grok_error
+  screen_cmd="sudo screen -L -S update_os -d -m /bin/bash --login -c ${instruction}"
+  $screen_cmd
+  grok_error
 done
