@@ -28,7 +28,7 @@ grok_error() {
 
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-sudo echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl
+sudo 'echo -e "Package: openssl\nPin: version 1.1.0*\nPin-Priority: 1001" > /etc/apt/preferences.d/openssl'
 
 update_os_recipe=(
   "apt update"
