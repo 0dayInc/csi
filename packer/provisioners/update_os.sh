@@ -32,7 +32,7 @@ sudo echo "Package: openssl" > /etc/apt/preferences.d/openssl
 sudo echo "Pin: version 1.1.0*" >> /etc/apt/preferences.d/openssl
 sudo echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/openssl
 
-update_os_recipe=(
+update_os_instructions=(
   "apt update"
   "apt install -y debconf-utils"
   "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections"
@@ -48,10 +48,10 @@ update_os_recipe=(
   "apt install -y kali-linux-all"
 )
 
-# Update OS per update_os_recipe function and grok for errors in screen session logs
+# Update OS per update_os_instructions function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.
-for instruction in ${update_os_recipe[@]} ; do
-  screen_cmd="sudo screen -L -S update_os -d -m /bin/bash --login -c ${instruction}"
+for instruction in ${update_os_instructions[@]} ; do
+  screen_cmd="sudo screen -L -S update_os -d -m /bin/bash --login -c \"${instruction}\""
   $screen_cmd
   grok_error
 done
