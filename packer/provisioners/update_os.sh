@@ -34,26 +34,44 @@ sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/o
 screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
 assess_update_errors='|| echo UPDATE_ABORT && exit 1'
 
-update_os_instructions=(
-  "apt update"
-  "apt install -y debconf-utils"
-  "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections ${assess_update_errors}"
-  "echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections ${assess_update_errors}"
-  "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | debconf-set-selection ${assess_update_errors}"
-  "echo 'grub-pc grub-pc/install_devices multiselect /dev/sda1' | debconf-set-selections ${assess_update_errors}"
-  "echo 'wireshark-common wireshark-common/install-setuid boolean false' | debconf-set-selections ${assess_update_errors}"
-  "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade -y ${assess_update_errors}"
-  "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' full-upgrade -y ${assess_update_errors}"
-  "apt autoremove -y ${assess_update_errors}"
-  "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -y apt-file ${assess_update_errors}"
-  "apt-file update ${assess_update_errors}"
-  "apt install -y kali-linux-all ${assess_update_errors}"
-)
+$screen_cmd "apt update ${assess_update_errors}"
+grok_error
 
-for instruction in ${update_os_instructions[@]}; do
-  $screen_cmd $instruction
-  grok_error
-done
+$screen_cmd "apt install -y debconf-utils ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | debconf-set-selection ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/sda1' | debconf-set-selections ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | debconf-set-selections ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade -y ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' full-upgrade -y ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt autoremove -y ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -y apt-file ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt-file update ${assess_update_errors}"
+grok_error
+
+$screen_cmd "apt install -y kali-linux-all ${assess_update_errors}"
+grok_error
 
 printf 'OS updated to reasonable expectations - cleaning up screen logs...'
 sudo rm screenlog.*
