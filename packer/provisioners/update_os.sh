@@ -72,3 +72,5 @@ $screen_cmd "apt-file update" $assess_screen_err
 
 $screen_cmd "apt install -y kali-linux-all" $assess_screen_err
 #grok_error
+
+sudo rm screenlog.*
