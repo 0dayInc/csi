@@ -7,9 +7,9 @@ grok_error() {
     # Wait until screen exits session
     sudo screen -ls | grep update_os
     if [[ $? == 1 ]]; then
-      grep -i -e error -e exception screenlog.*
+      grep -i -e failed -e exception screenlog.*
       if [[ $? == 0 ]]; then
-        echo 'Errors encountered in screenlog for update_os session!!!'
+        echo 'Failures encountered in screenlog for update_os session!!!'
         cat screenlog.*
         exit 1
       else
