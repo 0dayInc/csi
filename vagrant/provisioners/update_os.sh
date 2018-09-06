@@ -31,7 +31,6 @@ assess_update_errors='|| echo UPDATE_ABORT && exit 1'
 
 update_os_instructions=(
   "apt update"
-  "apt install -y debconf-utils"
   "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections ${assess_update_errors}"
   "echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections ${assess_update_errors}"
   "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | debconf-set-selection ${assess_update_errors}"
