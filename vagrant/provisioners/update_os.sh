@@ -1,1 +1,1 @@
-./packer/provisioners/update_os.sh
+/csi/packer/provisioners/update_os.sh
