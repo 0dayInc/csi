@@ -33,6 +33,8 @@ sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/o
 # to mitigate introduction of bugs during updgrades.
 screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
 assess_update_errors='|| echo UPDATE_ABORT && exit 1'
+debconf_set='/usr/bin/debconf-set-selections'
+apt="apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
 
 $screen_cmd "apt update ${assess_update_errors}"
 grok_error
@@ -40,37 +42,37 @@ grok_error
 $screen_cmd "apt install -y debconf-utils ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | debconf-set-selections ${assess_update_errors}"
+$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections ${assess_update_errors}"
+$screen_cmd "echo 'libc6 libraries/restart-without-asking boolean true' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | debconf-set-selection ${assess_update_errors}"
+$screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/sda1' | debconf-set-selections ${assess_update_errors}"
+$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/sda1' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | debconf-set-selections ${assess_update_errors}"
+$screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade -y ${assess_update_errors}"
+$screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' full-upgrade -y ${assess_update_errors}"
+$screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt autoremove -y ${assess_update_errors}"
+$screen_cmd "${apt} autoremove -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -y apt-file ${assess_update_errors}"
+$screen_cmd "${apt} install -y kali-linux-all ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
 grok_error
 
 $screen_cmd "apt-file update ${assess_update_errors}"
-grok_error
-
-$screen_cmd "apt install -y kali-linux-all ${assess_update_errors}"
 grok_error
 
 printf 'OS updated to reasonable expectations - cleaning up screen logs...'
