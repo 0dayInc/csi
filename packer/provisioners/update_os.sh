@@ -36,6 +36,11 @@ assess_update_errors='|| echo UPDATE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
 apt="apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
 
+# Cleanup up prior screenlog.0 file from previous update_os failure(s)
+if [[ -e screenlog.0 ]]; then 
+  sudo rm screenlog.0
+fi
+
 $screen_cmd "apt update ${assess_update_errors}"
 grok_error
 
