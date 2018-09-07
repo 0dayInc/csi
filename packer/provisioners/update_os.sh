@@ -71,8 +71,13 @@ grok_error
 $screen_cmd "${apt} autoremove -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} install -y kali-linux-all ${assess_update_errors}"
-grok_error
+uname -a | grep kali
+if [[ $? == 0 ]]; then
+  $screen_cmd "${apt} install -y kali-linux-all ${assess_update_errors}"
+  grok_error
+else
+  echo "Other Linux Distro Detected - Skipping kali-linux-all Installation..."
+fi
 
 $screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
 grok_error
