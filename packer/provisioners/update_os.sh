@@ -18,7 +18,7 @@ grok_error() {
       fi
     else
       printf '.'
-      sleep 30
+      sleep 9
     fi
   done
 }
