@@ -431,7 +431,7 @@ module CSI
         if opts[:icmp_type]
           icmp_type = opts[:icmp_type]
         else
-          icmp_type = 0
+          icmp_type = 8
         end
 
         if opts[:icmp_code]
@@ -542,7 +542,7 @@ module CSI
         if opts[:icmpv6_type]
           icmpv6_type = opts[:icmpv6_type]
         else
-          icmp_type = 0
+          icmp_type = 8
         end
 
         if opts[:icmpv6_code]
