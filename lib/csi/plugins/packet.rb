@@ -93,8 +93,8 @@ module CSI
 
         pkt = PacketFu::ARPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # ARP Header
         pkt.arp_hw = arp_hw
@@ -139,8 +139,8 @@ module CSI
 
         pkt = PacketFu::EthPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # Payload
         pkt.payload = payload if payload
@@ -310,8 +310,8 @@ module CSI
 
         pkt = PacketFu::HSRPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IP Header
         pkt.ip_v = ip_v
@@ -451,8 +451,8 @@ module CSI
 
         pkt = PacketFu::ICMPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IP Header
         pkt.ip_v = ip_v
@@ -562,8 +562,8 @@ module CSI
 
         pkt = PacketFu::IPv6Packet.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IPv6 Header
         pkt.ipv6_v = ipv6_v
@@ -669,8 +669,8 @@ module CSI
 
         pkt = PacketFu::IPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IP Header
         pkt.ip_v = ip_v
@@ -757,8 +757,8 @@ module CSI
 
         pkt = PacketFu::IPv6Packet.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IPv6 Header
         pkt.ipv6_v = ipv6_v
@@ -916,8 +916,8 @@ module CSI
 
         pkt = PacketFu::TCPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IP Header
         pkt.ip_v = ip_v
@@ -1051,8 +1051,8 @@ module CSI
 
         pkt = PacketFu::UDPPacket.new
         # Ethernet Header
-        pkt.eth_saddr = eth_src
-        pkt.eth_daddr = eth_dst
+        pkt.eth_saddr = eth_src unless eth_src.nil?
+        pkt.eth_daddr = eth_dst unless eth_dst.nil?
         pkt.eth_proto = eth_proto
         # IP Header
         pkt.ip_v = ip_v
