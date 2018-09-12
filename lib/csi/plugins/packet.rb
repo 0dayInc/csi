@@ -115,7 +115,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # pkt = CSI::Plugins::Packet.contruct_eth(
+      # pkt = CSI::Plugins::Packet.construct_eth(
       #   ip_saddr: 'required - source ip of packet',
       #   ip_daddr: 'required - destination ip to send packet',
       #   payload: 'optional - packet payload defaults to empty string',
@@ -123,7 +123,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public_class_method def self.contruct_eth(opts = {})
+      public_class_method def self.construct_eth(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -693,7 +693,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # pkt = CSI::Plugins::Packet.contruct_ipv6(
+      # pkt = CSI::Plugins::Packet.construct_ipv6(
       #   ip_saddr: 'required - source ip of packet',
       #   ip_daddr: 'required - destination ip to send packet',
       #   payload: 'optional - packet payload defaults to empty string',
@@ -701,7 +701,7 @@ module CSI
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
 
-      public_class_method def self.contruct_ipv6(opts = {})
+      public_class_method def self.construct_ipv6(opts = {})
         # Ethernet Header
         eth_src = opts[:eth_src]
         eth_dst = opts[:eth_dst]
@@ -1136,6 +1136,78 @@ module CSI
             puts \"BODY: \#{p.hexify(p.payload)}\"
             puts \"\\n\\n\\n\"
           end
+
+          pkt = #{self}.construct_arp(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_eth(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_hsrp(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_icmp(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_icmpv6(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_ip(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_ipv6(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_tcp(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
+
+          pkt = #{self}.construct_udp(
+            ip_saddr: 'required - source ip of packet',
+            ip_daddr: 'required - destination ip to send packet',
+            payload: 'optional - packet payload defaults to empty string',
+            ip_id: 'optional - defaults to 0xfeed',
+            iface: 'optional - interface to send packet (defaults to eth0)',
+          )
 
           #{self}.send(
             pkt: 'required - pkt returned from other #construct_<type> methods',
