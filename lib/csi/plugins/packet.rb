@@ -353,7 +353,7 @@ module CSI
       # pkt = CSI::Plugins::Packet.construct_icmp(
       #   ip_saddr: 'required - source ip of packet',
       #   ip_daddr: 'required - destination ip to send packet',
-      #   payload: 'optional - packet payload defaults to empty string',
+      #   payload: 'optional - packet payload defaults to "*ping*"',
       #   ip_id: 'optional - defaults to 0xfeed',
       #   iface: 'optional - interface to send packet (defaults to eth0)',
       # )
@@ -447,7 +447,7 @@ module CSI
         end
 
         # Payload
-        payload = opts[:payload]
+        ops[:payload] ? payload = opts[:payload] : payload = '*ping*'
 
         pkt = PacketFu::ICMPPacket.new
         # Ethernet Header
@@ -1164,7 +1164,7 @@ module CSI
           pkt = #{self}.construct_icmp(
             ip_saddr: 'required - source ip of packet',
             ip_daddr: 'required - destination ip to send packet',
-            payload: 'optional - packet payload defaults to empty string',
+            payload: 'optional - packet payload defaults to \"*ping*\"',
             ip_id: 'optional - defaults to 0xfeed',
             iface: 'optional - interface to send packet (defaults to eth0)',
           )
