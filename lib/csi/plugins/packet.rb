@@ -447,7 +447,7 @@ module CSI
         end
 
         # Payload
-        ops[:payload] ? payload = opts[:payload] : payload = '*ping*'
+        opts[:payload] ? payload = opts[:payload] : payload = '*ping*'
 
         pkt = PacketFu::ICMPPacket.new
         # Ethernet Header
