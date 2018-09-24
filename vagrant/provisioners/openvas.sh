@@ -6,3 +6,4 @@ fqdn=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/apache2/vagrant.ya
 sudo /bin/bash --login -c "openvasmd --user=${user} --new-password=${pass}"
 sudo sed -i "9s/.*/ExecStart=\/usr\/sbin\/gsad --foreground --listen=127\.0\.0\.1 --port=9392 --mlisten=127\.0\.0\.1 --mport=9390 --http-only --no-redirect --allow-header-host openvas.${fqdn}/" /lib/systemd/system/greenbone-security-assistant.service
 sudo systemctl daemon-reload
+sudo systemctl restart greenbone-security-assistant
