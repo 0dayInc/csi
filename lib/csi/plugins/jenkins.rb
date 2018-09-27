@@ -16,7 +16,8 @@ module CSI
       #   username: 'optional username (functionality will be limited if ommitted)',
       #   password: 'optional password (functionality will be limited if ommitted)'
       #   identity_file: 'optional ssh private key path to AuthN w/ Jenkins PREFERRED over username/password',
-      #   ssl: 'optional connect over TLS (defaults to true)
+      #   ssl: 'optional connect over TLS (defaults to true),
+      #   proxy: 'optional debug proxy rest api requests to jenkins (e.g. "http://127.0.0.1:8080")''
       # )
 
       public_class_method def self.connect(opts = {})
@@ -35,6 +36,12 @@ module CSI
                    else
                      false
                    end
+       if opts[:proxy]
+         proxy_protocol = URI(proxy).scheme
+         proxy_ip = URI(proxy).host
+         proxy_port = URI(proxy).port
+       end
+
 
         @@logger.info("Logging into Jenkins Server: #{jenkins_ip}")
         if username == '' && password == ''
@@ -43,7 +50,10 @@ module CSI
               server_ip: jenkins_ip,
               server_port: port,
               follow_redirects: true,
-              ssl: ssl_bool
+              ssl: ssl_bool,
+              proxy_protocol: proxy_protocol,
+              proxy_ip: proxy_ip,
+              proxy_port: proxy_port
             )
           else
             jenkins_obj = JenkinsApi::Client.new(
@@ -51,7 +61,10 @@ module CSI
               server_port: port,
               identity_file: identity_file,
               follow_redirects: true,
-              ssl: ssl_bool
+              ssl: ssl_bool,
+              proxy_protocol: proxy_protocol,
+              proxy_ip: proxy_ip,
+              proxy_port: proxy_port
             )
           end
         else
@@ -62,7 +75,10 @@ module CSI
             username: username,
             password: password,
             follow_redirects: true,
-            ssl: ssl_bool
+            ssl: ssl_bool,
+            proxy_protocol: proxy_protocol,
+            proxy_ip: proxy_ip,
+            proxy_port: proxy_port
           )
         end
         jenkins_obj.system.wait_for_ready
@@ -72,7 +88,7 @@ module CSI
       end
 
       # CSI::Plugins::Jenkins.create_user(
-      #   jenkins_obj: 'required - jenkins_obj returned from login method',
+      #   jenkins_obj: 'required - jenkins_obj returned from #connect method',
       #   username: 'required - user to create',
       #   password: 'required - password for new user'
       #   fullname: 'required - full name of new user'
@@ -122,7 +138,7 @@ module CSI
       end
 
       # CSI::Plugins::Jenkins.create_ssh_credential(
-      #   jenkins_obj: 'required - jenkins_obj returned from login method',
+      #   jenkins_obj: 'required - jenkins_obj returned from #connect method',
       #   username: 'required - username for new credential'
       #   private_key_path: 'required - path of private ssh key for new credential'
       #   key_passphrase: 'optional - private key passphrase for new credential'
@@ -206,7 +222,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.get_all_job_git_repos(
-      #   jenkins_obj: 'required jenkins_obj returned from login method'
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method'
       # )
 
       public_class_method def self.get_all_job_git_repos(opts = {})
@@ -239,7 +255,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.list_nested_jobs(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   view_path: 'required view path to list jobs'
       # )
 
@@ -256,7 +272,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.list_nested_views(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   view_path: 'required view path list sub-views'
       # )
 
@@ -272,7 +288,7 @@ module CSI
       end
 
       # CSI::Plugins::Jenkins.create_nested_view(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   view_path: 'required view path create',
       #   create_in_view_path: 'optional creates nested view within an existing nested view, defaults to / views'
       # )
@@ -326,7 +342,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.add_job_to_nested_view(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   view_path: 'required view path associate job',
       #   job_name: 'required view path attach to a view',
       # )
@@ -342,7 +358,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.copy_job_no_fail_on_exist(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   existing_job_name: 'required existing job to copt to new job',
       #   new_job_name: 'required name of new job'
       # )
@@ -362,7 +378,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.disable_jobs_by_regex(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
 
@@ -383,7 +399,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.delete_jobs_by_regex(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       #   regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
       # )
 
@@ -404,7 +420,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.clear_build_queue(
-      #   jenkins_obj: 'required jenkins_obj returned from login method',
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method',
       # )
 
       public_class_method def self.clear_build_queue(opts = {})
@@ -420,7 +436,7 @@ module CSI
 
       # Supported Method Parameters::
       # CSI::Plugins::Jenkins.disconnect(
-      #   jenkins_obj: 'required jenkins_obj returned from login method'
+      #   jenkins_obj: 'required jenkins_obj returned from #connect method'
       # )
 
       public_class_method def self.disconnect(opts = {})
@@ -452,12 +468,13 @@ module CSI
             username: 'optional username (functionality will be limited if ommitted)',
             password: 'optional password (functionality will be limited if ommitted)',
             identity_file: 'optional ssh private key path to AuthN w/ Jenkins PREFERRED over username/password',
-            ssl: 'optional connect over TLS (defaults to true)
+            ssl: 'optional connect over TLS (defaults to true),
+            proxy: 'optional debug proxy rest api requests to jenkins (e.g. "http://127.0.0.1:8080")''
           )
           puts jenkins_obj.public_methods
 
           #{self}.create_user(
-            jenkins_obj: 'required - jenkins_obj returned from login method',
+            jenkins_obj: 'required - jenkins_obj returned from #connect method',
             username: 'required - user to create',
             password: 'optional - password for new user (will prompt if nil)'
             fullname: 'required - full name of new user'
@@ -465,7 +482,7 @@ module CSI
           )
 
           #{self}.create_ssh_credential(
-            jenkins_obj: 'required - jenkins_obj returned from login method',
+            jenkins_obj: 'required - jenkins_obj returned from #connect method',
             username: 'required - username for new credential'
             private_key_path: 'required - path of private ssh key for new credential'
             key_passphrase: 'optional - private key passphrase for new credential'
@@ -480,51 +497,51 @@ module CSI
           )
 
           git_repo_branches = #{self}.get_all_git_repo_branches_by_commit_date(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             job_name: 'required jenkins job name',
             git_url: 'required git url for git_repo'
           )
 
           nested_jobs_arr = #{self}.list_nested_jobs(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             view_path: 'required view path list jobs'
           )
 
           nested_views_arr = #{self}.list_nested_views(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             view_path: 'required view path list sub-views'
           )
 
           view_created_bool = #{self}.create_nested_view(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             view_path: 'required view path create',
             create_in_view_path: 'optional creates nested view within an existing nested view, defaults to / views'
           )
 
           add_job_to_nested_view_resp = #{self}.add_job_to_nested_view(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             view_path: 'required view path associate job',
             job_name: 'required view path attach to a view',
           )
 
           copy_job_resp = #{self}.copy_job_no_fail_on_exist(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             existing_job_name: 'required existing job to copt to new job',
             new_job_name: 'required name of new job'
           )
 
           #{self}.disable_jobs_by_regex(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
           )
 
           #{self}.delete_job_by_regex(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
             regex: 'required regex pattern for matching jobs to disable e.g. :regex => "^M[0-9]"',
           )
 
           #{self}.clear_build_queue(
-            jenkins_obj: 'required jenkins_obj returned from login method',
+            jenkins_obj: 'required jenkins_obj returned from #connect method',
           )
 
           #{self}.disconnect(
