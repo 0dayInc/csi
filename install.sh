@@ -70,14 +70,16 @@ case $csi_deploy_type in
     if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
       export VAGRANT_PROVIDER="vmware"
       license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
+      vagrant plugin install vagrant-vmware-desktop
+      vagrant plugin license vagrant-vmware-desktop $license_file
       
       case $csi_deploy_type in
         "vmware-fusion"|"vmware-fusion-gui")
           if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
             export VAGRANT_GUI="true"
           fi
-          vagrant plugin install vagrant-vmware-fusion
-          vagrant plugin license vagrant-vmware-fusion $license_file
+          #vagrant plugin install vagrant-vmware-fusion
+          #vagrant plugin license vagrant-vmware-fusion $license_file
           if [[ $debug == '' ]]; then
             vagrant up --provider=vmware_fusion
           else
@@ -88,8 +90,8 @@ case $csi_deploy_type in
           if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
             export VAGRANT_GUI="true"
           fi
-          vagrant plugin install vagrant-vmware-workstation
-          vagrant plugin license vagrant-vmware-workstation $license_file
+          #vagrant plugin install vagrant-vmware-workstation
+          #vagrant plugin license vagrant-vmware-workstation $license_file
           if [[ $debug == '' ]]; then
             vagrant up --provider=vmware_workstation
           else
