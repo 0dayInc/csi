@@ -13,6 +13,9 @@ hostname = `hostname`.to_s.chomp.strip.scrub
 
 print 'Creating SSH Key for Userland Jenkins Jobs...'
 puts `sudo -H -u jenkins /bin/bash --login -c 'echo y | ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f #{private_key_path}'`
+
+
+# TODO: Begin Potential Race Condition of Private SSH Key for Jenkins User
 `sudo chmod 644 #{private_key_path}'`
 
 # TODO: Create Jenkins SSH Credentials for all hosts referenced in vagrant.yaml (User-Land Config)
@@ -52,7 +55,7 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
   end
 end
 
-# TODO: Results in a Potentials Race Condition
+# TODO: End of Potential Race Condition
 puts `sudo -H -u jenkins /bin/bash --login -c 'chmod 600 #{private_key_path}'`
 
 puts 'The following is the public SSH key created for Jenkins:'
