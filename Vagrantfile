@@ -8,6 +8,9 @@ API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 vagrant_provider = ENV['VAGRANT_PROVIDER'] if ENV['VAGRANT_PROVIDER']
 
+puts vagrant_provider
+puts 'GUI ENABLED.' if vagrant_gui
+
 Vagrant.configure(API_VERSION) do |config|
   config.vm.box = 'csi/kali_rolling'
 
