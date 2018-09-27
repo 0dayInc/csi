@@ -36,12 +36,12 @@ module CSI
                    else
                      false
                    end
-       if opts[:proxy]
-         proxy_protocol = URI(proxy).scheme
-         proxy_ip = URI(proxy).host
-         proxy_port = URI(proxy).port
-       end
 
+        if opts[:proxy]
+          proxy_protocol = URI(proxy).scheme
+          proxy_ip = URI(proxy).host
+          proxy_port = URI(proxy).port
+        end
 
         @@logger.info("Logging into Jenkins Server: #{jenkins_ip}")
         if username == '' && password == ''
