@@ -14,7 +14,6 @@ hostname = `hostname`.to_s.chomp.strip.scrub
 print 'Creating SSH Key for Userland Jenkins Jobs...'
 puts `sudo -H -u jenkins /bin/bash --login -c 'echo y | ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f #{private_key_path}'`
 
-
 # TODO: Begin Potential Race Condition of Private SSH Key for Jenkins User
 `sudo -H -u jenkins /bin/bash --login -c 'chmod 777 #{File.dirname(private_key_path)} && chmod 644 #{private_key_path}'`
 
