@@ -38,9 +38,10 @@ module CSI
                    end
 
         if opts[:proxy]
-          proxy_protocol = URI(proxy).scheme
-          proxy_ip = URI(proxy).host
-          proxy_port = URI(proxy).port
+          proxy = URI(opts[:proxy])
+          proxy_protocol = proxy.scheme
+          proxy_ip = proxy.host
+          proxy_port = proxy.port
         end
 
         @@logger.info("Logging into Jenkins Server: #{jenkins_ip}")
