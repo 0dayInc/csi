@@ -16,7 +16,7 @@ puts `sudo -H -u jenkins /bin/bash --login -c 'echo y | ssh-keygen -t rsa -b 409
 
 
 # TODO: Begin Potential Race Condition of Private SSH Key for Jenkins User
-`sudo chmod 644 #{private_key_path}`
+`sudo -H -u jenkins /bin/bash --login -c 'chmod 777 #{File.dirname(private_key_path)} && chmod 644 #{private_key_path}'`
 
 # TODO: Create Jenkins SSH Credentials for all hosts referenced in vagrant.yaml (User-Land Config)
 jenkins_obj = CSI::Plugins::Jenkins.connect(
@@ -56,7 +56,7 @@ if jenkins_userland_config.include?('jenkins_job_credentials')
 end
 
 # TODO: End of Potential Race Condition
-`sudo chmod 600 #{private_key_path}`
+`sudo -H -u jenkins /bin/bash --login -c 'chmod 640 #{private_key_path} && chmod 700 #{File.dirname(private_key_path)}'`
 
 puts 'The following is the public SSH key created for Jenkins:'
 puts `sudo cat /var/lib/jenkins/.ssh/id_rsa-csi_jenkins.pub`
