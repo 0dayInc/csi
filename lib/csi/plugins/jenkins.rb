@@ -179,7 +179,7 @@ module CSI
                 'username' => username,
                 'privateKeySource' => {
                   'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource',
-                  'privateKeyFile' => private_key_path
+                  'privateKey' => File.read(private_key_path)
                 },
                 'passphrase' => key_passphrase,
                 'id' => credential_id,
@@ -197,7 +197,7 @@ module CSI
                 'username' => username,
                 'privateKeySource' => {
                   'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource',
-                  'privateKeyFile' => private_key_path
+                  'privateKey' => File.read(private_key_path)
                 },
                 'passphrase' => key_passphrase,
                 'description' => description,
