@@ -12,7 +12,7 @@ userland_pass = jenkins_userland_config['pass']
 hostname = `hostname`.to_s.chomp.strip.scrub
 
 print 'Creating SSH Key for Userland Jenkins Jobs...'
-puts `sudo -H -u jenkins /bin/bash --login -c 'echo y | ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f #{private_key_path} && chmod 644 #{private_key_path}'`
+puts `sudo -H -u jenkins /bin/bash --login -c 'echo y | ssh-keygen -t rsa -b 4096 -C jenkins@#{hostname} -N #{userland_ssh_keygen_pass} -f #{private_key_path} && sudo -H -u jenkins /bin/bash --login -c 'chmod 644 #{private_key_path}'`
 
 # TODO: Create Jenkins SSH Credentials for all hosts referenced in vagrant.yaml (User-Land Config)
 jenkins_obj = CSI::Plugins::Jenkins.connect(
