@@ -29,6 +29,7 @@ etc/apache2/vagrant.yaml
 etc/aws/vagrant.yaml
 etc/burpsuite/navigation.instruct
 etc/burpsuite/vagrant.yaml
+etc/defectdojo/vagrant.yaml
 etc/jenkins/jobs_userland/*
 !etc/jenkins/jobs_userland/.gitkeep
 etc/jenkins/vagrant.yaml
@@ -36,6 +37,9 @@ etc/jenkins/thinBackup
 etc/letsencrypt/vagrant.yaml
 etc/metasploit/vagrant.yaml
 etc/openvas/vagrant.yaml
+etc/owasp_zap/navigation.instruct
+etc/owasp_zap/vagrant.yaml
+etc/recon-ng/vagrant.yaml
 etc/virtualbox/vagrant.yaml
 etc/vmware/vagrant.yaml
 packer/packer_cache

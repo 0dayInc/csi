@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2018.3.1> <debug>"
+  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2018.3a.1> <debug>"
   exit 1
 }
 
