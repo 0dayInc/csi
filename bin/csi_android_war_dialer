@@ -31,10 +31,6 @@ OptionParser.new do |options|
     opts[:sox_bin] = sox
   end
 
-  options.on('-WWAVEFORM', '--waveform-path=WAVEFORM', '<Required -Path to Waveform Binary>') do |waveform|
-    opts[:waveform_bin] = waveform
-  end
-
   options.on('-wWAV', '--wav-archive-dir=WAV', '<Required - Directory Path to Store WAV Files>') do |wav|
     opts[:wav_archive] = wav
   end
@@ -60,7 +56,7 @@ seconds_to_record = opts[:seconds_to_record].to_i
 adb_bin = opts[:adb_bin] if File.exist?(opts[:adb_bin].to_s.scrub.strip.chomp)
 sox_bin = opts[:sox_bin] if File.exist?(opts[:sox_bin].to_s.scrub.strip.chomp)
 wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exist?(opts[:wav_archive].to_s.scrub.strip.chomp)
-waveform_bin = opts[:waveform_bin] if File.exist?(opts[:waveform_bin].to_s.scrub.strip.chomp)
+waveform_bin = 'waveform'
 
 # Optional Flag Variables
 randomize = opts[:randomize]
