@@ -31,6 +31,10 @@ OptionParser.new do |options|
     opts[:sox_bin] = sox
   end
 
+  options.on('-WWAVEFORM', '--waveform-path=WAVEFORM', '<Required -Path to Waveform Binary>') do |waveform|
+    opts[:waveform_bin] = waveform
+  end
+
   options.on('-wWAV', '--wav-archive-dir=WAV', '<Required - Directory Path to Store WAV Files>') do |wav|
     opts[:wav_archive] = wav
   end
@@ -56,6 +60,7 @@ seconds_to_record = opts[:seconds_to_record].to_i
 adb_bin = opts[:adb_bin] if File.exist?(opts[:adb_bin].to_s.scrub.strip.chomp)
 sox_bin = opts[:sox_bin] if File.exist?(opts[:sox_bin].to_s.scrub.strip.chomp)
 wav_archive = opts[:wav_archive].to_s.scrub.strip.chomp if Dir.exist?(opts[:wav_archive].to_s.scrub.strip.chomp)
+waveform_bin = opts[:waveform_bin] if File.exist?(opts[:waveform_bin].to_s.scrub.strip.chomp)
 
 # Optional Flag Variables
 randomize = opts[:randomize]
@@ -89,11 +94,11 @@ if from_num <= to_num
       # Record Call
       pid_to_kill = 0
       wav_file = "#{wav_archive}/#{target_num}-#{start_timestamp}.wav"
-      sox_cmd = "#{sox_bin} -d #{wav_file} trim 0 #{seconds_to_record}"
+      sox_params = "-d #{wav_file} trim 0 #{seconds_to_record}"
 
       puts red
       puts "Recording Duration: #{seconds_to_record}s"
-      system(sox_cmd)
+      system(sox_bin, sox_params)
       puts 'Complete.'
       puts end_of_color
 
@@ -107,9 +112,11 @@ if from_num <= to_num
 
       puts cayan
       puts 'Generating Audio Spectrogram...'
-      system("#{sox_bin} #{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}")
+      sox_params = "#{wav_file} -n spectrogram -o #{wav_file}-spectrogram.png -d #{seconds_to_record}"
+      system(sox_bin, sox_params)
       puts 'Generating Audio Waveform...'
-      system("waveform -c '#FF0000' -b '#000000' -F #{wav_file} #{wav_file}-waveform.png")
+      waveform_params = "-c '#FF0000' -b '#000000' -F #{wav_file} #{wav_file}-waveform.png"
+      system(waveform_bin, waveform_params)
       puts 'Complete.'
       puts end_of_color
 
