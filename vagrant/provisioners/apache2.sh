@@ -3,6 +3,7 @@ domain_name=$(hostname -d)
 sudo /bin/bash --login -c "echo -e '127.0.0.1\tjenkins.${domain_name}' >> /etc/hosts"
 sudo /bin/bash --login -c "echo -e '127.0.0.1\topenvas.${domain_name}' >> /etc/hosts"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/apache2/sites-available/*.conf"
+sudo rm /etc/apache2/sites-enabled/*
 sudo ln -s /etc/apache2/sites-available/jenkins_80.conf /etc/apache2/sites-enabled/
 sudo ln -s /etc/apache2/sites-available/jenkins_443.conf /etc/apache2/sites-enabled/
 sudo ln -s /etc/apache2/sites-available/openvas_80.conf /etc/apache2/sites-enabled/
@@ -59,4 +60,6 @@ case $tls_deployment_type in
 esac
 
 sudo systemctl enable apache2
+sudo systemctl stop greenbone-security-assistant
 sudo systemctl start apache2
+sudo systemctl start greenbone-security-assistant
