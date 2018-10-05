@@ -1,7 +1,7 @@
 #!/bin/bash --login
 
 printf "Installing Custom BurpBuddy API for Burpsuite *****************************************"
-sudo apt install -y openjdk-8-jdk maven
+sudo apt install -y openjdk-8-jdk maven libgconf-2-4
 burpbuddy_tp_root="/csi/third_party/burpbuddy"
 burp_root="/opt/burpsuite"
 burpbuddy_build_root="${burp_root}/burpbuddy/burp"
