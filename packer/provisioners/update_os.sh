@@ -73,10 +73,12 @@ grok_error
 
 uname -a | grep kali
 if [[ $? == 0 ]]; then
-  $screen_cmd "${apt} install -y kali-linux-all ${assess_update_errors}"
+  #$screen_cmd "${apt} install -y kali-linux-all ${assess_update_errors}"
+  $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
   grok_error
 else
-  echo "Other Linux Distro Detected - Skipping kali-linux-all Installation..."
+  #echo "Other Linux Distro Detected - Skipping kali-linux-all Installation..."
+  echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
 fi
 
 $screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
