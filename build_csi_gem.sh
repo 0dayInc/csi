@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --login
 rm pkg/*.gem
 old_ruby_version=$(cat /csi/.ruby-version)
 git pull
@@ -14,5 +14,5 @@ if [[ $old_ruby_version == $new_ruby_version ]]; then
   echo "Invoking bundle-audit Gemfile Scanner..."
   bundle-audit
 else
-  ./upgrade_ruby $new_ruby_version $old_ruby_version
+  cd /csi && ./upgrade_ruby $new_ruby_version $old_ruby_version
 fi
