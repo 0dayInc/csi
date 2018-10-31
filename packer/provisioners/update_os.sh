@@ -11,6 +11,7 @@ grok_error() {
       if [[ $? == 0 ]]; then
         echo 'Failures encountered in screenlog for update_os session!!!'
         cat screenlog.*
+        sudo rm screenlog.*
         exit 1
       else
         echo 'No errors in update detected...moving onto the next.'
@@ -38,7 +39,7 @@ apt="apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confol
 
 # Cleanup up prior screenlog.0 file from previous update_os failure(s)
 if [[ -e screenlog.0 ]]; then 
-  sudo rm screenlog.0
+  sudo rm screenlog.*
 fi
 
 $screen_cmd "apt update ${assess_update_errors}"
