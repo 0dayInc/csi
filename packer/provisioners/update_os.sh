@@ -47,7 +47,7 @@ grok_error
 $screen_cmd "apt install -y debconf-utils ${assess_update_errors}"
 grok_error
 
-# $screen_cmd "echo 'postgresql-common postgresql-common/obsolete-major boolean true' | ${debconf_set} ${assess_update_errors}"
+$screen_cmd "echo 'postgresql-common postgresql-common/obsolete-major boolean true' | ${debconf_set} ${assess_update_errors}"
 
 $screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
