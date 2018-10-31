@@ -50,7 +50,7 @@ grok_error
 #$screen_cmd "for pkg in $(dpkg-query --show | awk '{print $1}'); do echo ; echo "--> $pkg" ; echo ; dpkg-reconfigure --frontend=noninteractive --priority=critical $pkg < /dev/null ; done ${assess_update_errors}"
 #grok_error
 
-$screen_cmd "echo 'postgresql-common postgresql-common/obsolete-major boolean true' | ${debconf_set} ${assess_update_errors}"
+#$screen_cmd "echo 'postgresql-common postgresql-common/obsolete-major error true' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
 $screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
