@@ -30,4 +30,4 @@ rm Gemfile.lock
 rvm install ruby-$new_ruby_version
 echo $new_ruby_version > /csi/.ruby-version
 
-cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
+cd / && cd /csi && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
