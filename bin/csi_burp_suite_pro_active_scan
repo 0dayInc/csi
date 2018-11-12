@@ -26,10 +26,6 @@ OptionParser.new do |options|
     opts[:output_path] = o
   end
 
-  options.on('-rRTYPE', '--report_type=RTYPE', '<Required - Report Type html|xml>') do |r|
-    opts[:report_type] = r
-  end
-
   options.on('-IINST', '--navigation_instruct=INST', '<Required - Path to Navigation Instructions (e.g. Auth w/ Target - see /csi/etc/burpsuite/navigation.instruct.EXAMPLE)>') do |i|
     opts[:navigation_instruct] = i
   end
@@ -47,7 +43,6 @@ begin
   headless = opts[:headless]
   target_url = opts[:target_url].to_s.scrub
   output_path = opts[:output_path].to_s.scrub
-  report_type = opts[:report_type].to_sym
 
   navigation_instruct = opts[:navigation_instruct]
   raise 'Invalid path to browser instructions.  Please check your spelling and try again.' unless File.exist?(navigation_instruct)
@@ -90,12 +85,14 @@ begin
   # scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
   # puts scan_issues
 
-  # TODO: Generate HTML REPORT
-  CSI::Plugins::BurpSuite.generate_scan_report(
-    burp_obj: burp_obj,
-    report_type: report_type,
-    output_path: output_path
-  )
+  report_types = [:html, :xml]
+  report_types.each do |report_type|
+    CSI::Plugins::BurpSuite.generate_scan_report(
+      burp_obj: burp_obj,
+      report_type: report_type,
+      output_path: output_path
+    )
+  end
 
   CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
 rescue => e
