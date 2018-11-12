@@ -40,21 +40,6 @@ module CSI
         # Construct burp_obj
         burp_obj = {}
         burp_obj[:pid] = Process.spawn(burp_cmd_string)
-
-        # Wait for TCP 8001 to open prior to proceeding
-        loop do
-          begin
-            s = TCPSocket.new('127.0.0.1', 8001)
-            s.close
-            break
-          rescue Errno::ECONNREFUSED
-            print '.'
-            sleep 3
-            next
-          end
-        end
-
-        # Continuation of burp_obj construction
         rest_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
         burp_obj[:mitm_proxy] = '127.0.0.1:8080'
         burp_obj[:burpbuddy_api] = '127.0.0.1:8001'
@@ -67,6 +52,19 @@ module CSI
         )
 
         burp_obj[:burp_browser] = burp_browser
+
+        # Wait for TCP 8001 to open prior to returning burp_obj
+        loop do
+          begin
+            s = TCPSocket.new('127.0.0.1', 8001)
+            s.close
+            break
+          rescue Errno::ECONNREFUSED
+            print '.'
+            sleep 3
+            next
+          end
+        end
 
         return burp_obj
       rescue => e
