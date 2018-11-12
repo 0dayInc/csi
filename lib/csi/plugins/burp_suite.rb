@@ -37,6 +37,10 @@ module CSI
           burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         end
 
+        # Construct burp_obj
+        burp_obj = {}
+        burp_obj[:pid] = Process.spawn(burp_cmd_string)
+
         # Wait for TCP 8001 to open prior to proceeding
         loop do
           begin
@@ -50,9 +54,7 @@ module CSI
           end
         end
 
-        # Construct burp_obj
-        burp_obj = {}
-        burp_obj[:pid] = Process.spawn(burp_cmd_string)
+        # Continuation of burp_obj construction
         rest_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
         burp_obj[:mitm_proxy] = '127.0.0.1:8080'
         burp_obj[:burpbuddy_api] = '127.0.0.1:8001'
