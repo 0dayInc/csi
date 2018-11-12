@@ -50,7 +50,7 @@ module CSI
           end
         end
 
-        # Instantiate burp_obj
+        # Construct burp_obj
         burp_obj = {}
         burp_obj[:pid] = Process.spawn(burp_cmd_string)
         rest_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
