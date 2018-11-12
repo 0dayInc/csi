@@ -243,11 +243,10 @@ module CSI
       public_class_method def self.stop(opts = {})
         burp_obj = opts[:burp_obj]
         burp_browser = burp_obj[:burp_browser]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
-        burp_cmd_ctl_port = burp_obj[:cmd_ctl_port]
+        burp_pid = burp_obj[:pid]
 
         burp_browser = CSI::Plugins::TransparentBrowser.close(browser_obj: burp_browser)
-        cmd_ctl_browser.post("http://#{burp_cmd_ctl_port}/shutdown_session", nil)
+        Process.kill('TERM', pid)
       rescue => e
         raise e
       end
