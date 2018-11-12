@@ -52,7 +52,6 @@ begin
   if headless
     burp_obj = CSI::Plugins::BurpSuite.start(
       burp_jar_path: burp_jar_path,
-      headless: true,
       browser_type: :headless
     )
   else
