@@ -246,7 +246,7 @@ module CSI
         burp_pid = burp_obj[:pid]
 
         burp_browser = CSI::Plugins::TransparentBrowser.close(browser_obj: burp_browser)
-        Process.kill('TERM', pid)
+        Process.kill('TERM', burp_pid)
       rescue => e
         raise e
       end
