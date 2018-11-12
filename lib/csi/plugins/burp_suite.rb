@@ -37,13 +37,6 @@ module CSI
           burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         end
 
-        burp_obj = {}
-        burp_obj[:pid] = Process.spawn(burp_cmd_string)
-        cmd_ctl_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
-        burp_obj[:mitm_proxy] = '127.0.0.1:8080'
-        burp_obj[:burpbuddy_api] = '127.0.0.1:8001'
-        burp_obj[:cmd_ctl_browser] = cmd_ctl_browser
-
         # Wait for TCP 8001 to open prior to proceeding
         loop do
           begin
@@ -57,11 +50,20 @@ module CSI
           end
         end
 
+        # Instantiate burp_obj
+        burp_obj = {}
+        burp_obj[:pid] = Process.spawn(burp_cmd_string)
+        rest_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
+        burp_obj[:mitm_proxy] = '127.0.0.1:8080'
+        burp_obj[:burpbuddy_api] = '127.0.0.1:8001'
+        burp_obj[:rest_browser] = rest_browser
+
         # Proxy always listens on localhost...use SSH tunneling if remote access is required
         burp_browser = CSI::Plugins::TransparentBrowser.open(
           browser_type: browser_type,
           proxy: "http://#{burp_obj[:mitm_proxy]}"
         )
+
         burp_obj[:burp_browser] = burp_browser
 
         return burp_obj
@@ -77,10 +79,10 @@ module CSI
 
       public_class_method def self.enable_proxy(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        cmd_ctl_browser.post("http://#{burpbuddy_api}/proxy/intercept/enable", nil)
+        rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/enable", nil)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
@@ -93,10 +95,10 @@ module CSI
 
       public_class_method def self.disable_proxy(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        cmd_ctl_browser.post("http://#{burpbuddy_api}/proxy/intercept/disable", nil)
+        rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/disable", nil)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
@@ -109,10 +111,10 @@ module CSI
 
       public_class_method def self.get_current_sitemap(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        sitemap = cmd_ctl_browser.get("http://#{burpbuddy_api}/sitemap", content_type: 'application/json; charset=UTF8')
+        sitemap = rest_browser.get("http://#{burpbuddy_api}/sitemap", content_type: 'application/json; charset=UTF8')
         json_sitemap = JSON.parse(sitemap)
 
         return json_sitemap
@@ -130,7 +132,7 @@ module CSI
 
       public_class_method def self.invoke_active_scan(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         target_url = opts[:target_url].to_s.scrub.strip.chomp
         # target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
@@ -153,18 +155,18 @@ module CSI
           puts "Adding #{json_uri} to Active Scan"
           post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
-          cmd_ctl_browser.post("http://#{burpbuddy_api}/scan/active", post_body, content_type: 'application/json')
+          rest_browser.post("http://#{burpbuddy_api}/scan/active", post_body, content_type: 'application/json')
         end
 
         # Wait for scan completion
-        scan_queue = cmd_ctl_browser.get("http://#{burpbuddy_api}/scan/active")
+        scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
         json_scan_queue = JSON.parse(scan_queue)
         scan_queue_total = json_scan_queue['data'].count
         json_scan_queue['data'].each do |scan_item|
           until scan_item['percentComplete'] == 100
             percent = scan_item['percentComplete']
             this_scan_item_id = scan_item['id']
-            scan_item_resp = cmd_ctl_browser.get("http://#{burpbuddy_api}/scan/active/#{this_scan_item_id}")
+            scan_item_resp = rest_browser.get("http://#{burpbuddy_api}/scan/active/#{this_scan_item_id}")
             scan_item = JSON.parse(scan_item_resp)
             print "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{format('%-3.3s', percent)}% complete"
             print "\r"
@@ -173,7 +175,7 @@ module CSI
           puts "\n"
         end
 
-        scan_queue = cmd_ctl_browser.get("http://#{burpbuddy_api}/scan/active")
+        scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
         json_scan_queue = JSON.parse(scan_queue)
         json_scan_queue['data'].each do |scan_item|
           this_scan_item_id = scan_item['id']
@@ -193,10 +195,10 @@ module CSI
 
       public_class_method def self.get_scan_issues(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        scan_issues = cmd_ctl_browser.get("http://#{burpbuddy_api}/scanissues")
+        scan_issues = rest_browser.get("http://#{burpbuddy_api}/scanissues")
         json_scan_issues = JSON.parse(scan_issues)
 
         return json_scan_issues
@@ -214,14 +216,14 @@ module CSI
 
       public_class_method def self.generate_scan_report(opts = {})
         burp_obj = opts[:burp_obj]
-        cmd_ctl_browser = burp_obj[:cmd_ctl_browser]
+        rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
         raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
         output_path = opts[:output_path].to_s.scrub
 
         post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
-        cmd_ctl_browser.post("http://#{burpbuddy_api}/generate_scan_report", post_body, content_type: 'application/json')
+        rest_browser.post("http://#{burpbuddy_api}/generate_scan_report", post_body, content_type: 'application/json')
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
