@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'socket'
 
 module CSI
   module Plugins
@@ -46,6 +47,7 @@ module CSI
         loop do
           # See rescue Errno::ECONNREFUSED blcok below
           s = TCPSocket.new('127.0.0.1', 8001)
+          s.close
           break
         end
 
