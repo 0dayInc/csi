@@ -21,7 +21,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c &apos;csi_burp_suite_pro_active_scan -b /opt/burpsuite/burpsuite-pro.jar -h -t &quot;&lt;URL&gt;&quot; -o $WORKSPACE/burp_active_scan_latest.html -r html -I $WORKSPACE/navigation.instruct&apos;</command>
+      <command>sudo /bin/bash --login -c &apos;csi_burp_suite_pro_active_scan -b /opt/burpsuite/burpsuite-pro.jar -h -t &quot;&lt;URL&gt;&quot; -o $WORKSPACE/burp_active_scan_latest.html -I $WORKSPACE/navigation.instruct&apos;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
