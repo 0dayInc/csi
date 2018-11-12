@@ -44,14 +44,9 @@ module CSI
 
         # Wait for TCP 8001 to open prior to proceeding
         loop do
-          begin
-            s = TCPSocket.new('127.0.0.1', 8001)
-            break
-          rescue Errno::ECONNREFUSED
-            print '.'
-            sleep 3
-            next
-          end
+          # See rescue Errno::ECONNREFUSED blcok below
+          s = TCPSocket.new('127.0.0.1', 8001)
+          break
         end
 
         # Proxy always listens on localhost...use SSH tunneling if remote access is required
@@ -62,6 +57,11 @@ module CSI
         burp_obj[:burp_browser] = burp_browser
 
         return burp_obj
+      # For TCPSocket call above
+      rescue Errno::ECONNREFUSED
+        print '.'
+        sleep 3
+        next
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
