@@ -42,6 +42,18 @@ module CSI
         burp_obj[:cmd_ctl_port] = '127.0.0.1:8001'
         burp_obj[:cmd_ctl_browser] = cmd_ctl_browser
 
+        # Wait for TCP 8001 to open prior to proceeding
+        loop do
+          begin
+            s = TCPSocket.new('127.0.0.1', 8001)
+            break
+          rescue Errno::ECONNREFUSED
+            print '.'
+            sleep 3
+            next
+          end
+        end
+
         # Proxy always listens on localhost...use SSH tunneling if remote access is required
         burp_browser = CSI::Plugins::TransparentBrowser.open(
           browser_type: browser_type,
