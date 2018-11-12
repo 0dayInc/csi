@@ -15,11 +15,10 @@ module CSI
     # ifconfig lo:1 127.0.0.3 netmask 255.0.0.0 up
     # ifconfig lo:2 127.0.0.4 netmask 255.0.0.0 up
     # Otherwise the API won't be able to bind to the necessary ephermal ports
-    # Next, be sure to build the forked version of burpbuddy:
-    # cp -a <path of csi root>/third_party/burpbuddy <path of burpsuite root>
-    # cd <path of burpsuite root>/burpbuddy/burp && mvn package
-    # Assuming the build succeeds, copy the burpbuddy jar to your burpsuite root:
-    # cp <path of burpsuite root>/burpbuddy/burp/target/burpbuddy-2.3.1.jar <path of burpsuite root>/
+    # Next, be sure to build the latest version of burpbuddy:
+    # https://github.com/tomsteele/burpbuddy/releases/latest
+    # cp -a <latest_burpbuddy.jar> <path of burpsuite root>
+    # ln -s <latest_burpbuddy.jar> <path of burpsuite root>/burpbuddy.jar
     # Lastly, you may need to enable setuid on the lsof command if you're running as a non-priv user:
     # $ sudo chmod u+s /usr/bin/lsof
     # Also, please note - To date this plugin only supports targets that are DNS domains...no ip targets supported yet.
