@@ -46,7 +46,6 @@ module CSI
 
         # Wait for TCP 8001 to open prior to proceeding
         loop do
-          # See rescue Errno::ECONNREFUSED block below to understand what happens until port opens
           begin
             s = TCPSocket.new('127.0.0.1', 8001)
             s.close
@@ -66,7 +65,6 @@ module CSI
         burp_obj[:burp_browser] = burp_browser
 
         return burp_obj
-      # For TCPSocket call above
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
