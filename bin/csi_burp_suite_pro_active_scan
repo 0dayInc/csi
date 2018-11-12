@@ -85,7 +85,7 @@ begin
   # scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
   # puts scan_issues
 
-  report_types = [:html, :xml]
+  report_types = %i[html xml]
   report_types.each do |report_type|
     CSI::Plugins::BurpSuite.generate_scan_report(
       burp_obj: burp_obj,
