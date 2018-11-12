@@ -47,10 +47,10 @@ module CSI
 
         if opts[:headless]
           # burp_cmd_string = "java -Djava.awt.headless=true -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
-          burp_cmd_string = "java -Xmx3G -Djava.awt.headless=true -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
+          burp_cmd_string = "java -Xmx3G -Djava.awt.headless=true -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         else
           # burp_cmd_string = "java -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
-          burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy-2.3.1.jar:#{burp_jar_path} burp.StartBurp"
+          burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         end
 
         burp_obj = {}
