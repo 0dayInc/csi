@@ -3,25 +3,10 @@
 module CSI
   module Plugins
     # This plugin was created to interact w/ Burp Suite Pro in headless mode to kick off spidering/live scanning
-    # Different services listen on random epheral ports and lo interfaces (127.0.0.1-127.0.0.4) so that
-    # we can scan multiple targets in parallel and using lsof determine which random ports we should be
-    # communicating w/ for a given session.  Please note, in OSX you'll need to reference 127.0.0.2-127.0.0.4
-    # as an alias to localhost:
-    # sudo ifconfig lo0 alias 127.0.0.2 up
-    # sudo ifconfig lo0 alias 127.0.0.3 up
-    # sudo ifconfig lo0 alias 127.0.0.4 up
-    # In Ubuntu, add the following to /etc/rc.local:
-    # ifconfig lo:0 127.0.0.2 netmask 255.0.0.0 up
-    # ifconfig lo:1 127.0.0.3 netmask 255.0.0.0 up
-    # ifconfig lo:2 127.0.0.4 netmask 255.0.0.0 up
-    # Otherwise the API won't be able to bind to the necessary ephermal ports
-    # Next, be sure to build the latest version of burpbuddy:
+    # Be sure to build the latest version of burpbuddy:
     # https://github.com/tomsteele/burpbuddy/releases/latest
     # cp -a <latest_burpbuddy.jar> <path of burpsuite root>
     # ln -s <latest_burpbuddy.jar> <path of burpsuite root>/burpbuddy.jar
-    # Lastly, you may need to enable setuid on the lsof command if you're running as a non-priv user:
-    # $ sudo chmod u+s /usr/bin/lsof
-    # Also, please note - To date this plugin only supports targets that are DNS domains...no ip targets supported yet.
     module BurpSuite
       # Supported Method Parameters::
       # burp_obj = CSI::Plugins::BurpSuite.start(
@@ -45,49 +30,16 @@ module CSI
                        end
 
         if opts[:headless]
-          # burp_cmd_string = "java -Djava.awt.headless=true -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
           burp_cmd_string = "java -Xmx3G -Djava.awt.headless=true -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         else
-          # burp_cmd_string = "java -classpath #{burp_root}/CSIBurpExtender.jar:#{burp_jar_path} burp.StartBurp"
           burp_cmd_string = "java -Xmx3G -classpath #{burp_root}/burpbuddy.jar:#{burp_jar_path} burp.StartBurp"
         end
 
         burp_obj = {}
         burp_obj[:pid] = Process.spawn(burp_cmd_string)
-
-        # Wait until burp has completed initialized into a ready state
-        lsof_cmd = "lsof -nP -p #{burp_obj[:pid]} | grep LISTEN"
-        lsof_res = []
-        while lsof_res.count < 3
-          sleep 1
-          lsof_res = `#{lsof_cmd}`.split("\n")
-          # @@logger.info(lsof_res) # Debugging
-        end
-
-        # Now assign our ephemeral ports to the proper burp_obj keys
-        lsof_res.each do |localhost_alias|
-          this_localhost = localhost_alias.strip.chomp.split("\s")[-2].split(':')[0]
-          this_port = localhost_alias.strip.chomp.split("\s")[-2].split(':')[-1]
-          case this_localhost
-          when '127.0.0.1'
-            burp_obj[:proxy_port] = "#{this_localhost}:#{this_port}"
-          when '127.0.0.2'
-            burp_obj[:cmd_ctl_port] = "#{this_localhost}:#{this_port}"
-          when '127.0.0.3'
-            burp_obj[:web_socket_port] = "#{this_localhost}:#{this_port}"
-          when '127.0.0.4'
-            burp_obj[:request_response_port] = "#{this_localhost}:#{this_port}"
-          else
-            raise %(Proxy/API/WebSocket FAILURE:
-                    Invalid localhost reference #{this_localhost}
-                    did the command:
-                    #{lsof_cmd}
-                    change its response output?"
-                  )
-          end
-        end
-
         cmd_ctl_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :rest)
+        burp_obj[:proxy_port] = '127.0.0.1:8080'
+        burp_obj[:cmd_ctl_port] = '127.0.0.1:8001'
         burp_obj[:cmd_ctl_browser] = cmd_ctl_browser
 
         # Proxy always listens on localhost...use SSH tunneling if remote access is required
