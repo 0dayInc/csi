@@ -45,7 +45,7 @@ module CSI
 
         # Wait for TCP 8001 to open prior to proceeding
         loop do
-          # See rescue Errno::ECONNREFUSED blcok below
+          # See rescue Errno::ECONNREFUSED block below to understand what happens until port opens
           s = TCPSocket.new('127.0.0.1', 8001)
           s.close
           break
