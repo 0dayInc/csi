@@ -151,7 +151,7 @@ module CSI
           json_protocol = json_http_svc['protocol']
           json_host = json_http_svc['host'].to_s.scrub.strip.chomp
           json_port = json_http_svc['port'].to_i
-          json_path = json_req['path]'
+          json_path = json_req['path']
 
           if json_port == 80 || json_port == 443
             json_uri = "#{json_protocol}//#{json_host}/#{json_path}"
