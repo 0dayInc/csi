@@ -161,7 +161,7 @@ module CSI
 
           next unless json_host == target_domain_name && json_port == target_port
           puts "Adding #{json_uri} to Active Scan"
-          post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{site['request']['raw']}\" }"
+          post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{json_req['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
           rest_browser.post("http://#{burpbuddy_api}/scan/active", post_body, content_type: 'application/json')
         end
