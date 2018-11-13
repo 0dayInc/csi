@@ -145,7 +145,7 @@ module CSI
         end
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
-        json_sitemap['data'].each do |site|
+        json_sitemap.each do |site|
           json_req = site['request']
           json_host = json_req['host'].to_s.scrub.strip.chomp
           json_port = json_req['port'].to_i
