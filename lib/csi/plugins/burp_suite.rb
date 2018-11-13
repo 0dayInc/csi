@@ -146,10 +146,18 @@ module CSI
 
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap.each do |site|
+          json_http_svc = site['http_service']
           json_req = site['request']
-          json_host = json_req['host'].to_s.scrub.strip.chomp
-          json_port = json_req['port'].to_i
-          json_uri = "#{json_req['url'].to_s.scrub.strip.chomp('/')}#{json_req['path'].to_s.scrub.strip.chomp}"
+          json_protocol = json_http_svc['protocol']
+          json_host = json_http_svc['host'].to_s.scrub.strip.chomp
+          json_port = json_http_svc['port'].to_i
+          json_path = json_req['path]'
+
+          if json_port == 80 || json_port == 443
+            json_uri = "#{json_protocol}//#{json_host}/#{json_path}"
+          else
+            json_uri = "#{json_protocol}//#{json_host}:#{json_port}/#{json_path}"
+          end
 
           next unless json_host == target_domain_name && json_port == target_port
           puts "Adding #{json_uri} to Active Scan"
