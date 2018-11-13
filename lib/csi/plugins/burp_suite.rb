@@ -183,12 +183,12 @@ module CSI
           puts "\n"
         end
 
-        scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
-        json_scan_queue = JSON.parse(scan_queue)
-        json_scan_queue.each do |scan_item|
-          this_scan_item_id = scan_item['id']
-          puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total} | #{scan_item['percent_complete']}% complete"
-        end
+        # scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
+        # json_scan_queue = JSON.parse(scan_queue)
+        # json_scan_queue.each do |scan_item|
+        #   this_scan_item_id = scan_item['id']
+        #   puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total} | #{scan_item['percent_complete']}% complete"
+        # end
 
         return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
       rescue => e
