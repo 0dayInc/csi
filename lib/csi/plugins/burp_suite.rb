@@ -177,7 +177,7 @@ module CSI
             scan_item_resp = rest_browser.get("http://#{burpbuddy_api}/scan/active/#{this_scan_item_id}")
             scan_item = JSON.parse(scan_item_resp)
             puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{scan_status}"
-            sleep 1
+            sleep 3
             scan_status = scan_item['status'] 
           end
           puts "\n"
