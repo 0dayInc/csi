@@ -182,13 +182,6 @@ module CSI
           puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| 100% complete\n"
         end
 
-        # scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
-        # json_scan_queue = JSON.parse(scan_queue)
-        # json_scan_queue.each do |scan_item|
-        #   this_scan_item_id = scan_item['id']
-        #   puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total} | #{scan_item['percent_complete']}% complete"
-        # end
-
         return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
@@ -226,7 +219,8 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
-        raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
+        #raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
+        raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
         post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
@@ -241,7 +235,7 @@ module CSI
       # )
 
       public_class_method def self.update_burp_jar
-        # TODO: Do this.
+        # TODO: Do this if PortSwigger ever decides to includes this functionality as a CLI argument.
       end
 
       # Supported Method Parameters::
