@@ -6,10 +6,6 @@ require 'base64'
 module CSI
   module Plugins
     # This plugin was created to interact w/ Burp Suite Pro in headless mode to kick off spidering/live scanning
-    # Be sure to build the latest version of burpbuddy:
-    # https://github.com/tomsteele/burpbuddy/releases/latest
-    # cp -a <latest_burpbuddy.jar> <path of burpsuite root>
-    # ln -s <latest_burpbuddy.jar> <path of burpsuite root>/burpbuddy.jar
     module BurpSuite
       # Supported Method Parameters::
       # burp_obj = CSI::Plugins::BurpSuite.start(
@@ -222,7 +218,7 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
-        # When burpbuddy begins to support XML report generation https://github.com/tomsteele/burpbuddy/issues/37
+        # When burpbuddy begins to support XML report generation
         # raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
