@@ -8,8 +8,9 @@ burpbuddy_jar_url=`echo ${latest_burpbuddy_jar} | sed 's/"//g'`
 wget $burpbuddy_jar_url -P /tmp/
 burp_root="/opt/burpsuite"
 sudo /bin/bash --login -c "mkdir ${burp_root} && cp /tmp/burpbuddy*.jar ${burp_root} && rm /tmp/latest_burpbuddy.json && rm /tmp/burpbuddy*.jar"
+
 ls $burp_root/burpbuddy*.jar | while read bb_latest; do 
-  sudo ln -s $bb_latest burpbuddy.jar 
+  sudo ln -s $bb_latest $burp_root/burpbuddy.jar 
 done
 
 # Config Free Version by Default...Burpsuite Pro Handled by Vagrant Provisioner & Userland Config
