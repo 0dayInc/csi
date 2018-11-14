@@ -171,16 +171,15 @@ module CSI
         json_scan_queue = JSON.parse(scan_queue)
         scan_queue_total = json_scan_queue.count
         json_scan_queue.each do |scan_item|
-          scan_status = scan_item['status'] 
-          until scan_status == 'finished'
-            this_scan_item_id = scan_item['id']
+          this_scan_item_id = scan_item['id']
+          until scan_item['status'] == 'finished'
             scan_item_resp = rest_browser.get("http://#{burpbuddy_api}/scan/active/#{this_scan_item_id}")
             scan_item = JSON.parse(scan_item_resp)
+            scan_status = scan_item['status'] 
             puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| #{scan_status}"
             sleep 3
-            scan_status = scan_item['status'] 
           end
-          puts "\n"
+          puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| 100% complete\n"
         end
 
         # scan_queue = rest_browser.get("http://#{burpbuddy_api}/scan/active")
