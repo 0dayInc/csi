@@ -91,6 +91,7 @@ begin
   report_type = :html
   CSI::Plugins::BurpSuite.generate_scan_report(
     burp_obj: burp_obj,
+    target_url: target_url,
     report_type: report_type,
     output_path: output_path
   )

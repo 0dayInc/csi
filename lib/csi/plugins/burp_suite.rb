@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'socket'
+require 'base64'
 
 module CSI
   module Plugins
@@ -210,12 +211,14 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.generate_scan_report(
       #   burp_obj: 'required - burp_obj returned by #start method',
+      #   target_url: 'required - target_url returned by #start method',
       #   report_type: :html|:xml,
       #   output_path: 'required - path to save report results'
       # )
 
       public_class_method def self.generate_scan_report(opts = {})
         burp_obj = opts[:burp_obj]
+        target_url = opts[:target_url]
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
@@ -223,8 +226,11 @@ module CSI
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
-        post_body = "{ \"report_type\": \"#{report_type.to_s.upcase}\", \"output_path\": \"#{output_path}\" }"
-        rest_browser.post("http://#{burpbuddy_api}/generate_scan_report", post_body, content_type: 'application/json')
+        report_url = Base64.strict_encode64(target_url)
+        report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
+        File.open(output_path) do |f|
+          f.puts(report_resp.body)
+        end
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
@@ -300,6 +306,7 @@ module CSI
 
           #{self}.generate_scan_report(
             burp_obj: 'required - burp_obj returned by #start method',
+            target_url: 'required - target_url to generate report',
             report_type: :html|:xml,
             output_path: 'required - path to save report results'
           )
