@@ -15,7 +15,7 @@ Vagrant.configure(API_VERSION) do |config|
   config.vm.box = 'csi/kali_rolling'
 
   r = Random.new
-  ssh_port = r.rand(1000...5000)
+  ssh_port = r.rand(1025...65535)
   config.vm.network 'forwarded_port', guest: 22, host: ssh_port, id: 'ssh', auto_correct: true
 
   config.vm.synced_folder(
