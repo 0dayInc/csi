@@ -222,6 +222,7 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
+        # When burpbuddy begins to support XML report generation https://github.com/tomsteele/burpbuddy/issues/37
         # raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
