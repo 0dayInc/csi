@@ -225,7 +225,7 @@ module CSI
 
         report_url = Base64.strict_encode64(target_url)
         report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
-        File.open(output_path) do |f|
+        File.open(output_path, 'w') do |f|
           f.puts(report_resp.body)
         end
       rescue => e
