@@ -223,7 +223,16 @@ module CSI
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
-        report_url = Base64.strict_encode64(target_url)
+        scheme = URI.parse(target_url).scheme
+        host = RI.parse(target_url).host
+        port = URI.parse(target_url).port
+        if port == 80 || port == 443
+          target_domain = "#{scheme}://#{host}"
+        else
+          target_domain = "#{scheme}://#{host}:#{port}"
+        end
+
+        report_url = Base64.strict_encode64(target_domain)
         report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
         File.open(output_path, 'w') do |f|
           f.puts(report_resp.body)
