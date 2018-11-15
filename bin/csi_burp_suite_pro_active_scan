@@ -79,7 +79,7 @@ begin
   end
   sleep 60 # Sleep for now so everythign loads the way we expect - blech.
 
-  json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(burp_obj: burp_obj, target_url: target_url)
+  active_scan_url_arr = CSI::Plugins::BurpSuite.invoke_active_scan(burp_obj: burp_obj, target_url: target_url)
 
   # Dump a list of scan issues from Active Scan result
   # scan_issues = CSI::Plugins::BurpSuite.get_scan_issues(:burp_obj => burp_obj)
@@ -91,7 +91,7 @@ begin
   report_type = :html
   CSI::Plugins::BurpSuite.generate_scan_report(
     burp_obj: burp_obj,
-    target_url: target_url,
+    active_scan_url_arr: active_scan_url_arr,
     report_type: report_type,
     output_path: output_path
   )

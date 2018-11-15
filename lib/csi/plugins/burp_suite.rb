@@ -121,10 +121,9 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # json_scan_queue = CSI::Plugins::BurpSuite.invoke_active_scan(
+      # active_scan_url_arr = CSI::Plugins::BurpSuite.invoke_active_scan(
       #   burp_obj: 'required - burp_obj returned by #start method',
-      #   target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])',
-      #   use_https: 'optional - use SSL/TLS connection (defaults to true)'
+      #   target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
       # )
 
       public_class_method def self.invoke_active_scan(opts = {})
@@ -132,15 +131,16 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         target_url = opts[:target_url].to_s.scrub.strip.chomp
-        # target_domain_name = URI.parse(target_url).host.split('.')[-2..-1].join('.')
+        target_scheme = URI.parse(target_url).scheme
         target_domain_name = URI.parse(target_url).host
         target_port = URI.parse(target_url).port.to_i
-        if opts[:use_https] == false
+        if target_scheme == 'http'
           use_https = false
         else
           use_https = true
         end
 
+        active_scan_url_arr = []
         json_sitemap = get_current_sitemap(burp_obj: burp_obj)
         json_sitemap.each do |site|
           json_http_svc = site['http_service']
@@ -158,6 +158,7 @@ module CSI
 
           next unless json_host == target_domain_name && json_port == target_port
           puts "Adding #{json_uri} to Active Scan"
+          active_scan_url_arr.push(json_uri)
           post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{json_req['raw']}\" }"
           # Kick off an active scan for each given page in the json_sitemap results
           rest_browser.post("http://#{burpbuddy_api}/scan/active", post_body, content_type: 'application/json')
@@ -179,7 +180,7 @@ module CSI
           puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| 100% complete\n"
         end
 
-        return json_scan_queue # Return last status of all items in scan queue (should all say 100% complete)
+        return active_scan_url_arr # Return array of targeted URIs to pass to #generate_scan_report method
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
@@ -207,14 +208,14 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.generate_scan_report(
       #   burp_obj: 'required - burp_obj returned by #start method',
-      #   target_url: 'required - target_url returned by #start method',
+      #   active_scan_url_arr: 'required - active_scan_url_arr returned by #invoke_active_scan method',
       #   report_type: :html|:xml,
       #   output_path: 'required - path to save report results'
       # )
 
       public_class_method def self.generate_scan_report(opts = {})
         burp_obj = opts[:burp_obj]
-        target_url = opts[:target_url]
+        active_scan_url_arr = opts[:active_scan_url_arr]
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
@@ -223,19 +224,12 @@ module CSI
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
-        scheme = URI.parse(target_url).scheme
-        host = URI.parse(target_url).host
-        port = URI.parse(target_url).port
-        if port == 80 || port == 443
-          target_domain = "#{scheme}://#{host}"
-        else
-          target_domain = "#{scheme}://#{host}:#{port}"
-        end
-
-        report_url = Base64.strict_encode64(target_domain)
-        report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
-        File.open(output_path, 'w') do |f|
-          f.puts(report_resp.body)
+        active_scan_url_arr.each_with_index do |target_url, index|
+          report_url = Base64.strict_encode64(target_url)
+          report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
+          File.open("#{File.dirname(output_path)}/#{index}.#{File.basename(output_path)}", 'w') do |f|
+            f.puts(report_resp.body)
+          end
         end
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
@@ -300,10 +294,9 @@ module CSI
             burp_obj: 'required - burp_obj returned by #start method'
           )
 
-          json_scan_queue = #{self}.invoke_active_scan(
+          active_scan_url_arr = #{self}.invoke_active_scan(
             burp_obj: 'required - burp_obj returned by #start method',
-            target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])',
-            use_https: 'optional - use SSL/TLS connection (defaults to true)'
+            target_url: 'required - target url to scan in sitemap (should be loaded & authenticated w/ burp_obj[:burp_browser])'
           )
 
           json_scan_issues = #{self}.get_scan_issues(
@@ -312,7 +305,7 @@ module CSI
 
           #{self}.generate_scan_report(
             burp_obj: 'required - burp_obj returned by #start method',
-            target_url: 'required - target_url to generate report',
+            active_scan_url_arr: 'required - active_scan_url_arr returned by #invoke_active_scan method',
             report_type: :html|:xml,
             output_path: 'required - path to save report results'
           )
