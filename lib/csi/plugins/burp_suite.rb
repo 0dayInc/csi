@@ -220,7 +220,7 @@ module CSI
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
         # When burpbuddy begins to support XML report generation
-        raise 'INVALID Report Type' unless report_type == :html || report_type == :xml || report_type == :both
+        raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
         output_path = opts[:output_path].to_s.scrub
 
         scheme = URI.parse(target_url).scheme
@@ -233,27 +233,12 @@ module CSI
         end
 
         report_url = Base64.strict_encode64(target_domain)
+        # Ready scanreport API call in burpbuddy to support iHTML & XML report generation
+        # report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_type.to_s.upcase}/#{report_url}")
         report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
         File.open(output_path, 'w') do |f|
           f.puts(report_resp.body)
         end
-        # Ready scanreport API call in burpbuddy to support iHTML & XML report generation
-        # if report_type == :both
-        #   both_report_types = %i[html xml]
-        #   # TODO: Create public_class_method def self.bb_scanreport(opts = {})
-        #   both_report_types.each do |report_type|
-        #     report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_type.to_s.upcase}/#{report_url}")
-        #     File.open(output_path, 'w') do |f|
-        #       f.puts(report_resp.body)
-        #     end
-        #   end
-        # else
-        #   # TODO: Create public_class_method def self.bb_scanreport(opts = {})
-        #   report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_type.to_s.upcase}/#{report_url}")
-        #   File.open(output_path, 'w') do |f|
-        #     f.puts(report_resp.body)
-        #   end
-        # end
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e

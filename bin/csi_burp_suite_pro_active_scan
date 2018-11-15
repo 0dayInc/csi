@@ -86,16 +86,20 @@ begin
   # puts scan_issues
 
   # Once DefectDojo begins to support XML report results
-  # report_types = %i[html xml]
-  # report_types.each do |report_type|
-  report_type = :html
-  CSI::Plugins::BurpSuite.generate_scan_report(
-    burp_obj: burp_obj,
-    target_url: target_url,
-    report_type: report_type,
-    output_path: output_path
-  )
-  # end
+  report_types = %i[html xml]
+  report_types.each do |report_type|
+    if report_type == :html
+      this_output_path = "#{File.dirname(output_path)}/#{File.basename(output_path, File.extname(output_path))}.html"
+    else
+      this_output_path = "#{File.dirname(output_path)}/#{File.basename(output_path, File.extname(output_path))}.xml"
+    end
+    CSI::Plugins::BurpSuite.generate_scan_report(
+      burp_obj: burp_obj,
+      target_url: target_url,
+      report_type: report_type,
+      output_path: this_output_path
+    )
+  end
 
   burp_obj = CSI::Plugins::BurpSuite.stop(burp_obj: burp_obj)
 rescue => e
