@@ -225,7 +225,7 @@ module CSI
         output_path = opts[:output_path].to_s.scrub
 
         File.unlink(output_path) if File.exist?(output_path)
-        active_scan_url_arr.each_with_index do |target_url, index|
+        active_scan_url_arr.each do |target_url|
           report_url = Base64.strict_encode64(target_url)
           report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
           File.open(output_path, 'a') do |f|
