@@ -224,10 +224,11 @@ module CSI
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
+        File.unlink(output_path) if File.exist?(output_path)
         active_scan_url_arr.each_with_index do |target_url, index|
           report_url = Base64.strict_encode64(target_url)
           report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
-          File.open("#{File.dirname(output_path)}/#{index}.#{File.basename(output_path)}", 'w') do |f|
+          File.open(output_path, 'a') do |f|
             f.puts(report_resp.body)
           end
         end
