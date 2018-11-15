@@ -224,7 +224,7 @@ module CSI
         output_path = opts[:output_path].to_s.scrub
 
         scheme = URI.parse(target_url).scheme
-        host = RI.parse(target_url).host
+        host = URI.parse(target_url).host
         port = URI.parse(target_url).port
         if port == 80 || port == 443
           target_domain = "#{scheme}://#{host}"
