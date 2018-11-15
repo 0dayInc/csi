@@ -208,14 +208,14 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::BurpSuite.generate_scan_report(
       #   burp_obj: 'required - burp_obj returned by #start method',
-      #   active_scan_url_arr: 'required - active_scan_url_arr returned by #invoke_active_scan method',
+      #   target_url: 'required - target_url passed to #invoke_active_scan method',
       #   report_type: :html|:xml,
       #   output_path: 'required - path to save report results'
       # )
 
       public_class_method def self.generate_scan_report(opts = {})
         burp_obj = opts[:burp_obj]
-        active_scan_url_arr = opts[:active_scan_url_arr]
+        target_url = opts[:target_url]
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
         report_type = opts[:report_type]
@@ -224,13 +224,19 @@ module CSI
         raise 'INVALID Report Type' unless report_type == :html
         output_path = opts[:output_path].to_s.scrub
 
-        File.unlink(output_path) if File.exist?(output_path)
-        active_scan_url_arr.each do |target_url|
-          report_url = Base64.strict_encode64(target_url)
-          report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
-          File.open(output_path, 'a') do |f|
-            f.puts(report_resp.body)
-          end
+        scheme = URI.parse(target_url).scheme
+        host = URI.parse(target_url).host
+        port = URI.parse(target_url).port
+        if port == 80 || port == 443
+          target_domain = "#{scheme}://#{host}"
+        else
+          target_domain = "#{scheme}://#{host}:#{port}"
+        end
+
+        report_url = Base64.strict_encode64(target_domain)
+        report_resp = rest_browser.get("http://#{burpbuddy_api}/scanreport/#{report_url}")
+        File.open(output_path, 'w') do |f|
+          f.puts(report_resp.body)
         end
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
