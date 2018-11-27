@@ -48,6 +48,14 @@ module CSI
           # ensure localhost proxy capabilities are enabled
           this_profile['network.proxy.no_proxies_on'] = ''
 
+          # disable browser cache
+          this_profile['browser.cache.disk.enable'] = false
+          this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          this_profile['browser.cache.memory.enable'] = false
+          this_profile['browser.cache.offline.enable'] = false
+          this_profile['devtools.cache.disabled'] = true
+          this_profile['dom.caches.enabled'] = false
+
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
 
@@ -107,6 +115,14 @@ module CSI
 
           # ensure localhost proxy capabilities are enabled
           this_profile['network.proxy.no_proxies_on'] = ''
+
+          # disable browser cache
+          this_profile['browser.cache.disk.enable'] = false
+          this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          this_profile['browser.cache.memory.enable'] = false
+          this_profile['browser.cache.offline.enable'] = false
+          this_profile['devtools.cache.disabled'] = true
+          this_profile['dom.caches.enabled'] = false
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
