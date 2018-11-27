@@ -49,12 +49,12 @@ module CSI
           this_profile['network.proxy.no_proxies_on'] = ''
 
           # disable browser cache
-          this_profile['browser.cache.disk.enable'] = false
-          this_profile['browser.cache.disk_cache_ssl.enable'] = false
-          this_profile['browser.cache.memory.enable'] = false
-          this_profile['browser.cache.offline.enable'] = false
-          this_profile['devtools.cache.disabled'] = true
-          this_profile['dom.caches.enabled'] = false
+          # this_profile['browser.cache.disk.enable'] = false
+          # this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          # this_profile['browser.cache.memory.enable'] = false
+          # this_profile['browser.cache.offline.enable'] = false
+          # this_profile['devtools.cache.disabled'] = true
+          # this_profile['dom.caches.enabled'] = false
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
@@ -116,13 +116,17 @@ module CSI
           # ensure localhost proxy capabilities are enabled
           this_profile['network.proxy.no_proxies_on'] = ''
 
+          # allow scripts to run a bit longer
+          this_profile['dom.max_chrome_script_run_time'] = 180
+          this_profile['dom.max_script_run_time'] = 180
+
           # disable browser cache
-          this_profile['browser.cache.disk.enable'] = false
-          this_profile['browser.cache.disk_cache_ssl.enable'] = false
-          this_profile['browser.cache.memory.enable'] = false
-          this_profile['browser.cache.offline.enable'] = false
-          this_profile['devtools.cache.disabled'] = true
-          this_profile['dom.caches.enabled'] = false
+          # this_profile['browser.cache.disk.enable'] = false
+          # this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          # this_profile['browser.cache.memory.enable'] = false
+          # this_profile['browser.cache.offline.enable'] = false
+          # this_profile['devtools.cache.disabled'] = true
+          # this_profile['dom.caches.enabled'] = false
 
           caps = Selenium::WebDriver::Remote::Capabilities.firefox
           caps[:acceptInsecureCerts] = true
