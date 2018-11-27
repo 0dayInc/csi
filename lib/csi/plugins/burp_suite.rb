@@ -79,7 +79,9 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/enable", nil)
+        enable_resp = rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/enable", nil)
+        sleep 9
+        return enable_resp.code
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
@@ -95,7 +97,9 @@ module CSI
         rest_browser = burp_obj[:rest_browser]
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
-        rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/disable", nil)
+        disable_resp = rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/disable", nil)
+        sleep 9
+        return disable_resp.code
       rescue => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
