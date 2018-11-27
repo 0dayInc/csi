@@ -48,6 +48,10 @@ module CSI
           # ensure localhost proxy capabilities are enabled
           this_profile['network.proxy.no_proxies_on'] = ''
 
+          # allow scripts to run a bit longer
+          this_profile['dom.max_chrome_script_run_time'] = 180
+          this_profile['dom.max_script_run_time'] = 180
+
           # disable browser cache
           # this_profile['browser.cache.disk.enable'] = false
           # this_profile['browser.cache.disk_cache_ssl.enable'] = false
