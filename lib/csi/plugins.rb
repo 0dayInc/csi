@@ -20,6 +20,7 @@ module CSI
     autoload :DefectDojo, 'csi/plugins/defect_dojo'
     autoload :DetectOS, 'csi/plugins/detect_os'
     autoload :FileFu, 'csi/plugins/file_fu'
+    autoload :FuzzNet, 'csi/plugins/fuzz_net'
     autoload :Git, 'csi/plugins/git'
     autoload :HackerOne, 'csi/plugins/hacker_one'
     autoload :Hexify, 'csi/plugins/hexify'

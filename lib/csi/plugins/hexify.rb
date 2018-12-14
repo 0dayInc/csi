@@ -46,13 +46,15 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          short_int = CSI::Plugins::Hexify.short_int(
+          short_int = #{self}.short_int(
             int: 'required = integer ranging from 0-65535 to convert to short_int hex bytes'
           )
 
           long_int = #{self}.long_int(
             int: 'required = integer ranging from 0-4294967295 to convert to long_int hex bytes'
           )
+
+          #{self}.authors
         "
       end
     end
