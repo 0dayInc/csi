@@ -16,7 +16,7 @@ module CSI
       # )
 
       public_class_method def self.connect(opts = {})
-        target = opts[:target].to_i
+        target = opts[:target].to_s.scrub
         port = opts[:port].to_i
 
         if opts[:protocol].nil?
