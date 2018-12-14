@@ -18,7 +18,12 @@ module CSI
       public_class_method def self.connect(opts = {})
         target = opts[:target].to_i
         port = opts[:port].to_i
-        protocol = opts[:protocol].to_s.downcase.to_sym
+
+        if opts[:protocol].nil?
+          protocol = :tcp
+        else
+          protocol = opts[:protocol].to_s.downcase.to_sym
+        end
 
         case protocol
         when :tcp
