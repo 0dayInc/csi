@@ -29,7 +29,8 @@ module CSI
         when :tcp
           fuzz_net_obj = TCPSocket.open(target, port)
         when :udp
-          fuzz_net_obj = TCPSocket.open(target, port)
+          fuzz_net_obj = UDPSocket.new
+          fuzz_net_obj.connect(target, port)
         else
           raise "Unsupported protocol: #{protocol}"
         end
