@@ -100,14 +100,14 @@ module CSI
           { campus: :internet, prefix: 83 },
           { campus: :small_business_administration, prefix: 31 }
         ]
-        
+
         ein_result_arr = []
         (1..count).each do
           this_ein_prefix_data_struct_index = Random.rand(ein_prefix_data_struct.length)
           this_ein_prefix_data_struct = ein_prefix_data_struct[this_ein_prefix_data_struct_index]
           this_ein_prefix_campus = this_ein_prefix_data_struct[:campus]
-          this_ein_prefix = sprintf("%0.2d", this_ein_prefix_data_struct[:prefix])
-          this_ein_suffix = sprintf("%0.7d", Random.rand(0..9999999))
+          this_ein_prefix = format('%0.2d', this_ein_prefix_data_struct[:prefix])
+          this_ein_suffix = format('%0.7d', Random.rand(0..9_999_999))
           this_ein = { campus: this_ein_prefix_campus, ein: "#{this_ein_prefix}-#{this_ein_suffix}" }
           ein_result_arr.push(this_ein)
         end
