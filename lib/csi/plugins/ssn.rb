@@ -44,7 +44,6 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           #{self}.generate(
-            type: 'required - card to generate :amex|:unionpay|:dankort|:diners|:elo|:discover|:hipercard|:jcb|:maestro|:mastercard|:mir|:rupay|:solo|:switch|:visa',
             count: 'required - number of SSN numbers to generate'
           )
 
