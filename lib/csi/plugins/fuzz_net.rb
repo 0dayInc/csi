@@ -115,7 +115,7 @@ module CSI
 
           fuzz_net_obj = CSI::Plugins::FuzzNet.test_case(
             fuzz_net_obj: 'required - fuzz_net_obj returned from #connect method',
-            request: 'required - String object of socket request w/ \u2764 as position delimeter (e.g. \"GET /\\u2764FUZZ\\u2764 HTTP/1.1\\r\\nHost: \\u2764127.0.0.1\\u2764\\r\\n\\r\\n\")',
+            request: 'required - String object of socket request w/ \\u2764 (heart) as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\")',
             payload: 'required - payload string'
           )
 
