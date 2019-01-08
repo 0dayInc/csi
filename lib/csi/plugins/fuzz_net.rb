@@ -50,7 +50,7 @@ module CSI
       public_class_method def self.test_case(opts = {})
         fuzz_net_obj = opts[:fuzz_net_obj]
         request = opts[:request].to_s
-        payload = opts[:request].to_s
+        payload = opts[:payload].to_s
 
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
@@ -113,13 +113,13 @@ module CSI
             protocol: 'optional => :tcp || :udp (defaults to tcp)'
           )
 
-          fuzz_net_obj = CSI::Plugins::FuzzNet.test_case(
+          fuzz_net_obj = #{self}.test_case(
             fuzz_net_obj: 'required - fuzz_net_obj returned from #connect method',
             request: 'required - String object of socket request w/ \\u2764 (heart) as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\")',
             payload: 'required - payload string'
           )
 
-          fuzz_net = #{self}.disconnect(
+          fuzz_net_obj = #{self}.disconnect(
             fuzz_net_obj: 'required = fuzz_net_obj returned from #connect method'
           )
 
