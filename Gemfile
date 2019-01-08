@@ -17,7 +17,7 @@ gem 'brakeman', '4.3.1'                # Rails Security Scanner ***2019-01-08
 gem 'bson', '4.3.0'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2018-02-22
 gem 'bundler', '2.0.1'                 # bundle install ***2019-01-18
 # gem 'bundler-audit', '0.6.0'           # Checks for vulnerable versions of gems ***2017-08-20
-gem 'bunny', '2.13.0'                   # RabbitMQ ***2019-01-08
+gem 'bunny', '2.13.0'                  # RabbitMQ ***2019-01-08
 gem 'credit_card_validations', '3.5.0' # validate ccno from luhn generation ***2019-01-08
 gem 'highline', '2.0.0'                # Masking Authentication Credential Input ***2019-01-08
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
@@ -25,7 +25,7 @@ gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '2.1.0'                    # Work w/ JSON objects ***2017-08-20
-gem 'jsonpath', '0.9.9'               # XPath-ify Complex JSON Data Structures ***2019-01-08
+gem 'jsonpath', '0.9.9'                # XPath-ify Complex JSON Data Structures ***2019-01-08
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
 gem 'mongo', '2.6.2'                   # Primarily for Data-Driven Security, pulling in various security tools' output ***2019-01-08
