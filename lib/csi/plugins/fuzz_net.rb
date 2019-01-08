@@ -59,15 +59,12 @@ module CSI
 
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
-        first_delim = true
-        request_delim_index_arr.each_slice(2) do |placeholder_slice|
-          if first_delim
-            begin_delim_char_index = placeholder_slice[0].to_i
-          else
-            first_delim = false
-            begin_delim_char_index = placeholder_slice[0].to_i - 2
-          end
-          end_delim_char_index = placeholder_slice[1].to_i - 2
+        request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
+          begin_delim_char_index_shift_width = placeholder_slice_index * 2
+          begin_delim_char_index = placeholder_slice[0].to_i - begin_delim_char_index_shift_width
+
+          end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
+          end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
           this_request = request.dup.delete("\u2764")
           if end_delim_char_index.positive?
             this_request[begin_delim_char_index..end_delim_char_index] = payload
