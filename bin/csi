@@ -47,7 +47,7 @@ begin
 
   prompt = [
     proc do |_target_self, _nest_level, pry|
-      line_pad = format('%0.3d', pry.input_array.size)
+      line_pad = format('%0.3d', pry.input_ring.size)
       line_count = "\001\e[34m\002#{line_pad}\001\e[0m\002" # Blue
       "#{title}[#{version}]:#{line_count} #{arrow} ".to_s.scrub
     end,
