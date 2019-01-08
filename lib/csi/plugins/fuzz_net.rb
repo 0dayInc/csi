@@ -51,10 +51,11 @@ module CSI
         fuzz_net_obj = opts[:fuzz_net_obj]
         request = opts[:request].to_s
         payload = opts[:payload].to_s
+        delimeter = "\u2764"
 
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
-          request_delim_index_arr.push(char_index) if char == "\u2764"
+          request_delim_index_arr.push(char_index) if char == delimeter
         end
 
         # request_delim_index_arr should always return an even length,
@@ -65,7 +66,7 @@ module CSI
 
           end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
           end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
-          this_request = request.dup.delete("\u2764")
+          this_request = request.dup.delete(delimeter)
           if end_delim_char_index.positive?
             this_request[begin_delim_char_index..end_delim_char_index] = payload
           else
