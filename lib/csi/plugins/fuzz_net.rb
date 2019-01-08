@@ -77,6 +77,8 @@ module CSI
           end
           fuzz_net_obj.write(this_request)
         end
+
+        return fuzz_net_obj
       rescue => e
         return e
       end
