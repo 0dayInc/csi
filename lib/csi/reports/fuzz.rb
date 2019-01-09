@@ -6,11 +6,11 @@ module CSI
   module Reports
     # This plugin generates the Static Code Anti-Pattern Matching Analysis
     # results within the root of a given source repo.  Two files are created,
-    # a JSON file containing all of the SCAPM results and an HTML file
+    # a JSON file containing all of the Fuzz results and an HTML file
     # which is essentially the UI for the JSON file.
-    module SCAPM
+    module Fuzz
       # Supported Method Parameters::
-      # CSI::Reports::SCAPM.generate(
+      # CSI::Reports::Fuzz.generate(
       #   dir_path: dir_path,
       #   results_hash: results_hash
       # )
@@ -21,7 +21,7 @@ module CSI
         results_hash = opts[:results_hash]
 
         # JSON object Completion
-        File.open("#{dir_path}/csi_scan_git_source.json", 'w') do |f|
+        File.open("#{dir_path}/csi_fuzz_net_app_proto.json", 'w') do |f|
           f.print(results_hash.to_json)
         end
 
@@ -89,11 +89,10 @@ module CSI
             <div>
               <b>Toggle Column(s):</b>&nbsp;
               <a class="toggle-vis" data-column="1" href="#">Timestamp</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="2" href="#">Test Case Invoked/NIST 800-53 Rev. 4 Section</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="3" href="#">Path</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="4" href="#">Line#, Formatted Content, &amp; Last Committed By</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="5" href="#">Raw Content</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="6" href="#">Test Case (Anti-Pattern) Filter</a>
+              <a class="toggle-vis" data-column="2" href="#">Request</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Request Length</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Response</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Response Length</a>&nbsp;|&nbsp;
             </div>
             <br /><br />
 
@@ -103,11 +102,10 @@ module CSI
                   <tr>
                     <th>#</th>
                     <th>Timestamp</th>
-                    <th>Test Case Invoked/NIST 800-53 Rev. 4 Section</th>
-                    <th>Path</th>
-                    <th>Line#, Formatted Content, &amp; Last Committed By</th>
-                    <th>Raw Content</th>
-                    <th>Test Case (Anti-Pattern) Filter</th>
+                    <th>Request</th>
+                    <th>Request Length</th>
+                    <th>Response</th>
+                    <th>Response Length</th>
                   </tr>
                 </thead>
                 <!-- DataTables <tbody> -->
@@ -158,14 +156,14 @@ module CSI
                       }
                     },
                     {
-                      "data": "test_case",
+                      "data": "request",
                       "render": function (data, type, row, meta) {
                         // convert camel-cased scapm modules to use underscore naming instead to ensure the test case can resolve to the proper csi github url in the report
                         return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + data['sp_module'].replace(/::/g, "/").toLowerCase() + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
                       }
                     },
                     {
-                      "data": "filename",
+                      "data": "request_len",
                       "render": function (data, type, row, meta) {
                         for (var i = 0; i < data.length; i++) {
                           line_entry_uri = data[i]['git_repo_root_uri'] + '/' + data[i]['entry'];
@@ -175,57 +173,13 @@ module CSI
                       }
                     },
                     {
-                      "data": "line_no_and_contents",
-                      "render": function (data, type, row, meta) {
-                        var csi_rows = '<td style="width: 669px"><table id="multi_line_select" class="display squish" style="width: 665px"><tbody>';
-                        for (var i = 0; i < data.length; i++) {
-                          var tr_class;
-                          if (i % 2 == 0) { tr_class = "odd"; } else { tr_class = "even"; }
-
-                          //var filename_link = document.URL.substr(0,document.URL.lastIndexOf('/')) + '/' + row.filename;
-                          var filename_link = row.filename;
-
-                          var bug_comment = 'Timestamp: ' + row.timestamp + '\n' +
-                                            'Test Case Invoked: http://' + window.location.hostname + ':8808/doc_root/csi-0.1.0/' +
-                                              row.test_case['sp_module'].replace(/::/g, "/") + '\n' +
-                                            'Source Code Impacted: ' + $("<div/>").html(filename_link).text() + '\n\n' +
-                                            'Test Case Request:\n' +
-                                            $("<div/>").html(row.test_case_filter.replace(/\s{2,}/g, " ")).text() + '\n\n' +
-                                            'Test Case Response:\n' +
-                                            '\tCommitted by: ' + $("<div/>").html(data[i]['author']).text() + '\t' +
-                                              data[i]['line_no'] + ': ' +
-                                              $("<div/>").html(data[i]['contents'].replace(/\s{2,}/g, " ")).text() + '\n\n';
-
-                          var author_and_email_arr = data[i]['author'].split(" ");
-                          var email = author_and_email_arr[author_and_email_arr.length - 1];
-                          var email_user_arr = email.split("@");
-                          var assigned_to = email_user_arr[0].replace("&lt;", "");
-
-                          var uri = '#uri';
-
-                         var canned_email_results = 'Timestamp: ' + row.timestamp + '\n' +
-                                                    'Source Code File Impacted: ' + $("<div/>").html(filename_link).text() + '\n\n' +
-                                                    'Source Code in Question:\n\n' +
-                                                    data[i]['line_no'] + ': ' +
-                                                    $("<div/>").html(data[i]['contents'].replace(/\s{2,}/g, " ")).text() + '\n\n';
-
-                         var canned_email = email.replace("&lt;", "").replace("&gt;", "") + '?subject=Potential%20Bug%20within%20Source%20File:%20'+ encodeURIComponent(row.filename) +'&body=Greetings,%0A%0AThe%20following%20information%20likely%20represents%20a%20bug%20discovered%20through%20automated%20security%20testing%20initiatives:%0A%0A' + encodeURIComponent(canned_email_results) + 'Is%20this%20something%20that%20can%20be%20addressed%20immediately%20or%20would%20filing%20a%20bug%20be%20more%20appropriate?%20%20Please%20let%20us%20know%20at%20your%20earliest%20convenience%20to%20ensure%20we%20can%20meet%20security%20expectations%20for%20this%20release.%20%20Thanks%20and%20have%20a%20great%20day!';
-
-                          to_line_number = line_entry_uri + '/#L' + data[i]['line_no'];
-                          csi_rows = csi_rows.concat('<tr class="' + tr_class + '"><td style="width:90px" align="left"><a href="' + to_line_number + '" target="_blank">' + data[i]['line_no'] + '</a>:&nbsp;</td><td style="width:300px" align="left">' + data[i]['contents'] + '</td><td style="width:200px" align="right"><a href="mailto:' + canned_email + '">' + data[i]['author'] + '</a></td></tr>');
-                        }
-                        csi_rows = csi_rows.concat('</tbody></table></td>');
-                        return csi_rows;
-                      }
-                    },
-                    {
-                      "data": "raw_content",
+                      "data": "response",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
-                      "data": "test_case_filter",
+                      "data": "response_len",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
@@ -261,7 +215,7 @@ module CSI
         </html>
         }
 
-        File.open("#{dir_path}/csi_scan_git_source.html", 'w') do |f|
+        File.open("#{dir_path}/csi_fuzz_net_app_proto.html", 'w') do |f|
           f.print(html_report)
         end
       rescue => e

@@ -96,7 +96,9 @@ module CSI
             tls: tls
           )
 
+          this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
           this_socket_fuzz_result[:request] = this_request
+          this_socket_fuzz_result[:request_len] = this_request.length
           fuzz_net_obj.print(this_request)
           does_respond = IO.select([fuzz_net_obj], nil, nil, response_timeout)
           if does_respond

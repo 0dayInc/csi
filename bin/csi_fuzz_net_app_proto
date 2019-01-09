@@ -3,6 +3,7 @@
 
 require 'csi'
 require 'optparse'
+require 'json'
 
 opts = {}
 OptionParser.new do |options|
@@ -58,6 +59,7 @@ fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_fi
 response_timeout = opts[:response_timeout]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
 
+results_hash = { data: [] }
 results_arr = []
 mutex = Mutex.new
 
@@ -74,10 +76,19 @@ File.open(fuzz_file, 'rb') do |file|
         payload: payload.to_s.chomp,
         response_timeout: response_timeout
       )
-      mutex.synchronize do
-        results_arr.push(socket_fuzz_results_arr)
+      socket_fuzz_results_arr.each do |hash_line|
+        mutex.synchronize do
+          results_hash[:data].push(hash_line)
+        end
       end
     end
   end
 end
-puts results_arr
+
+# Generate HTML Report
+print "#{$PROGRAM_NAME} Generating Report..."
+CSI::Reports::Fuzz.generate(
+  dir_path: dir_path,
+  results_hash: results_hash
+)
+puts 'complete.'

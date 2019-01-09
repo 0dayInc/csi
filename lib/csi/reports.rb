@@ -8,6 +8,7 @@ module CSI
     # autoload :HTML, 'csi/reports/html'
     # autoload :JSON, 'csi/reports/json'
     # autoload :PDF, 'csi/reports/pdf'
+    autoload :Fuzz, 'csi/reports/fuzz'
     autoload :SCAPM, 'csi/reports/scapm'
     # autoload :XML, 'csi/reports/xml'
 
