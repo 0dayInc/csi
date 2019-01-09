@@ -51,7 +51,6 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   fuzz_net_obj: 'required - fuzz_net_obj returned from #connect method',
       #   request: 'required - String object of socket request w/ \u2764 as position delimeter (e.g. "GET /\u2764FUZZ\u2764 HTTP/1.1\r\nHost: \u2764127.0.0.1\u2764\r\n\r\n")',
       #   payload: 'required - payload string'
       # )
@@ -60,7 +59,7 @@ module CSI
         target = opts[:target].to_s.scrub
         port = opts[:port].to_i
         protocol = opts[:protocol]
-
+        tls = opts[:tls]
         request = opts[:request].to_s
         payload = opts[:payload].to_s
         delimeter = "\u2764"
