@@ -21,7 +21,7 @@ module CSI
         target = opts[:target].to_s.scrub
         port = opts[:port].to_i
         opts[:protocol].nil? ? protocol = :tcp : protocol = opts[:protocol].to_s.downcase.to_sym
-        opts[:tls] ? tls = true : tls = false
+        opts[:tls].nil? ? tls = false : tls = true
 
         case protocol
         when :tcp
