@@ -52,7 +52,8 @@ module CSI
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
       #   request: 'required - String object of socket request w/ \u2764 as position delimeter (e.g. "GET /\u2764FUZZ\u2764 HTTP/1.1\r\nHost: \u2764127.0.0.1\u2764\r\n\r\n")',
-      #   payload: 'required - payload string'
+      #   payload: 'required - payload string',
+      #   response_timeout: 'optional - float (defaults to 0.3)'
       # )
 
       public_class_method def self.socket(opts = {})
@@ -63,6 +64,7 @@ module CSI
         request = opts[:request].to_s
         payload = opts[:payload].to_s
         delimeter = "\u2764"
+        opts[:response_timeout] ? response_timeout = 0.3 : response_timeout = opts[:response_timeout].to_f
 
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
@@ -93,7 +95,6 @@ module CSI
 
           puts this_request
           fuzz_net_obj.print(this_request)
-          response_timeout = 0.9
           response = IO.select([fuzz_net_obj], nil, nil, response_timeout)
           puts fuzz_net_obj.read if response
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
@@ -136,7 +137,8 @@ module CSI
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
             request: 'required - String object of socket request w/ \\u2764 (heart) as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\")',
-            payload: 'required - payload string'
+            payload: 'required - payload string',
+            response_timeout: 'optional - float (defaults to 0.3)'
           )
 
           #{self}.authors
