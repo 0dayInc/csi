@@ -108,6 +108,8 @@ module CSI
         end
       rescue => e
         return e
+      ensure
+        fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj) unless fuzz_net_obj.nil?
       end
 
       # Supported Method Parameters::
