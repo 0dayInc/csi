@@ -54,7 +54,7 @@ port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
 request = opts[:request]
-fuzz_file = File.read(opts[:fuzz_file].to_s.strip.scrub.chomp) if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
+fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 response_timeout = opts[:response_timeout]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
 
