@@ -20,12 +20,7 @@ module CSI
       public_class_method # def self.fill(opts = {}, &block)
       def self.fill(opts = {})
         enumerable_array = opts[:enumerable_array]
-
-        max_threads = if opts[:max_threads].nil?
-                        9
-                      else
-                        opts[:max_threads].to_i
-                      end
+        opts[:max_threads].nil? ? max_threads = 9 : max_threads = opts[:max_threads].to_i
 
         puts "Initiating Thread Pool of #{max_threads} Worker Threads...."
         queue = SizedQueue.new(max_threads)
