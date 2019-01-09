@@ -102,8 +102,8 @@ module CSI
           if does_respond
             response = fuzz_net_obj.read
             response_len = response.length
-            puts "#{response_value}\nRESPONSE LENGTH: #{response.len}"
-            this_socket_fuzz_result[:response] = response_value
+            puts "#{response}\nRESPONSE LENGTH: #{response_len}"
+            this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response_len
           else
             this_socket_fuzz_result[:response] = ''
