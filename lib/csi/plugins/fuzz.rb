@@ -97,7 +97,12 @@ module CSI
           puts this_request
           fuzz_net_obj.print(this_request)
           response = IO.select([fuzz_net_obj], nil, nil, response_timeout)
-          puts fuzz_net_obj.read if response
+          if response
+            response_value = fuzz_net_obj.read
+            puts "#{response_value}\nRESPONSE LENGTH: #{response_value.length}"
+          else
+            puts 'RESPONSE LENGTH: 0'
+          end
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
           puts "\n\n\n"
         end
