@@ -26,10 +26,11 @@ module CSI
         case protocol
         when :tcp
           if tls
-            sock = TCPSocket.new(target, port)
+            sock = TCPSocket.open(target, port)
             tls_context = OpenSSL::SSL::SSLContext.new
             tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
-            fuzz_net_obj = OpenSSL::SSL::SSLSocket.new(sock, tls_context)
+            tls_sock = OpenSSL::SSL::SSLSocket.new(sock, tls_context)
+            fuzz_net_obj = tls_sock.connect
           else
             fuzz_net_obj = TCPSocket.open(target, port)
           end
