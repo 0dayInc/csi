@@ -22,8 +22,8 @@ OptionParser.new do |options|
     opts[:protocol] = p
   end
 
-  options.on('-c', '--[no-]clear-text', '<Optional - boolean connect to target socket using TLS (defaults to false)') do |c|
-    opts[:tls] = c
+  options.on('-S', '--[no-]secure', '<Optional - boolean to connect to target socket using TLS (defaults to false)') do |s|
+    opts[:tls] = s
   end
 
   options.on('-rREQUEST', '--request-format=REQUEST', '<Required - String object of socket request w/ \u2764 as position delimeter (e.g. "GET /\u2764FUZZ\u2764 HTTP/1.1\r\nHost: \u2764127.0.0.1\u2764\r\n\r\n">') do |r|
