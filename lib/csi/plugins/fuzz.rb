@@ -93,7 +93,9 @@ module CSI
 
           puts this_request
           fuzz_net_obj.print(this_request)
-          puts fuzz_net_obj.read
+          response_timeout = 0.9
+          response = IO.select([fuzz_net_obj], nil, nil, response_timeout)
+          puts fuzz_net_obj.read if response
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
           puts "\n\n\n"
         end
