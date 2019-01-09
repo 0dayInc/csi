@@ -92,11 +92,10 @@ module CSI
           )
 
           puts this_request
-          fuzz_net_obj.write(this_request)
+          fuzz_net_obj.print(this_request)
+          fuzz_net_obj.close_write
+          puts fuzz_net_obj.read
           # TODO: read response and dump to log file(s) for analysis of anomalies
-          while response_line = fuzz_net_obj.gets
-            puts response_line
-          end
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
           puts "\n\n\n"
         end
