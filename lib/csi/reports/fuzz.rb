@@ -98,7 +98,7 @@ module CSI
             <br /><br />
 
             <div>
-              <table id="csi_scan_git_source_results" class="display" cellspacing="0">
+              <table id="csi_fuzz_net_app_proto" class="display" cellspacing="0">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -117,7 +117,7 @@ module CSI
               var line_entry_uri = "";
               $(document).ready(function() {
                 var oldStart = 0;
-                var table = $('#csi_scan_git_source_results').DataTable( {
+                var table = $('#csi_fuzz_net_app_proto').DataTable( {
                   "paging": true,
                   "pagingType": "full_numbers",
                   "fnDrawCallback": function ( oSettings ) {
@@ -145,7 +145,7 @@ module CSI
                       }
                     });
                   },
-                  "ajax": "csi_scan_git_source.json",
+                  "ajax": "csi_fuzz_net_app_proto.json",
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
@@ -206,7 +206,7 @@ module CSI
 
               function multi_line_select() {
                 // Select all lines in a row
-                //$('#csi_scan_git_source_results tbody').on('click', 'tr', function () {
+                //$('#csi_fuzz_net_app_proto tbody').on('click', 'tr', function () {
                 //  $(this).children('td').children('#multi_line_select').children('tbody').children('tr').toggleClass('selected');
                 //});
 
