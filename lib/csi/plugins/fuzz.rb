@@ -26,8 +26,6 @@ module CSI
         case protocol
         when :tcp
           if tls
-            puts "DEBUG: #{target} || #{port} || #{protocol} || #{tls}"
-
             sock = TCPSocket.open(target, port)
             tls_context = OpenSSL::SSL::SSLContext.new
             tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
