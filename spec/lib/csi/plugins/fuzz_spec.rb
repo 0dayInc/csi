@@ -2,14 +2,14 @@
 
 require 'spec_helper'
 
-describe CSI::Plugins::FuzzNet do
+describe CSI::Plugins::Fuzz do
   it 'should display information for authors' do
-    authors_response = CSI::Plugins::FuzzNet
+    authors_response = CSI::Plugins::Fuzz
     expect(authors_response).to respond_to :authors
   end
 
   it 'should display information for existing help method' do
-    help_response = CSI::Plugins::FuzzNet
+    help_response = CSI::Plugins::Fuzz
     expect(help_response).to respond_to :help
   end
 end

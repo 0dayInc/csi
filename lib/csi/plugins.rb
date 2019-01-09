@@ -21,7 +21,7 @@ module CSI
     autoload :DetectOS, 'csi/plugins/detect_os'
     autoload :EIN, 'csi/plugins/ein'
     autoload :FileFu, 'csi/plugins/file_fu'
-    autoload :FuzzNet, 'csi/plugins/fuzz_net'
+    autoload :Fuzz, 'csi/plugins/fuzz'
     autoload :Git, 'csi/plugins/git'
     autoload :HackerOne, 'csi/plugins/hacker_one'
     autoload :Hexify, 'csi/plugins/hexify'
