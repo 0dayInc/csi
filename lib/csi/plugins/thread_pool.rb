@@ -27,7 +27,6 @@ module CSI
         threads = Array.new(max_threads) do
           Thread.new do
             until (test_case = queue.pop) == :END
-              # block.call(test_case)
               yield test_case
             end
           end
