@@ -43,6 +43,11 @@ OptionParser.new do |options|
   end
 end.parse!
 
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
 # Construct AuthN Args
 target = opts[:target]
 port = opts[:port]
