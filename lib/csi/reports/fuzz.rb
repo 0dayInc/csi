@@ -159,18 +159,13 @@ module CSI
                     {
                       "data": "request",
                       "render": function (data, type, row, meta) {
-                        // convert camel-cased scapm modules to use underscore naming instead to ensure the test case can resolve to the proper csi github url in the report
-                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + data['sp_module'].replace(/::/g, "/").toLowerCase() + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
+                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
                       "data": "request_len",
                       "render": function (data, type, row, meta) {
-                        for (var i = 0; i < data.length; i++) {
-                          line_entry_uri = data[i]['git_repo_root_uri'] + '/' + data[i]['entry'];
-                          return '<table class="squish"><tr style="background-color:#F2F5A9;"><td style="width:150px;" align="left"><a href="' + line_entry_uri + '" target="_blank">' + data[i]['entry'] + '</a></td></tr></table>';
-
-                        }
+                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
