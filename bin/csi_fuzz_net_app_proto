@@ -62,15 +62,19 @@ slice = max_threads * 3
 File.open(fuzz_file, 'rb') do |file|
   file.each_slice(slice) do |payload_batch_arr|
     CSI::Plugins::ThreadPool.fill(enumerable_array: payload_batch_arr, max_threads: max_threads) do |payload|
-      CSI::Plugins::Fuzz.socket(
-        target: target,
-        port: port,
-        protocol: protocol,
-        tls: tls,
-        request: request,
-        payload: payload.to_s.chomp,
-        response_timeout: response_timeout
-      )
+      begin
+        CSI::Plugins::Fuzz.socket(
+          target: target,
+          port: port,
+          protocol: protocol,
+          tls: tls,
+          request: request,
+          payload: payload.to_s.chomp,
+          response_timeout: response_timeout
+        )
+      rescue => e
+        raise "Something happened to threaded fuzz payload when passing #{payload.to_s.chomp}: #{e}"
+      end
     end
   end
 end
