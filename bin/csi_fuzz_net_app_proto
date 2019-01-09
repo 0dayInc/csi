@@ -11,6 +11,10 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
+  options.on('-dDIR', '--dir-path=DIR', '<Required - Root of Git Repo to Target>') do |d|
+    opts[:dir_path] = d
+  end
+
   options.on('-tHOST', '--target-host=HOST', '<Required - Target Host or IP>') do |t|
     opts[:target] = t
   end
@@ -49,11 +53,12 @@ if opts.empty?
   exit 1
 end
 
-# Construct AuthN Args
+dir_path = opts[:dir_path].to_s.scrub
 target = opts[:target]
 port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
+puts "TLS: #{tls}"
 request = opts[:request]
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 response_timeout = opts[:response_timeout]
