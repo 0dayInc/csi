@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csi'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-tHOST', '--target-host=HOST', '<Required - Target Host or IP>') do |t|
+    opts[:target] = t
+  end
+
+  options.on('-pPORT', '--port=PORT', '<Required - Target Port>') do |p|
+    opts[:port] = p
+  end
+
+  options.on('-PPROTOCOL', '--protocol=PROTOCOL', '<Optional - tcp || udp (defaults to tcp)>') do |p|
+    opts[:protocol] = p
+  end
+
+  options.on('-c', '--[no-]clear-text', '<Optional - boolean connect to target socket using TLS (defaults to false)') do |c|
+    opts[:tls] = c
+  end
+
+  options.on('-rREQUEST', '--request-format=REQUEST', '<Required - String object of socket request w/ \u2764 as position delimeter (e.g. "GET /\u2764FUZZ\u2764 HTTP/1.1\r\nHost: \u2764127.0.0.1\u2764\r\n\r\n">') do |r|
+    opts[:request] = r
+  end
+
+  options.on('-fFILE', '--fuzz-file=FILE', '<Required - path of file containing fuzz requests>') do |f|
+    opts[:fuzz_file] = f
+  end
+
+  options.on('-TFLOAT', '--response-timeout=FLOAT', '<Optional - float (defaults to 0.3)>') do |f|
+    opts[:response_timeout] = f
+  end
+
+  options.on('-mINT', '--max-threads=INT', '<Optional - fuzz payloads to send in parallel (defaults to 1)>') do |i|
+    opts[:max_threads] = i
+  end
+end.parse!
+
+# Construct AuthN Args
+target = opts[:target]
+port = opts[:port]
+protocol = opts[:protocol]
+tls = opts[:tls]
+request = opts[:request]
+fuzz_file = File.read(opts[:fuzz_file].to_s.strip.scrub.chomp) if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
+response_timeout = opts[:response_timeout]
+opts[:max_threads].nil? max_threads = 1 : max_threads = opts[:max_threads].to_i
+
+begin
+  File.open(fuzz_file, 'rb') do |file|
+    file.each_slice(max_threads) do |payload_batch|
+      CSI::Plugins::ThreadPool.fill(enumerable_array: payload_batch, max_threads: max_threads).each do |payload|
+        CSI::Plugins::Fuzz.socket(
+          target: target,
+          port: port,
+          protocol: protocol,
+          tls: tls,
+          request: request,
+          payload: payload,
+          response_timeout: response_timeout
+        )
+      end
+    end
+  end
+rescue => e
+  raise e
+end
