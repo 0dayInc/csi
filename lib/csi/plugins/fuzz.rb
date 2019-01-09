@@ -64,7 +64,7 @@ module CSI
         request = opts[:request].to_s
         payload = opts[:payload].to_s
         delimeter = "\u2764"
-        opts[:response_timeout] ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
+        opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
 
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
