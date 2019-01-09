@@ -23,11 +23,11 @@ module CSI
         opts[:protocol].nil? ? protocol = :tcp : protocol = opts[:protocol].to_s.downcase.to_sym
         opts[:tls].nil? ? tls = false : tls = true
 
-        puts "DEBUG: #{target} || #{port} || #{protocol} || #{tls}"
-
         case protocol
         when :tcp
           if tls
+            puts "DEBUG: #{target} || #{port} || #{protocol} || #{tls}"
+
             sock = TCPSocket.open(target, port)
             tls_context = OpenSSL::SSL::SSLContext.new
             tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
