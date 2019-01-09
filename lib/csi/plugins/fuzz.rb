@@ -47,7 +47,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Fuzz.socket(
+      # socket_fuzz_results_arr = CSI::Plugins::Fuzz.socket(
       #   target: 'required - target host or ip',
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
@@ -150,7 +150,7 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          #{self}.socket(
+          socket_fuzz_results_arr = #{self}.socket(
             target: 'required = target host or ip',
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
