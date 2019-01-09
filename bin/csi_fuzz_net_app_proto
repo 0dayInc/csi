@@ -58,22 +58,18 @@ fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_fi
 response_timeout = opts[:response_timeout]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
 
-mutex = Mutex.new
-
 File.open(fuzz_file, 'rb') do |file|
-  file.each_slice(max_threads) do |payload_batch|
-    CSI::Plugins::ThreadPool.fill(enumerable_array: payload_batch, max_threads: max_threads).each do |payload|
-      mutex.synchronize do
-        CSI::Plugins::Fuzz.socket(
-          target: target,
-          port: port,
-          protocol: protocol,
-          tls: tls,
-          request: request,
-          payload: payload.to_s.chomp,
-          response_timeout: response_timeout
-        )
-      end
+  file.each_slice(max_threads) do |payload_batch_arr|
+    CSI::Plugins::ThreadPool.fill(enumerable_array: payload_batch_arr, max_threads: max_threads).each do |payload|
+      CSI::Plugins::Fuzz.socket(
+        target: target,
+        port: port,
+        protocol: protocol,
+        tls: tls,
+        request: request,
+        payload: payload.to_s.chomp,
+        response_timeout: response_timeout
+      )
     end
   end
 end

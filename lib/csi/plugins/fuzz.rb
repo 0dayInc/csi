@@ -66,6 +66,7 @@ module CSI
         payload = opts[:payload].to_s
         delimeter = "\u2764"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
+        socket_fuzz_results_arr = []
 
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
@@ -75,6 +76,7 @@ module CSI
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
         request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
+          this_socket_fuzz_result = {}
           begin_delim_char_index_shift_width = placeholder_slice_index * 2
           begin_delim_char_index = placeholder_slice[0].to_i - begin_delim_char_index_shift_width
 
@@ -94,18 +96,27 @@ module CSI
             tls: tls
           )
 
-          puts this_request
+          this_socket_fuzz_result[:request] = this_request
           fuzz_net_obj.print(this_request)
-          response = IO.select([fuzz_net_obj], nil, nil, response_timeout)
-          if response
-            response_value = fuzz_net_obj.read
-            puts "#{response_value}\nRESPONSE LENGTH: #{response_value.length}"
+          does_respond = IO.select([fuzz_net_obj], nil, nil, response_timeout)
+          if does_respond
+            response = fuzz_net_obj.read
+            response_len = response.length
+            puts "#{response_value}\nRESPONSE LENGTH: #{response.len}"
+            this_socket_fuzz_result[:response] = response_value
+            this_socket_fuzz_result[:response_len] = response_len
           else
+            this_socket_fuzz_result[:response] = ''
+            this_socket_fuzz_result[:response_len] = 0
             puts 'RESPONSE LENGTH: 0'
           end
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
+          # TODO: dump into file once array reaches max length (avoid memory consumption issues)
+          socket_fuzz_results_arr.push(this_socket_fuzz_result)
           puts "\n\n\n"
         end
+
+        return socket_fuzz_results_arr
       rescue => e
         return e
       ensure
