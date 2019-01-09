@@ -9,6 +9,6 @@ before_install:
   - sudo apt-get install -y libsndfile1-dev
 language: ruby
 rvm: # Rely upon .ruby-version
-dist: trusty
+dist: xenial
 after_success:
   - rubocop
