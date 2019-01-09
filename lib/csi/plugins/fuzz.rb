@@ -23,6 +23,8 @@ module CSI
         opts[:protocol].nil? ? protocol = :tcp : protocol = opts[:protocol].to_s.downcase.to_sym
         opts[:tls].nil? ? tls = false : tls = true
 
+        puts "DEBUG: #{target} || #{port} || #{protocol} || #{tls}"
+
         case protocol
         when :tcp
           if tls
