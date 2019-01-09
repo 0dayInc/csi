@@ -18,6 +18,7 @@ module CSI
       public_class_method def self.generate(opts = {})
         dir_path = opts[:dir_path].to_s if File.directory?(opts[:dir_path].to_s)
         raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?
+
         results_hash = opts[:results_hash]
 
         # JSON object Completion
