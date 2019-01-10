@@ -104,18 +104,15 @@ module CSI
           if does_respond
             response = fuzz_net_obj.read
             response_len = response.length
-            puts "#{response}\nRESPONSE LENGTH: #{response_len}"
             this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response_len
           else
             this_socket_fuzz_result[:response] = ''
             this_socket_fuzz_result[:response_len] = 0
-            puts 'RESPONSE LENGTH: 0'
           end
           fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
           # TODO: dump into file once array reaches max length (avoid memory consumption issues)
           socket_fuzz_results_arr.push(this_socket_fuzz_result)
-          puts "\n\n\n"
         end
 
         return socket_fuzz_results_arr
