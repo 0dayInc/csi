@@ -171,7 +171,8 @@ module CSI
                       "render": $.fn.dataTable.render.text()
                     }
                   ],
-                  "columnDefs": [ { "targets": "_all", "width": "20%" } ]
+                  "columnDefs": [ { "targets": "_all", "width": "20%" } ],
+                  "fixedColumns": true
                 });
                 // Toggle Columns
                 $('a.toggle-vis').on('click', function (e) {
