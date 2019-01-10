@@ -152,33 +152,23 @@ module CSI
                     { "data": null },
                     {
                       "data": "timestamp",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "request",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "request_len",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "response",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "response_len",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     }
                   ],
                   "columnDefs": [ { "targets": "_all", "width": "20%" } ]
