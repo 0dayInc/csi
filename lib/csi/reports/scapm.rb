@@ -160,8 +160,9 @@ module CSI
                     {
                       "data": "test_case",
                       "render": function (data, type, row, meta) {
-                        var scapm_test_case_href = data['sp_module'].replace(/::/g, "/").replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, "");
-                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + scapm_test_case_href + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
+                        var scapm_dirname = data['sp_module'].split('::')[0].toLowerCase() + '/' + data['sp_module'].split('::')[1].toLowerCase()
+                        var scapm_test_case = data['sp_module'].split('::')[2].split('::')[2].replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/g, "")
+                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + scapm_dirname + '/' + scapm_test_case + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
                       }
                     },
                     {
