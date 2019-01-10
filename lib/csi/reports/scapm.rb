@@ -154,7 +154,7 @@ module CSI
                     {
                       "data": "timestamp",
                       "render": function (data, type, row, meta) {
-                        return '<a name="' + encodeURIComponent(data) + '">' + data + '</a>';
+                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
