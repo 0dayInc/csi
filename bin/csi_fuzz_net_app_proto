@@ -32,6 +32,8 @@ OptionParser.new do |options|
   end
 
   options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \u2764 as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\">") do |r|
+    # Need string interpolation in order to allow for
+    # escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
     opts[:request] = "#{r}"
   end
 
@@ -58,7 +60,6 @@ target = opts[:target]
 port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
-# Need string interpolation in order to allow escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
 request = opts[:request]
 puts request.inspect
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
