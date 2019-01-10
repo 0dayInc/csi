@@ -32,7 +32,7 @@ OptionParser.new do |options|
   end
 
   options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \u2764 as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\">") do |r|
-    # TODO: Need string interpolation to allow for escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
+    # Need unescaped string (#undump) to allow for escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
     opts[:request] = r.to_s.undump
   end
 
@@ -60,7 +60,6 @@ port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
 request = opts[:request]
-puts request.inspect
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 response_timeout = opts[:response_timeout]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
