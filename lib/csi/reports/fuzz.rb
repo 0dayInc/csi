@@ -152,40 +152,36 @@ module CSI
                     { "data": null },
                     {
                       "data": "timestamp",
-                      "width": "200px",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
                       "data": "request",
-                      "width": "200px",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
                       "data": "request_len",
-                      "width": "200px",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
                       "data": "response",
-                      "width": "200px",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     },
                     {
                       "data": "response_len",
-                      "width": "200px",
                       "render": function (data, type, row, meta) {
                         return '<tr><td style="width:200px;" align="left">' + data + '</td>';
                       }
                     }
-                  ]
+                  ],
+                  "columnDefs": [ { "targets": "_all", "width": "20%" } ]
                 });
                 // Toggle Columns
                 $('a.toggle-vis').on('click', function (e) {
