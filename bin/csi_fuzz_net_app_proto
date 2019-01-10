@@ -58,7 +58,7 @@ target = opts[:target]
 port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
-request = %Q(opts[:request])
+request = %(#{opts[:request]})
 puts request.inspect
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 response_timeout = opts[:response_timeout]
