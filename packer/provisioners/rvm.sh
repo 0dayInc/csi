@@ -13,7 +13,8 @@ case $os in
     exit 1
 esac
 
-curl -sSL https://rvm.io/mpapis.asc | sudo gpg2 --no-tty --import -
+#curl -sSL https://rvm.io/mpapis.asc | sudo gpg2 --no-tty --import -
+sudo /bin/bash --login -c 'gpg2 --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'
 sudo /bin/bash --login -c 'echo -e "trust\n5\ny\n" | gpg2 --no-tty --command-fd 0 --edit-key 409B6B1796C275462A1703113804BB82D39DC0E3'
 sudo /bin/bash --login -c 'echo -e "trust\n5\ny\n" | gpg2 --no-tty --command-fd 0 --edit-key 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'
 
