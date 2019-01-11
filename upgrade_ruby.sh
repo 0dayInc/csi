@@ -21,6 +21,10 @@ if [[ $# < 1 ]]; then
   usage
 fi
 
+# Upgrade RVM
+curl -sSL https://get.rvm.io | sudo bash -s latest
+rvm reload
+
 # Remove Old CSI Gemset
 rvm use ruby-$old_ruby_version@global
 rvm gemset --force delete $ruby_gemset
