@@ -155,6 +155,16 @@ module CSI
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "fixedColumns": true,
+                  "columnDefs": [
+                    {
+                      targets: 3,
+                      className: 'dt-body-center'
+                    },
+                    {
+                      targets: 5,
+                      className: 'dt-body-center'
+                    }
+                  ],
                   "columns": [
                     { "data": null },
                     {
