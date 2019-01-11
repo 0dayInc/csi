@@ -109,12 +109,12 @@ module CSI
                     <th>Response Length</th>
                   </tr>
                 </thead>
-                <col width="20px"></col>
-                <col width="60px"></col>
-                <col width="300px"></col>
-                <col width="90px"></col>
-                <col width="300px"></col>
-                <col width="90px"></col>
+                <col width="20px" />
+                <col width="60px" />
+                <col width="300px" />
+                <col width="90px" />
+                <col width="300px" />
+                <col width="90px" />
                 <!-- DataTables <tbody> -->
               </table>
             </div>
@@ -154,6 +154,7 @@ module CSI
                   "ajax": "csi_fuzz_net_app_proto.json",
                   "dom": "fplitfpliS",
                   "autoWidth": false,
+                  "fixedColumns": true,
                   "columns": [
                     { "data": null },
                     {
@@ -171,15 +172,12 @@ module CSI
                     {
                       "data": "response",
                       "render": $.fn.dataTable.render.text()
-                      }
                     },
                     {
                       "data": "response_len",
                       "render": $.fn.dataTable.render.text()
                     }
                   ],
-                  "columnDefs": [ { "targets": "_all", "width": "20%" } ],
-                  "fixedColumns": true
                 });
                 // Toggle Columns
                 $('a.toggle-vis').on('click', function (e) {
