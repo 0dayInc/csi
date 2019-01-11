@@ -52,7 +52,7 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   request: 'required - String object of socket request w/ \u2764 as position delimeter (e.g. "GET /\u2764FUZZ\u2764 HTTP/1.1\r\nHost: \u2764127.0.0.1\u2764\r\n\r\n")',
+      #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
       #   response_timeout: 'optional - float (defaults to 0.3)',
       #   request_rate_limit: 'optional - float (defaults to 0.0)',
@@ -65,7 +65,7 @@ module CSI
         tls = opts[:tls]
         request = opts[:request].to_s
         payload = opts[:payload].to_s
-        delimeter = "\u2764"
+        delimeter = "\u9999"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.0 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
@@ -157,7 +157,7 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            request: 'required - String object of socket request w/ \\u2764 (heart) as position delimeter (e.g. \"GET /\u2764FUZZ\u2764 HTTP/1.1\\r\\nHost: \u2764127.0.0.1\u2764\\r\\n\\r\\n\")',
+            request: 'required - String object of socket request w/ \\u9999 (heart) as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
             response_timeout: 'optional - float (defaults to 0.3)'
           )
