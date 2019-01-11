@@ -7,8 +7,9 @@ before_install:
   - curl -sSL https://get.rvm.io | sudo bash -s latest
   - rvm reload
   - rvm --version
-  - rvm list gemsets
   - rvm use ruby-$(cat .ruby-version)@$(cat .ruby-gemset) --create
+  - rvm list gemsets
+  - gem install bundler
   - sudo apt-get install -y postgresql-server-dev-all
   - sudo apt-get install -y libpcap-dev
   - sudo apt-get install -y libmagickwand-dev
