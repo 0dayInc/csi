@@ -6,6 +6,7 @@ before_install:
   - sudo /bin/bash --login -c 'echo -e "trust\n5\ny\n" | gpg2 --no-tty --command-fd 0 --edit-key 7D2BAF1CF37B13E2069D6956105BD0E739499BDB'
   - curl -sSL https://get.rvm.io | sudo bash -s latest
   - rvm reload
+  - rvm --version
   - sudo apt-get install -y postgresql-server-dev-all
   - sudo apt-get install -y libpcap-dev
   - sudo apt-get install -y libmagickwand-dev
