@@ -98,7 +98,7 @@ module CSI
             <br /><br />
 
             <div>
-              <table id="csi_fuzz_net_app_proto" class="display" cellspacing="0">
+              <table id="csi_fuzz_net_app_proto" class="display squish" cellspacing="0">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -109,6 +109,12 @@ module CSI
                     <th>Response Length</th>
                   </tr>
                 </thead>
+                <col width="20px"></col>
+                <col width="60px"></col>
+                <col width="300px"></col>
+                <col width="90px"></col>
+                <col width="300px"></col>
+                <col width="90px"></col>
                 <!-- DataTables <tbody> -->
               </table>
             </div>
@@ -165,6 +171,7 @@ module CSI
                     {
                       "data": "response",
                       "render": $.fn.dataTable.render.text()
+                      }
                     },
                     {
                       "data": "response_len",

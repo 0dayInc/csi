@@ -153,9 +153,7 @@ module CSI
                     { "data": null },
                     {
                       "data": "timestamp",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "test_case",
@@ -221,15 +219,11 @@ module CSI
                     },
                     {
                       "data": "raw_content",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     },
                     {
                       "data": "test_case_filter",
-                      "render": function (data, type, row, meta) {
-                        return '<tr><td style="width:200px;" align="left">' + data + '</td>';
-                      }
+                      "render": $.fn.dataTable.render.text()
                     }
                   ]
                 });
