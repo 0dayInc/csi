@@ -55,7 +55,7 @@ module CSI
       #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
       #   response_timeout: 'optional - float (defaults to 0.3)',
-      #   request_rate_limit: 'optional - float (defaults to 0.0)',
+      #   request_rate_limit: 'optional - float (defaults to 0.0)'
       # )
 
       public_class_method def self.socket(opts = {})
@@ -159,7 +159,8 @@ module CSI
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
             request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
-            response_timeout: 'optional - float (defaults to 0.3)'
+            response_timeout: 'optional - float (defaults to 0.3)',
+            request_rate_limit: 'optional - float (defaults to 0.0)'
           )
 
           #{self}.authors
