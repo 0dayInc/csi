@@ -8,7 +8,7 @@ before_install:
   - rvm reload
   - rvm --version
   - rvm list gemsets
-  - rvm use ruby-$(cat .ruby-version)@$(cat .ruby-gemset)
+  - rvm use ruby-$(cat .ruby-version)@$(cat .ruby-gemset) --create
   - sudo apt-get install -y postgresql-server-dev-all
   - sudo apt-get install -y libpcap-dev
   - sudo apt-get install -y libmagickwand-dev

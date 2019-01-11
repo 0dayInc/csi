@@ -6,8 +6,8 @@ ruby_gemset=$(cat /csi/.ruby-gemset)
 rvm use ruby-$ruby_version@global
 rvm gemset --force delete $ruby_gemset
 rm Gemfile.lock
-rvm gemset create $ruby_gemset
-rvm use ruby-$ruby_version@$ruby_gemset
+# rvm gemset create $ruby_gemset
+rvm use ruby-$ruby_version@$ruby_gemset --create
 gem install bundler
 if [[ $(uname -s) == "Darwin" ]]; then
   bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
