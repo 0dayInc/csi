@@ -192,7 +192,7 @@ module CSI
       # CSI::Plugins::UTF8.box_drawings
 
       public_class_method def self.box_drawings
-        utf8_hash = generate_by_range(from: 9472, to: 9599)
+        utf8_hash = generate_by_range(from: 9460, to: 9599)
 
         utf8_hash
       rescue => e
