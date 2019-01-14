@@ -1,5 +1,7 @@
 [Unit]
 Description=Open Vulnerability Assessment System (OpenVAS)
+Requires=apache2.service
+After=apache2.service
 
 [Service]
 User=root
