@@ -39,6 +39,10 @@ OptionParser.new do |options|
     opts[:fuzz_file] = f
   end
 
+  options.on('-eENC', '--payload-encoding=ENC', '<Optional - encode payload :url || :base64 (Defaults to nil)>') do |e|
+    opts[:encoding] = e
+  end
+
   options.on('-TFLOAT', '--response-timeout=FLOAT', '<Optional - float (defaults to 0.3)>') do |f|
     opts[:response_timeout] = f
   end
@@ -65,6 +69,7 @@ tls = opts[:tls]
 # Need unescaped string (#undump) to allow for escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
 request = opts[:request].to_s.undump
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
+encoding = opts[:encoding]
 response_timeout = opts[:response_timeout]
 request_rate_limit = opts[:request_rate_limit]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
@@ -84,6 +89,7 @@ File.open(fuzz_file, 'rb') do |file|
         tls: tls,
         request: request,
         payload: payload.to_s.chomp,
+        encoding: encoding,
         response_timeout: response_timeout,
         request_rate_limit: request_rate_limit
       )

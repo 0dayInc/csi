@@ -2,6 +2,7 @@
 
 require 'socket'
 require 'openssl'
+require 'base64'
 
 module CSI
   module Plugins
@@ -14,7 +15,7 @@ module CSI
       #   target: 'required - target host or ip',
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
-      #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
+      #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)'
       # )
 
       private_class_method def self.connect(opts = {})
@@ -54,6 +55,7 @@ module CSI
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
       #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
+      #   encoding: 'optional - :url || :base64 (Defaults to nil)',
       #   response_timeout: 'optional - float (defaults to 0.3)',
       #   request_rate_limit: 'optional - float (defaults to 0.0)'
       # )
@@ -65,6 +67,17 @@ module CSI
         tls = opts[:tls]
         request = opts[:request].to_s
         payload = opts[:payload].to_s
+        opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
+
+        case encoding
+        when :url
+          payload = URI.encode(payload)
+        when :base64
+          payload = Base64.strict_encode64(payload)
+        else
+          raise "encoding type: #{opts[:encoding]} not supported."
+        end if encoding
+
         delimeter = "\u9999"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.0 : request_rate_limit = opts[:request_rate_limit].to_f
@@ -159,6 +172,7 @@ module CSI
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
             request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
+            encoding: 'optional - :url || :base64 (Defaults to nil)',
             response_timeout: 'optional - float (defaults to 0.3)',
             request_rate_limit: 'optional - float (defaults to 0.0)'
           )
