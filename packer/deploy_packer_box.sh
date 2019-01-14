@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <docker||docker_csi||virtualbox||vmware> <box version to build e.g. 2018.4.1> <debug>"
+  echo "USAGE: ${0} <docker||docker_csi||kvm||qemu||virtualbox||vmware||xen> <box version to build e.g. 2018.4.1> <debug>"
   exit 1
 }
 
@@ -52,6 +52,12 @@ case $provider_type in
     pack docker kali_rolling_docker_csi.json $debug
     vagrant box remove csi/prototyper --provider=docker || true
     vagrant box add --box-version $box_version csi/prototyper kali_rolling_docker_csi.box
+    ;;
+  "qemu"|"kvm"|"xen")
+    rm kali_rolling_qemu_kvm_xen.box || true
+    pack qemu kali_rolling_qemu_kvm_xen.json $debug
+    vagrant box remove csi/kali_rolling --provider=qemu || true
+    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_qemu_kvm_xen.box
     ;;
   "virtualbox")
     rm kali_rolling_virtualbox.box || true

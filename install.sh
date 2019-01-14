@@ -45,6 +45,10 @@ case $csi_deploy_type in
       echo "Use ./etc/aws/vagrant.yaml.EXAMPLE as a Template to Create ./etc/aws/vagrant.yaml"
     fi
     ;;
+  "qemu"|"kvm"|"xen")
+    # TODO: Coming soon
+    echo "Coming soon..."
+    ;;
   "ruby-gem")
     ./packer/provisioners/rvm.sh
     ./packer/provisioners/ruby.sh
