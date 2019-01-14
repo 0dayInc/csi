@@ -4,7 +4,7 @@
     "box_version": "{{ env `BOX_VERSION` }}"
   },
   "builders": [{
-    "type": "vmware-iso",
+    "type": "qemu",
     "guest_os_type": "debian7-64",
     "vmx_data": {
       "memsize": "2048",
@@ -46,21 +46,6 @@
         "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
        ]
-    },
-
-    {
-      "type": "shell",
-      "scripts": [
-        "provisioners/reboot_os.sh"
-      ]
-    },
-
-    {
-      "pause_before": "360s",
-      "type": "shell",
-      "scripts": [
-        "provisioners/vmware_tools.sh"
-      ]
     },
 
     {
