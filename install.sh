@@ -45,7 +45,7 @@ case $csi_deploy_type in
       echo "Use ./etc/aws/vagrant.yaml.EXAMPLE as a Template to Create ./etc/aws/vagrant.yaml"
     fi
     ;;
-  "qemu"|"kvm"|"xen")
+  "kvm")
     # TODO: Coming soon
     echo "Coming soon..."
     ;;
