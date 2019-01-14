@@ -39,7 +39,7 @@ OptionParser.new do |options|
     opts[:fuzz_file] = f
   end
 
-  options.on('-eENC', '--payload-encoding=ENC', '<Optional - encode payload url || base64 (Defaults to nil)>') do |e|
+  options.on('-eENC', '--payload-encoding=ENC', '<Optional - encode payload base64 || html_entity || url (Defaults to nil)>') do |e|
     opts[:encoding] = e
   end
 

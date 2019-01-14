@@ -4,6 +4,7 @@ require 'socket'
 require 'openssl'
 require 'base64'
 require 'cgi'
+require 'htmlentities'
 
 module CSI
   module Plugins
@@ -56,7 +57,7 @@ module CSI
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
       #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
-      #   encoding: 'optional - :url || :base64 (Defaults to nil)',
+      #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   response_timeout: 'optional - float (defaults to 0.3)',
       #   request_rate_limit: 'optional - float (defaults to 0.0)'
       # )
@@ -74,6 +75,8 @@ module CSI
           case encoding
           when :base64
             payload = Base64.strict_encode64(payload)
+          when :html_entity
+            payload = HTMLEntities.new.encode(payload)
           when :url
             payload = CGI.escape(payload)
           else
@@ -175,7 +178,7 @@ module CSI
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
             request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
-            encoding: 'optional - :url || :base64 (Defaults to nil)',
+            encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             response_timeout: 'optional - float (defaults to 0.3)',
             request_rate_limit: 'optional - float (defaults to 0.0)'
           )
