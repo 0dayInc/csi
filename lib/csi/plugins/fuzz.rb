@@ -3,6 +3,7 @@
 require 'socket'
 require 'openssl'
 require 'base64'
+require 'cgi'
 
 module CSI
   module Plugins
@@ -69,14 +70,16 @@ module CSI
         payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
 
-        case encoding
-        when :url
-          payload = URI.encode(payload)
-        when :base64
-          payload = Base64.strict_encode64(payload)
-        else
-          raise "encoding type: #{opts[:encoding]} not supported."
-        end if encoding
+        if encoding
+          case encoding
+          when :base64
+            payload = Base64.strict_encode64(payload)
+          when :url
+            payload = CGI.escape(payload)
+          else
+            raise "encoding type: #{opts[:encoding]} not supported."
+          end
+        end
 
         delimeter = "\u9999"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
