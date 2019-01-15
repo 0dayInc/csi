@@ -22,6 +22,7 @@
 
 ### **Keep Us Caffeinated** ###
 If you've found this framework useful and you're either not in a position to donate or simply interested in us cranking out as much code as possible, we invite you to take a brief moment to keep us caffeinated:
+
 [![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/0dayinc)
 
 ### **Call to Arms** ###
@@ -87,7 +88,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.351]:001 >>> CSI.help
+  csi[v0.3.352]:001 >>> CSI.help
   ```
 
 
