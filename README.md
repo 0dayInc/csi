@@ -18,6 +18,7 @@
   * [Deploy in VMware](#deploy-in-vmware)
 - [General Usage](#general-usage)
 - [Driver Documentation](#driver-documentation)
+- [Merch](#merch)
 
 
 ### **Keep Us Caffeinated** ###
@@ -88,7 +89,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.353]:001 >>> CSI.help
+  csi[v0.3.354]:001 >>> CSI.help
   ```
 
 
@@ -98,3 +99,15 @@ It's wise to rebuild csi often as this repo has numerous releases/week (unless y
 
 
 I hope you enjoy CSI and remember...ensure you always have permission prior to carrying out any sort of hacktivities.  Now - go hackomate all the things!
+
+### **Merch** ###
+
+[![CSI](https://image.spreadshirtmedia.com/image-server/v1/products/T1130A2PA2405PT17X20Y58D1020472727FS6151/views/1,width=650,height=650,appearanceId=2/httpsgithubcomninp0csi.jpg)](https://shop.spreadshirt.com/0day/csi+merchandise-A5c3e49c1f937643162a03f4a?appearance=2&productType=1130)
+
+[![Off the Air](https://image.spreadshirtmedia.com/image-server/v1/products/T210A2PA3176PT17X41Y26D1020472921FS7381/views/1,width=650,height=650,appearanceId=2/off-the-air.jpg)](https://shop.spreadshirt.com/0day/offtheair?q=I1020472921)
+
+[![Black Fingerprint](https://image.spreadshirtmedia.com/image-server/v1/products/T111A2PA3208PT17X169Y51D1020472728FS6268/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/black_fingerprint?q=I1020472728)
+
+[![Red Fingerprint](https://image.spreadshirtmedia.com/image-server/v1/products/T803A2PA1648PT26X47Y0D1020472684FS6537/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/red_fingerprint?q=I1020472684)
+
+[![0day Inc.](https://image.spreadshirtmedia.com/image-server/v1/products/T951A70PA3076PT17X0Y73D1020472680FS8515/views/1,width=650,height=650,appearanceId=70/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/0dayinc?q=I1020472680)
