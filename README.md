@@ -1,7 +1,7 @@
 ![CSI](https://github.com/ninp0/csi/blob/master/documentation/virtualbox-gui_wallpaper.jpg)
 
 ### **Table of Contents** ###
-- [Call to Arms](#buy-me-a-coffee)
+- [Buy Me a Coffee](#buy-me-a-coffee)
 - [Call to Arms](#call-to-arms)
 - [Intro](#intro)
   * [Why CSI](#why-csi)
@@ -87,7 +87,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.348]:001 >>> CSI.help
+  csi[v0.3.349]:001 >>> CSI.help
   ```
 
 
