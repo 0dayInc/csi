@@ -89,7 +89,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.355]:001 >>> CSI.help
+  csi[v0.3.356]:001 >>> CSI.help
   ```
 
 
@@ -102,7 +102,7 @@ I hope you enjoy CSI and remember...ensure you always have permission prior to c
 
 ### **Merchandise** ###
 
-[![CSI](https://image.spreadshirtmedia.com/image-server/v1/products/T1130A2PA2405PT17X20Y58D1020472727FS6151/views/1,width=650,height=650,appearanceId=2/httpsgithubcomninp0csi.jpg)](https://shop.spreadshirt.com/0day/csi+merchandise-A5c3e49c1f937643162a03f4a?appearance=2&productType=1130)
+[![CSI](https://image.spreadshirtmedia.com/image-server/v1/products/T1130A2PA2405PT17X20Y58D1020472727FS6151/views/1,width=650,height=650,appearanceId=2/httpsgithubcomninp0csi.jpg)](https://shop.spreadshirt.com/0day/csi+merchandise?q=I1020472727)
 
 [![Off the Air](https://image.spreadshirtmedia.com/image-server/v1/products/T210A2PA3176PT17X41Y26D1020472921FS7381/views/1,width=650,height=650,appearanceId=2/off-the-air.jpg)](https://shop.spreadshirt.com/0day/offtheair?q=I1020472921)
 
