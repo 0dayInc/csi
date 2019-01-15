@@ -72,6 +72,8 @@ Vagrant.configure(API_VERSION) do |config|
 
     %i[vmware_fusion vmware_workstation].each do |vmware_provider|
       config.vm.provider(vmware_provider) do |vm, _override|
+        # Workaround until vagrant/issues/10499 is resolved
+        vm.ssh_info_public = true
         vm.whitelist_verified = true
         if vagrant_provider == 'vmware'
           if vagrant_gui == 'true'
