@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'credit_card_validations'
-
 module CSI
   module Plugins
     # This plugin provides useful credit card capabilities
