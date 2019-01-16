@@ -42,6 +42,8 @@ module CSI
         end
 
         return sock_obj
+      rescue Errno::ECONNRESET
+        sock_obj = disconnect(sock_obj: sock_obj) unless sock_obj.nil?
       rescue => e
         return e
       end
