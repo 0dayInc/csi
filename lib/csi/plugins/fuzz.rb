@@ -19,8 +19,8 @@ module CSI
       #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
-      #   response_timeout: 'optional - float (defaults to 0.3)',
-      #   request_rate_limit: 'optional - float (defaults to 0.0)'
+      #   response_timeout: 'optional - float (defaults to 0.9)',
+      #   request_rate_limit: 'optional - float (defaults to 0.9)'
       # )
 
       public_class_method def self.socket(opts = {})
@@ -47,7 +47,7 @@ module CSI
 
         delimeter = "\u9999"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
-        opts[:request_rate_limit].nil? ? request_rate_limit = 0.0 : request_rate_limit = opts[:request_rate_limit].to_f
+        opts[:request_rate_limit].nil? ? request_rate_limit = 0.9 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
 
         request_delim_index_arr = []
@@ -95,10 +95,10 @@ module CSI
             this_socket_fuzz_result[:response] = ''
             this_socket_fuzz_result[:response_len] = 0
           end
+          sleep request_rate_limit
           sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
           # TODO: dump into file once array reaches max length (avoid memory consumption issues)
           socket_fuzz_results_arr.push(this_socket_fuzz_result)
-          sleep request_rate_limit
         end
 
         return socket_fuzz_results_arr
@@ -138,8 +138,8 @@ module CSI
             request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
-            response_timeout: 'optional - float (defaults to 0.3)',
-            request_rate_limit: 'optional - float (defaults to 0.0)'
+            response_timeout: 'optional - float (defaults to 0.9)',
+            request_rate_limit: 'optional - float (defaults to 0.9)'
           )
 
           #{self}.authors
