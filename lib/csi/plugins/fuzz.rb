@@ -100,6 +100,10 @@ module CSI
 
         return socket_fuzz_results_arr
       rescue Errno::ECONNRESET
+        this_socket_fuzz_result = {}
+        this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
+        this_socket_fuzz_result[:request] = this_request.to_s.inspect
+        this_socket_fuzz_result[:request_len] = this_request.length
         this_socket_fuzz_result[:response] = "#{target} rst the connection"
         this_socket_fuzz_result[:response_len] = 0
         socket_fuzz_results_arr.push(this_socket_fuzz_result)
