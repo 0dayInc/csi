@@ -103,7 +103,7 @@ module CSI
 
         return socket_fuzz_results_arr
       rescue => e
-        response = "#{e.class}: #{e}"
+        response = "#{e.class}: #{e.message}"
         this_socket_fuzz_result = {}
         this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
         this_socket_fuzz_result[:request] = this_request.to_s.inspect
