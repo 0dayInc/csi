@@ -302,7 +302,7 @@ module CSI
           'ymsgr',
           'z39.50',
           'z39.50r',
-          'z39.50s',
+          'z39.50s'
         ]
       rescue => e
         raise e
