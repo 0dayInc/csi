@@ -55,6 +55,9 @@ module CSI
           request_delim_index_arr.push(char_index) if char == delimeter
         end
 
+        # Ensure this_request object is properly scoped for rescue Errno::ECONNRESET
+        this_request = ''
+
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
         request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
