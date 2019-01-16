@@ -103,7 +103,7 @@ module CSI
 
         return socket_fuzz_results_arr
       rescue Errno::ECONNRESET, Errno::EINVAL => e
-        response = e.message.to_s
+        response = "#{e.message.to_s} => #{e.backtrace.inspect}"
         this_socket_fuzz_result = {}
         this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
         this_socket_fuzz_result[:request] = this_request.to_s.inspect
