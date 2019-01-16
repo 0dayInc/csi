@@ -102,8 +102,8 @@ module CSI
         end
 
         return socket_fuzz_results_arr
-      rescue Errno::ECONNRESET, Errno::EINVAL => e
-        response = e.inspect
+      rescue => e
+        response = "#{e.class}: #{e}"
         this_socket_fuzz_result = {}
         this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
         this_socket_fuzz_result[:request] = this_request.to_s.inspect
@@ -112,8 +112,6 @@ module CSI
         this_socket_fuzz_result[:response_len] = response.length
         socket_fuzz_results_arr.push(this_socket_fuzz_result)
         return socket_fuzz_results_arr
-      rescue => e
-        return e
       ensure
         sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
       end
