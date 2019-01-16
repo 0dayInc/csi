@@ -99,6 +99,11 @@ module CSI
         end
 
         return socket_fuzz_results_arr
+      rescue Errno::ECONNRESET
+        this_socket_fuzz_result[:response] = "#{target} rst the connection"
+        this_socket_fuzz_result[:response_len] = 0
+        socket_fuzz_results_arr.push(this_socket_fuzz_result)
+        return socket_fuzz_results_arr
       rescue => e
         return e
       ensure
