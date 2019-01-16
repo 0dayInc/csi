@@ -95,8 +95,6 @@ module CSI
             this_socket_fuzz_result[:response] = ''
             this_socket_fuzz_result[:response_len] = 0
           end
-          sleep request_rate_limit
-          sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
           # TODO: dump into file once array reaches max length (avoid memory consumption issues)
           socket_fuzz_results_arr.push(this_socket_fuzz_result)
         end
@@ -113,6 +111,7 @@ module CSI
         socket_fuzz_results_arr.push(this_socket_fuzz_result)
         return socket_fuzz_results_arr
       ensure
+        sleep request_rate_limit
         sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
       end
 
