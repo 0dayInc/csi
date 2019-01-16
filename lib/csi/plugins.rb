@@ -50,6 +50,7 @@ module CSI
     autoload :ThreadPool, 'csi/plugins/thread_pool'
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
     autoload :TwitterAPI, 'csi/plugins/twitter_api'
+    autoload :URIScheme, 'csi/plugins/uri_scheme'
     autoload :UTF8, 'csi/plugins/utf8'
     autoload :Vsphere, 'csi/plugins/vsphere'
 
