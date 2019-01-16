@@ -13,43 +13,6 @@ module CSI
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # fuzz_net_obj = CSI::Plugins::Fuzz.connect(
-      #   target: 'required - target host or ip',
-      #   port: 'required - target port',
-      #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
-      #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)'
-      # )
-
-      private_class_method def self.connect(opts = {})
-        target = opts[:target].to_s.scrub
-        port = opts[:port].to_i
-        opts[:protocol].nil? ? protocol = :tcp : protocol = opts[:protocol].to_s.downcase.to_sym
-        opts[:tls].nil? ? tls = false : tls = true
-
-        case protocol
-        when :tcp
-          if tls
-            sock = TCPSocket.open(target, port)
-            tls_context = OpenSSL::SSL::SSLContext.new
-            tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
-            tls_sock = OpenSSL::SSL::SSLSocket.new(sock, tls_context)
-            fuzz_net_obj = tls_sock.connect
-          else
-            fuzz_net_obj = TCPSocket.open(target, port)
-          end
-        when :udp
-          fuzz_net_obj = UDPSocket.new
-          fuzz_net_obj.connect(target, port)
-        else
-          raise "Unsupported protocol: #{protocol}"
-        end
-
-        return fuzz_net_obj
-      rescue => e
-        return e
-      end
-
-      # Supported Method Parameters::
       # socket_fuzz_results_arr = CSI::Plugins::Fuzz.socket(
       #   target: 'required - target host or ip',
       #   port: 'required - target port',
@@ -110,7 +73,7 @@ module CSI
             # begin_delim_char_index should always be 0
             this_request[begin_delim_char_index] = payload
           end
-          fuzz_net_obj = connect(
+          sock_obj = CSI::Plugins::Sock.connect(
             target: target,
             port: port,
             protocol: protocol,
@@ -120,10 +83,10 @@ module CSI
           this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
           this_socket_fuzz_result[:request] = this_request.to_s.inspect
           this_socket_fuzz_result[:request_len] = this_request.length
-          fuzz_net_obj.print(this_request)
-          does_respond = IO.select([fuzz_net_obj], nil, nil, response_timeout)
+          sock_obj.print(this_request)
+          does_respond = IO.select([sock_obj], nil, nil, response_timeout)
           if does_respond
-            response = fuzz_net_obj.read.to_s.inspect
+            response = sock_obj.read.to_s.inspect
             response_len = response.length
             this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response_len
@@ -131,7 +94,7 @@ module CSI
             this_socket_fuzz_result[:response] = ''
             this_socket_fuzz_result[:response_len] = 0
           end
-          fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj)
+          sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
           # TODO: dump into file once array reaches max length (avoid memory consumption issues)
           socket_fuzz_results_arr.push(this_socket_fuzz_result)
           sleep request_rate_limit
@@ -141,20 +104,7 @@ module CSI
       rescue => e
         return e
       ensure
-        fuzz_net_obj = disconnect(fuzz_net_obj: fuzz_net_obj) unless fuzz_net_obj.nil?
-      end
-
-      # Supported Method Parameters::
-      # fuzz_net_obj = CSI::Plugins::Fuzz.disconnect(
-      #   fuzz_net_obj: 'required - fuzz_net_obj returned from #connect method'
-      # )
-
-      private_class_method def self.disconnect(opts = {})
-        fuzz_net_obj = opts[:fuzz_net_obj]
-        fuzz_net_obj.close
-        fuzz_net_obj = nil
-      rescue => e
-        return e
+        sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
