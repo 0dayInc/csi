@@ -56,7 +56,7 @@ module CSI
         end
 
         # Ensure this_request object is properly scoped for rescue Errno::ECONNRESET
-        this_request = ''
+        # this_request = ''
 
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
@@ -74,45 +74,52 @@ module CSI
             # begin_delim_char_index should always be 0
             this_request[begin_delim_char_index] = payload
           end
-          sock_obj = CSI::Plugins::Sock.connect(
-            target: target,
-            port: port,
-            protocol: protocol,
-            tls: tls
-          )
 
-          this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
-          this_socket_fuzz_result[:request] = this_request.to_s.inspect
-          this_socket_fuzz_result[:request_len] = this_request.length
-          sock_obj.write(this_request)
-          does_respond = IO.select([sock_obj], nil, nil, response_timeout)
-          if does_respond
-            response = sock_obj.read.to_s.inspect
-            response_len = response.length
+          begin
+            sock_obj = CSI::Plugins::Sock.connect(
+              target: target,
+              port: port,
+              protocol: protocol,
+              tls: tls
+            )
+
+            this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
+            this_socket_fuzz_result[:request] = this_request.to_s.inspect
+            this_socket_fuzz_result[:request_len] = this_request.length
+            sock_obj.write(this_request)
+            does_respond = IO.select([sock_obj], nil, nil, response_timeout)
+            if does_respond
+              response = sock_obj.read.to_s.inspect
+              response_len = response.length
+              this_socket_fuzz_result[:response] = response
+              this_socket_fuzz_result[:response_len] = response_len
+            else
+              this_socket_fuzz_result[:response] = ''
+              this_socket_fuzz_result[:response_len] = 0
+            end
+            sleep request_rate_limit
+            sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
+            # TODO: dump into file once array reaches max length (avoid memory consumption issues)
+            socket_fuzz_results_arr.push(this_socket_fuzz_result)
+          rescue => e
+            e.class == NoMethodError ? response = "#{e.class}: #{e.message} #{e.backtrace}" : response = "#{e.class}: #{e.message}"
+            # this_socket_fuzz_result = {}
+            this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
+            this_socket_fuzz_result[:request] = this_request.to_s.inspect
+            this_socket_fuzz_result[:request_len] = this_request.length
             this_socket_fuzz_result[:response] = response
-            this_socket_fuzz_result[:response_len] = response_len
-          else
-            this_socket_fuzz_result[:response] = ''
-            this_socket_fuzz_result[:response_len] = 0
+            this_socket_fuzz_result[:response_len] = response.length
+            socket_fuzz_results_arr.push(this_socket_fuzz_result)
+            next
+          ensure
+            sleep request_rate_limit
+            sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
           end
-          sleep request_rate_limit
-          sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
-          # TODO: dump into file once array reaches max length (avoid memory consumption issues)
-          socket_fuzz_results_arr.push(this_socket_fuzz_result)
         end
 
         return socket_fuzz_results_arr
       rescue => e
-        e.class == NoMethodError ? response = "#{e.class}: #{e.message} #{e.backtrace}" : response = "#{e.class}: #{e.message}"
-        this_socket_fuzz_result = {}
-        this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
-        this_socket_fuzz_result[:request] = this_request.to_s.inspect
-        this_socket_fuzz_result[:request_len] = this_request.length
-        this_socket_fuzz_result[:response] = response
-        this_socket_fuzz_result[:response_len] = response.length
-        socket_fuzz_results_arr.push(this_socket_fuzz_result)
-        # return socket_fuzz_results_arr
-        next
+        raise e
       ensure
         sleep request_rate_limit
         sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
