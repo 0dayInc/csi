@@ -55,9 +55,6 @@ module CSI
           request_delim_index_arr.push(char_index) if char == delimeter
         end
 
-        # Ensure this_request object is properly scoped for rescue Errno::ECONNRESET
-        # this_request = ''
-
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
         request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
@@ -103,15 +100,13 @@ module CSI
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
           rescue => e
             e.class == NoMethodError ? response = "#{e.class}: #{e.message} #{e.backtrace}" : response = "#{e.class}: #{e.message}"
-            # this_socket_fuzz_result = {}
-            this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
-            this_socket_fuzz_result[:request] = this_request.to_s.inspect
-            this_socket_fuzz_result[:request_len] = this_request.length
             this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response.length
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
+
             sleep request_rate_limit
             sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
+
             next
           end
         end
