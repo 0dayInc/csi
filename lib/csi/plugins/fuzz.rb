@@ -20,7 +20,7 @@ module CSI
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   response_timeout: 'optional - float (defaults to 0.9)',
-      #   request_rate_limit: 'optional - float (defaults to 0.9)'
+      #   request_rate_limit: 'optional - float (defaults to 0.3)'
       # )
 
       public_class_method def self.socket(opts = {})
@@ -47,7 +47,7 @@ module CSI
 
         delimeter = "\u9999"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
-        opts[:request_rate_limit].nil? ? request_rate_limit = 0.9 : request_rate_limit = opts[:request_rate_limit].to_f
+        opts[:request_rate_limit].nil? ? request_rate_limit = 0.3 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
 
         request_delim_index_arr = []
@@ -147,7 +147,7 @@ module CSI
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             response_timeout: 'optional - float (defaults to 0.9)',
-            request_rate_limit: 'optional - float (defaults to 0.9)'
+            request_rate_limit: 'optional - float (defaults to 0.3)'
           )
 
           #{self}.authors
