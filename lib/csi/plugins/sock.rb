@@ -65,7 +65,7 @@ module CSI
         when :tcp
           if tls
             # Multi-threaded - Not working
-            sock = TCPServer.open(target, port)
+            sock = TCPServer.open(server_ip, port)
             tls_context = OpenSSL::SSL::SSLContext.new
             tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
             listen_obj = OpenSSL::SSL::SSLServer.new(sock, tls_context)
@@ -79,7 +79,7 @@ module CSI
             # end
           else
             # Multi-threaded
-            listen_obj = TCPServer.open(target, port)
+            listen_obj = TCPServer.open(server_ip, port)
             loop do
               Thread.start(listen_obj.accept) do |client_thread|
                 while (client_input = client_thread.gets)
@@ -92,7 +92,7 @@ module CSI
         when :udp
           # Single Threaded
           listen_obj = UDPSocket.new
-          listen_obj.bind(target, port)
+          listen_obj.bind(server_ip, port)
           while (client_input = listen_obj.recvmsg)
             puts client_input[0].to_s
           end
