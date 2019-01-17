@@ -44,7 +44,7 @@ module CSI
         return sock_obj
       rescue => e
         sock_obj = disconnect(sock_obj: sock_obj) unless sock_obj.nil?
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
