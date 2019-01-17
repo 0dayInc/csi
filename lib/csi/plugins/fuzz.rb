@@ -111,7 +111,8 @@ module CSI
         this_socket_fuzz_result[:response] = response
         this_socket_fuzz_result[:response_len] = response.length
         socket_fuzz_results_arr.push(this_socket_fuzz_result)
-        return socket_fuzz_results_arr
+        # return socket_fuzz_results_arr
+        next
       ensure
         sleep request_rate_limit
         sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
