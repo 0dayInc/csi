@@ -48,6 +48,64 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # CSI::Plugins::Sock.listen(
+      #   server_ip: 'required - target host or ip to listen',
+      #   port: 'required - target port',
+      #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
+      #   tls: 'optional - boolean listen on TLS-enabled socket (defaults to false)'
+      # )
+
+      public_class_method def self.listen(opts = {})
+        server_ip = opts[:server_ip].to_s.scrub
+        port = opts[:port].to_i
+        opts[:protocol].nil? ? protocol = :tcp : protocol = opts[:protocol].to_s.downcase.to_sym
+        opts[:tls].nil? ? tls = false : tls = true
+
+        case protocol
+        when :tcp
+          if tls
+            # sock = TCPServer.open(target, port)
+            # tls_context = OpenSSL::SSL::SSLContext.new
+            # tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
+            # listen_obj = OpenSSL::SSL::SSLServer.new(sock, tls_context)
+            # loop do
+            #   Thread.start(listen_obj.accept) do |client_thread|
+            #     while client_input = client_thread.gets
+            #       puts client_input
+            #     end
+            #     client_thread.close
+            #   end
+            # end
+            return 'Coming soon...'
+          else
+            # Multi-threaded
+            listen_obj = TCPServer.open(target, port)
+            loop do
+              Thread.start(listen_obj.accept) do |client_thread|
+                while client_input = client_thread.gets
+                  puts client_input
+                end
+                client_thread.close
+              end
+            end
+          end
+        when :udp
+          # Single Threaded
+          listen_obj = UDPSocket.new
+          listen_obj.bind(target, port)
+          while client_input = listen_obj.recvmsg
+            puts client_input[0].to_s
+          end
+        else
+          raise "Unsupported protocol: #{protocol}"
+        end
+      rescue => e
+        return e
+      ensure
+        listen_obj = disconnect(sock_obj: listen_obj) unless listen_obj.nil?
+      end
+
+      # Supported Method Parameters::
       # sock_obj = CSI::Plugins::Sock.disconnect(
       #   sock_obj: 'required - sock_obj returned from #connect method'
       # )
@@ -79,6 +137,13 @@ module CSI
             port: 'required - target port',
             protocol: 'optional - :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)'
+          )
+
+          #{self}.listen(
+            server_ip: 'required - target host or ip to listen',
+            port: 'required - target port',
+            protocol: 'optional - :tcp || :udp (defaults to tcp)',
+            tls: 'optional - boolean listen on TLS-enabled socket (defaults to false)'
           )
 
           sock_obj = CSI::Plugins::Sock.disconnect(
