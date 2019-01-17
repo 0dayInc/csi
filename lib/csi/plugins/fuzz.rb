@@ -115,7 +115,6 @@ module CSI
       rescue => e
         raise e
       ensure
-        sleep request_rate_limit
         sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
       end
 
