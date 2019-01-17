@@ -64,19 +64,18 @@ module CSI
         case protocol
         when :tcp
           if tls
-            # sock = TCPServer.open(target, port)
-            # tls_context = OpenSSL::SSL::SSLContext.new
-            # tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
-            # listen_obj = OpenSSL::SSL::SSLServer.new(sock, tls_context)
-            # loop do
-            #   Thread.start(listen_obj.accept) do |client_thread|
-            #     while client_input = client_thread.gets
-            #       puts client_input
-            #     end
-            #     client_thread.close
-            #   end
-            # end
-            return 'Coming soon...'
+            sock = TCPServer.open(target, port)
+            tls_context = OpenSSL::SSL::SSLContext.new
+            tls_context.set_params(verify_mode: OpenSSL::SSL::VERIFY_NONE)
+            listen_obj = OpenSSL::SSL::SSLServer.new(sock, tls_context)
+            loop do
+              Thread.start(listen_obj.accept) do |client_thread|
+                while client_input = client_thread.gets
+                  puts client_input
+                end
+                client_thread.close
+              end
+            end
           else
             # Multi-threaded
             listen_obj = TCPServer.open(target, port)
