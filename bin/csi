@@ -31,11 +31,7 @@ begin
     description 'Toggle less on returned objects surpassing the terminal.'
 
     def process
-      _pry_.config.pager = if _pry_.config.pager
-                             false
-                           else
-                             true
-                           end
+      _pry_.config.pager ? _pry_.config.pager = false : _pry_.config.pager = true
     end
   end
 
