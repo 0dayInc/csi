@@ -254,7 +254,7 @@ module CSI
         bubble_ip = ''
         ip_arr = ip.split('.')
         dot = "\u3002"
-        ip_arr.each do |octet_str|
+        ip_arr.each.with_index do |octet_str, this_index|
           octet_str.each_char do |digit_str|
             case digit_str.to_i
             when 0
@@ -279,7 +279,11 @@ module CSI
               bubble_ip = "#{bubble_ip}\u2468"
             end
           end
-          bubble_ip = "#{bubble_ip}#{dot}"
+          if (this_index + 1) < ip_arr.length
+            bubble_ip = "#{bubble_ip}#{dot}"
+          else
+            bubble_ip = "#{bubble_ip}"
+          end
         end
 
         return bubble_ip
