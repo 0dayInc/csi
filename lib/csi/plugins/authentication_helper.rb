@@ -41,7 +41,7 @@ module CSI
       public_class_method def self.mfa(opts = {})
         opts[:prompt].nil? ?  prompt = 'MFA Token' : prompt = opts[:prompt].to_s.scrub.strip.chomp
 
-        mfa = HighLine.new.ask("#{prompt}: ")
+        mfa = TTY::Prompt.new.ask("#{prompt}: ")
         mfa.to_s.strip.chomp.scrub
       rescue => e
         raise e
