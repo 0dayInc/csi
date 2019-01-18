@@ -19,6 +19,7 @@ gem 'bundler', '2.0.1'                 # bundle install ***2019-01-18
 # gem 'bundler-audit', '0.6.0'           # Checks for vulnerable versions of gems ***2017-08-20
 gem 'bunny', '2.13.0'                  # RabbitMQ ***2019-01-08
 gem 'credit_card_validations', '3.5.0' # validate ccno from luhn generation ***2019-01-08
+gem 'gist', '5.0.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2018-01-18
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
 gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
