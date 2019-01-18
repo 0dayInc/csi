@@ -25,7 +25,7 @@ module CSI
       # )
 
       public_class_method def self.mask_password(opts = {})
-        opts[:prompt].nil? ?  prompt = 'Password' : prompt = opts[:prompt].to_s.scrub.strip.chomp
+        opts[:prompt].nil? ? prompt = 'Password' : prompt = opts[:prompt].to_s.scrub.strip.chomp
 
         pass = TTY::Prompt.new.mask("#{prompt}: ")
         pass.to_s.strip.chomp.scrub
@@ -39,7 +39,7 @@ module CSI
       # )
 
       public_class_method def self.mfa(opts = {})
-        opts[:prompt].nil? ?  prompt = 'MFA Token' : prompt = opts[:prompt].to_s.scrub.strip.chomp
+        opts[:prompt].nil? ? prompt = 'MFA Token' : prompt = opts[:prompt].to_s.scrub.strip.chomp
 
         mfa = TTY::Prompt.new.ask("#{prompt}: ")
         mfa.to_s.strip.chomp.scrub
