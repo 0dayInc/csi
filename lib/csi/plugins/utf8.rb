@@ -279,11 +279,7 @@ module CSI
               bubble_ip = "#{bubble_ip}\u2468"
             end
           end
-          if (this_index + 1) < ip_arr.length
-            bubble_ip = "#{bubble_ip}#{dot}"
-          else
-            bubble_ip = "#{bubble_ip}"
-          end
+          bubble_ip = "#{bubble_ip}#{dot}" if (this_index + 1) < ip_arr.length
         end
 
         return bubble_ip
