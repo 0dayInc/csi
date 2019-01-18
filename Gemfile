@@ -19,7 +19,6 @@ gem 'bundler', '2.0.1'                 # bundle install ***2019-01-18
 # gem 'bundler-audit', '0.6.0'           # Checks for vulnerable versions of gems ***2017-08-20
 gem 'bunny', '2.13.0'                  # RabbitMQ ***2019-01-08
 gem 'credit_card_validations', '3.5.0' # validate ccno from luhn generation ***2019-01-08
-gem 'highline', '2.0.0'                # Masking Authentication Credential Input ***2019-01-08
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
 gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
@@ -59,6 +58,7 @@ gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e
 gem 'spreadsheet', '1.1.8'             # Generate Excel Spreadsheets (.xls files) ***2017-12-18
 gem 'sqlite3', '1.3.13'                # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2017-02-13
 gem 'thin', '1.7.2'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-08-20
+gem 'tty-prompt', '0.18.1'             # Masking Authentication Credential Input ***2019-01-18
 gem 'watir', '6.16.5'                  # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2019-01-08
 gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
 gem 'wicked_pdf', '1.1.0'              # Convert HTML to PDF Documents ***2017-02-13

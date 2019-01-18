@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'highline/import'
+require 'tty-prompt'
 
 module CSI
   module Plugins
@@ -13,7 +13,7 @@ module CSI
       # CSI::Plugins::AuthenticationHelper.username
 
       public_class_method def self.username
-        user = HighLine.new.ask('Username: ')
+        user = TTY::Prompt.new.ask('Username: ')
         user.to_s.strip.chomp.scrub
       rescue => e
         raise e
@@ -25,13 +25,9 @@ module CSI
       # )
 
       public_class_method def self.mask_password(opts = {})
-        if opts[:prompt].nil?
-          prompt = 'Password'
-        else
-          prompt = opts[:prompt].to_s.scrub.strip.chomp
-        end
+        opts[:prompt].nil? ?  prompt = 'Password' : prompt = opts[:prompt].to_s.scrub.strip.chomp
 
-        pass = HighLine.new.ask("#{prompt}: ") { |q| q.echo = "\*" }
+        pass = TTY::Prompt.new.mask("#{prompt}: ")
         pass.to_s.strip.chomp.scrub
       rescue => e
         raise e
@@ -43,11 +39,7 @@ module CSI
       # )
 
       public_class_method def self.mfa(opts = {})
-        if opts[:prompt].nil?
-          prompt = 'MFA Token'
-        else
-          prompt = opts[:prompt].to_s.scrub.strip.chomp
-        end
+        opts[:prompt].nil? ?  prompt = 'MFA Token' : prompt = opts[:prompt].to_s.scrub.strip.chomp
 
         mfa = HighLine.new.ask("#{prompt}: ")
         mfa.to_s.strip.chomp.scrub
