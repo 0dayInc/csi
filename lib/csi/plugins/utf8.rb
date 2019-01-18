@@ -243,6 +243,50 @@ module CSI
         raise e
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::UTF8.bubble_ip(
+      #   ip: 'required - ip address to transform'
+      # )
+
+      public_class_method def self.bubble_ip(opts = {})
+        ip = opts[:ip].to_s
+
+        bubble_ip = ''
+        ip_arr = ip.split('.')
+        dot = "\u3002"
+        ip_arr.each do |octet_str|
+          octet_str.each_char do |digit_str|
+            case digit_str.to_i
+            when 0
+              bubble_ip = "#{bubble_ip}\u24ea"
+            when 1
+              bubble_ip = "#{bubble_ip}\u2460"
+            when 2
+              bubble_ip = "#{bubble_ip}\u2461"
+            when 3
+              bubble_ip = "#{bubble_ip}\u2462"
+            when 4
+              bubble_ip = "#{bubble_ip}\u2463"
+            when 5
+              bubble_ip = "#{bubble_ip}\u2464"
+            when 6
+              bubble_ip = "#{bubble_ip}\u2465"
+            when 7
+              bubble_ip = "#{bubble_ip}\u2466"
+            when 8
+              bubble_ip = "#{bubble_ip}\u2467"
+            when 9
+              bubble_ip = "#{bubble_ip}\u2468"
+            end
+          end
+          bubble_ip = "#{bubble_ip}#{dot}"
+        end
+
+        return bubble_ip
+      rescue => e
+        raise e
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
@@ -299,6 +343,10 @@ module CSI
           #{self}.misc_symbols
 
           #{self}.dingbats
+
+          #{self}.bubble_ip(
+            ip: 'required - ip address to transform'
+          )
 
           #{self}.authors
         "
