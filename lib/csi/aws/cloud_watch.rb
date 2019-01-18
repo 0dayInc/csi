@@ -41,7 +41,7 @@ module CSI
 
         return cloud_watch_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -57,7 +57,7 @@ module CSI
 
         cloud_watch_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

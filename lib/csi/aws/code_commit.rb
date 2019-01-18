@@ -41,7 +41,7 @@ module CSI
 
         return code_commit_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -57,7 +57,7 @@ module CSI
 
         code_commit_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

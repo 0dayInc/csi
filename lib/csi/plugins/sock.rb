@@ -100,7 +100,7 @@ module CSI
           raise "Unsupported protocol: #{protocol}"
         end
       rescue => e
-        return e
+        raise e
       ensure
         listen_obj = disconnect(sock_obj: listen_obj) unless listen_obj.nil?
       end
@@ -115,7 +115,7 @@ module CSI
         sock_obj.close
         sock_obj = nil
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -22,7 +22,7 @@ module CSI
 
         return vault_cmd_resp
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -43,7 +43,7 @@ module CSI
 
         return config_resp
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

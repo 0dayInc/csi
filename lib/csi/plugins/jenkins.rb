@@ -85,7 +85,7 @@ module CSI
         jenkins_obj.system.wait_for_ready
         return jenkins_obj
       rescue => e
-        return e
+        raise e
       end
 
       # CSI::Plugins::Jenkins.create_user(

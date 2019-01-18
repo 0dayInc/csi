@@ -41,7 +41,7 @@ module CSI
 
         return r53_domains_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -57,7 +57,7 @@ module CSI
 
         r53_domains_obj
       rescue => e
-        return e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

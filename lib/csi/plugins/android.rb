@@ -27,7 +27,7 @@ module CSI
 
         return adb_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -53,7 +53,7 @@ module CSI
 
         return adb_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -80,7 +80,7 @@ module CSI
 
         return adb_push_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -107,7 +107,7 @@ module CSI
 
         return adb_pull
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -137,7 +137,7 @@ module CSI
 
         return adb_pull
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -168,7 +168,7 @@ module CSI
 
         return adb_pull
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -192,7 +192,7 @@ module CSI
 
         return app_resp_arr
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -221,7 +221,7 @@ module CSI
 
         return app_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -246,7 +246,7 @@ module CSI
 
         return app_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -277,7 +277,7 @@ module CSI
           sleep 0.3
         end
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -305,7 +305,7 @@ module CSI
 
         return swipe_resp.to_s.scrub
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -518,7 +518,7 @@ module CSI
 
         return char_resp.to_s.scrub
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -994,7 +994,7 @@ module CSI
         end
         return str_resp.to_s.scrub
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -1019,7 +1019,7 @@ module CSI
 
         return app_response
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -1041,7 +1041,7 @@ module CSI
         `#{adb_path} root` if as_root
         `#{adb_path} shell getevent -l`
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -1064,7 +1064,7 @@ module CSI
 
         return adb_response
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

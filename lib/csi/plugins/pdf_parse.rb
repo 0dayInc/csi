@@ -26,7 +26,7 @@ module CSI
         print "\n"
         return pdf_pages_hash
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

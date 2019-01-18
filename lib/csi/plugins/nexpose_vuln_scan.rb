@@ -33,7 +33,7 @@ module CSI
         # config.save(nsc_obj) # This will change the global sesion timeout config in the console
         return nsc_obj
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -296,7 +296,7 @@ module CSI
         nsc_obj.logout
         return 'logged out'
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

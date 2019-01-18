@@ -36,7 +36,7 @@ module CSI
         @@logger.info(`#{@@omp_bin} -h #{openvas_ip} -p #{openvas_port} -u #{username} -w #{password} --xml="<authenticate><credentials><username>#{username}</username><password>#{password}</password></credentials></authenticate>"`)
         return openvas_obj
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -50,7 +50,7 @@ module CSI
         openvas_obj = nil
         @@logger.info('logged out')
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

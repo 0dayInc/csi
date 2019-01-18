@@ -72,7 +72,7 @@ module CSI
 
         return request_hash
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -97,7 +97,7 @@ module CSI
         request_raw = "#{request_raw}\r\n"
         request_raw = "#{request_raw}#{request_hash[:http_body]}" unless request_hash[:http_body] == ''
       rescue => e
-        return e
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

@@ -33,7 +33,7 @@ module CSI
 
         return sts_session.credentials
       rescue => e
-        return e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>

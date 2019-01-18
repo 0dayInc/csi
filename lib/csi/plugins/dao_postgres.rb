@@ -74,7 +74,7 @@ module CSI
         validate_pg_conn(pg_conn: pg_conn)
         return pg_conn
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -100,7 +100,7 @@ module CSI
               end
         return res
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
@@ -166,11 +166,7 @@ module CSI
       public_class_method def self.disconnect(opts = {})
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
-        begin
-          pg_conn.close
-        rescue => e
-          return e
-        end
+        pg_conn.close
       rescue => e
         raise e
       end

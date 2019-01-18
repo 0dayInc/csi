@@ -66,7 +66,7 @@ module CSI
 
         return appscan_obj
       rescue => e
-        return e
+        raise e
       end
 
       # Supported Method Parameters::
