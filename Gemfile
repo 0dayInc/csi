@@ -40,6 +40,7 @@ gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet ma
 gem 'pdf-reader', '2.2.0'              # Parsing PDF Reports ***2019-01-08
 gem 'pg', '1.1.3'                      # Required Postgres Gem for Postgres Data Access Object ***2019-01-08
 gem 'pry', '0.12.2'                    # More feature-filled irb alternative ***2019-01-08
+gem 'pry-doc', '1.0.0'                 # Better support for show-source & show-method in csi prototyper ***2019-01-18
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
 gem 'rbvmomi', '2.0.0'                 # Required for VMware-Fu ***2019-01-08
 gem 'rest-client', '2.0.2'             # Required for REST API Testing ***2017-08-20
