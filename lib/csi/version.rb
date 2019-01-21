@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module CSI
-  VERSION = '0.3.410'
+  VERSION = '0.3.411'
 end

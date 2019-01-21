@@ -48,21 +48,27 @@ module CSI
         # Create the Console and write the console_cmd to it
         console_obj = {}
         console_obj[:msfrpcd_conn] = msfrpcd_conn
-        console_obj[:session] = msfrpcd_conn.call('console.create')
+        msfrpcd_resp = msfrpcd_conn.call('console.create')
+        session = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
+        console_obj[:session] = session
         console_obj[:last_cmd] = cmd
-        console_id = console_obj[:session]['id']
+        console_id = console_obj[:session][:id]
         msfrpcd_conn.call('console.read', console_id)
         msfrpcd_conn.call('console.write', console_id, "#{cmd}\n")
 
         loop do
           sleep(1)
-          console_obj[:last_cmd_result] = msfrpcd_conn.call('console.read', console_id)
+          msfrpcd_resp = msfrpcd_conn.call('console.read', console_id)
+          if msfrpcd_resp.class == Hash
+            last_cmd_result = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
+            console_obj[:last_cmd_result] = last_cmd_result
 
-          if console_obj[:last_cmd_result]['busy'] == true
-            print 'Busy, trying again \n'
-            next
+            if console_obj[:last_cmd_result][:busy] == true
+              print 'Busy, trying again \n'
+              next
+            end
+            break
           end
-          break
         end
 
         return console_obj
@@ -77,7 +83,7 @@ module CSI
       def self.console_terminate(opts = {})
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
-        console_id = console_obj[:session]['id']
+        console_id = console_obj[:session][:id]
         msfrpcd_conn.call('console.destroy', console_id)
         console_obj = nil
       rescue => e
