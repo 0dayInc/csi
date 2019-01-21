@@ -89,7 +89,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.426]:001 >>> CSI.help
+  csi[v0.3.427]:001 >>> CSI.help
   ```
 
 
@@ -102,12 +102,12 @@ I hope you enjoy CSI and remember...ensure you always have permission prior to c
 
 ### **Merchandise** ###
 
-[![CSI](https://image.spreadshirtmedia.com/image-server/v1/products/T1130A2PA2405PT17X20Y58D1020472727FS6151/views/1,width=650,height=650,appearanceId=2/httpsgithubcomninp0csi.jpg)](https://shop.spreadshirt.com/0day/csi+merchandise?q=I1020472727)
+[![Coffee Mug](https://image.spreadshirtmedia.com/image-server/v1/products/T949A2PA1998PT25X7Y0D1020472684FS8982/views/3,width=650,height=650,appearanceId=2,backgroundColor=f6f6f6,crop=detail,modelId=1333,version=1546851285/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/redfingerprint-A5c3e49cd1cbf3a0b9596ae58?productType=949&appearance=2&size=29)
 
-[![Off the Air](https://image.spreadshirtmedia.com/image-server/v1/products/T210A2PA3176PT17X41Y26D1020472921FS7381/views/1,width=650,height=650,appearanceId=2/off-the-air.jpg)](https://shop.spreadshirt.com/0day/offtheair?q=I1020472921)
+[![Womens Off the Air Hoodie](https://image.spreadshirtmedia.com/image-server/v1/products/T444A2PA801PT17X165Y17D1020472921FS3041/views/1,width=650,height=650,appearanceId=2,backgroundColor=f6f6f6/off-the-air.jpg)](https://shop.spreadshirt.com/0day/offtheair-A5c3e4bfc1cbf3a0b9597aca9?productType=444&appearance=2)
 
-[![Black Fingerprint](https://image.spreadshirtmedia.com/image-server/v1/products/T111A2PA3208PT17X169Y51D1020472728FS6268/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/black_fingerprint?q=I1020472728)
+[![Red Fingerprint](https://image.spreadshirtmedia.com/image-server/v1/products/T803A2PA1648PT26X47Y0D1020472684FS6537/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/redfingerprint-A5c3e49cd1cbf3a0b9596ae58?productType=803&appearance=2&size=29)
 
-[![Red Fingerprint](https://image.spreadshirtmedia.com/image-server/v1/products/T803A2PA1648PT26X47Y0D1020472684FS6537/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/red_fingerprint?q=I1020472684)
+[![0day Inc.](https://image.spreadshirtmedia.com/image-server/v1/products/T951A70PA3076PT17X0Y73D1020472680FS8515/views/1,width=650,height=650,appearanceId=70/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/0dayinc-A5c3e498cf937643162a01b5f?productType=951&appearance=70)
 
-[![0day Inc.](https://image.spreadshirtmedia.com/image-server/v1/products/T951A70PA3076PT17X0Y73D1020472680FS8515/views/1,width=650,height=650,appearanceId=70/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/0dayinc?q=I1020472680)
+[![Mens Black Fingerprint Hoodie](https://image.spreadshirtmedia.com/image-server/v1/products/T111A2PA3208PT17X169Y51D1020472728FS6268/views/1,width=650,height=650,appearanceId=2/https0dayinccom.jpg)](https://shop.spreadshirt.com/0day/blackfingerprint-A5c3e49db1cbf3a0b9596b4d0?productType=111&appearance=2)
