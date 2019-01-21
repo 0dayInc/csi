@@ -86,7 +86,7 @@ module CSI
         msfrpcd_conn = console_obj[:msfrpcd_conn]
 
         msfrpcd_resp = msfrpcd_conn.call('auth.token_list')
-        auth = JSON.parse(msfrpcd_resp, symbolize_names: true)
+        auth = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
 
         console_id = console_obj[:session][:id]
         msfrpcd_conn.call('console.session_kill', console_id)
