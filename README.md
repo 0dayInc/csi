@@ -1,4 +1,4 @@
-![CSI](https://github.com/ninp0/csi/blob/master/documentation/virtualbox-gui_wallpaper.jpg)
+![CSI](https://github.com/0dayinc/csi/blob/master/documentation/virtualbox-gui_wallpaper.jpg)
 
 ### **Table of Contents** ###
 - [Keep Us Caffeinated](#keep-us-caffeinated)
@@ -49,13 +49,13 @@ An instance of [DefectDojo](http://defectdojo.readthedocs.io/en/latest/) is stoo
 
 #### **CSI Modules Can be Mixed and Matched to Produce Your Own Tools** ####
 Also known as, "Drivers" CSI can produce all sorts of useful tools by mixing and matching modules.
-![CSI](https://github.com/ninp0/csi/blob/master/documentation/CSI_Driver_Arch.png)
+![CSI](https://github.com/0dayinc/csi/blob/master/documentation/CSI_Driver_Arch.png)
 
 
 
 ### **Clone CSI** ###
 Certain Constraints Mandate CSI be Installed in /csi:
- `$ sudo git clone https://github.com/ninp0/csi.git /csi`
+ `$ sudo git clone https://github.com/0dayinc/csi.git /csi`
 
 
 
@@ -66,35 +66,35 @@ Certain Constraints Mandate CSI be Installed in /csi:
 - Packer: https://www.packer.io/downloads.html (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 
 #### **Deploy in AWS EC2** ####
-[AWS EC2 Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-AWS-EC2-on-Top-of-Kali-Rolling)
+[AWS EC2 Quick-Start](https://github.com/0dayinc/csi/wiki/Deploy-CSI-in-AWS-EC2-on-Top-of-Kali-Rolling)
 
 
 
 #### **Deploy in Docker Container** ####
-[Docker Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-Docker-Container)
+[Docker Quick-Start](https://github.com/0dayinc/csi/wiki/Deploy-CSI-in-Docker-Container)
 
 
 #### **Deploy in VirtualBox** ####
-[VirtualBox Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-VirtualBox-on-Top-of-Kali-Rolling)
+[VirtualBox Quick-Start](https://github.com/0dayinc/csi/wiki/Deploy-CSI-in-VirtualBox-on-Top-of-Kali-Rolling)
   
 
 #### **Deploy in VMware** ####
-[VMware Quick-Start](https://github.com/ninp0/csi/wiki/Deploy-CSI-in-VMware-on-Top-of-Kali-Rolling)
+[VMware Quick-Start](https://github.com/0dayinc/csi/wiki/Deploy-CSI-in-VMware-on-Top-of-Kali-Rolling)
 
 
 
 ### **General Usage** ###
-[General Usage Quick-Start](https://github.com/ninp0/csi/wiki/General-CSI-Usage)
+[General Usage Quick-Start](https://github.com/0dayinc/csi/wiki/General-CSI-Usage)
 
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.412]:001 >>> CSI.help
+  csi[v0.3.413]:001 >>> CSI.help
   ```
 
 
 ### **Driver Documentation** ###
-[For a list of existing drivers and their usage](https://github.com/ninp0/csi/wiki/CSI-Driver-Documentation)
+[For a list of existing drivers and their usage](https://github.com/0dayinc/csi/wiki/CSI-Driver-Documentation)
 
 
 

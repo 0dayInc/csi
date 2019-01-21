@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.authors = ['Jacob Hoopes']
   spec.email = ['jake.hoopes@gmail.com']
   spec.summary = 'Automated Security Testing for CI/CD Pipelines & Beyond'
-  spec.description = 'https://github.com/ninp0/csi/README.md'
-  spec.homepage = 'https://github.com/ninp0/csi'
+  spec.description = 'https://github.com/0dayinc/csi/README.md'
+  spec.homepage = 'https://github.com/0dayinc/csi'
   spec.license = 'MIT'
 
   spec.files = `git ls-files -z`.split("\x0")

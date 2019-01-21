@@ -16,7 +16,7 @@ esac
 
 # We clone CSI here instead of csi.sh so ruby knows what version of ruby to install
 # per the latest value of .ruby-version in the repo.
-sudo /bin/bash --login -c 'cd / && git clone https://github.com/ninp0/csi.git'
+sudo /bin/bash --login -c 'cd / && git clone https://github.com/0dayinc/csi.git'
 
 ruby_version=$(cat /csi/.ruby-version)
 ruby_gemset=$(cat /csi/.ruby-gemset)
