@@ -68,7 +68,7 @@ module CSI
             print '.'
             next
           end
-          puts console_obj[:last_cmd_result][:data] unless console_obj[:last_cmd_result][:data].nil?
+          puts "\n#{console_obj[:last_cmd_result][:data]}" unless console_obj[:last_cmd_result][:data].nil?
           break
         end
 
