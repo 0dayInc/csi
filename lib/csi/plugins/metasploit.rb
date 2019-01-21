@@ -95,7 +95,7 @@ module CSI
         auth[:tokens].each do |token|
           msfrpcd_conn.call('auth.logout', token)
         end
-        
+
         console_obj = nil
       rescue => e
         raise e
