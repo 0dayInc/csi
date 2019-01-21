@@ -2,6 +2,7 @@
 
 require 'msfrpc-client'
 require 'yaml'
+require 'json'
 
 module CSI
   module Plugins
@@ -59,16 +60,16 @@ module CSI
         loop do
           sleep(1)
           msfrpcd_resp = msfrpcd_conn.call('console.read', console_id)
-          if msfrpcd_resp.class == Hash
-            last_cmd_result = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
-            console_obj[:last_cmd_result] = last_cmd_result
+          next unless msfrpcd_resp.class == Hash
 
-            if console_obj[:last_cmd_result][:busy] == true
-              print 'Busy, trying again \n'
-              next
-            end
-            break
+          last_cmd_result = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
+          console_obj[:last_cmd_result] = last_cmd_result
+
+          if console_obj[:last_cmd_result][:busy] == true
+            print 'Busy, trying again \n'
+            next
           end
+          break
         end
 
         return console_obj
