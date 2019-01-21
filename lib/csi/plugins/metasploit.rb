@@ -35,7 +35,7 @@ module CSI
         msfrpcd_resp = msfrpcd_conn.call('console.create')
         session = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
         console_obj[:session] = session
-       
+
         return console_obj
       rescue => e
         raise "#{e}\nIs the msfrpcd daemon running on #{msfrpcd_host}?"
