@@ -69,6 +69,7 @@ module CSI
             print 'Busy, trying again \n'
             next
           end
+          puts console_obj[:last_cmd_result][:data] unless console_obj[:last_cmd_result][:data].nil?
           break
         end
 
