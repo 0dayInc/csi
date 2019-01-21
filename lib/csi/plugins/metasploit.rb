@@ -13,7 +13,7 @@ module CSI
       # )
 
       public_class_method def self.connect(opts = {})
-        if opts[:yaml_conf].to_s.strip.chomp.scrub && File.exist?(opts[:yaml_conf].to_s.strip.chomp.scrub)
+        if opts[:yaml_conf] && File.exist?(opts[:yaml_conf])
           yaml_conf = YAML.load_file(opts[:yaml_conf].to_s.strip.chomp.scrub)
         else
           yaml_conf = '/csi/etc/metasploit/vagrant.yaml'
@@ -39,7 +39,7 @@ module CSI
       # Supported Method Parameters::
       # console_obj = CSI::Plugins::Metasploit.console_exec(
       #   msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method',
-      #   cmd: 'required msfconsole command'
+      #   cmd: 'required - msfconsole command'
       # )
       def self.console_exec(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
@@ -119,7 +119,7 @@ module CSI
 
           console_obj = #{self}.console_exec(
             msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method',
-            cmd: 'required msfconsole command'
+            cmd: 'required - msfconsole command'
           )
 
           console_obj = CSI::Plugins::Metasploit.console_terminate(
