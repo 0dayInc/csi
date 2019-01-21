@@ -85,7 +85,6 @@ module CSI
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
         console_id = console_obj[:session][:id]
-        msfrpcd_conn.call('console.session_kill', console_id)
         msfrpcd_conn.call('console.destroy', console_id)
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
 
