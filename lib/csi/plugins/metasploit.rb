@@ -16,7 +16,7 @@ module CSI
         if opts[:yaml_conf] && File.exist?(opts[:yaml_conf])
           yaml_conf = YAML.load_file(opts[:yaml_conf].to_s.strip.chomp.scrub)
         else
-          yaml_conf = '/csi/etc/metasploit/vagrant.yaml'
+          yaml_conf = YAML.load_file('/csi/etc/metasploit/vagrant.yaml')
         end
 
         msfrpcd_host = yaml_conf['msfrpcd_host'].to_s
