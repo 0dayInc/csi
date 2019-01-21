@@ -50,7 +50,7 @@ module CSI
         console[:msfrpcd_conn] = msfrpcd_conn
         console[:session] = msfrpcd_conn.call('console.create')
         console[:last_cmd] = cmd
-        console_id = console_obj[:session]['id'])
+        console_id = console_obj[:session]['id']
         msfrpcd_conn.call('console.read', console_id)
         msfrpcd_conn.call('console.write', console_id, "#{cmd}\n")
 
@@ -79,7 +79,7 @@ module CSI
       def self.console_terminate(opts = {})
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
-        console_id = console_obj[:session]['id'])
+        console_id = console_obj[:session]['id']
         msfrpcd_conn.call('console.destroy', console_id)
         console_obj = nil
       rescue => e
@@ -87,14 +87,14 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Metasploit.disconnect(
-      #   msfrpcd_conn: msfrpcd_conn
+      # msfrpcd_conn = CSI::Plugins::Metasploit.disconnect(
+      #   msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method'
       # )
 
       public_class_method def self.disconnect(opts = {})
         msfrpcd_conn = opts[:msfrpcd_conn]
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
-        msfrpcd_conn = nil # TODO: Find a way to terminate RPC socket connection to msfrpcd daemon
+        msfrpcd_conn = nil
       rescue => e
         raise e
       end
@@ -126,8 +126,8 @@ module CSI
             console_obj: 'required - console_obj returned from #console_exec method to terminate'
           )
 
-          #{self}.disconnect(
-            msfrpcd_conn: msfrpcd_conn
+          msfrpcd_conn = #{self}.disconnect(
+            msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method'
           )
 
           #{self}.authors
