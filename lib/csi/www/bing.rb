@@ -6,7 +6,7 @@ module CSI
     module Bing
       # Supported Method Parameters::
       # browser_obj = CSI::WWW::Bing.open(
-      #   browser_type: :firefox|:chrome|:ie|:headless,
+      #   browser_type: 'optional - :firefox|:chrome|:ie|:headless (Defaults to :firefox)',
       #   proxy: 'optional scheme://proxy_host:port',
       #   with_tor: 'optional boolean (defaults to false)'
       # )
