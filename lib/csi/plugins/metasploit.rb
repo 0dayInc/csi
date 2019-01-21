@@ -84,8 +84,18 @@ module CSI
       def self.disconnect(opts = {})
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
+
+        msfrpcd_resp = msfrpcd_conn.call('auth.token_list')
+        auth = JSON.parse(msfrpcd_resp, symbolize_names: true)
+
         console_id = console_obj[:session][:id]
+        msfrpcd_conn.call('console.session_kill', console_id)
         msfrpcd_conn.call('console.destroy', console_id)
+
+        auth[:tokens].each do |token|
+          msfrpcd_conn.call('auth.logout', token)
+        end
+        
         console_obj = nil
       rescue => e
         raise e
