@@ -65,7 +65,7 @@ module CSI
           console_obj[:last_cmd_result] = last_cmd_result
 
           if console_obj[:last_cmd_result][:busy] == true
-            print 'Busy, trying again \n'
+            print '.'
             next
           end
           puts console_obj[:last_cmd_result][:data] unless console_obj[:last_cmd_result][:data].nil?
