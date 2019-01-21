@@ -9,7 +9,7 @@ module CSI
     # Plugin used to integrate Metasploit into CSI leveraging a listening MSFRPCD daemon.
     module Metasploit
       # Supported Method Parameters::
-      # msfrpcd_conn = CSI::Plugins::Metasploit.connect(
+      # console_obj = CSI::Plugins::Metasploit.connect(
       #   yaml_conf: 'optional -  path to userland yaml (defaults to /csi/etc/metasploit/vagrant.yaml)'
       # )
 
@@ -25,33 +25,32 @@ module CSI
         username = yaml_conf['username'].to_s
         password = yaml_conf['password'].to_s
 
-        # TODO: Tune Token Timeout to a Higher Value to Ensure Other
-        # Module Methods Can be Used w/o Needing to Refresh Token
         msfrpcd_conn = Msf::RPC::Client.new
         msfrpcd_conn.info[:host] = msfrpcd_host
         msfrpcd_conn.info[:port] = port
         msfrpcd_conn.login(username, password)
 
-        return msfrpcd_conn
+        console_obj = {}
+        console_obj[:msfrpcd_conn] = msfrpcd_conn
+        msfrpcd_resp = msfrpcd_conn.call('console.create')
+        session = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
+        console_obj[:session] = session
+       
+        return console_obj
       rescue => e
         raise "#{e}\nIs the msfrpcd daemon running on #{msfrpcd_host}?"
       end
 
       # Supported Method Parameters::
       # console_obj = CSI::Plugins::Metasploit.console_exec(
-      #   msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method',
+      #   console_obj: 'required - console_obj object returned from #connect method',
       #   cmd: 'required - msfconsole command'
       # )
       def self.console_exec(opts = {})
-        msfrpcd_conn = opts[:msfrpcd_conn]
+        console_obj = opts[:console_obj]
         cmd = opts[:cmd].to_s.strip.chomp.scrub
 
-        # Create the Console and write the console_cmd to it
-        console_obj = {}
-        console_obj[:msfrpcd_conn] = msfrpcd_conn
-        msfrpcd_resp = msfrpcd_conn.call('console.create')
-        session = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
-        console_obj[:session] = session
+        msfrpcd_conn = console_obj[:msfrpcd_conn]
         console_obj[:last_cmd] = cmd
         console_id = console_obj[:session][:id]
         msfrpcd_conn.call('console.read', console_id)
@@ -79,28 +78,15 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # console_obj = CSI::Plugins::Metasploit.console_terminate(
+      # console_obj = CSI::Plugins::Metasploit.disconnect(
       #   console_obj: 'required - console_obj returned from #console_exec method to terminate'
       # )
-      def self.console_terminate(opts = {})
+      def self.disconnect(opts = {})
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
         console_id = console_obj[:session][:id]
         msfrpcd_conn.call('console.destroy', console_id)
         console_obj = nil
-      rescue => e
-        raise e
-      end
-
-      # Supported Method Parameters::
-      # msfrpcd_conn = CSI::Plugins::Metasploit.disconnect(
-      #   msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method'
-      # )
-
-      public_class_method def self.disconnect(opts = {})
-        msfrpcd_conn = opts[:msfrpcd_conn]
-        msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
-        msfrpcd_conn = nil
       rescue => e
         raise e
       end
@@ -119,21 +105,17 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          msfrpcd_conn = #{self}.connect(
+          console_obj = #{self}.connect(
             yaml_conf: 'optional -  path to userland yaml (defaults to /csi/etc/metasploit/vagrant.yaml)'
           )
 
           console_obj = #{self}.console_exec(
-            msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method',
+            console_obj: 'required - msfrpcd_conn object returned from #connect method',
             cmd: 'required - msfconsole command'
           )
 
-          console_obj = CSI::Plugins::Metasploit.console_terminate(
-            console_obj: 'required - console_obj returned from #console_exec method to terminate'
-          )
-
-          msfrpcd_conn = #{self}.disconnect(
-            msfrpcd_conn: 'required - msfrpcd_conn object returned from #connect method'
+          console_obj = #{self}.disconnect(
+            console_obj: 'required - msfrpcd_conn object returned from #connect method'
           )
 
           #{self}.authors
