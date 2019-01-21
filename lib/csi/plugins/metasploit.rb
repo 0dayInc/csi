@@ -46,28 +46,26 @@ module CSI
         cmd = opts[:cmd].to_s.strip.chomp.scrub
 
         # Create the Console and write the console_cmd to it
-        console = {}
-        console[:msfrpcd_conn] = msfrpcd_conn
-        console[:session] = msfrpcd_conn.call('console.create')
-        console[:last_cmd] = cmd
+        console_obj = {}
+        console_obj[:msfrpcd_conn] = msfrpcd_conn
+        console_obj[:session] = msfrpcd_conn.call('console.create')
+        console_obj[:last_cmd] = cmd
         console_id = console_obj[:session]['id']
         msfrpcd_conn.call('console.read', console_id)
         msfrpcd_conn.call('console.write', console_id, "#{cmd}\n")
 
         loop do
           sleep(1)
-          console[:last_cmd_result] = msfrpcd_conn.call('console.read', (console['id']).to_s)
+          console_obj[:last_cmd_result] = msfrpcd_conn.call('console.read', console_id)
 
-          if console[:last_cmd_result]['busy'] == true
+          if console_obj[:last_cmd_result]['busy'] == true
             print 'Busy, trying again \n'
             next
           end
           break
         end
 
-        msfrpcd_conn.call('console.destroy', (console['id']).to_s)
-
-        console_obj
+        return console_obj
       rescue => e
         raise e
       end
