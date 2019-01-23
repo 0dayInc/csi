@@ -38,7 +38,7 @@ module CSI
           case encoding
           when :base64
             if encoding_depth > 1
-              (1..encoding_depth).each do |time|
+              (1..encoding_depth).each do
                 payload = Base64.strict_encode64(payload)
               end
             else
@@ -46,7 +46,7 @@ module CSI
             end
           when :html_entity
             if encoding_depth > 1
-              (1..encoding_depth).each do |time|
+              (1..encoding_depth).each do
                 payload = HTMLEntities.new.encode(payload)
               end
             else
@@ -54,7 +54,7 @@ module CSI
             end
           when :url
             if encoding_depth > 1
-              (1..encoding_depth).each do |time|
+              (1..encoding_depth).each do
                 payload = CGI.escape(payload)
               end
             else
