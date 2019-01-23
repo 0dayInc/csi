@@ -319,7 +319,7 @@ module CSI
       public_class_method def self.list_encoders
         encoder_arr = []
 
-        Encoders.list.each do |encoder|
+        Encoding.list.each do |encoder|
           encoder_arr.push(encoder.name)
         end
 
