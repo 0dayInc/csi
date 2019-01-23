@@ -19,6 +19,7 @@ module CSI
       #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
+      #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
       #   response_timeout: 'optional - float (defaults to 0.9)',
       #   request_rate_limit: 'optional - float (defaults to 0.3)'
       # )
@@ -31,15 +32,34 @@ module CSI
         request = opts[:request].to_s
         payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
+        opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding = opts[:encoding_depth].to_i
 
         if encoding
           case encoding
           when :base64
-            payload = Base64.strict_encode64(payload)
+            if encoding_depth > 1
+              (1..encoding_depth).each do
+                payload = Base64.strict_encode64(payload)
+              end
+            else
+              payload = Base64.strict_encode64(payload)
+            end
           when :html_entity
-            payload = HTMLEntities.new.encode(payload)
+            if encoding_depth > 1
+              (1..encoding_depth).each do
+                payload = HTMLEntities.new.encode(payload)
+              end
+            else
+              payload = HTMLEntities.new.encode(payload)
+            end
           when :url
-            payload = CGI.escape(payload)
+            if encoding_depth > 1
+              (1..encoding_depth).each do
+                payload = CGI.escape(payload)
+              end
+            else
+              payload = CGI.escape(payload)
+            end
           else
             raise "encoding type: #{opts[:encoding]} not supported."
           end
@@ -83,7 +103,7 @@ module CSI
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
             this_socket_fuzz_result[:request] = this_request.to_s.inspect
             this_socket_fuzz_result[:request_len] = this_request.length
-            sock_obj.write(this_request)
+            sock_obj.write(this_request.undump)
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
               response = sock_obj.read.to_s.inspect
@@ -140,6 +160,7 @@ module CSI
             request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
+            encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
             response_timeout: 'optional - float (defaults to 0.9)',
             request_rate_limit: 'optional - float (defaults to 0.3)'
           )
