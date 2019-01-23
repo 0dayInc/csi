@@ -18,6 +18,8 @@ module CSI
 
         char_arr = []
 
+        encoder_list_arr = self.list_encoders
+
         (from..to).each do |i|
           char_hash = {}
 
@@ -35,6 +37,17 @@ module CSI
           char_hash[:oct] = this_oct
           char_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           char_hash[:utf8] = [i].pack('U*')
+
+          
+          encoder_list_arr.each do |encoder|
+            this_encoder_key = encoder.name.to_s.downcase.to_sym
+            begin
+              char_hash[this_encoder_key] = [i].pack('U*').encode(encoder.name)
+            rescue
+              char_hash[this_encoder_key] = ''
+              next
+            end
+          end
 
           char_arr.push(char_hash)
         end
