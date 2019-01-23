@@ -18,7 +18,7 @@ module CSI
 
         char_arr = []
 
-        encoder_list_arr = self.list_encoders
+        encoder_list_arr = list_encoders
 
         (from..to).each do |i|
           char_hash = {}
@@ -314,7 +314,7 @@ module CSI
       # CSI::Plugins::Char.list_encoders
 
       public_class_method def self.list_encoders
-        encoder_arr =  []
+        encoder_arr = []
 
         Encoders.list.each do |encoder|
           encoder_arr.push(encoder.name)
