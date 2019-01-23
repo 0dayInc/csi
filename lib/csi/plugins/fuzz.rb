@@ -32,7 +32,7 @@ module CSI
         request = opts[:request].to_s
         payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
-        opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding = opts[:encoding_depth].to_i
+        opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
 
         if encoding
           case encoding
