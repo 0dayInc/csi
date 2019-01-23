@@ -73,7 +73,7 @@ tls = opts[:tls]
 # Need unescaped string (#undump) to allow for escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
 request = opts[:request]
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
-encoding = opts[:encoding]
+opts[:encoding].nil? ? encoding = opts[:encoding] : encoding = opts[:encoding].to_s.to_sym
 encoding_depth = opts[:encoding_depth]
 response_timeout = opts[:response_timeout]
 request_rate_limit = opts[:request_rate_limit]
