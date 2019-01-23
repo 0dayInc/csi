@@ -42,7 +42,7 @@ module CSI
           char_hash[:utf8] = this_utf8
 
           encoder_list_arr.each do |encoder|
-            this_encoder_key = encoder.downcase.to_sym
+            this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder)
             rescue
