@@ -297,6 +297,21 @@ module CSI
         raise e
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::Char.list_encoders
+
+      public_class_method def self.list_encoders
+        encoder_arr =  []
+
+        Encoders.list.each do |encoder|
+          encoder_arr.push(encoder.name)
+        end
+
+        return encoder_arr
+      rescue => e
+        raise e
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
@@ -357,6 +372,8 @@ module CSI
           #{self}.bubble_ip(
             ip: 'required - ip address to transform'
           )
+
+          #{self}.list_encoders
 
           #{self}.authors
         "
