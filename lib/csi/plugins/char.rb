@@ -16,22 +16,30 @@ module CSI
         from = opts[:from].to_i
         to = opts[:to].to_i
 
-        utf8_arr = []
+        char_arr = []
 
         (from..to).each do |i|
-          utf8_hash = {}
-          this_hex = format('%02x', i)
-          this_dec = i
-          utf8_hash[:hex] = this_hex
-          utf8_hash[:dec] = this_dec
-          utf8_hash[:long_int] = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
-          utf8_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
-          utf8_hash[:utf8] = [i].pack('U*')
+          char_hash = {}
 
-          utf8_arr.push(utf8_hash)
+          this_bin = i.to_s(2)
+          this_dec = i
+          this_oct = format('%03d', i.to_s(8))
+          this_hex = format('%02x', i)
+
+          # To date Base 2 - Base 36 is supported:
+          # (0..999).each {|base| begin; puts "#{base} => #{this_dec.to_s(base)}"; rescue; next; end }
+          char_hash[:bin] = this_bin
+          char_hash[:dec] = this_dec
+          char_hash[:hex] = this_hex
+          char_hash[:long_int] = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          char_hash[:oct] = this_oct
+          char_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          char_hash[:utf8] = [i].pack('U*')
+
+          char_arr.push(char_hash)
         end
 
-        return utf8_arr
+        return char_arr
       rescue => e
         raise e
       end
@@ -40,9 +48,9 @@ module CSI
       # CSI::Plugins::Char.c0_controls_latin_basic
 
       public_class_method def self.c0_controls_latin_basic
-        utf8_hash = generate_by_range(from: 0, to: 127)
+        char_hash = generate_by_range(from: 0, to: 127)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -51,9 +59,9 @@ module CSI
       # CSI::Plugins::Char.c1_controls_latin_supplement
 
       public_class_method def self.c1_controls_latin_supplement
-        utf8_hash = generate_by_range(from: 128, to: 255)
+        char_hash = generate_by_range(from: 128, to: 255)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -62,9 +70,9 @@ module CSI
       # CSI::Plugins::Char.latin_extended_a
 
       public_class_method def self.latin_extended_a
-        utf8_hash = generate_by_range(from: 256, to: 383)
+        char_hash = generate_by_range(from: 256, to: 383)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -73,9 +81,9 @@ module CSI
       # CSI::Plugins::Char.latin_extended_b
 
       public_class_method def self.latin_extended_b
-        utf8_hash = generate_by_range(from: 384, to: 591)
+        char_hash = generate_by_range(from: 384, to: 591)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -84,9 +92,9 @@ module CSI
       # CSI::Plugins::Char.spacing_modifiers
 
       public_class_method def self.spacing_modifiers
-        utf8_hash = generate_by_range(from: 688, to: 767)
+        char_hash = generate_by_range(from: 688, to: 767)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -95,9 +103,9 @@ module CSI
       # CSI::Plugins::Char.diacritical_marks
 
       public_class_method def self.diacritical_marks
-        utf8_hash = generate_by_range(from: 768, to: 879)
+        char_hash = generate_by_range(from: 768, to: 879)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -106,9 +114,9 @@ module CSI
       # CSI::Plugins::Char.greek_coptic
 
       public_class_method def self.greek_coptic
-        utf8_hash = generate_by_range(from: 880, to: 1023)
+        char_hash = generate_by_range(from: 880, to: 1023)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -117,9 +125,9 @@ module CSI
       # CSI::Plugins::Char.cyrillic_basic
 
       public_class_method def self.cyrillic_basic
-        utf8_hash = generate_by_range(from: 1024, to: 1279)
+        char_hash = generate_by_range(from: 1024, to: 1279)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -128,9 +136,9 @@ module CSI
       # CSI::Plugins::Char.cyrillic_supplement
 
       public_class_method def self.cyrillic_supplement
-        utf8_hash = generate_by_range(from: 1280, to: 1327)
+        char_hash = generate_by_range(from: 1280, to: 1327)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -139,9 +147,9 @@ module CSI
       # CSI::Plugins::Char.punctuation
 
       public_class_method def self.punctuation
-        utf8_hash = generate_by_range(from: 8192, to: 8303)
+        char_hash = generate_by_range(from: 8192, to: 8303)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -150,9 +158,9 @@ module CSI
       # CSI::Plugins::Char.currency_symbols
 
       public_class_method def self.currency_symbols
-        utf8_hash = generate_by_range(from: 8352, to: 8399)
+        char_hash = generate_by_range(from: 8352, to: 8399)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -161,9 +169,9 @@ module CSI
       # CSI::Plugins::Char.letterlike_symbols
 
       public_class_method def self.letterlike_symbols
-        utf8_hash = generate_by_range(from: 8448, to: 8527)
+        char_hash = generate_by_range(from: 8448, to: 8527)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -172,9 +180,9 @@ module CSI
       # CSI::Plugins::Char.arrows
 
       public_class_method def self.arrows
-        utf8_hash = generate_by_range(from: 8592, to: 8703)
+        char_hash = generate_by_range(from: 8592, to: 8703)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -183,9 +191,9 @@ module CSI
       # CSI::Plugins::Char.math_operators
 
       public_class_method def self.math_operators
-        utf8_hash = generate_by_range(from: 8704, to: 8959)
+        char_hash = generate_by_range(from: 8704, to: 8959)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -194,9 +202,9 @@ module CSI
       # CSI::Plugins::Char.box_drawings
 
       public_class_method def self.box_drawings
-        utf8_hash = generate_by_range(from: 9312, to: 9599)
+        char_hash = generate_by_range(from: 9312, to: 9599)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -205,9 +213,9 @@ module CSI
       # CSI::Plugins::Char.block_elements
 
       public_class_method def self.block_elements
-        utf8_hash = generate_by_range(from: 9600, to: 9631)
+        char_hash = generate_by_range(from: 9600, to: 9631)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -216,9 +224,9 @@ module CSI
       # CSI::Plugins::Char.geometric_shapes
 
       public_class_method def self.geometric_shapes
-        utf8_hash = generate_by_range(from: 9632, to: 9727)
+        char_hash = generate_by_range(from: 9632, to: 9727)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -227,9 +235,9 @@ module CSI
       # CSI::Plugins::Char.misc_symbols
 
       public_class_method def self.misc_symbols
-        utf8_hash = generate_by_range(from: 9728, to: 9983)
+        char_hash = generate_by_range(from: 9728, to: 9983)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -238,9 +246,9 @@ module CSI
       # CSI::Plugins::Char.dingbats
 
       public_class_method def self.dingbats
-        utf8_hash = generate_by_range(from: 9984, to: 10_175)
+        char_hash = generate_by_range(from: 9984, to: 10_175)
 
-        utf8_hash
+        char_hash
       rescue => e
         raise e
       end
@@ -303,7 +311,7 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          utf8_chars = #{self}.generate_by_range(
+          char_arr = #{self}.generate_by_range(
             from: 'required - integer to start from',
             to: 'required - integer to end char generation'
           )
