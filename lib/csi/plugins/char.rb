@@ -20,8 +20,8 @@ module CSI
 
         (from..to).each do |i|
           utf8_hash = {}
-          this_hex = format('%04x', i)
-          this_dec = format('%04d', i)
+          this_hex = format('%02x', i)
+          this_dec = i
           utf8_hash[:hex] = this_hex
           utf8_hash[:dec] = this_dec
           utf8_hash[:long_int] = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
