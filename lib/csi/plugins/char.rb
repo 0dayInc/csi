@@ -38,7 +38,6 @@ module CSI
           char_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           char_hash[:utf8] = [i].pack('U*')
 
-          
           encoder_list_arr.each do |encoder|
             this_encoder_key = encoder.name.to_s.downcase.to_sym
             begin
