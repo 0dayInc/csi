@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'cgi'
+require 'htmlentities'
+
 module CSI
   module Plugins
     # This plugin was created to generate various characters for fuzzing
@@ -31,15 +34,24 @@ module CSI
           this_short_int = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           this_utf8 = [i].pack('U*')
 
+          this_html_entity = HTMLEntities.new.encode(this_utf8)
+          this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
+          this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
+          this_url = CGI.escape(this_utf8)
+
           # To date Base 2 - Base 36 is supported:
           # (0..999).each {|base| begin; puts "#{base} => #{this_dec.to_s(base)}"; rescue; next; end }
           char_hash[:bin] = this_bin
           char_hash[:dec] = this_dec
           char_hash[:hex] = this_hex
+          char_hash[:html_entity] = this_html_entity
+          char_hash[:html_entity_dec] = this_html_entity_dec
+          char_hash[:html_entity_hex] = this_html_entity_hex
           char_hash[:long_int] = this_long_int
           char_hash[:oct] = this_oct
           char_hash[:short_int] = this_short_int
           char_hash[:utf8] = this_utf8
+          char_hash[:url] = this_url
 
           encoder_list_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
