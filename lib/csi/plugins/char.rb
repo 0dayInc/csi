@@ -30,7 +30,6 @@ module CSI
           this_oct = format('\%03d', i.to_s(8))
           this_short_int = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           this_utf8 = [i].pack('U*')
-          
 
           # To date Base 2 - Base 36 is supported:
           # (0..999).each {|base| begin; puts "#{base} => #{this_dec.to_s(base)}"; rescue; next; end }
