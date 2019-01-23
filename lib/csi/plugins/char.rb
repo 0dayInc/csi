@@ -21,9 +21,9 @@ module CSI
         (from..to).each do |i|
           char_hash = {}
 
-          this_bin = i.to_s(2)
+          this_bin = format('%08d', i.to_s(2))
           this_dec = i
-          this_oct = format('%03d', i.to_s(8))
+          this_oct = format('\%03d', i.to_s(8))
           this_hex = format('%02x', i)
 
           # To date Base 2 - Base 36 is supported:
