@@ -103,7 +103,7 @@ module CSI
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
             this_socket_fuzz_result[:request] = this_request.to_s.inspect
             this_socket_fuzz_result[:request_len] = this_request.length
-            sock_obj.write(this_request)
+            sock_obj.write(this_request.undump)
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
               response = sock_obj.read.to_s.inspect
