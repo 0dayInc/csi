@@ -304,8 +304,8 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           utf8_chars = #{self}.generate_by_range(
-            from:> 'required - integer to start from',
-            to:> 'required - integer to end UTF-8 generation'
+            from: 'required - integer to start from',
+            to: 'required - integer to end char generation'
           )
 
           #{self}.c0_controls_latin_basic
