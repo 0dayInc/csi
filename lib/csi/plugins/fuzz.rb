@@ -16,7 +16,7 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   request: 'required - String object of socket request w/ \u9999 as position delimeter (e.g. "GET /\u9999FUZZ\u9999 HTTP/1.1\r\nHost: \u9999127.0.0.1\u9999\r\n\r\n")',
+      #   request: 'required - String object of socket request w/ \u2665 as position delimeter (e.g. "GET /\u2665FUZZ\u2665 HTTP/1.1\r\nHost: \u2665127.0.0.1\u2665\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
@@ -65,7 +65,7 @@ module CSI
           end
         end
 
-        delimeter = "\u9999"
+        delimeter = "\u2665"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.3 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
@@ -157,7 +157,7 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            request: 'required - String object of socket request w/ \\u9999 as position delimeter (e.g. \"GET /\u9999FUZZ\u9999 HTTP/1.1\\r\\nHost: \u9999127.0.0.1\u9999\\r\\n\\r\\n\")',
+            request: \"required - String object of socket request w/ \u2665 as position delimeter (e.g. '\"GET /\u2665FUZZ\u2665 HTTP/1.1\\r\\nHost: \u2665127.0.0.1\u2665\\r\\n\\r\\n\"')\",
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
