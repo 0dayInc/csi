@@ -11,6 +11,7 @@ module CSI
     autoload :BasicAuth, 'csi/plugins/basic_auth'
     autoload :BeEF, 'csi/plugins/beef'
     autoload :BurpSuite, 'csi/plugins/burp_suite'
+    autoload :Char, 'csi/plugins/char'
     autoload :CreditCard, 'csi/plugins/credit_card'
     autoload :CSILogger, 'csi/plugins/csi_logger'
     autoload :DAOLDAP, 'csi/plugins/dao_ldap'
@@ -24,7 +25,6 @@ module CSI
     autoload :Fuzz, 'csi/plugins/fuzz'
     autoload :Git, 'csi/plugins/git'
     autoload :HackerOne, 'csi/plugins/hacker_one'
-    autoload :Hexify, 'csi/plugins/hexify'
     autoload :HTTPInterceptHelper, 'csi/plugins/http_intercept_helper'
     autoload :IBMAppscan, 'csi/plugins/ibm_appscan'
     autoload :IPInfo, 'csi/plugins/ip_info'
@@ -52,7 +52,6 @@ module CSI
     autoload :TransparentBrowser, 'csi/plugins/transparent_browser'
     autoload :TwitterAPI, 'csi/plugins/twitter_api'
     autoload :URIScheme, 'csi/plugins/uri_scheme'
-    autoload :UTF8, 'csi/plugins/utf8'
     autoload :Vsphere, 'csi/plugins/vsphere'
 
     # Display a List of Every CSI Plugin

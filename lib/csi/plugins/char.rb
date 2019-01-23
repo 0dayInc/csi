@@ -2,12 +2,12 @@
 
 module CSI
   module Plugins
-    # This plugin was created to generate UTF-8 characters for fuzzing
-    module UTF8
+    # This plugin was created to generate various characters for fuzzing
+    module Char
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.generate_by_range(
+      # CSI::Plugins::Char.generate_by_range(
       #   from: 'required - integer to start from',
       #   to: 'required - integer to end UTF-8 generation'
       # )
@@ -24,6 +24,8 @@ module CSI
           this_dec = format('%04d', i)
           utf8_hash[:hex] = this_hex
           utf8_hash[:dec] = this_dec
+          utf8_hash[:long_int] = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          utf8_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           utf8_hash[:utf8] = [i].pack('U*')
 
           utf8_arr.push(utf8_hash)
@@ -35,7 +37,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.c0_controls_latin_basic
+      # CSI::Plugins::Char.c0_controls_latin_basic
 
       public_class_method def self.c0_controls_latin_basic
         utf8_hash = generate_by_range(from: 0, to: 127)
@@ -46,7 +48,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.c1_controls_latin_supplement
+      # CSI::Plugins::Char.c1_controls_latin_supplement
 
       public_class_method def self.c1_controls_latin_supplement
         utf8_hash = generate_by_range(from: 128, to: 255)
@@ -57,7 +59,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.latin_extended_a
+      # CSI::Plugins::Char.latin_extended_a
 
       public_class_method def self.latin_extended_a
         utf8_hash = generate_by_range(from: 256, to: 383)
@@ -68,7 +70,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.latin_extended_b
+      # CSI::Plugins::Char.latin_extended_b
 
       public_class_method def self.latin_extended_b
         utf8_hash = generate_by_range(from: 384, to: 591)
@@ -79,7 +81,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.spacing_modifiers
+      # CSI::Plugins::Char.spacing_modifiers
 
       public_class_method def self.spacing_modifiers
         utf8_hash = generate_by_range(from: 688, to: 767)
@@ -90,7 +92,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.diacritical_marks
+      # CSI::Plugins::Char.diacritical_marks
 
       public_class_method def self.diacritical_marks
         utf8_hash = generate_by_range(from: 768, to: 879)
@@ -101,7 +103,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.greek_coptic
+      # CSI::Plugins::Char.greek_coptic
 
       public_class_method def self.greek_coptic
         utf8_hash = generate_by_range(from: 880, to: 1023)
@@ -112,7 +114,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.cyrillic_basic
+      # CSI::Plugins::Char.cyrillic_basic
 
       public_class_method def self.cyrillic_basic
         utf8_hash = generate_by_range(from: 1024, to: 1279)
@@ -123,7 +125,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.cyrillic_supplement
+      # CSI::Plugins::Char.cyrillic_supplement
 
       public_class_method def self.cyrillic_supplement
         utf8_hash = generate_by_range(from: 1280, to: 1327)
@@ -134,7 +136,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.punctuation
+      # CSI::Plugins::Char.punctuation
 
       public_class_method def self.punctuation
         utf8_hash = generate_by_range(from: 8192, to: 8303)
@@ -145,7 +147,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.currency_symbols
+      # CSI::Plugins::Char.currency_symbols
 
       public_class_method def self.currency_symbols
         utf8_hash = generate_by_range(from: 8352, to: 8399)
@@ -156,7 +158,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.letterlike_symbols
+      # CSI::Plugins::Char.letterlike_symbols
 
       public_class_method def self.letterlike_symbols
         utf8_hash = generate_by_range(from: 8448, to: 8527)
@@ -167,7 +169,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.arrows
+      # CSI::Plugins::Char.arrows
 
       public_class_method def self.arrows
         utf8_hash = generate_by_range(from: 8592, to: 8703)
@@ -178,7 +180,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.math_operators
+      # CSI::Plugins::Char.math_operators
 
       public_class_method def self.math_operators
         utf8_hash = generate_by_range(from: 8704, to: 8959)
@@ -189,7 +191,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.box_drawings
+      # CSI::Plugins::Char.box_drawings
 
       public_class_method def self.box_drawings
         utf8_hash = generate_by_range(from: 9312, to: 9599)
@@ -200,7 +202,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.block_elements
+      # CSI::Plugins::Char.block_elements
 
       public_class_method def self.block_elements
         utf8_hash = generate_by_range(from: 9600, to: 9631)
@@ -211,7 +213,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.geometric_shapes
+      # CSI::Plugins::Char.geometric_shapes
 
       public_class_method def self.geometric_shapes
         utf8_hash = generate_by_range(from: 9632, to: 9727)
@@ -222,7 +224,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.misc_symbols
+      # CSI::Plugins::Char.misc_symbols
 
       public_class_method def self.misc_symbols
         utf8_hash = generate_by_range(from: 9728, to: 9983)
@@ -233,7 +235,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.dingbats
+      # CSI::Plugins::Char.dingbats
 
       public_class_method def self.dingbats
         utf8_hash = generate_by_range(from: 9984, to: 10_175)
@@ -244,7 +246,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::UTF8.bubble_ip(
+      # CSI::Plugins::Char.bubble_ip(
       #   ip: 'required - ip address to transform'
       # )
 
