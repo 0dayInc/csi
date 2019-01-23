@@ -47,7 +47,7 @@ module CSI
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder.name)
             rescue
-              char_hash[this_encoder_key] = ''
+              char_hash[this_encoder_key] = nil
               next
             end
           end
