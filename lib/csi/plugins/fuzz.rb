@@ -61,7 +61,7 @@ module CSI
               payload = CGI.escape(payload)
             end
           else
-            raise "encoding type: #{opts[:encoding]} not supported."
+            raise "Encoding type: #{encoding} not supported."
           end
         end
 
