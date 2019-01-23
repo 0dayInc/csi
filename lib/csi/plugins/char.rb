@@ -18,23 +18,38 @@ module CSI
 
         char_arr = []
 
+        encoder_list_arr = list_encoders
+
         (from..to).each do |i|
           char_hash = {}
 
-          this_bin = i.to_s(2)
+          this_bin = format('%08d', i.to_s(2))
           this_dec = i
-          this_oct = format('%03d', i.to_s(8))
           this_hex = format('%02x', i)
+          this_long_int = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          this_oct = format('\%03d', i.to_s(8))
+          this_short_int = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          this_utf8 = [i].pack('U*')
 
           # To date Base 2 - Base 36 is supported:
           # (0..999).each {|base| begin; puts "#{base} => #{this_dec.to_s(base)}"; rescue; next; end }
           char_hash[:bin] = this_bin
           char_hash[:dec] = this_dec
           char_hash[:hex] = this_hex
-          char_hash[:long_int] = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          char_hash[:long_int] = this_long_int
           char_hash[:oct] = this_oct
-          char_hash[:short_int] = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
-          char_hash[:utf8] = [i].pack('U*')
+          char_hash[:short_int] = this_short_int
+          char_hash[:utf8] = this_utf8
+
+          encoder_list_arr.each do |encoder|
+            this_encoder_key = encoder.downcase.to_sym
+            begin
+              char_hash[this_encoder_key] = this_utf8.encode(encoder)
+            rescue
+              char_hash[this_encoder_key] = nil
+              next
+            end
+          end
 
           char_arr.push(char_hash)
         end
@@ -297,6 +312,21 @@ module CSI
         raise e
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::Char.list_encoders
+
+      public_class_method def self.list_encoders
+        encoder_arr = []
+
+        Encoding.list.each do |encoder|
+          encoder_arr.push(encoder.name)
+        end
+
+        return encoder_arr
+      rescue => e
+        raise e
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
@@ -357,6 +387,8 @@ module CSI
           #{self}.bubble_ip(
             ip: 'required - ip address to transform'
           )
+
+          #{self}.list_encoders
 
           #{self}.authors
         "
