@@ -10,8 +10,8 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-dDIR', '--dir-path=DIR', '<Required - Root of Git Repo to Target>') { |d| opts[:dir_path] = d }
-  options.on('-uGITURI', '--uri-source-root=GITURI', '<Required - HTTP URI of Git Repo Scanned>') do |u|
+  options.on('-dDIR', '--dir-path=DIR', '<Required - Report Output Directory>') { |d| opts[:dir_path] = d }
+  options.on('-uGITURI', '--uri-source-root=GITURI', '<Required - HTTP URI of Git Repo Scanned e.g. https://github.com/0dayInc/csi/tree/master>') do |u|
     opts[:uri_source_root] = u
   end
 

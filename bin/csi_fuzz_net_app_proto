@@ -11,7 +11,7 @@ OptionParser.new do |options|
     #{$PROGRAM_NAME} [opts]
   "
 
-  options.on('-dDIR', '--dir-path=DIR', '<Required - Root of Git Repo to Target>') do |d|
+  options.on('-dDIR', '--dir-path=DIR', '<Required - Report Output Directory>') do |d|
     opts[:dir_path] = d
   end
 
