@@ -23,9 +23,7 @@ module CSI
 
         # JSON object Completion
         File.open("#{dir_path}/csi_fuzz_net_app_proto.json", 'w') do |f|
-          # TODO: need to identify which characters are scrubbed...
-          # need to scrub to ensure report actually generates though.
-          f.print(results_hash.to_json.scrub("\u0870")
+          f.print(results_hash.to_json.scrub("\u0870"))
         end
 
         # Report All the Bugs!!! \o/
