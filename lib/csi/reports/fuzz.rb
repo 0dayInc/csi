@@ -23,7 +23,7 @@ module CSI
 
         # JSON object Completion
         File.open("#{dir_path}/csi_fuzz_net_app_proto.json", 'w') do |f|
-          f.print(results_hash.to_json)
+          f.print(results_hash.to_json.scrub("\u0870"))
         end
 
         # Report All the Bugs!!! \o/
