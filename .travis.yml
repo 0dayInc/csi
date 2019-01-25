@@ -22,4 +22,3 @@ rvm: # Rely upon .ruby-version
 dist: xenial
 after_success:
   - rubocop
-  - csi_autoinc_version
