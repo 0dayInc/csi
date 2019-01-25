@@ -105,7 +105,7 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload
-            sock_obj.write("#{this_request}")
+            sock_obj.write(this_request)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
