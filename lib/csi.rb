@@ -10,7 +10,7 @@ module CSI
   STDOUT.flush       # < Ensure that all print statements output progress in realtime
   # TODO: Determine best balance for namespace naming conventions
   autoload :AWS, 'csi/aws'
-  autoload :MSF, 'csi/msf'
+  autoload :FFI, 'csi/ffi'
   autoload :Plugins, 'csi/plugins'
   autoload :Reports, 'csi/reports'
   autoload :SCAPM, 'csi/scapm'
