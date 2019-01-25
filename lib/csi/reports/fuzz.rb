@@ -4,10 +4,10 @@ require 'json'
 
 module CSI
   module Reports
-    # This plugin generates the Static Code Anti-Pattern Matching Analysis
-    # results within the root of a given source repo.  Two files are created,
-    # a JSON file containing all of the Fuzz results and an HTML file
-    # which is essentially the UI for the JSON file.
+    # This plugin generates Fuzz results from CSI::Plugins::Fuzz.
+    # Two files are created, a JSON file containing all of the
+    # Fuzz results and an HTML file which is essentially the UI
+    # for the JSON file.
     module Fuzz
       # Supported Method Parameters::
       # CSI::Reports::Fuzz.generate(
