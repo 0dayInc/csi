@@ -20,7 +20,7 @@ module CSI
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
-      #   char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
+      #   force_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
       #   response_timeout: 'optional - float (defaults to 0.9)',
       #   request_rate_limit: 'optional - float (defaults to 0.3)'
       # )
@@ -34,7 +34,7 @@ module CSI
         payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
         opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
-        opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
+        opts[:force_encoding].nil? ? force_encoding = 'UTF-8' : force_encoding = opts[:force_encoding].to_s
 
         if encoding
           case encoding
@@ -107,10 +107,10 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload in its rawest form
-            if char_encoding == 'UTF-8'
+            if force_encoding == 'UTF-8'
               sock_obj.write(this_request.undump)
             else
-              sock_obj.write(this_request.encode('UTF-8', char_encoding))
+              sock_obj.write(this_request.undump.force_encoding(force_encoding))
             end
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
