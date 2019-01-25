@@ -5,7 +5,7 @@ module CSI
   # into memory only when they're needed. For more information, see:
   # http://www.rubyinside.com/ruby-techniques-revealed-autoload-1652.html
   module FFI
-    autoload :Sock, 'csi/ffi/sock'
+    # autoload :Sock, 'csi/ffi/sock'
 
     # Display a List of Every CSI Report
 

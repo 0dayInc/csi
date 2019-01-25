@@ -20,6 +20,7 @@ module CSI
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
+      #   char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
       #   response_timeout: 'optional - float (defaults to 0.9)',
       #   request_rate_limit: 'optional - float (defaults to 0.3)'
       # )
@@ -33,6 +34,7 @@ module CSI
         payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
         opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
+        opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
 
         if encoding
           case encoding
@@ -103,7 +105,14 @@ module CSI
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
             this_socket_fuzz_result[:request] = this_request
             this_socket_fuzz_result[:request_len] = this_request.length
-            sock_obj.write(this_request.undump)
+
+            # Send Fuzz Payload in its rawest form
+            if char_encoding == 'UTF-8'
+              sock_obj.write(this_request.undump)
+            else
+              sock_obj.write(this_request.encode('UTF-8', char_encoding))
+            end
+
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
               response = sock_obj.read
@@ -161,6 +170,7 @@ module CSI
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
+            char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
             response_timeout: 'optional - float (defaults to 0.9)',
             request_rate_limit: 'optional - float (defaults to 0.3)'
           )
