@@ -7,12 +7,12 @@ module CSI
     # This plugin provides useful social security number capabilities
     module Sock
       # Supported Method Parameters::
-      # CSI::FFI::Socket.connect(
-      #   count: 'required - number of SSN numbers to generate'
+      # CSI::FFI::Sock.connect(
       # )
 
       public_class_method def self.connect(opts = {})
-        return 1
+        opts[:not_implemented] = 'yet'
+        return opts
       rescue => e
         raise e
       end
