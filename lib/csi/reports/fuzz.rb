@@ -152,6 +152,7 @@ module CSI
                     });
                   },
                   "ajax": "csi_fuzz_net_app_proto.json",
+                  "deferRender": true,
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "fixedColumns": true,
