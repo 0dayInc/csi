@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require 'ffi'
+
 module CSI
   module FFI
     # This plugin provides useful social security number capabilities
-    module Socket
+    module Sock
       # Supported Method Parameters::
       # CSI::FFI::Socket.connect(
       #   count: 'required - number of SSN numbers to generate'
