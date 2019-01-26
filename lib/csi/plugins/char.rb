@@ -360,7 +360,9 @@ module CSI
                 f.puts char_hash[chk] unless char_hash[chk].nil?
               end
             end
+            print '.'
           rescue Encoding::ConverterNotFoundError
+            print '*'
             next
           end
         end
