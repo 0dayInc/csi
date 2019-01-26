@@ -28,7 +28,8 @@ module CSI
           if char_encoding == 'UTF-8'
             f.print(results_hash.to_json)
           else
-            f.print(results_hash.to_json.encode(char_encoding, 'UTF-8'))
+            # f.print(results_hash.to_json.encode(char_encoding, 'UTF-8'))
+            f.print(results_hash.to_json.force_encoding(char_encoding))
           end
         end
 
