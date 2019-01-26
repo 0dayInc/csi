@@ -118,6 +118,7 @@ end
 print "#{$PROGRAM_NAME} Generating Report..."
 CSI::Reports::Fuzz.generate(
   dir_path: dir_path,
-  results_hash: results_hash
+  results_hash: results_hash,
+  char_encoding: char_encoding
 )
 puts 'complete.'
