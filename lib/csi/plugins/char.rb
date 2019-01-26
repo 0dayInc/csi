@@ -57,8 +57,7 @@ module CSI
           encoder_list_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
-              char_hash[this_encoder_key] = this_utf8.force_encoding(encoder)
-              # char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
+              char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
             rescue
               char_hash[this_encoder_key] = nil
               next
