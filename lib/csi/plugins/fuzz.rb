@@ -110,7 +110,7 @@ module CSI
             if char_encoding == 'UTF-8'
               sock_obj.write(this_request.undump)
             else
-              sock_obj.write(this_request.encode('UTF-8', char_encoding))
+              sock_obj.write(this_request.undump.encode(char_encoding, 'UTF-8'))
             end
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)

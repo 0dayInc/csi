@@ -22,6 +22,7 @@ module CSI
         char_arr = []
 
         encoder_list_arr = list_encoders
+        encoder_list_arr.delete('UTF-8')
 
         (from..to).each do |i|
           char_hash = {}
@@ -50,8 +51,8 @@ module CSI
           char_hash[:long_int] = this_long_int
           char_hash[:oct] = this_oct
           char_hash[:short_int] = this_short_int
-          char_hash[:utf8] = this_utf8
           char_hash[:url] = this_url
+          char_hash[:utf_8] = this_utf8
 
           encoder_list_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
