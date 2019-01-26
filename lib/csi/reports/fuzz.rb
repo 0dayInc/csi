@@ -12,7 +12,8 @@ module CSI
       # Supported Method Parameters::
       # CSI::Reports::Fuzz.generate(
       #   dir_path: dir_path,
-      #   results_hash: results_hash
+      #   results_hash: results_hash,
+      #   char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
       # )
 
       public_class_method def self.generate(opts = {})
@@ -20,10 +21,15 @@ module CSI
         raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?
 
         results_hash = opts[:results_hash]
+        opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
 
         # JSON object Completion
-        File.open("#{dir_path}/csi_fuzz_net_app_proto.json", 'w') do |f|
-          f.print(results_hash.to_json)
+        File.open("#{dir_path}/csi_fuzz_net_app_proto.json", "w:#{char_encoding}") do |f|
+          if char_encoding == 'UTF-8'
+            f.print(results_hash.to_json)
+          else
+            f.print(results_hash.to_json.encode(char_encoding, 'UTF-8'))
+          end
         end
 
         # Report All the Bugs!!! \o/
@@ -242,7 +248,8 @@ module CSI
         puts "USAGE:
           #{self}.generate(
             dir_path: dir_path,
-            results_hash: results_hash
+            results_hash: results_hash,
+            char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
           )
 
           #{self}.authors
