@@ -340,6 +340,34 @@ module CSI
         raise e
       end
 
+      # Supported Method Parameters::
+      # CSI::Plugins::Char.generate_encoded_files(
+      #   from: 'required - integer to start from',
+      #   to: 'required - integer to end UTF-8 generation',
+      #   output_dir: 'required - folder to create files'
+      # )
+
+      public_class_method def self.generate_encoded_files(opts = {})
+        from = opts[:from].to_i
+        to = opts[:to].to_i
+        output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
+
+        list_encoders.each do |encoder|
+          begin
+            File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f| 
+              generate_by_range(from:0, to: 333).each do |char_hash| 
+                chk = encoder.downcase.tr('-', '_').to_sym
+                f.puts char_hash[chk] unless char_hash[chk].nil?
+              end
+            end
+          rescue
+            next
+          end
+        end
+      rescue => e
+        raise e
+      end
+
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
@@ -402,6 +430,12 @@ module CSI
           )
 
           #{self}.list_encoders
+
+          #{self}.generate_encoded_files(
+            from: 'required - integer to start from',
+            to: 'required - integer to end UTF-8 generation',
+            output_dir: 'required - folder to create files'
+          )
 
           #{self}.authors
         "
