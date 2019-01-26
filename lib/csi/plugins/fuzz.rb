@@ -105,6 +105,8 @@ module CSI
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
 
             # Send Fuzz Payload in its rawest form
+            this_socket_fuzz_result[:request] = ''
+
             if char_encoding == 'UTF-8'
               this_socket_fuzz_result[:request] = this_request
               sock_obj.write(this_request.undump)
