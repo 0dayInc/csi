@@ -47,6 +47,10 @@ OptionParser.new do |options|
     opts[:encoding_depth] = d
   end
 
+  options.on('-cENC', '--char-encoding=ENC', '<Optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)>') do |c|
+    opts[:char_encoding] = c
+  end
+
   options.on('-TFLOAT', '--response-timeout=FLOAT', '<Optional - float (defaults to 0.3)>') do |f|
     opts[:response_timeout] = f
   end
@@ -75,6 +79,7 @@ request = opts[:request]
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 encoding = opts[:encoding]
 encoding_depth = opts[:encoding_depth]
+char_encoding = opts[:char_encoding]
 response_timeout = opts[:response_timeout]
 request_rate_limit = opts[:request_rate_limit]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
@@ -96,6 +101,7 @@ File.open(fuzz_file, 'rb') do |file|
         payload: payload.to_s.chomp,
         encoding: encoding,
         encoding_depth: encoding_depth,
+        char_encoding: char_encoding,
         response_timeout: response_timeout,
         request_rate_limit: request_rate_limit
       )
