@@ -353,17 +353,15 @@ module CSI
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
         list_encoders.each do |encoder|
-          begin
-            File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f| 
-              generate_by_range(from:0, to: 333).each do |char_hash| 
-                chk = encoder.downcase.tr('-', '_').to_sym
-                f.puts char_hash[chk] unless char_hash[chk].nil?
-              end
+          File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f|
+            generate_by_range(from: from, to: to).each do |char_hash|
+              chk = encoder.downcase.tr('-', '_').to_sym
+              f.puts char_hash[chk] unless char_hash[chk].nil?
             end
-          rescue
-            next
           end
         end
+      rescue Encoding::ConverterNotFoundError
+        next
       rescue => e
         raise e
       end
