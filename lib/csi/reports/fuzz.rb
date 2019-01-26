@@ -25,11 +25,7 @@ module CSI
 
         # JSON object Completion
         File.open("#{dir_path}/csi_fuzz_net_app_proto.json", "w:#{char_encoding}") do |f|
-          if char_encoding == 'UTF-8'
-            f.print(results_hash.to_json)
-          else
-            f.print(results_hash.to_json.force_encoding(char_encoding))
-          end
+          f.print(results_hash.to_json.force_encoding(char_encoding))
         end
 
         # Report All the Bugs!!! \o/

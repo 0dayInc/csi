@@ -108,13 +108,8 @@ module CSI
             this_socket_fuzz_result[:request] = ''
             this_socket_fuzz_result[:request_len] = this_request.length
 
-            if char_encoding == 'UTF-8'
-              this_socket_fuzz_result[:request] = this_request
-              sock_obj.write(this_request.undump)
-            else
-              this_socket_fuzz_result[:request] = this_request.force_encoding(char_encoding)
-              sock_obj.write(this_request.undump.force_encoding(char_encoding))
-            end
+            this_socket_fuzz_result[:request] = this_request.force_encoding(char_encoding)
+            sock_obj.write(this_request.undump.force_encoding(char_encoding))
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
