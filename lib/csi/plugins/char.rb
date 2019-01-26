@@ -335,7 +335,7 @@ module CSI
           encoder_arr.push(encoder.name)
         end
 
-        return encoder_arr
+        return encoder_arr.sort
       rescue => e
         raise e
       end
