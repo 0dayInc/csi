@@ -30,11 +30,11 @@ module CSI
         port = opts[:port].to_i
         protocol = opts[:protocol]
         tls = opts[:tls]
-        request = opts[:request].to_s
-        payload = opts[:payload].to_s
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
         opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
         opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
+        request = opts[:request].to_s.force_encoding(char_encoding)
+        payload = opts[:payload].to_s.force_encoding(char_encoding)
 
         if encoding
           case encoding
@@ -86,7 +86,7 @@ module CSI
 
           end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
           end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
-          this_request = request.dup.delete(delimeter)
+          this_request = request.dup.delete(delimeter).force_encoding(char_encoding)
           if end_delim_char_index.positive?
             this_request[begin_delim_char_index..end_delim_char_index] = payload
           else
@@ -108,8 +108,8 @@ module CSI
             this_socket_fuzz_result[:request] = ''
             this_socket_fuzz_result[:request_len] = this_request.length
 
-            this_socket_fuzz_result[:request] = this_request.force_encoding(char_encoding)
-            sock_obj.write(this_request.force_encoding(char_encoding).undump)
+            this_socket_fuzz_result[:request] = this_request
+            sock_obj.write(this_request.undump)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
