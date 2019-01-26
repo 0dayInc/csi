@@ -109,7 +109,7 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             this_socket_fuzz_result[:request] = this_request.force_encoding(char_encoding)
-            sock_obj.write(this_request.undump.force_encoding(char_encoding))
+            sock_obj.write(this_request.force_encoding(char_encoding).undump)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
