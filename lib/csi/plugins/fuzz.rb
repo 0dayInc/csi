@@ -103,15 +103,17 @@ module CSI
             )
 
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
-            this_socket_fuzz_result[:request] = this_request
-            this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload in its rawest form
             if char_encoding == 'UTF-8'
+              this_socket_fuzz_result[:request] = this_request
               sock_obj.write(this_request.undump)
             else
+              this_socket_fuzz_result[:request] = this_request.encode(char_encoding, 'UTF-8')
               sock_obj.write(this_request.undump.encode(char_encoding, 'UTF-8'))
             end
+
+            this_socket_fuzz_result[:request_len] = this_request.length
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
