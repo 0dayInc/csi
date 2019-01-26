@@ -109,7 +109,7 @@ module CSI
               this_socket_fuzz_result[:request] = this_request
               sock_obj.write(this_request.undump)
             else
-              this_socket_fuzz_result[:request] = this_request.encode(char_encoding, 'UTF-8'))
+              this_socket_fuzz_result[:request] = this_request.encode(char_encoding, 'UTF-8')
               sock_obj.write(this_request.undump.encode(char_encoding, 'UTF-8'))
             end
 
