@@ -14,7 +14,6 @@ module CSI
   autoload :Plugins, 'csi/plugins'
   autoload :Reports, 'csi/reports'
   autoload :SCAPM, 'csi/scapm'
-  autoload :WebApp, 'csi/web_app'
   autoload :WWW, 'csi/www'
 
   # Display Usage for the CSI Framework ~

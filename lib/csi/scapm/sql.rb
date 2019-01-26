@@ -97,7 +97,7 @@ module CSI
         end
         result_arr
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Supported Method Parameters::
@@ -145,7 +145,7 @@ module CSI
 
         author
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
@@ -161,7 +161,7 @@ module CSI
         }
         nist_800_53_requirements
       rescue => e
-        raise e.message
+        raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
