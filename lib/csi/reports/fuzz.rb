@@ -25,11 +25,7 @@ module CSI
 
         # JSON object Completion
         File.open("#{dir_path}/csi_fuzz_net_app_proto.json", "w:#{char_encoding}") do |f|
-          if char_encoding == 'UTF-8'
-            f.print(results_hash.to_json)
-          else
-            f.print(results_hash.to_json.encode(char_encoding, 'UTF-8'))
-          end
+          f.print(results_hash.to_json.force_encoding(char_encoding))
         end
 
         # Report All the Bugs!!! \o/
@@ -115,7 +111,7 @@ module CSI
                     <th>Response Length</th>
                   </tr>
                 </thead>
-                <col width="20px" />
+                <col width="60px" />
                 <col width="60px" />
                 <col width="300px" />
                 <col width="90px" />
@@ -158,7 +154,7 @@ module CSI
                     });
                   },
                   "ajax": "csi_fuzz_net_app_proto.json",
-                  "deferRender": true,
+                  // "deferRender": true,
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "fixedColumns": true,
