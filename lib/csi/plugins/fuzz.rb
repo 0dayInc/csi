@@ -113,7 +113,8 @@ module CSI
             else
               # this_socket_fuzz_result[:request] = this_request.encode(char_encoding, 'UTF-8')
               this_socket_fuzz_result[:request] = this_request.force_encoding(char_encoding)
-              sock_obj.write(this_request.undump.encode(char_encoding, 'UTF-8'))
+              # sock_obj.write(this_request.undump.encode(char_encoding, 'UTF-8'))
+              sock_obj.write(this_request.undump.force_encoding(char_encoding))
             end
 
             this_socket_fuzz_result[:request_len] = this_request.length
