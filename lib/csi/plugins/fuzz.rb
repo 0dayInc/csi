@@ -132,7 +132,7 @@ module CSI
             # TODO: dump into file once array reaches max length (avoid memory consumption issues)
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
           rescue => e
-            e.class == NoMethodError ? response = "#{e.class}: #{e.message} #{e.backtrace}" : response = "#{e.class}: #{e.message}"
+            response = "#{e.class}: #{e.message} #{e.backtrace}"
             this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response.length
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
