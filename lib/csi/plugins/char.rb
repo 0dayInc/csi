@@ -41,9 +41,9 @@ module CSI
             this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
             this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
           rescue ArgumentError
-            this_html_entity = nil
-            this_html_entity_dec = nil
-            thishtml_entity_hex = nil
+            this_html_entity = "max_int@#{this_int}"
+            this_html_entity_dec = "max_int@#{this_int}"
+            thishtml_entity_hex = "max_int@#{this_int}"
             next
           end
 
@@ -68,10 +68,13 @@ module CSI
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
             rescue Encoding::UndefinedConversionError
-              char_hash[this_encoder_key] = "max_int: #{this_int}"
+              char_hash[this_encoder_key] = "max_int@#{this_int}"
               next
             rescue Encoding::InvalidByteSequenceError
-              char_hash[this_encoder_key] = nil
+              char_hash[this_encoder_key] = "invalid_byte_seq@#{this_int}"
+              next
+            rescue Encoding::ConverterNotFoundError
+              char_hash[this_encoder_key] = "convertor_not_found@#{this_int}"
               next
             end
           end
