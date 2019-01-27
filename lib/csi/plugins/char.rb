@@ -24,19 +24,19 @@ module CSI
         encoder_arr = list_encoders
         encoder_arr.delete('UTF-8')
 
-        (from..to).each do |i|
+        (from..to).each do |this_int|
           char_hash = {}
 
-          this_bin = format('%08d', i.to_s(2))
-          this_dec = i
-          this_hex = format('%02x', i)
-          this_long_int = [i].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
-          this_oct = format('\%03d', i.to_s(8))
-          this_short_int = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
-          this_utf8 = [i].pack('U*')
+          this_bin = format('%08d', this_int.to_s(2))
+          this_dec = this_int
+          this_hex = format('%02x', this_int)
+          this_long_int = [this_int].pack('L>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          this_oct = format('\%03d', this_int.to_s(8))
+          this_short_int = [this_int].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
+          this_utf8 = [this_int].pack('U*')
 
           begin
-            # Begins breaking once i reaches 55296
+            # Begins breaking once this_int reaches 55296
             this_html_entity = HTMLEntities.new.encode(this_utf8)
             this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
             this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
@@ -44,7 +44,7 @@ module CSI
             this_html_entity = nil
             this_html_entity_dec = nil
             thishtml_entity_hex = nil
-            next            
+            next
           end
 
           this_url = CGI.escape(this_utf8)
