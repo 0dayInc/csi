@@ -41,9 +41,9 @@ module CSI
             this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
             this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
           rescue ArgumentError
-            this_html_entity = "max_int@#{this_int}"
-            this_html_entity_dec = "max_int@#{this_int}"
-            thishtml_entity_hex = "max_int@#{this_int}"
+            this_html_entity = "***max_int<#{this_int}"
+            this_html_entity_dec = "***max_int<#{this_int}"
+            thishtml_entity_hex = "***max_int<#{this_int}"
             next
           end
 
@@ -68,13 +68,13 @@ module CSI
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
             rescue Encoding::UndefinedConversionError
-              char_hash[this_encoder_key] = "max_int@#{this_int}"
+              char_hash[this_encoder_key] = "***max_int<#{this_int}"
               next
             rescue Encoding::InvalidByteSequenceError
-              char_hash[this_encoder_key] = "invalid_byte_seq@#{this_int}"
+              char_hash[this_encoder_key] = "***invalid_byte_seq@#{this_int}"
               next
             rescue Encoding::ConverterNotFoundError
-              char_hash[this_encoder_key] = "convertor_not_found@#{this_int}"
+              char_hash[this_encoder_key] = '***convertor_not_found'
               next
             end
           end
@@ -374,9 +374,12 @@ module CSI
             chk = encoder.downcase.tr('-', '_').to_sym
             File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                f.puts char_hash[chk] unless char_hash[chk].nil?
+                if ! char_hash[chk].nil? || ! char_hash[chk].include?('***') 
+                  f.puts char_hash[chk]
+                end
               end
             end
+            File.unlink(this_file) if File.read(this_file).length == 0
             print '.'
           rescue => e
             puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
