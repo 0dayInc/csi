@@ -67,11 +67,11 @@ module CSI
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
-            rescue Encoding::UndefinedConversionError
-              char_hash[this_encoder_key] = "***max_int<#{this_int}"
-              next
             rescue Encoding::InvalidByteSequenceError
               char_hash[this_encoder_key] = "***invalid_byte_seq@#{this_int}"
+              next
+            rescue Encoding::UndefinedConversionError
+              char_hash[this_encoder_key] = "***max_int<#{this_int}"
               next
             rescue Encoding::ConverterNotFoundError
               char_hash[this_encoder_key] = '***convertor_not_found'
@@ -79,7 +79,7 @@ module CSI
             end
           end
 
-          sorted_char_hash = char_hash.sort_by { |key| key }.to_h
+          sorted_char_hash = char_hash.sort.to_h
           char_arr.push(sorted_char_hash)
         end
 
@@ -375,7 +375,7 @@ module CSI
             chk = encoder.downcase.tr('-', '_').to_sym
             File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].include?('***')
+                f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].encode('utf-8').include?('***')
               end
             end
 
