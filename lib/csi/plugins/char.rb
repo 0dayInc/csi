@@ -40,7 +40,7 @@ module CSI
             this_html_entity = HTMLEntities.new.encode(this_utf8)
             this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
             this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
-          rescue Encoding::InvalidByteSequenceError
+          rescue ArgumentError
             this_html_entity = nil
             this_html_entity_dec = nil
             thishtml_entity_hex = nil
