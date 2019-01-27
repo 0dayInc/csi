@@ -368,7 +368,7 @@ module CSI
         to = opts[:to].to_i
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
-        encoder_arr = .generate_by_range(from: 0, to: 0)[0].keys
+        encoder_arr = generate_by_range(from: 0, to: 0)[0].keys
         encoder_arr.each do |encoder_key|
           begin
             encoder = encoder_key.to_s.upcase.tr('_', '-')
