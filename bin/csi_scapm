@@ -100,6 +100,8 @@ CSI::Plugins::ThreadPool.fill(enumerable_array: test_cases, max_threads: max_thr
         results_hash[:data].push(hash_line)
       end
     end
+  rescue Interrupt
+    puts 'Goodbye'
   rescue => e
     raise "Something happened to threaded test case #{test_case}: #{e}"
   end
