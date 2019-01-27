@@ -377,8 +377,12 @@ module CSI
                 f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].include?('***')
               end
             end
-            File.unlink(this_file) if File.read(this_file).length.zero?
-            print '.'
+
+            if File.read(this_file).length.zero?
+              File.unlink(this_file)
+            else
+              print '.'
+            end
           rescue => e
             puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
             puts "#{e.class}: #{e.message}\n#{e.backtrace}\n\n\n"
