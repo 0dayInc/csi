@@ -7,18 +7,17 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::ThreadPool.fill(
       #   enumerable_array: 'required array for proper thread pool assignment',
-      #   :max_threads: 'optional number of threads in the thread pool (defaults to 6)',
+      #   :max_threads: 'optional number of threads in the thread pool (defaults to 9)',
       #   &block
       # )
       #
-      # Example: #{self}.fill(enumerable_array: arr_test_cases, max_threads: 99) do |test_case|
-      #            print test_case
-      #            sleep 3
-      #            # <do more stuff>
-      #          end
+      # Example:
+      # arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      # CSI::Plugins::ThreadPool.fill(enumerable_array: arr, max_threads: 9) do |integer|
+      #   puts integer
+      # end
 
-      public_class_method # def self.fill(opts = {}, &block)
-      def self.fill(opts = {})
+      public_class_method def self.fill(opts = {})
         enumerable_array = opts[:enumerable_array]
         opts[:max_threads].nil? ? max_threads = 9 : max_threads = opts[:max_threads].to_i
 
@@ -26,12 +25,12 @@ module CSI
         queue = SizedQueue.new(max_threads)
         threads = Array.new(max_threads) do
           Thread.new do
-            until (test_case = queue.pop) == :END
-              yield test_case
+            until (this_thread = queue.pop) == :END
+              yield this_thread
             end
           end
         end
-        enumerable_array.uniq.sort.each { |test_case| queue << test_case }
+        enumerable_array.uniq.sort.each { |this_thread| queue << this_thread }
         max_threads.times { queue << :END }
         threads.each(&:join)
       rescue => e
@@ -54,12 +53,15 @@ module CSI
         puts "USAGE:
           #{self}.fill(
             enumerable_array. => 'required array for proper thread pool assignment',
-            max_threads: 'optional number of threads in the thread pool (defaults to 6)',
+            max_threads: 'optional number of threads in the thread pool (defaults to 9)',
             &block
           )
-          Example: #{self}.fill(enumerable_array: arr_ips, max_threads: 99) do |ip|
-                     `nmap -Pn -p 22 #\{ip\}`
-                   end
+
+          Example:
+          arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+          #{self}.fill(enumerable_array: arr, max_threads: 9) do |integer|
+            puts integer
+          end
 
           #{self}.authors
         "

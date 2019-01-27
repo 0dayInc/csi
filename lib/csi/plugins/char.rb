@@ -21,8 +21,8 @@ module CSI
 
         char_arr = []
 
-        encoder_list_arr = list_encoders
-        encoder_list_arr.delete('UTF-8')
+        encoder_arr = list_encoders
+        encoder_arr.delete('UTF-8')
 
         (from..to).each do |i|
           char_hash = {}
@@ -54,7 +54,7 @@ module CSI
           char_hash[:url] = this_url
           char_hash[:utf_8] = this_utf8
 
-          encoder_list_arr.each do |encoder|
+          encoder_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
@@ -326,7 +326,7 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # CSI::Plugins::Char.list_encoders
+      # encoder_arr = CSI::Plugins::Char.list_encoders
 
       public_class_method def self.list_encoders
         encoder_arr = []
@@ -352,7 +352,8 @@ module CSI
         to = opts[:to].to_i
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
-        list_encoders.each do |encoder|
+        encoder_arr = list_encoders
+        encoder_arr.each do |encoder|
           begin
             File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
@@ -432,7 +433,7 @@ module CSI
             ip: 'required - ip address to transform'
           )
 
-          #{self}.list_encoders
+          encoder_arr = #{self}.list_encoders
 
           #{self}.generate_encoded_files(
             from: 'required - integer to start from',
