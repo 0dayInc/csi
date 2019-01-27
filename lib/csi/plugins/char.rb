@@ -79,7 +79,8 @@ module CSI
             end
           end
 
-          char_arr.push(char_hash)
+          sorted_char_hash = char_hashsort_by { |key| key }.to_h
+          char_arr.push(sort_char_hash)
         end
 
         return char_arr
