@@ -35,9 +35,18 @@ module CSI
           this_short_int = [i].pack('S>').unpack1('H*').scan(/../).map { |h| '\x' + h }.join
           this_utf8 = [i].pack('U*')
 
-          this_html_entity = HTMLEntities.new.encode(this_utf8)
-          this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
-          this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
+          begin
+            # Begins breaking once i reaches 55296
+            this_html_entity = HTMLEntities.new.encode(this_utf8)
+            this_html_entity_dec = HTMLEntities.new.encode(this_utf8, :decimal)
+            this_html_entity_hex = HTMLEntities.new.encode(this_utf8, :hexadecimal)
+          rescue Encoding::InvalidByteSequenceError
+            this_html_entity = nil
+            this_html_entity_dec = nil
+            thishtml_entity_hex = nil
+            next            
+          end
+
           this_url = CGI.escape(this_utf8)
 
           # To date Base 2 - Base 36 is supported:
@@ -58,7 +67,7 @@ module CSI
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
-            rescue
+            rescue Encoding::InvalidByteSequenceError
               char_hash[this_encoder_key] = nil
               next
             end
@@ -364,7 +373,7 @@ module CSI
             end
             print '.'
           rescue => e
-            puts "CHARACTER IN FILE: #{this_file} GENERATED THE FOLLOWING ERROR:"
+            puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
             puts "#{e.class}: #{e.message}\n#{e.backtrace}\n\n\n"
             next
           end
