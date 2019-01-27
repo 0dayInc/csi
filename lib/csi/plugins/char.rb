@@ -352,7 +352,8 @@ module CSI
         to = opts[:to].to_i
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
-        list_encoders.each do |encoder|
+        encoder_arr = list_encoders
+        encoder_arr.each do |encoder|
           begin
             File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|

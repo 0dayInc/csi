@@ -86,7 +86,9 @@ module CSI
 
           end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
           end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
+
           this_request = request.dup.delete(delimeter).force_encoding(char_encoding)
+
           if end_delim_char_index.positive?
             this_request[begin_delim_char_index..end_delim_char_index] = payload
           else
@@ -104,11 +106,12 @@ module CSI
 
             this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
 
-            # Send Fuzz Payload in its rawest form
             this_socket_fuzz_result[:request] = ''
             this_socket_fuzz_result[:request_len] = this_request.length
 
             this_socket_fuzz_result[:request] = this_request
+
+            # Send Fuzz Payload in its rawest form
             sock_obj.write(this_request.undump)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
