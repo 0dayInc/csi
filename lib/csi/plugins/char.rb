@@ -368,11 +368,12 @@ module CSI
         to = opts[:to].to_i
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
-        encoder_arr = list_encoders
-        encoder_arr.each do |encoder|
+        encoder_arr = .generate_by_range(from: 0, to: 0)[0].keys
+        encoder_arr.each do |encoder_key|
           begin
+            encoder = encoder_key.to_s.upcase.tr('_', '-')
             this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
-            chk = encoder.downcase.tr('-', '_').to_sym
+            chk = encoder_key
             File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
                 f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].encode('utf-8').include?('***')
