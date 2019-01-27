@@ -374,12 +374,10 @@ module CSI
             chk = encoder.downcase.tr('-', '_').to_sym
             File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                if ! char_hash[chk].nil? || ! char_hash[chk].include?('***') 
-                  f.puts char_hash[chk]
-                end
+                f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].include?('***')
               end
             end
-            File.unlink(this_file) if File.read(this_file).length == 0
+            File.unlink(this_file) if File.read(this_file).length.zero?
             print '.'
           rescue => e
             puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
