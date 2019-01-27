@@ -68,7 +68,8 @@ module CSI
             begin
               char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
             rescue Encoding::UndefinedConversionError
-              char_hash[this_encoder_key] = "max_int = #{this_int}"
+              char_hash[this_encoder_key] = "max_int: #{this_int}"
+              next
             rescue Encoding::InvalidByteSequenceError
               char_hash[this_encoder_key] = nil
               next
