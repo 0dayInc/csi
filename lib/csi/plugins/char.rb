@@ -355,15 +355,17 @@ module CSI
         encoder_arr = list_encoders
         encoder_arr.each do |encoder|
           begin
-            File.open("#{output_dir}/#{from}_#{to}_#{encoder}.txt", "wb:#{encoder}") do |f|
+            this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
+            chk = encoder.downcase.tr('-', '_').to_sym
+            File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                chk = encoder.downcase.tr('-', '_').to_sym
                 f.puts char_hash[chk] unless char_hash[chk].nil?
               end
             end
             print '.'
-          rescue Encoding::ConverterNotFoundError
-            print '*'
+          rescue => e
+            puts "CHARACTER IN FILE: #{this_file} GENERATED THE FOLLOWING ERROR:"
+            puts "#{e.class}: #{e.message}\n#{e.backtrace}\n\n\n"
             next
           end
         end
