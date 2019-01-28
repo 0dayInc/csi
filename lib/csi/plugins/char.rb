@@ -398,9 +398,9 @@ module CSI
               generate_by_range(from: from, to: to).each do |char_hash|
                 case char_key
                 when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
-                  f.puts char_hash[char_key]
+                  f.puts char_hash[char_key][:char]
                 else
-                  f.puts char_hash[char_key] unless char_hash[char_key].nil? || char_hash[char_key].encode('utf-8').include?('***')
+                  f.puts char_hash[char_key][:char] unless char_hash[char_key][:char].nil? || char_hash[char_key][:char].encode('utf-8').include?('***')
                 end
               end
             end
