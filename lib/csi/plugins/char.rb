@@ -51,30 +51,42 @@ module CSI
 
           # To date Base 2 - Base 36 is supported:
           # (0..999).each {|base| begin; puts "#{base} => #{this_dec.to_s(base)}"; rescue; next; end }
-          char_hash[:bin] = this_bin
-          char_hash[:dec] = this_dec
-          char_hash[:hex] = this_hex
-          char_hash[:html_entity] = this_html_entity
-          char_hash[:html_entity_dec] = this_html_entity_dec
-          char_hash[:html_entity_hex] = this_html_entity_hex
-          char_hash[:long_int] = this_long_int
-          char_hash[:oct] = this_oct
-          char_hash[:short_int] = this_short_int
-          char_hash[:url] = this_url
-          char_hash[:utf_8] = this_utf8
+          char_hash[:bin] = { char: this_bin, encoder: nil }
+          char_hash[:dec] = { char: this_dec, encoder: nil }
+          char_hash[:hex] = { char: this_hex, encoder: nil }
+          char_hash[:html_entity] = { char: this_html_entity, encoder: nil }
+          char_hash[:html_entity_dec] = { char: this_html_entity_dec, encoder: nil }
+          char_hash[:html_entity_hex] = { char: this_html_entity_hex, encoder: nil }
+          char_hash[:long_int] = { char: this_long_int, encoder: nil }
+          char_hash[:oct] = { char: this_oct, encoder: nil }
+          char_hash[:short_int] = { char: this_short_int, encoder: nil }
+          char_hash[:url] = { char: this_url, encoder: nil }
+          char_hash[:utf_8] = { char: this_utf8, encoder: nil }
 
           encoder_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
             begin
-              char_hash[this_encoder_key] = this_utf8.encode(encoder, 'UTF-8')
+              char_hash[this_encoder_key] = {
+                char: this_utf8.encode(encoder, 'UTF-8'),
+                encoder: encoder
+              }
             rescue Encoding::InvalidByteSequenceError
-              char_hash[this_encoder_key] = "***invalid_byte_seq@#{this_int}"
+              char_hash[this_encoder_key] = {
+                char: "***invalid_byte_seq@#{this_int}",
+                encoder: encoder
+              }
               next
             rescue Encoding::UndefinedConversionError
-              char_hash[this_encoder_key] = "***max_int<#{this_int}"
+              char_hash[this_encoder_key] = {
+                char: "***max_int<#{this_int}",
+                encoder: encoder
+              }
               next
             rescue Encoding::ConverterNotFoundError
-              char_hash[this_encoder_key] = '***convertor_not_found'
+              char_hash[this_encoder_key] = {
+                char: '***convertor_not_found',
+                encoder: encoder
+              }
               next
             end
           end
@@ -92,9 +104,9 @@ module CSI
       # CSI::Plugins::Char.c0_controls_latin_basic
 
       public_class_method def self.c0_controls_latin_basic
-        char_hash = generate_by_range(from: 0, to: 127)
+        char_arr = generate_by_range(from: 0, to: 127)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -103,9 +115,9 @@ module CSI
       # CSI::Plugins::Char.c1_controls_latin_supplement
 
       public_class_method def self.c1_controls_latin_supplement
-        char_hash = generate_by_range(from: 128, to: 255)
+        char_arr = generate_by_range(from: 128, to: 255)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -114,9 +126,9 @@ module CSI
       # CSI::Plugins::Char.latin_extended_a
 
       public_class_method def self.latin_extended_a
-        char_hash = generate_by_range(from: 256, to: 383)
+        char_arr = generate_by_range(from: 256, to: 383)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -125,9 +137,9 @@ module CSI
       # CSI::Plugins::Char.latin_extended_b
 
       public_class_method def self.latin_extended_b
-        char_hash = generate_by_range(from: 384, to: 591)
+        char_arr = generate_by_range(from: 384, to: 591)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -136,9 +148,9 @@ module CSI
       # CSI::Plugins::Char.spacing_modifiers
 
       public_class_method def self.spacing_modifiers
-        char_hash = generate_by_range(from: 688, to: 767)
+        char_arr = generate_by_range(from: 688, to: 767)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -147,9 +159,9 @@ module CSI
       # CSI::Plugins::Char.diacritical_marks
 
       public_class_method def self.diacritical_marks
-        char_hash = generate_by_range(from: 768, to: 879)
+        char_arr = generate_by_range(from: 768, to: 879)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -158,9 +170,9 @@ module CSI
       # CSI::Plugins::Char.greek_coptic
 
       public_class_method def self.greek_coptic
-        char_hash = generate_by_range(from: 880, to: 1023)
+        char_arr = generate_by_range(from: 880, to: 1023)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -169,9 +181,9 @@ module CSI
       # CSI::Plugins::Char.cyrillic_basic
 
       public_class_method def self.cyrillic_basic
-        char_hash = generate_by_range(from: 1024, to: 1279)
+        char_arr = generate_by_range(from: 1024, to: 1279)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -180,9 +192,9 @@ module CSI
       # CSI::Plugins::Char.cyrillic_supplement
 
       public_class_method def self.cyrillic_supplement
-        char_hash = generate_by_range(from: 1280, to: 1327)
+        char_arr = generate_by_range(from: 1280, to: 1327)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -191,9 +203,9 @@ module CSI
       # CSI::Plugins::Char.punctuation
 
       public_class_method def self.punctuation
-        char_hash = generate_by_range(from: 8192, to: 8303)
+        char_arr = generate_by_range(from: 8192, to: 8303)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -202,9 +214,9 @@ module CSI
       # CSI::Plugins::Char.currency_symbols
 
       public_class_method def self.currency_symbols
-        char_hash = generate_by_range(from: 8352, to: 8399)
+        char_arr = generate_by_range(from: 8352, to: 8399)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -213,9 +225,9 @@ module CSI
       # CSI::Plugins::Char.letterlike_symbols
 
       public_class_method def self.letterlike_symbols
-        char_hash = generate_by_range(from: 8448, to: 8527)
+        char_arr = generate_by_range(from: 8448, to: 8527)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -224,9 +236,9 @@ module CSI
       # CSI::Plugins::Char.arrows
 
       public_class_method def self.arrows
-        char_hash = generate_by_range(from: 8592, to: 8703)
+        char_arr = generate_by_range(from: 8592, to: 8703)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -235,9 +247,9 @@ module CSI
       # CSI::Plugins::Char.math_operators
 
       public_class_method def self.math_operators
-        char_hash = generate_by_range(from: 8704, to: 8959)
+        char_arr = generate_by_range(from: 8704, to: 8959)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -246,9 +258,9 @@ module CSI
       # CSI::Plugins::Char.box_drawings
 
       public_class_method def self.box_drawings
-        char_hash = generate_by_range(from: 9312, to: 9599)
+        char_arr = generate_by_range(from: 9312, to: 9599)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -257,9 +269,9 @@ module CSI
       # CSI::Plugins::Char.block_elements
 
       public_class_method def self.block_elements
-        char_hash = generate_by_range(from: 9600, to: 9631)
+        char_arr = generate_by_range(from: 9600, to: 9631)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -268,9 +280,9 @@ module CSI
       # CSI::Plugins::Char.geometric_shapes
 
       public_class_method def self.geometric_shapes
-        char_hash = generate_by_range(from: 9632, to: 9727)
+        char_arr = generate_by_range(from: 9632, to: 9727)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -279,9 +291,9 @@ module CSI
       # CSI::Plugins::Char.misc_symbols
 
       public_class_method def self.misc_symbols
-        char_hash = generate_by_range(from: 9728, to: 9983)
+        char_arr = generate_by_range(from: 9728, to: 9983)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -290,9 +302,9 @@ module CSI
       # CSI::Plugins::Char.dingbats
 
       public_class_method def self.dingbats
-        char_hash = generate_by_range(from: 9984, to: 10_175)
+        char_arr = generate_by_range(from: 9984, to: 10_175)
 
-        char_hash
+        char_arr
       rescue => e
         raise e
       end
@@ -368,10 +380,11 @@ module CSI
         to = opts[:to].to_i
         output_dir = opts[:output_dir] if Dir.exist?(opts[:output_dir])
 
-        encoder_arr = generate_by_range(from: 0, to: 0)[0].keys
-        encoder_arr.each do |encoder_key|
+        char_arr = generate_by_range(from: 0, to: 0).first
+        char_keys = char_arr.keys
+        char_keys.each do |char_key|
           begin
-            encoder = encoder_key.to_s.upcase.tr('_', '-')
+            encoder = char_arr[char_key][:encoder]
             this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
             chk = encoder_key
 
