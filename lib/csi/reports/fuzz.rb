@@ -107,6 +107,7 @@ module CSI
                     <th>#</th>
                     <th>Timestamp</th>
                     <th>Request</th>
+                    <th>Request Encoding</th>
                     <th>Request Length</th>
                     <th>Response</th>
                     <th>Response Length</th>
