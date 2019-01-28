@@ -93,6 +93,7 @@ module CSI
               <b>Toggle Column(s):</b>&nbsp;
               <a class="toggle-vis" data-column="1" href="#">Timestamp</a>&nbsp;|&nbsp;
               <a class="toggle-vis" data-column="2" href="#">Request</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Request Encoding</a>&nbsp;|&nbsp;
               <a class="toggle-vis" data-column="3" href="#">Request Length</a>&nbsp;|&nbsp;
               <a class="toggle-vis" data-column="3" href="#">Response</a>&nbsp;|&nbsp;
               <a class="toggle-vis" data-column="3" href="#">Response Length</a>&nbsp;|&nbsp;
@@ -176,6 +177,10 @@ module CSI
                     },
                     {
                       "data": "request",
+                      "render": $.fn.dataTable.render.text()
+                    },
+                    {
+                      "data": "request_encoding",
                       "render": $.fn.dataTable.render.text()
                     },
                     {
