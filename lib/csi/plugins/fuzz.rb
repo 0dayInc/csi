@@ -33,8 +33,8 @@ module CSI
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
         opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
         opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
-        request = opts[:request].to_s.force_encoding(char_encoding)
-        payload = opts[:payload].to_s.force_encoding(char_encoding)
+        request = opts[:request].to_s.encode(char_encoding, 'UTF-8')
+        payload = opts[:payload].to_s.encode(char_encoding, 'UTF-8')
 
         if encoding
           case encoding
@@ -87,7 +87,7 @@ module CSI
           end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
           end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
 
-          this_request = request.dup.delete(delimeter).force_encoding(char_encoding)
+          this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
 
           if end_delim_char_index.positive?
             this_request[begin_delim_char_index..end_delim_char_index] = payload
