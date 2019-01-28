@@ -112,9 +112,10 @@ module CSI
                     <th>Response Length</th>
                   </tr>
                 </thead>
-                <col width="60px" />
+                <col width="30px" />
                 <col width="60px" />
                 <col width="300px" />
+                <col width="90px" />
                 <col width="90px" />
                 <col width="300px" />
                 <col width="90px" />
