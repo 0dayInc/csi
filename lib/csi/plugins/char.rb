@@ -61,7 +61,7 @@ module CSI
           char_hash[:oct] = { char: this_oct, encoder: nil }
           char_hash[:short_int] = { char: this_short_int, encoder: nil }
           char_hash[:url] = { char: this_url, encoder: nil }
-          char_hash[:utf_8] = { char: this_utf8, encoder: nil }
+          char_hash[:utf_8] = { char: this_utf8, encoder: 'UTF-8' }
 
           encoder_arr.each do |encoder|
             this_encoder_key = encoder.downcase.tr('-', '_').to_sym
