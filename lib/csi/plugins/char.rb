@@ -376,7 +376,12 @@ module CSI
             chk = encoder_key
             File.open(this_file, "wb:#{encoder}") do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].encode('utf-8').include?('***')
+                case encoder_key
+                when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
+                  f.puts char_hash[chk]
+                else
+                  f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].encode('utf-8').include?('***')
+                end
               end
             end
 
