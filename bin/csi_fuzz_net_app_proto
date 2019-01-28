@@ -79,7 +79,7 @@ request = opts[:request]
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 encoding = opts[:encoding]
 encoding_depth = opts[:encoding_depth]
-char_encoding = opts[:char_encoding]
+opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding]
 response_timeout = opts[:response_timeout]
 request_rate_limit = opts[:request_rate_limit]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
@@ -89,7 +89,7 @@ results_arr = []
 mutex = Mutex.new
 
 slice = max_threads * 3
-File.open(fuzz_file, 'rb') do |file|
+File.open(fuzz_file, "rb:#{char_encoding}") do |file|
   file.each_slice(slice) do |payload_batch_arr|
     CSI::Plugins::ThreadPool.fill(enumerable_array: payload_batch_arr, max_threads: max_threads) do |payload|
       socket_fuzz_results_arr = CSI::Plugins::Fuzz.socket(
