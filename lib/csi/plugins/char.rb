@@ -386,9 +386,8 @@ module CSI
           begin
             encoder = char_arr[char_key][:encoder]
             this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
-            chk = encoder_key
 
-            case encoder_key
+            case char_key
             when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
               file_instr = 'wb'
             else
@@ -397,11 +396,11 @@ module CSI
 
             File.open(this_file, file_instr) do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
-                case encoder_key
+                case char_key
                 when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
-                  f.puts char_hash[chk]
+                  f.puts char_hash[char_key]
                 else
-                  f.puts char_hash[chk] unless char_hash[chk].nil? || char_hash[chk].encode('utf-8').include?('***')
+                  f.puts char_hash[char_key] unless char_hash[char_key].nil? || char_hash[char_key].encode('utf-8').include?('***')
                 end
               end
             end
