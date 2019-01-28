@@ -374,7 +374,15 @@ module CSI
             encoder = encoder_key.to_s.upcase.tr('_', '-')
             this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
             chk = encoder_key
-            File.open(this_file, "wb:#{encoder}") do |f|
+
+            case encoder_key
+            when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
+              file_instr = 'wb'
+            else
+              file_instr = "wb:#{encoder}"
+            end
+
+            File.open(this_file, file_instr) do |f|
               generate_by_range(from: from, to: to).each do |char_hash|
                 case encoder_key
                 when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
