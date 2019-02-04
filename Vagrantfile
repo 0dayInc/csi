@@ -56,6 +56,7 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.hostname = hostname
 
     config.vm.provider(:virtualbox) do |vb, _override|
+      vb.ssh_info_public = true
       if vagrant_provider == 'virtualbox'
         if vagrant_gui == 'true'
           vb.gui = true
