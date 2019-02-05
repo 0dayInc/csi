@@ -98,9 +98,6 @@ module CSI
               this_request[begin_delim_char_index] = payload
             end
 
-            puts this_request.inspect
-            raw_request = this_request.undump
-
             sock_obj = CSI::Plugins::Sock.connect(
               target: target,
               port: port,
@@ -115,7 +112,7 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload in its rawest form
-            sock_obj.write(raw_request)
+            sock_obj.write(this_request)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
@@ -131,62 +128,6 @@ module CSI
             sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
             # TODO: dump into file once array reaches max length (avoid memory consumption issues)
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
-          rescue RuntimeError => e
-            case e.message
-            when 'non-ASCII character detected'
-              this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
-
-              if end_delim_char_index.positive?
-                this_request[begin_delim_char_index..end_delim_char_index] = payload.dump.delete('"')
-              else
-                # begin_delim_char_index should always be 0
-                this_request[begin_delim_char_index] = payload.dump.delete('"')
-              end
-
-              print 'non-ascii => '
-              puts this_request.inspect
-              raw_request = this_request.undump
-
-              sock_obj = CSI::Plugins::Sock.connect(
-                target: target,
-                port: port,
-                protocol: protocol,
-                tls: tls
-              )
-
-              this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
-
-              this_socket_fuzz_result[:request] = this_request
-              this_socket_fuzz_result[:request_encoding] = this_request.encoding.name
-              this_socket_fuzz_result[:request_len] = this_request.length
-
-              # Send Fuzz Payload in its rawest form
-              sock_obj.write(raw_request)
-              does_respond = IO.select([sock_obj], nil, nil, response_timeout)
-              if does_respond
-                response = sock_obj.read
-                response_len = response.length
-                this_socket_fuzz_result[:response] = response.to_s.inspect
-                this_socket_fuzz_result[:response_len] = response_len
-              else
-                this_socket_fuzz_result[:response] = ''
-                this_socket_fuzz_result[:response_len] = 0
-              end
-            when 'hex escape and Unicode escape are mixed'
-              print 'mixed => '
-              puts this_request.inspect
-            else
-              response = "#{e.class}: #{e.message} #{e.backtrace}"
-              this_socket_fuzz_result[:response] = response
-              this_socket_fuzz_result[:response_len] = response.length
-            end
-
-            sleep request_rate_limit
-            sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
-            # TODO: dump into file once array reaches max length (avoid memory consumption issues)
-            socket_fuzz_results_arr.push(this_socket_fuzz_result)
-
-            next
           rescue => e
             response = "#{e.class}: #{e.message} #{e.backtrace}"
             this_socket_fuzz_result[:response] = response
