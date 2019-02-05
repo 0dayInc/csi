@@ -16,7 +16,7 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   request: 'required - String object of socket request w/ \x90 as position delimeter (e.g. "GET /\x90FUZZ\x90 HTTP/1.1\r\nHost: \x90127.0.0.1\x90\r\n\r\n")',
+      #   request: 'required - String object of socket request w/ \u0090 as position delimeter (e.g. "GET /\u0090\u0090 HTTP/1.1\r\nHost: \u0090127..0.0.1\u0090\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
@@ -67,7 +67,7 @@ module CSI
           end
         end
 
-        delimeter = "\x90"
+        delimeter = "\u0090"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.3 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
@@ -168,7 +168,7 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            request: \"required - String object of socket request w/ \\x90 as position delimeter (e.g. '\"GET /\\x90FUZZ\\x90 HTTP/1.1\\r\\nHost: \\x90127.0.0.1\\x90\\r\\n\\r\\n\"')\",
+            request: \"required - String object of socket request w/ \\u0090 as position delimeter (e.g. '\"GET /\\u0090\\u0090 HTTP/1.1\\r\\nHost: \\u0090127.0.0.1\\u0090\\r\\n\\r\\n\"')\",
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
