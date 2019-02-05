@@ -98,7 +98,6 @@ module CSI
               this_request[begin_delim_char_index] = payload
             end
 
-            print "#{request_delim_index_arr} => "
             puts this_request.inspect
             raw_request = this_request.undump
 
@@ -132,8 +131,9 @@ module CSI
             sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
             # TODO: dump into file once array reaches max length (avoid memory consumption issues)
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
-          rescue RuntimeError => rte
-            if rte.message == 'non-ASCII character detected'
+          rescue RuntimeError => e
+            case e.message
+            when 'non-ASCII character detected'
               this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
 
               if end_delim_char_index.positive?
@@ -143,7 +143,7 @@ module CSI
                 this_request[begin_delim_char_index] = payload.dump.delete('"')
               end
 
-              print "#{request_delim_index_arr} => "
+              print 'non-ascii => '
               puts this_request.inspect
               raw_request = this_request.undump
 
@@ -172,6 +172,9 @@ module CSI
                 this_socket_fuzz_result[:response] = ''
                 this_socket_fuzz_result[:response_len] = 0
               end
+            when 'hex escape and Unicode escape are mixed'
+              print 'mixed => '
+              puts this_request.inspect
             else
               response = "#{e.class}: #{e.message} #{e.backtrace}"
               this_socket_fuzz_result[:response] = response
