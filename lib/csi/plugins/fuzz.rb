@@ -111,8 +111,7 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload in its rawest form
-            # sock_obj.write(this_request.undump)
-            sock_obj.write(this_request)
+            sock_obj.write(this_request.undump)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
@@ -128,14 +127,41 @@ module CSI
             sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj)
             # TODO: dump into file once array reaches max length (avoid memory consumption issues)
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
+          rescue RuntimeError => rte
+            if rte.message == 'non-ASCII character detected'
+              dump_this_request = this_request.dump
+              sock_obj.write(dump_this_request.undump)
+              does_respond = IO.select([sock_obj], nil, nil, response_timeout)
+              if does_respond
+                response = sock_obj.read
+                response_len = response.length
+                this_socket_fuzz_result[:response] = response.to_s.inspect
+                this_socket_fuzz_result[:response_len] = response_len
+              else
+                this_socket_fuzz_result[:response] = ''
+                this_socket_fuzz_result[:response_len] = 0
+              end
+            else
+              response = "#{e.class}: #{e.message} #{e.backtrace}"
+              this_socket_fuzz_result[:response] = response
+              this_socket_fuzz_result[:response_len] = response.length
+            end
+
+            sleep request_rate_limit
+            sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
+            # TODO: dump into file once array reaches max length (avoid memory consumption issues)
+            socket_fuzz_results_arr.push(this_socket_fuzz_result)
+
+            next
           rescue => e
             response = "#{e.class}: #{e.message} #{e.backtrace}"
             this_socket_fuzz_result[:response] = response
             this_socket_fuzz_result[:response_len] = response.length
-            socket_fuzz_results_arr.push(this_socket_fuzz_result)
 
             sleep request_rate_limit
             sock_obj = CSI::Plugins::Sock.disconnect(sock_obj: sock_obj) unless sock_obj.nil?
+            # TODO: dump into file once array reaches max length (avoid memory consumption issues)
+            socket_fuzz_results_arr.push(this_socket_fuzz_result)
 
             next
           end
