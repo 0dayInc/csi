@@ -129,8 +129,14 @@ module CSI
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
           rescue RuntimeError => rte
             if rte.message == 'non-ASCII character detected'
-              dump_this_request = this_request.dump
-              sock_obj.write(dump_this_request.undump)
+              if end_delim_char_index.positive?
+                this_request[begin_delim_char_index..end_delim_char_index] = payload.dump
+              else
+                # begin_delim_char_index should always be 0
+                this_request[begin_delim_char_index] = payload.dump
+              end
+
+              sock_obj.write(this_request.undump)
               does_respond = IO.select([sock_obj], nil, nil, response_timeout)
               if does_respond
                 response = sock_obj.read
