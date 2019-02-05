@@ -131,6 +131,8 @@ module CSI
             socket_fuzz_results_arr.push(this_socket_fuzz_result)
           rescue RuntimeError => rte
             if rte.message == 'non-ASCII character detected'
+              this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
+
               if end_delim_char_index.positive?
                 this_request[begin_delim_char_index..end_delim_char_index] = payload.dump
               else
