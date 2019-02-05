@@ -168,7 +168,7 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            request: \"required - String object of socket request w/ \\x90 as position delimeter (e.g. '\"GET /\\x90FUZZ\\x90 HTTP/1.1\\r\\nHost: \\x90127.0.0.1\x90\\r\\n\\r\\n\"')\",
+            request: \"required - String object of socket request w/ \\x90 as position delimeter (e.g. '\"GET /\\x90FUZZ\\x90 HTTP/1.1\\r\\nHost: \\x90127.0.0.1\\x90\\r\\n\\r\\n\"')\",
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
