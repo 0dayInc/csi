@@ -90,6 +90,7 @@ module CSI
             end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
 
             this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
+            print "#{request_delim_index_arr} => "
             puts this_request
 
             if end_delim_char_index.positive?
@@ -134,6 +135,7 @@ module CSI
           rescue RuntimeError => rte
             if rte.message == 'non-ASCII character detected'
               this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
+              print "#{request_delim_index_arr} => "
               puts this_request
 
               if end_delim_char_index.positive?
