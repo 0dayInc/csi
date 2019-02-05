@@ -73,7 +73,7 @@ module CSI
         socket_fuzz_results_arr = []
 
         request_delim_index_arr = []
-        request.each_char.with_index do |char, char_index|
+        request.undump.each_char.with_index do |char, char_index|
           request_delim_index_arr.push(char_index) if char == delimeter
         end
 
