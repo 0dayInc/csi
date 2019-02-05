@@ -97,6 +97,8 @@ module CSI
           end
 
           begin
+            raw_request = this_request.undump
+
             sock_obj = CSI::Plugins::Sock.connect(
               target: target,
               port: port,
@@ -111,7 +113,7 @@ module CSI
             this_socket_fuzz_result[:request_len] = this_request.length
 
             # Send Fuzz Payload in its rawest form
-            sock_obj.write(this_request.undump)
+            sock_obj.write(raw_request)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
@@ -136,7 +138,23 @@ module CSI
                 this_request[begin_delim_char_index] = payload.dump
               end
 
-              sock_obj.write(this_request.undump)
+              raw_request = this_request.undump
+
+              sock_obj = CSI::Plugins::Sock.connect(
+                target: target,
+                port: port,
+                protocol: protocol,
+                tls: tls
+              )
+
+              this_socket_fuzz_result[:timestamp] = Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s
+
+              this_socket_fuzz_result[:request] = this_request
+              this_socket_fuzz_result[:request_encoding] = this_request.encoding.name
+              this_socket_fuzz_result[:request_len] = this_request.length
+
+              # Send Fuzz Payload in its rawest form
+              sock_obj.write(raw_request)
               does_respond = IO.select([sock_obj], nil, nil, response_timeout)
               if does_respond
                 response = sock_obj.read
