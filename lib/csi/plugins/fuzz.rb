@@ -92,10 +92,10 @@ module CSI
             raw_request = this_request.undump
 
             if end_delim_char_index.positive?
-              this_request[begin_delim_char_index..end_delim_char_index] = payload
+              raw_request[begin_delim_char_index..end_delim_char_index] = payload
             else
               # begin_delim_char_index should always be 0
-              this_request[begin_delim_char_index] = payload
+              raw_request[begin_delim_char_index] = payload
             end
 
             sock_obj = CSI::Plugins::Sock.connect(
