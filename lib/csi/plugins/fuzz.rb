@@ -140,6 +140,7 @@ module CSI
                 this_request[begin_delim_char_index] = payload.dump
               end
 
+              puts this_request
               raw_request = this_request.undump
 
               sock_obj = CSI::Plugins::Sock.connect(
