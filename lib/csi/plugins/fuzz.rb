@@ -16,7 +16,8 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   request: 'required - String object of socket request w/ \u001A as position delimeter (e.g. "GET /\u001A\u001A HTTP/1.1\r\nHost: \u001A127..0.0.1\u001A\r\n\r\n")',
+      #   fuzz_delimeter: 'optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)'
+      #   request: 'required - String object of socket request w/ \u001A as fuzz delimeter (e.g. "GET /\u001A\u001A HTTP/1.1\r\nHost: \u001A127..0.0.1\u001A\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
@@ -33,6 +34,7 @@ module CSI
         opts[:encoding].nil? ? encoding = nil : encoding = opts[:encoding].to_s.strip.chomp.scrub.downcase.to_sym
         opts[:encoding_depth].nil? ? encoding_depth = 1 : encoding_depth = opts[:encoding_depth].to_i
         opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char_encoding].to_s
+        opts[:fuzz_delimeter].nil? ? fuzz_delimeter = "\u2665" : fuzz_delimeter = opts[:fuzz_delimeter]
         request = opts[:request].to_s.encode(char_encoding, 'UTF-8')
         payload = opts[:payload].to_s.encode(char_encoding, 'UTF-8')
 
@@ -67,19 +69,18 @@ module CSI
           end
         end
 
-        delimeter = "\u001A"
         opts[:response_timeout].nil? ? response_timeout = 0.9 : response_timeout = opts[:response_timeout].to_f
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.3 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
 
-        # Find delimeter index numbers
+        # Find fuzz delimeter index numbers in request
         request_delim_index_arr = []
         request.each_char.with_index do |char, char_index|
-          request_delim_index_arr.push(char_index) if char == delimeter
+          request_delim_index_arr.push(char_index) if char == fuzz_delimeter
         end
 
         # request_delim_index_arr should always return an even length,
-        # otherwise the request is missing a position delimeter.
+        # otherwise the request is missing a fuzz delimeter.
         request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
           begin
             this_socket_fuzz_result = {}
@@ -89,7 +90,7 @@ module CSI
             end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
             end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
 
-            this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
+            this_request = request.dup.delete(fuzz_delimeter).encode(char_encoding, 'UTF-8')
 
             if end_delim_char_index.positive?
               this_request[begin_delim_char_index..end_delim_char_index] = payload
@@ -168,7 +169,8 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            request: \"required - String object of socket request w/ \\u001A as position delimeter (e.g. '\"GET /\\u001A\\u001A HTTP/1.1\\r\\nHost: \\u001A127.0.0.1\\u001A\\r\\n\\r\\n\"')\",
+            fuzz_delimeter: \"optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)\"
+            request: \"required - String object of socket request w/ \u2665 as fuzz delimeter (e.g. '\"GET /\u2665\u2665 HTTP/1.1\\r\\nHost: \u2665127.0.0.1\u2665\\r\\n\\r\\n\"')\",
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
