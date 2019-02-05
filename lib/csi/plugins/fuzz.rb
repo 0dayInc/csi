@@ -80,24 +80,23 @@ module CSI
         # request_delim_index_arr should always return an even length,
         # otherwise the request is missing a position delimeter.
         request_delim_index_arr.each_slice(2).with_index do |placeholder_slice, placeholder_slice_index|
-          this_socket_fuzz_result = {}
-          begin_delim_char_index_shift_width = placeholder_slice_index * 2
-          begin_delim_char_index = placeholder_slice[0].to_i - begin_delim_char_index_shift_width
-
-          end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
-          end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
-
-          this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
-
-          if end_delim_char_index.positive?
-            this_request[begin_delim_char_index..end_delim_char_index] = payload
-          else
-            # begin_delim_char_index should always be 0
-            this_request[begin_delim_char_index] = payload
-          end
-
           begin
+            this_socket_fuzz_result = {}
+            begin_delim_char_index_shift_width = placeholder_slice_index * 2
+            begin_delim_char_index = placeholder_slice[0].to_i - begin_delim_char_index_shift_width
+
+            end_delim_char_index_shift_width = (placeholder_slice_index * 2) + 2
+            end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
+
+            this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
             raw_request = this_request.undump
+
+            if end_delim_char_index.positive?
+              this_request[begin_delim_char_index..end_delim_char_index] = payload
+            else
+              # begin_delim_char_index should always be 0
+              this_request[begin_delim_char_index] = payload
+            end
 
             sock_obj = CSI::Plugins::Sock.connect(
               target: target,
@@ -132,6 +131,8 @@ module CSI
           rescue RuntimeError => rte
             if rte.message == 'non-ASCII character detected'
               this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
+              puts this_request
+              raw_request = this_request.undump
 
               if end_delim_char_index.positive?
                 this_request[begin_delim_char_index..end_delim_char_index] = payload.dump.delete('"')
@@ -139,9 +140,6 @@ module CSI
                 # begin_delim_char_index should always be 0
                 this_request[begin_delim_char_index] = payload.dump.delete('"')
               end
-
-              puts this_request
-              raw_request = this_request.undump
 
               sock_obj = CSI::Plugins::Sock.connect(
                 target: target,
