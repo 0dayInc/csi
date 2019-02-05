@@ -134,10 +134,10 @@ module CSI
               this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
 
               if end_delim_char_index.positive?
-                this_request[begin_delim_char_index..end_delim_char_index] = payload.dump
+                this_request[begin_delim_char_index..end_delim_char_index] = payload.dump.delete('"')
               else
                 # begin_delim_char_index should always be 0
-                this_request[begin_delim_char_index] = payload.dump
+                this_request[begin_delim_char_index] = payload.dump.delete('"')
               end
 
               puts this_request
