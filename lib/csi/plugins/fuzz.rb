@@ -72,8 +72,9 @@ module CSI
         opts[:request_rate_limit].nil? ? request_rate_limit = 0.3 : request_rate_limit = opts[:request_rate_limit].to_f
         socket_fuzz_results_arr = []
 
+        # Find delimeter index numbers
         request_delim_index_arr = []
-        request.undump.each_char.with_index do |char, char_index|
+        request.each_char.with_index do |char, char_index|
           request_delim_index_arr.push(char_index) if char == delimeter
         end
 
@@ -89,14 +90,16 @@ module CSI
             end_delim_char_index = placeholder_slice[1].to_i - end_delim_char_index_shift_width
 
             this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
-            raw_request = this_request.undump
+            puts this_request
 
             if end_delim_char_index.positive?
-              raw_request[begin_delim_char_index..end_delim_char_index] = payload
+              this_request[begin_delim_char_index..end_delim_char_index] = payload
             else
               # begin_delim_char_index should always be 0
-              raw_request[begin_delim_char_index] = payload
+              this_request[begin_delim_char_index] = payload
             end
+
+            raw_request = this_request.undump
 
             sock_obj = CSI::Plugins::Sock.connect(
               target: target,
@@ -132,14 +135,15 @@ module CSI
             if rte.message == 'non-ASCII character detected'
               this_request = request.dup.delete(delimeter).encode(char_encoding, 'UTF-8')
               puts this_request
-              raw_request = this_request.undump
 
               if end_delim_char_index.positive?
-                raw_request[begin_delim_char_index..end_delim_char_index] = payload.dump.delete('"')
+                this_request[begin_delim_char_index..end_delim_char_index] = payload.dump.delete('"')
               else
                 # begin_delim_char_index should always be 0
-                raw_request[begin_delim_char_index] = payload.dump.delete('"')
+                this_request[begin_delim_char_index] = payload.dump.delete('"')
               end
+
+              raw_request = this_request.undump
 
               sock_obj = CSI::Plugins::Sock.connect(
                 target: target,
