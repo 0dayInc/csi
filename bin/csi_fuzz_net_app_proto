@@ -31,7 +31,12 @@ OptionParser.new do |options|
     opts[:tls] = s
   end
 
-  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \\u001A as position delimeter (e.g. '\"GET /\\u001A\\u001A HTTP/1.1\\r\\nHost: \\u001A127.0.0.1\\u001A\\r\\n\\r\\n\"'>") do |r|
+  options.on('-FCHAR', '--fuzz-delimeter=CHAR', "<optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)>") do |c|
+    opts[:fuzz_delimeter] = c
+  end
+
+  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \\u001A as position delimeter (e.g. '\"GET /\u2665\u2665 HTTP/1.1\\r\\nHost: \u2665:w
+127.0.0.1\u2665\\r\\n\\r\\n\"'>") do |r|
     opts[:request] = r
   end
 
@@ -74,7 +79,7 @@ target = opts[:target]
 port = opts[:port]
 protocol = opts[:protocol]
 tls = opts[:tls]
-# Need unescaped string (#undump) to allow for escape sequences in request (e.g. \r \n \x00 \x0a \x0d etc.)
+fuzz_delimeter = opts[:fuzz_delimeter]
 request = opts[:request]
 fuzz_file = opts[:fuzz_file].to_s.strip.scrub.chomp if File.exist?(opts[:fuzz_file].to_s.strip.scrub.chomp)
 encoding = opts[:encoding]
@@ -97,6 +102,7 @@ File.open(fuzz_file, "rb:#{char_encoding}") do |file|
         port: port,
         protocol: protocol,
         tls: tls,
+        fuzz_delimeter: fuzz_delimeter,
         request: request.to_s.b,
         payload: payload.to_s.b.chomp,
         encoding: encoding,
