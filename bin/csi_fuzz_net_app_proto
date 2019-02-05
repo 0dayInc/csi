@@ -31,7 +31,7 @@ OptionParser.new do |options|
     opts[:tls] = s
   end
 
-  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \u2665 as position delimeter (e.g. '\"GET /\u2665FUZZ\u2665 HTTP/1.1\\r\\nHost: \u2665127.0.0.1\u2665\\r\\n\\r\\n\"'>") do |r|
+  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \\x90 as position delimeter (e.g. '\"GET /\\x90FUZZ\\x90 HTTP/1.1\\r\\nHost: \\x90127.0.0.1\\x90\\r\\n\\r\\n\"'>") do |r|
     opts[:request] = r
   end
 
