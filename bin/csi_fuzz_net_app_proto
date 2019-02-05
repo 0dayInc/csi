@@ -35,8 +35,7 @@ OptionParser.new do |options|
     opts[:fuzz_delimeter] = c
   end
 
-  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \\u001A as position delimeter (e.g. '\"GET /\u2665\u2665 HTTP/1.1\\r\\nHost: \u2665:w
-127.0.0.1\u2665\\r\\n\\r\\n\"'>") do |r|
+  options.on('-rREQUEST', '--request-format=REQUEST', "<Required - String object of socket request w/ \u2665 as position delimeter (e.g. '\"GET /\u2665\u2665 HTTP/1.1\\r\\nHost: \u2665127.0.0.1\u2665\\r\\n\\r\\n\"'>") do |r|
     opts[:request] = r
   end
 
