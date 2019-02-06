@@ -112,8 +112,8 @@ module CSI
             this_socket_fuzz_result[:request_encoding] = this_request.encoding.name
             this_socket_fuzz_result[:request_len] = this_request.length
 
-            # Send Fuzz Payload in its rawest form
-            sock_obj.write(this_request.undump)
+            # Send Fuzz Payload in its rawest form (as long as it will undump first)
+            sock_obj.write(this_request.encode('ASCII-8BIT', undef: :replace).undump)
 
             does_respond = IO.select([sock_obj], nil, nil, response_timeout)
             if does_respond
