@@ -104,7 +104,7 @@ def invoke_burp(opts = {})
     burp_obj = CSI::Plugins::BurpSuite.start(
       burp_jar_path: burp_path,
       headless: true,
-      browser_type: :chrome
+      browser_type: :headless
     )
 
     CSI::Plugins::BurpSuite.disable_proxy(
