@@ -13,7 +13,7 @@ wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
 sudo ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /etc/alternatives/java
 sudo sh -c 'echo deb https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
 sudo apt update
-sudo apt install -y jenkins openjdk-8-jdk mongodb-clients
+sudo apt install -y jenkins openjdk-8-jdk mongo-tools
 sudo /bin/bash --login -c "cp /csi/etc/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
 sudo usermod -a -G sudo jenkins
