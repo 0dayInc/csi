@@ -82,7 +82,7 @@ module CSI
           <body id="csi_body">
 
             <h1 style="display:inline">
-              &nbsp;~&nbsp;<a href="https://github.com/ninp0/csi/tree/master">csi</a>
+              &nbsp;~&nbsp;<a href="https://github.com/0dayinc/csi/tree/master">csi</a>
             </h1><br /><br />
 
             <div><button type="button" id="button">Rows Selected</button></div><br />
@@ -161,7 +161,7 @@ module CSI
                       "render": function (data, type, row, meta) {
                         var scapm_dirname = data['sp_module'].split('::')[0].toLowerCase() + '/' + data['sp_module'].split('::')[1].toLowerCase();
                         var scapm_test_case = data['sp_module'].split('::')[2].replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/g, "");
-                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/ninp0/csi/tree/master/lib/' + scapm_dirname + '/' + scapm_test_case + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
+                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/0dayinc/csi/tree/master/lib/' + scapm_dirname + '/' + scapm_test_case + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
                       }
                     },
                     {
