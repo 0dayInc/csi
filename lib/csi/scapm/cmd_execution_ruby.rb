@@ -6,7 +6,7 @@ require 'socket'
 module CSI
   module SCAPM
     # SCAPM Module used to identify command
-    # execution residing within ruby source code.
+    # execution residing within Ruby source code.
     module CmdExecutionRuby
       @@logger = CSI::Plugins::CSILogger.create
 
