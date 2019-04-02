@@ -34,14 +34,14 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %{
+            test_case_filter = %(
               grep -Ein \
               -e "password(\\s=|=)" \
               -e "passwd(\\s=|=)" \
               -e "pass(\\s=|=)" \
               -e "password:\\s" \
               -e "pwd(\\s=|=)" #{entry}
-            }
+            )
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

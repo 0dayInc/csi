@@ -26,7 +26,7 @@ module CSI
           if (File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/) && (File.extname(entry) == '.rb' || File.extname(entry) == '.rbw')
             line_no_and_contents_arr = []
             filename_arr = []
-            test_case_filter = %{
+            test_case_filter = "
               grep -n \
               -e '`.*`' \
               -e 'eval(' \
@@ -41,7 +41,7 @@ module CSI
               -e 'PTY.spawn' \
               -e 'Process.fork' \
               -e '%x' #{entry}
-            }
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

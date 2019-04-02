@@ -36,13 +36,13 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %(
+            test_case_filter = "
               grep -niE \
-              -e "ec2-" \
-              -e "access.key" \
-              -e "secret.access" \
-              -e "secret.key" #{entry}
-            )
+              -e 'ec2-' \
+              -e 'access.key' \
+              -e 'secret.access' \
+              -e 'secret.key' #{entry}
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

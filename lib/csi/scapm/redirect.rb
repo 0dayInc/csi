@@ -34,12 +34,12 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %{
+            test_case_filter = %(
               grep -Ein \
               -e "redirect(\\s=|=)" \
               -e "redirect_url(\\s=|=)" \
               -e "redirect_uri(\\s=|=)" #{entry}
-            }
+            )
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

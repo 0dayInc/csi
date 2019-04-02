@@ -36,10 +36,10 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %{
+            test_case_filter = "
               grep -niE \
-              -e "sudo" #{entry}
-            }
+              -e 'sudo' #{entry}
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

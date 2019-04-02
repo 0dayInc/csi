@@ -36,12 +36,12 @@ module CSI
             end
 
             # TODO: Include regex to search for Base64 strings
-            test_case_filter = %(
+            test_case_filter = "
               grep -En \
-              -e "base64" \
-              -e "Base64" \
-              -e "BASE64" #{entry}
-            )
+              -e 'base64' \
+              -e 'Base64' \
+              -e 'BASE64' #{entry}
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

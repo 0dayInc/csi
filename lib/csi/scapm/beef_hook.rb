@@ -34,7 +34,7 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %(grep -Fin "hook.js" #{entry})
+            test_case_filter = "grep -Fin 'hook.js' #{entry}"
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

@@ -27,12 +27,12 @@ module CSI
           if (File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/) && (File.extname(entry) == '.scala' || File.extname(entry) == '.java')
             line_no_and_contents_arr = []
             filename_arr = []
-            test_case_filter = %(
+            test_case_filter = "
               grep -Fin \
-              -e ".warn" \
-              -e ".info" \
-              -e ".error" \
-              -e ".debug" #{entry} | grep -i \
+              -e '.warn' \
+              -e '.info' \
+              -e '.error' \
+              -e '.debug' #{entry} | grep -i \
               -e log | grep -i \
               -e pass \
               -e pwd \
@@ -44,7 +44,7 @@ module CSI
               -e token \
               -e session \
               -e key
-            )
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

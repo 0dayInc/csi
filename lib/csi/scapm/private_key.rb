@@ -5,15 +5,13 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify port
-    # declarations and network connections within source
-    # code to get a sense around appropriate secure network
-    # communications in place.
-    module Shell
+    # SCAPM Module used to identify command
+    # execution residing within ruby source code.
+    module PrivateKey
       @@logger = CSI::Plugins::CSILogger.create
 
       # Supported Method Parameters::
-      # CSI::SCAPM::Shell.scan(
+      # CSI::SCAPM::PrivateKey(
       #   dir_path: 'optional path to dir defaults to .'
       #   git_repo_root_uri: 'optional http uri of git repo scanned'
       # )
@@ -37,16 +35,8 @@ module CSI
             end
 
             test_case_filter = "
-              grep -niE \
-              -e '/bin/bash' \
-              -e '/bin/csh' \
-              -e '/bin/dash' \
-              -e '/bin/ksh' \
-              -e '/bin/rbash' \
-              -e '/bin/sh' \
-              -e '/bin/tcsh' \
-              -e '/usr/bin/screen' \
-              -e '/bin/zsh' #{entry}
+              grep -n \
+              -e 'PRIVATE KEY' #{entry}
             "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
@@ -72,13 +62,12 @@ module CSI
                 line_no = line_contents_split[current_count]
                 contents = line_contents_split[current_count + 1]
                 if Dir.exist?("#{dir_path}/.git")
-                  author = get_author(
-                    repo_root: dir_path,
-                    from_line: line_no,
-                    to_line: line_no,
-                    target_file: entry,
-                    entry_beautified: entry_beautified
-                  )
+                  author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
+                                                     repo_root: dir_path,
+                                                     from_line: line_no,
+                                                     to_line: line_no,
+                                                     target_file: entry
+                                                   ))
                 else
                   author = 'N/A'
                 end
@@ -106,54 +95,6 @@ module CSI
         raise e
       end
 
-      # Supported Method Parameters::
-      # get_author(
-      #   repo_root: dir_path,
-      #   from_line: line_no,
-      #   to_line:line_no,
-      #   target_file: entry,
-      #   entry_beautified: entry_beautified
-      # )
-
-      private_class_method def self.get_author(opts = {})
-        repo_root = opts[:repo_root]
-        from_line = opts[:from_line]
-        to_line = opts[:to_line]
-        target_file = opts[:target_file]
-        entry_beautified = opts[:entry_beautified]
-
-        # In order to get the original author
-        # we need to query the original file
-        # instead of the .JS-BEAUTIFIED file
-        if entry_beautified
-          target_file.gsub!(/\.JS-BEAUTIFIED$/, '')
-          target_file_line_length = `wc -l #{target_file}`.split.first.to_i
-          target_file_line_length = 1 if target_file_line_length < 1 # wc -l doesn't count line is \n is missing
-
-          author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
-                                             repo_root: repo_root,
-                                             from_line: 1,
-                                             to_line: target_file_line_length,
-                                             target_file: target_file
-                                           ))
-        else
-          if from_line.to_i && to_line.to_i < 1
-            from_line = 1
-            to_line = 1
-          end
-          author = HTMLEntities.new.encode(CSI::Plugins::Git.get_author_by_line_range(
-                                             repo_root: repo_root,
-                                             from_line: from_line,
-                                             to_line: to_line,
-                                             target_file: target_file
-                                           ))
-        end
-
-        author
-      rescue => e
-        raise e
-      end
-
       # Used primarily to map NIST 800-53 Revision 4 Security Controls
       # https://web.nvd.nist.gov/view/800-53/Rev4/impact?impactName=HIGH
       # to CSI Exploit & Static Code Anti-Pattern Matching Modules to
@@ -162,8 +103,8 @@ module CSI
       public_class_method def self.nist_800_53_requirements
         nist_800_53_requirements = {
           sp_module: self,
-          section: 'TRANSMISSION CONFIDENTIALITY AND INTEGRITY',
-          nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SC-8'
+          section: 'CRYPTOGRAPHIC MODULE AUTHENTICATION',
+          nist_800_53_uri: 'https://nvd.nist.gov/800-53/Rev4/control/IA-7'
         }
         nist_800_53_requirements
       rescue => e
@@ -184,7 +125,7 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          port_arr = #{self}.scan(
+          cmd_execution_ruby_arr = #{self}.scan(
             dir_path: 'optional path to dir defaults to .',
             git_repo_root_uri: 'optional http uri of git repo scanned'
           )
