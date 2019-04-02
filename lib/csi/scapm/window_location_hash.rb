@@ -5,9 +5,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify any innerHTML function/method
-    # declarations within source code in an effort to
-    # determine if arbitrary command/code execution is possible
+    # SCAPM Module used to identify the potential
+    # for DOM-based XSS in the application.
     module WindowLocationHash
       @@logger = CSI::Plugins::CSILogger.create
 

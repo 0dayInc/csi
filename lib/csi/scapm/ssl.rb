@@ -5,8 +5,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify any
-    # reference within source code of ssl.
+    # SCAPM Module used to identify any SSL/TLS
+    # reference within source code.
     module SSL
       @@logger = CSI::Plugins::CSILogger.create
 

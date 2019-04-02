@@ -5,8 +5,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify command
-    # execution residing within ruby source code.
+    # SCAPM Module used to identify private keys used for authenticating
+    # with remote hosts.
     module PrivateKey
       @@logger = CSI::Plugins::CSILogger.create
 

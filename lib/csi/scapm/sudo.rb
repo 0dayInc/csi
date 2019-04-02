@@ -5,10 +5,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify port
-    # declarations and network connections within source
-    # code to get a sense around appropriate secure network
-    # communications in place.
+    # SCAPM Module used to identify if cmd execution and/or
+    # privilege escalation is possible.
     module Sudo
       @@logger = CSI::Plugins::CSILogger.create
 

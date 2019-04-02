@@ -5,9 +5,8 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify any eval function/method
-    # declarations within source code in an effort to
-    # determine if arbitrary command/code execution is possible
+    # SCAPM Module used to identify Base64 encoded strings
+    # that may have sensitive artifacts when decoded.
     module Base64
       @@logger = CSI::Plugins::CSILogger.create
 

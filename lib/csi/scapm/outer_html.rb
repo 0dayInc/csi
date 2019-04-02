@@ -7,7 +7,7 @@ module CSI
   module SCAPM
     # SCAPM Module used to identify any outerHTML function/method
     # declarations within source code in an effort to
-    # determine if arbitrary command/code execution is possible
+    # determine if XSS is possible.
     module OuterHTML
       @@logger = CSI::Plugins::CSILogger.create
 

@@ -5,10 +5,7 @@ require 'socket'
 
 module CSI
   module SCAPM
-    # SCAPM Module used to identify port
-    # declarations and network connections within source
-    # code to get a sense around appropriate secure network
-    # communications in place.
+    # SCAPM Module used to identify sensitive AWS AuthN artifacts.
     module AWS
       @@logger = CSI::Plugins::CSILogger.create
 
