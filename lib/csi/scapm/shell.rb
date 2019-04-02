@@ -36,18 +36,18 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %{
+            test_case_filter = "
               grep -niE \
-              -e "/bin/bash" \
-              -e "/bin/csh" \
-              -e "/bin/dash" \
-              -e "/bin/ksh" \
-              -e "/bin/rbash" \
-              -e "/bin/sh" \
-              -e "/bin/tcsh" \
-              -e "/usr/bin/screen" \
-              -e "/bin/zsh" #{entry}
-            }
+              -e '/bin/bash' \
+              -e '/bin/csh' \
+              -e '/bin/dash' \
+              -e '/bin/ksh' \
+              -e '/bin/rbash' \
+              -e '/bin/sh' \
+              -e '/bin/tcsh' \
+              -e '/usr/bin/screen' \
+              -e '/bin/zsh' #{entry}
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 

@@ -35,13 +35,13 @@ module CSI
               entry_beautified = true
             end
 
-            test_case_filter = %(
+            test_case_filter = "
               grep -in \
-              -e "select .*from " \
-              -e "insert into .*values" \
-              -e "update .*set " \
-              -e "delete from " #{entry}
-            )
+              -e 'select .*from ' \
+              -e 'insert into .*values' \
+              -e 'update .*set ' \
+              -e 'delete from ' #{entry}
+            "
 
             str = HTMLEntities.new.encode(`#{test_case_filter}`.to_s.scrub)
 
