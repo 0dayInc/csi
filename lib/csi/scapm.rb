@@ -28,6 +28,7 @@ module CSI
     autoload :Password, 'csi/scapm/password'
     autoload :PomVersion, 'csi/scapm/pom_version'
     autoload :Port, 'csi/scapm/port'
+    autoload :PrivateKey, 'csi/scapm/private_key'
     autoload :Redirect, 'csi/scapm/redirect'
     autoload :ReDOS, 'csi/scapm/redos'
     autoload :Shell, 'csi/scapm/shell'

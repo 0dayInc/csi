@@ -69,6 +69,7 @@ else
     Password
     PomVersion
     Port
+    PrivateKey
     Redirect
     ReDOS
     Shell
