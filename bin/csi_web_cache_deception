@@ -146,7 +146,7 @@ begin
         puts `#{$PROGRAM_NAME} -l`
         exit
       end
-    rescue => NAME_ERROR
+    rescue NAME_ERROR => e
       puts "#{@dark_red}Invalid module CSI::WWW::#{csi_www_mod_str}#{@end_of_color}"
       puts `#{$PROGRAM_NAME} -l`
       exit
