@@ -13,8 +13,8 @@
     "disk_size": 36864,
     "hard_drive_interface": "sata",
     "http_directory": "http",
-    "iso_url": "http://cdimage.kali.org/kali-2019.1a/kali-linux-2019.1a-amd64.iso",
-    "iso_checksum": "2d23cf0b35285ba68111154f169efa87fbb9ff618e68ea4cf6bd1023215d063e",
+    "iso_url": "http://cdimage.kali.org/kali-2019.2/kali-linux-2019.2-amd64.iso",
+    "iso_checksum": "67574ee0039eaf4043a237e7c4b0eb432ca07ebf9c7b2dd0667e83bc3900b2cf",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
@@ -110,6 +110,7 @@
         "provisioners/strace.sh",
         "provisioners/openvpn.sh",
         "provisioners/fuzzdb.sh",
+        "provisioners/SecLists.sh",
         "provisioners/rc.local.sh",
         "provisioners/vim.sh",
         "provisioners/firefox.sh",
