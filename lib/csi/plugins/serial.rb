@@ -167,20 +167,30 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # session_data = CSI::Plugins::Serial.dump_session_data
+      # session_data = CSI::Plugins::Serial.dump_session_data(
+      #   serial_obj: 'required serial_obj returned from #connect method'
+      # )
 
       public_class_method def self.dump_session_data
-        @session_data
+        serial_obj = opts[:serial_obj]
+
+        return @session_data
       rescue => e
+        disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
 
       # Supported Method Parameters::
-      # session_data = CSI::Plugins::Serial.flush_session_data
+      # session_data = CSI::Plugins::Serial.flush_session_data(
+      #   serial_obj: 'required serial_obj returned from #connect method'
+      # )
 
       public_class_method def self.flush_session_data
+        serial_obj = opts[:serial_obj]
+
         @session_data.clear
       rescue => e
+        disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
 
@@ -241,9 +251,13 @@ module CSI
             serial_obj: 'required serial_obj returned from #connect method'
           )
 
-          session_data_arr = #{self}.dump_session_data
+          session_data_arr = #{self}.dump_session_data(
+            serial_obj: 'required serial_obj returned from #connect method'
+          )
 
           #{self}.flush_session_data
+            serial_obj: 'required serial_obj returned from #connect method'
+          )
 
           #{self}.disconnect(
             serial_obj: 'required serial_obj returned from #connect method'

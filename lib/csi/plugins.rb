@@ -11,6 +11,7 @@ module CSI
     autoload :BasicAuth, 'csi/plugins/basic_auth'
     autoload :BeEF, 'csi/plugins/beef'
     autoload :BurpSuite, 'csi/plugins/burp_suite'
+    autoload :BusPirate, 'csi/plugins/bus_pirate'
     autoload :Char, 'csi/plugins/char'
     autoload :CreditCard, 'csi/plugins/credit_card'
     autoload :CSILogger, 'csi/plugins/csi_logger'
