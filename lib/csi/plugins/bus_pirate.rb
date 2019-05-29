@@ -3,17 +3,16 @@
 module CSI
   module Plugins
     # This plugin is used for interacting with Bus Pirate v3.6
-    # This plugin may be compatible with other versions, however, 
+    # This plugin may be compatible with other versions, however,
     # has not been tested with anything other than v3.6.
     module BusPirate
-
       # Supported Method Parameters::
       # bus_pirate_obj = CSI::Plugins::BusPirate.connect_via_screen(
       #   screen_bin: 'optional - defaults to /usr/bin/screen'
       #   block_dev: 'optional - serial block device path (defaults to /dev/ttyUSB0)'
       # )
 
-      public_class_method def self.connect(opts = {})
+      public_class_method def self.connect_via_screen(opts = {})
         if opts[:block_dev].nil?
           block_dev = '/dev/ttyUSB0'
         else
@@ -23,9 +22,11 @@ module CSI
         if opts[:screen_bin].nil?
           screen_bin = '/usr/bin/screen'
         else
-          screen_bin = opts[:screen_bin].to_s.strip.chomp.scrub if File.exist?(opts[:screen_bin].to_s.strip.chomp.scrub)
+          screen_bin = opts[:screen_bin].to_s.strip.chomp.scrub
         end
-       
+
+        raise "ERROR: #{screen_bin} not found." unless File.exist?(screen_bin)
+
         screen_params = "#{block_dev} 115200 8 N 1"
         system(screen_bin, screen_params)
       rescue => e
@@ -46,7 +47,7 @@ module CSI
 
         bus_pirate_obj = CSI::Plugins::Serial.connect(
           block_dev: block_dev,
-          baud: 115200
+          baud: '115200'
         )
 
         return bus_pirate_obj
@@ -56,11 +57,11 @@ module CSI
       end
 
       # Supported Method Parameters::
-      #  CSI::Plugins::BusPirate.set_mode(
+      #  CSI::Plugins::BusPirate.init_mode(
       #   bus_pirate_obj: 'required - bus_pirate_obj returned from #connect method'
       #   mode: 'required - bus pirate mode to invoke'
       # )
-      public_class_method def self.set_mode(opts = {})
+      public_class_method def self.init_mode(opts = {})
         bus_pirate_obj = opts[:bus_pirate_obj]
         mode = opts[:mode].to_s.strip.chomp.scrub.upcase
 
@@ -92,10 +93,10 @@ module CSI
         else
           raise "Invalid mode: #{mode}"
         end
-       
-         mode_response = CSI::Plugins::Serial.response(serial_obj: bus_pirate_obj)
-        
-         return mode_response
+
+        mode_response = CSI::Plugins::Serial.response(serial_obj: bus_pirate_obj)
+
+        return mode_response
       rescue => e
         raise e
       end
@@ -135,7 +136,7 @@ module CSI
             block_dev: 'optional - serial block device path (defaults to /dev/ttyUSB0)'
           )
 
-          #{self}.set_mode(
+          #{self}.init_mode(
             bus_pirate_obj: 'required - bus_pirate_obj returned from #connect method'
             mode: 'required - bus pirate mode to invoke'
           )
