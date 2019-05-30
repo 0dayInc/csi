@@ -15,6 +15,8 @@ module CSI
         if opts[:block_dev].nil?
           block_dev = '/dev/ttyUSB0'
         else
+          # TODO: if block_dev doesn't exist it will try to operate on a nil file and fail.
+          #  account for this issue.
           block_dev = opts[:block_dev].to_s if File.exist?(opts[:block_dev].to_s)
         end
 
