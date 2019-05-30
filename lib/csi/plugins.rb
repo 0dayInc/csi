@@ -43,6 +43,7 @@ module CSI
     autoload :PDFParse, 'csi/plugins/pdf_parse'
     autoload :Pony, 'csi/plugins/pony'
     autoload :RabbitMQHole, 'csi/plugins/rabbit_mq_hole'
+    autoload :RFIDler, 'csi/plugins/rfidler'
     autoload :Serial, 'csi/plugins/serial'
     autoload :Shodan, 'csi/plugins/shodan'
     autoload :SlackClient, 'csi/plugins/slack_client'
