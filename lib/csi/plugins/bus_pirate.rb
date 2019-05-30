@@ -28,7 +28,8 @@ module CSI
         raise "ERROR: #{screen_bin} not found." unless File.exist?(screen_bin)
 
         screen_params = "#{block_dev} 115200 8 N 1"
-        system(screen_bin, screen_params)
+        screen_cmd = "#{screen_bin} #{screen_params}"
+        system(screen_cmd)
       rescue => e
         raise e
       end
