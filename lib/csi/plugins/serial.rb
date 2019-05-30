@@ -185,7 +185,7 @@ module CSI
       #   serial_obj: 'required serial_obj returned from #connect method'
       # )
 
-      public_class_method def self.flush_session_data
+      public_class_method def self.flush_session_data(opts = {})
         serial_obj = opts[:serial_obj]
 
         @session_data.clear
@@ -203,7 +203,7 @@ module CSI
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         session_thread = serial_obj[:session_thread]
-        flush_session_data
+        flush_session_data(serial_obj: serial_obj)
         session_thread.terminate
         serial_conn.close
         serial_conn = nil
