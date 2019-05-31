@@ -92,6 +92,7 @@
         "provisioners/openvpn.sh",
         "provisioners/fuzzdb.sh",
         "provisioners/SecLists.sh",
+        "provisioners/PayloadsAllTheThings.sh",
         "provisioners/rc.local.sh",
         "provisioners/vim.sh",
         "provisioners/firefox.sh",
