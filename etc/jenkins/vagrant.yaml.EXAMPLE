@@ -1,4 +1,4 @@
-user: 'vagrant'
+user: 'csi_jenkins'
 pass: 'changeme'
 fullname: 'changeme'
 email: 'changeme'

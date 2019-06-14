@@ -1,4 +1,4 @@
 cpus: 1
 memory: 2048
-hostname: csi.local
+hostname: csideployed.csi.local
 diskMB: 36864
