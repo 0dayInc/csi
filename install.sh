@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --login
 debug=$2
 csi_deploy_type=$1
 os=$(uname -s)
