@@ -20,12 +20,6 @@ if [[ $# != 1  ]] && [[ $# != 2 ]]; then
   usage
 fi
 
-if [[ ! -e "./etc/metasploit/vagrant.yaml" ]]; then
-  echo "ERROR: Missing vagrant.yaml Config"
-  echo "Use ./etc/metasploit/vagrant.yaml.EXAMPLE as a Template to Create ./etc/metasploit/vagrant.yaml"
-  exit 1
-fi
-
 vagrant plugin install vagrant-reload
 
 case $csi_deploy_type in
@@ -82,8 +76,7 @@ case $csi_deploy_type in
           if [[ $csi_deploy_type == "vmware-fusion-gui" ]]; then
             export VAGRANT_GUI="true"
           fi
-          #vagrant plugin install vagrant-vmware-fusion
-          #vagrant plugin license vagrant-vmware-fusion $license_file
+
           if [[ $debug == '' ]]; then
             vagrant up --provider=vmware_fusion
           else
@@ -94,8 +87,7 @@ case $csi_deploy_type in
           if [[ $csi_deploy_type == "vmware-workstation-gui" ]]; then
             export VAGRANT_GUI="true"
           fi
-          #vagrant plugin install vagrant-vmware-workstation
-          #vagrant plugin license vagrant-vmware-workstation $license_file
+
           if [[ $debug == '' ]]; then
             vagrant up --provider=vmware_workstation
           else
