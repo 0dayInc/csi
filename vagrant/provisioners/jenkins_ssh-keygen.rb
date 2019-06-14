@@ -59,4 +59,4 @@ puts `sudo cat /var/lib/jenkins/.ssh/id_rsa-csi_jenkins.pub`
 puts 'If you intend on leveraging User-Land jobs that will connect to remote hosts via SSH'
 puts 'please ensure you add the aforementioned public key value to your respective ~/.ssh/authorized_keys file.'
 # TODO: End of Potential Race Condition
-`sudo -H -u jenkins /bin/bash --login -c 'chmod 640 #{private_key_path} && chmod 700 #{File.dirname(private_key_path)}'`
+`sudo -H -u jenkins /bin/bash --login -c 'chmod 600 #{private_key_path} && chmod 700 #{File.dirname(private_key_path)}'`
