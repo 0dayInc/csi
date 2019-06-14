@@ -28,17 +28,20 @@ ls /csi/etc/jenkins/jobs/*.xml | while read jenkins_xml_config; do
 done
 
 # Create any jobs residing in /csi/jenkins/jobs_userland
-printf "Creating User-Land Jobs ***************************************************************"
-ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
-  file_name=`basename $jenkins_xml_config`
-  job_name=${file_name%.*}
-  csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
-    -d 8888 \
-    -U admin \
-    -P $initial_admin_pwd \
-    -j $job_name \
-    -c $jenkins_xml_config
-done
+ls /csi/etc/jenkins/jobs_userland/*.xml
+if [[ $? == 0 ]]; then
+  printf "Creating User-Land Jobs ***************************************************************"
+  ls /csi/etc/jenkins/jobs_userland/*.xml | while read jenkins_xml_config; do
+    file_name=`basename $jenkins_xml_config`
+    job_name=${file_name%.*}
+    csi_jenkins_create_job --jenkins_ip 127.0.0.1 \
+      -d 8888 \
+      -U admin \
+      -P $initial_admin_pwd \
+      -j $job_name \
+      -c $jenkins_xml_config
+  done
+fi
 
 printf "Creating Jenkins Views ****************************************************************"
 csi_jenkins_create_view --jenkins_ip 127.0.0.1 \
