@@ -68,6 +68,8 @@ Vagrant.configure(API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
         vb.customize ['modifyvm', :id, '--cpus', yaml_config['cpus']]
         vb.customize ['modifyvm', :id, '--memory', yaml_config['memory']]
+        disk_mb = yaml_config['diskMB']
+        # TODO: resize vmdk based on /csi/etc/vmware/vagrant.yaml
       end
     end
 
@@ -86,8 +88,8 @@ Vagrant.configure(API_VERSION) do |config|
           vm.vmx['numvcpus'] = yaml_config['cpus']
           vm.vmx['memsize'] = yaml_config['memory']
           vm.vmx['vhv.enable'] = 'true'
-          diskMB = yaml_config['diskMB']
-          # vm.guest = :debian
+          disk_mb = yaml_config['diskMB']
+          # TODO: resize vmdk based on /csi/etc/vmware/vagrant.yaml
         end
       end
     end
