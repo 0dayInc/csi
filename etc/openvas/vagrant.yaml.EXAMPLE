@@ -1,2 +1,2 @@
-user: admin
-pass: <changeme>
+user: 'admin'
+pass: 'changeme'
