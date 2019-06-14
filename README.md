@@ -12,11 +12,12 @@
 - [Clone CSI](#clone-csi)
 - [Deploy](#deploy)
   * [Basic Installation Dependencies](#basic-installation-dependencies)
-  * [Install Locally](#install-locally)
+  * [Install Locally on Host OS](#install-locally-on-host-os)
   * [Deploy in AWS EC2](#deploy-in-aws-ec2)
   * [Deploy in Docker Container](#deploy-in-docker-container)
   * [Deploy in VirtualBox](#deploy-in-virtualbox)
   * [Deploy in VMware](#deploy-in-vmware)
+  * [Deploy in vSphere](#deploy-in-vspher)
 - [General Usage](#general-usage)
 - [Driver Documentation](#driver-documentation)
 - [Merchandise](#merchandise)
@@ -66,7 +67,7 @@ Certain Constraints Mandate CSI be Installed in /csi:
 - Latest Version of Vagrant VMware Utility (if using VMware): https://www.vagrantup.com/vmware/downloads.html
 - Packer: https://www.packer.io/downloads.html (If you contribute to the Kali Rolling Box hosted on https://app.vagrantup.com/csi/boxes/kali_rolling)
 
-#### **Install Locally** ####
+#### **Install Locally on Host OS** ####
 [Instructions](https://gist.github.com/ninp0/613696fbf2ffda01b02706a89bef7491)
 
 #### **Deploy in AWS EC2** ####
@@ -86,6 +87,10 @@ Not Quite Available - Coming Soon
 [Instructions](https://gist.github.com/ninp0/2e97f1f34c956e90294f214e1edd2ffb)
 
 
+#### **Deploy in vSphere** ####
+[Instructions](https://gist.github.com/ninp0/f1baf4fcd4ae9d23ae35ed7a7d083ae9)
+
+
 
 ### **General Usage** ###
 [General Usage Quick-Start](https://github.com/0dayinc/csi/wiki/General-CSI-Usage)
@@ -93,7 +98,7 @@ Not Quite Available - Coming Soon
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.611]:001 >>> CSI.help
+  csi[v0.3.612]:001 >>> CSI.help
   ```
 
 
