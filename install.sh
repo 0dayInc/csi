@@ -20,12 +20,6 @@ if [[ $# != 1  ]] && [[ $# != 2 ]]; then
   usage
 fi
 
-if [[ ! -e "./etc/metasploit/vagrant.yaml" ]]; then
-  echo "ERROR: Missing vagrant.yaml Config"
-  echo "Use ./etc/metasploit/vagrant.yaml.EXAMPLE as a Template to Create ./etc/metasploit/vagrant.yaml"
-  exit 1
-fi
-
 vagrant plugin install vagrant-reload
 
 case $csi_deploy_type in
