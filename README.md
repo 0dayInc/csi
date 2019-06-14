@@ -93,7 +93,7 @@ Not Quite Available - Coming Soon
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.609]:001 >>> CSI.help
+  csi[v0.3.610]:001 >>> CSI.help
   ```
 
 
