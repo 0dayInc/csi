@@ -22,6 +22,12 @@ fi
 
 vagrant plugin install vagrant-reload
 
+cd /csi && cat ./vagrant_rsync_userland_configs.lst | while read userland_config; do
+  if [[ ! -e $userland_config ]]; then
+    cp $userland_config.EXAMPLE $userland_config
+  fi
+done
+
 case $csi_deploy_type in
   "aws") 
     export VAGRANT_PROVIDER="aws"
