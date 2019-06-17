@@ -60,6 +60,4 @@ case $tls_deployment_type in
 esac
 
 sudo systemctl enable apache2
-sudo systemctl stop greenbone-security-assistant
-sudo systemctl start apache2
-sudo systemctl start greenbone-security-assistant
+sudo systemctl restart apache2
