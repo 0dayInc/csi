@@ -1,6 +1,7 @@
 hostname: csi.DOMAIN
 access_key_id: ACCESS_KEY_ID
 secret_access_key: SECRET_ACCESS_KEY
+sts_token: STS_TOKEN
 keypair_name: Public SSH Key Name
 # Kali Linux Rolling
 ami: ami-5e0cac3e
