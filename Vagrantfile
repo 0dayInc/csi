@@ -133,11 +133,12 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provision :shell, path: './vagrant/provisioners/userland_fdisk.sh', args: hostname, privileged: false
     config.vm.provision :reload
     config.vm.provision :shell, path: './vagrant/provisioners/userland_lvm.sh', args: hostname, privileged: false
-    config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
+    # config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/metasploit.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/openvas.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/burpsuite_pro.rb', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins.sh', privileged: false
+    config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins_ssh-keygen.rb', privileged: false
   end
 end
