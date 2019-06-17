@@ -24,6 +24,7 @@ vagrant plugin install vagrant-reload
 
 cd /csi && cat ./vagrant_rsync_userland_configs.lst | while read userland_config; do
   if [[ `basename ${userland_config}` == 'vagrant.yaml' && ! -e $userland_config ]]; then
+    echo "USERLAND YAML: ${userland_config} NOT FOUND...Copying DEFAULTS from ${userland_config}.EXAMPLE.  Be sure to change default passwords!"
     cp $userland_config.EXAMPLE $userland_config
   fi
 done
