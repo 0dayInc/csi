@@ -89,6 +89,7 @@
         "provisioners/pwntools.sh",
         "provisioners/scout2.sh",
         "provisioners/strace.sh",
+        "provisioners/awscli.sh",
         "provisioners/openvpn.sh",
         "provisioners/fuzzdb.sh",
         "provisioners/SecLists.sh",
