@@ -42,11 +42,11 @@ module CSI
       end
 
       # Supported Method Parameters::
-      # console_obj = CSI::Plugins::Metasploit.console_exec(
+      # console_obj = CSI::Plugins::Metasploit.queue_console_cmd(
       #   console_obj: 'required - console_obj object returned from #connect method',
-      #   cmd: 'required - msfconsole command'
+      #   cmd: 'required - msfconsole command string or array of strings'
       # )
-      def self.console_exec(opts = {})
+      private_class_method def self.queue_console_cmd(opts = {})
         console_obj = opts[:console_obj]
         cmd = opts[:cmd].to_s.strip.chomp.scrub
 
@@ -78,10 +78,33 @@ module CSI
       end
 
       # Supported Method Parameters::
+      # console_obj = CSI::Plugins::Metasploit.console_exec(
+      #   console_obj: 'required - console_obj object returned from #connect method',
+      #   cmd: 'required - msfconsole command string or array of strings'
+      # )
+      public_class_method def self.console_exec(opts = {})
+        console_obj = opts[:console_obj]
+        cmd = opts[:cmd].to_s.strip.chomp.scrub
+
+        case cmd.class
+        when String
+          console_obj = queue_console_cmd(console_obj: console_obj, cmd: cmd)
+        when Array
+          cmd.each { |this_cmd| console_obj = queue_console_cmd(console_obj: console_obj, cmd: this_cmd) }
+        else
+          raise 'ERROR: cmd parameter must be a String or Array object'
+        end
+
+        return console_obj
+      rescue => e
+        raise e
+      end
+
+      # Supported Method Parameters::
       # console_obj = CSI::Plugins::Metasploit.disconnect(
       #   console_obj: 'required - console_obj returned from #console_exec method to terminate'
       # )
-      def self.disconnect(opts = {})
+      public_class_method def self.disconnect(opts = {})
         console_obj = opts[:console_obj]
         msfrpcd_conn = console_obj[:msfrpcd_conn]
         console_id = console_obj[:session][:id]
@@ -113,7 +136,7 @@ module CSI
 
           console_obj = #{self}.console_exec(
             console_obj: 'required - msfrpcd_conn object returned from #connect method',
-            cmd: 'required - msfconsole command'
+            cmd: 'required - msfconsole command string or array of strings'
           )
 
           console_obj = #{self}.disconnect(
