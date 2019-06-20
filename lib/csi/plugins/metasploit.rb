@@ -86,7 +86,7 @@ module CSI
         console_obj = opts[:console_obj]
         cmd = opts[:cmd]
 
-        case cmd.class
+        case cmd
         when String
           console_obj = queue_console_cmd(console_obj: console_obj, cmd: cmd)
         when Array
