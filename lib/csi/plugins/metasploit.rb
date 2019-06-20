@@ -84,7 +84,7 @@ module CSI
       # )
       public_class_method def self.console_exec(opts = {})
         console_obj = opts[:console_obj]
-        cmd = opts[:cmd].to_s.strip.chomp.scrub
+        cmd = opts[:cmd]
 
         case cmd.class
         when String
@@ -92,7 +92,7 @@ module CSI
         when Array
           cmd.each { |this_cmd| console_obj = queue_console_cmd(console_obj: console_obj, cmd: this_cmd) }
         else
-          raise 'ERROR: cmd parameter must be a String or Array object'
+          raise "ERROR: cmd parameter must be a String or Array object - object is currently #{cmd.class}"
         end
 
         return console_obj
