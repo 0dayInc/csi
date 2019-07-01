@@ -56,6 +56,7 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.hostname = hostname
 
     config.vm.provider(:virtualbox) do |vb, _override|
+      # Workaround until https://github.com/hashicorp/vagrant/issues/10730 is resolved
       vb.ssh_info_public = true
       if vagrant_provider == 'virtualbox'
         if vagrant_gui == 'true'
@@ -75,7 +76,7 @@ Vagrant.configure(API_VERSION) do |config|
 
     %i[vmware_fusion vmware_workstation].each do |vmware_provider|
       config.vm.provider(vmware_provider) do |vm, _override|
-        # Workaround until vagrant/issues/10499 is resolved
+        # Workaround until https://github.com/hashicorp/vagrant/issues/10730 is resolved
         vm.ssh_info_public = true
         vm.whitelist_verified = true
         if vagrant_provider == 'vmware'
