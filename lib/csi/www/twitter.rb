@@ -81,7 +81,7 @@ module CSI
         browser_obj.button(index: 1).wait_until_present.click
 
         if mfa
-          until browser_obj.url == 'https://twitter.com/'
+          until browser_obj.url == 'https://twitter.com/' || browser_obj.url == 'https://twitter.com/home'
             browser_obj.text_field(id: 'challenge_response').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
             browser_obj.button(id: 'email_challenge_submit').wait_until_present.click
             sleep 3
