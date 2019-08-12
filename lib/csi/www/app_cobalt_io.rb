@@ -77,16 +77,16 @@ module CSI
         browser_obj.goto('https://app.cobalt.io/users/sign_in')
 
         # id: 'user_email' doesn't work
-        browser_obj.text_field(index: 9).wait_until_present.set(username)
+        browser_obj.text_field(index: 9).wait_until(&:present?).set(username)
         # id: 'user_password' doesn't work
-        browser_obj.text_field(index: 10).wait_until_present.set(password)
+        browser_obj.text_field(index: 10).wait_until(&:present?).set(password)
         # name: 'commit' doesn't work
-        browser_obj.button(index: 6).wait_until_present.click # no name or id in button element
+        browser_obj.button(index: 6).wait_until(&:present?).click # no name or id in button element
 
         if mfa
           until browser_obj.url == 'https://app.cobalt.io/dashboard'
-            browser_obj.text_field(id: 'code').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
-            browser_obj.button(name: 'commit').wait_until_present.click
+            browser_obj.text_field(id: 'code').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
+            browser_obj.button(name: 'commit').wait_until(&:present?).click
             sleep 3
           end
           print "\n"
@@ -104,8 +104,8 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.li(class: 'user-dropdown').wait_until_present.click
-        browser_obj.link(index: 10).wait_until_present.click
+        browser_obj.li(class: 'user-dropdown').wait_until(&:present?).click
+        browser_obj.link(index: 10).wait_until(&:present?).click
 
         return browser_obj
       rescue => e

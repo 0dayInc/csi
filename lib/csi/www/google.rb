@@ -62,8 +62,8 @@ module CSI
         browser_obj = opts[:browser_obj]
         q = opts[:q].to_s
 
-        browser_obj.text_field(name: 'q').wait_until_present.set(q)
-        browser_obj.button(text: 'Google Search').wait_until_present.click
+        browser_obj.text_field(name: 'q').wait_until(&:present?).set(q)
+        browser_obj.button(text: 'Google Search').wait_until(&:present?).click
 
         return browser_obj
       rescue => e
@@ -81,8 +81,8 @@ module CSI
         company = opts[:company].to_s.scrub
         q = "site:linkedin.com inurl:in intext:\"#{company}\""
 
-        browser_obj.text_field(name: 'q').wait_until_present.set(q)
-        browser_obj.button(name: 'btnG').wait_until_present.click
+        browser_obj.text_field(name: 'q').wait_until(&:present?).set(q)
+        browser_obj.button(name: 'btnG').wait_until(&:present?).click
         sleep 3 # Cough: <hack>
 
         return browser_obj

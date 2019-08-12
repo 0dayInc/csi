@@ -89,19 +89,19 @@ module CSI
 
         browser_obj.goto('https://www.paypal.com/signup/account')
 
-        browser_obj.text_field(id: 'email').wait_until_present.set(username)
-        browser_obj.text_field(id: 'password').wait_until_present.set(password)
-        browser_obj.text_field(id: 'confirmPassword').wait_until_present.set(password)
-        browser_obj.button(id: '_eventId_personal').wait_until_present.click
-        browser_obj.text_field(id: 'firstName').wait_until_present.set(first_name)
-        browser_obj.text_field(id: 'lastName').wait_until_present.set(last_name)
-        browser_obj.text_field(id: 'address1').wait_until_present.set(address)
-        browser_obj.text_field(id: 'city').wait_until_present.set(city)
-        browser_obj.select(id: 'state').wait_until_present.select_value(state)
-        browser_obj.text_field(id: 'postalCode').wait_until_present.set(zip_code)
-        browser_obj.text_field(id: 'phoneNumber').wait_until_present.set(mobile_phone)
-        browser_obj.span(index: 7).wait_until_present.click # Agree to ToS
-        browser_obj.button(id: 'submitBtn').wait_until_present.click
+        browser_obj.text_field(id: 'email').wait_until(&:present?).set(username)
+        browser_obj.text_field(id: 'password').wait_until(&:present?).set(password)
+        browser_obj.text_field(id: 'confirmPassword').wait_until(&:present?).set(password)
+        browser_obj.button(id: '_eventId_personal').wait_until(&:present?).click
+        browser_obj.text_field(id: 'firstName').wait_until(&:present?).set(first_name)
+        browser_obj.text_field(id: 'lastName').wait_until(&:present?).set(last_name)
+        browser_obj.text_field(id: 'address1').wait_until(&:present?).set(address)
+        browser_obj.text_field(id: 'city').wait_until(&:present?).set(city)
+        browser_obj.select(id: 'state').wait_until(&:present?).select_value(state)
+        browser_obj.text_field(id: 'postalCode').wait_until(&:present?).set(zip_code)
+        browser_obj.text_field(id: 'phoneNumber').wait_until(&:present?).set(mobile_phone)
+        browser_obj.span(index: 7).wait_until(&:present?).click # Agree to ToS
+        browser_obj.button(id: 'submitBtn').wait_until(&:present?).click
 
         puts "Confirmation email sent to: #{username}"
 
@@ -132,16 +132,16 @@ module CSI
 
         browser_obj.goto('https://www.paypal.com/signin')
 
-        browser_obj.text_field(id: 'email').wait_until_present.set(username)
-        browser_obj.text_field(id: 'password').wait_until_present.set(password)
-        browser_obj.button(id: 'btnLogin').wait_until_present.click
+        browser_obj.text_field(id: 'email').wait_until(&:present?).set(username)
+        browser_obj.text_field(id: 'password').wait_until(&:present?).set(password)
+        browser_obj.button(id: 'btnLogin').wait_until(&:present?).click
 
         if mfa
           # Send code to SMS
-          browser_obj.button(id: 'btnSelectSoftToken').wait_until_present.click
+          browser_obj.button(id: 'btnSelectSoftToken').wait_until(&:present?).click
           until browser_obj.url == 'https://www.paypal.com/myaccount/home'
-            browser_obj.text_field(id: 'security-code').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
-            browser_obj.button(id: 'btnCodeSubmit').wait_until_present.click
+            browser_obj.text_field(id: 'security-code').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
+            browser_obj.button(id: 'btnCodeSubmit').wait_until(&:present?).click
             sleep 3
           end
           print "\n"
@@ -159,7 +159,7 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.link(index: 13).wait_until_present.click
+        browser_obj.link(index: 13).wait_until(&:present?).click
 
         return browser_obj
       rescue => e

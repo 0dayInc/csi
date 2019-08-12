@@ -1,37 +1,37 @@
-hostname: csi.DOMAIN
-access_key_id: ACCESS_KEY_ID
-secret_access_key: SECRET_ACCESS_KEY
-keypair_name: Public SSH Key Name
+hostname: 'csi.DOMAIN'
+access_key_id: 'ACCESS_KEY_ID'
+secret_access_key: 'SECRET_ACCESS_KEY'
+keypair_name: 'Public SSH "Key pair name" from Key Pairs link in EC2'
 # Kali Linux Rolling
-ami: ami-5e0cac3e
+ami: 'ami-5e0cac3e'
 block_device_mapping:
-  - DeviceName: /dev/sda1 
+  - DeviceName: '/dev/sda1' 
     Ebs.VolumeSize: 33
-region: REGION
+region: 'REGION'
 monitoring: true
 elastic_ip: true
 associate_public_ip: true
-private_ip_address: LAN_IP_ADDRESS
-subnet_id: SUBNET_ID
-instance_type: t2.medium
-iam_instance_profile_name: IAM_INSTANCE_PROFILE_NAME
+private_ip_address: 'LAN_IP_ADDRESS'
+subnet_id: 'SUBNET_ID'
+instance_type: 't2.medium'
+iam_instance_profile_name: 'IAM_INSTANCE_PROFILE_NAME'
 security_groups: 
-  - SECURITY_GROUP_ID
+  - 'SECURITY_GROUP_ID'
 tags: 
-  Name: CSI (Continuous Security Integration) Instance
-ssh_username: ubuntu
-ssh_private_key_path: SSH_PRIVATE_KEY_PATH
+  Name: 'CSI (Continuous Security Integration) Instance'
+ssh_username: 'vagrant'
+ssh_private_key_path: 'SSH_PRIVATE_KEY_PATH'
 # Route53 Configuration
 record_sets:
   - 
-    - HOSTED_ZONE_ID
-    - csi.DOMAIN
-    - A
+    - 'HOSTED_ZONE_ID'
+    - 'csi.DOMAIN'
+    - 'A'
   - 
-    - HOSTED_ZONE_ID
-    - openvas.DOMAIN
-    - A
+    - 'HOSTED_ZONE_ID'
+    - 'openvas.DOMAIN'
+    - 'A'
   - 
-    - HOSTED_ZONE_ID
-    - scapm.DOMAIN
-    - A
+    - 'HOSTED_ZONE_ID'
+    - 'scapm.DOMAIN'
+    - 'A'

@@ -74,9 +74,9 @@ module CSI
 
         browser_obj.goto('https://www.pandora.com/account/sign-in')
 
-        browser_obj.text_field(id: 'login_username').wait_until_present.set(username)
-        browser_obj.text_field(id: 'login_password').wait_until_present.set(password)
-        browser_obj.button(text: 'Log In').wait_until_present.click
+        browser_obj.text_field(id: 'login_username').wait_until(&:present?).set(username)
+        browser_obj.text_field(id: 'login_password').wait_until(&:present?).set(password)
+        browser_obj.button(text: 'Log In').wait_until(&:present?).click
 
         return browser_obj
       rescue => e
@@ -90,8 +90,8 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.img(alt: 'Account Menu').wait_until_present.click
-        browser_obj.span(text: 'Sign Out').wait_until_present.click
+        browser_obj.img(alt: 'Account Menu').wait_until(&:present?).click
+        browser_obj.span(text: 'Sign Out').wait_until(&:present?).click
 
         return browser_obj
       rescue => e

@@ -1,0 +1,152 @@
+{
+  "variables": {
+    "vsphere_remote_host": "{{ env `VSPHERE_REMOTE_HOST` }}",
+    "vsphere_remote_username": "{{ env `VSPHERE_REMOTE_USERNAME` }}",
+    "vsphere_remote_password": "{{ env `VSPHERE_REMOTE_PASSWORD` }}",
+    "aws_access_key": "{{ env `AWS_ACCESS_KEY` }}",
+    "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+    "aws_region": "{{ env `AWS_REGION` }}",
+    "aws_s3_bucket_name": "{{ env `AWS_S3_BUCKET_NAME` }}",
+    "box_version": "{{ env `BOX_VERSION` }}"
+  },
+  "builders": [{
+    "type": "vmware-iso",
+    "guest_os_type": "debian7-64",
+    "vmx_data": {
+      "memsize": "2048",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    },
+    "disk_size": 36864,
+    "http_directory": "http",
+    "iso_url": "http://cdimage.kali.org/kali-2019.2/kali-linux-2019.2-amd64.iso",
+    "iso_checksum": "67574ee0039eaf4043a237e7c4b0eb432ca07ebf9c7b2dd0667e83bc3900b2cf",
+    "iso_checksum_type": "sha256",
+    "headless": false,
+    "boot_command": [
+      "<esc><wait>",
+      "install <wait>",
+      "debug <wait>",
+      "dbg/flags=all-x <wait>",
+      "debconf/priority=high <wait>",
+      "DEBCONF_DEBUG=5 <wait>",
+      "auto=true <wait>",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
+      "locale=en_US.UTF-8 <wait>",
+      "hostname=kali <wait>",
+      "domain=rolling.local <wait>",
+      "<enter><wait>"
+    ],
+    "boot_wait": "9s",
+    "communicator": "ssh",
+    "ssh_username": "vagrant",
+    "ssh_password": "changeme",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "9999s",
+    "shutdown_command": "sudo /sbin/shutdown -P now",
+    "remote_type": "esx5",
+    "remote_host": "{{user `vsphere_remote_host`}}",
+    "remote_username": "{{user `vsphere_remote_username`}}",
+    "remote_password": "{{user `vsphere_remote_password`}}",
+    "format": "ova"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/install_vagrant_ssh_key.sh",
+        "provisioners/update_os.sh"
+       ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "360s",
+      "type": "shell",
+      "scripts": [
+        "provisioners/vmware_tools.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "360s",
+      "type": "shell",
+      "scripts": [
+        "provisioners/aliases.rb",
+        "provisioners/rvm.sh",
+        "provisioners/bashrc.sh",
+        "provisioners/ruby.sh",
+        "provisioners/csi.sh",
+        "provisioners/beef.rb",
+        "provisioners/burpsuite.sh",
+        "provisioners/jenkins.sh",
+        "provisioners/android.sh",
+        "provisioners/sox.sh",
+        "provisioners/phantomjs_wrapper.sh",
+        "provisioners/geckodriver.sh",
+        "provisioners/chrome.sh",
+        "provisioners/ansible.sh",
+        "provisioners/openvas.sh",
+        "provisioners/openvas_wrappers.sh",
+        "provisioners/metasploit.rb",
+        "provisioners/wpscan.rb",
+        "provisioners/ssllabs-scan.sh",
+        "provisioners/sublist3r.sh",
+        "provisioners/scapy.sh",
+        "provisioners/terminator.sh",
+        "provisioners/apache2.sh",
+        "provisioners/tor.sh",
+        "provisioners/toggle_tor.sh",
+        "provisioners/nmap_all_live_hosts.sh",
+        "provisioners/arachni.sh",
+        "provisioners/eyewitness.sh",
+        "provisioners/afl.sh",
+        "provisioners/peda.sh",
+        "provisioners/preeny.sh",
+        "provisioners/pwntools.sh",
+        "provisioners/scout2.sh",
+        "provisioners/strace.sh",
+        "provisioners/awscli.sh",
+        "provisioners/openvpn.sh",
+        "provisioners/fuzzdb.sh",
+        "provisioners/SecLists.sh",
+        "provisioners/PayloadsAllTheThings.sh",
+        "provisioners/rc.local.sh",
+        "provisioners/vim.sh",
+        "provisioners/firefox.sh",
+        "provisioners/ffmpeg.sh",
+        "provisioners/docker.sh",
+        "provisioners/baresip.sh",
+        "provisioners/kali_customize.rb"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "amazon-import",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_access_key`}}",
+        "region": "{{user `aws_region`}}",
+        "s3_bucket_name": "{{user `aws_s3_bucket_name`}}",
+        "license_type": "BYOL",
+        "tags": { 
+          "Description": "CSI Kali Rolling v{{user `box_version`}}" 
+        }
+      }
+    ]
+  ]
+}

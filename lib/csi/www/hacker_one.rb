@@ -74,9 +74,9 @@ module CSI
 
         browser_obj.goto('https://hackerone.com/users/sign_in')
 
-        browser_obj.text_field(name: 'user[email]').wait_until_present.set(username)
-        browser_obj.text_field(name: 'user[password]').wait_until_present.set(password)
-        browser_obj.button(name: 'commit').wait_until_present.click
+        browser_obj.text_field(name: 'user[email]').wait_until(&:present?).set(username)
+        browser_obj.text_field(name: 'user[password]').wait_until(&:present?).set(password)
+        browser_obj.button(name: 'commit').wait_until(&:present?).click
 
         return browser_obj
       rescue => e

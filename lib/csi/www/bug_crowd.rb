@@ -76,14 +76,14 @@ module CSI
 
         browser_obj.goto('https://bugcrowd.com/user/sign_in')
 
-        browser_obj.text_field(id: 'user_email').wait_until_present.set(username)
-        browser_obj.text_field(id: 'user_password').wait_until_present.set(password)
-        browser_obj.button(name: 'button').wait_until_present.click
+        browser_obj.text_field(id: 'user_email').wait_until(&:present?).set(username)
+        browser_obj.text_field(id: 'user_password').wait_until(&:present?).set(password)
+        browser_obj.button(name: 'button').wait_until(&:present?).click
 
         if mfa
           until browser_obj.url == 'https://bugcrowd.com/programs'
-            browser_obj.text_field(name: 'otp_attempt').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
-            browser_obj.button(name: 'commit').wait_until_present.click
+            browser_obj.text_field(name: 'otp_attempt').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
+            browser_obj.button(name: 'commit').wait_until(&:present?).click
             sleep 3
           end
           print "\n"
@@ -101,8 +101,8 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.li(class: 'dropdown-hover').wait_until_present.hover
-        browser_obj.link(class: 'signout_link').wait_until_present.click
+        browser_obj.li(class: 'dropdown-hover').wait_until(&:present?).hover
+        browser_obj.link(class: 'signout_link').wait_until(&:present?).click
 
         return browser_obj
       rescue => e

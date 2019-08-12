@@ -61,11 +61,11 @@ module CSI
         browser_obj = opts[:browser_obj]
         q = opts[:q].to_s
 
-        browser_obj.text_field(name: 'q').wait_until_present.set(q)
+        browser_obj.text_field(name: 'q').wait_until(&:present?).set(q)
         if browser_obj.url == 'https://duckduckgo.com/' || browser_obj.url == 'http://3g2upl4pq6kufc4m.onion/'
-          browser_obj.button(id: 'search_button_homepage').wait_until_present.click
+          browser_obj.button(id: 'search_button_homepage').wait_until(&:present?).click
         else
-          browser_obj.button(id: 'search_button').wait_until_present.click
+          browser_obj.button(id: 'search_button').wait_until(&:present?).click
         end
 
         return browser_obj
