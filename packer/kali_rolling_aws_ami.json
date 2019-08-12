@@ -1,6 +1,12 @@
 {
   "variables": {
-    "vagrant_cloud_token": "{{ env `VAGRANT_CLOUD_TOKEN` }}",
+    "vsphere_remote_host": "{{ env `VSPHERE_REMOTE_HOST` }}",
+    "vsphere_remote_username": "{{ env `VSPHERE_REMOTE_USERNAME` }}",
+    "vsphere_remote_password": "{{ env `VSPHERE_REMOTE_PASSWORD` }}",
+    "aws_access_key": "{{ env `AWS_ACCESS_KEY` }}",
+    "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+    "aws_region": "{{ env `AWS_REGION` }}",
+    "aws_s3_bucket_name": "{{ env `AWS_S3_BUCKET_NAME` }}",
     "box_version": "{{ env `BOX_VERSION` }}"
   },
   "builders": [{
@@ -8,8 +14,9 @@
     "guest_os_type": "debian7-64",
     "vmx_data": {
       "memsize": "4096",
-      "numvcpus": "1",
-      "cpuid.coresPerSocket": "1"
+      "numvcpus": "2",
+      "cpuid.coresPerSocket": "1",
+      "ethernet0.networkName": "VM Network"
     },
     "disk_size": 36864,
     "http_directory": "http",
@@ -37,7 +44,15 @@
     "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "9999s",
-    "shutdown_command": "sudo /sbin/shutdown -P now"
+    "shutdown_command": "sudo /sbin/shutdown -P now",
+    "remote_type": "esx5",
+    "remote_host": "{{user `vsphere_remote_host`}}",
+    "remote_username": "{{user `vsphere_remote_username`}}",
+    "remote_password": "{{user `vsphere_remote_password`}}",
+    "format": "ova",
+    "vnc_disable_password": "true",
+    "vnc_port_min": 5900,
+    "vnc_port_min": 6000
   }],
   "provisioners": [
     {
@@ -126,17 +141,15 @@
   "post-processors": [
     [
       {
-        "type": "vagrant",
-        "compression_level": "9",
-        "output": "kali_rolling_vmware.box"
-      },
-      
-      {
-        "type": "vagrant-cloud",
-        "box_tag": "csi/kali_rolling",
-        "access_token": "{{user `vagrant_cloud_token`}}",
-        "version": "{{user `box_version`}}",
-        "version_description": "Continuous Security Integration framework built on top of Kali Rolling.  For information around this security framework, visit the project on GitHub: https://github.com/0dayinc/csi"
+        "type": "amazon-import",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_access_key`}}",
+        "region": "{{user `aws_region`}}",
+        "s3_bucket_name": "{{user `aws_s3_bucket_name`}}",
+        "license_type": "BYOL",
+        "tags": { 
+          "Description": "CSI Kali Rolling v{{user `box_version`}}" 
+        }
       }
     ]
   ]

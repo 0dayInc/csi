@@ -74,9 +74,9 @@ module CSI
 
         browser_obj.goto('https://www.facebook.com/login.php')
 
-        browser_obj.text_field(id: 'email').wait_until_present.set(username)
-        browser_obj.text_field(id: 'pass').wait_until_present.set(password)
-        browser_obj.button(id: 'loginbutton').wait_until_present.click
+        browser_obj.text_field(id: 'email').wait_until(&:present?).set(username)
+        browser_obj.text_field(id: 'pass').wait_until(&:present?).set(password)
+        browser_obj.button(id: 'loginbutton').wait_until(&:present?).click
 
         return browser_obj
       rescue => e
@@ -90,7 +90,7 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.div(id: 'logoutMenu').wait_until_present.click
+        browser_obj.div(id: 'logoutMenu').wait_until(&:present?).click
         browser_obj.span(text: 'Log Out', class: '_54nh').click
 
         return browser_obj

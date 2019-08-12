@@ -76,14 +76,14 @@ module CSI
 
         browser_obj.goto('https://twitter.com/login')
 
-        browser_obj.text_field(index: 2).wait_until_present.set(username)
-        browser_obj.text_field(index: 3).wait_until_present.set(password)
-        browser_obj.button(index: 1).wait_until_present.click
+        browser_obj.text_field(index: 2).wait_until(&:present?).set(username)
+        browser_obj.text_field(index: 3).wait_until(&:present?).set(password)
+        browser_obj.button(index: 1).wait_until(&:present?).click
 
         if mfa
           until browser_obj.url == 'https://twitter.com/' || browser_obj.url == 'https://twitter.com/home'
-            browser_obj.text_field(id: 'challenge_response').wait_until_present.set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
-            browser_obj.button(id: 'email_challenge_submit').wait_until_present.click
+            browser_obj.text_field(id: 'challenge_response').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
+            browser_obj.button(id: 'email_challenge_submit').wait_until(&:present?).click
             sleep 3
           end
           print "\n"
@@ -101,8 +101,8 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.li(id: 'user-dropdown').wait_until_present.click
-        browser_obj.button(text: 'Log out').wait_until_present.click
+        browser_obj.li(id: 'user-dropdown').wait_until(&:present?).click
+        browser_obj.button(text: 'Log out').wait_until(&:present?).click
 
         return browser_obj
       rescue => e

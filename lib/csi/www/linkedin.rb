@@ -74,9 +74,9 @@ module CSI
 
         browser_obj.goto('https://www.linkedin.com/uas/login')
 
-        browser_obj.text_field(name: 'session_key').wait_until_present.set(username)
-        browser_obj.text_field(name: 'session_password').wait_until_present.set(password)
-        browser_obj.button(name: 'signin').wait_until_present.click
+        browser_obj.text_field(name: 'session_key').wait_until(&:present?).set(username)
+        browser_obj.text_field(name: 'session_password').wait_until(&:present?).set(password)
+        browser_obj.button(name: 'signin').wait_until(&:present?).click
 
         return browser_obj
       rescue => e
@@ -90,8 +90,8 @@ module CSI
 
       public_class_method def self.logout(opts = {})
         browser_obj = opts[:browser_obj]
-        browser_obj.button(id: 'nav-settings__dropdown-trigger').wait_until_present.click
-        browser_obj.link(index: 14).wait_until_present.click
+        browser_obj.button(id: 'nav-settings__dropdown-trigger').wait_until(&:present?).click
+        browser_obj.link(index: 14).wait_until(&:present?).click
 
         return browser_obj
       rescue => e
