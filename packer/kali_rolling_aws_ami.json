@@ -48,7 +48,10 @@
     "remote_host": "{{user `vsphere_remote_host`}}",
     "remote_username": "{{user `vsphere_remote_username`}}",
     "remote_password": "{{user `vsphere_remote_password`}}",
-    "format": "ova"
+    "format": "ova",
+    "vnc_disable_password": "true",
+    "vnc_port_min": 5900,
+    "vnc_port_min": 6000
   }],
   "provisioners": [
     {
