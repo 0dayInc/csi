@@ -33,7 +33,7 @@ gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the
 gem 'net-ldap', '0.16.1'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '7.2.1'                 # Vuln Scan all the Things! ***2019-01-08
-gem 'nokogiri', '1.10.3'               # Parse HTML & XML Documents ***2019-04-26
+gem 'nokogiri', '1.10.4'               # Parse HTML & XML Documents ***2019-08-13
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
 gem 'os', '1.0.0'                      # Detect underlying operating system ***2017-04-04
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
