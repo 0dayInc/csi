@@ -42,7 +42,9 @@ fi
 
 case $provider_type in
   "aws_ami")
-    # Enable SSH
+    # Create Service Role for vmimport per instructions here:
+    # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
+    # Enable SSH in vSphere
     # Inside the web UI, navigate to “Manage”, then the “Services” tab. Find the entry called: “TSM-SSH”, and enable it.
 
     # You may wish to enable it to start up with the host by default. You can do this inside the “Actions” dropdown (it’s nested inside “Policy”).
