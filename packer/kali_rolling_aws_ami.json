@@ -59,7 +59,8 @@
       "type": "shell",
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
-        "provisioners/update_os.sh"
+        "provisioners/update_os.sh",
+        "provisioners/linux_image_cloud_amd64.sh"
        ]
     },
 
