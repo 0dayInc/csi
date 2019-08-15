@@ -24,7 +24,7 @@ Vagrant.configure(API_VERSION) do |config|
     type: 'rsync',
     rsync__args: [
       '--progress',
-      "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
+      "--rsync-path='/usr/bin/sudo rsync'",
       '--archive',
       '--delete',
       '-compress',
