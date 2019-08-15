@@ -18,22 +18,6 @@ Vagrant.configure(API_VERSION) do |config|
   ssh_port = r.rand(1025...65535)
   config.vm.network 'forwarded_port', guest: 22, host: ssh_port, id: 'ssh', auto_correct: true
 
-  #config.vm.synced_folder(
-  #  '.',
-  #  '/csi',
-  #  type: 'rsync',
-  #  rsync__args: [
-  #    '--progress',
-  #    "--rsync-path='/usr/bin/sudo /usr/bin/rsync'",
-  #    '--archive',
-  #    '--delete',
-  #    '-compress',
-  #    '--recursive',
-  #    '--files-from=vagrant_rsync_userland_configs.lst',
-  #    '--ignore-missing-args'
-  #  ]
-  #)
-
   config.vm.synced_folder(
     '.',
     '/csi',
@@ -45,7 +29,8 @@ Vagrant.configure(API_VERSION) do |config|
       '--delete',
       '-compress',
       '--recursive',
-      '--include-from=vagrant_rsync_userland_configs.lst'
+      '--files-from=vagrant_rsync_userland_configs.lst',
+      '--ignore-missing-args'
     ]
   )
 
