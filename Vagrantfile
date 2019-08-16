@@ -98,13 +98,13 @@ Vagrant.configure(API_VERSION) do |config|
       if vagrant_provider == 'aws'
         override.vm.box = 'dummy'
 
-        aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:ubuntu !requiretty' >> /etc/sudoers"
+        aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:csi_admin !requiretty' >> /etc/sudoers"
 
         aws.access_key_id = yaml_config['access_key_id']
         aws.secret_access_key = yaml_config['secret_access_key']
         aws.keypair_name = yaml_config['keypair_name']
 
-        aws.ami = yaml_config['ami']
+        aws.ami = ''
         aws.block_device_mapping = yaml_config['block_device_mapping']
         aws.region = yaml_config['region']
         aws.monitoring = yaml_config['monitoring']
