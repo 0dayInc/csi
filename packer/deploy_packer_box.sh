@@ -42,50 +42,8 @@ fi
 
 case $provider_type in
   "aws_ami")
-    # Create Service Role for vmimport per instructions here:
-    # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
-    # Enable SSH in vSphere
-    # Inside the web UI, navigate to “Manage”, then the “Services” tab. Find the entry called: “TSM-SSH”, and enable it.
-
-    # You may wish to enable it to start up with the host by default. You can do this inside the “Actions” dropdown (it’s nested inside “Policy”).
-
-    # Enable “Guest IP Hack”
-    # Run the following command on the ESXi host:
-    # 
-    # esxcli system settings advanced set -o /Net/GuestIPHack -i 1
-    # This allows Packer to infer the guest IP from ESXi, without the VM needing to report it itself.
-    # 
-    # Open VNC Ports on the Firewall
-    # Packer connects to the VM using VNC, so we’ll open a range of ports to allow it to connect to it.
-
-    # First, ensure we can edit the firewall configuration:
-
-    # chmod 644 /etc/vmware/firewall/service.xml
-    # chmod +t /etc/vmware/firewall/service.xml
-    # Then append the range we want to open to the end of the file:
-
-    # <service id="1000">
-    #   <id>packer-vnc</id>
-    #   <rule id="0000">
-    #     <direction>inbound</direction>
-    #     <protocol>tcp</protocol>
-    #     <porttype>dst</porttype>
-    #     <port>
-    #       <begin>5900</begin>
-    #       <end>6000</end>
-    #     </port>
-    #   </rule>
-    #   <enabled>true</enabled>
-    #   <required>true</required>
-    # </service>
-    # Finally, restore the permissions and reload the firewall:
-    # 
-    # chmod 444 /etc/vmware/firewall/service.xml
-    # esxcli network firewall refresh
     echo $debug
-    rm kali_rolling_vmware.box || true
-    pack vmware-iso kali_rolling_aws_ami.json $debug
-    vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
+    pack amazon-ebs kali_rolling_aws_ami.json $debug
     ;;
   "docker")
     rm kali_rolling_docker.box || true
