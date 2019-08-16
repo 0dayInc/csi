@@ -19,7 +19,7 @@
     "security_group_id": "{{user `aws_security_group_id`}}",
     "source_ami": "{{user `aws_source_ami`}}",
     "type": "amazon-ebs",
-    "ssh_username": "csi_admin",
+    "ssh_username": "ec2-user",
     "ami_name": "csi_kali_rolling-{{user `box_version`}}",
     "ami_block_device_mappings": [{
       "volume_size": 36,
@@ -40,6 +40,7 @@
     {
       "type": "shell",
       "scripts": [
+        "provisioners/init_aws_ami.sh",
         "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
        ]
