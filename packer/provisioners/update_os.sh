@@ -62,9 +62,6 @@ grok_error
 $screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/sda1' | ${debconf_set} ${assess_update_errors}"
-grok_error
-
 $screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
