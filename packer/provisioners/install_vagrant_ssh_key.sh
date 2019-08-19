@@ -9,4 +9,4 @@ fi
 
 sudo wget \
   --no-check-certificate https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub \
-  -O /home/csi_admin/.ssh/authorized_keys
+  -O ->> /home/csi_admin/.ssh/authorized_keys
