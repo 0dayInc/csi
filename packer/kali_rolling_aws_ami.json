@@ -27,7 +27,7 @@
       "debconf/priority=high <wait>",
       "DEBCONF_DEBUG=5 <wait>",
       "auto=true <wait>",
-      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_aws_ami_preseed.cfg <wait>",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
       "locale=en_US.UTF-8 <wait>",
       "hostname=kali <wait>",
       "domain=rolling.local <wait>",
@@ -47,7 +47,7 @@
       "type": "shell",
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
-        "provisioners/update_os.sh"
+        "provisioners/update_os.sh aws_ami"
       ]
     },
 
