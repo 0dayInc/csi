@@ -45,9 +45,12 @@
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=aws_ami"
+      ],
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
-        "provisioners/update_os.sh aws_ami"
+        "provisioners/update_os.sh"
       ]
     },
 
