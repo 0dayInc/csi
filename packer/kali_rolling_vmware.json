@@ -119,7 +119,8 @@
         "provisioners/ffmpeg.sh",
         "provisioners/docker.sh",
         "provisioners/baresip.sh",
-        "provisioners/kali_customize.rb"
+        "provisioners/kali_customize.rb",
+        "provisioners/post_install.sh"
       ]
     }
   ],
