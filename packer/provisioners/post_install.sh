@@ -3,4 +3,4 @@
 sudo passwd --expire csiadmin
 
 # Remove Packer SSH Key from authorized_keys file
-sed -i '/packer/d' /home/csiadmin/.ssh/authorized_keys
+sudo sed -i '/packer/d' /home/csiadmin/.ssh/authorized_keys
