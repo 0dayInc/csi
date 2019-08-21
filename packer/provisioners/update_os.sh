@@ -23,11 +23,20 @@ grok_error() {
   done
 }
 
+aws_ami="${$1}"
+
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
 sudo /bin/bash --login -c 'echo "Package: openssl" > /etc/apt/preferences.d/openssl'
 sudo /bin/bash --login -c 'echo "Pin: version 1.1.0*" >> /etc/apt/preferences.d/openssl'
 sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/openssl'
+
+if [[ $aws_ami == 'aws_ami' ]]; then
+  sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
+  sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
+  sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/linux-image-amd64'
+fi
+
 
 # Update OS per update_os_instructions function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.
