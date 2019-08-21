@@ -29,7 +29,7 @@
     ],
     "boot_wait": "9s",
     "communicator": "ssh",
-    "ssh_username": "csi_admin",
+    "ssh_username": "csiadmin",
     "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "9999s",
@@ -100,7 +100,8 @@
         "provisioners/ffmpeg.sh",
         "provisioners/docker.sh",
         "provisioners/baresip.sh",
-        "provisioners/kali_customize.rb"
+        "provisioners/kali_customize.rb",
+        "provisioners/post_install.sh"
       ]
     }
   ],

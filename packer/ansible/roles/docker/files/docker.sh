@@ -7,5 +7,5 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 sudo bash --login -c "echo 'deb [arch=amd64] https://download.docker.com/linux/debian stretch stable' > ${docker_sources}"
 sudo apt update
 sudo apt install -y docker-ce docker-compose
-sudo usermod -aG docker csi_admin
+sudo usermod -aG docker csiadmin
 sudo systemctl enable docker

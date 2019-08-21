@@ -2,48 +2,53 @@
   "variables": {
     "aws_access_key": "{{ env `AWS_ACCESS_KEY` }}",
     "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
-    "aws_source_ami": "{{ env `AWS_SOURCE_AMI` }}",
     "aws_region": "{{ env `AWS_REGION` }}",
-    "aws_subnet_id": "{{ env `AWS_SUBNET_ID` }}",
-    "aws_security_group_id": "{{ env `AWS_SECURITY_GROUP_ID` }}",
-    "aws_vpc_id": "{{ env `AWS_VPC_ID` }}",
-    "aws_instance_type": "{{ env `AWS_INSTANCE_TYPE` }}",
     "box_version": "{{ env `BOX_VERSION` }}"
   },
   "builders": [{
-    "access_key": "{{user `aws_access_key`}}",
-    "secret_key": "{{user `aws_secret_access_key`}}",
-    "subnet_id": "{{user `aws_subnet_id`}}",
-    "instance_type": "{{user `aws_instance_type`}}",
-    "region": "{{user `aws_region`}}",
-    "security_group_id": "{{user `aws_security_group_id`}}",
-    "source_ami": "{{user `aws_source_ami`}}",
-    "type": "amazon-ebs",
-    "ssh_username": "ec2-user",
-    "ami_name": "csi_kali_rolling-{{user `box_version`}}",
-    "ami_block_device_mappings": [{
-      "volume_size": 36,
-      "volume_type": "gp2",
-      "device_name": "/dev/xvda",
-      "delete_on_termination": "true"
-    }],
-    "launch_block_device_mappings": [{
-      "volume_size": 36,
-      "volume_type": "gp2",
-      "device_name": "/dev/xvda",
-      "delete_on_termination": "true"          
-    }],
-    "vpc_id": "{{user `aws_vpc_id`}}",
-    "associate_public_ip_address": true
+    "type": "virtualbox-iso",
+    "guest_os_type": "Debian_64",
+    "vboxmanage": [
+      ["modifyvm", "{{.Name}}", "--memory", "4096"],
+      ["modifyvm", "{{.Name}}", "--cpus", "1"]
+    ],
+    "disk_size": 36864,
+    "hard_drive_interface": "sata",
+    "http_directory": "http",
+    "iso_url": "http://cdimage.kali.org/kali-2019.2/kali-linux-2019.2-amd64.iso",
+    "iso_checksum": "67574ee0039eaf4043a237e7c4b0eb432ca07ebf9c7b2dd0667e83bc3900b2cf",
+    "iso_checksum_type": "sha256",
+    "headless": false,
+    "boot_command": [
+      "<esc><wait>",
+      "install <wait>",
+      "debug <wait>",
+      "dbg/flags=all-x <wait>",
+      "debconf/priority=high <wait>",
+      "DEBCONF_DEBUG=5 <wait>",
+      "auto=true <wait>",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_aws_ami_preseed.cfg <wait>",
+      "locale=en_US.UTF-8 <wait>",
+      "hostname=kali <wait>",
+      "domain=rolling.local <wait>",
+      "<enter><wait>"
+    ],
+    "boot_wait": "9s",
+    "communicator": "ssh",
+    "ssh_username": "csiadmin",
+    "ssh_password": "changeme",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "9999s",
+    "shutdown_command": "sudo /sbin/shutdown -P now",
+    "format": "ova"
   }],
   "provisioners": [
     {
       "type": "shell",
       "scripts": [
-        "provisioners/init_aws_ami.sh",
         "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
-       ]
+      ]
     },
 
     {
@@ -57,7 +62,7 @@
       "pause_before": "360s",
       "type": "shell",
       "scripts": [
-        "provisioners/vmware_tools.sh"
+        "provisioners/virtualbox_guest_additions.sh"
       ]
     },
 
@@ -118,8 +123,23 @@
         "provisioners/docker.sh",
         "provisioners/baresip.sh",
         "provisioners/kali_customize.rb",
-        "provisioners/post_aws_ami.sh"
+        "provisioners/post_install.sh"
       ]
     }
+  ],
+  "post-processors": [
+    [
+       {
+        "type": "amazon-import",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_access_key`}}",
+        "region": "{{user `aws_region`}}",
+        "s3_bucket_name": "csi.kali.rolling",
+        "license_type": "BYOL",
+        "tags": { 
+          "Description": "CSI Kali Rolling v{{user `box_version`}}" 
+        }
+      }
+    ]
   ]
 }

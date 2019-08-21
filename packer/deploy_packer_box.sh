@@ -42,8 +42,10 @@ fi
 
 case $provider_type in
   "aws_ami")
+    # Create Service Role for vmimport per instructions here:
+    # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
     echo $debug
-    pack amazon-ebs kali_rolling_aws_ami.json $debug
+    pack virtualbox-iso kali_rolling_aws_ami.json $debug
     ;;
   "docker")
     rm kali_rolling_docker.box || true
