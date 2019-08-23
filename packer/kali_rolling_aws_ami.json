@@ -49,6 +49,7 @@
         "CSI_GOLDEN_IMAGE=aws_ami"
       ],
       "scripts": [
+        "provisioners/init_aws_ami.sh",
         "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
       ]
