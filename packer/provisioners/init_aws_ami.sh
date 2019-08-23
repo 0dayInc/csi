@@ -8,3 +8,4 @@ sudo /bin/bash --login -c "mv /tmp/${sysmap} /boot && chmod 0644 /boot/${sysmap}
 sudo /bin/bash --login -c "mv /tmp/${config} /boot && chmod 0644 /boot/${config} && chown root:root /boot/${config}"
 sudo /bin/bash --login -c "mv /tmp/${initrd} /boot && chmod 0644 /boot/${initrd} && chown root:root /boot/${initrd}"
 sudo /bin/bash --login -c "mv /tmp/${kernel} /boot && chmod 0644 /boot/${kernel} && chown root:root /boot/${kernel}"
+sudo update-grub2

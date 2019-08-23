@@ -78,6 +78,7 @@
     },
 
     {
+      "pause_before": "360s",
       "type": "shell",
       "environment_vars": [
         "CSI_GOLDEN_IMAGE=aws_ami"
