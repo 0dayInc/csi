@@ -13,6 +13,7 @@ puts 'GUI ENABLED.' if vagrant_gui
 
 Vagrant.configure(API_VERSION) do |config|
   config.vm.box = 'csi/kali_rolling'
+  config.ssh.username = 'csiadmin'
 
   r = Random.new
   ssh_port = r.rand(1025...65535)
@@ -119,7 +120,7 @@ Vagrant.configure(API_VERSION) do |config|
         # Hack for dealing w/ images that require a pty when using sudo and changing hostname
         # aws.user_data = aws_init_script
 
-        override.ssh.username = yaml_config['ssh_username']
+        override.ssh.username = 'csiadmin'
         override.ssh.private_key_path = yaml_config['ssh_private_key_path']
         override.dns.record_sets = yaml_config['record_sets']
       end

@@ -17,7 +17,6 @@ security_groups:
   - 'SECURITY_GROUP_ID'
 tags: 
   Name: 'CSI (Continuous Security Integration) Instance'
-ssh_username: 'csiadmin'
 ssh_private_key_path: 'SSH_PRIVATE_KEY_PATH'
 # Route53 Configuration
 record_sets:
