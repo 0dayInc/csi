@@ -141,5 +141,6 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/apache2.sh', privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/jenkins_ssh-keygen.rb', privileged: false
+    config.vm.provision :shell, path: './vagrant/provisioners/post_install.sh', privileged: false
   end
 end

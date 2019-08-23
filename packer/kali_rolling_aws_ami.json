@@ -44,13 +44,51 @@
   }],
   "provisioners": [
     {
+      "type": "file",
+      "source": "aws_ami_kernel/System.map-4.19.0-kali4-amd64",
+      "destination": "/tmp/System.map-4.19.0-kali4-amd64"
+    },
+    {
+      "type": "file",
+      "source": "aws_ami_kernel/config-4.19.0-kali4-amd64",
+      "destination": "/tmp/config-4.19.0-kali4-amd64"
+    },
+    {
+      "type": "file",
+      "source": "aws_ami_kernel/initrd.img-4.19.0-kali4-amd64",
+      "destination": "/tmp/initrd.img-4.19.0-kali4-amd64"
+    },
+    {
+      "type": "file",
+      "source": "aws_ami_kernel/System.map-4.19.0-kali4-amd64",
+      "destination": "/tmp/vmlinuz-4.19.0-kali4-amd64"
+    },
+    {
+      "type": "file",
+      "source": "aws_ami_kernel/grub",
+      "destination": "/tmp/grub"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/init_aws_ami.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "360s",
       "type": "shell",
       "environment_vars": [
         "CSI_GOLDEN_IMAGE=aws_ami"
       ],
       "scripts": [
-        "provisioners/init_aws_ami.sh",
-        "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
       ]
     },

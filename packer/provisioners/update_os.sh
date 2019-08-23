@@ -33,7 +33,7 @@ sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/o
 
 if [[ $csi_golden_image == 'aws_ami' ]]; then
   sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
+  sudo /bin/bash --login -c 'echo "Pin: version 4.19.37-6kali1" >> /etc/apt/preferences.d/linux-image-amd64'
   sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/linux-image-amd64'
 fi
 
