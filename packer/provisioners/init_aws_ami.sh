@@ -3,11 +3,10 @@ sysmap='System.map-4.19.0-kali4-amd64'
 config='config-4.19.0-kali4-amd64'
 initrd='initrd.img-4.19.0-kali4-amd64'
 kernel='vmlinuz-4.19.0-kali4-amd64'
-grub='grub.cfg'
+grub='/etc/default/grub'
 
 sudo /bin/bash --login -c "mv /tmp/${sysmap} /boot && chmod 0644 /boot/${sysmap} && chown root:root /boot/${sysmap}"
 sudo /bin/bash --login -c "mv /tmp/${config} /boot && chmod 0644 /boot/${config} && chown root:root /boot/${config}"
 sudo /bin/bash --login -c "mv /tmp/${initrd} /boot && chmod 0644 /boot/${initrd} && chown root:root /boot/${initrd}"
 sudo /bin/bash --login -c "mv /tmp/${kernel} /boot && chmod 0644 /boot/${kernel} && chown root:root /boot/${kernel}"
-sudo /bin/bash --login -c "mv /tmp/${grub} /boot/grub && chmod 0644 /boot/grub/${grub} && chown root:root /boot/grub/${grub}"
-sudo update-grub2
+sudo /bin/bash --login -c "mv /tmp/grub ${grub} && chmod 0644 ${grub} && chown root:root ${grub} && update-grub2"
