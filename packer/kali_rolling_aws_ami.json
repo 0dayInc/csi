@@ -64,6 +64,11 @@
       "destination": "/tmp/vmlinuz-4.19.0-kali4-amd64"
     },
     {
+      "type": "file",
+      "source": "aws_ami_kernel/grub",
+      "destination": "/tmp/grub"
+    },
+    {
       "type": "shell",
       "scripts": [
         "provisioners/init_aws_ami.sh"
