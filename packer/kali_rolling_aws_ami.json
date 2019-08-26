@@ -69,6 +69,11 @@
       "destination": "/tmp/grub"
     },
     {
+      "type": "file",
+      "source": "aws_ami_kernel/40_custom",
+      "destination": "/tmp/40_custom"
+    },
+    {
       "type": "shell",
       "scripts": [
         "provisioners/init_aws_ami.sh"
