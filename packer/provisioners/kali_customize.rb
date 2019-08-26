@@ -49,7 +49,7 @@ File.open("#{panel_root}/csi-chromium-openvas.desktop", 'w') do |f|
   f.puts 'Terminal=false'
   f.puts 'X-MultipleArgs=false'
   f.puts 'Type=Application'
-  f.puts 'Icon=kali-OpenVas.png'
+  f.puts 'Icon=kali-openvas.png'
   f.puts 'Categories=Network;WebBrowser;'
   f.puts 'MimeType=text/html;text/xml;application/xhtml_xml;application/x-mimearchive;x-scheme-handler/http;x-scheme-handler/https;'
   f.puts 'StartupWMClass=chromium'
