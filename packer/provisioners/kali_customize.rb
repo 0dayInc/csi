@@ -61,7 +61,7 @@ File.open("#{panel_root}/csi-msfconsole.desktop", 'w') do |f|
   f.puts 'Name=metasploit framework'
   f.puts 'Encoding=UTF-8'
   f.puts 'Exec=/bin/bash --login -c "cd /opt/metasploit-framework-dev && sudo msfconsole"'
-  f.puts 'Icon=kali-metasploit.png'
+  f.puts 'Icon=kali-metasploit-framework.png'
   f.puts 'StartupNotify=false'
   f.puts 'Terminal=true'
   f.puts 'Type=Application'
