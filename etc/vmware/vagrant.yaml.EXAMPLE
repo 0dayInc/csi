@@ -1,5 +1,5 @@
 vagrant_vmware_license: "/tmp/license.lic"
 cpus: 1
-memory: 2048
+memory: 4096
 hostname: csideployed.csi.local
 diskMB: 36864
