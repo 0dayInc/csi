@@ -15,5 +15,5 @@ if [[ $csi_golden_image == 'aws_ami' ]]; then
   sudo /bin/bash --login -c "echo 'grub-installer grub-installer/only_debian boolean true' | ${debconf_set}"
   sudo /bin/bash --login -c "echo 'grub-installer grub-installer/with_other_os boolean true' | ${debconf_set}"
   sudo /bin/bash --login -c "echo 'grub-pc grub-pc/install_devices multiselect /dev/xvda' | ${debconf_set}"
-  sudo /bin/bash --login -c "apt install -y cloud-init linux-image-cloud-amd64 && update-grub2 && update-initramfs -u"
+  sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt install -yq cloud-init linux-headers-cloud-amd64 linux-image-cloud-amd64 && update-grub2 && update-initramfs -u"
 fi

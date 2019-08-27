@@ -43,7 +43,7 @@ sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/o
 screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
 assess_update_errors='|| echo UPDATE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
-apt="apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
+apt="DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
 
 # Cleanup up prior screenlog.0 file from previous update_os failure(s)
 if [[ -e screenlog.0 ]]; then 
@@ -53,7 +53,7 @@ fi
 $screen_cmd "apt update ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt install -y debconf-utils ${assess_update_errors}"
+$screen_cmd "apt install -yq debconf-utils ${assess_update_errors}"
 grok_error
 
 #$screen_cmd "for pkg in $(dpkg-query --show | awk '{print $1}'); do echo ; echo "--> $pkg" ; echo ; dpkg-reconfigure --frontend=noninteractive --priority=critical $pkg < /dev/null ; done ${assess_update_errors}"
@@ -74,24 +74,24 @@ grok_error
 $screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
+$screen_cmd "${apt} dist-upgrade -yq ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
+$screen_cmd "${apt} full-upgrade -yq ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} autoremove -y ${assess_update_errors}"
+$screen_cmd "${apt} autoremove -yq ${assess_update_errors}"
 grok_error
 
 uname -a | grep kali
 if [[ $? == 0 ]]; then
-  $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
+  $screen_cmd "${apt} install -yq kali-linux-full ${assess_update_errors}"
   grok_error
 else
   echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
 fi
 
-$screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
+$screen_cmd "${apt} install -yq apt-file ${assess_update_errors}"
 grok_error
 
 $screen_cmd "apt-file update ${assess_update_errors}"
