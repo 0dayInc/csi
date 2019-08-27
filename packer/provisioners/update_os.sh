@@ -31,11 +31,11 @@ sudo /bin/bash --login -c 'echo "Package: openssl" > /etc/apt/preferences.d/open
 sudo /bin/bash --login -c 'echo "Pin: version 1.1.0*" >> /etc/apt/preferences.d/openssl'
 sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/openssl'
 
-if [[ $csi_golden_image == 'aws_ami' ]]; then
-  sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/linux-image-amd64'
-fi
+#if [[ $csi_golden_image == 'aws_ami' ]]; then
+  #sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
+  #sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
+  #sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/linux-image-amd64'
+#fi
 
 
 # Update OS per update_os_instructions function and grok for errors in screen session logs

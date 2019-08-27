@@ -27,7 +27,7 @@
       "debconf/priority=high <wait>",
       "DEBCONF_DEBUG=5 <wait>",
       "auto=true <wait>",
-      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_aws_ami_preseed.cfg <wait>",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
       "locale=en_US.UTF-8 <wait>",
       "hostname=kali <wait>",
       "domain=rolling.local <wait>",
@@ -123,6 +123,9 @@
     {
       "pause_before": "360s",
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=aws_ami"
+      ],
       "scripts": [
         "provisioners/aliases.rb",
         "provisioners/rvm.sh",
