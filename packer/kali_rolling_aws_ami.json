@@ -2,7 +2,6 @@
   "variables": {
     "aws_access_key": "{{ env `AWS_ACCESS_KEY` }}",
     "aws_secret_access_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
-    "aws_region": "{{ env `AWS_REGION` }}",
     "box_version": "{{ env `BOX_VERSION` }}"
   },
   "builders": [{
@@ -27,7 +26,7 @@
       "debconf/priority=high <wait>",
       "DEBCONF_DEBUG=5 <wait>",
       "auto=true <wait>",
-      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_preseed.cfg <wait>",
+      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_aws_ami_preseed.cfg <wait>",
       "locale=en_US.UTF-8 <wait>",
       "hostname=kali <wait>",
       "domain=rolling.local <wait>",
@@ -43,36 +42,6 @@
     "format": "ova"
   }],
   "provisioners": [
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/System.map-4.19.0-kali4-amd64",
-      "destination": "/tmp/System.map-4.19.0-kali4-amd64"
-    },
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/config-4.19.0-kali4-amd64",
-      "destination": "/tmp/config-4.19.0-kali4-amd64"
-    },
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/initrd.img-4.19.0-kali4-amd64",
-      "destination": "/tmp/initrd.img-4.19.0-kali4-amd64"
-    },
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/System.map-4.19.0-kali4-amd64",
-      "destination": "/tmp/vmlinuz-4.19.0-kali4-amd64"
-    },
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/grub",
-      "destination": "/tmp/grub"
-    },
-    {
-      "type": "file",
-      "source": "aws_ami_kernel/40_custom",
-      "destination": "/tmp/40_custom"
-    },
     {
       "type": "shell",
       "scripts": [
@@ -183,7 +152,7 @@
         "type": "amazon-import",
         "access_key": "{{user `aws_access_key`}}",
         "secret_key": "{{user `aws_secret_access_key`}}",
-        "region": "{{user `aws_region`}}",
+        "region": "us-east-1",
         "s3_bucket_name": "csi.kali.rolling",
         "license_type": "BYOL",
         "tags": { 
