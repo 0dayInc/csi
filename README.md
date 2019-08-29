@@ -29,12 +29,12 @@ If you've found this framework useful and you're either not in a position to don
 [![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/0dayinc)
 
 ### **Call to Arms** ###
-If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM us as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.  Additionally if you want to contribute to this framework's success, [we've made it very easy to do.](https://cash.me/$fundcsi)
+If you're willing to provide access to commercial security tools (e.g. Rapid7's Nexpose, Tenable Nessus, QualysGuard, HP WebInspect, IBM Appscan, etc) please PM us as this will continue to promote CSIs interoperability w/ industry-recognized security tools moving forward.  Additionally if you want to contribute to this framework's success, check out our [How to Contribute](https://github.com/0dayInc/csi/blob/master/CONTRIBUTING.md).  Lastly, we accept [donoations](https://cash.me/$fundcsi).
 
 
 ### **Intro** ###
 #### **What is CSI** ####
-CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's start out by planting a million seeds in your mind:
+CSI (Continuous Security Integration) is an open security automation framework that aims to stand on the shoulders of security giants, promoting trust and innovation.  Build your own custom automation drivers freely and easily using pre-built modules.  If a picture is worth a thousand words, then a video must be worth at least a million...let's begin by planting a million seeds in your mind:
 
 #### **Creating an OWASP ZAP Scanning Driver Leveraging the csi Prototyper** ####
 [![Continuous Security Integration: Basics of Building Your Own Security Automation ](https://i.ytimg.com/vi/MLSqd5F-Bjw/0.jpg)](https://youtu.be/MLSqd5F-Bjw)
@@ -98,7 +98,7 @@ Not Quite Available - Coming Soon
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.705]:001 >>> CSI.help
+  csi[v0.3.707]:001 >>> CSI.help
   ```
 
 
