@@ -82,6 +82,12 @@ else
     plugin_arr.push(p.strip.chomp)
   end
 
+  # In Reference to https://github.com/arangamani/jenkins_api_client/issues/287
+  # Bug in RubyGem jenkins_api_client 1.5.3 when interacting w/ Jenkins > 2.190
+  # i.e.
+  # Crumbs turned on...
+  # JenkinsApi::Exceptions::Forbidden: Access Denied...
+  # Crumb expired...
   jenkins_obj.plugin.install(plugin_arr)
   jenkins_obj.system.restart if restart_jenkins
 end

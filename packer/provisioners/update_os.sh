@@ -31,10 +31,16 @@ sudo /bin/bash --login -c 'echo "Package: openssl" > /etc/apt/preferences.d/open
 sudo /bin/bash --login -c 'echo "Pin: version 1.1.0*" >> /etc/apt/preferences.d/openssl'
 sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/openssl'
 
+# pin until breadcrumbs are implemented in the framwework
+sudo /bin/bash --login -c 'echo "Package: jenkins" > /etc/apt/preferences.d/jenkins'
+sudo /bin/bash --login -c 'echo "Pin: version 2.190" >> /etc/apt/preferences.d/jenkins'
+sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/jenkins'
+
 if [[ $csi_golden_image == 'aws_ami' ]]; then
+  # pin kernel image to align w/ same kernel w/in Kali Linux Official AMI
   sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
   sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/linux-image-amd64'
+  sudo /bin/bash --login -c 'echo "Pin-Priority: 1003" >> /etc/apt/preferences.d/linux-image-amd64'
 fi
 
 
@@ -53,14 +59,8 @@ fi
 $screen_cmd "apt update ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt install -yq debconf-utils ${assess_update_errors}"
+$screen_cmd "apt install -y debconf-utils ${assess_update_errors}"
 grok_error
-
-#$screen_cmd "for pkg in $(dpkg-query --show | awk '{print $1}'); do echo ; echo "--> $pkg" ; echo ; dpkg-reconfigure --frontend=noninteractive --priority=critical $pkg < /dev/null ; done ${assess_update_errors}"
-#grok_error
-
-#$screen_cmd "echo 'postgresql-common postgresql-common/obsolete-major boolean true' | ${debconf_set} ${assess_update_errors}"
-#grok_error
 
 $screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
@@ -74,24 +74,24 @@ grok_error
 $screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} dist-upgrade -yq ${assess_update_errors}"
+$screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} full-upgrade -yq ${assess_update_errors}"
+$screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} autoremove -yq ${assess_update_errors}"
+$screen_cmd "${apt} autoremove -y ${assess_update_errors}"
 grok_error
 
 uname -a | grep kali
 if [[ $? == 0 ]]; then
-  $screen_cmd "${apt} install -yq kali-linux-full ${assess_update_errors}"
+  $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
   grok_error
 else
   echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
 fi
 
-$screen_cmd "${apt} install -yq apt-file ${assess_update_errors}"
+$screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
 grok_error
 
 $screen_cmd "apt-file update ${assess_update_errors}"

@@ -21,10 +21,11 @@ sudo usermod -a -G sudo jenkins
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 
-printf "Sleeping 999s While Jenkins Daemon Wakes Up ********************************************"
-ruby -e "(0..999).each { print '.'; sleep 1 }"
+printf "Sleeping 360s While Jenkins Daemon Wakes Up ********************************************"
+ruby -e "(0..360).each { print '.'; sleep 1 }"
 
-initial_admin_pwd=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
+initial_admin_pwd=`sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
+echo "JENKINS Initial Admin: ${initial_admin_pwd}"
 
 # TODO: Get this working
 # printf "Updating Pre-Installed Jenkins Plugins ************************************************"
