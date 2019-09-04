@@ -74,10 +74,10 @@
       "pause_before": "180s",
       "type": "shell",
       "scripts": [
-        "provisioners/aliases.rb",
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
         "provisioners/ruby.sh",
+        "provisioners/aliases.rb",
         "provisioners/csi.sh",
         "provisioners/beef.rb",
         "provisioners/burpsuite.sh",
