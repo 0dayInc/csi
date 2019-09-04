@@ -1,7 +1,6 @@
 #!/bin/bash --login
 csi_golden_image=`echo $CSI_GOLDEN_IMAGE`
 
-
 # Clenup History
 shred -u ~/.*history
 sudo shred -u /root/.*history
@@ -27,7 +26,10 @@ if [[ $csi_golden_image == 'aws_ami' ]]; then
   if [[ -f $pinned_kernel_file ]]; then
     sudo rm $pinned_kernel_file
   fi
-  sudo rm /home/csiadmin/.ssh/authorized_keys
+
+  if [[ -e /home/csiadmin/.ssh/authorized_keys ]]; then
+    sudo rm /home/csiadmin/.ssh/authorized_keys
+  fi
 else
   # Remove Packer SSH Key from authorized_keys file
   sudo sed -i '/packer/d' /home/csiadmin/.ssh/authorized_keys
