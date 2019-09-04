@@ -13,7 +13,7 @@ puts 'GUI ENABLED.' if vagrant_gui
 
 Vagrant.configure(API_VERSION) do |config|
   config.vm.box = 'csi/kali_rolling'
-  config.ssh.username = 'csiadmin'
+  config.ssh.username = 'admin'
 
   r = Random.new
   ssh_port = r.rand(1025...65535)
@@ -99,7 +99,7 @@ Vagrant.configure(API_VERSION) do |config|
       if vagrant_provider == 'aws'
         override.vm.box = 'dummy'
 
-        # aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:csiadmin !requiretty' >> /etc/sudoers"
+        # aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:admin !requiretty' >> /etc/sudoers"
 
         aws.access_key_id = yaml_config['access_key_id']
         aws.secret_access_key = yaml_config['secret_access_key']
@@ -120,7 +120,7 @@ Vagrant.configure(API_VERSION) do |config|
         # Hack for dealing w/ images that require a pty when using sudo and changing hostname
         # aws.user_data = aws_init_script
 
-        override.ssh.username = 'csiadmin'
+        override.ssh.username = 'admin'
         override.ssh.private_key_path = yaml_config['ssh_private_key_path']
         override.dns.record_sets = yaml_config['record_sets']
       end

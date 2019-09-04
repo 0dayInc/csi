@@ -33,7 +33,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo -H -u csiadmin /usr/local/bin/toggle_tor.sh &amp;&amp; sleep 9</command>
+      <command>sudo -H -u admin /usr/local/bin/toggle_tor.sh &amp;&amp; sleep 9</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>/bin/bash --login -c &quot;csi_www_checkip -p &apos;http://127.0.0.1:9050&apos; -T -i &gt; $WORKSPACE/current_tor_ip.txt&quot;</command>
