@@ -47,12 +47,6 @@ case $provider_type in
     echo $debug
     pack amazon-ebs kali_rolling_aws_ami.json $debug
     ;;
-  "debian_to_kali")
-    # Create Service Role for vmimport per instructions here:
-    # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
-    echo $debug
-    pack amazon-ebs debian_to_kali_rolling.json $debug
-    ;;
   "docker")
     rm kali_rolling_docker.box || true
     pack docker kali_rolling_docker.json $debug
