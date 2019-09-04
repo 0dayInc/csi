@@ -29,7 +29,7 @@
     ],
     "boot_wait": "9s",
     "communicator": "ssh",
-    "ssh_username": "csiadmin",
+    "ssh_username": "admin",
     "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "9999s",

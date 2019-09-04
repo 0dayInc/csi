@@ -5,41 +5,17 @@
     "box_version": "{{ env `BOX_VERSION` }}"
   },
   "builders": [{
-    "type": "virtualbox-iso",
-    "guest_os_type": "Debian_64",
-    "vboxmanage": [
-      ["modifyvm", "{{.Name}}", "--memory", "4096"],
-      ["modifyvm", "{{.Name}}", "--cpus", "1"]
-    ],
-    "disk_size": 36864,
-    "hard_drive_interface": "sata",
-    "http_directory": "http",
-    "iso_url": "http://cdimage.kali.org/kali-2019.3/kali-linux-2019.3-amd64.iso",
-    "iso_checksum": "d9bc23ad1ed2af7f0170dc6d15aec58be2f1a0a5be6751ce067654b753ef7020",
-    "iso_checksum_type": "sha256",
-    "headless": false,
-    "boot_command": [
-      "<esc><wait>",
-      "install <wait>",
-      "debug <wait>",
-      "dbg/flags=all-x <wait>",
-      "debconf/priority=high <wait>",
-      "DEBCONF_DEBUG=5 <wait>",
-      "auto=true <wait>",
-      "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/kali_rolling_aws_ami_preseed.cfg <wait>",
-      "locale=en_US.UTF-8 <wait>",
-      "hostname=kali <wait>",
-      "domain=rolling.local <wait>",
-      "<enter><wait>"
-    ],
-    "boot_wait": "9s",
-    "communicator": "ssh",
-    "ssh_username": "csiadmin",
-    "ssh_password": "changeme",
-    "ssh_port": 22,
-    "ssh_wait_timeout": "9999s",
-    "shutdown_command": "sudo /sbin/shutdown -P now",
-    "format": "ova"
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key":"{{user `aws_secret_access_key`}}",
+      "ami_name": "CSI Kali Rolling v{{user `box_version`}}",
+      "region": "us-east-1",
+      "source_ami": "ami-020d42918d848c657",
+      "instance_type": "t2.medium",
+      "communicator": "ssh",
+      "ssh_username": "admin",
+      "security_group_id": "sg-0dea37d8a00e64f73",
+      "run_tags":{"Name":"CSI Kali Rolling v{{user `box_version`}}"}
   }],
   "provisioners": [
     {
@@ -145,20 +121,5 @@
         "provisioners/post_install.sh"
       ]
     }
-  ],
-  "post-processors": [
-    [
-       {
-        "type": "amazon-import",
-        "access_key": "{{user `aws_access_key`}}",
-        "secret_key": "{{user `aws_secret_access_key`}}",
-        "region": "us-east-1",
-        "s3_bucket_name": "csi.kali.rolling",
-        "license_type": "BYOL",
-        "tags": { 
-          "Description": "CSI Kali Rolling v{{user `box_version`}}" 
-        }
-      }
-    ]
   ]
 }

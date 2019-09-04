@@ -1,2 +1,3 @@
 #!/bin/bash --login
-echo 'AWS AMI Pre-initialization Tasks Go Here...'
+# Remove admin User from Private Debian to Kali Golden AMI
+sudo userdel -rf admin

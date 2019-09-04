@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <aws_ami||docker||docker_csi||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
+  echo "USAGE: ${0} <aws_ami||debian_to_kali||docker||docker_csi||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
   exit 1
 }
 
@@ -45,7 +45,13 @@ case $provider_type in
     # Create Service Role for vmimport per instructions here:
     # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
     echo $debug
-    pack virtualbox-iso kali_rolling_aws_ami.json $debug
+    pack amazon-ebs kali_rolling_aws_ami.json $debug
+    ;;
+  "debian_to_kali")
+    # Create Service Role for vmimport per instructions here:
+    # https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html
+    echo $debug
+    pack amazon-ebs debian_to_kali_rolling.json $debug
     ;;
   "docker")
     rm kali_rolling_docker.box || true
