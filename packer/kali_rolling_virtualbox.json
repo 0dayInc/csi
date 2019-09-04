@@ -33,7 +33,7 @@
     ],
     "boot_wait": "9s",
     "communicator": "ssh",
-    "ssh_username": "admin",
+    "ssh_username": "csiadmin",
     "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "9999s",
@@ -42,6 +42,27 @@
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=virtualbox"
+      ],
+      "scripts": [
+        "provisioners/init_image.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "180s",
+      "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=virtualbox"
+      ],
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
         "provisioners/update_os.sh"
@@ -58,6 +79,9 @@
     {
       "pause_before": "180s",
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=virtualbox"
+      ],
       "scripts": [
         "provisioners/virtualbox_guest_additions.sh"
       ]
@@ -73,6 +97,9 @@
     {
       "pause_before": "180s",
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=virtualbox"
+      ],
       "scripts": [
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",

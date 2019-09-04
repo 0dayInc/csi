@@ -29,7 +29,7 @@
     ],
     "boot_wait": "9s",
     "communicator": "ssh",
-    "ssh_username": "admin",
+    "ssh_username": "csiadmin",
     "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "9999s",
@@ -37,6 +37,24 @@
   }],
   "provisioners": [
     {
+      "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=qemu"
+      ],
+      "scripts": [
+        "provisioners/init_image.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+        "provisioners/reboot_os.sh"
+      ]
+    },
+
+    {
+      "pause_before": "180s",
       "type": "shell",
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
@@ -52,8 +70,11 @@
     },
 
     {
-      "pause_before": "360s",
+      "pause_before": "180s",
       "type": "shell",
+      "environment_vars": [
+        "CSI_GOLDEN_IMAGE=qemu"
+      ],
       "scripts": [
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
