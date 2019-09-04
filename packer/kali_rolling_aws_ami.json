@@ -10,7 +10,7 @@
       "secret_key":"{{user `aws_secret_access_key`}}",
       "ami_name": "CSI Kali Rolling v{{user `box_version`}}",
       "region": "us-east-1",
-      "source_ami": "ami-0d5076f11e69c3052",
+      "source_ami": "ami-0cfac3931b2a799d1",
       "instance_type": "t2.medium",
       "communicator": "ssh",
       "ssh_username": "admin",
