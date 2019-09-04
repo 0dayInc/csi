@@ -8,9 +8,14 @@ sudo shred -u /root/.*history
 # Disable Local Root Access
 sudo passwd -l root
 
+# Remove csiadmin account if it exists
+id -u csiadmin
+if [[ $? == 0 ]]; then
+  sudo userdel -f csiadmin
+fi
+
 # Remove SSH Host Key Pairs
 sudo shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
-
 
 if [[ $csi_golden_image == 'aws_ami' ]]; then
   debconf_set='/usr/bin/debconf-set-selections'
@@ -18,12 +23,6 @@ if [[ $csi_golden_image == 'aws_ami' ]]; then
   sudo /bin/bash --login -c "echo 'grub-installer grub-installer/with_other_os boolean true' | ${debconf_set}"
   sudo /bin/bash --login -c "echo 'grub-pc grub-pc/install_devices multiselect /dev/xvda' | ${debconf_set}"
   sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt install -yq xfsprogs debootstrap euca2ools dhcpcd5 cloud-init spin && update-grub2 && update-initramfs -u"
-
-  # Removed pinned kernel from AWS AMIs
-  pinned_kernel_file='/etc/apt/preferences.d/linux-image-amd64'
-  if [[ -f $pinned_kernel_file ]]; then
-    sudo rm $pinned_kernel_file
-  fi
 
   if [[ -e /home/admin/.ssh/authorized_keys ]]; then
     sudo rm /home/admin/.ssh/authorized_keys
