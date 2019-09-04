@@ -36,14 +36,6 @@ sudo /bin/bash --login -c 'echo "Package: jenkins" > /etc/apt/preferences.d/jenk
 sudo /bin/bash --login -c 'echo "Pin: version 2.190" >> /etc/apt/preferences.d/jenkins'
 sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/jenkins'
 
-if [[ $csi_golden_image == 'aws_ami' ]]; then
-  # pin kernel image to align w/ same kernel w/in Kali Linux Official AMI
-  sudo /bin/bash --login -c 'echo "Package: linux-image-amd64" > /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin: version 4.19*" >> /etc/apt/preferences.d/linux-image-amd64'
-  sudo /bin/bash --login -c 'echo "Pin-Priority: 1003" >> /etc/apt/preferences.d/linux-image-amd64'
-fi
-
-
 # Update OS per update_os_instructions function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.
 screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
@@ -85,7 +77,11 @@ grok_error
 
 grep kali /etc/apt/sources.list
 if [[ $? == 0 ]]; then
+  $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
+  grok_error
   $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
+  grok_error
+  $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
   grok_error
 else
   echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
