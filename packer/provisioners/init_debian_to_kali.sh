@@ -1,7 +1,4 @@
 #!/bin/bash --login
-# Disable root Account
-sudo passwd -l root
-
 # Begin Converting to Kali Rolling
 sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt install -yq dirmngr software-properties-common"
 sudo /bin/bash --login -c "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main contrib non-free' && add-apt-repository 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free'"
