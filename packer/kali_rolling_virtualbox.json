@@ -56,7 +56,7 @@
     },
 
     {
-      "pause_before": "360s",
+      "pause_before": "180s",
       "type": "shell",
       "scripts": [
         "provisioners/virtualbox_guest_additions.sh"
@@ -71,7 +71,7 @@
     },
 
     {
-      "pause_before": "360s",
+      "pause_before": "180s",
       "type": "shell",
       "scripts": [
         "provisioners/aliases.rb",
