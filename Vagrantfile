@@ -105,7 +105,19 @@ Vagrant.configure(API_VERSION) do |config|
         aws.secret_access_key = yaml_config['secret_access_key']
         aws.keypair_name = yaml_config['keypair_name']
 
-        aws.ami = 'ami-01905cb9b98069543'
+        case yaml_config['region']
+        when 'us-west-1'
+          aws.ami = 'ami-0b0f55da7019caa49'
+        when 'us-west-2'
+          aws.ami = 'ami-0fe401e8bd3c0a6aa'
+        when 'us-east-1'
+          aws.ami = 'ami-01905cb9b98069543'
+        when 'us-east-2'
+          aws.ami = 'ami-0b58a25726443cf4d'
+        else
+          raise "Error: #{yaml_config['region']} not supported."
+        end
+
         aws.block_device_mapping = yaml_config['block_device_mapping']
         aws.region = yaml_config['region']
         aws.monitoring = yaml_config['monitoring']
@@ -130,6 +142,7 @@ Vagrant.configure(API_VERSION) do |config|
     # After CSI Box has Booted
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
+    # AWS EC2 Storage is handled via EBS Volumes
     unless vagrant_provider == 'aws'
       config.vm.provision :shell, path: './vagrant/provisioners/userland_fdisk.sh', args: hostname, privileged: false
       config.vm.provision :reload
