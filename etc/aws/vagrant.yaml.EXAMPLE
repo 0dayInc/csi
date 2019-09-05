@@ -3,7 +3,7 @@ access_key_id: 'ACCESS_KEY_ID'
 secret_access_key: 'SECRET_ACCESS_KEY'
 keypair_name: 'Public SSH "Key pair name" from Key Pairs link in EC2'
 block_device_mapping:
-  - DeviceName: '/dev/xvda1' 
+  - DeviceName: '/dev/xvda' 
     Ebs.VolumeSize: 36
 region: 'REGION'
 monitoring: true
