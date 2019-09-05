@@ -109,7 +109,7 @@ Vagrant.configure(API_VERSION) do |config|
         when 'us-west-1'
           aws.ami = 'ami-0b0f55da7019caa49'
         when 'us-west-2'
-          aws.ami = 'ami-0b0f55da7019caa49'
+          aws.ami = 'ami-0fe401e8bd3c0a6aa'
         when 'us-east-1'
           aws.ami = 'ami-01905cb9b98069543'
         when 'us-east-2'
