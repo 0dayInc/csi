@@ -22,7 +22,7 @@ ssh_private_key_path: 'SSH_PRIVATE_KEY_PATH'
 record_sets:
   - 
     - 'HOSTED_ZONE_ID'
-    - 'csi.DOMAIN'
+    - 'jenkins.DOMAIN'
     - 'A'
   - 
     - 'HOSTED_ZONE_ID'
