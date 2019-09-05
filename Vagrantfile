@@ -105,7 +105,7 @@ Vagrant.configure(API_VERSION) do |config|
         aws.secret_access_key = yaml_config['secret_access_key']
         aws.keypair_name = yaml_config['keypair_name']
 
-        aws.ami = 'ami-0da50fea28dd829c2'
+        aws.ami = 'ami-01905cb9b98069543'
         aws.block_device_mapping = yaml_config['block_device_mapping']
         aws.region = yaml_config['region']
         aws.monitoring = yaml_config['monitoring']
