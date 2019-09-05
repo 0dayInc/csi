@@ -2,7 +2,7 @@
 # Automate Package Install Questions :)
 # Obtain values via: debconf-get-selections | less
 
-csi_golden_image=`echo $CSI_GOLDEN_IMAGE`
+csi_provider=`echo $CSI_PROVIDER`
 
 # Update OS per update_os_instructions function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.

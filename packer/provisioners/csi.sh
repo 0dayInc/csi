@@ -1,4 +1,5 @@
 #!/bin/bash --login
+csi_provider=`echo $CSI_PROVIDER`
 os=$(uname -s)
 
 case $os in
@@ -57,4 +58,4 @@ case $os in
     exit 1
 esac
 
-sudo /bin/bash --login -c 'cd /csi && cp etc/metasploit/vagrant.yaml.EXAMPLE etc/metasploit/vagrant.yaml && sudo ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop'
+sudo /bin/bash --login -c "cd /csi && cp etc/${csi_provider}/metasploit/vagrant.yaml.EXAMPLE etc/${csi_provider}/metasploit/vagrant.yaml && sudo ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop'

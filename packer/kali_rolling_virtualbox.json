@@ -43,7 +43,7 @@
     {
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=virtualbox"
+        "CSI_PROVIDER=virtualbox"
       ],
       "scripts": [
         "provisioners/init_image.sh"
@@ -61,7 +61,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=virtualbox"
+        "CSI_PROVIDER=virtualbox"
       ],
       "scripts": [
         "provisioners/install_vagrant_ssh_key.sh",
@@ -80,7 +80,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=virtualbox"
+        "CSI_PROVIDER=virtualbox"
       ],
       "scripts": [
         "provisioners/virtualbox_guest_additions.sh"
@@ -98,7 +98,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=virtualbox"
+        "CSI_PROVIDER=virtualbox"
       ],
       "scripts": [
         "provisioners/rvm.sh",

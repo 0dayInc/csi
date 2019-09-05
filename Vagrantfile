@@ -6,9 +6,10 @@ require 'yaml'
 
 API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
-vagrant_provider = ENV['VAGRANT_PROVIDER'] if ENV['VAGRANT_PROVIDER']
+csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
+runtime_userland = '/csi/vagrant_rsync_userland_configs.lst'
+template_userland = '/csi/vagrant_rsync_userland_template.lst'
 
-puts vagrant_provider
 puts 'GUI ENABLED.' if vagrant_gui
 
 Vagrant.configure(API_VERSION) do |config|
@@ -30,20 +31,44 @@ Vagrant.configure(API_VERSION) do |config|
       '--delete',
       '-compress',
       '--recursive',
-      '--files-from=vagrant_rsync_userland_configs.lst',
+      '--files-from=vagrant_rsync_third_party.lst',
       '--ignore-missing-args'
     ]
   )
 
+  File.open(runtime_userland, 'w') do |f|
+    File.readlines(template_userland).each do |line|
+      f.puts "etc/userland/#{csi_provider}/#{line.chomp}"
+    end
+  end
+
+  config.vm.synced_folder(
+    '.',
+    '/csi',
+    type: 'rsync',
+    rsync__args: [
+      '--progress',
+      "--rsync-path='/usr/bin/sudo rsync'",
+      '--archive',
+      '--delete',
+      '-compress',
+      '--recursive',
+      "--files-from=#{runtime_userland}",
+      '--ignore-missing-args'
+    ]
+  )
+
+  File.unlink(runtime_userland) if File.exist?(runtime_userland)
+
   # Load UserLand Configs for Respective Provider
-  case vagrant_provider
+  case csi_provider
   when 'aws'
-    config_path = './etc/aws/vagrant.yaml'
+    config_path = './etc/userland/aws/vagrant.yaml'
   when 'virtualbox'
-    config_path = './etc/virtualbox/vagrant.yaml'
+    config_path = './etc/userland/virtualbox/vagrant.yaml'
     # config.vm.network('public_network')
   when 'vmware'
-    config_path = './etc/vmware/vagrant.yaml'
+    config_path = './etc/userland/vmware/vagrant.yaml'
     # config.vm.network('public_network')
   else
     # This is needed when vagrant ssh is executed
@@ -57,7 +82,7 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.hostname = hostname
 
     config.vm.provider(:virtualbox) do |vb, _override|
-      if vagrant_provider == 'virtualbox'
+      if csi_provider == 'virtualbox'
         if vagrant_gui == 'true'
           vb.gui = true
         else
@@ -69,7 +94,7 @@ Vagrant.configure(API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--cpus', yaml_config['cpus']]
         vb.customize ['modifyvm', :id, '--memory', yaml_config['memory']]
         disk_mb = yaml_config['diskMB']
-        # TODO: resize vmdk based on /csi/etc/vmware/vagrant.yaml
+        # TODO: resize vmdk based on /csi/etc/userland/vmware/vagrant.yaml
       end
     end
 
@@ -78,7 +103,7 @@ Vagrant.configure(API_VERSION) do |config|
         # Workaround until https://github.com/hashicorp/vagrant/issues/10730 is resolved
         vm.ssh_info_public = true
         vm.whitelist_verified = true
-        if vagrant_provider == 'vmware'
+        if csi_provider == 'vmware'
           if vagrant_gui == 'true'
             vm.gui = true
           else
@@ -89,14 +114,13 @@ Vagrant.configure(API_VERSION) do |config|
           vm.vmx['memsize'] = yaml_config['memory']
           vm.vmx['vhv.enable'] = 'true'
           disk_mb = yaml_config['diskMB']
-          # TODO: resize vmdk based on /csi/etc/vmware/vagrant.yaml
+          # TODO: resize vmdk based on /csi/etc/userland/vmware/vagrant.yaml
         end
       end
     end
 
     config.vm.provider(:aws) do |aws, override|
-      config_path = './etc/aws/vagrant.yaml'
-      if vagrant_provider == 'aws'
+      if csi_provider == 'aws'
         override.vm.box = 'dummy'
 
         # aws_init_script = "#!/bin/bash\necho \"Updating FQDN: #{hostname}\"\ncat /etc/hosts | grep \"#{hostname}\" || sudo sed 's/127.0.0.1/127.0.0.1 #{hostname}/g' -i /etc/hosts\nhostname | grep \"#{hostname}\" || sudo hostname \"#{hostname}\"\nsudo sed -i -e 's/^Defaults.*requiretty/# Defaults requiretty/g' /etc/sudoers\necho 'Defaults:admin !requiretty' >> /etc/sudoers"
@@ -143,7 +167,7 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
     config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
     # AWS EC2 Storage is handled via EBS Volumes
-    unless vagrant_provider == 'aws'
+    unless csi_provider == 'aws'
       config.vm.provision :shell, path: './vagrant/provisioners/userland_fdisk.sh', args: hostname, privileged: false
       config.vm.provision :reload
       config.vm.provision :shell, path: './vagrant/provisioners/userland_lvm.sh', args: hostname, privileged: false

@@ -2,7 +2,7 @@
 debug=$2
 csi_deploy_type=$1
 os=$(uname -s)
-export VAGRANT_PROVIDER=''
+export CSI_PROVIDER=''
 
 # TODO: Check that all configs exist
 # MAKE .EXAMPLE and actual file the same
@@ -31,7 +31,7 @@ done
 
 case $csi_deploy_type in
   "aws") 
-    export VAGRANT_PROVIDER="aws"
+    export CSI_PROVIDER="aws"
     if [[ -e "./etc/aws/vagrant.yaml" ]]; then
       vagrant plugin install vagrant-aws
       vagrant plugin install vagrant-aws-dns
@@ -57,7 +57,7 @@ case $csi_deploy_type in
     ;;
   "virtualbox"|"virtualbox-gui")
     if [[ -e "./etc/virtualbox/vagrant.yaml" ]]; then
-      export VAGRANT_PROVIDER="virtualbox"
+      export CSI_PROVIDER="virtualbox"
       if [[ $csi_deploy_type == "virtualbox-gui" ]]; then
         export VAGRANT_GUI="true"
       fi
@@ -73,7 +73,7 @@ case $csi_deploy_type in
     ;;
   "vmware-fusion"|"vmware-fusion-gui"|"vmware-workstation"|"vmware-workstation-gui")
     if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
-      export VAGRANT_PROVIDER="vmware"
+      export CSI_PROVIDER="vmware"
       license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
       vagrant plugin install vagrant-vmware-desktop
       vagrant plugin license vagrant-vmware-desktop $license_file

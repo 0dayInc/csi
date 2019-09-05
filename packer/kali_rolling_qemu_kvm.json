@@ -39,7 +39,7 @@
     {
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=qemu"
+        "CSI_PROVIDER=qemu"
       ],
       "scripts": [
         "provisioners/init_image.sh"
@@ -73,7 +73,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=qemu"
+        "CSI_PROVIDER=qemu"
       ],
       "scripts": [
         "provisioners/rvm.sh",
