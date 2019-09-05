@@ -30,7 +30,7 @@ grok_error() {
 case $csi_golden_image in
   'aws_ami')
      # Begin Converting to Kali Rolling
-     $screen_cmd "${apt} install -yq dirmngr software-properties-common ${assess_update_errors}"
+     $screen_cmd "${apt} install -yq gnupg2 dirmngr software-properties-common ${assess_update_errors}"
      grok_error
 
      $screen_cmd "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list ${assess_update_errors}"
@@ -50,6 +50,15 @@ case $csi_golden_image in
 
      # Update our apt db again now that kali-keyring is installed
      $screen_cmd "apt update ${assess_update_errors}"
+     grok_error
+
+     $screen_cmd "${apt} install -yq kali-linux ${assess_update_errors}"
+     grok_error
+
+     $screen_cmd "${apt} install -yq kali-linux-full ${assess_update_errors}"
+     grok_error
+
+     $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
      grok_error
      ;;
 

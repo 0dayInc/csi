@@ -2,7 +2,7 @@
 csi_golden_image=`echo $CSI_GOLDEN_IMAGE`
 
 # Clenup History
-shred -u ~/.*history
+shred -u /home/admin/.*history
 sudo shred -u /root/.*history
 
 # Disable Local Root Access
@@ -11,7 +11,7 @@ sudo passwd -l root
 # Remove csiadmin account if it exists
 id -u csiadmin
 if [[ $? == 0 ]]; then
-  sudo userdel -f csiadmin
+  sudo unshare --user --map-root-user userdel -f csiadmin
 fi
 
 # Remove SSH Host Key Pairs
