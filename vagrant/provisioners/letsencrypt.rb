@@ -4,8 +4,9 @@
 require 'yaml'
 
 print "Installing Let's Encrypt **************************************************************"
+csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
 letsencrypt_root = '/opt/letsencrypt-git'
-letsencrypt_yaml = YAML.load_file('/csi/etc/letsencrypt/vagrant.yaml')
+letsencrypt_yaml = YAML.load_file("/csi/etc/userland/#{csi_provider}/letsencrypt/vagrant.yaml")
 letsencrypt_domains = letsencrypt_yaml['domains']
 letsencrypt_email = letsencrypt_yaml['email'].to_s.scrub.strip.chomp
 

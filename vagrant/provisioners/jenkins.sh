@@ -1,4 +1,6 @@
 #!/bin/bash --login
+csi_provider=`echo $CSI_PROVIDER`
+
 # Make sure the csi gemset has been loaded
 source /etc/profile.d/rvm.sh
 ruby_version=$(cat /csi/.ruby-version)
@@ -7,10 +9,10 @@ rvm use ruby-$ruby_version@csi
 initial_admin_pwd=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 
 printf "Creating User *************************************************************************"
-new_user=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['user']"`
-new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['pass']"`
-new_fullname=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['fullname']"`
-new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/jenkins/vagrant.yaml')['email']"`
+new_user=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/userland/${csi_provider}/jenkins/vagrant.yaml')['user']"`
+new_pass=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/userland/${csi_provider}/jenkins/vagrant.yaml')['pass']"`
+new_fullname=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/userland/${csi_provider}/jenkins/vagrant.yaml')['fullname']"`
+new_email=`ruby -e "require 'yaml'; print YAML.load_file('/csi/etc/userland/${csi_provider}/jenkins/vagrant.yaml')['email']"`
 
 csi_jenkins_useradd -s 127.0.0.1 -d 8888 -u $new_user -p $new_pass -U admin -P $initial_admin_pwd -e $new_email
 

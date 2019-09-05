@@ -25,7 +25,7 @@
     {
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=aws_ami"
+        "CSI_PROVIDER=aws"
       ],
       "scripts": [
         "provisioners/init_image.sh"
@@ -43,7 +43,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=aws_ami"
+        "CSI_PROVIDER=aws"
       ],
       "scripts": [
         "provisioners/update_os.sh"
@@ -61,7 +61,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
-        "CSI_GOLDEN_IMAGE=aws_ami"
+        "CSI_PROVIDER=aws"
       ],
       "scripts": [
         "provisioners/rvm.sh",

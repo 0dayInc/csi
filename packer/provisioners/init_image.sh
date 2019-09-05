@@ -1,6 +1,6 @@
 #!/bin/bash --login
 
-csi_golden_image=`echo $CSI_GOLDEN_IMAGE`
+csi_provider=`echo $CSI_PROVIDER`
 screen_cmd='sudo screen -L -S init_image -d -m /bin/bash --login -c'
 assess_update_errors='|| echo UPDATE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
@@ -27,8 +27,8 @@ grok_error() {
   done
 }
 
-case $csi_golden_image in
-  'aws_ami')
+case $csi_provider in
+  'aws')
      # Begin Converting to Kali Rolling
      $screen_cmd "${apt} install -yq gnupg2 dirmngr software-properties-common ${assess_update_errors}"
      grok_error
@@ -63,9 +63,9 @@ case $csi_golden_image in
      ;;
 
   'qemu') sudo useradd -m -s /bin/bash admin
-                $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
-                grok_error
-                ;;
+          $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
+          grok_error
+          ;;
 
   'virtualbox') sudo useradd -m -s /bin/bash admin
                 grok_error
@@ -81,7 +81,10 @@ case $csi_golden_image in
             grok_error
             ;;
 
-  *) echo 'error: unknown csi_golden_image_value'
+  *) echo "ERROR: Unknown CSI Provider: ${csi_provider}"
      exit 1
      ;;
 esac
+
+# Restrict Home Directory
+sudo chmod 700 /home/admin
