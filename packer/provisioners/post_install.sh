@@ -8,12 +8,6 @@ sudo /bin/bash --login -c 'find /root -type f -name ".*history" -exec shred -u {
 # Disable Local Root Access
 sudo passwd -l root
 
-# Remove csiadmin account if it exists
-id -u csiadmin
-if [[ $? == 0 ]]; then
-  sudo unshare --user --map-root-user userdel -f csiadmin
-fi
-
 # Remove SSH Host Key Pairs
 sudo shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
 
@@ -28,4 +22,15 @@ if [[ $csi_provider == 'aws' ]]; then
 else
   # Remove Packer SSH Key from authorized_keys file
   sudo sed -i '/packer/d' /home/admin/.ssh/authorized_keys
+fi
+
+# Remove csiadmin account if it exists
+id -u csiadmin
+if [[ $? == 0 ]]; then
+  sudo rm -rf /home/csiadmin
+  sudo sed -i '/^csiadmin/d' /etc/group
+  sudo sed -i 's/csiadmin//g' /etc/group
+  sudo sed -i 's/:,/:/g' /etc/group
+  sudo sed -i '/^csiadmin/d' /etc/shadow 
+  sudo sed -i '/^csiadmin/d' /etc/passwd 
 fi
