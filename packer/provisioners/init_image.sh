@@ -60,6 +60,9 @@ case $csi_provider in
 
      $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
      grok_error
+
+     $screen_cmd "dpkg --configure -a ${assess_update_errors}"
+     grok_error
      ;;
 
   'qemu') sudo useradd -m -s /bin/bash admin
