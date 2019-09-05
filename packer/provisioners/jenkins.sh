@@ -1,4 +1,6 @@
 #!/bin/bash --login
+csi_provider=`echo $CSI_PROVIDER`
+
 # Make sure the csi gemset has been loaded
 source /etc/profile.d/rvm.sh
 ruby_version=$(cat /csi/.ruby-version)
@@ -15,14 +17,14 @@ sudo sh -c 'echo deb https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.li
 sudo apt update
 sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -yq jenkins openjdk-8-jdk"
 sleep 9
-sudo /bin/bash --login -c "cp /csi/etc/jenkins/jenkins /etc/default/jenkins"
+sudo /bin/bash --login -c "cp /csi/etc/userland/$csi_provider/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
 sudo usermod -a -G sudo jenkins
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 
-printf "Sleeping 360s While Jenkins Daemon Wakes Up ********************************************"
-ruby -e "(0..360).each { print '.'; sleep 1 }"
+printf "Sleeping 540s While Jenkins Daemon Wakes Up ********************************************"
+ruby -e "(0..540).each { print '.'; sleep 1 }"
 
 initial_admin_pwd=`sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
 echo "JENKINS Initial Admin: ${initial_admin_pwd}"
