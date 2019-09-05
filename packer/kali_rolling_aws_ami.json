@@ -107,6 +107,7 @@
         "provisioners/vim.sh",
         "provisioners/firefox.sh",
         "provisioners/ffmpeg.sh",
+        "provisioners/xrdp.sh",
         "provisioners/docker.sh",
         "provisioners/baresip.sh",
         "provisioners/kali_customize.rb",
