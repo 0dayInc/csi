@@ -2,7 +2,7 @@
 
 csi_provider=`echo $CSI_PROVIDER`
 screen_cmd='sudo screen -L -S init_image -d -m /bin/bash --login -c'
-assess_update_errors='|| echo UPDATE_ABORT && exit 1'
+assess_update_errors='|| echo IMAGE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
 apt="DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confnew'"
 
@@ -11,7 +11,7 @@ grok_error() {
     # Wait until screen exits session
     sudo screen -ls | grep init_image
     if [[ $? == 1 ]]; then
-      grep UPDATE_ABORT screenlog.*
+      grep IMAGE_ABORT screenlog.*
       if [[ $? == 0 ]]; then
         echo 'Failures encountered in screenlog for init_image session!!!'
         cat screenlog.*
@@ -61,18 +61,6 @@ case $csi_provider in
      $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
      grok_error
 
-     #$screen_cmd "echo 'grub-installer grub-installer/only_debian boolean true' | ${debconf_set} ${assess_update_errors}"
-     #grok_error
-
-     #$screen_cmd "echo 'grub-installer grub-installer/with_other_os boolean true' | ${debconf_set} ${assess_update_errors}"
-     #grok_error
-
-     #$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/xvda' | ${debconf_set} ${assess_update_errors}"
-     #grok_error
-
-     #$screen_cmd "update-grub2 && update-initramfs -u ${assess_update_errors}"
-     #grok_error
-
      $screen_cmd "dpkg --configure -a ${assess_update_errors}"
      grok_error
      ;;
@@ -103,3 +91,7 @@ esac
 
 # Restrict Home Directory
 sudo chmod 700 /home/admin
+
+printf 'Image Initialized to reasonable expectations - cleaning up screen logs...'
+sudo rm screenlog.*
+echo 'complete.'
