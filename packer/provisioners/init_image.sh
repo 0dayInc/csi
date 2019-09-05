@@ -61,10 +61,17 @@ case $csi_provider in
      $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "echo 'grub-installer grub-installer/only_debian boolean true' | ${debconf_set} ${assess_update_errors}"
-     $screen_cmd "echo 'grub-installer grub-installer/with_other_os boolean true' | ${debconf_set} ${assess_update_errors}"
-     $screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/xvda' | ${debconf_set} ${assess_update_errors}"
-     $screen_cmd "update-grub2 && update-initramfs -u ${assess_update_errors}"
+     #$screen_cmd "echo 'grub-installer grub-installer/only_debian boolean true' | ${debconf_set} ${assess_update_errors}"
+     #grok_error
+
+     #$screen_cmd "echo 'grub-installer grub-installer/with_other_os boolean true' | ${debconf_set} ${assess_update_errors}"
+     #grok_error
+
+     #$screen_cmd "echo 'grub-pc grub-pc/install_devices multiselect /dev/xvda' | ${debconf_set} ${assess_update_errors}"
+     #grok_error
+
+     #$screen_cmd "update-grub2 && update-initramfs -u ${assess_update_errors}"
+     #grok_error
 
      $screen_cmd "dpkg --configure -a ${assess_update_errors}"
      grok_error
