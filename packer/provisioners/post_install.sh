@@ -15,13 +15,15 @@ if [[ $csi_provider == 'aws' ]]; then
   sudo /bin/bash --login -c 'find /home -type d -name "authorized_keys" -exec shred -u {} \;'
 fi
 
-# Remove csiadmin account if it exists
-id -u csiadmin
-if [[ $? == 0 ]]; then
+if [[ $csi_provider != 'aws' ]]; then
+  # Remove csiadmin account if it exists
   sudo rm -rf /home/csiadmin
   sudo sed -i '/^csiadmin/d' /etc/group
   sudo sed -i 's/csiadmin//g' /etc/group
   sudo sed -i 's/:,/:/g' /etc/group
   sudo sed -i '/^csiadmin/d' /etc/shadow 
   sudo sed -i '/^csiadmin/d' /etc/passwd 
+
+  # Create lame password for admin user
+  echo 'changeme' | sudo passwd --stdin admin
 fi
