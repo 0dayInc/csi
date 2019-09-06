@@ -6,7 +6,7 @@ sudo /bin/bash --login -c 'find /home -type f -name ".*history" -exec shred -u {
 sudo /bin/bash --login -c 'find /root -type f -name ".*history" -exec shred -u {} \;'
 
 # Cleanup Logs
-sudo /bin/bash --login -c 'find /var/log -type f -name "*.log" -exec > {} \;'
+sudo /bin/bash --login -c 'find /var/log -type f -name "*.log" | while read log; do > $log; done'
 sudo /bin/bash --login -c 'find /var/log -type f -name "dmesg.*" -exec rm {} \;'
 sudo /bin/bash --login -c '> /var/log/debug'
 sudo /bin/bash --login -c '> /var/log/dmesg'
@@ -26,7 +26,6 @@ if [[ $csi_provider == 'aws' ]]; then
 fi
 
 # Clear Bash History
-sudo history -c
 history -c
 
 if [[ $csi_provider != 'aws' ]]; then
