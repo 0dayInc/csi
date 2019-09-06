@@ -63,6 +63,12 @@ case $csi_provider in
 
      $screen_cmd "dpkg --configure -a ${assess_update_errors}"
      grok_error
+
+     $screen_cmd "${apt} -yq autoremove --purge ${assess_update_errors}"
+     grok_error
+
+     $screen_cmd "${apt} -yq clean"
+     grok_error
      ;;
 
   'qemu') sudo useradd -m -s /bin/bash admin
