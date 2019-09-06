@@ -181,4 +181,3 @@ Vagrant.configure(API_VERSION) do |config|
 end
 
 File.unlink(runtime_userland) if File.exist?(runtime_userland)
-
