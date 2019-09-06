@@ -1,4 +1,4 @@
-hostname: 'csi.DOMAIN'
+hostname: 'csideployed.DOMAIN'
 access_key_id: 'ACCESS_KEY_ID'
 secret_access_key: 'SECRET_ACCESS_KEY'
 session_token: 'ONLY NECESSARY WHEN USING STS'

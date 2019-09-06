@@ -59,8 +59,8 @@ HTTP_PORT=8888
 
 HTTPS_HOST="127.0.0.1"
 HTTPS_PORT=-1
-HTTPS_CERT=/etc/letsencrypt/live/csi.DOMAIN/fullchain.pem
-HTTPS_PRIV=/etc/letsencrypt/live/csi.DOMAIN/privkey.pem
+HTTPS_CERT=/etc/letsencrypt/live/jenkins.DOMAIN/fullchain.pem
+HTTPS_PRIV=/etc/letsencrypt/live/jenkins.DOMAIN/privkey.pem
 
 # port for AJP connector (disabled by default)
 AJP_PORT=-1
