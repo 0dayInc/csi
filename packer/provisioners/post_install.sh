@@ -29,6 +29,9 @@ fi
 history -c
 
 if [[ $csi_provider != 'aws' ]]; then
+  # Create lame password for admin user
+  echo 'changeme' | sudo passwd --stdin admin
+
   # Remove csiadmin account if it exists
   sudo rm -rf /home/csiadmin
   sudo sed -i '/^csiadmin/d' /etc/group
@@ -36,7 +39,4 @@ if [[ $csi_provider != 'aws' ]]; then
   sudo sed -i 's/:,/:/g' /etc/group
   sudo sed -i '/^csiadmin/d' /etc/shadow 
   sudo sed -i '/^csiadmin/d' /etc/passwd 
-
-  # Create lame password for admin user
-  echo 'changeme' | sudo passwd --stdin admin
 fi

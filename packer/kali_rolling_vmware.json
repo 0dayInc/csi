@@ -83,24 +83,6 @@
         "CSI_PROVIDER=vmware"
       ],
       "scripts": [
-        "provisioners/vmware_tools.sh"
-      ]
-    },
-
-    {
-      "type": "shell",
-      "scripts": [
-        "provisioners/reboot_os.sh"
-      ]
-    },
-
-    {
-      "pause_before": "180s",
-      "type": "shell",
-      "environment_vars": [
-        "CSI_PROVIDER=vmware"
-      ],
-      "scripts": [
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
         "provisioners/ruby.sh",
