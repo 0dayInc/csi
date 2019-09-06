@@ -58,8 +58,6 @@ Vagrant.configure(API_VERSION) do |config|
     ]
   )
 
-  File.unlink(runtime_userland) if File.exist?(runtime_userland)
-
   # Load UserLand Configs for Respective Provider
   case csi_provider
   when 'aws'
@@ -181,3 +179,6 @@ Vagrant.configure(API_VERSION) do |config|
     config.vm.provision :shell, path: './vagrant/provisioners/post_install.sh', privileged: false
   end
 end
+
+File.unlink(runtime_userland) if File.exist?(runtime_userland)
+
