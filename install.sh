@@ -1,5 +1,5 @@
 #!/bin/bash --login
-date -u +%Y-%m-%d_%H.%M.%S
+date -u +%Y-%m-%d_%H.%M.%S && printf ' - UTC'
 debug=$2
 csi_deploy_type=$1
 os=$(uname -s)
@@ -13,7 +13,7 @@ os=$(uname -s)
 
 function usage() {
   echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui|vsphere>"
-  date -u +%Y-%m-%d_%H.%M.%S
+  date -u +%Y-%m-%d_%H.%M.%S && printf ' - UTC'
   exit 1
 }
 
@@ -142,4 +142,4 @@ case $csi_deploy_type in
     usage
     ;;
 esac
-date -u +%Y-%m-%d_%H.%M.%S
+date -u +%Y-%m-%d_%H.%M.%S && printf ' - UTC'
