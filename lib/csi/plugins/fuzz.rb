@@ -16,12 +16,12 @@ module CSI
       #   port: 'required - target port',
       #   protocol: 'optional - :tcp || :udp (defaults to tcp)',
       #   tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-      #   fuzz_delimeter: 'optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)'
+      #   fuzz_delimeter: 'optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)',
       #   request: 'required - String object of socket request w/ \u001A as fuzz delimeter (e.g. "GET /\u001A\u001A HTTP/1.1\r\nHost: \u001A127..0.0.1\u001A\r\n\r\n")',
       #   payload: 'required - payload string',
       #   encoding: 'optional - :base64 || :hex || :html_entity || :url (Defaults to nil)',
       #   encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
-      #   char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
+      #   char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)',
       #   response_timeout: 'optional - float (defaults to 0.9)',
       #   request_rate_limit: 'optional - float (defaults to 0.3)'
       # )
@@ -192,12 +192,12 @@ module CSI
             port: 'required => target port',
             protocol: 'optional => :tcp || :udp (defaults to tcp)',
             tls: 'optional - boolean connect to target socket using TLS (defaults to false)',
-            fuzz_delimeter: \"optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)\"
+            fuzz_delimeter: \"optional - fuzz delimeter used in request to specify where payloads should reside (defaults to \u2665)\",
             request: \"required - String object of socket request w/ \u2665 as fuzz delimeter (e.g. '\"GET /\u2665\u2665 HTTP/1.1\\r\\nHost: \u2665127.0.0.1\u2665\\r\\n\\r\\n\"')\",
             payload: 'required - payload string',
             encoding: 'optional - :base64 || :hex || :html_entity || :url (Defaults to nil)',
             encoding_depth: 'optional - number of times to encode payload (defaults to 1)',
-            char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)'
+            char_encoding: 'optional - character encoding returned by CSI::Plugins::Char.list_encoders (defaults to UTF-8)',
             response_timeout: 'optional - float (defaults to 0.9)',
             request_rate_limit: 'optional - float (defaults to 0.3)'
           )
