@@ -51,7 +51,7 @@ fi
 $screen_cmd "apt update ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt install -yq debconf-i18n ${assess_update_errors}"
+$screen_cmd "apt install -y debconf-i18n ${assess_update_errors}"
 grok_error
 
 $screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
@@ -66,36 +66,36 @@ grok_error
 $screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} dist-upgrade -yq ${assess_update_errors}"
+$screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} full-upgrade -yq ${assess_update_errors}"
+$screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
 grok_error
 
 grep kali /etc/apt/sources.list
 if [[ $? == 0 ]]; then
-   $screen_cmd "${apt} install -yq kali-linux ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
    grok_error
 
-   $screen_cmd "${apt} install -yq kali-linux-full ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
    grok_error
 
-   $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
    grok_error
 else
   echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
 fi
 
-$screen_cmd "${apt} install -yq apt-file ${assess_update_errors}"
+$screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
 grok_error
 
 $screen_cmd "apt-file update ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} autoremove -yq --purge ${assess_update_errors}"
+$screen_cmd "${apt} autoremove -y --purge ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} -yq clean"
+$screen_cmd "${apt} -y clean"
 grok_error
 
 $screen_cmd "dpkg --configure -a ${assess_update_errors}"
