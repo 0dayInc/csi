@@ -71,22 +71,24 @@ case $csi_provider in
      grok_error
      ;;
 
-  'qemu') sudo useradd -m -s /bin/bash admin
+  'qemu') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
+          grok_error
+
           $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
           grok_error
           ;;
 
-  'virtualbox') sudo useradd -m -s /bin/bash admin
+  'virtualbox') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
                 grok_error
 
-                sudo usermod -aG sudo admin
+                $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
                 grok_error
                 ;;
 
-  'vmware') sudo useradd -m -s /bin/bash admin
+  'vmware') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
             grok_error
 
-            sudo usermod -aG sudo admin
+            $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
             grok_error
             ;;
 
