@@ -1,6 +1,7 @@
 hostname: 'csi.DOMAIN'
 access_key_id: 'ACCESS_KEY_ID'
 secret_access_key: 'SECRET_ACCESS_KEY'
+session_token: 'ONLY NECESSARY WHEN USING STS'
 keypair_name: 'Public SSH "Key pair name" from Key Pairs link in EC2'
 block_device_mapping:
   - DeviceName: '/dev/xvdb' 
