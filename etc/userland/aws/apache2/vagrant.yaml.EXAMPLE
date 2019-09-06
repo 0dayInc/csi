@@ -1,5 +1,5 @@
 # self_signed || letsencrypt# 
-tls_deployment_type: 'letsencrypt'
+tls_deployment_type: 'self_signed'
 country_name: 'US'
 state_or_prov: 'NY'
 city_name: 'New York'

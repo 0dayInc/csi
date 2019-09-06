@@ -21,9 +21,10 @@ end
 action = opts[:action].to_s.scrub.to_sym
 
 private def start
+  csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
   metasploit_root = '/opt/metasploit-framework-dev'
 
-  msfrpcd_config = YAML.load_file('/csi/etc/metasploit/vagrant.yaml')
+  msfrpcd_config = YAML.load_file("/csi/etc/userland/#{csi_provider}/metasploit/vagrant.yaml")
   msfrpcd_host = msfrpcd_config['msfrpcd_host'].to_s.scrub.strip.chomp
   msfrpcd_port = msfrpcd_config['port'].to_i
   msfrpcd_user = msfrpcd_config['username'].to_s.scrub.chomp # Don't strip leading space
