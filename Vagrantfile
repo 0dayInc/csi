@@ -131,13 +131,13 @@ Vagrant.configure(API_VERSION) do |config|
 
         case yaml_config['region']
         when 'us-west-1'
-          aws.ami = 'ami-0b0f55da7019caa49'
+          aws.ami = 'ami-042b40f1d8ad9e467'
         when 'us-west-2'
-          aws.ami = 'ami-0fe401e8bd3c0a6aa'
+          aws.ami = 'ami-0cf9e176514e607ea'
         when 'us-east-1'
-          aws.ami = 'ami-01905cb9b98069543'
+          aws.ami = 'ami-0fdbee18cae2fd4d3'
         when 'us-east-2'
-          aws.ami = 'ami-0b58a25726443cf4d'
+          aws.ami = 'ami-02af5e6db5d0d4029'
         else
           raise "Error: #{yaml_config['region']} not supported."
         end
