@@ -20,6 +20,7 @@ sleep 9
 sudo /bin/bash --login -c "cp /csi/etc/userland/$csi_provider/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
 sudo usermod -a -G sudo jenkins
+sudo /bin/bash --login -c 'echo "jenkins ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jenkins'
 sudo systemctl enable jenkins
 sudo systemctl restart jenkins
 
