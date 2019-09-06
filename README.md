@@ -70,9 +70,9 @@ Certain Constraints Mandate CSI be Installed in /csi:
 #### **Install Locally on Host OS** ####
 [Instructions](https://gist.github.com/ninp0/613696fbf2ffda01b02706a89bef7491)
 
-#### **Deploy in AWS EC2** ####
-Not Quite Available - Coming Soon
 
+#### **Deploy in AWS EC2** ####
+[Instructions](https://gist.github.com/ninp0/ba9698b7ca5a7696abf37a579097a2f2)
 
 
 #### **Deploy in Docker Container** ####
@@ -98,7 +98,7 @@ Not Quite Available - Coming Soon
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.760]:001 >>> CSI.help
+  csi[v0.3.763]:001 >>> CSI.help
   ```
 
 
