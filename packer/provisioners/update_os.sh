@@ -72,9 +72,6 @@ grok_error
 $screen_cmd "${apt} full-upgrade -yq ${assess_update_errors}"
 grok_error
 
-$screen_cmd "${apt} autoremove -yq ${assess_update_errors}"
-grok_error
-
 grep kali /etc/apt/sources.list
 if [[ $? == 0 ]]; then
    $screen_cmd "${apt} install -yq kali-linux ${assess_update_errors}"
@@ -93,6 +90,15 @@ $screen_cmd "${apt} install -yq apt-file ${assess_update_errors}"
 grok_error
 
 $screen_cmd "apt-file update ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} autoremove -yq --purge ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} -yq clean"
+grok_error
+
+$screen_cmd "dpkg --configure -a ${assess_update_errors}"
 grok_error
 
 printf 'OS updated to reasonable expectations - cleaning up screen logs...'
