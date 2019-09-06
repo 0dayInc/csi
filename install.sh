@@ -2,7 +2,6 @@
 debug=$2
 csi_deploy_type=$1
 os=$(uname -s)
-export CSI_PROVIDER=''
 
 # TODO: Check that all configs exist
 # MAKE .EXAMPLE and actual file the same
@@ -22,17 +21,17 @@ fi
 
 vagrant plugin install vagrant-reload
 
-cd /csi && cat ./vagrant_rsync_userland_configs.lst | while read userland_config; do
-  if [[ `basename ${userland_config}` == 'vagrant.yaml' && ! -e $userland_config ]]; then
-    echo "USERLAND YAML: ${userland_config} NOT FOUND...Copying DEFAULTS from ${userland_config}.EXAMPLE.  Be sure to change default passwords!"
-    cp $userland_config.EXAMPLE $userland_config
-  fi
-done
+# cd /csi && cat ./vagrant_rsync_userland_configs.lst | while read userland_config; do
+#   if [[ `basename ${userland_config}` == 'vagrant.yaml' && ! -e $userland_config ]]; then
+#     echo "USERLAND YAML: ${userland_config} NOT FOUND...Copying DEFAULTS from ${userland_config}.EXAMPLE.  Be sure to change default passwords!"
+#     cp $userland_config.EXAMPLE $userland_config
+#   fi
+# done
 
 case $csi_deploy_type in
   "aws") 
     export CSI_PROVIDER="aws"
-    if [[ -e "./etc/aws/vagrant.yaml" ]]; then
+    if [[ -e "./etc/userland/aws/vagrant.yaml" ]]; then
       vagrant plugin install vagrant-aws
       vagrant plugin install vagrant-aws-dns
       vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box --force
@@ -43,7 +42,7 @@ case $csi_deploy_type in
       fi
     else
       echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/aws/vagrant.yaml.EXAMPLE as a Template to Create ./etc/aws/vagrant.yaml"
+      echo "Use ./etc/userland/aws/vagrant.yaml.EXAMPLE as a Template to Create ./etc/userland/aws/vagrant.yaml"
     fi
     ;;
   "kvm")
@@ -56,7 +55,7 @@ case $csi_deploy_type in
     ./packer/provisioners/csi.sh
     ;;
   "virtualbox"|"virtualbox-gui")
-    if [[ -e "./etc/virtualbox/vagrant.yaml" ]]; then
+    if [[ -e "./etc/userland/virtualbox/vagrant.yaml" ]]; then
       export CSI_PROVIDER="virtualbox"
       if [[ $csi_deploy_type == "virtualbox-gui" ]]; then
         export VAGRANT_GUI="true"
@@ -68,13 +67,13 @@ case $csi_deploy_type in
       fi
     else
       echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/virtualbox/vagrant.yaml.EXAMPLE as a Template to Create ./etc/virtualbox/vagrant.yaml"
+      echo "Use ./etc/userland/virtualbox/vagrant.yaml.EXAMPLE as a Template to Create ./etc/userland/virtualbox/vagrant.yaml"
     fi
     ;;
   "vmware-fusion"|"vmware-fusion-gui"|"vmware-workstation"|"vmware-workstation-gui")
-    if [[ -e "./etc/vmware/vagrant.yaml" ]]; then
+    if [[ -e "./etc/userland/vmware/vagrant.yaml" ]]; then
       export CSI_PROVIDER="vmware"
-      license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/vmware/vagrant.yaml')['vagrant_vmware_license']")
+      license_file=$(ruby -e "require 'yaml'; print YAML.load_file('./etc/userland/vmware/vagrant.yaml')['vagrant_vmware_license']")
       vagrant plugin install vagrant-vmware-desktop
       vagrant plugin license vagrant-vmware-desktop $license_file
       
@@ -104,10 +103,11 @@ case $csi_deploy_type in
       esac
     else
       echo "ERROR: Missing vagrant.yaml Config"
-      echo "Use ./etc/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/vmware/vagrant.yaml"
+      echo "Use ./etc/userland/vmware/vagrant.yaml.EXAMPLE as a Template to Create ./etc/userland/vmware/vagrant.yaml"
     fi
     ;;
   "vsphere")
+    export CSI_PROVIDER="vmware"
     vmx=$(find /csi/.vagrant/machines/default/ -name packer-vmware-iso.vmx | grep vmware)
     if [[ -e $vmx ]]; then
       vagrant status | grep running
