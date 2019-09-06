@@ -3,7 +3,8 @@
 
 require 'yaml'
 
-jenkins_userland_config = YAML.load_file('/csi/etc/jenkins/vagrant.yaml')
+csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
+jenkins_userland_config = YAML.load_file("/csi/etc/userland/#{csi_provider}/jenkins/vagrant.yaml")
 userland_user = jenkins_userland_config['user']
 userland_pass = jenkins_userland_config['pass']
 

@@ -7,7 +7,7 @@ require 'yaml'
 API_VERSION = '2'
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
-runtime_userland = '/csi/vagrant_rsync_userland_configs.lst'
+runtime_userland = 'vagrant_rsync_userland_configs.lst'
 template_userland = '/csi/vagrant_rsync_userland_template.lst'
 
 puts 'GUI ENABLED.' if vagrant_gui
