@@ -30,7 +30,7 @@ grok_error() {
 case $csi_provider in
   'aws')
      # Begin Converting to Kali Rolling
-     $screen_cmd "${apt} install -yq gnupg2 dirmngr software-properties-common ${assess_update_errors}"
+     $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common ${assess_update_errors}"
      grok_error
 
      $screen_cmd "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list ${assess_update_errors}"
@@ -45,29 +45,29 @@ case $csi_provider in
      grok_error
 
      # Install the Kali keyring
-     $screen_cmd "${apt} install -yq kali-archive-keyring ${assess_update_errors}"
+     $screen_cmd "${apt} install -y kali-archive-keyring ${assess_update_errors}"
      grok_error
 
      # Update our apt db again now that kali-keyring is installed
      $screen_cmd "apt update ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "${apt} install -yq kali-linux ${assess_update_errors}"
+     $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "${apt} install -yq kali-linux-full ${assess_update_errors}"
+     $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "${apt} install -yq kali-desktop-gnome ${assess_update_errors}"
+     $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
      grok_error
 
      $screen_cmd "dpkg --configure -a ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "${apt} -yq autoremove --purge ${assess_update_errors}"
+     $screen_cmd "${apt} -y autoremove --purge ${assess_update_errors}"
      grok_error
 
-     $screen_cmd "${apt} -yq clean"
+     $screen_cmd "${apt} -y clean"
      grok_error
      ;;
 
