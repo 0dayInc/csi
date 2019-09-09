@@ -30,6 +30,7 @@ vagrant_rsync_userland_configs.lst
 etc/userland/aws/vagrant.yaml
 etc/userland/docker/vagrant.yaml
 etc/userland/qemu/vagrant.yaml
+etc/userland/ruby-gem/vagrant.yaml
 etc/userland/virtualbox/vagrant.yaml
 etc/userland/vmware/vagrant.yaml
 

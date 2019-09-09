@@ -52,6 +52,7 @@ case $csi_deploy_type in
     echo "Coming soon..."
     ;;
   "ruby-gem")
+    export CSI_PROVIDER="ruby-gem"
     ./packer/provisioners/rvm.sh
     ./packer/provisioners/ruby.sh
     ./packer/provisioners/csi.sh
