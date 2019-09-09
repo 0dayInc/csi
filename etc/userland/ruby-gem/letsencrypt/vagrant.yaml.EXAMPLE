@@ -1,0 +1,5 @@
+domains: 
+  - jenkins.DOMAIN
+  - openvas.DOMAIN
+  - scapm.DOMAIN
+email: youremail@DOMAIN
