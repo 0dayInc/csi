@@ -125,6 +125,7 @@ Vagrant.configure(API_VERSION) do |config|
 
         aws.access_key_id = yaml_config['access_key_id']
         aws.secret_access_key = yaml_config['secret_access_key']
+        aws.session_token = yaml_config['session_token']
         aws.keypair_name = yaml_config['keypair_name']
 
         case yaml_config['region']
