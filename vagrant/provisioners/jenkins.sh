@@ -32,7 +32,7 @@ ls $jenkins_userland_root/jobs/*.xml | while read jenkins_xml_config; do
 done
 
 # Create any jobs residing in /csi/etc/userland/$csi_provider/jenkins/jobs_userland
-ls /csi/etc/jenkins/jobs_userland/*.xml 2> /dev/null
+ls $jenkins_userland_root/jobs_userland/*.xml 2> /dev/null
 if [[ $? == 0 ]]; then
   printf "Creating User-Land Jobs ***************************************************************"
   ls $jenkins_userland_root/jobs_userland/*.xml | while read jenkins_xml_config; do
