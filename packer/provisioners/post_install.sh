@@ -23,6 +23,7 @@ sudo shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
 
 if [[ $csi_provider == 'aws' ]]; then
   sudo /bin/bash --login -c 'find /home -type d -name "authorized_keys" -exec shred -u {} \;'
+  sudo /bin/bash --login -c 'apt purge -y cloud-init && apt autoremove -y --purge'
 fi
 
 # Clear Bash History
