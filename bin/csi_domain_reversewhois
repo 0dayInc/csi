@@ -29,6 +29,11 @@ OptionParser.new do |options|
   end
 end.parse!
 
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
 registrant_filter = opts[:registrant_filter].to_s.strip.chomp.scrub
 output_results = opts[:output_results].to_s.strip.chomp.scrub
 proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
@@ -44,9 +49,9 @@ begin
   end
 
   browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
-  CSV.open('/tmp/output.csv', 'w', { col_sep: ',', quote_char: "'", force_quotes: true }) do |csv|
-    doc.xpath('//table/tbody/tr').each do |row|
-      tarray = [] 
+  CSV.open('/tmp/output.csv', 'w', col_sep: ',', quote_char: "'", force_quotes: true) do |csv|
+    doc.xpath('//*[@id="null"]/tbody/tr[3]/td/font/table/tbody/tr').each do |row|
+      tarray = []
       row.xpath('td').each do |cell|
         tarray << cell.text
       end
