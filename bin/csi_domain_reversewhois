@@ -49,7 +49,7 @@ begin
   end
 
   browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
-  CSV.open('/tmp/output.csv', 'w', col_sep: ',', quote_char: "'", force_quotes: true) do |csv|
+  CSV.open(output_results, 'w', col_sep: ',', quote_char: "'", force_quotes: true) do |csv|
     doc.xpath('//*[@id="null"]/tbody/tr[3]/td/font/table/tbody/tr').each do |row|
       tarray = []
       row.xpath('td').each do |cell|
