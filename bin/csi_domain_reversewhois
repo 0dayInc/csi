@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'csi'
+require 'optparse'
+require 'nokogiri'
+require 'csv'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-sRFILTER', '--registrant-filter=RFILTER', '<Required - Registrant Name or Email Address>') do |s|
+    opts[:registrant_filter] = s
+  end
+
+  options.on('-oPATH', '--output-results=PATH', '<Required - Path to Output Results>') do |o|
+    opts[:output_results] = o
+  end
+
+  options.on('-pPROXY', '--proxy=PROXY', '<Optional - HTTP or Socks Proxy>') do |p|
+    opts[:proxy] = p
+  end
+
+  options.on('-T', '--[no-]with-tor', '<Optional - Proxy w/ TOR (Defaults to false)>') do |w|
+    opts[:with_tor] = w
+  end
+end.parse!
+
+registrant_filter = opts[:registrant_filter].to_s.strip.chomp.scrub
+output_results = opts[:output_results].to_s.strip.chomp.scrub
+proxy = opts[:proxy].to_s.scrub.strip.chomp unless opts[:proxy].nil?
+with_tor = opts[:with_tor]
+
+begin
+  if proxy != '' && with_tor
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless, proxy: proxy, with_tor: true)
+  elsif proxy != '' && with_tor.nil?
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless, proxy: proxy)
+  else
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox)
+  end
+
+  browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
+  CSV.open('/tmp/output.csv', 'w', { col_sep: ',', quote_char: "'", force_quotes: true }) do |csv|
+    doc.xpath('//table/tbody/tr').each do |row|
+      tarray = [] 
+      row.xpath('td').each do |cell|
+        tarray << cell.text
+      end
+      csv << tarray
+    end
+  end
+rescue => e
+  raise e
+ensure
+  browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?
+end
