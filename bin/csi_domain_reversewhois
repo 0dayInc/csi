@@ -45,7 +45,7 @@ begin
   elsif proxy != '' && with_tor.nil?
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless, proxy: proxy)
   else
-    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
   end
 
   browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
