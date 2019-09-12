@@ -45,7 +45,7 @@ begin
   elsif proxy != '' && with_tor.nil?
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless, proxy: proxy)
   else
-    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox)
+    browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
   end
 
   # browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
@@ -54,9 +54,9 @@ begin
 
   # Type Registrant Filter in Char-by-Char to Ensure Everyone is Happy ;)
   CSI::Plugins::TransparentBrowser.type_as_human(q: registrant_filter) do |char|
-    browser_obj.text_field(id: 'txtSearch').wait_until(&:present?).send_keys(char)
+    browser_obj.text_field(id: 'txtSearchTopPage').wait_until(&:present?).send_keys(char)
   end
-  browser_obj.button(text: 'Search').wait_until(&:present?).click
+  browser_obj.button(id: 'btnTopSearch').wait_until(&:present?).click
 
   # Consume Results Table and Convert to CSV :)
   reversewhois_xp_resp = Nokogiri::HTML(browser_obj.html).xpath('//*[@id="domain-same-ip"]/div/div/table/tbody/tr')
