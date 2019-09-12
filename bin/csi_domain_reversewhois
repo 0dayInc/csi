@@ -48,8 +48,8 @@ begin
     browser_obj = CSI::Plugins::TransparentBrowser.open(browser_type: :headless)
   end
 
-  #browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
-  #reversewhois_xp_resp = Nokogiri::HTML(browser_obj.html).xpath('//*[@id="null"]/tbody/tr[3]/td/font/table/tbody/tr')
+  # browser_obj.goto("https://viewdns.info/reversewhois/?q=#{CGI.escape(registrant_filter)}")
+  # reversewhois_xp_resp = Nokogiri::HTML(browser_obj.html).xpath('//*[@id="null"]/tbody/tr[3]/td/font/table/tbody/tr')
   browser_obj.goto('https://domainbigdata.com')
 
   # Type Registrant Filter in Char-by-Char to Ensure Everyone is Happy ;)
