@@ -939,7 +939,7 @@ module CSI
         pkt.tcp_hlen = tcp_hlen
         pkt.tcp_reserved = tcp_reserved
         pkt.tcp_ecn = tcp_ecn
-        pkt.tcp_flags = PacketFu::TCPFlags.new
+        pkt.tcp_flags = PacketFu::TcpFlags.new
         pkt.tcp_win = tcp_win
         pkt.tcp_sum = tcp_sum
         pkt.tcp_urg = tcp_urg
