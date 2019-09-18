@@ -943,7 +943,7 @@ module CSI
         pkt.tcp_win = tcp_win
         pkt.tcp_sum = tcp_sum
         pkt.tcp_urg = tcp_urg
-        pkt.tcp_opts = tcp_opts if tcp_opts
+        pkt.tcp_opts = PacketFu::TcpOptions.new
         # Payload
         pkt.payload = payload if payload
 
