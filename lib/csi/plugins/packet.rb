@@ -91,7 +91,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::ARPPacket.new
+        pkt = PacketFu::ARPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -137,7 +137,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::EthPacket.new
+        pkt = PacketFu::EthPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -308,7 +308,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::HSRPPacket.new
+        pkt = PacketFu::HSRPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -449,7 +449,7 @@ module CSI
         # Payload
         opts[:payload] ? payload = opts[:payload] : payload = '*ping*'
 
-        pkt = PacketFu::ICMPPacket.new
+        pkt = PacketFu::ICMPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -560,7 +560,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::IPv6Packet.new
+        pkt = PacketFu::IPv6Packet.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -667,7 +667,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::IPPacket.new
+        pkt = PacketFu::IPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -755,7 +755,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::IPv6Packet.new
+        pkt = PacketFu::IPv6Packet.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -914,7 +914,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::TCPPacket.new
+        pkt = PacketFu::TCPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
@@ -1049,7 +1049,7 @@ module CSI
         # Payload
         payload = opts[:payload]
 
-        pkt = PacketFu::UDPPacket.new
+        pkt = PacketFu::UDPPacket.new(config: PacketFu::Utils.whoami?)
         # Ethernet Header
         pkt.eth_saddr = eth_src unless eth_src.nil?
         pkt.eth_daddr = eth_dst unless eth_dst.nil?
