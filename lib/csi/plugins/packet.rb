@@ -1114,6 +1114,7 @@ module CSI
               system(ipfilter, "-A #{ipfilter_rule}")
               pkt.recalc
               pkt.to_w(iface)
+              sleep 3
               system(ipfilter, "-D #{ipfilter_rule}")
             # when :osx
             #   ipfilter = 'pfctl'
