@@ -10,6 +10,7 @@ require 'packetfu/protos/ipv6'
 require 'packetfu/protos/lldp'
 require 'packetfu/protos/tcp'
 require 'packetfu/protos/udp'
+require 'socket'
 
 module CSI
   module Plugins
@@ -1094,8 +1095,41 @@ module CSI
           iface = 'eth0'
         end
 
-        pkt.recalc
-        pkt.to_w(iface)
+        if pkt.class == PacketFu::TCPPacket
+          this_ip = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
+
+          # If we're not passing a RST packet, prevent kernel from sending its own
+          if this_ip == pkt.ip_saddr && pkt.tcp_flags.rst.zero?
+            # We have to prevent the kernel space from sending a RST
+            # because it won't have a socket open on the respective
+            # port number before we have a chance to do anything.
+            # In other words, the kernel will receive a SYN-ACK first,
+            # know it didn't send a SYN & send a RST as a result.
+
+            my_os = CSI::Plugins::DetectOS.type
+            case my_os
+            when :linux
+              ipfilter = 'sudo iptables'
+              ipfilter_rule = "OUTPUT -p tcp --destination-port #{pkt.tcp_dst} --tcp-flags RST RST -s #{pkt.ip_saddr} -d #{pkt.ip_daddr} -j DROP"
+              system(ipfilter, "-A #{ipfilter_rule}")
+              pkt.recalc
+              pkt.to_w(iface)
+              system(ipfilter, "-D #{ipfilter_rule}")
+            # when :osx
+            #   ipfilter = 'pfctl'
+            #   ipfilter_rule = "block out proto tcp from #{pkt.ip_saddr} to #{pkt.ip_daddr} port #{pkt.tcp_dst} flags R"
+            #   system(ipfilter, "pfctl_add_flag #{ipfilter_rule}")
+            #   pkt.recalc
+            #   pkt.to_w(iface)
+            #   system(ipfilter, "pfctl_del_flag #{ipfilter_rule}")
+            else
+              raise "ERROR: #{self} Does not Support #{my_os}"
+            end
+          end
+        else
+          pkt.recalc
+          pkt.to_w(iface)
+        end
       rescue => e
         raise e
       end
