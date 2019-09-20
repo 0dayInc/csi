@@ -1113,7 +1113,7 @@ module CSI
               ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} -m mac --mac-source #{pkt.eth_saddr} --tcp-flags RST RST -j DROP"
               check_iptables_rules = `iptables -L`
 
-              unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, Err: File::NULL)
+              unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, err: File::NULL)
                 puts 'Preventing kernel from misbehaving when manipulating packets.'
                 puts 'Creating the following iptables rule:'
                 puts "#{ipfilter} -A #{ipfilter_rule}"
