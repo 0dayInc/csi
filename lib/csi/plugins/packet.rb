@@ -1110,16 +1110,24 @@ module CSI
             case my_os
             when :linux
               ipfilter = 'sudo iptables'
+              chain_action = '-C'
               ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} --tcp-flags RST RST -j DROP"
-              check_iptables_rules = `iptables -L`
 
-              unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, err: File::NULL)
+              ipfilter_cmd = "#{ipfilter} #{chain_action} #{ipfilter_rule}"
+
+              unless system(ipfilter_cmd, out: File::NULL, err: File::NULL)
+                chain_action = '-A'
+                ipfilter_cmd = "#{ipfilter} #{chain_action} #{ipfilter_rule}"
+
                 puts 'Preventing kernel from misbehaving when manipulating packets.'
                 puts 'Creating the following iptables rule:'
-                puts "#{ipfilter} -A #{ipfilter_rule}"
+                puts ipfilter_cmd
+                system(ipfilter_cmd)
+
                 puts "Be sure to delete iptables rule, once completed.  Here's how:"
-                puts "#{ipfilter} -D #{ipfilter_rule}"
-                system(ipfilter, "-A #{ipfilter_rule}")
+                chain_action = '-D'
+                ipfilter_cmd = "#{ipfilter} #{chain_action} #{ipfilter_rule}"
+                puts ipfilter_cmd
               end
 
               pkt.recalc
