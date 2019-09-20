@@ -1110,7 +1110,7 @@ module CSI
             case my_os
             when :linux
               ipfilter = 'iptables'
-              ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} -m mac --mac-source #{pkt.eth_saddr} --tcp-flags RST RST -j DROP"
+              ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} --tcp-flags RST RST -j DROP"
               check_iptables_rules = `iptables -L`
 
               unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, err: File::NULL)
