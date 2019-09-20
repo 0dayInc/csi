@@ -1115,7 +1115,7 @@ module CSI
 
               unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, Err: File::NULL)
                 puts 'Preventing kernel from misbehaving when manipulating packets.'
-                puts "Creating the following iptables rule:"
+                puts 'Creating the following iptables rule:'
                 puts "#{ipfilter} -A #{ipfilter_rule}"
                 puts "Be sure to delete iptables rule, once completed.  Here's how:"
                 puts "#{ipfilter} -D #{ipfilter_rule}"
