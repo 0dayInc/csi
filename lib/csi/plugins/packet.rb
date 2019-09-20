@@ -1109,12 +1109,22 @@ module CSI
             my_os = CSI::Plugins::DetectOS.type
             case my_os
             when :linux
-              ipfilter = 'sudo iptables'
-              ipfilter_rule = "OUTPUT -p tcp --destination-port #{pkt.tcp_dst} --tcp-flags RST RST -s #{pkt.ip_saddr} -d #{pkt.ip_daddr} -j DROP"
-              system(ipfilter, "-A #{ipfilter_rule}")
+              ipfilter = 'iptables'
+              ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} -m mac --mac-source #{pkt.eth_saddr} --tcp-flags RST RST -j DROP"
+              check_iptables_rules = `iptables -L`
+
+              unless system(ipfilter, "-C #{ipfilter_rule}", out: File::NULL, Err: File::NULL)
+                puts 'Preventing kernel from misbehaving when manipulating packets.'
+                puts "Creating the following iptables rule:"
+                puts "#{ipfilter} -A #{ipfilter_rule}"
+                puts "Be sure to delete iptables rule, once completed.  Here's how:"
+                puts "#{ipfilter} -D #{ipfilter_rule}"
+                system(ipfilter, "-A #{ipfilter_rule}")
+              end
+
               pkt.recalc
               pkt.to_w(iface)
-              sleep 3
+
               system(ipfilter, "-D #{ipfilter_rule}")
             # when :osx
             #   ipfilter = 'pfctl'
