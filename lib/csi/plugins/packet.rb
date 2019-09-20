@@ -1109,7 +1109,7 @@ module CSI
             my_os = CSI::Plugins::DetectOS.type
             case my_os
             when :linux
-              ipfilter = 'iptables'
+              ipfilter = 'sudo iptables'
               ipfilter_rule = "OUTPUT --protocol tcp --source #{pkt.ip_saddr} --destination #{pkt.ip_daddr} --destination-port #{pkt.tcp_dst} --tcp-flags RST RST -j DROP"
               check_iptables_rules = `iptables -L`
 
