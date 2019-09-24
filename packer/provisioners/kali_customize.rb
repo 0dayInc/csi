@@ -86,6 +86,7 @@ system("sudo chmod 755 #{panel_root}")
 panel_items = %(
 [
   'gnome-control-center.desktop',
+  'org.gnome.tweaks.desktop',
   'csi-prototyper.desktop',
   'csi-drivers.desktop',
   'terminator.desktop',
