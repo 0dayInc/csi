@@ -3,7 +3,7 @@
 if [[ $CSI_ROOT == '' ]]; then
   csi_root='/csi'
 else
-  csi_root="'${CSI_ROOT}'"
+  csi_root="${CSI_ROOT}"
 fi
 
 function usage() {

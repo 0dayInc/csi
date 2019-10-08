@@ -1,2 +1,1 @@
-#!/bin/bash --login
-sudo apt install -y chromium chromium-driver
+../../../../../packer/provisioners/chrome.sh

@@ -2,7 +2,7 @@
 if [[ $CSI_ROOT == '' ]]; then
   csi_root='/csi'
 else
-  csi_root="'${CSI_ROOT}'"
+  csi_root="${CSI_ROOT}"
 fi
 
 date -u +%Y-%m-%d_%H.%M.%S

@@ -1,2 +1,1 @@
-#!/bin/bash
-sudo apt install -y python-scapy
+../../../../../packer/provisioners/scapy.sh
