@@ -6,7 +6,7 @@ require 'yaml'
 require 'pathname'
 
 API_VERSION = '2'
-csi_root = "#{Pathname.new(__FILE__).realpath.expand_path.parent}/csi"
+csi_root = Pathname.new(__FILE__).realpath.expand_path.parent
 vagrant_gui = ENV['VAGRANT_GUI'] if ENV['VAGRANT_GUI']
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
 runtime_userland = 'vagrant_rsync_userland_configs.lst'
