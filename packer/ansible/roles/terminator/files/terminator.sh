@@ -1,2 +1,1 @@
-#!/bin/bash --login
-sudo apt install -y terminator
+./packer/provisioners/terminator.sh

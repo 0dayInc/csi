@@ -1,2 +1,1 @@
-#!/bin/bash
-echo 'source /etc/profile.d/rvm.sh' >> ~/.bashrc
+./packer/provisioners/docker_bashrc.sh

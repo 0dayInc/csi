@@ -1,2 +1,1 @@
-#!/bin/bash --login
-sudo apt install -y strace
+./packer/provisioners/strace.sh

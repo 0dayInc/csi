@@ -6,9 +6,9 @@ else
 fi
 
 rm pkg/*.gem
-old_ruby_version=$(cat /csi/.ruby-version)
+old_ruby_version=`cat ${csi_root}/.ruby-version`
 git pull
-new_ruby_version=$(cat /csi/.ruby-version)
+new_ruby_version=`cat ${csi_root}/.ruby-version`
 
 if [[ $old_ruby_version == $new_ruby_version ]]; then
   rake
