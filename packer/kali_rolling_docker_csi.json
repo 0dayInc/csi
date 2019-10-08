@@ -5,7 +5,7 @@
     "commit": true,
     "pull": false,
     "changes": [
-      "CMD /bin/bash --login -c 'cd /csi && csi'"
+      "CMD /bin/bash --login -c csi"
     ]
   }],
   "post-processors": [

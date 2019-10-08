@@ -1,4 +1,10 @@
 #!/bin/bash --login
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="'${CSI_ROOT}'"
+fi
+
 csi_provider=`echo $CSI_PROVIDER`
 os=$(uname -s)
 
@@ -58,4 +64,4 @@ case $os in
     exit 1
 esac
 
-sudo /bin/bash --login -c "cd /csi && cp etc/userland/${csi_provider}/metasploit/vagrant.yaml.EXAMPLE etc/userland/${csi_provider}/metasploit/vagrant.yaml && sudo ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop"
+sudo /bin/bash --login -c "cd ${csi_root} && cp etc/userland/${csi_provider}/metasploit/vagrant.yaml.EXAMPLE etc/userland/${csi_provider}/metasploit/vagrant.yaml && sudo ./reinstall_csi_gemset.sh && ./build_csi_gem.sh && rubocop"

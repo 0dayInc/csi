@@ -1,5 +1,10 @@
 #!/bin/bash --login
 # USE THIS SCRIPT WHEN UPGRADING RUBY
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="'${CSI_ROOT}'"
+fi
 
 function usage() {
   echo $"Usage: $0 <new ruby version e.g. 2.4.4> <optional bool running from build_csi_gem.sh>"
@@ -34,4 +39,4 @@ rm Gemfile.lock
 rvm install ruby-$new_ruby_version
 echo $new_ruby_version > /csi/.ruby-version
 
-cd / && cd /csi && rvm use $new_ruby_version@$ruby_gemset && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
+cd $csi_root && rvm use $new_ruby_version@$ruby_gemset && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
