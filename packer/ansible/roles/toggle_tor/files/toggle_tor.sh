@@ -1,1 +1,1 @@
-./packer/provisioners/toggle_tor.sh
+../../../../../packer/provisioners/toggle_tor.sh

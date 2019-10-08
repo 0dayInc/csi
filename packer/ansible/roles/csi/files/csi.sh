@@ -1,1 +1,1 @@
-./packer/provisioners/csi.sh
+../../../../../packer/provisioners/csi.sh

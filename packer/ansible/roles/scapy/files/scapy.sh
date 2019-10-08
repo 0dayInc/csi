@@ -1,1 +1,1 @@
-./packer/provisioners/scapy.sh
+../../../../../packer/provisioners/scapy.sh

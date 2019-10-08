@@ -1,1 +1,1 @@
-./packer/provisioners/burpsuite.sh
+../../../../../packer/provisioners/burpsuite.sh

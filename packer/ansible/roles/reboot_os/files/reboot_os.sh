@@ -1,1 +1,1 @@
-./packer/provisioners/reboot_os.sh
+../../../../../packer/provisioners/reboot_os.sh

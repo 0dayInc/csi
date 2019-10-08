@@ -1,1 +1,1 @@
-./packer/provisioners/baresip.sh
+../../../../../packer/provisioners/baresip.sh

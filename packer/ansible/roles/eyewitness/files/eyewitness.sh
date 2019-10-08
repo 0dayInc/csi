@@ -1,1 +1,1 @@
-./packer/provisioners/eyewitness.sh
+../../../../../packer/provisioners/eyewitness.sh

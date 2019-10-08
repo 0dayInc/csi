@@ -1,1 +1,1 @@
-./packer/provisioners/ssllabs-scan.sh
+../../../../../packer/provisioners/ssllabs-scan.sh

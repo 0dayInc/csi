@@ -1,1 +1,1 @@
-./packer/provisioners/sublist3r.sh
+../../../../../packer/provisioners/sublist3r.sh

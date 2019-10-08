@@ -1,1 +1,1 @@
-./packer/provisioners/android.sh
+../../../../../packer/provisioners/android.sh

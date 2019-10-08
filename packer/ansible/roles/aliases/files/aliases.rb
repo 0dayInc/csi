@@ -1,1 +1,1 @@
-./packer/provisioners/aliases.rb
+../../../../../packer/provisioners/aliases.rb

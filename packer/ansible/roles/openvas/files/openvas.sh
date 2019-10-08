@@ -1,1 +1,1 @@
-./packer/provisioners/openvas.sh
+../../../../../packer/provisioners/openvas.sh

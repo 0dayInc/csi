@@ -1,1 +1,1 @@
-./packer/provisioners/nmap_all_live_hosts.sh
+../../../../../packer/provisioners/nmap_all_live_hosts.sh

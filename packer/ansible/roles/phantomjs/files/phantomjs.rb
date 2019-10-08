@@ -1,1 +1,1 @@
-./packer/provisioners/phantomjs.rb
+../../../../../packer/provisioners/phantomjs.rb

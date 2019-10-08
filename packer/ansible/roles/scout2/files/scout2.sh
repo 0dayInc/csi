@@ -1,1 +1,1 @@
-./packer/provisioners/scout2.sh
+../../../../../packer/provisioners/scout2.sh

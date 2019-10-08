@@ -1,1 +1,1 @@
-./packer/provisioners/ruby.sh
+../../../../../packer/provisioners/ruby.sh

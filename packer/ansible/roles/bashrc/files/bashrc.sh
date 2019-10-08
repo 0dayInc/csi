@@ -1,1 +1,1 @@
-./packer/provisioners/bashrc.sh
+../../../../../packer/provisioners/bashrc.sh

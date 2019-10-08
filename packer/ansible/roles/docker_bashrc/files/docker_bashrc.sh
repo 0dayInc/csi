@@ -1,1 +1,1 @@
-./packer/provisioners/docker_bashrc.sh
+../../../../../packer/provisioners/docker_bashrc.sh

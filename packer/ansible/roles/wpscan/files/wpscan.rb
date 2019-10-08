@@ -1,1 +1,1 @@
-./packer/provisioners/wpscan.rb
+../../../../../packer/provisioners/wpscan.rb

@@ -1,1 +1,1 @@
-./packer/provisioners/apache2.sh
+../../../../../packer/provisioners/apache2.sh

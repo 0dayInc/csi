@@ -1,1 +1,1 @@
-./packer/provisioners/kali_customize.rb
+../../../../../packer/provisioners/kali_customize.rb

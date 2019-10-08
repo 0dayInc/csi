@@ -1,1 +1,1 @@
-./packer/provisioners/phantomjs_wrapper.sh
+../../../../../packer/provisioners/phantomjs_wrapper.sh

@@ -1,1 +1,1 @@
-./packer/provisioners/chrome.sh
+../../../../../packer/provisioners/chrome.sh

@@ -1,1 +1,1 @@
-./packer/provisioners/sox.sh
+../../../../../packer/provisioners/sox.sh

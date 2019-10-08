@@ -1,1 +1,1 @@
-./packer/provisioners/fuzzdb.sh
+../../../../../packer/provisioners/fuzzdb.sh

@@ -1,1 +1,1 @@
-./packer/provisioners/vim.sh
+../../../../../packer/provisioners/vim.sh

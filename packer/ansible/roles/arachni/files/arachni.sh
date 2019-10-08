@@ -1,1 +1,1 @@
-./packer/provisioners/arachni.sh
+../../../../../packer/provisioners/arachni.sh

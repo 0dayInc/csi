@@ -1,1 +1,1 @@
-./packer/provisioners/beef.rb
+../../../../../packer/provisioners/beef.rb

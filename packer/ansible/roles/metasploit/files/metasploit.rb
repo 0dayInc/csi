@@ -1,1 +1,1 @@
-./packer/provisioners/metasploit.rb
+../../../../../packer/provisioners/metasploit.rb

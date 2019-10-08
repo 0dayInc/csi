@@ -1,1 +1,1 @@
-./packer/provisioners/virtualbox_guest_additions.sh
+../../../../../packer/provisioners/virtualbox_guest_additions.sh

@@ -1,1 +1,1 @@
-./packer/provisioners/install_vagrant_ssh_key.sh
+../../../../../packer/provisioners/install_vagrant_ssh_key.sh

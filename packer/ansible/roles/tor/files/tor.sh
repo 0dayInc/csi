@@ -1,1 +1,1 @@
-./packer/provisioners/tor.sh
+../../../../../packer/provisioners/tor.sh

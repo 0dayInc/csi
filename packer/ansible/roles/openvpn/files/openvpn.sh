@@ -1,1 +1,1 @@
-./packer/provisioners/openvpn.sh
+../../../../../packer/provisioners/openvpn.sh

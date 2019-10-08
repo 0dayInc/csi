@@ -1,1 +1,1 @@
-./packer/provisioners/terminator.sh
+../../../../../packer/provisioners/terminator.sh

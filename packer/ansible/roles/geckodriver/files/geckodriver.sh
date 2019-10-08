@@ -1,1 +1,1 @@
-./packer/provisioners/geckodriver.sh
+../../../../../packer/provisioners/geckodriver.sh

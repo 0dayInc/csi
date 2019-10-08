@@ -1,1 +1,1 @@
-./packer/provisioners/peda.sh
+../../../../../packer/provisioners/peda.sh

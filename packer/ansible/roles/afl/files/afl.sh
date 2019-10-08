@@ -1,1 +1,1 @@
-./packer/provisioners/afl.sh
+../../../../../packer/provisioners/afl.sh

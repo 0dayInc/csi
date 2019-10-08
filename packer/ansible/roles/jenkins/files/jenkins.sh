@@ -1,1 +1,1 @@
-./packer/provisioners/jenkins.sh
+../../../../../packer/provisioners/jenkins.sh

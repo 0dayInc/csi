@@ -1,1 +1,1 @@
-./packer/provisioners/pwntools.sh
+../../../../../packer/provisioners/pwntools.sh

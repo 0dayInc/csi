@@ -1,1 +1,1 @@
-./packer/provisioners/rc.local.sh
+../../../../../packer/provisioners/rc.local.sh

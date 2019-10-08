@@ -1,1 +1,1 @@
-./packer/provisioners/ansible.sh
+../../../../../packer/provisioners/ansible.sh

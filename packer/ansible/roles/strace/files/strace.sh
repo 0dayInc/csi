@@ -1,1 +1,1 @@
-./packer/provisioners/strace.sh
+../../../../../packer/provisioners/strace.sh

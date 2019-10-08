@@ -1,1 +1,1 @@
-./packer/provisioners/vmware_tools.sh
+../../../../../packer/provisioners/vmware_tools.sh

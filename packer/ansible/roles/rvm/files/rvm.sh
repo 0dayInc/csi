@@ -1,1 +1,1 @@
-./packer/provisioners/rvm.sh
+../../../../../packer/provisioners/rvm.sh

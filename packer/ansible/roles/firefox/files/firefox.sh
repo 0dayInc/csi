@@ -1,1 +1,1 @@
-./packer/provisioners/firefox.sh
+../../../../../packer/provisioners/firefox.sh
