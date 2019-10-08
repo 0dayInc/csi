@@ -1,4 +1,10 @@
 #!/bin/bash --login
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="'${CSI_ROOT}'"
+fi
+
 rm pkg/*.gem
 old_ruby_version=$(cat /csi/.ruby-version)
 git pull
@@ -14,5 +20,5 @@ if [[ $old_ruby_version == $new_ruby_version ]]; then
   echo "Invoking bundle-audit Gemfile Scanner..."
   bundle-audit
 else
-  cd /csi && ./upgrade_ruby.sh $new_ruby_version $old_ruby_version
+  cd $csi_root && ./upgrade_ruby.sh $new_ruby_version $old_ruby_version
 fi

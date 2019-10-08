@@ -164,7 +164,8 @@ Vagrant.configure(API_VERSION) do |config|
     end
 
     # Set CSI_PROVIDER for Guest Deployment
-    config.vm.provision :shell, inline: "echo \"export CSI_PROVIDER='#{csi_provider}'\" > /etc/profile.d/csi_envs.sh"
+    config.vm.provision :shell, inline: "echo \"export CSI_ROOT='#{csi_root}'\" > /etc/profile.d/csi_envs.sh"
+    config.vm.provision :shell, inline: "echo \"export CSI_PROVIDER='#{csi_provider}'\" >> /etc/profile.d/csi_envs.sh"
     # Provision Software Based on UserLand Configurations w/in vagrant_rsync_userland_configs.lst
     # After CSI Box has Booted
     config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false

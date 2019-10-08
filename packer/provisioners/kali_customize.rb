@@ -10,19 +10,8 @@ File.open("#{panel_root}/csi-prototyper.desktop", 'w') do |f|
   f.puts '[Desktop Entry]'
   f.puts 'Name=csi'
   f.puts 'Encoding=UTF-8'
-  f.puts 'Exec=/bin/bash --login -c "cd /csi && csi"'
+  f.puts 'Exec=/bin/bash --login -c csi'
   f.puts 'Icon=gksu-root-terminal'
-  f.puts 'StartupNotify=false'
-  f.puts 'Terminal=true'
-  f.puts 'Type=Application'
-end
-
-File.open("#{panel_root}/csi-drivers.desktop", 'w') do |f|
-  f.puts '[Desktop Entry]'
-  f.puts 'Name=csi drivers'
-  f.puts 'Encoding=UTF-8'
-  f.puts 'Exec=/bin/bash --login -c "cd /csi && ls bin | grep -v csi_autoinc_version && /bin/bash"'
-  f.puts 'Icon=org.gnome.Software'
   f.puts 'StartupNotify=false'
   f.puts 'Terminal=true'
   f.puts 'Type=Application'

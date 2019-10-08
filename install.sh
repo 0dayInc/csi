@@ -1,4 +1,10 @@
 #!/bin/bash --login
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="'${CSI_ROOT}'"
+fi
+
 date -u +%Y-%m-%d_%H.%M.%S
 debug=$2
 csi_deploy_type=$1
@@ -22,13 +28,6 @@ if [[ $# != 1  ]] && [[ $# != 2 ]]; then
 fi
 
 vagrant plugin install vagrant-reload
-
-# cd /csi && cat ./vagrant_rsync_userland_configs.lst | while read userland_config; do
-#   if [[ `basename ${userland_config}` == 'vagrant.yaml' && ! -e $userland_config ]]; then
-#     echo "USERLAND YAML: ${userland_config} NOT FOUND...Copying DEFAULTS from ${userland_config}.EXAMPLE.  Be sure to change default passwords!"
-#     cp $userland_config.EXAMPLE $userland_config
-#   fi
-# done
 
 case $csi_deploy_type in
   "aws") 
