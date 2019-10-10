@@ -4,8 +4,13 @@
 require 'yaml'
 require 'csi'
 
+if ENV['CSI_ROOT']
+  csi_root = ENV['CSI_ROOT']
+else
+  csi_root = '/csi'
+end
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
-jenkins_userland_config = YAML.load_file("/csi/etc/userland/#{csi_provider}/jenkins/vagrant.yaml")
+jenkins_userland_config = YAML.load_file("#{csi_root}/etc/userland/#{csi_provider}/jenkins/vagrant.yaml")
 private_key_path = '/var/lib/jenkins/.ssh/id_rsa-csi_jenkins'
 userland_ssh_keygen_pass = jenkins_userland_config['ssh_keygen_pass']
 userland_user = jenkins_userland_config['user']

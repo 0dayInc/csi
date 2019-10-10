@@ -5,9 +5,14 @@ require 'yaml'
 require 'digest'
 require 'fileutils'
 
+if ENV['CSI_ROOT']
+  csi_root = ENV['CSI_ROOT']
+else
+  csi_root = '/csi'
+end
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
-userland_config = "/csi/etc/userland/#{csi_provider}/burpsuite/vagrant.yaml"
-userland_burpsuite_pro_jar_path = '/csi/third_party/burpsuite-pro.jar'
+userland_config = "#{csi_root}/etc/userland/#{csi_provider}/burpsuite/vagrant.yaml"
+userland_burpsuite_pro_jar_path = "#{csi_root}/third_party/burpsuite-pro.jar"
 burpsuite_pro_jar_dest_path = "/opt/burpsuite/#{File.basename(userland_burpsuite_pro_jar_path)}"
 if File.exist?(userland_burpsuite_pro_jar_path)
   burpsuite_pro_yaml = YAML.load_file(userland_config)

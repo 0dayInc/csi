@@ -39,12 +39,5 @@ if [[ $csi_provider != 'aws' ]]; then
   # Create lame password for admin user
   echo -e "changeme\nchangeme" | sudo passwd admin
 
-  # Lock csiadmin account if it exists
-  #sudo rm -rf /home/csiadmin
-  #sudo sed -i '/^csiadmin/d' /etc/group
-  #sudo sed -i 's/csiadmin//g' /etc/group
-  #sudo sed -i 's/:,/:/g' /etc/group
-  #sudo sed -i '/^csiadmin/d' /etc/shadow 
-  #sudo sed -i '/^csiadmin/d' /etc/passwd 
   sudo passwd --expire csiadmin
 fi

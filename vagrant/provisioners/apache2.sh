@@ -1,6 +1,12 @@
 #!/bin/bash
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="${CSI_ROOT}"
+fi
+
 csi_provider=`echo $CSI_PROVIDER`
-apache_userland_root="/csi/etc/userland/${csi_provider}/apache2"
+apache_userland_root="${csi_root}/etc/userland/${csi_provider}/apache2"
 apache_vagrant_yaml="${apache_userland_root}/vagrant.yaml"
 domain_name=$(hostname -d)
 sudo /bin/bash --login -c "echo -e '127.0.0.1\tjenkins.${domain_name}' >> /etc/hosts"
@@ -17,7 +23,7 @@ tls_deployment_type=`ruby -e "require 'yaml'; print YAML.load_file('${apache_use
 case $tls_deployment_type in
   'letsencrypt')
     # Public Facing
-    /csi/vagrant/provisioners/letsencrypt.rb
+    $csi_root/vagrant/provisioners/letsencrypt.rb
     ;;
   'self_signed')
     # Internally Hosted

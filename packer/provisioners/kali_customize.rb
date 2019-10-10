@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+if ENV['CSI_PROVIDER']
+  csi_root = ENV['CSI_ROOT']
+else
+  csi_root = '/csi'
+end
+
 # A list of these are available in /usr/share/applications/*.desktop
 panel_root = '/usr/share/applications'
 
@@ -97,7 +103,7 @@ panel_items = %(
 system("dconf write /org/gnome/shell/favorite-apps \"#{panel_items}\"")
 
 # Use the CSI Wallpaper
-system('gsettings set org.gnome.desktop.background picture-uri file:///csi/documentation/virtualbox-gui_wallpaper.jpg')
+system("gsettings set org.gnome.desktop.background picture-uri file:///i#{csi_root}/documentation/virtualbox-gui_wallpaper.jpg")
 system('gsettings set org.gnome.desktop.background picture-options "centered"')
 
 # Always Show the Panel
