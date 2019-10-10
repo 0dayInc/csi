@@ -1,11 +1,17 @@
 #!/bin/bash --login
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="${CSI_ROOT}"
+fi
+
 csi_provider=`echo $CSI_PROVIDER`
-jenkins_userland_root="/csi/etc/userland/${csi_provider}/jenkins"
+jenkins_userland_root="${csi_root}/etc/userland/${csi_provider}/jenkins"
 jenkins_vagrant_yaml="${jenkins_userland_root}/vagrant.yaml"
 
 # Make sure the csi gemset has been loaded
 source /etc/profile.d/rvm.sh
-ruby_version=$(cat /csi/.ruby-version)
+ruby_version=`cat ${csi_root}/.ruby-version`
 rvm use ruby-$ruby_version@csi
 
 initial_admin_pwd=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
@@ -31,7 +37,7 @@ ls $jenkins_userland_root/jobs/*.xml | while read jenkins_xml_config; do
     -c $jenkins_xml_config
 done
 
-# Create any jobs residing in /csi/etc/userland/$csi_provider/jenkins/jobs_userland
+# Create any jobs residing in $csi_root/etc/userland/$csi_provider/jenkins/jobs_userland
 ls $jenkins_userland_root/jobs_userland/*.xml 2> /dev/null
 if [[ $? == 0 ]]; then
   printf "Creating User-Land Jobs ***************************************************************"

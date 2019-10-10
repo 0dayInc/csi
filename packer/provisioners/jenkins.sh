@@ -1,9 +1,14 @@
 #!/bin/bash --login
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="${CSI_ROOT}"
+fi
 csi_provider=`echo $CSI_PROVIDER`
 
 # Make sure the csi gemset has been loaded
 source /etc/profile.d/rvm.sh
-ruby_version=$(cat /csi/.ruby-version)
+ruby_version=$(cat ${csi_root}/.ruby-version)
 rvm use ruby-$ruby_version@csi
 
 printf "Installing Jenkins ********************************************************************"
@@ -17,7 +22,7 @@ sudo sh -c 'echo deb https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.li
 sudo apt update
 sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -yq jenkins openjdk-8-jdk"
 sleep 9
-sudo /bin/bash --login -c "cp /csi/etc/userland/$csi_provider/jenkins/jenkins /etc/default/jenkins"
+sudo /bin/bash --login -c "cp ${csi_root}/etc/userland/$csi_provider/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 
 sudo usermod -a -G sudo jenkins
 sudo /bin/bash --login -c 'echo "jenkins ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jenkins'

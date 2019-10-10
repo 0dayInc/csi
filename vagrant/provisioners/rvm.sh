@@ -1,6 +1,12 @@
 #!/bin/bash --login
-ruby_version=$(cat /csi/.ruby-version)
-ruby_gemset=$(cat /csi/.ruby-gemset)
+if [[ $CSI_ROOT == '' ]]; then
+  csi_root='/csi'
+else
+  csi_root="${CSI_ROOT}"
+fi
+
+ruby_version=`cat ${csi_root}/.ruby-version`
+ruby_gemset=`cat ${csi_root}/.ruby-gemset`
 printf "Updating RVM..."
 rvm get latest
 rvm reload
