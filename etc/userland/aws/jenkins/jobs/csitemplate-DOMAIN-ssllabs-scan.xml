@@ -37,7 +37,7 @@
       <unstableOnWarning>true</unstableOnWarning>
       <failBuildOnError>true</failBuildOnError>
       <showGraphs>true</showGraphs>
-      <parsingRulesPath>/csi/etc/jenkins/log_parser_rules/ssllabs-scan.rules</parsingRulesPath>
+      <parsingRulesPath>$CSI_ROOT/userland/$CSI_PROVIDER/jenkins/log_parser_rules/ssllabs-scan.rules</parsingRulesPath>
       <useProjectRule>false</useProjectRule>
     </hudson.plugins.logparser.LogParserPublisher>
   </publishers>

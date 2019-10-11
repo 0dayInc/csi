@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash --login
 provider_type=$1
 box_version=$2
 debug=false
