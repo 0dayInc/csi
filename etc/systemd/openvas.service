@@ -6,9 +6,9 @@ After=apache2.service
 [Service]
 User=root
 RemainAfterExit=yes
-ExecStart=/csi/packer/daemons/openvas.rb --action start
-ExecReload=/csi/packer/daemons/openvas.rb --action restart
-ExecStop=/csi/packer/daemons/openvas.rb --action stop
+ExecStart=$CSI_ROOT/packer/daemons/openvas.rb --action start
+ExecReload=$CSI_ROOT/packer/daemons/openvas.rb --action restart
+ExecStop=$CSI_ROOT/packer/daemons/openvas.rb --action stop
 
 [Install]
 WantedBy=multi-user.target
