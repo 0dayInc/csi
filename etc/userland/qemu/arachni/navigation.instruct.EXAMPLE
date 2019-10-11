@@ -1,3 +1,1 @@
-text_field(id: 'username').wait_until(&:present?).set('<target username>')
-text_field(id: 'password').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mask_password)
-button(name: 'login').wait_until(&:present?).click!
+../../aws/arachni/navigation.instruct.EXAMPLE
