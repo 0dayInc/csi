@@ -1,1 +1,0 @@
-./packer/provisioners/update_os.sh

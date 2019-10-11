@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-if ENV['CSI_PROVIDER']
+if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
 else
   csi_root = '/csi'
