@@ -22,7 +22,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo /bin/bash --login -c /csi/vagrant/provisioners/rvm.sh</command>
+      <command>/bin/bash --login -c &quot;cd $CSI_ROOT &amp;&amp; ./vagrant/provisioners/rvm.sh&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -30,7 +30,7 @@
       <unstableOnWarning>true</unstableOnWarning>
       <failBuildOnError>true</failBuildOnError>
       <showGraphs>true</showGraphs>
-      <parsingRulesPath>/csi/etc/jenkins/log_parser_rules/self_update.rules</parsingRulesPath>
+      <parsingRulesPath>$CSI_ROOT/userland/$CSI_PROVIDER/jenkins/log_parser_rules/self_update.rules</parsingRulesPath>
       <useProjectRule>false</useProjectRule>
     </hudson.plugins.logparser.LogParserPublisher>
   </publishers>
