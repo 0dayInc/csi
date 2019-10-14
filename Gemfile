@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '5.2.3'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2019-08-13
+gem 'activesupport', '6.0.0'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2019-10-11
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
@@ -17,7 +17,7 @@ gem 'brakeman', '4.6.1'                # Rails Security Scanner ***2019-08-13
 gem 'bson', '4.5.0'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2019-08-13
 gem 'bundler', '2.0.2'                 # bundle install ***2019-01-18
 gem 'bundler-audit', '0.6.1'           # Checks for vulnerable versions of gems ***2019-01-21
-gem 'bunny', '2.14.2'                  # RabbitMQ ***2019-08-13
+gem 'bunny', '2.14.3'                  # RabbitMQ ***2019-10-11
 gem 'credit_card_validations', '3.5.0' # validate ccno from luhn generation ***2019-01-08
 gem 'gist', '5.0.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2018-01-18
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
@@ -28,7 +28,7 @@ gem 'json', '2.2.0'                    # Work w/ JSON objects ***2019-08-13
 gem 'jsonpath', '1.0.4'                # XPath-ify Complex JSON Data Structures ***2019-08-13
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
-gem 'mongo', '2.10.0'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2019-08-13
+gem 'mongo', '2.10.2'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2019-10-11
 gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2019-01-08
 gem 'net-ldap', '0.16.1'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
@@ -43,17 +43,17 @@ gem 'pry', '0.12.2'                    # More feature-filled irb alternative ***
 gem 'pry-doc', '1.0.0'                 # Better support for show-source & show-method in csi prototyper ***2019-01-18
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
 gem 'rbvmomi', '2.2.0'                 # Required for VMware-Fu ***2019-08-13
-gem 'rest-client', '2.0.2'             # Required for REST API Testing ***2017-08-20
+gem 'rest-client', '2.1.0'             # Required for REST API Testing ***2019-10-11
 gem 'rex', '2.0.13'                    # Rex provides a variety of classes useful for security testing and exploit development ***2019-01-08
 gem 'rmagick', '4.0.0'                 # Image processing gem ***2019-08-13
-gem 'rtesseract', '3.0.3'              # Gem for image ocr (e.g. decoding captchas) ***2019-08-13
+gem 'rtesseract', '3.0.4'              # Gem for image ocr (e.g. decoding captchas) ***2019-10-11
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
 gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
 gem 'ruby-nmap', '0.9.3'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2019-01-08
 gem 'ruby-saml', '1.11.0'              # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2019-08-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
-gem 'sinatra', '2.0.5'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2019-01-08
+gem 'sinatra', '2.0.7'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2019-10-11
 gem 'slack-ruby-client', '0.14.4'      # Used for interacting w/ Slack via bots ***2019-08-13
 gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e.g. tor) ***2017-08-20
 gem 'spreadsheet', '1.2.4'             # Generate Excel Spreadsheets (.xls files) ***2019-08-13
