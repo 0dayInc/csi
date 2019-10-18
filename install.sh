@@ -1,6 +1,9 @@
 #!/bin/bash --login
 if [[ $CSI_ROOT == '' ]]; then
   csi_root='/csi'
+  if [[ ! -d '/csi' ]]; then
+    csi_root=$(pwd)
+  fi
 else
   csi_root="${CSI_ROOT}"
 fi
