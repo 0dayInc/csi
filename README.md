@@ -56,8 +56,8 @@ Also known as, "Drivers" CSI can produce all sorts of useful tools by mixing and
 
 
 ### **Clone CSI** ###
-Certain Constraints Mandate CSI be Installed in /csi:
- `$ sudo git clone https://github.com/0dayinc/csi.git /csi`
+Certain Constraints Mandate CSI be Installed in /opt/csi:
+ `$ sudo git clone https://github.com/0dayinc/csi.git /opt/csi`
 
 
 
@@ -97,8 +97,8 @@ Not Quite Available - Coming Soon
 
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
-  $ /csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.817]:001 >>> CSI.help
+  $ /opt/csi/vagrant/provisioners/csi.sh && csi
+  csi[v0.3.818]:001 >>> CSI.help
   ```
 
 
