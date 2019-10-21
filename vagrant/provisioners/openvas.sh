@@ -1,7 +1,11 @@
 #!/bin/bash
 # Update user/pass based on UserLand Configs
 if [[ $CSI_ROOT == '' ]]; then
-  csi_root='/csi'
+  if [[ ! -d '/csi' ]]; then
+    csi_root=$(pwd)
+  else
+    csi_root='/csi'
+  fi
 else
   csi_root="${CSI_ROOT}"
 fi

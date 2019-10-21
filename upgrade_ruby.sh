@@ -1,7 +1,11 @@
 #!/bin/bash --login
 # USE THIS SCRIPT WHEN UPGRADING RUBY
 if [[ $CSI_ROOT == '' ]]; then
-  csi_root='/csi'
+  if [[ ! -d '/csi' ]]; then
+    csi_root=$(pwd)
+  else
+    csi_root='/csi'
+  fi
 else
   csi_root="${CSI_ROOT}"
 fi
