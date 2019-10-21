@@ -4,7 +4,11 @@
 if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
 else
-  csi_root = '/csi'
+  if Dir.exists?('/csi')
+    csi_root = '/csi'
+  else
+    csi_root = Dir.pwd
+  end
 end
 
 # A list of these are available in /usr/share/applications/*.desktop

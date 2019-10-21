@@ -7,7 +7,11 @@ require 'csi'
 if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
 else
-  csi_root = '/csi'
+  if Dir.exists?('/csi')
+    csi_root = '/csi'
+  else
+    csi_root = Dir.pwd
+  end
 end
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
 jenkins_userland_config = YAML.load_file("#{csi_root}/etc/userland/#{csi_provider}/jenkins/vagrant.yaml")

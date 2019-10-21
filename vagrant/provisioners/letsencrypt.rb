@@ -7,8 +7,13 @@ print "Installing Let's Encrypt ************************************************
 if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
 else
-  csi_root = '/csi'
+  if Dir.exists?('/csi')
+    csi_root = '/csi'
+  else
+    csi_root = Dir.pwd
+  end
 end
+
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
 letsencrypt_root = '/opt/letsencrypt-git'
 letsencrypt_yaml = YAML.load_file("#{csi_root}/etc/userland/#{csi_provider}/letsencrypt/vagrant.yaml")
