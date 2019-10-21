@@ -7,9 +7,12 @@ require 'fileutils'
 
 if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
-else
+elsif Dir.exist?('/csi')
   csi_root = '/csi'
+else
+  csi_root = Dir.pwd
 end
+
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
 userland_config = "#{csi_root}/etc/userland/#{csi_provider}/burpsuite/vagrant.yaml"
 userland_burpsuite_pro_jar_path = "#{csi_root}/third_party/burpsuite-pro.jar"
