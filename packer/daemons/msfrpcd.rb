@@ -23,13 +23,12 @@ action = opts[:action].to_s.scrub.to_sym
 private def start
   if ENV['CSI_ROOT']
     csi_root = ENV['CSI_ROOT']
+  elsif Dir.exist?('/csi')
+    csi_root = '/csi'
   else
-    if Dir.exists?('/csi')
-      csi_root = '/csi'
-    else
-      csi_root = Dir.pwd
-    end
+    csi_root = Dir.pwd
   end
+
   csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
   metasploit_root = '/opt/metasploit-framework-dev'
 

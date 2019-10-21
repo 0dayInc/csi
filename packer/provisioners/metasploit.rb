@@ -7,12 +7,10 @@ require 'yaml'
 printf 'Installing Metasploit *****************************************************************'
 if ENV['CSI_ROOT']
   csi_root = ENV['CSI_ROOT']
+elsif Dir.exist?('/csi')
+  csi_root = '/csi'
 else
-  if Dir.exists?('/csi')
-    csi_root = '/csi'
-  else
-    csi_root = Dir.pwd
-  end
+  csi_root = Dir.pwd
 end
 
 csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
