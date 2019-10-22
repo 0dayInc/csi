@@ -27,7 +27,7 @@ grok_error() {
   done
 }
 
-$screen_cmd "echo \"export CSI_ROOT='/csi'\" > /etc/profile.d/csi_envs.sh"
+$screen_cmd "echo \"export CSI_ROOT='/opt/csi'\" > /etc/profile.d/csi_envs.sh"
 $screen_cmd "echo \"export CSI_ROOT='${csi_provider}'\" >> /etc/profile.d/csi_envs.sh"
 $screen_cmd "chmod 755 /etc/profile.d/csi_envs.sh"
 
