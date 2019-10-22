@@ -27,70 +27,77 @@ grok_error() {
   done
 }
 
+$screen_cmd "echo \"export CSI_ROOT='/csi'\" > /etc/profile.d/csi_envs.sh"
+$screen_cmd "echo \"export CSI_ROOT='${csi_provider}'\" >> /etc/profile.d/csi_envs.sh"
+$screen_cmd "chmod 755 /etc/profile.d/csi_envs.sh"
+
 case $csi_provider in
   'aws')
-     # Begin Converting to Kali Rolling
-     $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common ${assess_update_errors}"
-     grok_error
+    # Begin Converting to Kali Rolling
+    $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list ${assess_update_errors}"
-     grok_error
+    $screen_cmd "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list ${assess_update_errors}"
+    grok_error
 
-     # Download and import the official Kali Linux key
-     $screen_cmd "wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add ${assess_update_errors}"
-     grok_error
+    # Download and import the official Kali Linux key
+    $screen_cmd "wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add ${assess_update_errors}"
+    grok_error
 
-     # Update our apt db so we can install kali-keyring
-     $screen_cmd "apt update ${assess_update_errors}"
-     grok_error
+    # Update our apt db so we can install kali-keyring
+    $screen_cmd "apt update ${assess_update_errors}"
+    grok_error
 
-     # Install the Kali keyring
-     $screen_cmd "${apt} install -y kali-archive-keyring ${assess_update_errors}"
-     grok_error
+    # Install the Kali keyring
+    $screen_cmd "${apt} install -y kali-archive-keyring ${assess_update_errors}"
+    grok_error
 
-     # Update our apt db again now that kali-keyring is installed
-     $screen_cmd "apt update ${assess_update_errors}"
-     grok_error
+    # Update our apt db again now that kali-keyring is installed
+    $screen_cmd "apt update ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
-     grok_error
+    $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
-     grok_error
+    $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
-     grok_error
+    $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "dpkg --configure -a ${assess_update_errors}"
-     grok_error
+    $screen_cmd "dpkg --configure -a ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "${apt} -y autoremove --purge ${assess_update_errors}"
-     grok_error
+    $screen_cmd "${apt} -y autoremove --purge ${assess_update_errors}"
+    grok_error
 
-     $screen_cmd "${apt} -y clean"
-     grok_error
-     ;;
+    $screen_cmd "${apt} -y clean"
+    grok_error
+    ;;
 
-  'qemu') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
-          grok_error
+  'qemu') 
+    $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
+    grok_error
 
-          $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
-          grok_error
-          ;;
+    $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
+    grok_error
+    ;;
 
-  'virtualbox') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
-                grok_error
+  'virtualbox') 
+    $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
+    grok_error
 
-                $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
-                grok_error
-                ;;
+    $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
+    grok_error
+    ;;
 
-  'vmware') $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
-            grok_error
+  'vmware') 
+    $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
+    grok_error
 
-            $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
-            grok_error
-            ;;
+   $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
+   grok_error
+   ;;
 
   *) echo "ERROR: Unknown CSI Provider: ${csi_provider}"
      exit 1
