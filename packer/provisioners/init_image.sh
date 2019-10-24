@@ -27,6 +27,10 @@ grok_error() {
   done
 }
 
+if [[ $csi_provider == 'docker' ]]; then
+  apt update && apt install -y sudo screen
+fi
+
 $screen_cmd "echo \"export CSI_ROOT='/opt/csi'\" > /etc/profile.d/csi_envs.sh"
 $screen_cmd "echo \"export CSI_PROVIDER='${csi_provider}'\" >> /etc/profile.d/csi_envs.sh"
 $screen_cmd "chmod 755 /etc/profile.d/csi_envs.sh"
@@ -75,6 +79,22 @@ case $csi_provider in
     grok_error
     ;;
 
+  'docker')
+    $screen_cmd "${apt} install -y curl gnupg2"
+    grok_error
+
+    $screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
+    grok_error
+
+    $screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
+    grok_error
+
+    $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
+    grok_error
+
+    $screen_cmd "usermod -aG sudo admin ${assess_update_errors}"
+    grok_error
+    ;; 
   'qemu') 
     $screen_cmd "useradd -m -s /bin/bash admin ${assess_update_errors}"
     grok_error

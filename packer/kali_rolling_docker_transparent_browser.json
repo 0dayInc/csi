@@ -4,8 +4,9 @@
   },
   "builders": [{
     "type": "docker",
-    "image": "kalilinux/kali-linux-docker",
+    "image": "csi/kali_rolling:{{user `box_version`}}",
     "commit": true,
+    "pull": false,
     "run_command": [ "-d", "-i", "-t", "--entrypoint=/bin/bash", "{{.Image}}" ]
   }],
   "provisioners": [{
@@ -14,11 +15,9 @@
       "CSI_PROVIDER=docker"
     ],
     "scripts": [
-      "provisioners/init_image.sh",
-      "provisioners/docker_rvm.sh",
-      "provisioners/docker_bashrc.sh",
-      "provisioners/ruby.sh",
-      "provisioners/csi.sh"
+      "provisioners/chrome.sh",
+      "provisioners/firefox.sh",
+      "provisioners/geckodriver.sh"
     ],
     "pause_before": "1s"
   }],
@@ -26,7 +25,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "csi/kali_rolling",
+        "repository": "csi/kali_rolling/plugins/transparent_browser",
         "tag": "{{user `box_version`}}"
       }
     ]
