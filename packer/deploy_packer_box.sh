@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <aws_ami||docker||docker_csi||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
+  echo "USAGE: ${0} <aws_ami||docker_csi||docker_transparent_browser||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
   exit 1
 }
 
@@ -32,6 +32,13 @@ function pack() {
   fi 
 }
 
+function deploy_base_csi_kali_rolling_container() {
+    rm kali_rolling_docker.box || true
+    pack docker kali_rolling_docker_csi.json $debug
+    #vagrant box remove csi/kali_rolling --provider=docker || true
+    #vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_docker_csi.box
+}
+
 if [[ $# < 2 ]]; then
   usage
 fi
@@ -47,17 +54,16 @@ case $provider_type in
     echo $debug
     pack amazon-ebs kali_rolling_aws_ami.json $debug
     ;;
-  "docker")
-    rm kali_rolling_docker.box || true
-    pack docker kali_rolling_docker.json $debug
-    vagrant box remove csi/kali_rolling --provider=docker|| true
-    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_docker.box
-    ;;
   "docker_csi")
-    rm kali_rolling_docker_csi.box || true
-    pack docker kali_rolling_docker_csi.json $debug
-    vagrant box remove csi/prototyper --provider=docker || true
-    vagrant box add --box-version $box_version csi/prototyper kali_rolling_docker_csi.box
+    deploy_base_csi_kali_rolling_container
+    ;;
+  "docker_transparent_browser")
+    docker images -a | grep 'csi/kali_rolling' > /dev/null 2>&1
+    if [[ $? != 0 ]]; then
+      deploy_base_csi_kali_rolling_container
+    fi
+    rm kali_rolling_docker_transparent_browser.box || true
+    pack docker kali_rolling_docker_transparent_browser.json $debug
     ;;
   "kvm")
     rm kali_rolling_qemu_kvm_xen.box || true

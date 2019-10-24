@@ -1,5 +1,5 @@
 #!/bin/bash --login
-printf "Installing Dcoker ********************************************************************"
+printf "Installing Docker ********************************************************************"
 docker_sources='/etc/apt/sources.list.d/docker.list'
 sudo /bin/bash --login -c "apt-get remove -y docker docker-engine docker.io*"
 sudo /bin/bash --login -c "apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common"
