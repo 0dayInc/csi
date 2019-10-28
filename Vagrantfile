@@ -13,7 +13,7 @@ runtime_userland = 'vagrant_rsync_userland_configs.lst'
 template_userland = "#{csi_root}/vagrant_rsync_userland_template.lst"
 
 if csi_provider == 'docker'
-  container_tag = '2019.3.3'
+  container_tag = File.readlines("#{csi_root}/lib/csi/version.rb")[-2].chomp.split("\s")[-1].delete("'")
   docker_container_target = ENV['DOCKER_CONTAINER_TARGET'] if ENV['DOCKER_CONTAINER_TARGET']
   docker_create_args = [
     '--interactive',
