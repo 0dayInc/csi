@@ -20,26 +20,25 @@ if csi_provider == 'docker'
     docker_container_image = '0dayinc/csi_prototyper'
     docker_create_args = [
       '--interactive',
-      '--tty',
+      '--tty'
     ]
     docker_cmd = [
       'echo CSI.help | csi && csi'
-   ]
+    ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
     docker_create_args = [
       '--interactive',
-      '--tty',
+      '--tty'
     ]
     docker_cmd = [
       'echo CSI::Plugins::TransparentBrowser.help | csi && csi'
-   ]
+    ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
   end
 
   Vagrant.configure(API_VERSION) do |config|
-    # config.vm.box = docker_container_image
     config.vm.define docker_container_target do
       config.vm.synced_folder('.', '/vagrant', disabled: true)
       config.vm.provider :docker do |d|
