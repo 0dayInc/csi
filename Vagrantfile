@@ -15,26 +15,25 @@ template_userland = "#{csi_root}/vagrant_rsync_userland_template.lst"
 if csi_provider == 'docker'
   container_tag = '2019.3.3'
   docker_container_target = ENV['DOCKER_CONTAINER_TARGET'] if ENV['DOCKER_CONTAINER_TARGET']
+  docker_create_args = [
+    '--interactive',
+    '--tty'
+  ]
+
   case docker_container_target
   when 'docker_csi_prototyper'
     docker_container_image = '0dayinc/csi_prototyper'
-    docker_create_args = [
-      '--interactive',
-      '--tty'
-    ]
     docker_cmd = [
       '--login',
-      '-c "echo CSI.help | csi && csi"'
+      '-c',
+      'echo CSI.help | csi && csi'
     ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
-    docker_create_args = [
-      '--interactive',
-      '--tty'
-    ]
     docker_cmd = [
       '--login',
-      '-c "echo CSI::Plugins::TransparentBrowser.help | csi && csi"'
+      '-c',
+      'echo CSI::Plugins::TransparentBrowser.help | csi && csi'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
@@ -44,7 +43,6 @@ if csi_provider == 'docker'
     config.vm.define docker_container_target do
       config.vm.synced_folder('.', '/vagrant', disabled: true)
       config.vm.provider :docker do |d|
-        d.name = docker_container_target
         d.image = "#{docker_container_image}:#{container_tag}"
         d.create_args = docker_create_args
         d.cmd = docker_cmd
