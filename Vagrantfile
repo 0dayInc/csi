@@ -23,7 +23,8 @@ if csi_provider == 'docker'
       '--tty'
     ]
     docker_cmd = [
-      'echo CSI.help | csi && csi'
+      '--login', 
+      '-c "echo CSI.help | csi && csi"'
     ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
@@ -32,7 +33,8 @@ if csi_provider == 'docker'
       '--tty'
     ]
     docker_cmd = [
-      'echo CSI::Plugins::TransparentBrowser.help | csi && csi'
+      '--login',
+      '-c "echo CSI::Plugins::TransparentBrowser.help | csi && csi"'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
