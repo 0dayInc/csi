@@ -15,13 +15,14 @@ template_userland = "#{csi_root}/vagrant_rsync_userland_template.lst"
 if csi_provider == 'docker'
   container_tag = '2019.3.3'
   docker_container_target = ENV['DOCKER_CONTAINER_TARGET'] if ENV['DOCKER_CONTAINER_TARGET']
+  docker_create_args = [
+    '--interactive',
+    '--tty'
+  ]
+
   case docker_container_target
   when 'docker_csi_prototyper'
     docker_container_image = '0dayinc/csi_prototyper'
-    docker_create_args = [
-      '--interactive',
-      '--tty'
-    ]
     docker_cmd = [
       '--login',
       '-c',
@@ -29,10 +30,6 @@ if csi_provider == 'docker'
     ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
-    docker_create_args = [
-      '--interactive',
-      '--tty'
-    ]
     docker_cmd = [
       '--login',
       '-c',
