@@ -23,7 +23,7 @@ if csi_provider == 'docker'
       '--tty'
     ]
     docker_cmd = [
-      '--login', 
+      '--login',
       '-c "echo CSI.help | csi && csi"'
     ]
   when 'docker_csi_transparent_browser'
