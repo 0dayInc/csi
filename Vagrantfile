@@ -207,6 +207,7 @@ else
       # Provision Software Based on UserLand Configurations w/in vagrant_rsync_userland_configs.lst
       # After CSI Box has Booted
       config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
+      config.vm.provision :shell, path: './vagrant/provisioners/kali_customize.rb', args: hostname, privileged: false
       config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
       # AWS EC2 Storage is handled via EBS Volumes
       unless csi_provider == 'aws'

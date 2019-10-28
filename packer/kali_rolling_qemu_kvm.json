@@ -122,7 +122,6 @@
         "provisioners/docker.sh",
         "provisioners/baresip.sh",
         "provisioners/ghidra.sh",
-        "provisioners/kali_customize.rb",
         "provisioners/post_install.sh"
       ]
     }
