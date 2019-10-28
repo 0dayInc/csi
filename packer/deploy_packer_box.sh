@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <aws_ami||docker_csi||docker_transparent_browser||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
+  echo "USAGE: ${0} <aws_ami||docker_csi_prototyper||docker_transparent_browser||kvm||virtualbox||vmware> <box version to build e.g. 2019.3.1> <debug>"
   exit 1
 }
 
@@ -34,9 +34,9 @@ function pack() {
 
 function deploy_base_csi_kali_rolling_container() {
     rm kali_rolling_docker.box || true
-    pack docker kali_rolling_docker_csi.json $debug
-    #vagrant box remove csi/kali_rolling --provider=docker || true
-    #vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_docker_csi.box
+    pack docker docker/kali_rolling_docker_csi_prototyper.json $debug
+    #vagrant box remove csi/prototyper --provider=docker || true
+    #vagrant box add --box-version $box_version csi/prototyper
 }
 
 if [[ $# < 2 ]]; then
@@ -54,35 +54,37 @@ case $provider_type in
     echo $debug
     pack amazon-ebs kali_rolling_aws_ami.json $debug
     ;;
-  "docker_csi")
+  "docker_csi_prototyper")
     deploy_base_csi_kali_rolling_container
     ;;
   "docker_transparent_browser")
-    docker images -a | grep 'csi/kali_rolling' > /dev/null 2>&1
+    docker images -a | grep '0dayinc/csi_prototyper' > /dev/null 2>&1
     if [[ $? != 0 ]]; then
       deploy_base_csi_kali_rolling_container
     fi
     rm kali_rolling_docker_transparent_browser.box || true
-    pack docker kali_rolling_docker_transparent_browser.json $debug
+    pack docker docker/kali_rolling_docker_transparent_browser.json $debug
+    #vagrant box remove csi/transparent_browser --provider=docker || true
+    #vagrant box add --box-version $box_version csi/transparent_browser
     ;;
   "kvm")
     rm kali_rolling_qemu_kvm_xen.box || true
     pack qemu kali_rolling_qemu_kvm_xen.json $debug
     vagrant box remove csi/kali_rolling --provider=qemu || true
-    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_qemu_kvm_xen.box
+    vagrant box add --box-version $box_version csi/kali_rolling
     ;;
   "virtualbox")
     rm kali_rolling_virtualbox.box || true
     pack virtualbox-iso kali_rolling_virtualbox.json $debug
     vagrant box remove csi/kali_rolling --provider=virtualbox || true
-    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_virtualbox.box
+    vagrant box add --box-version $box_version csi/kali_rolling
     ;;
   "vmware")
     echo $debug
     rm kali_rolling_vmware.box || true
     pack vmware-iso kali_rolling_vmware.json $debug
     vagrant box remove csi/kali_rolling --provider=vmware_desktop || true
-    vagrant box add --box-version $box_version csi/kali_rolling kali_rolling_vmware.box
+    vagrant box add --box-version $box_version csi/kali_rolling
     ;;
   *)
     usage

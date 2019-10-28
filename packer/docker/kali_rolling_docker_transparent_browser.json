@@ -1,10 +1,12 @@
 {
   "variables": {
+    "docker_hub_user": "{{env `DOCKER_HUB_USER`}}",
+    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}",
     "box_version": "{{env `BOX_VERSION`}}"
   },
   "builders": [{
     "type": "docker",
-    "image": "csi/kali_rolling:{{user `box_version`}}",
+    "image": "0dayinc/csi_prototyper:{{user `box_version`}}",
     "commit": true,
     "pull": false,
     "run_command": [ "-d", "-i", "-t", "--entrypoint=/bin/bash", "{{.Image}}" ]
@@ -25,8 +27,14 @@
     [
       {
         "type": "docker-tag",
-        "repository": "csi/kali_rolling/plugins/transparent_browser",
+        "repository": "0dayinc/csi_transparent_browser",
         "tag": "{{user `box_version`}}"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "{{user `docker_hub_user`}}",
+        "login_password": "{{user `docker_hub_pass`}}"
       }
     ]
   ]

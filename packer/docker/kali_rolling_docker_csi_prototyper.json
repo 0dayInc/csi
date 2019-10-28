@@ -1,5 +1,7 @@
 {
   "variables": {
+    "docker_hub_user": "{{env `DOCKER_HUB_USER`}}",
+    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}",
     "box_version": "{{env `BOX_VERSION`}}"
   },
   "builders": [{
@@ -26,8 +28,14 @@
     [
       {
         "type": "docker-tag",
-        "repository": "csi/kali_rolling",
+        "repository": "0dayinc/csi_prototyper",
         "tag": "{{user `box_version`}}"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "{{user `docker_hub_user`}}",
+        "login_password": "{{user `docker_hub_pass`}}"
       }
     ]
   ]

@@ -22,21 +22,31 @@ os=$(uname -s)
 # to take advantage of encrypted configs early on
 
 function usage() {
-  echo $"Usage: $0 <aws|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui|vsphere>"
+  echo $"Usage: $0 <aws|docker_csi_prototyper|docker_csi_transparent_browser|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui|vsphere>"
   date -u +%Y-%m-%d_%H.%M.%S
   exit 1
+}
+
+function deploy_docker_container() {
+  export CSI_PROVIDER="docker"
+  
+  if [[ $debug == '' ]]; then
+    vagrant up --provider=docker
+  else
+    vagrant up --provider=docker --debug
+  fi
+
 }
 
 if [[ $# != 1  ]] && [[ $# != 2 ]]; then
   usage
 fi
 
-vagrant plugin install vagrant-reload
-
 case $csi_deploy_type in
   "aws") 
     export CSI_PROVIDER="aws"
     if [[ -e "./etc/userland/aws/vagrant.yaml" ]]; then
+      vagrant plugin install vagrant-reload
       vagrant plugin install vagrant-aws
       vagrant plugin install vagrant-aws-dns
       vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box --force
@@ -53,6 +63,14 @@ case $csi_deploy_type in
   "kvm")
     # TODO: Coming soon
     echo "Coming soon..."
+    ;;
+  "docker_csi_prototyper")
+    export DOCKER_CONTAINER_TARGET="docker_csi_prototyper"
+    deploy_docker_container
+    ;;
+  "docker_csi_transparent_browser")
+    export DOCKER_CONTAINER_TARGET="docker_csi_transparent_browser"
+    deploy_docker_container
     ;;
   "ruby-gem")
     export CSI_PROVIDER="ruby-gem"
