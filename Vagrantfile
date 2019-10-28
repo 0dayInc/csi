@@ -18,20 +18,34 @@ if csi_provider == 'docker'
   case docker_container_target
   when 'docker_csi_prototyper'
     docker_container_image = '0dayinc/csi_prototyper'
-    # docker run -it csi/kali_rolling/plugins/transparent_browser:2019.3.3 --login -c "echo CSI.help | csi && csi"
+    docker_create_args = [
+      '--interactive',
+      '--tty'
+    ]
+    docker_cmd = [
+      'echo CSI.help | csi && csi'
+    ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
-    # docker run -it csi/kali_rolling/plugins/transparent_browser:2019.3.3 --login -c "echo CSI::Plugins::TransparentBrowser.help | csi && csi"
+    docker_create_args = [
+      '--interactive',
+      '--tty'
+    ]
+    docker_cmd = [
+      'echo CSI::Plugins::TransparentBrowser.help | csi && csi'
+    ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
   end
 
   Vagrant.configure(API_VERSION) do |config|
-    # config.vm.box = docker_container_image
     config.vm.define docker_container_target do
+      config.vm.synced_folder('.', '/vagrant', disabled: true)
       config.vm.provider :docker do |d|
         d.name = docker_container_target
         d.image = "#{docker_container_image}:#{container_tag}"
+        d.create_args = docker_create_args
+        d.cmd = docker_cmd
       end
     end
   end

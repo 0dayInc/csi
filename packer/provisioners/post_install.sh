@@ -18,11 +18,13 @@ sudo /bin/bash --login -c '> /var/log/wtmp'
 # Disable Local Root Access
 sudo passwd -l root
 
-# Remove SSH Host Key Pairs
-sudo shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
-
 if [[ $csi_provider == 'aws' ]]; then
-  sudo /bin/bash --login -c 'find /home -type d -name "authorized_keys" -exec shred -u {} \;'
+  # Remove SSH Host Key Pairs 
+  # (we need to keep the initial ones for other providers until 
+  # we can re-create SSH keys via vagrant/provisioners/post_install.sh)
+  sudo shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
+
+  sudo /bin/bash --login -c 'find /home -type f -name "authorized_keys" -exec shred -u {} \;'
   sudo /bin/bash --login -c 'apt purge -y cloud-init && apt autoremove -y --purge'
   # This allows for PacketFu::Utils.whoami? to properly fuction (Used in CSI::Plugins::Packet)
   # Socket.getifaddrs.each {|ifaddr| puts ifaddr.addr.inspect}; << return nil when teredo interface exists
