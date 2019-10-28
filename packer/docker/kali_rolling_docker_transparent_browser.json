@@ -9,7 +9,13 @@
     "image": "0dayinc/csi_prototyper:{{user `box_version`}}",
     "commit": true,
     "pull": false,
-    "run_command": [ "-d", "-i", "-t", "--entrypoint=/bin/bash", "{{.Image}}" ]
+    "run_command": [
+      "--detach",
+      "--interactive",
+      "--tty",
+      "--entrypoint=/bin/bash",
+      "{{.Image}}"
+    ]
   }],
   "provisioners": [{
     "type": "shell",
