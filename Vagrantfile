@@ -30,7 +30,7 @@ if csi_provider == 'docker'
     # config.vm.box = docker_container_image
     config.vm.define docker_container_target do
       config.vm.provider :docker do |d|
-        d.name = docker_container_image
+        d.name = docker_container_target
         d.image = "#{docker_container_image}:#{container_tag}"
       end
     end
