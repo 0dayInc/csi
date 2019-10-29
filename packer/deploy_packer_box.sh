@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <aws_ami | docker_csi_prototyper | docker_csi_fuzz_net_app_proto | docker_csi_transparent_browser | docker_csi_scapm | kvm | virtualbox | vmware> <box version || container tag to build (e.g. 2019.3.1 || latest)> <debug>"
+  echo "USAGE: ${0} <aws_ami | docker_csi_prototyper | docker_csi_fuzz_net_app_proto | docker_csi_transparent_browser | docker_csi_scapm | docker_csi_www_checkip | kvm | virtualbox | vmware> <box version || container tag to build (e.g. 2019.3.1 || latest)> <debug>"
   exit 1
 }
 
@@ -58,6 +58,9 @@ case $provider_type in
     ;;
   "docker_csi_scapm")
     pack docker docker/kali_rolling_docker_csi_scapm.json $debug
+    ;;
+  "docker_csi_www_checkip")
+    pack docker docker/kali_rolling_docker_csi_www_checkip.json $debug
     ;;
   "kvm")
     rm kali_rolling_qemu_kvm_xen.box || true

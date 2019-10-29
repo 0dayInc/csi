@@ -32,7 +32,7 @@ if csi_provider == 'docker'
     docker_cmd = [
       '--login',
       '-c',
-      'csi_fuzz_net_app_proto'
+      'csi_fuzz_net_app_proto; bash'
     ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
@@ -46,13 +46,21 @@ if csi_provider == 'docker'
     docker_cmd = [
       '--login',
       '-c',
-      'csi_scapm'
+      'csi_scapm; bash'
+    ]
+  when 'docker_csi_www_checkip'
+    docker_container_image = '0dayinc/csi_www_checkip'
+    docker_cmd = [
+      '--login',
+      '-c',
+      'csi_www_checkip; bash'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
   end
 
   Vagrant.configure(API_VERSION) do |config|
+    # config.ssh.username = 'root'
     config.vm.define docker_container_target do
       config.vm.synced_folder('.', '/vagrant', disabled: true)
       config.vm.provider :docker do |d|
@@ -60,6 +68,7 @@ if csi_provider == 'docker'
         d.image = docker_container_image
         d.create_args = docker_create_args
         d.cmd = docker_cmd
+        # d.has_ssh = true
       end
     end
   end
