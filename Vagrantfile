@@ -32,7 +32,7 @@ if csi_provider == 'docker'
     docker_cmd = [
       '--login',
       '-c',
-      'csi_fuzz_net_app_proto'
+      'csi_fuzz_net_app_proto; bash'
     ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
@@ -46,7 +46,7 @@ if csi_provider == 'docker'
     docker_cmd = [
       '--login',
       '-c',
-      'csi_scapm'
+      'csi_scapm; bash'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"

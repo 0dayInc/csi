@@ -80,7 +80,10 @@ case $csi_provider in
     ;;
 
   'docker')
-    $screen_cmd "${apt} install -y curl gnupg2 openssh-server"
+    $screen_cmd "${apt} install -y curl gnupg2 openssh-server net-tools"
+    grok_error
+
+    $screen_cmd "service ssh start"
     grok_error
 
     $screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
