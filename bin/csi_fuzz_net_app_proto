@@ -66,6 +66,10 @@ OptionParser.new do |options|
   options.on('-mINT', '--max-threads=INT', '<Optional - fuzz payloads to send in parallel (defaults to 1)>') do |i|
     opts[:max_threads] = i
   end
+
+  options.on('-s', '--[no-]start-reporting-server', '<Optional - Start Simple HTTP Server for Reporting>') do |s|
+    opts[:start_reporting_server] = s
+  end
 end.parse!
 
 if opts.empty?
@@ -87,6 +91,7 @@ opts[:char_encoding].nil? ? char_encoding = 'UTF-8' : char_encoding = opts[:char
 response_timeout = opts[:response_timeout]
 request_rate_limit = opts[:request_rate_limit]
 opts[:max_threads].nil? ? max_threads = 1 : max_threads = opts[:max_threads].to_i
+start_reporting_server = opts[:start_reporting_server]
 
 results_hash = { data: [] }
 results_arr = []
@@ -127,3 +132,6 @@ CSI::Reports::Fuzz.generate(
   char_encoding: char_encoding
 )
 puts 'complete.'
+
+# Start Simple HTTP Server on 0.0.0.0:1025-65525 (Ephemeral Port if Requested)
+system('csi_simple_http_server', "-d #{dir_path} -i 0.0.0.0 -p 0") if start_reporting_server

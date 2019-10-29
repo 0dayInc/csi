@@ -11,6 +11,7 @@ OptionParser.new do |options|
   "
 
   options.on('-dDIR', '--dir-path=DIR', '<Required - Report Output Directory>') { |d| opts[:dir_path] = d }
+
   options.on('-uGITURI', '--uri-source-root=GITURI', '<Required - HTTP URI of Git Repo Scanned e.g. https://github.com/0dayInc/csi/tree/master>') do |u|
     opts[:uri_source_root] = u
   end
@@ -25,6 +26,10 @@ OptionParser.new do |options|
 
   options.on('-l', '--[no-]list-test-cases', '<Optional List Available Test Cases to Invoke and Exit>') do |l|
     opts[:list_test_cases] = l
+  end
+
+  options.on('-s', '--[no-]start-reporting-server', '<Optional - Start Simple HTTP Server for Reporting>') do |s|
+    opts[:start_reporting_server] = s
   end
 end.parse!
 
@@ -41,6 +46,7 @@ uri_source_root = opts[:uri_source_root].to_s.scrub
 max_threads = opts[:max_threads]
 chosen_test_cases = opts[:chosen_test_cases]
 list_test_cases = opts[:list_test_cases]
+start_reporting_server = opts[:start_reporting_server]
 
 # Define Test Cases to Run & Start Thread Pool
 if chosen_test_cases && !list_test_cases
@@ -115,3 +121,6 @@ CSI::Reports::SCAPM.generate(
   results_hash: results_hash
 )
 puts 'complete.'
+
+# Start Simple HTTP Server on 0.0.0.0:1025-65525 (Ephemeral Port if Requested)
+system('csi_simple_http_server', "-d #{dir_path} -i 0.0.0.0 -p 0") if start_reporting_server
