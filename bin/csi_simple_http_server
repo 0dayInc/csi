@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-dPATH', '--document-root=PATH', '<Optional - HTTP Document Root (Defaults to Current Working Directory)>') do |d|
+    opts[:document_root] = d
+  end
+
+  options.on('-iIP', '--bind-ip=IP', '<Optional - HTTP Bind IP to Listen> (Defaults to Localhost)') do |i|
+    opts[:bind_ip] = i
+  end
+
+  options.on('-pPORT', '--port=PORT', '<Optional - HTTP Port to Listen (Defaults to 3333)>') do |p|
+    opts[:port] = p
+  end
+end.parse!
+
+if Dir.exist?(opts[:document_root].to_s.scrub.strip.chomp)
+  document_root = opts[:document_root].to_s.scrub.strip.chomp
+else
+  document_root = '.'
+end
+
+if opts[:bind_ip]
+  bind_ip = opts[:bind_ip]
+else
+  bind_ip = '127.0.0.1'
+end
+
+if opts[:port]
+  port = opts[:port].to_i
+else
+  port = 3333
+end
+
+system("ruby -r un -e httpd #{document_root} --bind-address #{bind_ip} --port #{port}")
