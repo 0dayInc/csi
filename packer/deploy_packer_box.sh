@@ -33,8 +33,7 @@ function pack() {
 }
 
 function deploy_base_csi_kali_rolling_container() {
-    rm kali_rolling_docker.box || true
-    pack docker docker/kali_rolling_docker_csi_prototyper.json $debug
+  pack docker docker/kali_rolling_docker_csi_prototyper.json $debug
 }
 
 if [[ $# < 2 ]]; then
@@ -60,7 +59,6 @@ case $provider_type in
     if [[ $? != 0 ]]; then
       deploy_base_csi_kali_rolling_container
     fi
-    rm kali_rolling_docker_csi_transparent_browser.box || true
     pack docker docker/kali_rolling_docker_csi_transparent_browser.json $debug
     ;;
   "kvm")
