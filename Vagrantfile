@@ -48,11 +48,19 @@ if csi_provider == 'docker'
       '-c',
       'csi_scapm; bash'
     ]
+  when 'docker_csi_www_checkip'
+    docker_container_image = '0dayinc/csi_www_checkip'
+    docker_cmd = [
+      '--login',
+      '-c',
+      'csi_www_checkip'
+    ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
   end
 
   Vagrant.configure(API_VERSION) do |config|
+    # config.ssh.username = 'root'
     config.vm.define docker_container_target do
       config.vm.synced_folder('.', '/vagrant', disabled: true)
       config.vm.provider :docker do |d|
@@ -60,6 +68,7 @@ if csi_provider == 'docker'
         d.image = docker_container_image
         d.create_args = docker_create_args
         d.cmd = docker_cmd
+        # d.has_ssh = true
       end
     end
   end
