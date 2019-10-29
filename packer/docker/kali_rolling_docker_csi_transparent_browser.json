@@ -1,12 +1,11 @@
 {
   "variables": {
     "docker_hub_user": "{{env `DOCKER_HUB_USER`}}",
-    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}",
-    "box_version": "{{env `BOX_VERSION`}}"
+    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}"
   },
   "builders": [{
     "type": "docker",
-    "image": "0dayinc/csi_prototyper:{{user `box_version`}}",
+    "image": "0dayinc/csi_prototyper",
     "commit": true,
     "pull": false,
     "run_command": [
@@ -34,7 +33,7 @@
       {
         "type": "docker-tag",
         "repository": "0dayinc/csi_transparent_browser",
-        "tag": "{{user `box_version`}}"
+        "tag": "latest"
       },
       {
         "type": "docker-push",
