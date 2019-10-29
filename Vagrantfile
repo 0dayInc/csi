@@ -53,7 +53,7 @@ if csi_provider == 'docker'
     docker_cmd = [
       '--login',
       '-c',
-      'csi_www_checkip'
+      'csi_www_checkip; bash'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"
