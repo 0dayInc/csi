@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo "USAGE: ${0} <aws_ami||docker_csi_prototyper||docker_csi_transparent_browser||kvm||virtualbox||vmware> <box version || container tag to build (e.g. 2019.3.1 || 0.3.839)> <debug>"
+  echo "USAGE: ${0} <aws_ami | docker_csi_prototyper | docker_csi_fuzz_net_app_proto | docker_csi_transparent_browser | docker_csi_scapm | kvm | virtualbox | vmware> <box version || container tag to build (e.g. 2019.3.1 || latest)> <debug>"
   exit 1
 }
 
@@ -32,10 +32,6 @@ function pack() {
   fi 
 }
 
-function deploy_base_csi_kali_rolling_container() {
-  pack docker docker/kali_rolling_docker_csi_prototyper.json $debug
-}
-
 if [[ $# < 2 ]]; then
   usage
 fi
@@ -52,14 +48,16 @@ case $provider_type in
     pack amazon-ebs kali_rolling_aws_ami.json $debug
     ;;
   "docker_csi_prototyper")
-    deploy_base_csi_kali_rolling_container
+    pack docker docker/kali_rolling_docker_csi_prototyper.json $debug
+    ;;
+  "docker_csi_fuzz_net_app_proto")
+    pack docker docker/kali_rolling_docker_csi_fuzz_net_app_proto.json $debug
     ;;
   "docker_csi_transparent_browser")
-    docker images -a | grep '0dayinc/csi_prototyper' > /dev/null 2>&1
-    if [[ $? != 0 ]]; then
-      deploy_base_csi_kali_rolling_container
-    fi
     pack docker docker/kali_rolling_docker_csi_transparent_browser.json $debug
+    ;;
+  "docker_csi_scapm")
+    pack docker docker/kali_rolling_docker_csi_scapm.json $debug
     ;;
   "kvm")
     rm kali_rolling_qemu_kvm_xen.box || true

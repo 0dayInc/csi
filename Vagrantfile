@@ -27,12 +27,26 @@ if csi_provider == 'docker'
       '-c',
       'echo CSI.help | csi && csi'
     ]
+  when 'docker_csi_fuzz_net_app_proto'
+    docker_container_image = '0dayinc/csi_fuzz_net_app_proto'
+    docker_cmd = [
+      '--login',
+      '-c',
+      'csi_fuzz_net_app_proto'
+    ]
   when 'docker_csi_transparent_browser'
     docker_container_image = '0dayinc/csi_transparent_browser'
     docker_cmd = [
       '--login',
       '-c',
       'echo CSI::Plugins::TransparentBrowser.help | csi && csi'
+    ]
+  when 'docker_csi_scapm'
+    docker_container_image = '0dayinc/csi_scapm'
+    docker_cmd = [
+      '--login',
+      '-c',
+      'csi_scapm'
     ]
   else
     raise "Unknown DOCKER_CONTAINER_TARGET: #{docker_container_target}"

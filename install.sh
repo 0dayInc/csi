@@ -22,7 +22,7 @@ os=$(uname -s)
 # to take advantage of encrypted configs early on
 
 function usage() {
-  echo $"Usage: $0 <aws|docker_csi_prototyper|docker_csi_transparent_browser|ruby-gem|virtualbox|virtualbox-gui|vmware-fusion|vmware-fusion-gui|vmware-workstation|vmware-workstation-gui|vsphere>"
+  echo $"Usage: $0 <aws | docker_csi_prototyper | docker_csi_fuzz_net_app_proto | docker_csi_transparent_browser | docker_csi_scapm | ruby-gem | virtualbox|virtualbox-gui | vmware-fusion | vmware-fusion-gui | vmware-workstation | vmware-workstation-gui | vsphere>"
   date -u +%Y-%m-%d_%H.%M.%S
   exit 1
 }
@@ -68,8 +68,16 @@ case $csi_deploy_type in
     export DOCKER_CONTAINER_TARGET="docker_csi_prototyper"
     deploy_docker_container
     ;;
+  "docker_csi_fuzz_net_app_proto")
+    export DOCKER_CONTAINER_TARGET="docker_csi_fuzz_net_app_proto"
+    deploy_docker_container
+    ;;
   "docker_csi_transparent_browser")
     export DOCKER_CONTAINER_TARGET="docker_csi_transparent_browser"
+    deploy_docker_container
+    ;;
+  "docker_csi_scapm")
+    export DOCKER_CONTAINER_TARGET="docker_csi_scapm"
     deploy_docker_container
     ;;
   "ruby-gem")
