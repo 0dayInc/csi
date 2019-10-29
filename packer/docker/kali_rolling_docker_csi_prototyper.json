@@ -1,8 +1,7 @@
 {
   "variables": {
     "docker_hub_user": "{{env `DOCKER_HUB_USER`}}",
-    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}",
-    "box_version": "{{env `BOX_VERSION`}}"
+    "docker_hub_pass": "{{env `DOCKER_HUB_PASS`}}"
   },
   "builders": [{
     "type": "docker",
@@ -35,7 +34,7 @@
       {
         "type": "docker-tag",
         "repository": "0dayinc/csi_prototyper",
-        "tag": "{{user `box_version`}}"
+        "tag": "latest"
       },
       {
         "type": "docker-push",
