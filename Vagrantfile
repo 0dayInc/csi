@@ -68,6 +68,7 @@ if csi_provider == 'docker'
         d.image = docker_container_image
         d.create_args = docker_create_args
         d.cmd = docker_cmd
+        d.volumes = ['/tmp:/tmp']
         # d.has_ssh = true
       end
     end
