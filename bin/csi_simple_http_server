@@ -40,4 +40,4 @@ else
   port = 3333
 end
 
-system("ruby -r un -e httpd #{document_root} --bind-address #{bind_ip} --port #{port}")
+system("ruby -r un -e httpd #{document_root} --bind-address #{bind_ip} --port #{port} -v")
