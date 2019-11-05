@@ -22,8 +22,10 @@
     "run_tags":{ "Name":"CSI Kali Rolling v{{user `box_version`}}" },
     "run_volume_tags":{ "Name":"CSI Kali Rolling v{{user `box_version`}}" },
     "launch_block_device_mappings": [{
-      "device_name": "/dev/sda1",
-      "volume_size": 36
+      "device_name": "xvda",
+      "volume_size": 36,
+      "volume_type": "gp2",
+      "delete_on_termination": true
     }]
   }],
   "provisioners": [
