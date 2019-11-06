@@ -29,6 +29,8 @@ grok_error() {
 
 if [[ $csi_provider == 'docker' ]]; then
   apt update && apt install -y sudo screen
+else
+  sudo apt update && sudo apt install -y screen
 fi
 
 $screen_cmd "echo \"export CSI_ROOT='/opt/csi'\" > /etc/profile.d/csi_envs.sh"
