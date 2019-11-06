@@ -12,7 +12,7 @@
     "secret_key":"{{user `aws_secret_access_key`}}",
     "ami_name": "CSI Kali Rolling v{{user `box_version`}}",
     "region": "us-east-1",
-    "source_ami": "ami-0cfac3931b2a799d1",
+    "source_ami": "ami-0ebe79fe05191a436",
     "instance_type": "t2.medium",
     "communicator": "ssh",
     "ssh_username": "admin",
@@ -22,7 +22,7 @@
     "run_tags":{ "Name":"CSI Kali Rolling v{{user `box_version`}}" },
     "run_volume_tags":{ "Name":"CSI Kali Rolling v{{user `box_version`}}" },
     "launch_block_device_mappings": [{
-      "device_name": "xvda",
+      "device_name": "/dev/xvda",
       "volume_size": 36,
       "volume_type": "gp2",
       "delete_on_termination": true
