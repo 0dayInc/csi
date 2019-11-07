@@ -4,7 +4,7 @@ secret_access_key: 'SECRET_ACCESS_KEY'
 session_token: 'ONLY NECESSARY WHEN USING STS'
 keypair_name: 'Public SSH "Key pair name" from Key Pairs link in EC2'
 block_device_mapping:
-  - DeviceName: '/dev/xvdb' 
+  - DeviceName: '/dev/xvda' 
     Ebs.VolumeSize: 36
 region: 'REGION'
 monitoring: true
@@ -20,16 +20,16 @@ tags:
   Name: 'CSI Kali Rolling'
 ssh_private_key_path: 'SSH_PRIVATE_KEY_PATH'
 # Route53 Configuration
-record_sets:
-  - 
-    - 'HOSTED_ZONE_ID'
-    - 'jenkins.DOMAIN'
-    - 'A'
-  - 
-    - 'HOSTED_ZONE_ID'
-    - 'openvas.DOMAIN'
-    - 'A'
-  - 
-    - 'HOSTED_ZONE_ID'
-    - 'scapm.DOMAIN'
-    - 'A'
+#record_sets:
+#  - 
+#    - 'HOSTED_ZONE_ID'
+#    - 'jenkins.DOMAIN'
+#    - 'A'
+#  - 
+#    - 'HOSTED_ZONE_ID'
+#    - 'openvas.DOMAIN'
+#    - 'A'
+#  - 
+#    - 'HOSTED_ZONE_ID'
+#    - 'scapm.DOMAIN'
+#    - 'A'
