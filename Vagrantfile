@@ -86,7 +86,7 @@ else
 
     config.vm.synced_folder(
       '.',
-      '/csi',
+      '/opt/csi',
       type: 'rsync',
       rsync__args: [
         '--progress',
@@ -108,7 +108,7 @@ else
 
     config.vm.synced_folder(
       '.',
-      '/csi',
+      '/opt/csi',
       type: 'rsync',
       rsync__args: [
         '--progress',
