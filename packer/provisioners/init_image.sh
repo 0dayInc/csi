@@ -43,7 +43,7 @@ case $csi_provider in
     $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common ${assess_update_errors}"
     grok_error
 
-    $screen_cmd "> /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list ${assess_update_errors}"
+    $screen_cmd "rm -rf /var/lib/apt/lists && > /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list && apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 7D8D0BF6 ${assess_update_errors}"
     grok_error
 
     # Download and import the official Kali Linux key

@@ -8,13 +8,13 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '6.0.0'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2019-10-11
+gem 'activesupport', '6.0.0'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2019-11-08
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.6.1'                # Rails Security Scanner ***2019-08-13
-gem 'bson', '4.5.0'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2019-08-13
+gem 'brakeman', '4.7.1'                # Rails Security Scanner ***2019-11-08
+gem 'bson', '4.6.0'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2019-11-08
 gem 'bundler', '2.0.2'                 # bundle install ***2019-01-18
 gem 'bundler-audit', '0.6.1'           # Checks for vulnerable versions of gems ***2019-01-21
 gem 'bunny', '2.14.3'                  # RabbitMQ ***2019-10-11
@@ -25,19 +25,19 @@ gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '2.2.0'                    # Work w/ JSON objects ***2019-08-13
-gem 'jsonpath', '1.0.4'                # XPath-ify Complex JSON Data Structures ***2019-08-13
+gem 'jsonpath', '1.0.5'                # XPath-ify Complex JSON Data Structures ***2019-11-08
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
-gem 'mongo', '2.10.2'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2019-10-11
+gem 'mongo', '2.11.0'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2019-11-08
 gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2019-01-08
 gem 'net-ldap', '0.16.1'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2017-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '7.2.1'                 # Vuln Scan all the Things! ***2019-01-08
-gem 'nokogiri', '1.10.4'               # Parse HTML & XML Documents ***2019-08-13
+gem 'nokogiri', '1.10.5'               # Parse HTML & XML Documents ***2019-11-08
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
 gem 'os', '1.0.1'                      # Detect underlying operating system ***2019-08-13
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
-gem 'pdf-reader', '2.2.1'              # Parsing PDF Reports ***2019-08-13
+gem 'pdf-reader', '2.3.0'              # Parsing PDF Reports ***2019-11-08
 gem 'pg', '1.1.4'                      # Required Postgres Gem for Postgres Data Access Object ***2019-08-13
 gem 'pry', '0.12.2'                    # More feature-filled irb alternative ***2019-01-08
 gem 'pry-doc', '1.0.0'                 # Better support for show-source & show-method in csi prototyper ***2019-01-18
@@ -56,7 +56,7 @@ gem 'serialport', '1.3.1'              # Serial based communications, wardialing
 gem 'sinatra', '2.0.7'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2019-10-11
 gem 'slack-ruby-client', '0.14.4'      # Used for interacting w/ Slack via bots ***2019-08-13
 gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e.g. tor) ***2017-08-20
-gem 'spreadsheet', '1.2.4'             # Generate Excel Spreadsheets (.xls files) ***2019-08-13
+gem 'spreadsheet', '1.2.5'             # Generate Excel Spreadsheets (.xls files) ***2019-11-08
 gem 'sqlite3', '1.4.1'                 # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2019-08-13
 gem 'thin', '1.7.2'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-08-20
 gem 'tty-prompt', '0.19.0'             # Masking Authentication Credential Input ***2019-08-13
