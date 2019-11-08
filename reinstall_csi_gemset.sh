@@ -22,5 +22,7 @@ gem install bundler
 if [[ $(uname -s) == "Darwin" ]]; then
   bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
 fi
-bundle install
+# Once aws-sdk-resources begins behaving again, uncomment this to speed things up:
+# bundle install
+bundle install --full-index
 rvm --default ruby-$ruby_version@$ruby_gemset
