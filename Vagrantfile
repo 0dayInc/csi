@@ -194,13 +194,13 @@ else
 
           case yaml_config['region']
           when 'us-east-1'
-            aws.ami = 'ami-0ee08ab2b29d3bdf2'
+            aws.ami = 'ami-02eb1a4c830533086'
           when 'us-east-2'
-            aws.ami = 'ami-079c77df2cdd28649'
+            aws.ami = 'ami-0ec0b569397da65f4'
           when 'us-west-1'
-            aws.ami = 'ami-0a54d8f300694b8a7'
+            aws.ami = 'ami-0485cc5cdb2c13dd9'
           when 'us-west-2'
-            aws.ami = 'ami-086f995500444e925'
+            aws.ami = 'ami-0a3b38548723847de'
           else
             raise "Error: #{yaml_config['region']} not supported."
           end
