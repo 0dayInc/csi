@@ -11,3 +11,7 @@ sudo sed -i -e 's/^%sudo.+ALL=(ALL:ALL) ALL/%sudo.+ALL=(ALL:ALL) NOPASSWD:ALL/g'
 echo "Updating FQDN: ${hostname}"
 cat /etc/hosts | grep "${hostname}" || sudo sed "s/127.0.0.1/127.0.0.1 ${hostname}/g" -i /etc/hosts
 hostname | grep "${hostname}" || sudo hostname "${hostname}"
+
+# Listens on TCP 443 by default which collides w/ Apache
+sudo systemctl disable inetsim
+sudo systemctl stop inetsim
