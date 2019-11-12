@@ -12,6 +12,11 @@ echo "Updating FQDN: ${hostname}"
 cat /etc/hosts | grep "${hostname}" || sudo sed "s/127.0.0.1/127.0.0.1 ${hostname}/g" -i /etc/hosts
 hostname | grep "${hostname}" || sudo hostname "${hostname}"
 
-# Listens on TCP 443 by default which collides w/ Apache
+# Listens on TCP 80 & 443 by default which collides w/ Apache
+# TCP 80 Collision
+sudo systemctl disable nginx
+sudo systemctl stop nginx
+
+# TCP 443 Collision
 sudo systemctl disable inetsim
 sudo systemctl stop inetsim
