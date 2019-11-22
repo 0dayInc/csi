@@ -15,8 +15,10 @@ ruby_version=`cat ${csi_root}/.ruby-version`
 ruby_gemset=`cat ${csi_root}/.ruby-gemset`
 rvm use ruby-$ruby_version@global
 rvm gemset --force delete $ruby_gemset
-rm Gemfile.lock
-# rvm gemset create $ruby_gemset
+if [[ -f "${csi_root}/Gemfile.lock" ]]; then
+  rm $csi_root/Gemfile.lock
+fi
+
 rvm use ruby-$ruby_version@$ruby_gemset --create
 gem install bundler
 if [[ $(uname -s) == "Darwin" ]]; then
