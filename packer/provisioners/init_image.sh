@@ -29,6 +29,7 @@ grok_error() {
 
 if [[ $csi_provider == 'docker' ]]; then
   apt update && apt install -y sudo screen
+  echo 'Set disable_coredump false' >> /etc/sudoers
 else
   sudo apt update && sudo apt install -y screen
 fi
