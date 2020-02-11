@@ -6,7 +6,7 @@ export PACKER_LOG=1
 set -e
 
 function usage() {
-  echo -e "USAGE: ${0} \ \n\taws_ami |\n\tdocker_csi_prototyper |\n\tdocker_csi_fuzz_net_app_proto |\n\tdocker_csi_transparent_browser |\n\tdocker_csi_scapm |\n\tdocker_csi_www_checkip |\n\tkvm |\n\tvirtualbox |\n\tvmware\n>\n<box version || container tag to build (e.g. 2019.3.1 || latest)> <debug>"
+  echo -e "USAGE: ${0} \ \n\taws_ami |\n\tdocker_csi_prototyper |\n\tdocker_csi_fuzz_net_app_proto |\n\tdocker_csi_transparent_browser |\n\tdocker_csi_scapm |\n\tdocker_csi_www_checkip |\n\tkvm |\n\tvirtualbox |\n\tvmware\n>\n<box version || container tag to build (e.g. 2020.3.1 || latest)> <debug>"
   exit 1
 }
 

@@ -69,7 +69,7 @@ case $csi_provider in
     $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
+    $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
     grok_error
 
     $screen_cmd "dpkg --configure -a ${assess_update_errors}"
