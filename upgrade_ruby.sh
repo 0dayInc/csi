@@ -21,10 +21,10 @@ new_ruby_version=$1
 if [[ $2 != '' ]]; then
   old_ruby_version=$2
 else
-  old_ruby_version=$(cat /csi/.ruby-version)
+  old_ruby_version=`cat ${csi_root}/.ruby-version`
 fi
 
-ruby_gemset=$(cat /csi/.ruby-gemset)
+ruby_gemset=`cat ${csi_root}/.ruby-gemset`
 
 if [[ $# < 1 ]]; then
   usage
@@ -41,6 +41,6 @@ rm Gemfile.lock
 
 # Install New Version of Ruby
 rvm install ruby-$new_ruby_version
-echo $new_ruby_version > /csi/.ruby-version
+echo $new_ruby_version > $csi_root/.ruby-version
 
 cd $csi_root && rvm use $new_ruby_version@$ruby_gemset && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh

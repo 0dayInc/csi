@@ -80,7 +80,7 @@ if [[ $? == 0 ]]; then
    $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
    grok_error
 
-   $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
    grok_error
 else
   echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."

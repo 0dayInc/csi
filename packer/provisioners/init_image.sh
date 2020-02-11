@@ -29,6 +29,7 @@ grok_error() {
 
 if [[ $csi_provider == 'docker' ]]; then
   apt update && apt install -y sudo screen
+  echo 'Set disable_coredump false' >> /etc/sudoers
 else
   sudo apt update && sudo apt install -y screen
 fi
@@ -68,7 +69,7 @@ case $csi_provider in
     $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-desktop-gnome ${assess_update_errors}"
+    $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
     grok_error
 
     $screen_cmd "dpkg --configure -a ${assess_update_errors}"
