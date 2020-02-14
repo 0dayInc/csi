@@ -39,9 +39,7 @@ gem 'os', '1.0.1'                      # Detect underlying operating system ***2
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
 gem 'pdf-reader', '2.4.0'              # Parsing PDF Reports ***2019-12-18
 gem 'pg', '1.2.2'                      # Required Postgres Gem for Postgres Data Access Object ***2020-02-11
-# gem 'pry', '0.12.2'                    # More feature-filled irb alternative ***2019-01-08
-gem 'pry', git: 'https://github.com/pry/pry.git', ref: '272b3290b5250d28ee82a5ff65aa3b29b825e37b'
-                                       # More feature-filled irb alternative ***2020-02-14
+gem 'pry', '0.12.2'                    # More feature-filled irb alternative ***2019-01-08
 gem 'pry-doc', '1.0.0'                 # Better support for show-source & show-method in csi prototyper ***2019-01-18
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
 gem 'rbvmomi', '2.3.0'                 # Required for VMware-Fu ***2020-02-11
