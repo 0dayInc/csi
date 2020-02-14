@@ -3,8 +3,8 @@ d-i keymap select us
 d-i debian-installer/keymap string us
 d-i console-keymaps-at/keymap select us
 d-i keyboard-configuration/xkb-keymap select us
-d-i keyboard-configuration/layout select us
-d-i keyboard-configuration/variant select us
+d-i keyboard-configuration/layout select USA
+d-i keyboard-configuration/variant select USA
 
 ### Network Configuration
 d-i netcfg/choose_interface select auto
