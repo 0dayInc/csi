@@ -1,7 +1,13 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
 
 printf "Installing BurpBuddy API for Burpsuite *****************************************"
-sudo apt install -y openjdk-8-jdk libgconf-2-4
+$screen_cmd "${apt} install -y openjdk-8-jdk ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} install -y libgconf-2-4 ${assess_update_errors}"
+grok_error
+
 curl --silent 'https://api.github.com/repos/tomsteele/burpbuddy/releases/latest' > /tmp/latest_burpbuddy.json
 latest_burpbuddy_jar=$(ruby -e "require 'json'; pp JSON.parse(File.read('/tmp/latest_burpbuddy.json'), symbolize_names: true)[:assets][0][:browser_download_url]")
 burpbuddy_jar_url=`echo ${latest_burpbuddy_jar} | sed 's/"//g'`

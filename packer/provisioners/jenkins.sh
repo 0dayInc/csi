@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 if [[ $CSI_ROOT == '' ]]; then
   if [[ ! -d '/csi' ]]; then
     csi_root=$(pwd)

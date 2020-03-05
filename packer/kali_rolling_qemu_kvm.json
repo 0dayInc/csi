@@ -42,6 +42,7 @@
         "CSI_PROVIDER=qemu"
       ],
       "scripts": [
+        "provisioners/upload_globals.sh",
         "provisioners/init_image.sh"
       ]
     },

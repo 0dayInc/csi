@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 # TODO: Always grab latest release
 arachni_root='/opt/arachni'
 arachni_build_path="${arachni_root}/arachni-1.5.1-0.5.12"
@@ -7,7 +9,8 @@ arachni_url="https://github.com/Arachni/arachni/releases/download/v1.5.1/${arach
 arachni_ca_root='/usr/local/share/ca-certificates/arachni'
 
 sudo mkdir $arachni_root 
-sudo /bin/bash --login -c "cd ${arachni_root} && wget ${arachni_url} && tar -xzvf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz && rm ${arachni_pkg}"
+$screen_cmd "cd ${arachni_root} && wget ${arachni_url} && tar -xzvf arachni-1.5.1-0.5.12-linux-x86_64.tar.gz && rm ${arachni_pkg} ${assess_update_errors}"
+grok_error
 
 ls $arachni_build_path/bin/* | while read arachni_bin; do 
   sudo ln -sf $arachni_bin /usr/local/bin/

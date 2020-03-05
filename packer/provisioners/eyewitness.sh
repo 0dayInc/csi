@@ -1,2 +1,5 @@
 #!/bin/bash --login
-sudo apt install -y eyewitness
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} install -y eyewitness ${assess_update_errors}"
+grok_error

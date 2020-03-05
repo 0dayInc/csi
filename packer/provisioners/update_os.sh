@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 # Automate Package Install Questions :)
 # Obtain values via: debconf-get-selections | less
 
@@ -6,42 +8,27 @@ csi_provider=`echo $CSI_PROVIDER`
 
 # Update OS per update_os_instructions function and grok for errors in screen session logs
 # to mitigate introduction of bugs during updgrades.
-screen_cmd='sudo screen -L -S update_os -d -m /bin/bash --login -c'
-assess_update_errors='|| echo UPDATE_ABORT && exit 1'
-debconf_set='/usr/bin/debconf-set-selections'
-apt="DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'"
-
-grok_error() {
-  while true; do
-    # Wait until screen exits session
-    sudo screen -ls | grep update_os
-    if [[ $? == 1 ]]; then
-      grep UPDATE_ABORT screenlog.*
-      if [[ $? == 0 ]]; then
-        echo 'Failures encountered in screenlog for update_os session!!!'
-        cat screenlog.*
-        exit 1
-      else
-        echo 'No errors in update detected...moving onto the next.'
-        break 
-      fi
-    else
-      printf '.'
-      sleep 9
-    fi
-  done
-}
 
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-sudo /bin/bash --login -c 'echo "Package: openssl" > /etc/apt/preferences.d/openssl'
-sudo /bin/bash --login -c 'echo "Pin: version 1.1.0*" >> /etc/apt/preferences.d/openssl'
-sudo /bin/bash --login -c 'echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/openssl'
+$screen_cmd "echo 'Package: openssl' > /etc/apt/preferences.d/openssl ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'Pin: version 1.1.0*' >> /etc/apt/preferences.d/openssl ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/openssl ${assess_update_errors}"
+grok_error
 
 # pin until breadcrumbs are implemented in the framwework
-sudo /bin/bash --login -c 'echo "Package: jenkins" > /etc/apt/preferences.d/jenkins'
-sudo /bin/bash --login -c 'echo "Pin: version 2.190" >> /etc/apt/preferences.d/jenkins'
-sudo /bin/bash --login -c 'echo "Pin-Priority: 1002" >> /etc/apt/preferences.d/jenkins'
+$screen_cmd "echo 'Package: jenkins' > /etc/apt/preferences.d/jenkins ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'Pin: version 2.190' >> /etc/apt/preferences.d/jenkins ${assess_update_errors}"
+grok_error
+
+$screen_cmd "echo 'Pin-Priority: 1002' >> /etc/apt/preferences.d/jenkins ${assess_update_errors}"
+grok_error
 
 # Cleanup up prior screenlog.0 file from previous update_os failure(s)
 if [[ -e screenlog.0 ]]; then 
