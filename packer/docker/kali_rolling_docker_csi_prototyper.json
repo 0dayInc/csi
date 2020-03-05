@@ -5,7 +5,7 @@
   },
   "builders": [{
     "type": "docker",
-    "image": "kalilinux/kali-linux-docker",
+    "image": "kalilinux/kali-rolling",
     "commit": true,
     "run_command": [
       "--detach",

@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 if [[ $CSI_ROOT == '' ]]; then
   if [[ ! -d '/csi' ]]; then
     csi_root=$(pwd)
@@ -40,25 +42,41 @@ case $os in
     apt --version > /dev/null 2>&1
     if [[ $? == 0 ]]; then
       echo "Installing wget to retrieve tesseract trained data..."
-      sudo apt install -y wget
+      $screen_cmd "${apt} install -y wget ${assess_update_errors}"
+      grok_error
 
       echo "Installing fontconfig..."
-      sudo apt install -y fontconfig
+      $screen_cmd "${apt} install -y fontconfig ${assess_update_errors}"
+      grok_error
 
       echo "Installing Postgres Libraries for pg gem..."
-      sudo apt install -y postgresql-server-dev-all
+      $screen_cmd "${apt} install -y postgresql-server-dev-all ${assess_update_errors}"
+      grok_error
 
       echo "Installing libpcap Libraries..."
-      sudo apt install -y libpcap-dev
+      $screen_cmd "${apt} install -y libpcap-dev ${assess_update_errors}"
+      grok_error
 
       echo "Installing libsndfile1 & libsndfile1-dev Libraries..."
-      sudo apt install -y libsndfile1 libsndfile1-dev
+      $screen_cmd "${apt} install -y libsndfile1 ${assess_update_errors}"
+      grok_error
+
+      $screen_cmd "${apt} install -y libsndfile1-dev ${assess_update_errors}"
+      grok_error
 
       echo "Installing imagemagick & libmagickwand-dev Libraries..."
-      sudo apt install -y imagemagick libmagickwand-dev
+      $screen_cmd "${apt} install -y imagemagick ${assess_update_errors}"
+      grok_error
+
+      $screen_cmd "${apt} install -y libmagickwand-dev ${assess_update_errors}"
+      grok_error
 
       echo "Installing tesseract-ocr-all & trainers..."
-      sudo /bin/bash --login -c 'apt install -y tesseract-ocr-all && cd /usr/share/tesseract-ocr && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata'
+      $screen_cmd "${apt} install -y tesseract-ocr-all ${assess_update_errors}"
+      grok_error
+
+      $screen_cmd "cd /usr/share/tesseract-ocr && wget https://raw.githubusercontent.com/tesseract-ocr/tessdata/master/eng.traineddata ${assess_update_errors}"
+      grok_error
     else
       echo "A Linux Distro was Detected, however, ${0} currently only supports Kali Rolling, Ubuntu, & OSX for now...feel free to install manually."
     fi

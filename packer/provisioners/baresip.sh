@@ -1,2 +1,5 @@
 #!/bin/bash --login
-sudo apt install -y baresip
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} install -y baresip ${assess_update_errors}"
+grok_error

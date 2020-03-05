@@ -1,31 +1,7 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
 
 csi_provider=`echo $CSI_PROVIDER`
-screen_cmd='sudo screen -L -S init_image -d -m /bin/bash --login -c'
-assess_update_errors='|| echo IMAGE_ABORT && exit 1'
-debconf_set='/usr/bin/debconf-set-selections'
-apt="DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confnew'"
-
-grok_error() {
-  while true; do
-    # Wait until screen exits session
-    sudo screen -ls | grep init_image
-    if [[ $? == 1 ]]; then
-      grep IMAGE_ABORT screenlog.*
-      if [[ $? == 0 ]]; then
-        echo 'Failures encountered in screenlog for init_image session!!!'
-        cat screenlog.*
-        exit 1
-      else
-        echo 'No errors in update detected...moving onto the next.'
-        break
-      fi
-    else
-      printf '.'
-      sleep 9
-    fi
-  done
-}
 
 if [[ $csi_provider == 'docker' ]]; then
   apt update && apt install -y sudo screen

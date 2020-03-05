@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 for user in csiadmin admin; do
   if [[ ! -d "/home/${user}/.ssh" ]]; then
     sudo mkdir -p /home/$user/.ssh

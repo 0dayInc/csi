@@ -1,2 +1,5 @@
 #!/bin/bash --login
-sudo apt install -y ansible
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} install -y ansible"
+grok_error
