@@ -1,3 +1,9 @@
 inherit_from: .rubocop_todo.yml
-Metrics/LineLength:
+Layout:
   Max: 3000
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true

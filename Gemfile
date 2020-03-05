@@ -13,8 +13,8 @@ gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.7.2'                # Rails Security Scanner ***2019-12-18
-gem 'bson', '4.7.1'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-02-11
+gem 'brakeman', '4.8.0'                # Rails Security Scanner ***2020-03-05
+gem 'bson', '4.8.2'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-03-05
 gem 'bundler', '2.1.4'                 # bundle install ***2020-02-11
 gem 'bundler-audit', '0.6.1'           # Checks for vulnerable versions of gems ***2019-01-21
 gem 'bunny', '2.14.4'                  # RabbitMQ ***2020-02-11
@@ -33,7 +33,7 @@ gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the
 gem 'net-ldap', '0.16.2'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2019-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '7.2.1'                 # Vuln Scan all the Things! ***2019-01-08
-gem 'nokogiri', '1.10.8'               # Parse HTML & XML Documents ***2020-02-11
+gem 'nokogiri', '1.10.9'               # Parse HTML & XML Documents ***2020-03-05
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
 gem 'os', '1.0.1'                      # Detect underlying operating system ***2019-08-13
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
@@ -62,4 +62,4 @@ gem 'thin', '1.7.2'                    # Light HTTP Server Used for Serving Up S
 gem 'tty-prompt', '0.20.0'             # Masking Authentication Credential Input ***2019-08-13
 gem 'watir', '6.16.5'                  # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2019-01-08
 gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
-gem 'wicked_pdf', '1.4.0'              # Convert HTML to PDF Documents ***2019-08-13
+gem 'wicked_pdf', '2.0.1'              # Convert HTML to PDF Documents ***2020-03-05
