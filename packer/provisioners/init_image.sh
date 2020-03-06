@@ -113,7 +113,3 @@ esac
 
 # Restrict Home Directory
 sudo chmod 700 /home/admin
-
-printf 'Image Initialized to reasonable expectations - cleaning up screen logs...'
-sudo rm screenlog.*
-echo 'complete.'

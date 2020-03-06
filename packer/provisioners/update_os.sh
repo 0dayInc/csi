@@ -11,24 +11,18 @@ csi_provider=`echo $CSI_PROVIDER`
 
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-$screen_cmd "echo 'Package: openssl' > /etc/apt/preferences.d/openssl ${assess_update_errors}"
-grok_error
-
-$screen_cmd "echo 'Pin: version 1.1.0*' >> /etc/apt/preferences.d/openssl ${assess_update_errors}"
-grok_error
-
-$screen_cmd "echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/openssl ${assess_update_errors}"
-grok_error
+sudo tee -a '/etc/apt/preferences.d/openssl' << 'EOF'
+Package: openssl
+Pin: version 1.1.0*
+Pin-Priority: 1001
+EOF
 
 # pin until breadcrumbs are implemented in the framwework
-$screen_cmd "echo 'Package: jenkins' > /etc/apt/preferences.d/jenkins ${assess_update_errors}"
-grok_error
-
-$screen_cmd "echo 'Pin: version 2.190' >> /etc/apt/preferences.d/jenkins ${assess_update_errors}"
-grok_error
-
-$screen_cmd "echo 'Pin-Priority: 1002' >> /etc/apt/preferences.d/jenkins ${assess_update_errors}"
-grok_error
+sudo tee -a '/etc/apt/preferences.d/jenkins' << 'EOF'
+Package: jenkins
+Pin: version 2.190
+Pin-Priority: 1002
+EOF
 
 # Cleanup up prior screenlog.0 file from previous update_os failure(s)
 if [[ -e screenlog.0 ]]; then 
@@ -41,17 +35,17 @@ grok_error
 $screen_cmd "apt install -y debconf-i18n ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
-grok_error
+#$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
+#grok_error
 
-$screen_cmd "echo 'libc6 libraries/restart-without-asking boolean true' | ${debconf_set} ${assess_update_errors}"
-grok_error
+#$screen_cmd "echo 'libc6 libraries/restart-without-asking boolean true' | ${debconf_set} ${assess_update_errors}"
+#grok_error
 
-$screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | ${debconf_set} ${assess_update_errors}"
-grok_error
+#$screen_cmd "echo 'console-setup console-setup/codeset47 select Guess optimal character set' | ${debconf_set} ${assess_update_errors}"
+#grok_error
 
-$screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
-grok_error
+#$screen_cmd "echo 'wireshark-common wireshark-common/install-setuid boolean false' | ${debconf_set} ${assess_update_errors}"
+#grok_error
 
 $screen_cmd "${apt} dist-upgrade -y ${assess_update_errors}"
 grok_error
@@ -87,7 +81,3 @@ grok_error
 
 $screen_cmd "dpkg --configure -a ${assess_update_errors}"
 grok_error
-
-printf 'OS updated to reasonable expectations - cleaning up screen logs...'
-sudo rm screenlog.*
-echo 'complete.'
