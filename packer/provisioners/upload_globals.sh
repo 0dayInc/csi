@@ -16,17 +16,17 @@ grok_error() {
     # Wait until screen exits session
     screen -ls | grep $screen_session
     if [[ $? == 1 ]]; then
-      grep IMAGE_ABORT /screenlog.*
+      grep IMAGE_ABORT screenlog.*
       if [[ $? == 0 ]]; then
-        echo "Failures encountered in $(ls /screenlog.*) for ${screen_session} session!!!"
-        cat /screenlog.*
-        rm /screenlog.*
+        echo "Failures encountered in $(ls screenlog.*) for ${screen_session} session!!!"
+        cat screenlog.*
+        rm screenlog.*
         exit 1
       else
-        echo "No errors in $(ls /screenlog.*) detected...moving onto the next."
-        ls /screenlog.* > /dev/null 2>&1
+        echo "No errors in $(ls screenlog.*) detected...moving onto the next."
+        ls screenlog.* > /dev/null 2>&1
         if [[ $? == 0 ]]; then
-          rm /screenlog.*
+          rm screenlog.*
         fi
         break
       fi

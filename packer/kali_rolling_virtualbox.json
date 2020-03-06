@@ -103,6 +103,7 @@
       ],
       "scripts": [
         "provisioners/coreutils.sh",
+        "provisioners/git.sh",
         "provisioners/curl.sh",
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
