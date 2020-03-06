@@ -1,5 +1,5 @@
 #!/bin/bash --login
-cat >/etc/profile.d/globals.sh <<'EOF'
+sudo /bin/bash --login -c 'cat >/etc/profile.d/globals.sh <<"EOF"
 #!/bin/bash --login
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
@@ -31,11 +31,11 @@ grok_error() {
         break
       fi
     else
-      printf '.'
+      printf "."
       sleep 9
     fi
   done
 }
-EOF
+EOF'
 
 chmod 755 /etc/profile.d/globals.sh
