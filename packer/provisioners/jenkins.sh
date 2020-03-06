@@ -21,13 +21,20 @@ rvm use ruby-$ruby_version@csi
 printf "Installing Jenkins ********************************************************************"
 domain_name=`hostname -d`
 wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
-# wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
-# sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+
 # Get back to a Java version Jenkins supports (Temporarily 2018-04-19)
 sudo ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /etc/alternatives/java
 sudo sh -c 'echo deb https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
-sudo apt update
-sudo /bin/bash --login -c "DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install -yq jenkins openjdk-8-jdk"
+
+$screen_cmd "${apt} update"
+grok_error
+
+$screen_cmd "${apt} install -yq openjdk-8-jdk"
+grok_error
+
+$screen_cmd "${apt} install -yq jenkins"
+grok_error
+
 sleep 9
 sudo /bin/bash --login -c "cp ${csi_root}/etc/userland/$csi_provider/jenkins/jenkins /etc/default/jenkins"
 sudo /bin/bash --login -c "sed -i \"s/DOMAIN/${domain_name}/g\" /etc/default/jenkins" 

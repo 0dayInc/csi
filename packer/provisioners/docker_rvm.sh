@@ -11,10 +11,10 @@ grok_error
 $screen_cmd "curl -sSL https://rvm.io/pkuczynski.asc | sudo gpg2 --import - ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo -e \"trust\n5\ny\n\" | gpg2 --no-tty --command-fd 0 --edit-key ${key1} ${assess_update_errors}""
+$screen_cmd "echo -e \"trust\n5\ny\n\" | gpg2 --no-tty --command-fd 0 --edit-key ${key1} ${assess_update_errors}"
 grok_error
 
-$screen_cmd "echo -e \"trust\n5\ny\n\" | gpg2 --no-tty --command-fd 0 --edit-key ${key2} ${assess_update_errors}""
+$screen_cmd "echo -e \"trust\n5\ny\n\" | gpg2 --no-tty --command-fd 0 --edit-key ${key2} ${assess_update_errors}"
 grok_error
 
 # Multi-user install required due to the need to run MSFRPCD as root w/in metasploit gemset

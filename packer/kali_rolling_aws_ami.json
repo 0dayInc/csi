@@ -12,7 +12,7 @@
     "secret_key":"{{user `aws_secret_access_key`}}",
     "ami_name": "CSI Kali Rolling v{{user `box_version`}}",
     "region": "us-east-1",
-    "source_ami": "ami-0ebe79fe05191a436",
+    "source_ami": "ami-066027b63b44ebc0a",
     "instance_type": "t2.medium",
     "communicator": "ssh",
     "ssh_username": "admin",
@@ -72,6 +72,8 @@
         "CSI_PROVIDER=aws"
       ],
       "scripts": [
+        "provisioners/coreutils.sh",
+        "provisioners/curl.sh",
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
         "provisioners/ruby.sh",

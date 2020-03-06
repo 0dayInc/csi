@@ -1,4 +1,11 @@
 #!/bin/bash --login
-sudo apt purge -y virtualbox-*
-sudo apt install -y linux-headers-$(uname -r)
-sudo apt install -y virtualbox-guest-x11
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} purge -y virtualbox-* ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} install -y linux-headers-$(uname -r) ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt}  install -y virtualbox-guest-x11 ${assess_update_errors}"
+grok_error

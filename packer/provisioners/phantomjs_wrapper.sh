@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 if [[ $CSI_ROOT == '' ]]; then
   if [[ ! -d '/csi' ]]; then
     csi_root=$(pwd)
@@ -16,4 +18,5 @@ rvm use ruby-$ruby_version@csi
 # This is needed to ensure other ruby installations aren't picked up
 # by #!/usr/bin/env ruby inside of the script below
 # /csi/packer/provisioners/phantomjs.rb
-sudo apt install phantomjs
+$screen_cmd "${apt} install phantomjs ${assess_update_errors}"
+grok_error

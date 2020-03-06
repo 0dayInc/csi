@@ -20,5 +20,5 @@ $screen_cmd "a2enmod rewrite ${assess_update_errors}"
 $screen_cmd "a2enmod ssl ${assess_update_errors}"
 $screen_cmd "a2enmod headers ${assess_update_errors}"
 # Disable Version Headers
-$screen_cmd "echo -e \"ServerSignature Off\nServerTokens Prod\" >> /etc/apache2/apache2.conf ${assess_update_errors}"
+$screen_cmd "echo -e \"ServerSignature Off\nServerTokens Prod\n\" >> /etc/apache2/apache2.conf ${assess_update_errors}"
 $screen_cmd "cp ${csi_root}/etc/userland/${csi_provider}/apache2/*.conf /etc/apache2/sites-available/ ${assess_update_errors}"

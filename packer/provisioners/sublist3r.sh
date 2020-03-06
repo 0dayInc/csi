@@ -1,3 +1,5 @@
 #!/bin/bash
-#sudo /bin/bash --login -c 'cd /opt && git clone https://github.com/aboul3la/Sublist3r.git && ln -sf /opt/Sublist3r/sublist3r.py /usr/local/bin/'
-sudo /bin/bash --login -c 'apt install -y sublist3r'
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} install -y sublist3r ${assess_update_errors}"
+grok_error

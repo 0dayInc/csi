@@ -1,4 +1,8 @@
 #!/bin/bash --login
-sudo apt install -y linux-headers-$(uname -r)
-#sudo apt install --reinstall -y open-vm-tools-desktop fuse
-sudo apt install --reinstall -y open-vm-tools-desktop
+source /etc/profile.d/globals.sh
+
+$screen_cmd "${apt} install -y linux-headers-$(uname -r) ${assess_update_errors}"
+grok_error
+
+$screen_cmd "${apt} install --reinstall -y open-vm-tools-desktop ${assess_update_errors}"
+grok_error

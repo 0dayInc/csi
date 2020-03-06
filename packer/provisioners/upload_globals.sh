@@ -1,5 +1,5 @@
 #!/bin/bash --login
-sudo cat >/etc/profile.d/globals.sh <<'EOF'
+sudo tee -a /etc/profile.d/globals.sh << 'EOF'
 #!/bin/bash --login
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm

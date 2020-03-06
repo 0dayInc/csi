@@ -1,5 +1,4 @@
 #!/bin/bash --login
-# Change csiadmin password at first login
 sudo passwd --expire admin
 sudo userdel -r csiadmin
 

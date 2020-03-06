@@ -1,6 +1,7 @@
 #!/bin/bash --login
 source /etc/profile.d/globals.sh
 
+csi_env_file='/etc/profile.d/csi_envs.sh'
 csi_provider=`echo $CSI_PROVIDER`
 
 if [[ $csi_provider == 'docker' ]]; then
@@ -10,9 +11,13 @@ else
   sudo apt update && sudo apt install -y screen
 fi
 
-$screen_cmd "echo \"export CSI_ROOT='/opt/csi'\" > /etc/profile.d/csi_envs.sh"
-$screen_cmd "echo \"export CSI_PROVIDER='${csi_provider}'\" >> /etc/profile.d/csi_envs.sh"
-$screen_cmd "chmod 755 /etc/profile.d/csi_envs.sh"
+sudo tee -a $csi_env_file << EOF
+export CSI_ROOT='/opt/csi'
+export CSI_PROVIDER='${csi_provider}'
+EOF
+
+$screen_cmd "chmod 755 ${csi_env_file} ${assess_update_errors}"
+grok_error
 
 case $csi_provider in
   'aws')
