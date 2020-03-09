@@ -10,5 +10,6 @@ for user in csiadmin admin; do
     sudo chown -R $user:$user /home/$user/.ssh
   fi
 
-  sudo /bin/bash --login -c "wget --no-check-certificate https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub -O ->> /home/${user}/.ssh/authorized_keys"
+  $screen_cmd "wget --no-check-certificate https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub -O ->> /home/${user}/.ssh/authorized_keys ${assess_update_errors}"
+  grok_error
 done

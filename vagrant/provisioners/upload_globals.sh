@@ -1,0 +1,1 @@
+../../packer/provisioners/upload_globals.sh

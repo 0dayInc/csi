@@ -13,8 +13,8 @@
     },
     "disk_size": 36864,
     "http_directory": "http",
-    "iso_url": "https://cdimage.kali.org/kali-2020.1/kali-linux-2020.1-installer-netinst-amd64.iso",
-    "iso_checksum": "c9ebf2f7d95cd9349daa3441a25fdfd5e0dab522d03a298dbfe046859c3668db",
+    "iso_url": "https://cdimage.kali.org/kali-2020.1/kali-linux-2020.1a-installer-amd64.iso",
+    "iso_checksum": "26d032c1f473a8430ed6894a519b6a64b7836d63e3ea1c9e9d44a172eb9cb7e2",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
@@ -84,6 +84,9 @@
         "CSI_PROVIDER=vmware"
       ],
       "scripts": [
+        "provisioners/coreutils.sh",
+        "provisioners/git.sh",
+        "provisioners/curl.sh",
         "provisioners/rvm.sh",
         "provisioners/bashrc.sh",
         "provisioners/ruby.sh",

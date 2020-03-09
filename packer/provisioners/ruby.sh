@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 if [[ $CSI_ROOT == '' ]]; then
   if [[ ! -d '/csi' ]]; then
     csi_root=$(pwd)
@@ -16,7 +18,8 @@ case $os in
     sudo port -N install bison openssl curl git zlib libyaml libxml2 autoconf ncurses automake libtool libpcap
     ;;
   'Linux')
-    sudo apt install -y build-essential bison openssl libreadline-dev curl git-core git zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool libpcap-dev libsqlite3-dev libgmp-dev
+    $screen_cmd "${apt} install -y build-essential bison openssl libreadline-dev curl git-core git zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool libpcap-dev libsqlite3-dev libgmp-dev ${assess_update_errors}"
+    grok_error
     ;;
   *)
     echo "${os} not currently supported."

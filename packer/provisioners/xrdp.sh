@@ -1,14 +1,17 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 printf "Installing xrdp **********************************************************************"
-sudo apt install -y xrdp
+$screen_cmd "${apt} install -y xrdp ${assess_update_errors}"
+grok_error
+
 sudo sed -e 's/^new_cursors=true/new_cursors=false/g' \
      -i /etc/xrdp/xrdp.ini
 sudo systemctl enable xrdp
 sudo systemctl restart xrdp
 
 # Disable authentication required dialog for color-manager.
-cat <<EOF | \
-  sudo tee /etc/polkit-1/localauthority/50-local.d/xrdp-color-manager.pkla
+sudo tee -a '/etc/polkit-1/localauthority/50-local.d/xrdp-color-manager.pkla' << 'EOF'
 [Netowrkmanager]
 Identity=unix-user:*
 Action=org.freedesktop.color-manager.create-device

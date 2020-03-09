@@ -1,1 +1,0 @@
-../../packer/provisioners/update_globals.sh

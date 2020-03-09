@@ -1,4 +1,6 @@
 #!/bin/bash --login
+source /etc/profile.d/globals.sh
+
 os=$(uname -s)
 
 case $os in
@@ -6,7 +8,8 @@ case $os in
     sudo port -N install gnupg2
     ;;
   'Linux')
-    sudo apt install -y gnupg2
+    $screen_cmd "${apt} install -y gnupg2 ${assess_update_errors}"
+    grok_error
     ;;
   *)
     echo "${os} not currently supported."

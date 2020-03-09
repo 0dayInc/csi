@@ -1,6 +1,8 @@
 #!/bin/bash --login
-# Change csiadmin password at first login
-sudo passwd --expire admin
+if [[ $csi_provider != 'aws' ]]; then
+  sudo passwd --expire admin
+fi
+
 sudo userdel -r csiadmin
 
 # Regenerate SSH Keys

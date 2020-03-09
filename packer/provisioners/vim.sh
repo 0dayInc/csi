@@ -1,8 +1,11 @@
 #!/bin/bash
+source /etc/profile.d/globals.sh
+
 default_vimrc='/usr/share/vim/vim81/defaults.vim'
 global_vimrc='/etc/vim/vimrc'
 
-sudo apt install -y vim
+$screen_cmd "${apt} install -y vim ${assess_update_errors}"
+grok_error
 
 sudo cp $global_vimrc $global_vimrc.dpkg-ORIG
 sudo /bin/bash --login -c "cat ${default_vimrc} > ${global_vimrc}"
