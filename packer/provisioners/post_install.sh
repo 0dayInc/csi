@@ -34,7 +34,7 @@ fi
 history -c
 
 if [[ $csi_provider != 'aws' ]]; then
-  # Create lame password for admin user
+  # Create lame password for admin user & reset during deployment via Vagrant
   echo -e "changeme\nchangeme" | sudo passwd admin
 
   sudo passwd --expire csiadmin

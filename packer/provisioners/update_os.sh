@@ -29,10 +29,10 @@ if [[ -e screenlog.0 ]]; then
   sudo rm screenlog.*
 fi
 
-$screen_cmd "apt update ${assess_update_errors}"
+$screen_cmd "${apt} update ${assess_update_errors}"
 grok_error
 
-$screen_cmd "apt install -y debconf-i18n ${assess_update_errors}"
+$screen_cmd "${apt} install -y debconf-i18n ${assess_update_errors}"
 grok_error
 
 #$screen_cmd "echo 'samba-common samba-common/dhcp boolean false' | ${debconf_set} ${assess_update_errors}"
@@ -53,7 +53,7 @@ grok_error
 $screen_cmd "${apt} full-upgrade -y ${assess_update_errors}"
 grok_error
 
-grep kali /etc/apt/sources.list
+lsb_release -i | grep -i kali
 if [[ $? == 0 ]]; then
    $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
    grok_error

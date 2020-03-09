@@ -5,13 +5,12 @@ export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
 
 screen_session=`basename ${0} .sh`
-screen_cmd="sudo screen -T xterm -L -S ${screen_session} -d -m /bin/bash --login -c"
+screen_cmd="screen -T xterm -L -S ${screen_session} -d -m sudo /bin/bash --login -c"
 assess_update_errors='|| echo IMAGE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
 apt="DEBIAN_FRONTEND=noninteractive apt -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confnew'"
 
 grok_error() {
-  sleep 3
   while true; do
     # Wait until screen exits session
     screen -ls | grep $screen_session
