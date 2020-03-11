@@ -39,6 +39,7 @@
     {
       "type": "shell",
       "environment_vars": [
+        "CSI_ROOT=/opt/csi",
         "CSI_PROVIDER=qemu"
       ],
       "scripts": [
@@ -74,6 +75,7 @@
       "pause_before": "180s",
       "type": "shell",
       "environment_vars": [
+        "CSI_ROOT=/opt/csi",
         "CSI_PROVIDER=qemu"
       ],
       "scripts": [
