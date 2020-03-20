@@ -123,7 +123,7 @@
         "provisioners/ffmpeg.sh",
         "provisioners/xrdp.sh",
         "provisioners/docker.sh",
-        "provisioners/baresip.sh",
+        "provisioners/twinkle.sh",
         "provisioners/ghidra.sh",
         "provisioners/post_install.sh"
       ]
