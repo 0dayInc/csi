@@ -11,13 +11,20 @@ begin
     # in order to properly replay automation in this prototyping driver
     class History
       def push(line)
-        unless line.empty?
-          @pusher.call(line)
-          @history << line
-          if !should_ignore?(line) && Pry.config.history.should_save
-            @saver.call(line)
-          end
+        return line if line.empty? || invalid_readline_line?(line)
+
+        begin
+          last_line = @history[-1]
+        rescue IndexError
+          last_line = nil
         end
+
+        # return line if line == last_line
+
+        @history << line
+        @history_line_count += 1
+        @saver.call(line) if !should_ignore?(line) && Pry.config.history_save
+
         line
       end
       alias << push
@@ -25,7 +32,6 @@ begin
   end
 
   cli = Pry
-  cli.config.history.should_add_duplicates = true
 
   cli::Commands.create_command 'toggle-pager' do
     description 'Toggle less on returned objects surpassing the terminal.'
