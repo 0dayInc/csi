@@ -59,7 +59,7 @@ begin
       "#{title}[#{version}]:#{line_count} #{splat} ".to_s.scrub
     end
   ]
-  cli.start(self, prompt: prompt)
+  cli.start(self, prompt: Pry::Prompt.new(:csi, 'CSI_PROTOTYPING_DRIVER', prompt))
 rescue => e
   raise e
 end

@@ -13,8 +13,8 @@
     "disk_size": 36864,
     "hard_drive_interface": "sata",
     "http_directory": "http",
-    "iso_url": "https://cdimage.kali.org/kali-2020.1/kali-linux-2020.1a-installer-amd64.iso",
-    "iso_checksum": "26d032c1f473a8430ed6894a519b6a64b7836d63e3ea1c9e9d44a172eb9cb7e2",
+    "iso_url": "https://cdimage.kali.org/kali-2020.1b/kali-linux-2020.1b-installer-amd64.iso",
+    "iso_checksum": "4143128bd9cb1fb736b0171adc503aa026ed92ad3a0a9bc6dea8f559a83c36b1",
     "iso_checksum_type": "sha256",
     "headless": false,
     "boot_command": [
