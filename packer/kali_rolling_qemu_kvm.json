@@ -32,7 +32,7 @@
     "ssh_username": "csiadmin",
     "ssh_password": "changeme",
     "ssh_port": 22,
-    "ssh_wait_timeout": "9999s",
+    "ssh_timeout": "9999s",
     "shutdown_command": "sudo /sbin/shutdown -P now"
   }],
   "provisioners": [
