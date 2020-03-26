@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '6.0.2.1'         # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-02-11
+gem 'activesupport', '6.0.2.2'         # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-03-26
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
@@ -28,7 +28,7 @@ gem 'json', '2.3.0'                    # Work w/ JSON objects ***2019-12-18
 gem 'jsonpath', '1.0.5'                # XPath-ify Complex JSON Data Structures ***2019-11-08
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
-gem 'mongo', '2.11.3'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-02-11
+gem 'mongo', '2.11.4'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-03-26
 gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2019-01-08
 gem 'net-ldap', '0.16.2'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2019-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
@@ -38,18 +38,18 @@ gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
 gem 'os', '1.0.1'                      # Detect underlying operating system ***2019-08-13
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
 gem 'pdf-reader', '2.4.0'              # Parsing PDF Reports ***2019-12-18
-gem 'pg', '1.2.2'                      # Required Postgres Gem for Postgres Data Access Object ***2020-02-11
+gem 'pg', '1.2.3'                      # Required Postgres Gem for Postgres Data Access Object ***2020-03-26
 gem 'pry', '0.13.0'                    # More feature-filled irb alternative ***2020-03-23
 gem 'pry-doc', '1.0.0'                 # Better support for show-source & show-method in csi prototyper ***2019-01-18
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
-gem 'rbvmomi', '2.3.0'                 # Required for VMware-Fu ***2020-02-11
+gem 'rbvmomi', '2.3.1'                 # Required for VMware-Fu ***2020-03-26
 gem 'rest-client', '2.1.0'             # Required for REST API Testing ***2019-10-11
 gem 'rex', '2.0.13'                    # Rex provides a variety of classes useful for security testing and exploit development ***2019-01-08
-gem 'rmagick', '4.0.0'                 # Image processing gem ***2019-08-13
-gem 'rtesseract', '3.0.4'              # Gem for image ocr (e.g. decoding captchas) ***2019-10-11
+gem 'rmagick', '4.1.0'                 # Image processing gem ***2020-03-26
+gem 'rtesseract', '3.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2020-03-26
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
 gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
-gem 'ruby-nmap', '0.9.3'               # A Ruby interface to nmap, the exploration tool and security / port scanner ***2019-01-08
+gem 'ruby-nmap', '0.10.0'              # A Ruby interface to nmap, the exploration tool and security / port scanner ***2020-03-26
 gem 'ruby-saml', '1.11.0'              # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2019-08-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
@@ -59,7 +59,7 @@ gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e
 gem 'spreadsheet', '1.2.6'             # Generate Excel Spreadsheets (.xls files) ***2020-02-11
 gem 'sqlite3', '1.4.2'                 # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2020-02-11
 gem 'thin', '1.7.2'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2017-08-20
-gem 'tty-prompt', '0.20.0'             # Masking Authentication Credential Input ***2019-08-13
+gem 'tty-prompt', '0.21.0'             # Masking Authentication Credential Input ***2020-03-26
 gem 'watir', '6.16.5'                  # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2019-01-08
 gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
-gem 'wicked_pdf', '2.0.1'              # Convert HTML to PDF Documents ***2020-03-05
+gem 'wicked_pdf', '2.0.2'              # Convert HTML to PDF Documents ***2020-03-26
