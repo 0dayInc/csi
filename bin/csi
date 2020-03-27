@@ -3,6 +3,8 @@
 
 require 'csi'
 require 'pry'
+require 'tty-prompt'
+require 'tty-reader'
 
 begin
   # TODO: Remove once this feature is available in mainline
@@ -32,6 +34,12 @@ begin
   end
 
   cli = Pry
+
+  cli.config.hooks.add_hook(:before_eval, :autocomplete) do
+    prompt = TTY::Prompt.new
+    reader = TTY::Reader.new
+    reader.on(:keypress) { |key_event| prompt(key_event) }
+  end
 
   cli::Commands.create_command 'toggle-pager' do
     description 'Toggle less on returned objects surpassing the terminal.'
