@@ -17,8 +17,9 @@ module CSI
         if opts[:yaml_conf] && File.exist?(opts[:yaml_conf])
           yaml_conf = YAML.load_file(opts[:yaml_conf].to_s.strip.chomp.scrub)
         else
+          csi_root = ENV['CSI_ROOT'] if ENV['CSI_ROOT']
           csi_provider = ENV['CSI_PROVIDER'] if ENV['CSI_PROVIDER']
-          yaml_conf = YAML.load_file("/csi/etc/userland/#{csi_provider}/metasploit/vagrant.yaml")
+          yaml_conf = YAML.load_file("#{csi_root}/etc/userland/#{csi_provider}/metasploit/vagrant.yaml")
         end
 
         msfrpcd_host = yaml_conf['msfrpcd_host'].to_s
@@ -132,7 +133,7 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           console_obj = #{self}.connect(
-            yaml_conf: 'optional -  path to userland yaml (defaults to /csi/etc/userland/CSI_PROVIDEDR/metasploit/vagrant.yaml)'
+            yaml_conf: 'optional -  path to userland yaml (defaults to $CSI_ROOT/etc/userland/$CSI_PROVIDER/metasploit/vagrant.yaml)'
           )
 
           console_obj = #{self}.console_exec(
