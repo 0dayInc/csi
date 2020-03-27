@@ -4,7 +4,7 @@ sudo tee -a /etc/profile.d/globals.sh << 'EOF'
 export DEBIAN_FRONTEND=noninteractive
 export TERM=xterm
 
-screen_session=`basename ${0} .sh`
+screen_session=`basename -- ${0} .sh`
 screen_cmd="screen -T xterm -L -S ${screen_session} -d -m sudo /bin/bash --login -c"
 assess_update_errors='|| echo IMAGE_ABORT && exit 1'
 debconf_set='/usr/bin/debconf-set-selections'
