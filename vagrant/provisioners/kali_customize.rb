@@ -11,6 +11,7 @@ end
 
 # A list of these are available in /usr/share/applications/*.desktop
 panel_root = '/usr/share/applications'
+wallpaper = "#{csi_root}/documentation/csi_wallpaper.jpg"
 
 system("sudo chmod 777 #{panel_root}")
 
@@ -101,12 +102,46 @@ panel_items = %(
 ]
 )
 
+# Gnome
 # Create the Custom Kali Panel
 system("dconf write /org/gnome/shell/favorite-apps \"#{panel_items}\"")
 
 # Use the CSI Wallpaper
-system("gsettings set org.gnome.desktop.background picture-uri file:///#{csi_root}/documentation/virtualbox-gui_wallpaper.jpg")
+system("gsettings set org.gnome.desktop.background picture-uri file://#{wallpaper}")
 system('gsettings set org.gnome.desktop.background picture-options "centered"')
 
 # Always Show the Panel
 system('gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed true')
+
+# XFCE
+# Do not show icons on Desktop
+system('xfconf-query --channel xfce4-desktop --property /desktop-icons/file-icons/show-home --set false')
+system('xfconf-query --channel xfce4-desktop --property /desktop-icons/file-icons/show-trash --set false')
+system('xfconf-query --channel xfce4-desktop --property /desktop-icons/file-icons/show-removable --set false')
+system('xfconf-query --channel xfce4-desktop --property /desktop-icons/file-icons/show-filesystem --set false')
+
+# Create the Custom Kali Panel
+system('xfconf-clipman &')
+system("xfce4-panel --add launcher #{panel_root}/csi-prototyper.desktop")
+system("xfce4-panel --add launcher #{panel_root}/csi-drivers.desktop")
+system("xfce4-panel --add launcher #{panel_root}/terminator.desktop")
+system("xfce4-panel --add launcher #{panel_root}/kali-recon-ng.desktop")
+system("xfce4-panel --add launcher #{panel_root}/csi-chromium-jenkins.desktop")
+system("xfce4-panel --add launcher #{panel_root}/csi-chromium-openvas.desktop")
+system("xfce4-panel --add launcher #{panel_root}/chromium.desktop")
+system("xfce4-panel --add launcher #{panel_root}/firefox-esr.desktop")
+system("xfce4-panel --add launcher #{panel_root}/kali-burpsuite.desktop")
+system("xfce4-panel --add launcher #{panel_root}/kali-zaproxy.desktop")
+system("xfce4-panel --add launcher #{panel_root}/csi-msfconsole.desktop")
+system("xfce4-panel --add launcher #{panel_root}/kali-searchsploit.desktop")
+system("xfce4-panel --add launcher #{panel_root}/csi-setoolkit.desktop")
+
+# Use the CSI Wallpaper for LightDm Greeter
+system("sudo sed -i '/background/c\background = #{wallpaper}' /etc/lightdm/lightdm-gtk-greeter.conf")
+# Use the CSI Wallpaper
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor1/image-path --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/last-single-image --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor1/last-single-image --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVGA-1/workspace0/last-image --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVGA-1/workspace1/last-image --set #{wallpaper}")
