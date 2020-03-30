@@ -136,6 +136,8 @@ system("xfce4-panel --add launcher #{panel_root}/csi-msfconsole.desktop")
 system("xfce4-panel --add launcher #{panel_root}/kali-searchsploit.desktop")
 system("xfce4-panel --add launcher #{panel_root}/csi-setoolkit.desktop")
 
+# Use the CSI Wallpaper for LightDm Greeter
+system("sudo sed -i '/background/c\background = #{wallpaper}' /etc/lightdm/lightdm-gtk-greeter.conf")
 # Use the CSI Wallpaper
 system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set #{wallpaper}")
 system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor1/image-path --set #{wallpaper}")
