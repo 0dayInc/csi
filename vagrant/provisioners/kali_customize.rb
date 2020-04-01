@@ -113,9 +113,4 @@ end
 # Keep space between c\ background...
 system("sudo sed -i '/background/c\ background = #{wallpaper}' /etc/lightdm/lightdm-gtk-greeter.conf")
 # Use the CSI Wallpaper
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set #{wallpaper}")
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor1/image-path --set #{wallpaper}")
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/last-single-image --set #{wallpaper}")
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor1/last-single-image --set #{wallpaper}")
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVGA-1/workspace0/last-image --set #{wallpaper}")
-system("xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVGA-1/workspace1/last-image --set #{wallpaper}")
+system("xfconf-query --channel xfce4-desktop --list | grep image | grep -e path -e last | while read property; do xfconf-query --channel xfce4-desktop --property $property --set #{wallpaper}; done")

@@ -22,41 +22,41 @@ grok_error
 case $csi_provider in
   'aws')
     # Begin Converting to Kali Rolling
-    $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common ${assess_update_errors}"
+    $screen_cmd "${apt} install -y gnupg2 dirmngr software-properties-common"
     grok_error
 
-    $screen_cmd "rm -rf /var/lib/apt/lists && > /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list && apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 7D8D0BF6 ${assess_update_errors}"
+    $screen_cmd "rm -rf /var/lib/apt/lists && > /etc/apt/sources.list && add-apt-repository 'deb https://http.kali.org/kali kali-rolling main non-free contrib' && echo 'deb-src https://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list && apt-key adv --keyserver hkp://keys.gnupg.net --recv-keys 7D8D0BF6"
     grok_error
 
     # Download and import the official Kali Linux key
-    $screen_cmd "wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add ${assess_update_errors}"
+    $screen_cmd "wget -q -O - https://archive.kali.org/archive-key.asc | sudo apt-key add"
     grok_error
 
     # Update our apt db so we can install kali-keyring
-    $screen_cmd "apt update ${assess_update_errors}"
+    $screen_cmd "apt update"
     grok_error
 
     # Install the Kali keyring
-    $screen_cmd "${apt} install -y kali-archive-keyring ${assess_update_errors}"
+    $screen_cmd "${apt} install -y kali-archive-keyring"
     grok_error
 
     # Update our apt db again now that kali-keyring is installed
-    $screen_cmd "apt update ${assess_update_errors}"
+    $screen_cmd "apt update"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
+    $screen_cmd "${apt} install -y kali-linux"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
+    $screen_cmd "${apt} install -y kali-linux-full"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
+    # $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
+    # grok_error
+
+    $screen_cmd "dpkg --configure -a"
     grok_error
 
-    $screen_cmd "dpkg --configure -a ${assess_update_errors}"
-    grok_error
-
-    $screen_cmd "${apt} -y autoremove --purge ${assess_update_errors}"
+    $screen_cmd "${apt} -y autoremove --purge"
     grok_error
 
     $screen_cmd "${apt} -y clean"
