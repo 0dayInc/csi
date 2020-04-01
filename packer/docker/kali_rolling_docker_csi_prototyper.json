@@ -21,6 +21,7 @@
       "CSI_PROVIDER=docker"
     ],
     "scripts": [
+      "provisioners/upload_globals.sh",
       "provisioners/init_image.sh",
       "provisioners/docker_rvm.sh",
       "provisioners/docker_bashrc.sh",
