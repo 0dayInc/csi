@@ -4,18 +4,6 @@ source /etc/profile.d/globals.sh
 csi_env_file='/etc/profile.d/csi_envs.sh'
 csi_provider=`echo $CSI_PROVIDER`
 
-if [[ $csi_provider == 'docker' ]]; then
-  apt update && apt install -y sudo screen
-  echo 'Set disable_coredump false' >> /etc/sudoers
-else
-  sudo apt update && sudo apt install -y screen
-fi
-
-sudo tee -a $csi_env_file << EOF
-export CSI_ROOT='/opt/csi'
-export CSI_PROVIDER='${csi_provider}'
-EOF
-
 $screen_cmd "chmod 755 ${csi_env_file} ${assess_update_errors}"
 grok_error
 
