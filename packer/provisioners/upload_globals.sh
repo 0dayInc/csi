@@ -1,4 +1,19 @@
 #!/bin/bash --login
+csi_env_file='/etc/profile.d/csi_envs.sh'
+csi_provider=`echo $CSI_PROVIDER`
+
+if [[ $csi_provider == 'docker' ]]; then
+  apt update && apt install -y sudo screen apt-utils
+  # echo 'Set disable_coredump false' >> /etc/sudoers
+else
+  sudo apt update && sudo apt install -y screen apt-utils
+fi
+
+sudo tee -a $csi_env_file << EOF
+export CSI_ROOT='/opt/csi'
+export CSI_PROVIDER='${csi_provider}'
+EOF
+
 sudo tee -a /etc/profile.d/globals.sh << 'EOF'
 #!/bin/bash --login
 export DEBIAN_FRONTEND=noninteractive
