@@ -11,11 +11,23 @@ csi_provider=`echo $CSI_PROVIDER`
 
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-sudo tee -a '/etc/apt/preferences.d/openssl' << 'EOF'
-Package: openssl
-Pin: version 1.1.0*
-Pin-Priority: 1001
-EOF
+# sudo tee -a '/etc/apt/preferences.d/openssl' << 'EOF'
+# Package: openssl
+# Pin: version 1.1.0*
+# Pin-Priority: 1001
+# EOF
+if [[ -f /etc/apt/preferences.d/openssl ]]; then
+  while true; do
+    echo 'Previously Pinned OpenSSL Package Detected!'
+    printf '/etc/apt/preferences.d/openssl exists.  Remove File and update to latest version of OpenSSL y|n?'
+    read answer
+    case $answer in
+      'Y' | 'y') sudo rm /etc/apt/preferences.d/openssl; break;;
+      'N' | 'n') break;;
+      *) echo -e "Invalid Keypress.\n";;
+    esac
+  done
+fi
 
 # pin until breadcrumbs are implemented in the framwework
 sudo tee -a '/etc/apt/preferences.d/jenkins' << 'EOF'
