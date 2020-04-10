@@ -16,6 +16,11 @@ ls $arachni_build_path/bin/* | while read arachni_bin; do
   sudo ln -sf $arachni_bin /usr/local/bin/
 done
 
+if [[ -f /usr/bin/phantomjs ]]; then
+  cp $arachni_build_path/system/usr/bin/phantomjs $arachni_build_path/system/usr/bin/phantomjs.BAK
+  cp /usr/bin/phantomjs $arachni_build_path/system/usr/bin/phantomjs
+fi
+
 # Add CA cert for testing
 # Comment out for now - rely upon drivers to reference CA instead
 # sudo mkdir $arachni_ca_root
