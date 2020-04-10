@@ -11,11 +11,11 @@ csi_provider=`echo $CSI_PROVIDER`
 
 # PINNED PACKAGES
 # pin openssl for arachni proxy plugin Arachni/arachni#1011
-sudo tee -a '/etc/apt/preferences.d/openssl' << 'EOF'
-Package: openssl
-Pin: version 1.1.0*
-Pin-Priority: 1001
-EOF
+# sudo tee -a '/etc/apt/preferences.d/openssl' << 'EOF'
+# Package: openssl
+# Pin: version 1.1.0*
+# Pin-Priority: 1001
+# EOF
 
 # pin until breadcrumbs are implemented in the framwework
 sudo tee -a '/etc/apt/preferences.d/jenkins' << 'EOF'
