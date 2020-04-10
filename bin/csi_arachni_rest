@@ -60,6 +60,7 @@ begin
 
   # Proxy defaults to 127.0.0.1:8282
   arachni_cmd_str = 'arachni --plugin=proxy:address=127.0.0.1,port=8282'
+  arachni_cmd_str = "#{arachni_cmd_str} --output-debug"
   arachni_cmd_str = "#{arachni_cmd_str} --scope-page-limit=0"
   arachni_cmd_str = "#{arachni_cmd_str} --checks=*,-common_*,-backup*,-backdoors,-directory_listing,-csrf"
   arachni_cmd_str = "#{arachni_cmd_str} --report-save-path=#{output_dir}/arachni_results.afr"
@@ -144,6 +145,7 @@ begin
   fork_pid = nil
 
   arachni_trained_cmd_str = "arachni --plugin=vector_feed:yaml_file=#{trained_attack_vectors_yaml}"
+  arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --output-debug"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --scope-page-limit=0"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --checks=*,-common_*,-backup*,-backdoors,-directory_listing,-csrf"
   arachni_trained_cmd_str = "#{arachni_trained_cmd_str} --http-request-header='#{csi_arachni_rest_custom_http_header}'" if csi_arachni_rest_custom_http_header != ''
