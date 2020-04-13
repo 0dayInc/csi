@@ -13,11 +13,11 @@ gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.8.0'                # Rails Security Scanner ***2020-03-05
+gem 'brakeman', '4.8.1'                # Rails Security Scanner ***2020-04-13
 gem 'bson', '4.8.2'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-03-05
 gem 'bundler', '2.1.4'                 # bundle install ***2020-02-11
 gem 'bundler-audit', '0.6.1'           # Checks for vulnerable versions of gems ***2019-01-21
-gem 'bunny', '2.14.4'                  # RabbitMQ ***2020-02-11
+gem 'bunny', '2.15.0'                  # RabbitMQ ***2020-04-13
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
 gem 'gist', '5.1.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2020-02-11
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
@@ -35,17 +35,17 @@ gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-0
 gem 'nexpose', '7.2.1'                 # Vuln Scan all the Things! ***2019-01-08
 gem 'nokogiri', '1.10.9'               # Parse HTML & XML Documents ***2020-03-05
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
-gem 'os', '1.0.1'                      # Detect underlying operating system ***2019-08-13
+gem 'os', '1.1.0'                      # Detect underlying operating system ***2020-04-13
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28
 gem 'pdf-reader', '2.4.0'              # Parsing PDF Reports ***2019-12-18
 gem 'pg', '1.2.3'                      # Required Postgres Gem for Postgres Data Access Object ***2020-03-26
-gem 'pry', '0.13.0'                    # More feature-filled irb alternative ***2020-03-23
+gem 'pry', '0.13.1'                    # More feature-filled irb alternative ***2020-04-13
 gem 'pry-doc', '1.1.0'                 # Better support for show-source & show-method in csi prototyper ***2020-03-30
 gem 'rb-readline', '0.5.5'             # Required for pry / csi prototyping driver ***2017-03-30
-gem 'rbvmomi', '2.3.1'                 # Required for VMware-Fu ***2020-03-26
+gem 'rbvmomi', '2.4.1'                 # Required for VMware-Fu ***2020-04-13
 gem 'rest-client', '2.1.0'             # Required for REST API Testing ***2019-10-11
 gem 'rex', '2.0.13'                    # Rex provides a variety of classes useful for security testing and exploit development ***2019-01-08
-gem 'rmagick', '4.1.0'                 # Image processing gem ***2020-03-26
+gem 'rmagick', '4.1.2'                 # Image processing gem ***2020-04-13
 gem 'rtesseract', '3.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2020-03-26
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
 gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
@@ -54,7 +54,7 @@ gem 'ruby-saml', '1.11.0'              # Support client-side SAML Authorization 
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
 gem 'sinatra', '2.0.8.1'               # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2020-02-11
-gem 'slack-ruby-client', '0.14.5'      # Used for interacting w/ Slack via bots ***2020-02-11
+gem 'slack-ruby-client', '0.14.6'      # Used for interacting w/ Slack via bots ***2020-02-11
 gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e.g. tor) ***2017-08-20
 gem 'spreadsheet', '1.2.6'             # Generate Excel Spreadsheets (.xls files) ***2020-02-11
 gem 'sqlite3', '1.4.2'                 # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2020-02-11
