@@ -85,7 +85,7 @@ module CSI
           <body id="csi_body">
 
             <h1 style="display:inline">
-              &nbsp;~&nbsp;<a href="https://github.com/0dayinc/csi/tree/master">csi</a>
+              &nbsp;~&nbsp;<a href="https://github.com/0dayinc/csi/tree/master">csi_fuzz_net_app_proto</a>
             </h1><br /><br />
 
             <div><button type="button" id="button">Rows Selected</button></div><br />
