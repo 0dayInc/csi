@@ -30,9 +30,9 @@ module CSI
         <html>
           <head>
 
-            <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-            <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+            <link rel="stylesheet" href="//cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.css">
+            <script src="//code.jquery.com/jquery-3.5.0.min.js"></script>
+            <script src="//cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.js"></script>
             <style>
               body {
                 font-family: Verdana, Geneva, sans-serif;
@@ -82,18 +82,19 @@ module CSI
           <body id="csi_body">
 
             <h1 style="display:inline">
-              &nbsp;~&nbsp;<a href="https://github.com/0dayinc/csi/tree/master">csi Static Code Anti-Pattern Matching</a>
+              <a href="https://github.com/0dayinc/csi/tree/master">~ csi_scapm</a>
             </h1><br /><br />
 
             <div><button type="button" id="button">Rows Selected</button></div><br />
             <div>
               <b>Toggle Column(s):</b>&nbsp;
-              <a class="toggle-vis" data-column="1" href="#">Timestamp</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="2" href="#">Test Case Invoked/NIST 800-53 Rev. 4 Section</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="3" href="#">Path</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="4" href="#">Line#, Formatted Content, &amp; Last Committed By</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="5" href="#">Raw Content</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="6" href="#">Test Case (Anti-Pattern) Filter</a>
+              <a class="toggle-vis" data-column="1" href="#">#</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="2" href="#">Timestamp</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Test Case Invoked/NIST 800-53 Rev. 4 Section</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="4" href="#">Path</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="5" href="#">Line#, Formatted Content, &amp; Last Committed By</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="6" href="#">Raw Content</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="7" href="#">Test Case (Anti-Pattern) Filter</a>
             </div>
             <br /><br />
 
@@ -151,7 +152,10 @@ module CSI
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
-                    { "data": null },
+                    {
+                      "data": "rowno",
+                      "render": $.fn.dataTable.render.text()
+                    },
                     {
                       "data": "timestamp",
                       "render": $.fn.dataTable.render.text()

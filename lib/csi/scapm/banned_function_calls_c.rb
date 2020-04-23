@@ -22,6 +22,7 @@ module CSI
         git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
         result_arr = []
         logger_results = ''
+        rowno = 0
 
         CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
           if (File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/) && (File.extname(entry) == '.c' || File.extname(entry) == '.cpp' || File.extname(entry) == '.c++' || File.extname(entry) == '.cxx' || File.extname(entry) == '.h' || File.extname(entry) == '.hpp' || File.extname(entry) == '.h++' || File.extname(entry) == '.hh' || File.extname(entry) == '.hxx' || File.extname(entry) == '.ii' || File.extname(entry) == '.ixx' || File.extname(entry) == '.ipp' || File.extname(entry) == '.inl' || File.extname(entry) == '.txx' || File.extname(entry) == '.tpp' || File.extname(entry) == '.tpl')
@@ -166,7 +167,9 @@ module CSI
               # If str length is >= 64 KB do not include results. (Due to Mongo Document Size Restrictions)
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64_000
 
+              rowno += 1
               hash_line = {
+                rowno: rowno.to_s,
                 timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s,
                 test_case: nist_800_53_requirements,
                 filename: filename_arr.push(git_repo_root_uri: git_repo_root_uri, entry: entry),
