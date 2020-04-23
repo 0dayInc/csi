@@ -88,12 +88,13 @@ module CSI
             <div><button type="button" id="button">Rows Selected</button></div><br />
             <div>
               <b>Toggle Column(s):</b>&nbsp;
-              <a class="toggle-vis" data-column="1" href="#">Timestamp</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="2" href="#">Test Case Invoked/NIST 800-53 Rev. 4 Section</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="3" href="#">Path</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="4" href="#">Line#, Formatted Content, &amp; Last Committed By</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="5" href="#">Raw Content</a>&nbsp;|&nbsp;
-              <a class="toggle-vis" data-column="6" href="#">Test Case (Anti-Pattern) Filter</a>
+              <a class="toggle-vis" data-column="1" href="#">#</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="2" href="#">Timestamp</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="3" href="#">Test Case Invoked/NIST 800-53 Rev. 4 Section</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="4" href="#">Path</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="5" href="#">Line#, Formatted Content, &amp; Last Committed By</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="6" href="#">Raw Content</a>&nbsp;|&nbsp;
+              <a class="toggle-vis" data-column="7" href="#">Test Case (Anti-Pattern) Filter</a>
             </div>
             <br /><br />
 
@@ -150,6 +151,10 @@ module CSI
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
+                    {
+                      "data": "rowno",
+                      "render": $.fn.dataTable.render.text()
+                    },
                     {
                       "data": "timestamp",
                       "render": $.fn.dataTable.render.text()

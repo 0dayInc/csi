@@ -21,6 +21,7 @@ module CSI
         git_repo_root_uri = opts[:git_repo_root_uri].to_s.scrub
         result_arr = []
         logger_results = ''
+        rowno = 0
 
         CSI::Plugins::FileFu.recurse_dir(dir_path: dir_path) do |entry|
           if (File.file?(entry) && File.basename(entry) !~ /^csi.+(html|json|db)$/ && File.basename(entry) !~ /\.JS-BEAUTIFIED$/) && (File.extname(entry) == '.py' || File.extname(entry) == '.pyc' || File.extname(entry) == '.pyo' || File.extname(entry) == '.pyd')
@@ -42,6 +43,7 @@ module CSI
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64_000
 
               hash_line = {
+                rowno: rowno += 1,
                 timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S.%9N %z').to_s,
                 test_case: nist_800_53_requirements,
                 filename: filename_arr.push(git_repo_root_uri: git_repo_root_uri, entry: entry),
