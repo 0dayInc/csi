@@ -147,10 +147,11 @@ module CSI
                     });
                   },
                   "ajax": "csi_scan_git_source.json",
+                  "deferRender": true,
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
-                    { "data": "null" },
+                    { "data": "ROWNO" },
                     {
                       "data": "timestamp",
                       "render": $.fn.dataTable.render.text()
