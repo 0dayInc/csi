@@ -30,9 +30,9 @@ module CSI
         <html>
           <head>
 
-            <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-            <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+            <link rel="stylesheet" href="//cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.css">
+            <script src="//code.jquery.com/jquery-3.5.0.min.js"></script>
+            <script src="//cdn.datatables.net/v/dt/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sp-1.0.1/sl-1.3.1/datatables.min.js"></script>
             <style>
               body {
                 font-family: Verdana, Geneva, sans-serif;
@@ -82,7 +82,7 @@ module CSI
           <body id="csi_body">
 
             <h1 style="display:inline">
-              &nbsp;~&nbsp;<a href="https://github.com/0dayinc/csi/tree/master">csi Static Code Anti-Pattern Matching</a>
+              <a href="https://github.com/0dayinc/csi/tree/master">~ csi ~ SCAPM ~</a>
             </h1><br /><br />
 
             <div><button type="button" id="button">Rows Selected</button></div><br />
