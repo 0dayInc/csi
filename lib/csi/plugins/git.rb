@@ -60,7 +60,7 @@ module CSI
         target_file = opts[:target_file].to_s
         target_file.gsub!(/^#{repo_root}\//, '')
 
-        if File.directory?(repo_root) && File.file?(target_file)
+        if File.directory?(repo_root) && File.file?("#{repo_root}/#{target_file}")
           return `git --git-dir="#{Shellwords.escape(repo_root)}/.git" log -L #{from_line},#{to_line}:"#{Shellwords.escape(target_file)}" | grep Author | head -n 1`.to_s.scrub
         else
           return -1
