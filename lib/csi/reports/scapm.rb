@@ -82,7 +82,7 @@ module CSI
           <body id="csi_body">
 
             <h1 style="display:inline">
-              <a href="https://github.com/0dayinc/csi/tree/master">~ csi ~ SCAPM ~</a>
+              <a href="https://github.com/0dayinc/csi/tree/master">~ csi SCAPM ~</a>
             </h1><br /><br />
 
             <div><button type="button" id="button">Rows Selected</button></div><br />
@@ -151,7 +151,7 @@ module CSI
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
-                    { "data": null },
+                    { "data": 'id', defaultContent: '' },
                     {
                       "data": "timestamp",
                       "render": $.fn.dataTable.render.text()
