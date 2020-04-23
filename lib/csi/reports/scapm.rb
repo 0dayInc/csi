@@ -102,6 +102,7 @@ module CSI
               <table id="csi_scan_git_source_results" class="display" cellspacing="0">
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Timestamp</th>
                     <th>Test Case Invoked/NIST 800-53 Rev. 4 Section</th>
                     <th>Path</th>
