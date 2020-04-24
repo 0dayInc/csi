@@ -147,7 +147,7 @@ module CSI
                     });
                   },
                   "ajax": "csi_scan_git_source.json",
-                  "deferRender": true,
+                  // "deferRender": true,
                   "dom": "fplitfpliS",
                   "autoWidth": false,
                   "columns": [
