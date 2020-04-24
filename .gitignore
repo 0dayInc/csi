@@ -50,6 +50,7 @@ etc/**/metasploit/vagrant.yaml
 etc/**/openvas/vagrant.yaml
 etc/**/owasp_zap/navigation.instruct
 etc/**/owasp_zap/vagrant.yaml
+etc/**/postgres/vagrant.yaml
 etc/**/recon-ng/vagrant.yaml
 
 packer/packer_cache
