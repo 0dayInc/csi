@@ -16,6 +16,16 @@
       "{{.Image}}"
     ]
   }],
+  "provisioners": [{
+    "type": "shell",
+    "environment_vars": [
+      "CSI_PROVIDER=docker"
+    ],
+    "scripts": [
+      "provisioners/postgresql.sh"
+    ],
+    "pause_before": "1s"
+  }],
   "post-processors": [
     [
       {
