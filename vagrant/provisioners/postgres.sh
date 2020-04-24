@@ -20,7 +20,3 @@ create_user_cmd=$(cat << EOF
 EOF
 )
 sudo /bin/bash --login -c "echo ${create_user_cmd} | sudo -iu postgres psql"
-if [[ $csi_provider != 'docker' ]]; then
-  sudo systemctl enable postgresql
-  sudo systemctl restart postgresql
-fi

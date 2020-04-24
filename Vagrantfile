@@ -233,6 +233,7 @@ else
       config.vm.provision :shell, path: './vagrant/provisioners/init_env.sh', args: hostname, privileged: false
       config.vm.provision :shell, path: './vagrant/provisioners/kali_customize.rb', args: hostname, privileged: false
       config.vm.provision :shell, path: './vagrant/provisioners/csi.sh', args: hostname, privileged: false
+      config.vm.provision :shell, path: './vagrant/provisioners/postgres.sh', args: hostname, privileged: false
       # AWS EC2 Storage is handled via EBS Volumes
       unless csi_provider == 'aws'
         config.vm.provision :shell, path: './vagrant/provisioners/userland_fdisk.sh', args: hostname, privileged: false
