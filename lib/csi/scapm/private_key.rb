@@ -102,7 +102,7 @@ module CSI
 
       public_class_method def self.nist_800_53_requirements
         nist_800_53_requirements = {
-          sp_module: self,
+          scapm_module: self,
           section: 'CRYPTOGRAPHIC MODULE AUTHENTICATION',
           nist_800_53_uri: 'https://nvd.nist.gov/800-53/Rev4/control/IA-7'
         }

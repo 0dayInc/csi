@@ -159,9 +159,9 @@ module CSI
                     {
                       "data": "test_case",
                       "render": function (data, type, row, meta) {
-                        var scapm_dirname = data['sp_module'].split('::')[0].toLowerCase() + '/' + data['sp_module'].split('::')[1].toLowerCase();
-                        var scapm_test_case = data['sp_module'].split('::')[2].replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/g, "");
-                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/0dayinc/csi/tree/master/lib/' + scapm_dirname + '/' + scapm_test_case + '.rb" target="_blank">' + data['sp_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
+                        var scapm_dirname = data['scapm_module'].split('::')[0].toLowerCase() + '/' + data['scapm_module'].split('::')[1].toLowerCase();
+                        var scapm_test_case = data['scapm_module'].split('::')[2].replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/g, "");
+                        return '<tr><td style="width:150px;" align="left"><a href="https://github.com/0dayinc/csi/tree/master/lib/' + scapm_dirname + '/' + scapm_test_case + '.rb" target="_blank">' + data['scapm_module'].split("::")[2] + '</a><br /><a href="' + data['nist_800_53_uri'] + '" target="_blank">' + data['section']  + '</a></td></tr>';
                       }
                     },
                     {
@@ -187,7 +187,7 @@ module CSI
 
                           var bug_comment = 'Timestamp: ' + row.timestamp + '\n' +
                                             'Test Case Invoked: http://' + window.location.hostname + ':8808/doc_root/csi-0.1.0/' +
-                                              row.test_case['sp_module'].replace(/::/g, "/") + '\n' +
+                                              row.test_case['scapm_module'].replace(/::/g, "/") + '\n' +
                                             'Source Code Impacted: ' + $("<div/>").html(filename_link).text() + '\n\n' +
                                             'Test Case Request:\n' +
                                             $("<div/>").html(row.test_case_filter.replace(/\s{2,}/g, " ")).text() + '\n\n' +

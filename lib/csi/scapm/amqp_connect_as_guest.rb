@@ -152,7 +152,7 @@ module CSI
 
       public_class_method def self.nist_800_53_requirements
         nist_800_53_requirements = {
-          sp_module: self,
+          scapm_module: self,
           section: 'ACCOUNT MANAGEMENT',
           nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=AC-2'
         }
