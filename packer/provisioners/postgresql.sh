@@ -16,7 +16,7 @@ function create_table() {
   csi_table_def=$(cat <<EOF
     create table ${current_table} (
       id SERIAL PRIMARY KEY,
-      row_result varchar(33000) NOT NULL,
+      row_result varchar(33000) NOT NULL
     );
 EOF
   )
