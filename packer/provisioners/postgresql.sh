@@ -1,12 +1,33 @@
 #!/bin/bash --login
 source /etc/profile.d/globals.sh
+
+if [[ $CSI_ROOT == '' ]]; then
+  if [[ ! -d '/csi' ]]; then
+    csi_root=$(pwd)
+  else
+    csi_root='/csi'
+  fi
+else
+  csi_root="${CSI_ROOT}"
+fi
+
+csi_provider=`echo $CSI_PROVIDER`
+
 pdb='csi'
 
 $screen_cmd "${apt} install -y postgresql ${assess_update_errors}"
 grok_error
 
-$screen_cmd "/etc/init.d/postgresql start ${assess_update_errors}"
-grok_error
+if [[ $csi_provider == 'docker' ]]; then
+  $screen_cmd "/etc/init.d/postgresql start ${assess_update_errors}"
+  grok_error
+else
+  $screen_cmd "sudo systemctl enable postgresql ${assess_update_errors}"
+  grok_error
+  $screen_cmd "sudo systemctl restart postgresql ${assess_update_errors}"
+  grok_error
+fi
+
 
 $screen_cmd "sudo -iu postgres createdb ${pdb} ${assess_update_errors}"
 grok_error
