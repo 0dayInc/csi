@@ -126,8 +126,8 @@ puts 'complete.'
 
 # Start Simple HTTP Server on 0.0.0.0:1025-65525 (Ephemeral Port if Requested)
 if csi_provider == 'docker'
-  simple_http_server_params = "-i 0.0.0.0 -p 3333"
+  simple_http_server_params = '-i 0.0.0.0 -p 3333'
 else
-  simple_http_server_params = "-i 127.0.0.1 -p 3333"
+  simple_http_server_params = '-i 127.0.0.1 -p 3333'
 end
 system("csi_simple_http_server #{simple_http_server_params}") if start_reporting_server
