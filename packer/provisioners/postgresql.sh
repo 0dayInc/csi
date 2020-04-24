@@ -11,21 +11,21 @@ grok_error
 $screen_cmd "sudo -iu postgres createdb ${pdb} ${assess_update_errors}"
 grok_error
 
-# csi_scapm
-csi_scapm_table_def=$(cat <<EOF
-  create table scapm (
+current_table=''
+csi_table_def=$(cat <<EOF
+  create table ${current_table} (
     id SERIAL PRIMARY KEY,
-    timestamp timestamp with time zone NOT NULL,
-    scapm_module varchar(90) NOT NULL,
-    section varchar(90) NOT NULL,
-    nist_800_53_uri varchar(90) NOT NULL,
-    filename varchar(600) NOT NULL,
-    line_no_and_contents varchar(9000) NOT NULL,
-    raw_content varchar(9000) NOT NULL,
-    test_case_filter varchar(3000) NOT NULL
+    row_result varchar(33000) NOT NULL,
   );
 EOF
 )
 
-$screen_cmd "echo ${csi_scapm_table_def} | sudo -iu postgres psql -X -d ${pdb}"
+# csi_scapm
+current_table='scapm'
+$screen_cmd "echo ${csi_table_def} | sudo -iu postgres psql -X -d ${pdb}"
+grok_error
+
+# csi_fuzz_net_app_proto
+current_table='fuzz_net_app_proto'
+$screen_cmd "echo ${csi_table_def} | sudo -iu postgres psql -X -d ${pdb}"
 grok_error
