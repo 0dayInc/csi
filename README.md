@@ -76,8 +76,9 @@ Certain Constraints Mandate CSI be Installed in /opt/csi:
 
 
 #### **Deploy in Docker Container** ####
-Not Quite Available - Coming Soon
+[Deploy CSI Prototyping Driver](https://gist.github.com/ninp0/450666731c4ac52c1e218d55579a0580)
 
+[Deploy CSI Static Code Anti-Pattern Matcher (i.e. SCAPM / SAST)](https://gist.github.com/ninp0/2478ff7bbce0036a11f729d715923f28)
 
 #### **Deploy in VirtualBox** ####
 [Instructions](https://gist.github.com/ninp0/f01c4f129a34684f30f5cd2935c0f0d8)
@@ -98,7 +99,7 @@ Not Quite Available - Coming Soon
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /opt/csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.947]:001 >>> CSI.help
+  csi[v0.3.948]:001 >>> CSI.help
   ```
 
 
