@@ -76,9 +76,15 @@ Certain Constraints Mandate CSI be Installed in /opt/csi:
 
 
 #### **Deploy in Docker Container** ####
+[Deploy CSI Fuzz Network Application Protocol](https://gist.github.com/ninp0/b2e9831429b2223bbbe913294e7a1690)
+
 [Deploy CSI Prototyping Driver](https://gist.github.com/ninp0/450666731c4ac52c1e218d55579a0580)
 
+[Deploy CSI Public IP Checking Driver](https://gist.github.com/ninp0/d56bd37d9c25886e6a89e38ec635ec0f)
+
 [Deploy CSI Static Code Anti-Pattern Matcher (i.e. SCAPM / SAST)](https://gist.github.com/ninp0/2478ff7bbce0036a11f729d715923f28)
+
+[Deploy CSI Transparent Browser](https://gist.github.com/ninp0/b96aec0c64c2c8e6ffee342bafe4b17a)
 
 #### **Deploy in VirtualBox** ####
 [Instructions](https://gist.github.com/ninp0/f01c4f129a34684f30f5cd2935c0f0d8)
@@ -99,7 +105,7 @@ Certain Constraints Mandate CSI be Installed in /opt/csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ /opt/csi/vagrant/provisioners/csi.sh && csi
-  csi[v0.3.948]:001 >>> CSI.help
+  csi[v0.3.949]:001 >>> CSI.help
   ```
 
 
