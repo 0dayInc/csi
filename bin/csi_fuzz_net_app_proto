@@ -135,10 +135,15 @@ CSI::Reports::Fuzz.generate(
 )
 puts 'complete.'
 
-# Start Simple HTTP Server on 0.0.0.0:1025-65525 (Ephemeral Port if Requested)
-if csi_provider == 'docker'
-  simple_http_server_params = '-i 0.0.0.0 -p 3333'
-else
-  simple_http_server_params = '-i 127.0.0.1 -p 3333'
+# Start Simple HTTP Server (If Requested)
+if start_reporting_server
+  listen_port = 3333
+  if csi_provider == 'docker'
+    listen_ip = '0.0.0.0'
+  else
+    listen_ip = '127.0.0.1'
+  end
+  puts "For Scan Results Navigate to: http://#{listen_ip}:#{listen_port}/csi_fuzz_net_app_proto.html"
+  simple_http_server_params = "-i #{listen_ip} -p #{listen_port}"
+  system("csi_simple_http_server #{simple_http_server_params}")
 end
-system("csi_simple_http_server #{simple_http_server_params}") if start_reporting_server
