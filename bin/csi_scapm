@@ -132,7 +132,7 @@ if start_reporting_server
   else
     listen_ip = '127.0.0.1'
   end
-  puts "For Scan Results Navigate to: http://#{listen_ip}:#{listen_port}/csi_scan_git_source.html"
+  puts "For Scan Results Navigate to: http://127.0.0.1:#{listen_port}/csi_scan_git_source.html"
   simple_http_server_params = "-i #{listen_ip} -p #{listen_port}"
-  system("csi_simple_http_server #{simple_http_server_params}")
+  system("cd #{dir_path} && csi_simple_http_server #{simple_http_server_params}")
 end
