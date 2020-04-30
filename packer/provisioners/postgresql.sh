@@ -41,7 +41,7 @@ function create_table() {
     );
 EOF
   )
-  echo csi_table_def | sudo -iu postgres psql -X -d $pdb
+  echo $csi_table_def | sudo -iu postgres psql -X -d $pdb
   grok_error
 }
 
