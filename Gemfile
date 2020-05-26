@@ -8,7 +8,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '6.0.2.2'         # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-03-26
+gem 'activesupport', '6.0.3.1'         # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-03-26
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
