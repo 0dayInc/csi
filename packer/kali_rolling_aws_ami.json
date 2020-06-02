@@ -125,6 +125,8 @@
         "provisioners/docker.sh",
         "provisioners/twinkle.sh",
         "provisioners/ghidra.sh",
+        "provisioners/zzuf.sh",
+        "provisioners/radamsa.sh",
         "provisioners/post_install.sh"
       ]
     }
