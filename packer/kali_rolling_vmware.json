@@ -138,6 +138,7 @@
         "provisioners/ghidra.sh",
         "provisioners/zzuf.sh",
         "provisioners/radamsa.sh",
+        "provisioners/gdb.sh",
         "provisioners/post_install.sh"
       ]
     }
