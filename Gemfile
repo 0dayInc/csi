@@ -13,8 +13,8 @@ gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '2.7.5'                   # MFA API Access into Authy service ***2019-08-13
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.8.1'                # Rails Security Scanner ***2020-04-13
-gem 'bson', '4.8.2'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-03-05
+gem 'brakeman', '4.8.2'                # Rails Security Scanner ***2020-06-11
+gem 'bson', '4.9.2'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-06-11
 gem 'bundler', '2.1.4'                 # bundle install ***2020-02-11
 gem 'bundler-audit', '0.6.1'           # Checks for vulnerable versions of gems ***2019-01-21
 gem 'bunny', '2.15.0'                  # RabbitMQ ***2020-04-13
@@ -28,7 +28,7 @@ gem 'json', '2.3.0'                    # Work w/ JSON objects ***2019-12-18
 gem 'jsonpath', '1.0.5'                # XPath-ify Complex JSON Data Structures ***2019-11-08
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
-gem 'mongo', '2.11.4'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-03-26
+gem 'mongo', '2.12.1'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-06-11
 gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2019-01-08
 gem 'net-ldap', '0.16.2'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2019-12-18
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
@@ -46,7 +46,7 @@ gem 'rbvmomi', '2.4.1'                 # Required for VMware-Fu ***2020-04-13
 gem 'rest-client', '2.1.0'             # Required for REST API Testing ***2019-10-11
 gem 'rex', '2.0.13'                    # Rex provides a variety of classes useful for security testing and exploit development ***2019-01-08
 gem 'rmagick', '4.1.2'                 # Image processing gem ***2020-04-13
-gem 'rtesseract', '3.1.0'              # Gem for image ocr (e.g. decoding captchas) ***2020-03-26
+gem 'rtesseract', '3.1.1'              # Gem for image ocr (e.g. decoding captchas) ***2020-06-11
 gem 'rubocop', require: false          # Ruby static code analyzer. Out of the box it will enforce many of the guidelines outlined in the community Ruby Style Guide.
 gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
 gem 'ruby-nmap', '0.10.0'              # A Ruby interface to nmap, the exploration tool and security / port scanner ***2020-03-26

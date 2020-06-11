@@ -32,10 +32,10 @@ case $csi_provider in
     $screen_cmd "apt update"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-linux"
+    $screen_cmd "${apt} install -y kali-linux-core"
     grok_error
 
-    $screen_cmd "${apt} install -y kali-linux-full"
+    $screen_cmd "${apt} install -y kali-linux-large"
     grok_error
 
     # $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
