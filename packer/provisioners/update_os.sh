@@ -67,16 +67,16 @@ grok_error
 
 lsb_release -i | grep -i kali
 if [[ $? == 0 ]]; then
-   $screen_cmd "${apt} install -y kali-linux ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-linux-core ${assess_update_errors}"
    grok_error
 
-   $screen_cmd "${apt} install -y kali-linux-full ${assess_update_errors}"
+   $screen_cmd "${apt} install -y kali-linux-large ${assess_update_errors}"
    grok_error
 
    $screen_cmd "${apt} install -y kali-desktop-xfce ${assess_update_errors}"
    grok_error
 else
-  echo "Other Linux Distro Detected - Skipping kali-linux-full Installation..."
+  echo "Other Linux Distro Detected - Skipping Kali Metapackage Installation..."
 fi
 
 $screen_cmd "${apt} install -y apt-file ${assess_update_errors}"
