@@ -109,9 +109,9 @@ module CSI
           sqlite3_conn = #{self}.connect(db_path: 'Required - Path of SQLite3 DB File')
 
           res = #{self}.sql_statement(
-            :sqlite3_conn => sqlite3_conn,
-            :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
-            :statement_params => ['Active']
+            sqlite3_conn: sqlite3_conn,
+            prepared_statement: 'SELECT * FROM tn_users WHERE state = ?',
+            statement_params: ['Active']
           )
 
           #{self}.disconnect(:sqlite3_conn => sqlite3_conn)
