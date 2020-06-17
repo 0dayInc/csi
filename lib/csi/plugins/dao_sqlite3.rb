@@ -9,13 +9,13 @@ module CSI
     module DAOSQLite3
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.connect(
-      #   dir_path: 'Required - Path of SQLite3 DB File'
+      #   db_path: 'Required - Path of SQLite3 DB File'
       # )
 
       public_class_method def self.connect(opts = {})
-        dir_path = opts[:dir_path]
+        db_path = opts[:db_path]
 
-        sqlite3_conn = SQLite3::Database.new(dir_path)
+        sqlite3_conn = SQLite3::Database.new(db_path)
         # Be sure to enable foreign key support for each connection
         sql_enable_fk = 'PRAGMA foreign_keys = ?'
         res = sql_statement(
@@ -106,12 +106,12 @@ module CSI
 
       public_class_method def self.help
         puts "USAGE:
-          sqlite3_conn = #{self}.connect(:dir_path => 'Required - Path of SQLite3 DB File')
+          sqlite3_conn = #{self}.connect(db_path: 'Required - Path of SQLite3 DB File')
 
           res = #{self}.sql_statement(
-            :sqlite3_conn => sqlite3_conn,
-            :prepared_statement => 'SELECT * FROM tn_users WHERE state = ?',
-            :statement_params => ['Active']
+            sqlite3_conn: sqlite3_conn,
+            prepared_statement: 'SELECT * FROM tn_users WHERE state = ?',
+            statement_params: ['Active']
           )
 
           #{self}.disconnect(:sqlite3_conn => sqlite3_conn)
