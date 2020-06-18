@@ -67,11 +67,17 @@ module CSI
           raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object"
         end
 
-        if statement_params.nil?
-          res = sqlite3_conn.execute(prepared_statement)
-        else
-          res = sqlite3_conn.execute(prepared_statement, statement_params)
-        end
+        begin
+          if statement_params.nil?
+            res = sqlite3_conn.execute(prepared_statement)
+          else
+            res = sqlite3_conn.execute(prepared_statement, statement_params)
+          end
+        rescue SQLite3::BusyException
+          sleep 0.3
+          retry
+        end 
+
         return res
       rescue => e
         raise e
