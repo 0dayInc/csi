@@ -29,4 +29,8 @@ else
   port = 3333
 end
 
-system("thin start --adapter file --address #{bind_ip} --port #{port} --threaded --debug")
+begin
+  system("thin start --adapter file --address #{bind_ip} --port #{port} --threaded --debug")
+rescue SystemExit, Interrupt
+  puts "\nGoodbye."
+end
