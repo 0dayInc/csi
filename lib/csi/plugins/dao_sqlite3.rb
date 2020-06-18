@@ -16,6 +16,7 @@ module CSI
         db_path = opts[:db_path]
 
         sqlite3_conn = SQLite3::Database.new(db_path)
+        sqlite3_conn.results_as_hash = true
         # Be sure to enable foreign key support for each connection
         sql_enable_fk = 'PRAGMA foreign_keys = ON;'
         res = sql_statement(
