@@ -76,7 +76,7 @@ module CSI
         rescue SQLite3::BusyException
           sleep 0.3
           retry
-        end 
+        end
 
         return res
       rescue => e
