@@ -17,11 +17,10 @@ module CSI
 
         sqlite3_conn = SQLite3::Database.new(db_path)
         # Be sure to enable foreign key support for each connection
-        sql_enable_fk = 'PRAGMA foreign_keys = ?;'
+        sql_enable_fk = 'PRAGMA foreign_keys = ON;'
         res = sql_statement(
           sqlite3_conn: sqlite3_conn,
-          prepared_statement: sql_enable_fk,
-          statement_params: ['ON']
+          prepared_statement: sql_enable_fk
         )
         # TODO: better handling since sqlite3 gem always returns SQLite3::Database
         # whether DB exists or not
@@ -55,7 +54,7 @@ module CSI
       # Supported Method Parameters::
       # CSI::Plugins::DAOSQLite3.sql_statement(
       #   sqlite3_conn: sqlite3_conn,
-      #   prepared_statement: 'SELECT * FROM tn_users WHERE state = ?',
+      #   prepared_statement: 'SELECT * FROM tn_users WHERE state = ?;',
       #   statement_params: ['Active']
       # )
 
@@ -110,7 +109,7 @@ module CSI
 
           res = #{self}.sql_statement(
             sqlite3_conn: sqlite3_conn,
-            prepared_statement: 'SELECT * FROM tn_users WHERE state = ?',
+            prepared_statement: 'SELECT * FROM tn_users WHERE state = ?;',
             statement_params: ['Active']
           )
 
