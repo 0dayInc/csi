@@ -17,7 +17,7 @@ module CSI
 
         sqlite3_conn = SQLite3::Database.new(db_path)
         # Be sure to enable foreign key support for each connection
-        sql_enable_fk = 'PRAGMA foreign_keys = ?'
+        sql_enable_fk = 'PRAGMA foreign_keys = ?;'
         res = sql_statement(
           sqlite3_conn: sqlite3_conn,
           prepared_statement: sql_enable_fk,
