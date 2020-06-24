@@ -75,7 +75,7 @@ module CSI
             res = sqlite3_conn.execute(prepared_statement, statement_params)
           end
         rescue SQLite3::BusyException
-          puts 'Database In Use...Sleeping.'
+          puts 'Database In Use - Retrying...'
           retry
         end
 
