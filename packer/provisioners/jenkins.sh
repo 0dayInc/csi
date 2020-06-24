@@ -20,16 +20,16 @@ rvm use ruby-$ruby_version@csi
 
 printf "Installing Jenkins ********************************************************************"
 domain_name=`hostname -d`
-wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 
-# Get back to a Java version Jenkins supports (Temporarily 2018-04-19)
-sudo ln -sf /usr/lib/jvm/java-8-openjdk-amd64/bin/java /etc/alternatives/java
-sudo sh -c 'echo deb https://pkg.jenkins.io/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+# Get back to a Java version Jenkins supports
+sudo ln -sf /usr/lib/jvm/java-14-openjdk-amd64/bin/java /etc/alternatives/java
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 
 $screen_cmd "${apt} update"
 grok_error
 
-$screen_cmd "${apt} install -yq openjdk-8-jdk"
+$screen_cmd "${apt} install -yq openjdk-14-jdk"
 grok_error
 
 $screen_cmd "${apt} install -yq jenkins"
