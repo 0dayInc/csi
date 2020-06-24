@@ -76,6 +76,7 @@ module CSI
           end
         rescue SQLite3::BusyException
           puts 'Database In Use - Retrying...'
+          sleep 0.3
           retry
         end
 
