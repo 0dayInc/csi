@@ -92,17 +92,11 @@ module CSI
         when :chrome
           switches = []
           if proxy
-            if with_tor
-              switches.push("--proxy-server=#{proxy}")
-              switches.push("--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'")
-            else
-              switches.push("--proxy-server=#{proxy}"])
-            end
+            switches.push("--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'") if with_tor
+            switches.push("--proxy-server=#{proxy}")
           end
 
-          if with_devtools
-            switches.push('--auto-open-devtools-for-tabs')
-          end
+          switches.push('--auto-open-devtools-for-tabs') if with_devtools
 
           this_browser = Watir::Browser.new(:chrome, switches: switches)
 
