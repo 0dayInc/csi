@@ -20,6 +20,7 @@ module CSI
       #   browser_type: :firefox|:chrome|:headless|:rest,
       #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
+      #   with_devtools: 'optional - boolean (defaults to false)'
       # )
 
       public_class_method def self.open(opts = {})
@@ -27,6 +28,7 @@ module CSI
         browser_type = opts[:browser_type]
         proxy = opts[:proxy].to_s unless opts[:proxy].nil?
         opts[:with_tor] ? (with_tor = true) : (with_tor = false)
+        opts[:with_devtools] ? (with_devtools = true) : (with_devtools = false)
 
         # Let's crank up the default timeout from 30 seconds to 15 min for slow sites
         Watir.default_timeout = 900
@@ -79,30 +81,24 @@ module CSI
             end
           end
 
-          options = Selenium::WebDriver::Firefox::Options.new
+          args = []
+
+          args.push('--devtools') if with_devtools
+          options = Selenium::WebDriver::Firefox::Options.new(args: args)
           options.profile = this_profile
           driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
           this_browser = Watir::Browser.new(driver)
 
         when :chrome
+          switches = []
           if proxy
-            if with_tor
-              this_browser = Watir::Browser.new(
-                :chrome,
-                switches: [
-                  "--proxy-server=#{proxy}",
-                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                ]
-              )
-            else
-              this_browser = Watir::Browser.new(
-                :chrome,
-                switches: ["--proxy-server=#{proxy}"]
-              )
-            end
-          else
-            this_browser = Watir::Browser.new(:chrome)
+            switches.push("--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'") if with_tor
+            switches.push("--proxy-server=#{proxy}")
           end
+
+          switches.push('--auto-open-devtools-for-tabs') if with_devtools
+
+          this_browser = Watir::Browser.new(:chrome, switches: switches)
 
         when :headless
           this_profile = Selenium::WebDriver::Firefox::Profile.new
@@ -284,7 +280,8 @@ module CSI
           browser_obj1 = #{self}.open(
             browser_type: :firefox|:chrome|:headless|:rest,
             proxy: 'optional scheme://proxy_host:port',
-            with_tor: 'optional boolean (defaults to false)'
+            with_tor: 'optional boolean (defaults to false)',
+            with_devtools: 'optional - boolean (defaults to false)'
           )
           puts browser_obj1.public_methods
 

@@ -29,12 +29,25 @@ if [[ -f /etc/apt/preferences.d/openssl ]]; then
   done
 fi
 
+if [[ -f /etc/apt/preferences.d/jenkins ]]; then
+  while true; do
+    echo 'Previously Pinned Jenkins Package Detected!'
+    printf '/etc/apt/preferences.d/jenkins exists.  Remove File and update to latest version of Jenkins y|n?'
+    read answer
+    case $answer in
+      'Y' | 'y') sudo rm /etc/apt/preferences.d/jenkins; break;;
+      'N' | 'n') break;;
+      *) echo -e "Invalid Keypress.\n";;
+    esac
+  done
+fi
+
 # pin until breadcrumbs are implemented in the framwework
-sudo tee -a '/etc/apt/preferences.d/jenkins' << 'EOF'
-Package: jenkins
-Pin: version 2.190
-Pin-Priority: 1002
-EOF
+#sudo tee -a '/etc/apt/preferences.d/jenkins' << 'EOF'
+#Package: jenkins
+#Pin: version 2.190
+#Pin-Priority: 1002
+#EOF
 
 # Cleanup up prior screenlog.0 file from previous update_os failure(s)
 if [[ -e screenlog.0 ]]; then 
