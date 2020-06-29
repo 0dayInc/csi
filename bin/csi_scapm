@@ -71,6 +71,7 @@ else
     InnerHTML
     FilePermission
     Factory
+    LocationHash
     Logger
     Keystore
     OuterHTML
