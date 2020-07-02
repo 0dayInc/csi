@@ -23,6 +23,7 @@ module CSI
     autoload :FilePermission, 'csi/scapm/file_permission'
     autoload :InnerHTML, 'csi/scapm/inner_html'
     autoload :Keystore, 'csi/scapm/keystore'
+    autoload :LocationHash, 'csi/scapm/location_hash'
     autoload :Logger, 'csi/scapm/logger'
     autoload :OuterHTML, 'csi/scapm/outer_html'
     autoload :Password, 'csi/scapm/password'
