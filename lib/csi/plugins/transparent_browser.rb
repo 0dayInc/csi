@@ -96,7 +96,10 @@ module CSI
             switches.push("--proxy-server=#{proxy}")
           end
 
-          switches.push('--auto-open-devtools-for-tabs') if with_devtools
+          if with_devtools
+            switches.push('--auto-open-devtools-for-tabs')
+            switches.push('--disable-hang-monitor')
+          end
 
           this_browser = Watir::Browser.new(:chrome, switches: switches)
 
