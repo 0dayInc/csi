@@ -2,7 +2,7 @@
 source /etc/profile.d/globals.sh
 
 printf "Installing Docker ********************************************************************"
-$screen_cmd "${apt} install -y docker.io"
+$screen_cmd "${apt} install -y docker.io ${assess_update_errors}"
 grok_error
 
 # docker_sources='/etc/apt/sources.list.d/docker.list'

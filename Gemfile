@@ -53,6 +53,7 @@ gem 'ruby-audio', '1.6.1'              # Gem for massaging audio ***2017-03-12
 gem 'ruby-nmap', '0.10.0'              # A Ruby interface to nmap, the exploration tool and security / port scanner ***2020-03-26
 gem 'ruby-saml', '1.11.0'              # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2019-08-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
+gem 'savon', '2.12.1'                  # Required for SOAP API Testing ***2020-07-29
 gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
 gem 'sinatra', '2.0.8.1'               # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2020-02-11
 gem 'slack-ruby-client', '0.14.6'      # Used for interacting w/ Slack via bots ***2020-02-11
