@@ -8,9 +8,10 @@ source /etc/profile.d/globals.sh
 $screen_cmd "${apt} install -y libtool libtool-bin automake bison libglib2.0-dev ${assess_update_errors}"
 grok_error
 
-$screen_cmd "cd /opt && git clone https://github.com/mirrorer/afl afl-dev && cd /opt/afl-dev && make && cd /opt/afl-dev/qemu_mode && ./build_qemu_support.sh ${assess_update_errors}"
+#$screen_cmd "cd /opt && git clone https://github.com/mirrorer/afl afl-dev && cd /opt/afl-dev && make && cd /opt/afl-dev/qemu_mode && ./build_qemu_support.sh ${assess_update_errors}"
+$screen_cmd "cd /opt && git clone https://github.com/AFLplusplus/AFLplusplus && cd /opt/AFLplusplus && make && cd /opt/AFLplusplus/qemu_mode && ./build_qemu_support.sh ${assess_update_errors}"
 grok_error
 
-ls -l /opt/afl-dev | grep '^-rwx' | awk '{print $9}' | while read afl_bin; do 
+ls -l /opt/AFLplusplus | grep '^-rwx' | awk '{print $9}' | while read afl_bin; do 
   sudo ln -sf /opt/afl-dev/$afl_bin /usr/local/bin/
 done
