@@ -29,7 +29,7 @@ gem 'json', '2.3.1'                    # Work w/ JSON objects ***2020-09-17
 gem 'jsonpath', '1.0.5'                # XPath-ify Complex JSON Data Structures ***2019-11-08
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
-gem 'mongo', '2.1301'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-09-17
+gem 'mongo', '2.13.0'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-09-17
 gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the preferred way to interact w/ MSF in external tools ***2019-01-08
 gem 'net-ldap', '0.16.3'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2020-09-17
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
