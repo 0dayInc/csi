@@ -81,7 +81,7 @@ module CSI
         browser_obj.button(class: 'btn').wait_until(&:present?).click
 
         if mfa
-          until browser_obj.url == 'https://platform.synack.com'
+          until browser_obj.url == 'https://platform.synack.com/'
             browser_obj.text_field(name: 'authy_token').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
             browser_obj.button(class: 'btn').wait_until(&:present?).click
             sleep 3
