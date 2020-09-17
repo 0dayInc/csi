@@ -104,7 +104,7 @@ begin
       end
       puts "#{@green}Saved #{script_results}#{@end_of_color}\n\n\n"
     end
-  rescue => e
+  rescue StandardError => e
     raise e
   end
 
@@ -162,7 +162,7 @@ begin
   #   }
   #   return script_elements;
   # ")
-rescue => e
+rescue StandardError => e
   raise e
 ensure
   browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj) unless browser_obj.nil?

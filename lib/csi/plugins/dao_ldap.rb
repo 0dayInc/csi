@@ -59,8 +59,8 @@ module CSI
 
         ldap_obj.bind
 
-        return ldap_obj
-      rescue => e
+        ldap_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -76,10 +76,8 @@ module CSI
         treebase = ldap_obj.base
 
         filter = Net::LDAP::Filter.eq('samaccountname', username)
-        employee = ldap_obj.search(base: treebase, filter: filter)
-
-        return employee
-      rescue => e
+        ldap_obj.search(base: treebase, filter: filter)
+      rescue StandardError => e
         raise e
       end
 
@@ -91,18 +89,16 @@ module CSI
       public_class_method def self.disconnect(opts = {})
         ldap_obj = opts[:ldap_obj]
         ldap_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

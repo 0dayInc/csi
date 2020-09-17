@@ -39,7 +39,7 @@ module CSI
 
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -52,7 +52,7 @@ module CSI
         mongo_conn = opts[:mongo_conn]
         validate_mongo_conn(mongo_conn: mongo_conn)
         mongo_conn.close
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -63,21 +63,17 @@ module CSI
 
       private_class_method def self.validate_mongo_conn(opts = {})
         mongo_conn = opts[:mongo_conn]
-        unless mongo_conn.class == Mongo::Client
-          raise "Error: Invalid mongo_conn Object #{mongo_conn}"
-        end
-      rescue => e
+        raise "Error: Invalid mongo_conn Object #{mongo_conn}" unless mongo_conn.class == Mongo::Client
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

@@ -39,8 +39,8 @@ module CSI
         end
         @@logger.info("complete.\n")
 
-        return cloud_search_obj
-      rescue => e
+        cloud_search_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -56,18 +56,16 @@ module CSI
         @@logger.info("complete.\n")
 
         cloud_search_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

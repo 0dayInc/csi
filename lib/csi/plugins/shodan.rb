@@ -62,13 +62,13 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-        return response
-      rescue => e
+        response
+      rescue StandardError => e
         case e.message
         when '404 Resource Not Found'
-          return "#{e.message}: #{e.response}"
+          "#{e.message}: #{e.response}"
         when '400 Bad Request'
-          return "#{e.message}: #{e.response}"
+          "#{e.message}: #{e.response}"
         else
           raise e
         end
@@ -87,20 +87,18 @@ module CSI
         services_by_ips = []
         params = { key: api_key }
         target_ips.each do |target_ip|
-          begin
-            response = shodan_rest_call(
-              api_key: api_key,
-              rest_call: "shodan/host/#{target_ip}",
-              params: params
-            )
-            services_by_ips.push(JSON.parse(response))
-          rescue => e
-            services_by_ips.push(error: e.message)
-            next
-          end
+          response = shodan_rest_call(
+            api_key: api_key,
+            rest_call: "shodan/host/#{target_ip}",
+            params: params
+          )
+          services_by_ips.push(JSON.parse(response))
+        rescue StandardError => e
+          services_by_ips.push(error: e.message)
+          next
         end
         services_by_ips
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -135,10 +133,8 @@ module CSI
           rest_call: 'shodan/host/count',
           params: params
         )
-        query_result_totals = JSON.parse(response)
-
-        return query_result_totals
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -172,10 +168,8 @@ module CSI
           rest_call: 'shodan/host/search',
           params: params
         )
-        search_results = JSON.parse(response)
-
-        return search_results
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -199,9 +193,8 @@ module CSI
           rest_call: 'shodan/host/search/tokens',
           params: params
         )
-        tokens_result = JSON.parse(response)
-        return tokens_result
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -219,9 +212,8 @@ module CSI
           rest_call: 'shodan/ports',
           params: params
         )
-        ports_shodan_crawls = JSON.parse(response)
-        return ports_shodan_crawls
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -239,9 +231,8 @@ module CSI
           rest_call: 'shodan/protocols',
           params: params
         )
-        protocols = JSON.parse(response)
-        return protocols
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -264,9 +255,8 @@ module CSI
           params: params,
           http_body: http_body
         )
-        scan_network_response = JSON.parse(response)
-        return scan_network_response
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -291,9 +281,8 @@ module CSI
           params: params,
           http_body: http_body
         )
-        scan_internet_response = JSON.parse(response)
-        return scan_internet_response
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -316,9 +305,8 @@ module CSI
           rest_call: "shodan/scan/status/#{scan_id}",
           params: params
         )
-        scan_status_result = JSON.parse(response)
-        return scan_status_result
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -336,9 +324,8 @@ module CSI
           rest_call: 'shodan/services',
           params: params
         )
-        services_shodan_crawls = JSON.parse(response)
-        return services_shodan_crawls
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -367,9 +354,8 @@ module CSI
           rest_call: 'shodan/query',
           params: params
         )
-        services_shodan_crawls = JSON.parse(response)
-        return services_shodan_crawls
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -397,9 +383,8 @@ module CSI
           rest_call: 'shodan/query/tags',
           params: params
         )
-        most_popular_tags_result = JSON.parse(response)
-        return most_popular_tags_result
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -417,9 +402,8 @@ module CSI
           rest_call: 'account/profile',
           params: params
         )
-        my_profile = JSON.parse(response)
-        return my_profile
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -432,14 +416,12 @@ module CSI
         api_key = opts[:api_key].to_s.scrub
 
         params = { key: api_key }
-        response = shodan_rest_call(
+        shodan_rest_call(
           api_key: api_key,
           rest_call: 'tools/myip',
           params: params
         )
-        my_pub_ip = response
-        return my_pub_ip
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -457,9 +439,8 @@ module CSI
           rest_call: 'api-info',
           params: params
         )
-        api_info = JSON.parse(response)
-        return api_info
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -483,19 +464,17 @@ module CSI
           )
           honeypot_probability_scores.push("#{target_ip} => #{response}")
         end
-        return honeypot_probability_scores
-      rescue => e
+        honeypot_probability_scores
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

@@ -54,8 +54,8 @@ module CSI
         h1_obj[:api_token] = api_token
         h1_obj[:raw_response] = response
 
-        return h1_obj
-      rescue => e
+        h1_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -106,7 +106,7 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -119,18 +119,16 @@ module CSI
         h1_obj = opts[:h1_obj]
         @@logger.info('Logging out...')
         h1_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

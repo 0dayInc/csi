@@ -37,7 +37,7 @@ module CSI
         git_pull_output << '<br />'
 
         git_pull_output
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -58,14 +58,14 @@ module CSI
         from_line = opts[:from_line].to_i
         to_line = opts[:to_line].to_i
         target_file = opts[:target_file].to_s
-        target_file.gsub!(/^#{repo_root}\//, '')
+        target_file.gsub!(%r{^#{repo_root}/}, '')
 
         if File.directory?(repo_root) && File.file?("#{repo_root}/#{target_file}")
-          return `git --git-dir="#{Shellwords.escape(repo_root)}/.git" log -L #{from_line},#{to_line}:"#{Shellwords.escape(target_file)}" | grep Author | head -n 1`.to_s.scrub
+          `git --git-dir="#{Shellwords.escape(repo_root)}/.git" log -L #{from_line},#{to_line}:"#{Shellwords.escape(target_file)}" | grep Author | head -n 1`.to_s.scrub
         else
-          return -1
+          -1
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -76,21 +76,17 @@ module CSI
 
       public_class_method def self.dump_all_repo_branches(opts = {})
         git_url = opts[:git_url].to_s.scrub
-        all_repo_branches = `git ls-remote #{git_url}`.to_s.scrub
-
-        all_repo_branches
-      rescue => e
+        `git ls-remote #{git_url}`.to_s.scrub
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

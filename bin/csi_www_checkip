@@ -39,7 +39,7 @@ begin
   public_ip_address = browser_obj.get('http://checkip.amazonaws.com').to_s.chomp
   puts "PUBLIC IP: #{public_ip_address}"
   puts CSI::Plugins::IPInfo.get(ip_or_host: public_ip_address) unless ipinfo.nil?
-rescue => e
+rescue StandardError => e
   raise e
 ensure
   unless browser_obj.nil?

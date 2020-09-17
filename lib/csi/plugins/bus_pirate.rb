@@ -30,7 +30,7 @@ module CSI
         screen_params = "#{block_dev} 115200 8 N 1"
         screen_cmd = "#{screen_bin} #{screen_params}"
         system(screen_cmd)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -46,13 +46,11 @@ module CSI
           block_dev = opts[:block_dev].to_s if File.exist?(opts[:block_dev].to_s)
         end
 
-        bus_pirate_obj = CSI::Plugins::Serial.connect(
+        CSI::Plugins::Serial.connect(
           block_dev: block_dev,
           baud: '115200'
         )
-
-        return bus_pirate_obj
-      rescue => e
+      rescue StandardError => e
         disconnect(bus_pirate_obj: bus_pirate_obj) unless bus_pirate_obj.nil?
         raise e
       end
@@ -95,10 +93,8 @@ module CSI
           raise "Invalid mode: #{mode}"
         end
 
-        mode_response = CSI::Plugins::Serial.response(serial_obj: bus_pirate_obj)
-
-        return mode_response
-      rescue => e
+        CSI::Plugins::Serial.response(serial_obj: bus_pirate_obj)
+      rescue StandardError => e
         raise e
       end
 
@@ -110,18 +106,16 @@ module CSI
       public_class_method def self.disconnect(opts = {})
         bus_pirate_obj = opts[:bus_pirate_obj]
         bus_pirate_obj = CSI::Plugins::Serial.disconnect(serial_obj: bus_pirate_obj)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

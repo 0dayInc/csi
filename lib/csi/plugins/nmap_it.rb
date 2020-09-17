@@ -15,7 +15,7 @@ module CSI
         Nmap::Program.scan do |nmap|
           yield(nmap)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -46,18 +46,16 @@ module CSI
         Nmap::XML.new(xml_file) do |xml|
           yield(xml)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

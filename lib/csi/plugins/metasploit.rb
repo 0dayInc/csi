@@ -38,8 +38,8 @@ module CSI
         session = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
         console_obj[:session] = session
 
-        return console_obj
-      rescue => e
+        console_obj
+      rescue StandardError => e
         raise "#{e}\nIs the msfrpcd daemon running on #{msfrpcd_host}?"
       end
 
@@ -74,8 +74,8 @@ module CSI
           break
         end
 
-        return console_obj
-      rescue => e
+        console_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -97,8 +97,8 @@ module CSI
           raise "ERROR: cmd parameter must be a String or Array object - object is currently #{cmd.class}"
         end
 
-        return console_obj
-      rescue => e
+        console_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -114,18 +114,16 @@ module CSI
         msfrpcd_conn.call('auth.logout', msfrpcd_conn.token)
 
         console_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

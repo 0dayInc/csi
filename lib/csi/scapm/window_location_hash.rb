@@ -91,7 +91,7 @@ module CSI
           @@logger.info("#{logger_banner} => #{logger_results}complete.\n")
         end
         result_arr
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -139,7 +139,7 @@ module CSI
         end
 
         author
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -149,24 +149,21 @@ module CSI
       # Determine the level of Testing Coverage w/ CSI.
 
       public_class_method def self.nist_800_53_requirements
-        nist_800_53_requirements = {
+        {
           scapm_module: self,
           section: 'MALICIOUS CODE PROTECTION',
           nist_800_53_uri: 'https://web.nvd.nist.gov/view/800-53/Rev4/control?controlName=SI-3'
         }
-        nist_800_53_requirements
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

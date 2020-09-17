@@ -20,7 +20,7 @@ module CSI
 
         this_amqp_obj = Bunny.new("amqp://#{user}:#{pass}@#{host}")
         this_amqp_obj.start
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -32,18 +32,16 @@ module CSI
       public_class_method def self.close(opts = {})
         this_amqp_obj = opts[:amqp_obj]
         this_amqp_obj.close_connection
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

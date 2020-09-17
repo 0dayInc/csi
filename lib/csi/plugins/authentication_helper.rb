@@ -15,7 +15,7 @@ module CSI
       public_class_method def self.username
         user = TTY::Prompt.new.ask('Username: ')
         user.to_s.strip.chomp.scrub
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -29,7 +29,7 @@ module CSI
 
         pass = TTY::Prompt.new.mask("#{prompt}: ")
         pass.to_s.strip.chomp.scrub
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -43,18 +43,16 @@ module CSI
 
         mfa = TTY::Prompt.new.ask("#{prompt}: ")
         mfa.to_s.strip.chomp.scrub
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

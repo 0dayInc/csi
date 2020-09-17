@@ -231,18 +231,16 @@ module CSI
         File.open("#{dir_path}/csi_fuzz_net_app_proto.html", 'w') do |f|
           f.print(html_report)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

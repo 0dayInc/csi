@@ -18,6 +18,7 @@ module CSI
       public_class_method def self.generate(opts = {})
         dir_path = opts[:dir_path].to_s if File.directory?(opts[:dir_path].to_s)
         raise "CSI Error: Invalid Directory #{dir_path}" if dir_path.nil?
+
         results_hash = opts[:results_hash]
 
         # JSON object Completion
@@ -266,18 +267,16 @@ module CSI
         File.open("#{dir_path}/csi_scan_git_source.html", 'w') do |f|
           f.print(html_report)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

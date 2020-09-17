@@ -202,8 +202,8 @@ module CSI
           return nil
         end
 
-        return this_browser
-      rescue => e
+        this_browser
+      rescue StandardError => e
         raise e
       end
 
@@ -219,8 +219,8 @@ module CSI
           @@logger.info("#{link.text} => #{link.href}\n\n\n") unless link.text == ''
         end
 
-        return this_browser_obj
-      rescue => e
+        this_browser_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -243,7 +243,7 @@ module CSI
           yield char
           sleep Random.rand(rand_sleep_float)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -259,21 +259,17 @@ module CSI
           # Close the browser unless this_browser_obj.nil? (thus the &)
           this_browser_obj&.close
         end
-        this_browser_obj = nil
-
-        return this_browser_obj
-      rescue => e
+        nil
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

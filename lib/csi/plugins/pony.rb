@@ -65,9 +65,7 @@ module CSI
         options = @@options.merge options
         options = options.merge @@override_options
 
-        if @@subject_prefix
-          options[:subject] = "#{@@subject_prefix}#{options[:subject]}"
-        end
+        options[:subject] = "#{@@subject_prefix}#{options[:subject]}" if @@subject_prefix
 
         raise ArgumentError, ':to is required' unless options[:to]
 
@@ -144,6 +142,7 @@ module CSI
 
           options.each do |k, v|
             next if non_standard_options.include?(k)
+
             m.send(k, v)
           end
 
@@ -182,9 +181,7 @@ module CSI
 
         mail.charset = options[:charset] if options[:charset] # charset must be set after setting content_type
 
-        if mail.multipart? && options[:text_part_charset]
-          mail.text_part.charset = options[:text_part_charset]
-        end
+        mail.text_part.charset = options[:text_part_charset] if mail.multipart? && options[:text_part_charset]
         set_content_type(mail, options[:content_type])
         mail
       end
@@ -267,11 +264,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

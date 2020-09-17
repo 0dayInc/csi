@@ -63,7 +63,7 @@ module CSI
 
         sleep 3
 
-        return response
+        response
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e
@@ -130,21 +130,19 @@ module CSI
         csi_stdout_log.fsync
 
         fork_pid = Process.fork do
-          begin
-            PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
-              stdout.each do |line|
-                puts line
-                csi_stdout_log.puts line
-              end
+          PTY.spawn(owasp_zap_cmd) do |stdout, _stdin, _pid|
+            stdout.each do |line|
+              puts line
+              csi_stdout_log.puts line
             end
-          rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
-            puts 'Spawned OWASP Zap PTY exiting...'
-            File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
-          rescue StandardError => e
-            puts 'Spawned process exiting...'
-            File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
-            raise e
           end
+        rescue PTY::ChildExited, SystemExit, Interrupt, Errno::EIO
+          puts 'Spawned OWASP Zap PTY exiting...'
+          File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
+        rescue StandardError => e
+          puts 'Spawned process exiting...'
+          File.unlink(csi_stdout_log_path) if File.exist?(csi_stdout_log_path)
+          raise e
         end
         Process.detach(fork_pid)
 
@@ -304,9 +302,7 @@ module CSI
           params: params
         )
 
-        json_alerts = JSON.parse(response.body, symbolize_names: true)
-
-        return json_alerts
+        JSON.parse(response.body, symbolize_names: true)
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e
@@ -353,7 +349,7 @@ module CSI
           f.puts response.body
         end
 
-        return report_path
+        report_path
       rescue StandardError, SystemExit, Interrupt => e
         stop(zap_obj) unless zap_obj.nil?
         raise e
@@ -460,8 +456,8 @@ module CSI
         this_browser_obj.driver.manage.timeouts.page_load = this_browser_obj.driver.capabilities[:page_load_timeout]
         # this_browser_obj.driver.manage.timeouts.script_timeout = b.driver.capabilities[:script_timeout]
 
-        return request_content
-      rescue => e
+        request_content
+      rescue StandardError => e
         raise e
       end
 
@@ -485,11 +481,9 @@ module CSI
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

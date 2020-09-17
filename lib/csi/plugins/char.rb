@@ -95,8 +95,8 @@ module CSI
           char_arr.push(sorted_char_hash)
         end
 
-        return char_arr
-      rescue => e
+        char_arr
+      rescue StandardError => e
         raise e
       end
 
@@ -104,10 +104,8 @@ module CSI
       # CSI::Plugins::Char.c0_controls_latin_basic
 
       public_class_method def self.c0_controls_latin_basic
-        char_arr = generate_by_range(from: 0, to: 127)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 0, to: 127)
+      rescue StandardError => e
         raise e
       end
 
@@ -115,10 +113,8 @@ module CSI
       # CSI::Plugins::Char.c1_controls_latin_supplement
 
       public_class_method def self.c1_controls_latin_supplement
-        char_arr = generate_by_range(from: 128, to: 255)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 128, to: 255)
+      rescue StandardError => e
         raise e
       end
 
@@ -126,10 +122,8 @@ module CSI
       # CSI::Plugins::Char.latin_extended_a
 
       public_class_method def self.latin_extended_a
-        char_arr = generate_by_range(from: 256, to: 383)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 256, to: 383)
+      rescue StandardError => e
         raise e
       end
 
@@ -137,10 +131,8 @@ module CSI
       # CSI::Plugins::Char.latin_extended_b
 
       public_class_method def self.latin_extended_b
-        char_arr = generate_by_range(from: 384, to: 591)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 384, to: 591)
+      rescue StandardError => e
         raise e
       end
 
@@ -148,10 +140,8 @@ module CSI
       # CSI::Plugins::Char.spacing_modifiers
 
       public_class_method def self.spacing_modifiers
-        char_arr = generate_by_range(from: 688, to: 767)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 688, to: 767)
+      rescue StandardError => e
         raise e
       end
 
@@ -159,10 +149,8 @@ module CSI
       # CSI::Plugins::Char.diacritical_marks
 
       public_class_method def self.diacritical_marks
-        char_arr = generate_by_range(from: 768, to: 879)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 768, to: 879)
+      rescue StandardError => e
         raise e
       end
 
@@ -170,10 +158,8 @@ module CSI
       # CSI::Plugins::Char.greek_coptic
 
       public_class_method def self.greek_coptic
-        char_arr = generate_by_range(from: 880, to: 1023)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 880, to: 1023)
+      rescue StandardError => e
         raise e
       end
 
@@ -181,10 +167,8 @@ module CSI
       # CSI::Plugins::Char.cyrillic_basic
 
       public_class_method def self.cyrillic_basic
-        char_arr = generate_by_range(from: 1024, to: 1279)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 1024, to: 1279)
+      rescue StandardError => e
         raise e
       end
 
@@ -192,10 +176,8 @@ module CSI
       # CSI::Plugins::Char.cyrillic_supplement
 
       public_class_method def self.cyrillic_supplement
-        char_arr = generate_by_range(from: 1280, to: 1327)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 1280, to: 1327)
+      rescue StandardError => e
         raise e
       end
 
@@ -203,10 +185,8 @@ module CSI
       # CSI::Plugins::Char.punctuation
 
       public_class_method def self.punctuation
-        char_arr = generate_by_range(from: 8192, to: 8303)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 8192, to: 8303)
+      rescue StandardError => e
         raise e
       end
 
@@ -214,10 +194,8 @@ module CSI
       # CSI::Plugins::Char.currency_symbols
 
       public_class_method def self.currency_symbols
-        char_arr = generate_by_range(from: 8352, to: 8399)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 8352, to: 8399)
+      rescue StandardError => e
         raise e
       end
 
@@ -225,10 +203,8 @@ module CSI
       # CSI::Plugins::Char.letterlike_symbols
 
       public_class_method def self.letterlike_symbols
-        char_arr = generate_by_range(from: 8448, to: 8527)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 8448, to: 8527)
+      rescue StandardError => e
         raise e
       end
 
@@ -236,10 +212,8 @@ module CSI
       # CSI::Plugins::Char.arrows
 
       public_class_method def self.arrows
-        char_arr = generate_by_range(from: 8592, to: 8703)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 8592, to: 8703)
+      rescue StandardError => e
         raise e
       end
 
@@ -247,10 +221,8 @@ module CSI
       # CSI::Plugins::Char.math_operators
 
       public_class_method def self.math_operators
-        char_arr = generate_by_range(from: 8704, to: 8959)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 8704, to: 8959)
+      rescue StandardError => e
         raise e
       end
 
@@ -258,10 +230,8 @@ module CSI
       # CSI::Plugins::Char.box_drawings
 
       public_class_method def self.box_drawings
-        char_arr = generate_by_range(from: 9312, to: 9599)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 9312, to: 9599)
+      rescue StandardError => e
         raise e
       end
 
@@ -269,10 +239,8 @@ module CSI
       # CSI::Plugins::Char.block_elements
 
       public_class_method def self.block_elements
-        char_arr = generate_by_range(from: 9600, to: 9631)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 9600, to: 9631)
+      rescue StandardError => e
         raise e
       end
 
@@ -280,10 +248,8 @@ module CSI
       # CSI::Plugins::Char.geometric_shapes
 
       public_class_method def self.geometric_shapes
-        char_arr = generate_by_range(from: 9632, to: 9727)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 9632, to: 9727)
+      rescue StandardError => e
         raise e
       end
 
@@ -291,10 +257,8 @@ module CSI
       # CSI::Plugins::Char.misc_symbols
 
       public_class_method def self.misc_symbols
-        char_arr = generate_by_range(from: 9728, to: 9983)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 9728, to: 9983)
+      rescue StandardError => e
         raise e
       end
 
@@ -302,10 +266,8 @@ module CSI
       # CSI::Plugins::Char.dingbats
 
       public_class_method def self.dingbats
-        char_arr = generate_by_range(from: 9984, to: 10_175)
-
-        char_arr
-      rescue => e
+        generate_by_range(from: 9984, to: 10_175)
+      rescue StandardError => e
         raise e
       end
 
@@ -348,8 +310,8 @@ module CSI
           bubble_ip = "#{bubble_ip}#{dot}" if (this_index + 1) < ip_arr.length
         end
 
-        return bubble_ip
-      rescue => e
+        bubble_ip
+      rescue StandardError => e
         raise e
       end
 
@@ -363,8 +325,8 @@ module CSI
           encoder_arr.push(encoder.name)
         end
 
-        return encoder_arr.sort
-      rescue => e
+        encoder_arr.sort
+      rescue StandardError => e
         raise e
       end
 
@@ -383,53 +345,49 @@ module CSI
         char_arr = generate_by_range(from: 0, to: 0).first
         char_keys = char_arr.keys
         char_keys.each do |char_key|
-          begin
-            encoder = char_arr[char_key][:encoder]
-            this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
+          encoder = char_arr[char_key][:encoder]
+          this_file = "#{output_dir}/#{from}_#{to}_#{encoder}.txt"
 
-            case char_key
-            when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
-              file_instr = 'wb'
-            else
-              file_instr = "wb:#{encoder}"
-            end
+          case char_key
+          when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
+            file_instr = 'wb'
+          else
+            file_instr = "wb:#{encoder}"
+          end
 
-            File.open(this_file, file_instr) do |f|
-              generate_by_range(from: from, to: to).each do |char_hash|
-                case char_key
-                when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
-                  f.puts char_hash[char_key][:char]
-                else
-                  f.puts char_hash[char_key][:char] unless char_hash[char_key][:char].nil? || char_hash[char_key][:char].encode('utf-8').include?('***')
-                end
+          File.open(this_file, file_instr) do |f|
+            generate_by_range(from: from, to: to).each do |char_hash|
+              case char_key
+              when :bin, :dec, :hex, :html_entity, :html_entity_dec, :html_entity_hex, :long_int, :oct, :short_int, :url
+                f.puts char_hash[char_key][:char]
+              else
+                f.puts char_hash[char_key][:char] unless char_hash[char_key][:char].nil? || char_hash[char_key][:char].encode('utf-8').include?('***')
               end
             end
-
-            if File.read(this_file).length.zero?
-              File.unlink(this_file)
-            else
-              print '.'
-            end
-          rescue => e
-            puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
-            puts "#{e.class}: #{e.message}\n#{e.backtrace}\n\n\n"
-            File.unlink(this_file) if File.read(this_file).length.zero?
-            next
           end
+
+          if File.read(this_file).length.zero?
+            File.unlink(this_file)
+          else
+            print '.'
+          end
+        rescue StandardError => e
+          puts "FILE GENERATION ATTEMPT OF: #{this_file} RESULTED THE FOLLOWING ERROR:"
+          puts "#{e.class}: #{e.message}\n#{e.backtrace}\n\n\n"
+          File.unlink(this_file) if File.read(this_file).length.zero?
+          next
         end
         print "\n"
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

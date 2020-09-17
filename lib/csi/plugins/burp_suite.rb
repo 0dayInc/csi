@@ -52,19 +52,17 @@ module CSI
 
         # Wait for TCP 8001 to open prior to returning burp_obj
         loop do
-          begin
-            s = TCPSocket.new('127.0.0.1', 8001)
-            s.close
-            break
-          rescue Errno::ECONNREFUSED
-            print '.'
-            sleep 3
-            next
-          end
+          s = TCPSocket.new('127.0.0.1', 8001)
+          s.close
+          break
+        rescue Errno::ECONNREFUSED
+          print '.'
+          sleep 3
+          next
         end
 
-        return burp_obj
-      rescue => e
+        burp_obj
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -80,7 +78,7 @@ module CSI
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
         enable_resp = rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/enable", nil)
-      rescue => e
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -96,7 +94,7 @@ module CSI
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
         disable_resp = rest_browser.post("http://#{burpbuddy_api}/proxy/intercept/disable", nil)
-      rescue => e
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -112,10 +110,8 @@ module CSI
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
         sitemap = rest_browser.get("http://#{burpbuddy_api}/sitemap", content_type: 'application/json; charset=UTF8')
-        json_sitemap = JSON.parse(sitemap)
-
-        return json_sitemap
-      rescue => e
+        JSON.parse(sitemap)
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -157,6 +153,7 @@ module CSI
           end
 
           next unless json_host == target_domain_name && json_port == target_port
+
           puts "Adding #{json_uri} to Active Scan"
           active_scan_url_arr.push(json_uri)
           post_body = "{ \"host\": \"#{json_host}\", \"port\": \"#{json_port}\", \"useHttps\": #{use_https}, \"request\": \"#{json_req['raw']}\" }"
@@ -180,8 +177,8 @@ module CSI
           puts "Target ID ##{this_scan_item_id} of ##{scan_queue_total}| 100% complete\n"
         end
 
-        return active_scan_url_arr # Return array of targeted URIs to pass to #generate_scan_report method
-      rescue => e
+        active_scan_url_arr # Return array of targeted URIs to pass to #generate_scan_report method
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -197,10 +194,8 @@ module CSI
         burpbuddy_api = burp_obj[:burpbuddy_api]
 
         scan_issues = rest_browser.get("http://#{burpbuddy_api}/scanissues")
-        json_scan_issues = JSON.parse(scan_issues)
-
-        return json_scan_issues
-      rescue => e
+        JSON.parse(scan_issues)
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -221,6 +216,7 @@ module CSI
         report_type = opts[:report_type]
         # When burpbuddy begins to support XML report generation
         raise 'INVALID Report Type' unless report_type == :html || report_type == :xml
+
         output_path = opts[:output_path].to_s.scrub
 
         scheme = URI.parse(target_url).scheme
@@ -239,7 +235,7 @@ module CSI
         File.open(output_path, 'w') do |f|
           f.puts(report_resp.body)
         end
-      rescue => e
+      rescue StandardError => e
         stop(burp_obj: burp_obj) unless burp_obj.nil?
         raise e
       end
@@ -266,18 +262,16 @@ module CSI
         Process.kill('TERM', burp_pid)
 
         burp_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

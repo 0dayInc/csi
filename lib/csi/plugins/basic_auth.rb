@@ -19,7 +19,7 @@ module CSI
         base64_str = "#{basic_user}:#{basic_pass}"
         @base64_encoded_auth = Base64.strict_encode64(base64_str).to_s.chomp
         @base64_encoded_auth
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -32,18 +32,16 @@ module CSI
         base64_str = opts[:base64_str]
         @base64_decoded_auth = Base64.decode64(base64_str)
         @base64_decoded_auth
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

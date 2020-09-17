@@ -34,8 +34,8 @@ module CSI
         openvas_obj[:username] = username
         openvas_obj[:password] = password
         @@logger.info(`#{@@omp_bin} -h #{openvas_ip} -p #{openvas_port} -u #{username} -w #{password} --xml="<authenticate><credentials><username>#{username}</username><password>#{password}</password></credentials></authenticate>"`)
-        return openvas_obj
-      rescue => e
+        openvas_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -49,18 +49,16 @@ module CSI
 
         openvas_obj = nil
         @@logger.info('logged out')
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

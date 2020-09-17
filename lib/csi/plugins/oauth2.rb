@@ -16,7 +16,7 @@ module CSI
       public_class_method def self.decode(opts)
         oauth2_token = opts[:oauth2_token]
         Base64.decode64(oauth2_token)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -36,18 +36,16 @@ module CSI
 
         json_oauth2_token_body = JSON.parse(readable_oauth2_token.split(/^\{(.*?)\}/)[-1], symbolize_names: true)
         json_oauth2_token_body[key]
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

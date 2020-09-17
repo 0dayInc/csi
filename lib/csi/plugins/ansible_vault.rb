@@ -18,10 +18,8 @@ module CSI
         yaml_config = opts[:yaml_config].to_s.scrub if File.exist?(opts[:yaml_config].to_s.scrub)
         vpassfile = opts[:vpassfile].to_s.scrub if File.exist?(opts[:vpassfile].to_s.scrub)
 
-        vault_cmd_resp = `sudo ansible-vault encrypt #{yaml_config} --vault-password-file #{vpassfile}`
-
-        return vault_cmd_resp
-      rescue => e
+        `sudo ansible-vault encrypt #{yaml_config} --vault-password-file #{vpassfile}`
+      rescue StandardError => e
         raise e
       end
 
@@ -41,19 +39,17 @@ module CSI
           config_resp = `sudo ansible-vault view #{yaml_config} --vault-password-file #{vpassfile}`
         end
 
-        return config_resp
-      rescue => e
+        config_resp
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

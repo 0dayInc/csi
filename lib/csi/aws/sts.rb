@@ -31,19 +31,17 @@ module CSI
         )
         @@logger.info("complete.\n")
 
-        return sts_session.credentials
-      rescue => e
+        sts_session.credentials
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

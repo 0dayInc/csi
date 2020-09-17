@@ -31,18 +31,16 @@ module CSI
         screen_params = "#{block_dev} 9600 8 N 1"
         screen_cmd = "#{screen_bin} #{screen_params}"
         system(screen_cmd)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module
