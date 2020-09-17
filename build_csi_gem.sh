@@ -18,6 +18,7 @@ if [[ $old_ruby_version == $new_ruby_version ]]; then
   rake
   rake install
   rake rerdoc
+  gem update --system
   gem rdoc --rdoc --ri --overwrite -V csi
   bundle update
   bundle-audit update
