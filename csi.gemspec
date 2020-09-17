@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'csi/version'
 
 Gem::Specification.new do |spec|
-  spec.required_ruby_version = "=#{File.read('.ruby-version')}"
+  spec.required_ruby_version = "= #{File.read('.ruby-version')}"
   spec.name = 'csi'
   spec.version = CSI::VERSION
   spec.authors = ['Jacob Hoopes']
