@@ -24,19 +24,17 @@ module CSI
           page_no += 1
         end
         print "\n"
-        return pdf_pages_hash
-      rescue => e
+        pdf_pages_hash
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

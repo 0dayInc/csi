@@ -72,8 +72,8 @@ module CSI
         )
 
         validate_pg_conn(pg_conn: pg_conn)
-        return pg_conn
-      rescue => e
+        pg_conn
+      rescue StandardError => e
         raise e
       end
 
@@ -89,17 +89,14 @@ module CSI
         validate_pg_conn(pg_conn: pg_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
         statement_params = opts[:statement_params] # << Array of Params
-        unless statement_params.class == Array || statement_params.nil?
-          raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object"
-        end
+        raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object" unless statement_params.class == Array || statement_params.nil?
 
-        res = if statement_params.nil?
-                pg_conn.exec(prepared_statement)
-              else
-                pg_conn.exec(prepared_statement, statement_params)
-              end
-        return res
-      rescue => e
+        if statement_params.nil?
+          pg_conn.exec(prepared_statement)
+        else
+          pg_conn.exec(prepared_statement, statement_params)
+        end
+      rescue StandardError => e
         raise e
       end
 
@@ -147,14 +144,12 @@ module CSI
           AND table_name = $2
         "
 
-        res = sql_statement(
+        sql_statement(
           pg_conn: pg_conn,
           prepared_statement: prep_sql,
           statement_params: [table_schema, table_name]
         )
-
-        res
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -167,7 +162,7 @@ module CSI
         pg_conn = opts[:pg_conn]
         validate_pg_conn(pg_conn: pg_conn)
         pg_conn.close
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -178,21 +173,17 @@ module CSI
 
       private_class_method def self.validate_pg_conn(opts = {})
         pg_conn = opts[:pg_conn]
-        unless pg_conn.class == PG::Connection
-          raise "Error: Invalid pg_conn Object #{pg_conn}"
-        end
-      rescue => e
+        raise "Error: Invalid pg_conn Object #{pg_conn}" unless pg_conn.class == PG::Connection
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

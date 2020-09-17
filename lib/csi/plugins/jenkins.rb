@@ -83,8 +83,8 @@ module CSI
           )
         end
         jenkins_obj.system.wait_for_ready
-        return jenkins_obj
-      rescue => e
+        jenkins_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -126,15 +126,11 @@ module CSI
           post_body
         )
 
-        if resp == '302'
-          return true # Successful creation occurred
-        else
-          return false # Something unexpected happened
-        end
+        resp == '302'
       # rescue JenkinsApi::Exceptions::UserAlreadyExists => e
       #   @@logger.warn("Jenkins view: #{view_name} already exists")
       #   return e.class
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -212,12 +208,8 @@ module CSI
           post_body
         )
 
-        if resp == '302'
-          return true # Successful creation occurred
-        else
-          return false # Something unexpected happened
-        end
-      rescue => e
+        resp == '302'
+      rescue StandardError => e
         raise e
       end
 
@@ -238,6 +230,7 @@ module CSI
           this_git_repo = this_config.xpath('//scm/userRemoteConfigs/hudson.plugins.git.UserRemoteConfig/url').text
           this_git_branch = this_config.xpath('//scm/branches/hudson.plugins.git.BranchSpec/name').text
           next if this_git_repo == ''
+
           # Obtain all jobs' git repos
           job_git_repo = {}
           job_git_repo[:name] = job['name']
@@ -250,7 +243,7 @@ module CSI
         end
 
         git_repo_arr
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -264,10 +257,8 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
-        nested_jobs_arr = nested_view_resp['jobs']
-
-        nested_jobs_arr
-      rescue => e
+        nested_view_resp['jobs']
+      rescue StandardError => e
         raise e
       end
 
@@ -281,10 +272,8 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         nested_view_resp = jenkins_obj.api_get_request(view_path)
-        nested_views_arr = nested_view_resp['views']
-
-        nested_views_arr
-      rescue => e
+        nested_view_resp['views']
+      rescue StandardError => e
         raise e
       end
 
@@ -329,15 +318,11 @@ module CSI
             post_body
           )
         end
-        if resp == '302'
-          return true # Successful creation occurred
-        else
-          return false # Something unexpected happened
-        end
+        resp == '302'
       rescue JenkinsApi::Exceptions::ViewAlreadyExists => e
         @@logger.warn("Jenkins view: #{view_name} already exists")
-        return e.class
-      rescue => e
+        e.class
+      rescue StandardError => e
         raise e
       end
 
@@ -351,9 +336,8 @@ module CSI
         jenkins_obj = opts[:jenkins_obj]
         view_path = opts[:view_path].to_s.scrub
         job_name = opts[:job_name].to_s.scrub
-        resp = jenkins_obj.api_post_request("#{view_path}/addJobToView?name=#{job_name}")
-        resp
-      rescue => e
+        jenkins_obj.api_post_request("#{view_path}/addJobToView?name=#{job_name}")
+      rescue StandardError => e
         raise e
       end
 
@@ -372,8 +356,8 @@ module CSI
         copy_job_resp = jenkins_obj.job.copy(existing_job_name, new_job_name)
       rescue JenkinsApi::Exceptions::JobAlreadyExists => e
         @@logger.warn("Jenkins job: #{new_job_name} already exists")
-        return e.class
-      rescue => e
+        e.class
+      rescue StandardError => e
         raise e
       end
 
@@ -394,7 +378,7 @@ module CSI
             jenkins_obj.job.disable(job_name)
           end
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -415,7 +399,7 @@ module CSI
             jenkins_obj.job.delete(job_name)
           end
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -431,7 +415,7 @@ module CSI
           @@logger.info("Clearing #{job_name} Build from Queue")
           jenkins_obj.job.stop_build(job_name)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -445,18 +429,16 @@ module CSI
         @@logger.info('Disconnecting from Jenkins...')
         jenkins_obj = nil
         'complete'
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

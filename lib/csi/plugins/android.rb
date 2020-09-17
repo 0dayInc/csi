@@ -23,10 +23,8 @@ module CSI
                  5555
                end
 
-        adb_response = `#{adb_path} connect #{target}:#{port}`
-
-        return adb_response
-      rescue => e
+        `#{adb_path} connect #{target}:#{port}`
+      rescue StandardError => e
         raise e
       end
 
@@ -49,10 +47,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        adb_response = `#{adb_path} shell #{command}`
-
-        return adb_response
-      rescue => e
+        `#{adb_path} shell #{command}`
+      rescue StandardError => e
         raise e
       end
 
@@ -76,10 +72,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        adb_push_response = `#{adb_path} push #{file} #{dest}`
-
-        return adb_push_response
-      rescue => e
+        `#{adb_path} push #{file} #{dest}`
+      rescue StandardError => e
         raise e
       end
 
@@ -103,10 +97,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        adb_pull = `#{adb_path} pull #{file} #{dest}`
-
-        return adb_pull
-      rescue => e
+        `#{adb_path} pull #{file} #{dest}`
+      rescue StandardError => e
         raise e
       end
 
@@ -133,10 +125,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        adb_pull = `#{adb_path} shell screencap -p #{dest}`
-
-        return adb_pull
-      rescue => e
+        `#{adb_path} shell screencap -p #{dest}`
+      rescue StandardError => e
         raise e
       end
 
@@ -164,10 +154,8 @@ module CSI
 
         @@logger.info('Press CTRL+C to complete...')
         `#{adb_path} root` if as_root
-        adb_pull = `#{adb_path} shell screenrecord #{dest}`
-
-        return adb_pull
-      rescue => e
+        `#{adb_path} shell screenrecord #{dest}`
+      rescue StandardError => e
         raise e
       end
 
@@ -188,10 +176,8 @@ module CSI
 
         `#{adb_path} root` if as_root
         app_resp = `#{adb_path} shell pm list packages`
-        app_resp_arr = app_resp.gsub("\npackage:", "\n").split("\n")
-
-        return app_resp_arr
-      rescue => e
+        app_resp.gsub("\npackage:", "\n").split("\n")
+      rescue StandardError => e
         raise e
       end
 
@@ -219,8 +205,8 @@ module CSI
           app_response = `#{adb_path} shell dumpsys`
         end
 
-        return app_response
-      rescue => e
+        app_response
+      rescue StandardError => e
         raise e
       end
 
@@ -242,10 +228,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        app_response = `#{adb_path} shell monkey -p #{app} -c android.intent.category.LAUNCHER 1`
-
-        return app_response
-      rescue => e
+        `#{adb_path} shell monkey -p #{app} -c android.intent.category.LAUNCHER 1`
+      rescue StandardError => e
         raise e
       end
 
@@ -276,7 +260,7 @@ module CSI
           end
           sleep 0.3
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -303,8 +287,8 @@ module CSI
           raise "ERROR: unknown direction to swipe: #{direction}"
         end
 
-        return swipe_resp.to_s.scrub
-      rescue => e
+        swipe_resp.to_s.scrub
+      rescue StandardError => e
         raise e
       end
 
@@ -516,8 +500,8 @@ module CSI
           end
         end
 
-        return char_resp.to_s.scrub
-      rescue => e
+        char_resp.to_s.scrub
+      rescue StandardError => e
         raise e
       end
 
@@ -992,8 +976,8 @@ module CSI
         else
           raise "ERROR: unknown special event: #{event}"
         end
-        return str_resp.to_s.scrub
-      rescue => e
+        str_resp.to_s.scrub
+      rescue StandardError => e
         raise e
       end
 
@@ -1015,10 +999,8 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        app_response = `#{adb_path} shell am force-stop #{app}`
-
-        return app_response
-      rescue => e
+        `#{adb_path} shell am force-stop #{app}`
+      rescue StandardError => e
         raise e
       end
 
@@ -1040,7 +1022,7 @@ module CSI
 
         `#{adb_path} root` if as_root
         `#{adb_path} shell getevent -l`
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -1060,21 +1042,17 @@ module CSI
                  5555
                end
 
-        adb_response = `#{adb_path} disconnect #{target}:#{port}`
-
-        return adb_response
-      rescue => e
+        `#{adb_path} disconnect #{target}:#{port}`
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

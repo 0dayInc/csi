@@ -41,8 +41,8 @@ module CSI
           raise "Unsupported protocol: #{protocol}"
         end
 
-        return sock_obj
-      rescue => e
+        sock_obj
+      rescue StandardError => e
         sock_obj = disconnect(sock_obj: sock_obj) unless sock_obj.nil?
         raise e
       end
@@ -99,7 +99,7 @@ module CSI
         else
           raise "Unsupported protocol: #{protocol}"
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       ensure
         listen_obj = disconnect(sock_obj: listen_obj) unless listen_obj.nil?
@@ -114,18 +114,16 @@ module CSI
         sock_obj = opts[:sock_obj]
         sock_obj.close
         sock_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

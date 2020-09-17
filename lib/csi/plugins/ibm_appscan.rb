@@ -64,8 +64,8 @@ module CSI
         appscan_obj[:password] = Base64.strict_encode64(password)
         appscan_obj[:logged_in] = true
 
-        return appscan_obj
-      rescue => e
+        appscan_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -114,8 +114,8 @@ module CSI
         else
           return @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-        return response
-      rescue => e
+        response
+      rescue StandardError => e
         if (e.message == '401 Unauthorized') && retry_count > 0 && appscan_obj[:logged_in]
           # Try logging back in to refresh the connection
           @@logger.warn("Got Response: #{e}...Attempting to Re-Authenticate; Retries left #{retry_count}")
@@ -147,7 +147,7 @@ module CSI
         schema[:raw_response] = response
         schema[:xml_response] = Nokogiri::XML(response)
         schema
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -175,7 +175,7 @@ module CSI
           '/xmlns:version/xmlns:user-name'
         ).text
         version
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -191,7 +191,7 @@ module CSI
         folders[:raw_response] = response
         folders[:xml_response] = Nokogiri::XML(response)
         folders
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -209,7 +209,7 @@ module CSI
         subfolders[:raw_response] = response
         subfolders[:xml_response] = Nokogiri::XML(response)
         subfolders
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -227,7 +227,7 @@ module CSI
         folder[:raw_response] = response
         folder[:xml_response] = Nokogiri::XML(response)
         folder
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -243,7 +243,7 @@ module CSI
         folder_items[:raw_response] = response
         folder_items[:xml_response] = Nokogiri::XML(response)
         folder_items
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -274,9 +274,9 @@ module CSI
         # POSTPROCESSING = 10;
         # ENDING = 12;
         folder_item[:state] = folder_item[:xml_response].xpath('//xmlns:state/xmlns:name').text
-        return folder_item
-      rescue => e
-        return @@logger.error("Error: #{e} | #{e.class}\nResponse Returned: #{folder_item[:raw_response]}")
+        folder_item
+      rescue StandardError => e
+        @@logger.error("Error: #{e} | #{e.class}\nResponse Returned: #{folder_item[:raw_response]}")
       end
 
       # Supported Method Parameters::
@@ -293,7 +293,7 @@ module CSI
         a_folders_folder_items[:raw_response] = response
         a_folders_folder_items[:xml_response] = Nokogiri::XML(response)
         a_folders_folder_items
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -316,7 +316,7 @@ module CSI
           '//xmlns:available-option/@href'
         )
         folder_item_options
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -332,7 +332,7 @@ module CSI
         templates[:raw_response] = response
         templates[:xml_response] = Nokogiri::XML(response)
         templates
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -411,9 +411,9 @@ module CSI
           '/xmlns:folder-items/xmlns:report-pack/xmlns:reports/xmlns:count'
         ).text.to_i
 
-        return scan
-      rescue => e
-        return @@logger.error("Error #{e}:\nREST response returned:\n#{response}")
+        scan
+      rescue StandardError => e
+        @@logger.error("Error #{e}:\nREST response returned:\n#{response}")
       end
 
       # Supported Method Parameters::
@@ -481,7 +481,7 @@ module CSI
         scan_config[:options] = scan_config[:xml_response].xpath('//xmlns:option/@value')
 
         scan_config
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -562,7 +562,7 @@ module CSI
         scan_action[:xml_response] = Nokogiri::XML(response)
 
         scan_action
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -588,7 +588,7 @@ module CSI
         end
 
         report_collection
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -609,7 +609,7 @@ module CSI
         @@logger.info("Retrieved Report ID/Name: #{report_id}/#{report[:xml_response].xpath('//xmlns:report/xmlns:name').text}")
 
         report
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -633,7 +633,7 @@ module CSI
         @@logger.info("Retrieved Report Data for Report ID: #{report_id}")
 
         report_data
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -657,7 +657,7 @@ module CSI
         @@logger.info("Retrieved Report Schema for Report ID: #{report_id}")
 
         report_schema
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -681,7 +681,7 @@ module CSI
         @@logger.info("Retrieved Issue Collection for Report ID: #{report_id}")
 
         issue_collection
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -718,8 +718,8 @@ module CSI
         ensure
           f.close
         end
-      rescue => e
-        return @@logger.error("Could not get report data: #{e}")
+      rescue StandardError => e
+        @@logger.error("Could not get report data: #{e}")
       end
 
       # Supported Method Parameters::
@@ -738,9 +738,7 @@ module CSI
         logout_uri = "https://#{appscan_ip}/ase/LogOut.aspx"
 
         # verify the output path actually exists
-        unless File.directory?(output_path)
-          return @@logger.error("Output directory does not exist: #{output_path}")
-        end
+        return @@logger.error("Output directory does not exist: #{output_path}") unless File.directory?(output_path)
 
         # REMEMBER TO CHANGE BROWSER TYPE BACK TO HEADLESS!!!!
         h_browser = CSI::Plugins::TransparentBrowser.open(browser_type: :firefox,
@@ -760,14 +758,14 @@ module CSI
         clicked = false
         h_browser.links.each do |link|
           next unless (link.text == scan_name.to_s) && link.href =~ /^https:.+XReports.+/
+
           link.when_present.click
           clicked = true
           break
         end
-        unless clicked
-          return @@logger.error("Could not find matching scan name for name #{scan_name}")
-        end
-        output_path = output_path + '/' + scan_name.gsub(/[^\w\.\-]/, '_') + '/'
+        return @@logger.error("Could not find matching scan name for name #{scan_name}") unless clicked
+
+        output_path = output_path + '/' + scan_name.gsub(/[^\w.\-]/, '_') + '/'
         FileUtils.rm_rf output_path if File.directory?(output_path)
         FileUtils.mkpath output_path
 
@@ -782,7 +780,7 @@ module CSI
         #               @@logger.info("LINK URL: #{link.href}")
         #             end
         #           end
-      rescue => e
+      rescue StandardError => e
         @@logger.error("Error retrieving report for '#{scan_name}': #{e}")
       ensure
         # make sure we always logout
@@ -801,22 +799,20 @@ module CSI
         response = appscan_rest_call(appscan_obj: appscan_obj, rest_call: 'logout')
         if response == ''
           appscan_obj[:logged_in] = false
-          return 'logout successful'
+          'logout successful'
         else
-          return response
+          response
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

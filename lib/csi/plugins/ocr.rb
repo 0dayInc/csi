@@ -14,21 +14,17 @@ module CSI
       public_class_method def self.process(opts = {})
         file = opts[:file].to_s.scrub.strip.chomp if File.exist?(opts[:file].to_s.scrub.strip.chomp)
         image = RTesseract.new(file)
-        text = image.to_s
-
-        text
-      rescue => e
+        image.to_s
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

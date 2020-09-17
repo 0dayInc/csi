@@ -42,10 +42,8 @@ module CSI
 
         # Return array containing the post-authenticated TwitterAPI REST API token
         json_response = JSON.parse(response, symbolize_names: true)
-        bearer_token = json_response[:access_token]
-
-        return bearer_token
-      rescue => e
+        json_response[:access_token]
+      rescue StandardError => e
         raise e
       end
 
@@ -101,7 +99,7 @@ module CSI
 
         sleep 3
 
-        return response
+        response
       rescue StandardError, SystemExit, Interrupt => e
         logout(bearer_token) unless bearer_token.nil?
         raise e
@@ -117,18 +115,16 @@ module CSI
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
         bearer_token = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

@@ -57,8 +57,8 @@ module CSI
         beef_obj[:api_token] = api_token
         beef_obj[:raw_response] = response
 
-        return beef_obj
-      rescue => e
+        beef_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -111,7 +111,7 @@ module CSI
         else
           raise @@logger.error("Unsupported HTTP Method #{http_method} for #{self} Plugin")
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -129,9 +129,8 @@ module CSI
           rest_call: 'hooks'
         )
 
-        hooks = JSON.parse(response)
-        return hooks
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -152,9 +151,8 @@ module CSI
           rest_call: "hooks/#{browser_session}"
         )
 
-        hooked_browser_info = JSON.parse(response)
-        return hooked_browser_info
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -172,9 +170,8 @@ module CSI
           rest_call: 'logs'
         )
 
-        logs = JSON.parse(response)
-        return logs
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -195,9 +192,8 @@ module CSI
           rest_call: "logs/#{browser_session}"
         )
 
-        hooked_browser_logs = JSON.parse(response)
-        return hooked_browser_logs
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -215,9 +211,8 @@ module CSI
           rest_call: 'modules'
         )
 
-        logs = JSON.parse(response)
-        return logs
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -238,9 +233,8 @@ module CSI
           rest_call: "modules/#{module_id}"
         )
 
-        module_info = JSON.parse(response)
-        return module_info
-      rescue => e
+        JSON.parse(response)
+      rescue StandardError => e
         raise e
       end
 
@@ -253,18 +247,16 @@ module CSI
         beef_obj = opts[:beef_obj]
         @@logger.info('Logging out...')
         beef_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

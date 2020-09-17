@@ -56,9 +56,7 @@ module CSI
                      opts[:password]
                    end
 
-        if debug == true
-          @@logger.info("DEBUG ENABLED: from: #{from.inspect}, to: #{to.inspect}, cc: #{cc.inspect}, bcc: #{bcc.inspect}, reply_to: #{reply_to} subject: #{subject.inspect}, html_body: #{html_body.inspect}, txt_body: #{txt_body.inspect}, attachments: #{attachments_hash.inspect}, address: #{address.inspect}, port: #{port.inspect}, username: #{username.inspect}, password: #{password.inspect} enable_starttls_auto: #{tls_auto.inspect}, authentication: #{authentication.inspect}")
-        end
+        @@logger.info("DEBUG ENABLED: from: #{from.inspect}, to: #{to.inspect}, cc: #{cc.inspect}, bcc: #{bcc.inspect}, reply_to: #{reply_to} subject: #{subject.inspect}, html_body: #{html_body.inspect}, txt_body: #{txt_body.inspect}, attachments: #{attachments_hash.inspect}, address: #{address.inspect}, port: #{port.inspect}, username: #{username.inspect}, password: #{password.inspect} enable_starttls_auto: #{tls_auto.inspect}, authentication: #{authentication.inspect}") if debug == true
         # The :body symbol below is known to be problematic until the author of pony fixes it.  better to use :html_body symbol
         CSI::Plugins::Pony.mail(
           from: from,
@@ -81,7 +79,7 @@ module CSI
             domain: 'localhost.localdomain'
           }
         )
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -111,7 +109,7 @@ module CSI
         opts[:tls_auto] = true
         opts[:authentication] = :login
         parent_mail_agent(opts)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -140,7 +138,7 @@ module CSI
         opts[:tls_auto] = true
         opts[:authentication] = :plain
         parent_mail_agent(opts)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -169,7 +167,7 @@ module CSI
         opts[:tls_auto] = true
         opts[:authentication] = :plain
         parent_mail_agent(opts)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -198,7 +196,7 @@ module CSI
         opts[:tls_auto] = true
         opts[:authentication] = :plain
         parent_mail_agent(opts)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -228,18 +226,16 @@ module CSI
         # Spoof mail from known relay
         opts[:authentication] = :plain if opts[:authentication].nil?
         parent_mail_agent(opts)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

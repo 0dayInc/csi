@@ -70,8 +70,8 @@ module CSI
         serial_obj[:serial_conn] = serial_conn
         serial_obj[:session_thread] = init_session_thread(serial_conn: serial_conn)
 
-        return serial_obj
-      rescue => e
+        serial_obj
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -85,7 +85,7 @@ module CSI
         serial_conn = opts[:serial_conn]
 
         # Spin up a serial_obj session_thread
-        session_thread = Thread.new do
+        Thread.new do
           # serial_conn.flush # TODO: flush
           serial_conn.read_timeout = 100
           this_session_data = ''
@@ -95,9 +95,7 @@ module CSI
             @session_data << serial_conn.read.to_s.scrub
           end
         end
-
-        return session_thread
-      rescue => e
+      rescue StandardError => e
         session_thread&.terminate
         serial_conn&.close
         serial_conn = nil
@@ -114,7 +112,7 @@ module CSI
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_signals
-      rescue => e
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -128,7 +126,7 @@ module CSI
         serial_obj = opts[:serial_obj]
         serial_conn = serial_obj[:serial_conn]
         serial_conn.get_modem_params
-      rescue => e
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -145,8 +143,8 @@ module CSI
         serial_conn = serial_obj[:serial_conn]
         chars_written = serial_conn.write(request)
         sleep 3
-        return chars_written
-      rescue => e
+        chars_written
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -158,10 +156,8 @@ module CSI
 
       public_class_method def self.response(opts = {})
         serial_obj = opts[:serial_obj]
-        response = @session_data[-1]
-
-        return response
-      rescue => e
+        @session_data[-1]
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -174,8 +170,8 @@ module CSI
       public_class_method def self.dump_session_data
         serial_obj = opts[:serial_obj]
 
-        return @session_data
-      rescue => e
+        @session_data
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -189,7 +185,7 @@ module CSI
         serial_obj = opts[:serial_obj]
 
         @session_data.clear
-      rescue => e
+      rescue StandardError => e
         disconnect(serial_obj: serial_obj) unless serial_obj.nil?
         raise e
       end
@@ -207,18 +203,16 @@ module CSI
         session_thread.terminate
         serial_conn.close
         serial_conn = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

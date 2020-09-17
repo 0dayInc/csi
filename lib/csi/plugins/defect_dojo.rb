@@ -34,8 +34,8 @@ module CSI
         dd_obj[:authz_header] = "ApiKey #{username}:#{api_key}"
         dd_obj[:debug] = opts[:debug]
 
-        return dd_obj
-      rescue => e
+        dd_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -75,11 +75,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        dd_obj = json_response
-
-        return dd_obj
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -165,7 +162,7 @@ module CSI
 
         sleep 3
 
-        return response
+        response
       rescue StandardError, SystemExit, Interrupt => e
         dd_obj = logout(dd_obj) unless dd_obj.nil?
         raise e
@@ -185,9 +182,7 @@ module CSI
         tool_configuration_by_name_object = tool_configuration_list[:objects].select do |tool_configuration|
           tool_configuration[:name] == tool_config_name
         end
-        tool_config_resource_uri = tool_configuration_by_name_object.first[:resource_uri]
-
-        return tool_config_resource_uri
+        tool_configuration_by_name_object.first[:resource_uri]
       rescue StandardError, SystemExit, Interrupt => e
         dd_obj = logout(dd_obj) unless dd_obj.nil?
         raise e
@@ -209,11 +204,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        product_list = json_response
-
-        return product_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -233,11 +225,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        engagement_list = json_response
-
-        return engagement_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -349,15 +338,13 @@ module CSI
         # Defaults to false
         http_body[:done_testing] = false
 
-        response = dd_v1_rest_call(
+        dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: 'engagements/',
           http_method: :post,
           http_body: http_body
         )
-
-        return response
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -377,11 +364,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        test_list = json_response
-
-        return test_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -444,15 +428,13 @@ module CSI
         # Defaults to false
         opts[:verified] ? (http_body[:verified] = true) : (http_body[:verified] = false)
 
-        response = dd_v1_rest_call(
+        dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: 'importscan/',
           http_method: :post,
           http_body: http_body
         )
-
-        return response
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -522,15 +504,13 @@ module CSI
         # Defaults to false
         opts[:verified] ? (http_body[:verified] = true) : (http_body[:verified] = false)
 
-        response = dd_v1_rest_call(
+        dd_v1_rest_call(
           dd_obj: dd_obj,
           rest_call: 'reimportscan/',
           http_method: :post,
           http_body: http_body
         )
-
-        return response
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -550,11 +530,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        finding_list = json_response
-
-        return finding_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -574,11 +551,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        finding_list = json_response
-
-        return finding_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -598,11 +572,8 @@ module CSI
         )
 
         # Return array containing the post-authenticated DefectDojo REST API token
-        json_response = JSON.parse(response, symbolize_names: true)
-        tool_configuration_list = json_response
-
-        return tool_configuration_list
-      rescue => e
+        JSON.parse(response, symbolize_names: true)
+      rescue StandardError => e
         raise e
       end
 
@@ -616,18 +587,16 @@ module CSI
         @@logger.info('Logging out...')
         # TODO: Terminate Session if Possible via API Call
         dd_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

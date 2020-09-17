@@ -28,14 +28,13 @@ module CSI
         insecure = opts[:insecure] ||= false
 
         @@logger.info("Logging into vSphere: #{host}")
-        vsphere_obj = RbVmomi::VIM.connect(
+        RbVmomi::VIM.connect(
           host: host,
           user: username,
           password: password,
           insecure: insecure
         )
-        return vsphere_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -48,18 +47,16 @@ module CSI
         vsphere_obj = opts[:vsphere_obj]
         @@logger.info('Logging out...')
         vsphere_obj = nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

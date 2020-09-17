@@ -17,21 +17,17 @@ module CSI
         json_data_struct = opts[:json_data_struct]
 
         json_path = JsonPath.new("$..#{key}")
-        json_path_arr = json_path.on(json_data_struct)
-
-        json_path_arr
-      rescue => e
+        json_path.on(json_data_struct)
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

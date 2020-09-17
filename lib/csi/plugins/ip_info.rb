@@ -33,9 +33,9 @@ module CSI
           # To unban a banned IP, visit http://ip-api.com/docs/unban
           sleep 0.5
 
-          return ip_resp_json
+          ip_resp_json
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -56,7 +56,7 @@ module CSI
             ip_resp_json = ip_info_rest_call(ip: ip_or_host)
           end
 
-          return ip_resp_json
+          ip_resp_json
         else
           host_resp_json = []
           Resolv::DNS.new.each_address(ip_or_host) do |ip|
@@ -65,23 +65,21 @@ module CSI
             )
           end
           if host_resp_json.length == 1
-            return host_resp_json[0]
+            host_resp_json[0]
           else
-            return host_resp_json
+            host_resp_json
           end
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

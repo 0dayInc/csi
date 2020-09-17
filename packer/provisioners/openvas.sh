@@ -11,18 +11,18 @@ else
   csi_root="${CSI_ROOT}"
 fi
 
-$screen_cmd "${apt} install -y rpm alien nsis openvas redis-server ${assess_update_errors}"
+$screen_cmd "${apt} install -y rpm alien nsis gvmd redis-server ${assess_update_errors}"
 grok_error
 
 sudo systemctl enable redis-server
 sudo systemctl start redis-server
-sudo openvas-setup
-sudo openvas-check-setup
+sudo gvm-setup
+sudo gvm-check-setup
 
 # Add a working systemd daemon
-sudo cp $csi_root/etc/systemd/openvas.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable openvas.service
-sudo systemctl start openvas.service
+#sudo cp $csi_root/etc/systemd/openvas.service /etc/systemd/system/
+#sudo systemctl daemon-reload
+sudo systemctl enable gvmd.service
+sudo systemctl start gvmd.service
 # Symlink to folder containing NASL files
-sudo ln -s /var/lib/openvas/plugins /opt/openvas_plugins
+#sudo ln -s /var/lib/openvas/plugins /opt/openvas_plugins

@@ -33,18 +33,16 @@ module CSI
         enumerable_array.uniq.sort.each { |this_thread| queue << this_thread }
         max_threads.times { queue << :END }
         threads.each(&:join)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

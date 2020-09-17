@@ -44,9 +44,11 @@ module CSI
           # Parse HTTP Headers
           raw_intercepted_request_arr[1..-1].each do |val|
             break if val == '' # This may cause issues
+
             key = ''
             val.each_char do |char|
               break if char == ':'
+
               key = "#{key}#{char}"
             end
 
@@ -59,6 +61,7 @@ module CSI
           raw_request_body = []
           raw_intercepted_request_arr[1..-1].each_with_index do |val, index|
             next if val != '' # This may cause issues
+
             break_index = index + 2
             request_hash[:http_body] = raw_intercepted_request_arr[break_index..-1].join(',')
           end
@@ -70,8 +73,8 @@ module CSI
           raise "HTTP Method: #{request_hash[:http_method]} Currently Unsupported>"
         end
 
-        return request_hash
-      rescue => e
+        request_hash
+      rescue StandardError => e
         raise e
       end
 
@@ -96,18 +99,16 @@ module CSI
         # Populate HTTP Body (If Applicable)
         request_raw = "#{request_raw}\r\n"
         request_raw = "#{request_raw}#{request_hash[:http_body]}" unless request_hash[:http_body] == ''
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

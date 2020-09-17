@@ -25,10 +25,8 @@ module CSI
       public_class_method def self.open_pcap_file(opts = {})
         path = opts[:path].to_s.scrub.strip.chomp if File.exist?(opts[:path].to_s.scrub.strip.chomp)
 
-        pcap = PacketFu::PcapFile.read_packets(path)
-
-        return pcap
-      rescue => e
+        PacketFu::PcapFile.read_packets(path)
+      rescue StandardError => e
         raise e
       end
 
@@ -110,8 +108,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -146,8 +144,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -345,8 +343,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -474,8 +472,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -582,8 +580,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -688,8 +686,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -773,8 +771,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -948,8 +946,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -1075,8 +1073,8 @@ module CSI
         # Payload
         pkt.payload = payload if payload
 
-        return pkt
-      rescue => e
+        pkt
+      rescue StandardError => e
         raise e
       end
 
@@ -1149,18 +1147,16 @@ module CSI
           pkt.recalc
           pkt.to_w(iface)
         end
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

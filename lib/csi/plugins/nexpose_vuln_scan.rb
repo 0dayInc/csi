@@ -31,8 +31,8 @@ module CSI
         config = Nexpose::Console.load(nsc_obj)
         config.session_timeout = 21_600
         # config.save(nsc_obj) # This will change the global sesion timeout config in the console
-        return nsc_obj
-      rescue => e
+        nsc_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -63,7 +63,7 @@ module CSI
         end
 
         all_individual_site_assets_arr
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -81,6 +81,7 @@ module CSI
 
         nsc_obj.list_sites.each do |site|
           next unless site.name == site_name
+
           # Load Site
           site_id = site.id
           refresh_site = Nexpose::Site.load(nsc_obj, site_id)
@@ -92,6 +93,7 @@ module CSI
           assets.each { |ip_host_hash| new_site_assets.push(ip_host_hash[:ip].to_s.scrub.strip.chomp) }
           current_site_assets.each do |current_site_asset|
             next if new_site_assets.include?(current_site_asset.ip)
+
             @@logger.info("Removing #{current_site_asset.ip}")
             # refresh_site.remove_included_asset(current_asset) # This should work and be less invasive but no worky :(
             nsc_obj.delete_asset(current_site_asset.id) # So we completely remove the asset from Nexpose altogether :/
@@ -101,23 +103,21 @@ module CSI
           # Add New List of Assets to Given Site
           @@logger.info("Adding the Following Assets to #{site.name} (site id: #{site_id}):")
           assets.each do |ip_host_hash|
-            begin
-              current_ip = IPAddr.new(ip_host_hash[:ip].to_s.scrub.strip.chomp)
-              unless current_ip.to_s.match?('255') # || current_ip =~ /^[224-239]/ # Multicast?
-                # TODO: try to reverse DNS word to see if an IP s available as well
-                @@logger.info("Adding #{current_ip}")
-                refresh_site.include_asset(current_ip)
-              end
-            rescue
-              next
+            current_ip = IPAddr.new(ip_host_hash[:ip].to_s.scrub.strip.chomp)
+            unless current_ip.to_s.match?('255') # || current_ip =~ /^[224-239]/ # Multicast?
+              # TODO: try to reverse DNS word to see if an IP s available as well
+              @@logger.info("Adding #{current_ip}")
+              refresh_site.include_asset(current_ip)
             end
+          rescue StandardError
+            next
           end
           refresh_site.save(nsc_obj)
           @@logger.info('Complete.')
         end
 
         nsc_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -151,7 +151,7 @@ module CSI
         end
 
         nsc_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -176,6 +176,7 @@ module CSI
         # Find the site and kick off the scan
         nsc_obj.list_sites.each do |site|
           next unless site.name == site_name
+
           nsc_obj.scan_site(site.id)
           @@logger.info("Scan Started for #{site_name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
           site_id = site.id
@@ -201,7 +202,7 @@ module CSI
         end
 
         nsc_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -219,7 +220,7 @@ module CSI
         existing_report_config.generate(nsc_obj)
 
         nsc_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -248,6 +249,7 @@ module CSI
             report_names.each do |requested_report|
               this_report_name = requested_report.to_s.strip.chomp.delete('"')
               next unless report.name == this_report_name
+
               @@logger.info("Generating Recurring Report: #{report.name} @ #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}..Current Report Status: #{report.status}")
               if report.status == 'Failed'
                 @@logger.info("Report Generation for #{report.name} failed...re-generating now...")
@@ -278,7 +280,7 @@ module CSI
         @@logger.info('complete.')
 
         nsc_obj
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -294,19 +296,17 @@ module CSI
         # config.session_timeout = 600 # This is the default session timeout in the console
         # config.save(nsc_obj) # This will change the global sesion timeout config in the console
         nsc_obj.logout
-        return 'logged out'
-      rescue => e
+        'logged out'
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

@@ -26,7 +26,7 @@ module CSI
         # Execute this like this:
         # recurse_dir(:dir_path => 'path to dir') {|entry| puts entry}
         Dir.glob("#{dir_path}/**/*").each { |entry| yield Shellwords.escape(entry) }
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
@@ -42,18 +42,16 @@ module CSI
         puts `tar -xzvf #{tar_gz_file} -C #{destination}`
 
         nil
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module

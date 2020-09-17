@@ -49,8 +49,8 @@ module CSI
 
         browser_obj.goto('https://www.synack.com')
 
-        return browser_obj
-      rescue => e
+        browser_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -81,7 +81,7 @@ module CSI
         browser_obj.button(class: 'btn').wait_until(&:present?).click
 
         if mfa
-          until browser_obj.url == 'https://platform.synack.com'
+          until browser_obj.url.include('https://platform.synack.com')
             browser_obj.text_field(name: 'authy_token').wait_until(&:present?).set(CSI::Plugins::AuthenticationHelper.mfa(prompt: 'enter mfa token'))
             browser_obj.button(class: 'btn').wait_until(&:present?).click
             sleep 3
@@ -89,8 +89,8 @@ module CSI
           print "\n"
         end
 
-        return browser_obj
-      rescue => e
+        browser_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -104,8 +104,8 @@ module CSI
         browser_obj.img(class: 'navbar-avatar-img').wait_until(&:present?).click
         browser_obj.button(text: 'Logout').wait_until(&:present?).click
 
-        return browser_obj
-      rescue => e
+        browser_obj
+      rescue StandardError => e
         raise e
       end
 
@@ -117,18 +117,16 @@ module CSI
       public_class_method def self.close(opts = {})
         browser_obj = opts[:browser_obj]
         browser_obj = CSI::Plugins::TransparentBrowser.close(browser_obj: browser_obj)
-      rescue => e
+      rescue StandardError => e
         raise e
       end
 
       # Author(s):: Jacob Hoopes <jake.hoopes@gmail.com>
 
       public_class_method def self.authors
-        authors = "AUTHOR(S):
+        "AUTHOR(S):
           Jacob Hoopes <jake.hoopes@gmail.com>
         "
-
-        authors
       end
 
       # Display Usage for this Module
