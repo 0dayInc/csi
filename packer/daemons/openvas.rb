@@ -20,19 +20,19 @@ end
 
 action = opts[:action].to_s.scrub.to_sym
 
-private def start
+def start
   puts system('/etc/init.d/openvas-manager start')
   puts system('/etc/init.d/openvas-scanner start')
   puts system('/etc/init.d/greenbone-security-assistant start')
 end
 
-private def restart
+def restart
   stop
   sleep 3
   start
 end
 
-private def stop
+def stop
   puts system('/etc/init.d/greenbone-security-assistant stop')
   puts system('/etc/init.d/openvas-scanner stop')
   puts system('/etc/init.d/openvas-manager stop')

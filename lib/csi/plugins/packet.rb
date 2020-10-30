@@ -1093,7 +1093,7 @@ module CSI
           iface = 'eth0'
         end
 
-        if pkt.class == PacketFu::TCPPacket
+        if pkt.instance_of?(PacketFu::TCPPacket)
           this_ip = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
 
           # If we're not passing a RST packet, prevent kernel from sending its own
