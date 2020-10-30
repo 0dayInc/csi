@@ -25,7 +25,7 @@ module CSI
         )
         # TODO: better handling since sqlite3 gem always returns SQLite3::Database
         # whether DB exists or not
-        unless sqlite3_conn.class == SQLite3::Database
+        unless sqlite3_conn.instance_of?(SQLite3::Database)
           raise "
             Connection Error - class should be SQLite3::Database...received:
             sqlite3_conn = #{sqlite3_conn.inspect}
@@ -45,7 +45,7 @@ module CSI
 
       private_class_method def self.validate_sqlite3_conn(opts = {})
         sqlite3_conn = opts[:sqlite3_conn]
-        raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}" unless sqlite3_conn.class == SQLite3::Database
+        raise "Error: Invalid sqlite3_conn Object #{sqlite3_conn}" unless sqlite3_conn.instance_of?(SQLite3::Database)
       rescue StandardError => e
         raise e
       end
@@ -62,7 +62,7 @@ module CSI
         validate_sqlite3_conn(sqlite3_conn: sqlite3_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
         statement_params = opts[:statement_params] # << Array of Params
-        raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object" unless statement_params.class == Array || statement_params.nil?
+        raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object" unless statement_params.instance_of?(Array) || statement_params.nil?
 
         begin
           if statement_params.nil?

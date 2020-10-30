@@ -20,7 +20,7 @@ end
 
 action = opts[:action].to_s.scrub.to_sym
 
-private def start
+def start
   if ENV['CSI_ROOT']
     csi_root = ENV['CSI_ROOT']
   elsif Dir.exist?('/csi')
@@ -41,13 +41,13 @@ private def start
   puts 'complete.'
 end
 
-private def reload
+def reload
   stop
   sleep 9
   start
 end
 
-private def stop
+def stop
   system("ps -ef | grep msfrpcd | grep -v grep | awk '{print $2}' | while read pid; do kill -9 $pid; done")
 end
 

@@ -213,7 +213,7 @@ rescue => e
   raise e
 ensure
   unless browser_obj.nil?
-    if browser_obj.class == Watir::Browser
+    if browser_obj.instance_of?(Watir::Browser)
       if csi_www_mod
         browser_obj = csi_www_mod.logout(browser_obj: browser_obj)
         browser_obj = csi_www_mod.close(browser_obj: browser_obj)

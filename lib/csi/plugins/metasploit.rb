@@ -61,7 +61,7 @@ module CSI
         loop do
           sleep(1)
           msfrpcd_resp = msfrpcd_conn.call('console.read', console_id)
-          next unless msfrpcd_resp.class == Hash
+          next unless msfrpcd_resp.instance_of?(Hash)
 
           last_cmd_result = JSON.parse(msfrpcd_resp.to_json, symbolize_names: true)
           console_obj[:last_cmd_result] = last_cmd_result

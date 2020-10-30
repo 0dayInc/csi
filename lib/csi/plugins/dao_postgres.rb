@@ -89,7 +89,7 @@ module CSI
         validate_pg_conn(pg_conn: pg_conn)
         prepared_statement = opts[:prepared_statement] # Can also be leveraged for 'select * from user;'
         statement_params = opts[:statement_params] # << Array of Params
-        raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object" unless statement_params.class == Array || statement_params.nil?
+        raise "Error: :statement_params => #{statement_params.class}. Pass as an Array object" unless statement_params.instance_of?(Array) || statement_params.nil?
 
         if statement_params.nil?
           pg_conn.exec(prepared_statement)
@@ -173,7 +173,7 @@ module CSI
 
       private_class_method def self.validate_pg_conn(opts = {})
         pg_conn = opts[:pg_conn]
-        raise "Error: Invalid pg_conn Object #{pg_conn}" unless pg_conn.class == PG::Connection
+        raise "Error: Invalid pg_conn Object #{pg_conn}" unless pg_conn.instance_of?(PG::Connection)
       rescue StandardError => e
         raise e
       end
