@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'optparse'
 
 opts = {}
@@ -19,5 +21,6 @@ end
 
 payload = opts[:payload].to_s.scrub
 payload.each_char do |char|
-  print "\\x#{char.to_s.unpack('H*')[0]}"
+  print "\\x#{char.to_s.unpack1('H*')}"
 end
+print "\n"

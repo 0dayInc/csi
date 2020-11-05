@@ -199,10 +199,10 @@ module CSI
                   end
 
         `#{adb_path} root` if as_root
-        if app != ''
-          app_response = `#{adb_path} shell dumpsys package #{app}`
-        else
+        if app == ''
           app_response = `#{adb_path} shell dumpsys`
+        else
+          app_response = `#{adb_path} shell dumpsys package #{app}`
         end
 
         app_response

@@ -166,7 +166,7 @@ module CSI
           scope = 'GLOBAL'
         end
 
-        if credential_id != ''
+        if credential_id == ''
           post_body = {
             'json' => {
               '' => '0',
@@ -178,7 +178,6 @@ module CSI
                   'privateKey' => File.read(private_key_path)
                 },
                 'passphrase' => key_passphrase,
-                'id' => credential_id,
                 'description' => description,
                 'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
@@ -196,6 +195,7 @@ module CSI
                   'privateKey' => File.read(private_key_path)
                 },
                 'passphrase' => key_passphrase,
+                'id' => credential_id,
                 'description' => description,
                 'stapler-class' => 'com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey'
               }
