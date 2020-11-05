@@ -13,6 +13,4 @@ OptionParser.new do |options|
 end.parse!
 
 payload = opts[:payload].to_s.scrub
-
-puts 'Dec Encoded:'
 puts payload.unpack('C*')
