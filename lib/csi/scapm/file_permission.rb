@@ -34,8 +34,10 @@ module CSI
             numbered_str = line_number_jumble_str.gsub(/(^\d{1,}|\n\d{1,})\n/, '\1:')
             str = HTMLEntities.new.encode(numbered_str)
 
-            if !str.to_s.empty?
+            if str.to_s.empty?
               # If str length is >= 64 KB do not include results. (Due to Mongo Document Size Restrictions)
+              logger_results = "#{logger_results}~" # Catching bugs is good :)
+            else
               str = "1:Result larger than 64KB -> Size: #{str.to_s.length}.  Please click the \"Path\" link for more details." if str.to_s.length >= 64_000
 
               hash_line = {
@@ -72,9 +74,7 @@ module CSI
               end
 
               result_arr.push(hash_line)
-              logger_results = "#{logger_results}x" # Catching bugs is good :)
-            else
-              logger_results = "#{logger_results}~" # Seeing progress is good :)
+              logger_results = "#{logger_results}x" # Seeing progress is good :)
             end
           end
         end

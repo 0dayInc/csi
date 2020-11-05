@@ -184,7 +184,9 @@ module CSI
 
         # Periodically check the status of the scan
         # unless site_id.nil?
-        if site_id != ''
+        if site_id == ''
+          return @logger.error("Site name: #{site_name} does not exist as a site in Nexpose.  Please check your spelling and try again.")
+        else
           @@logger.info("Info: Checking status for an interval of #{poll_interval} seconds until completion.")
           loop do
             scan_status = nil
@@ -197,8 +199,6 @@ module CSI
               break
             end
           end
-        else
-          return @logger.error("Site name: #{site_name} does not exist as a site in Nexpose.  Please check your spelling and try again.")
         end
 
         nsc_obj
