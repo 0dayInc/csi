@@ -12,6 +12,11 @@ OptionParser.new do |options|
   end
 end.parse!
 
+if opts.empty?
+  puts `#{$PROGRAM_NAME} --help`
+  exit 1
+end
+
 payload = opts[:payload].to_s.scrub
 payload.each_char do |char|
   print "\\x#{char.to_s.unpack('H*')[0]}"
