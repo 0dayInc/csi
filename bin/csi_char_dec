@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'optparse'
+
+opts = {}
+OptionParser.new do |options|
+  options.banner = "USAGE:
+    #{$PROGRAM_NAME} [opts]
+  "
+
+  options.on('-pSTRING', '--payload=STRING', '<Required - String to Encode>') do |p|
+    opts[:payload] = p
+  end
+end.parse!
+
+payload = opts[:payload].to_s.scrub
+
+puts 'Dec Encoded:'
+puts payload.unpack('C*')
