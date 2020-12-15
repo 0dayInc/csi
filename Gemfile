@@ -15,7 +15,7 @@ gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
 gem 'brakeman', '4.9.1'                # Rails Security Scanner ***2020-09-17
 gem 'bson', '4.10.0'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-09-17
-gem 'bundler', '2.1.4'                 # bundle install ***2020-02-11
+gem 'bundler', '2.2.1'                 # bundle install ***2020-12-15
 gem 'bundler-audit', '0.7.0.1'         # Checks for vulnerable versions of gems ***2020-09-17
 gem 'bunny', '2.17.0'                  # RabbitMQ ***2020-09-17
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
@@ -27,6 +27,7 @@ gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration 
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '2.3.1'                    # Work w/ JSON objects ***2020-09-17
 gem 'jsonpath', '1.0.5'                # XPath-ify Complex JSON Data Structures ***2019-11-08
+gem 'jwt', '2.2.2'                     # Support JWT creation jwt.io/#debugger-io ***2020-11-23
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
 gem 'mongo', '2.13.0'                  # Primarily for Data-Driven Security, pulling in various security tools' output ***2020-09-17

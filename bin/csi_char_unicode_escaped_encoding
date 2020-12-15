@@ -20,4 +20,4 @@ if opts.empty?
 end
 
 payload = opts[:payload].to_s.scrub
-puts payload.unpack('U*').map { |i| "\\u" + i.to_s(16).rjust(4, '0') }.join
+puts payload.unpack('U*').map { |i| "\\u#{i.to_s(16).rjust(4, '0')}" }.join
