@@ -23,7 +23,7 @@ gem 'gdb', '1.0.0'                    # support debugging binaries ***2020-06-18
 gem 'gist', '6.0.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2020-09-17
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
 gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
-gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
+#gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
 gem 'json', '2.5.1'                    # Work w/ JSON objects ***2021-01-04
 gem 'jsonpath', '1.1.0'                # XPath-ify Complex JSON Data Structures ***2021-01-04
