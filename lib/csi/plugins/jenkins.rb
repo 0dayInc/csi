@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require 'jenkins_api_client'
+# Until jenkins_api_client is Updated
+#require 'jenkins_api_client'
 
 module CSI
   module Plugins
