@@ -13,9 +13,9 @@ gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '3.0.0'                   # MFA API Access into Authy service ***2020-12-15
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.10.0'                # Rails Security Scanner ***2020-12-15
+gem 'brakeman', '4.10.1'                # Rails Security Scanner ***2021-01-04
 gem 'bson', '4.11.1'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-12-15
-gem 'bundler', '2.2.4'                 # bundle install ***2020-01-04
+gem 'bundler', '2.2.4'                 # bundle install ***2021-01-04
 gem 'bundler-audit', '0.7.0.1'         # Checks for vulnerable versions of gems ***2020-09-17
 gem 'bunny', '2.17.0'                  # RabbitMQ ***2020-09-17
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
@@ -25,8 +25,8 @@ gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity
 gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
 gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
 gem 'js-beautify', '0.1.8'             # Nest JavaScript Files for Read-Ability ***2016-06-28
-gem 'json', '2.4.0'                    # Work w/ JSON objects ***2020-12-15
-gem 'jsonpath', '1.0.7'                # XPath-ify Complex JSON Data Structures ***2020-12-15
+gem 'json', '2.5.1'                    # Work w/ JSON objects ***2021-01-04
+gem 'jsonpath', '1.1.0'                # XPath-ify Complex JSON Data Structures ***2021-01-04
 gem 'jwt', '2.2.2'                     # Support JWT creation jwt.io/#debugger-io ***2020-11-23
 gem 'luhn', '1.0.2'                    # validate id nums (e.g. ccno, IMEI, US National Provider IDs & Canadian Social Insurance Numbers ***2017-02-16)
 gem 'mail', '2.7.1'                    # Required for Mail Agent to Distribute Alert Notifications, Reports, etc ***2019-01-08
@@ -35,7 +35,7 @@ gem 'msfrpc-client', '1.1.2'           # Metasploit API - Per Rapid7 this is the
 gem 'net-ldap', '0.17.0'               # Required for Querying Active Directory Domain Controllers/LDAP Servers ***2020-12-15
 gem 'net-openvpn', '0.8.7'             # Used for OpenVPN connectivity ***2017-02-13
 gem 'nexpose', '7.2.1'                 # Vuln Scan all the Things! ***2019-01-08
-gem 'nokogiri', '1.10.10'               # Parse HTML & XML Documents ***2020-09-17
+gem 'nokogiri', '1.11.0'               # Parse HTML & XML Documents ***2021-01-04
 gem 'oily_png', '1.2.1'                # waveform Gem Dependency ***2017-08-20
 gem 'os', '1.1.1'                      # Detect underlying operating system ***2020-09-17
 gem 'packetfu', '1.1.13'               # Bettercap dependency and misc packet mangler ***2017-04-28

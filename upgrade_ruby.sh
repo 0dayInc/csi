@@ -31,7 +31,8 @@ if [[ $# < 1 ]]; then
 fi
 
 # Upgrade RVM
-curl -sSL https://get.rvm.io | sudo bash -s latest
+#curl -sSL https://get.rvm.io | sudo bash -s latest
+rvmsudo rvm get latest
 rvm reload
 
 # Remove Old CSI Gemset
@@ -39,7 +40,8 @@ rvm use ruby-$old_ruby_version@global
 rvm gemset --force delete $ruby_gemset
 rm Gemfile.lock
 
-# Install New Version of Ruby
+# Install New Version of RubyGems & Ruby
+cd $csi_root && ./vagrant/provisioners/gem.sh
 rvm install ruby-$new_ruby_version
 echo $new_ruby_version > $csi_root/.ruby-version
 
