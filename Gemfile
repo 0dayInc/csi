@@ -15,7 +15,7 @@ gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
 gem 'brakeman', '4.10.0'                # Rails Security Scanner ***2020-12-15
 gem 'bson', '4.11.1'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-12-15
-gem 'bundler', '2.2.1'                 # bundle install ***2020-12-15
+gem 'bundler', '2.2.4'                 # bundle install ***2020-01-04
 gem 'bundler-audit', '0.7.0.1'         # Checks for vulnerable versions of gems ***2020-09-17
 gem 'bunny', '2.17.0'                  # RabbitMQ ***2020-09-17
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
