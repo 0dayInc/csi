@@ -63,6 +63,7 @@ gem 'spreadsheet', '1.2.6'             # Generate Excel Spreadsheets (.xls files
 gem 'sqlite3', '1.4.2'                 # Required Sqlite3 Gem for Sqlite3 Data Access Object ***2020-02-11
 gem 'thin', '1.8.0'                    # Light HTTP Server Used for Serving Up Sinatra Web Applications ***2020-12-15
 gem 'tty-prompt', '0.23.0'             # Masking Authentication Credential Input ***2020-12-15
+gem 'webrick', '1.7.0'                 # Light HTTP Server, Dependency of Anemone Gem ***2021-01-04
 gem 'watir', '6.17.0'                  # Drive Various Web Browsers (IE, Chrome, Firefox, headless) ***2020-09-17
 gem 'waveform', '0.1.2'                # Generate waveform from WAV files ***2017-03-12
 gem 'wicked_pdf', '2.1.0'              # Convert HTML to PDF Documents ***2020-09-17
