@@ -19,7 +19,7 @@ module CSI
         raw_intercepted_request_arr = request_raw.split("\r\n")
 
         # Parse HTTP Protocol Request Line
-        raw_request_line_arr = raw_intercepted_request_arr[0].split("\s")
+        raw_request_line_arr = raw_intercepted_request_arr[0].split
         request_hash[:http_method] = raw_request_line_arr[0].to_s.upcase.to_sym
         request_hash[:http_resource_path] = URI.parse(raw_request_line_arr[1])
         request_hash[:http_version] = raw_request_line_arr[-1]
