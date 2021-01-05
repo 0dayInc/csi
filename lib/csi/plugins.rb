@@ -26,7 +26,6 @@ module CSI
     autoload :Fuzz, 'csi/plugins/fuzz'
     autoload :Git, 'csi/plugins/git'
     autoload :HackerOne, 'csi/plugins/hacker_one'
-    autoload :HTTPInterceptHelper, 'csi/plugins/http_intercept_helper'
     autoload :IBMAppscan, 'csi/plugins/ibm_appscan'
     autoload :IPInfo, 'csi/plugins/ip_info'
     autoload :Jenkins, 'csi/plugins/jenkins'
