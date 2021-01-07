@@ -20,6 +20,7 @@ if [[ -f "${csi_root}/Gemfile.lock" ]]; then
 fi
 
 rvm use ruby-$ruby_version@$ruby_gemset --create
+export rvmsudo_secure_path=1
 rvmsudo gem install bundler
 if [[ $(uname -s) == "Darwin" ]]; then
   bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config

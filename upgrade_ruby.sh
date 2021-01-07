@@ -32,6 +32,7 @@ fi
 
 # Upgrade RVM
 #curl -sSL https://get.rvm.io | sudo bash -s latest
+export rvmsudo_secure_path=1
 rvmsudo rvm get latest
 rvm reload
 
