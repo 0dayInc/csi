@@ -9,7 +9,9 @@ else
   csi_root="${CSI_ROOT}"
 fi
 
-rm pkg/*.gem
+ls pkg/*.gem | while read previous_gems; do 
+  rm $previous_gems
+done
 old_ruby_version=`cat ${csi_root}/.ruby-version`
 # Default Strategy is to merge codebase
 git config pull.rebase false 
