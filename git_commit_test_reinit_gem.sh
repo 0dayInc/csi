@@ -5,6 +5,8 @@ if [[ $1 != "" && $2 != "" && $3 != "" ]]; then
   git pull
   csi_autoinc_version
   git add . --all
+  echo 'Updating Gems to Latest Versions in Gemfile...'
+  ./find_latest_gem_versions_per_Gemfile.sh
   git commit -a -S --author="${1} <${2}>" -m "${3}"
   ./update_csi.sh
 else
