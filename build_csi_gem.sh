@@ -11,6 +11,8 @@ fi
 
 rm pkg/*.gem
 old_ruby_version=`cat ${csi_root}/.ruby-version`
+# Default Strategy is to merge codebase
+git config pull.rebase false 
 git pull
 new_ruby_version=`cat ${csi_root}/.ruby-version`
 
