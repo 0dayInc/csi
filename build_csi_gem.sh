@@ -17,6 +17,7 @@ git pull
 new_ruby_version=`cat ${csi_root}/.ruby-version`
 
 if [[ $old_ruby_version == $new_ruby_version ]]; then
+  rvmsudo /bin/bash --login -c "cd ${csi_root} && ./reinstall_csi_gemset.sh"
   rvmsudo rake
   rvmsudo rake install
   rvmsudo rake rerdoc
