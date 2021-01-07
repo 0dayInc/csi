@@ -12,7 +12,7 @@ gemspec
 # In some circumstances custom flags are passed to gems in order
 # to build appropriately.  Defer to /reinstall_csi_gemset.sh
 # to review these custom flags (e.g. pg, serialport, etc).
-gem 'activesupport', '6.1.0'
+gem 'activesupport', '6.1.1'
 gem 'anemone', '0.7.2'
 gem 'authy', '3.0.0'
 gem 'aws-sdk', '3.0.1'
