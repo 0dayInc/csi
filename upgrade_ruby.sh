@@ -35,14 +35,9 @@ fi
 rvmsudo rvm get latest
 rvm reload
 
-# Remove Old CSI Gemset
-rvm use ruby-$old_ruby_version@global
-rvm gemset --force delete $ruby_gemset
-rm Gemfile.lock
-
 # Install New Version of RubyGems & Ruby
 cd $csi_root && ./vagrant/provisioners/gem.sh
 rvm install ruby-$new_ruby_version
 echo $new_ruby_version > $csi_root/.ruby-version
 
-cd $csi_root && rvm use $new_ruby_version@$ruby_gemset && ./reinstall_csi_gemset.sh && ./build_csi_gem.sh
+cd $csi_root && rvm use $new_ruby_version@$ruby_gemset && ./build_csi_gem.sh
