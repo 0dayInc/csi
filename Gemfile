@@ -19,7 +19,6 @@ gem 'bundler', '2.2.4'                 # bundle install ***2021-01-04
 gem 'bundler-audit', '0.7.0.1'         # Checks for vulnerable versions of gems ***2020-09-17
 gem 'bunny', '2.17.0'                  # RabbitMQ ***2020-09-17
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
-gem 'gem-wrappers', '1.4.0'            # wrappers used to build csi  ***2021-01-07
 gem 'gdb', '1.0.0'                     # support debugging binaries ***2020-06-18
 gem 'gist', '6.0.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2020-09-17
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
