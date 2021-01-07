@@ -1,1 +1,0 @@
-../../../../../packer/provisioners/baresip.sh

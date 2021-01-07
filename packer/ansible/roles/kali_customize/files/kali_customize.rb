@@ -1,1 +1,0 @@
-../../../../../packer/provisioners/kali_customize.rb
