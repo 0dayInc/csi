@@ -11,7 +11,7 @@ gemspec
 # *** FYI:
 # In some circumstances custom flags are passed to gems in order
 # to build appropriately.  Defer to /reinstall_csi_gemset.sh
-# to review these custome flags (e.g. pg, serialport, etc) 
+# to review these custom flags (e.g. pg, serialport, etc).
 gem 'activesupport', '6.1.0'
 gem 'anemone', '0.7.2'
 gem 'authy', '3.0.0'
@@ -27,7 +27,7 @@ gem 'gdb', '1.0.0'
 gem 'gist', '6.0.0'
 gem 'htmlentities', '4.3.4'
 gem 'ipaddress', '0.8.3'
-# gem 'jenkins_api_client', '1.5.3'      # Support Jenkins Continuous Integration Automation ***2016-03-30
+# gem 'jenkins_api_client', '1.5.3' # Temporarily disabled until arangamani/jenkins_api_client/issues/304 is Closed out
 gem 'js-beautify', '0.1.8'
 gem 'json', '2.5.1'
 gem 'jsonpath', '1.1.0'
