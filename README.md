@@ -45,10 +45,6 @@ It's easy to agree that while corporate automation is a collection of proprietar
 #### **How CSI Works** ####
 Leveraging various pre-built modules and the csi prototyper, you can mix-and-match modules to test, record, replay, and rollout your own custom security automation packages known as, "drivers."  
 
-The fastest way to get rolling w/ csi is to deploy a pre-built Kali Rolling box, available on [Vagrant Cloud](https://app.vagrantup.com/csi/boxes/kali_rolling).  This is a special deployment of Kali Rolling - WORKING rollouts of AFL w/ QEMU instrumentation ready-to-go, PEDA (Python Exploit Development Assistance for GDB), OpenVAS, latest clone of Metasploit, Arachni, Jenkins (w/ pre-canned jobs and the ability to create your own prior to deployment aka User-Land!), etc.  These are just some of the numerous security and CI/CD tools made available for your convenience...updated on a daily basis.  
-
-An instance of [DefectDojo](http://defectdojo.readthedocs.io/en/latest/) is stood up on the box to facilitate common security tools integration, resulting in a centralized place to manage scan results, track the lifecycle of vulnerabilities, and analyze trends via metrics and reporting!  CSI driver integration is made to be seamless w/ OS dependencies already installed.  This is all made available for architectures such as AWS, Docker, VirtualBox, and/or VMware.  See the [Deploy](#deploy) section for more details.
-
 #### **CSI Modules Can be Mixed and Matched to Produce Your Own Tools** ####
 Also known as, "Drivers" CSI can produce all sorts of useful tools by mixing and matching modules.
 ![CSI](https://github.com/0dayinc/csi/blob/master/documentation/CSI_Driver_Arch.png)
