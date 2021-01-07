@@ -1,5 +1,6 @@
 inherit_from: .rubocop_todo.yml
-AllCops:
+AllCops: 
+  UseCache: false
   NewCops: enable
 Layout:
   Max: 3000
