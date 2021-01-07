@@ -23,6 +23,7 @@ rvm use ruby-$ruby_version@$ruby_gemset --create
 gem install bundler
 if [[ $(uname -s) == "Darwin" ]]; then
   bundle config build.pg --with-pg-config=/opt/local/lib/postgresql96/bin/pg_config
+  bundle config build.serialport --with-cflags=-Wno-implicit-function-declaration
 fi
 # Once aws-sdk-resources begins behaving again, uncomment this to speed things up:
 # bundle install
