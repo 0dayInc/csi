@@ -8,6 +8,10 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
+# *** FYI:
+# In some circumstances custom flags are passed to gems in order
+# to build appropriately.  Defer to /reinstall_csi_gemset.sh
+# to review these custome flags (e.g. pg, serialport, etc) 
 gem 'activesupport', '6.1.0'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-12-15
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '3.0.0'                   # MFA API Access into Authy service ***2020-12-15
@@ -55,7 +59,7 @@ gem 'ruby-nmap', '0.10.0'              # A Ruby interface to nmap, the explorati
 gem 'ruby-saml', '1.11.0'              # Support client-side SAML Authorization & Configuring w/ existing IDPs (e.g. OneLogin) ***2019-08-13
 gem 'rvm', '1.11.3.9'                  # Leverage this gem for switching gemsets w/in deployment scripts w/in Vagrant ***2016-06-28
 gem 'savon', '2.12.1'                  # Required for SOAP API Testing ***2020-07-29
-gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc (Sometimes, 'gem install serialport -- --with-cflags=-Wno-implicit-function-declaration is required for install')***2016-06-28
+gem 'serialport', '1.3.1'              # Serial based communications, wardialing, arduino, etc ***2016-06-28
 gem 'sinatra', '2.1.0'                 # Used for Phishing & Attacker Proof-of-Concept Demonstrations ***2020-09-17
 gem 'slack-ruby-client', '0.15.1'      # Used for interacting w/ Slack via bots ***2020-09-17
 gem 'socksify', '1.7.1'                # Used for connecting to SOCKS proxies (e.g. tor) ***2017-08-20
