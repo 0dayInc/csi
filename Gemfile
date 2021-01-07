@@ -8,18 +8,19 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in csi.gemspec
 gemspec
 
-gem 'activesupport', '6.1.0'         # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-12-15
+gem 'activesupport', '6.1.0'           # Required to properly build csi via rake w/in ruby-2.3.0 ***2020-12-15
 gem 'anemone', '0.7.2'                 # Spider webpagesa ***2017-03-30
 gem 'authy', '3.0.0'                   # MFA API Access into Authy service ***2020-12-15
 gem 'aws-sdk', '3.0.1'                 # Amazon AWS SDK ***2017-12-18
 gem 'bettercap', '1.6.2'               # MITM framework ***2017-12-18
-gem 'brakeman', '4.10.1'                # Rails Security Scanner ***2021-01-04
-gem 'bson', '4.11.1'                    # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-12-15
+gem 'brakeman', '4.10.1'               # Rails Security Scanner ***2021-01-04
+gem 'bson', '4.11.1'                   # Required for mongo gem installation see https://api.mongodb.org/ruby/1.10.2/ ***2020-12-15
 gem 'bundler', '2.2.4'                 # bundle install ***2021-01-04
 gem 'bundler-audit', '0.7.0.1'         # Checks for vulnerable versions of gems ***2020-09-17
 gem 'bunny', '2.17.0'                  # RabbitMQ ***2020-09-17
 gem 'credit_card_validations', '3.5.1' # validate ccno from luhn generation ***2019-12-18
-gem 'gdb', '1.0.0'                    # support debugging binaries ***2020-06-18
+gem 'gem-wrappers', '1.4.0'            # wrappers used to build csi  ***2021-01-07
+gem 'gdb', '1.0.0'                     # support debugging binaries ***2020-06-18
 gem 'gist', '6.0.0'                    # support gist command in csi prototyping driver gist -o 1..3 ***2020-09-17
 gem 'htmlentities', '4.3.4'            # Encode raw strings/input to HTML entity encoded data ***2016-06-28
 gem 'ipaddress', '0.8.3'               # Validate IP Addresses ***2017-04-04
