@@ -12,7 +12,7 @@ gemspec
 # In some circumstances custom flags are passed to gems in order
 # to build appropriately.  Defer to /reinstall_csi_gemset.sh
 # to review these custom flags (e.g. pg, serialport, etc).
-gem 'activesupport', '6.1.0'
+gem 'activesupport', '6.1.1'
 gem 'anemone', '0.7.2'
 gem 'authy', '3.0.0'
 gem 'aws-sdk', '3.0.1'
@@ -22,7 +22,7 @@ gem 'bson', '4.11.1'
 gem 'bundler', '2.2.4'
 gem 'bundler-audit', '0.7.0.1'
 gem 'bunny', '2.17.0'
-gem 'credit_card_validations', '3.5.1'
+# gem 'credit_card_validations', '3.5.1' # Temporarily disabled until made compatible w/ activesupport >= 6.1.1
 gem 'gdb', '1.0.0'
 gem 'gist', '6.0.0'
 gem 'htmlentities', '4.3.4'
