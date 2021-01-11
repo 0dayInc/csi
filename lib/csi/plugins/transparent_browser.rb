@@ -3,6 +3,7 @@
 require 'watir'
 require 'rest-client'
 require 'socksify'
+require 'websocket'
 
 module CSI
   module Plugins
@@ -17,7 +18,7 @@ module CSI
 
       # Supported Method Parameters::
       # browser_obj1 = CSI::Plugins::TransparentBrowser.open(
-      #   browser_type: :firefox|:chrome|:headless|:rest,
+      #   browser_type: :firefox|:chrome|:headless|:rest|:websocket,
       #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
       #   with_devtools: 'optional - boolean (defaults to false)'
@@ -197,6 +198,10 @@ module CSI
             end
           end
 
+        when :websocket
+          this_browser = WebSocket::Handshake::Client.new
+          puts 'Proxy Support Coming Soon...' if proxy
+
         else
           puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
           return nil
@@ -277,7 +282,7 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           browser_obj1 = #{self}.open(
-            browser_type: :firefox|:chrome|:headless|:rest,
+            browser_type: :firefox|:chrome|:headless|:rest|:websocket,
             proxy: 'optional scheme://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
             with_devtools: 'optional - boolean (defaults to false)'
