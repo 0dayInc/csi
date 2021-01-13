@@ -3,7 +3,7 @@
 require 'watir'
 require 'rest-client'
 require 'socksify'
-require 'websocket'
+require 'faye/websocket'
 
 module CSI
   module Plugins
@@ -199,11 +199,26 @@ module CSI
           end
 
         when :websocket
-          this_browser = WebSocket::Handshake::Client.new
-          puts 'Proxy Support Coming Soon...' if proxy
-
+          if proxy
+            if with_tor
+              TCPSocket.socks_server = URI(proxy).host
+              TCPSocket.socks_port = URI(proxy).port
+            end
+            proxy_opts = { origin: proxy }
+            tls_opts = { verify_peer: false }
+            this_browser = Faye::WebSocket::Client.new(
+              '',
+              [],
+              {
+                tls: tls_opts,
+                proxy: proxy_opts
+              }
+            )
+          else
+            this_browser = Faye::WebSocket::Client.new('')
+          end
         else
-          puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
+          puts 'Error: browser_type only supports :firefox, :chrome, :headless, :rest, or :websocket'
           return nil
         end
 
