@@ -3,6 +3,7 @@
 require 'watir'
 require 'rest-client'
 require 'socksify'
+require 'faye/websocket'
 
 module CSI
   module Plugins
@@ -17,7 +18,7 @@ module CSI
 
       # Supported Method Parameters::
       # browser_obj1 = CSI::Plugins::TransparentBrowser.open(
-      #   browser_type: :firefox|:chrome|:headless|:rest,
+      #   browser_type: :firefox|:chrome|:headless|:rest|:websocket,
       #   proxy: 'optional - scheme://proxy_host:port',
       #   with_tor: 'optional - boolean (defaults to false)'
       #   with_devtools: 'optional - boolean (defaults to false)'
@@ -197,8 +198,27 @@ module CSI
             end
           end
 
+        when :websocket
+          if proxy
+            if with_tor
+              TCPSocket.socks_server = URI(proxy).host
+              TCPSocket.socks_port = URI(proxy).port
+            end
+            proxy_opts = { origin: proxy }
+            tls_opts = { verify_peer: false }
+            this_browser = Faye::WebSocket::Client.new(
+              '',
+              [],
+              {
+                tls: tls_opts,
+                proxy: proxy_opts
+              }
+            )
+          else
+            this_browser = Faye::WebSocket::Client.new('')
+          end
         else
-          puts 'Error: browser_type only supports :firefox, :chrome, :headless, or :rest'
+          puts 'Error: browser_type only supports :firefox, :chrome, :headless, :rest, or :websocket'
           return nil
         end
 
@@ -277,7 +297,7 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           browser_obj1 = #{self}.open(
-            browser_type: :firefox|:chrome|:headless|:rest,
+            browser_type: :firefox|:chrome|:headless|:rest|:websocket,
             proxy: 'optional scheme://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
             with_devtools: 'optional - boolean (defaults to false)'
