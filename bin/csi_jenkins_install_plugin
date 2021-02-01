@@ -53,11 +53,7 @@ list_available_bool = if opts[:list_available_bool]
                         false
                       end
 
-restart_jenkins = if opts[:restart_jenkins].nil?
-                    true
-                  else
-                    false
-                  end
+restart_jenkins = opts[:restart_jenkins].nil?
 
 if port.positive?
   jenkins_obj = CSI::Plugins::Jenkins.connect(
