@@ -26,11 +26,7 @@ module CSI
                      false
                    end
 
-        with_tor = if opts[:with_tor].nil?
-                     true
-                   else
-                     false
-                   end
+        with_tor = opts[:with_tor].nil?
 
         if proxy
           if with_tor
