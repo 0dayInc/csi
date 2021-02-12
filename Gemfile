@@ -12,14 +12,14 @@ gemspec
 # In some circumstances custom flags are passed to gems in order
 # to build appropriately.  Defer to /reinstall_csi_gemset.sh
 # to review these custom flags (e.g. pg, serialport, etc).
-gem 'activesupport', '6.1.1'
+gem 'activesupport', '6.1.2.1'
 gem 'anemone', '0.7.2'
 gem 'authy', '3.0.0'
 gem 'aws-sdk', '3.0.1'
 gem 'bettercap', '1.6.2'
 gem 'brakeman', '5.0.0'
-gem 'bson', '4.11.1'
-gem 'bundler', '2.2.8'
+gem 'bson', '4.12.0'
+gem 'bundler', '2.2.9'
 gem 'bundler-audit', '0.7.0.1'
 gem 'bunny', '2.17.0'
 gem 'faye-websocket', '0.11.0'

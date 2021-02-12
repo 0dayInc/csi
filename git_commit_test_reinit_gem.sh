@@ -9,7 +9,8 @@ if [[ $1 != "" && $2 != "" && $3 != "" ]]; then
   csi_autoinc_version
   git commit -a -S --author="${1} <${2}>" -m "${3}"
   ./update_csi.sh
-  tag_this_version_bool=`ruby -r 'csi' -e 'if CSI::VERSION.split(".")[-1].to_i == 0; then print true; else print false; end'`
+  # Tag for every 100 commits (i.e. 0.1.100, 0.1.200, etc)
+  tag_this_version_bool=`ruby -r 'csi' -e 'if CSI::VERSION.split(".")[-1].to_i % 100 == 0; then print true; else print false; end'`
   if [[ $tag_this_version_bool == 'true' ]]; then
     this_version=`ruby -r 'csi' -e 'print CSI::VERSION'`
     echo "Tagging: ${this_version}"
