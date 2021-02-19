@@ -104,7 +104,7 @@ module CSI
 
           this_browser = Watir::Browser.new(:chrome, switches: switches)
 
-        when :headless
+        when :headless_firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
@@ -156,36 +156,37 @@ module CSI
           driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
           this_browser = Watir::Browser.new(driver)
 
+        when :headless, :headless_chrome
           # Chrome headless
-          # this_profile = Selenium::WebDriver::Chrome::Profile.new
-          # this_profile['download.prompt_for_download'] = false
-          # this_profile['download.default_directory'] = '~/Downloads'
+          this_profile = Selenium::WebDriver::Chrome::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
 
-          # if proxy
-          #   if with_tor
-          #     this_browser = Watir::Browser.new(
-          #       :chrome,
-          #       headless: true,
-          #       switches: [
-          #         "--proxy-server=#{proxy}",
-          #         "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-          #       ]
-          #     )
-          #   else
-          #     this_browser = Watir::Browser.new(
-          #       :chrome,
-          #       headless: true,
-          #       switches: [
-          #         "--proxy-server=#{proxy}"
-          #       ]
-          #     )
-          #   end
-          # else
-          #   this_browser = Watir::Browser.new(
-          #     :chrome,
-          #     headless: true
-          #   )
-          # end
+          if proxy
+            if with_tor
+              this_browser = Watir::Browser.new(
+                :chrome,
+                headless: true,
+                switches: [
+                  "--proxy-server=#{proxy}",
+                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+                ]
+              )
+            else
+              this_browser = Watir::Browser.new(
+                :chrome,
+                headless: true,
+                switches: [
+                  "--proxy-server=#{proxy}"
+                ]
+              )
+            end
+          else
+            this_browser = Watir::Browser.new(
+              :chrome,
+              headless: true
+            )
+          end
 
         when :rest
           this_browser = RestClient
@@ -297,7 +298,7 @@ module CSI
       public_class_method def self.help
         puts "USAGE:
           browser_obj1 = #{self}.open(
-            browser_type: :firefox|:chrome|:headless|:rest|:websocket,
+            browser_type: :firefox|:chrome|:headless_chrome|:headless_firefox|:rest|:websocket,
             proxy: 'optional scheme://proxy_host:port',
             with_tor: 'optional boolean (defaults to false)',
             with_devtools: 'optional - boolean (defaults to false)'
