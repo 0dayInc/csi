@@ -10,12 +10,12 @@ else
 fi
 
 ls pkg/*.gem | while read previous_gems; do 
-  rm $previous_gems
+  rvmsudo rm $previous_gems
 done
 old_ruby_version=`cat ${csi_root}/.ruby-version`
 # Default Strategy is to merge codebase
-git config pull.rebase false 
-git pull
+rvmsudo git config pull.rebase false 
+rvmsudo git pull
 new_ruby_version=`cat ${csi_root}/.ruby-version`
 
 if [[ $old_ruby_version == $new_ruby_version ]]; then

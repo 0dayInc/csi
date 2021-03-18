@@ -101,7 +101,7 @@ Certain Constraints Mandate CSI be Installed in /opt/csi:
 It's wise to rebuild csi often as this repo has numerous releases/week (unless you're in the Kali box, then it's handled for you daily in the Jenkins job called, "selfupdate-csi":
   ```
   $ cd /opt/csi && ./update_csi.sh && csi
-  csi[v0.4.61]:001 >>> CSI.help
+  csi[v0.4.62]:001 >>> CSI.help
   ```
 
 
