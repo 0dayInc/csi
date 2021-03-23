@@ -171,7 +171,7 @@ module CSI
                 :chrome,
                 headless: true,
                 options: {
-                  profile: this_profile
+                  profile: this_profile,
                   switches: [
                     "--proxy-server=#{proxy}",
                     "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
@@ -183,7 +183,7 @@ module CSI
                 :chrome,
                 headless: true,
                 options: {
-                  profile: this_profile
+                  profile: this_profile,
                   switches: [
                     "--proxy-server=#{proxy}"
                   ]
