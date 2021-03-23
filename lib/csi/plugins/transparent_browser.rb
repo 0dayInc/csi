@@ -102,7 +102,10 @@ module CSI
             switches.push('--disable-hang-monitor')
           end
 
-          this_browser = Watir::Browser.new(:chrome, switches: switches)
+          this_browser = Watir::Browser.new(
+            :chrome,
+            options: { switches: switches }
+          )
 
         when :headless_firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
@@ -153,7 +156,7 @@ module CSI
 
           options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
           options.profile = this_profile
-          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          driver = Selenium::WebDriver.for(:firefox, options: { options, desired_capabilities: caps })
           this_browser = Watir::Browser.new(driver)
 
         when :headless, :headless_chrome
