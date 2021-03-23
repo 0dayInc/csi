@@ -102,7 +102,10 @@ module CSI
             switches.push('--disable-hang-monitor')
           end
 
-          this_browser = Watir::Browser.new(:chrome, switches: switches)
+          this_browser = Watir::Browser.new(
+            :chrome,
+            options: { switches: switches }
+          )
 
         when :headless_firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
@@ -167,24 +170,33 @@ module CSI
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}",
-                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                ]
+                options: {
+                  profile: this_profile,
+                  switches: [
+                    "--proxy-server=#{proxy}",
+                    "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+                  ]
+                }
               )
             else
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}"
-                ]
+                options: {
+                  profile: this_profile,
+                  switches: [
+                    "--proxy-server=#{proxy}"
+                  ]
+                }
               )
             end
           else
             this_browser = Watir::Browser.new(
               :chrome,
-              headless: true
+              headless: true,
+              options: {
+                profile: this_profile
+              }
             )
           end
 
