@@ -2,6 +2,7 @@
 if [[ $1 != "" && $2 != "" && $3 != "" ]]; then
   # Default Strategy is to merge codebase
   git config pull.rebase false
+  git config commit.gpgsign true
   git pull
   git add . --all
   echo 'Updating Gems to Latest Versions in Gemfile...'

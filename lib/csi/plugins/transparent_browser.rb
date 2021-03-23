@@ -156,7 +156,7 @@ module CSI
 
           options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
           options.profile = this_profile
-          driver = Selenium::WebDriver.for(:firefox, options: { options, desired_capabilities: caps })
+          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
           this_browser = Watir::Browser.new(driver)
 
         when :headless, :headless_chrome
@@ -171,6 +171,7 @@ module CSI
                 :chrome,
                 headless: true,
                 options: {
+                  profile: this_profile
                   switches: [
                     "--proxy-server=#{proxy}",
                     "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
@@ -182,6 +183,7 @@ module CSI
                 :chrome,
                 headless: true,
                 options: {
+                  profile: this_profile
                   switches: [
                     "--proxy-server=#{proxy}"
                   ]
@@ -191,7 +193,10 @@ module CSI
           else
             this_browser = Watir::Browser.new(
               :chrome,
-              headless: true
+              headless: true,
+              options: {
+                profile: this_profile
+              }
             )
           end
 
