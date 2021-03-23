@@ -167,18 +167,22 @@ module CSI
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}",
-                  "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                ]
+                options: {
+                  switches: [
+                    "--proxy-server=#{proxy}",
+                    "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
+                  ]
+                }
               )
             else
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                switches: [
-                  "--proxy-server=#{proxy}"
-                ]
+                options: {
+                  switches: [
+                    "--proxy-server=#{proxy}"
+                  ]
+                }
               )
             end
           else
