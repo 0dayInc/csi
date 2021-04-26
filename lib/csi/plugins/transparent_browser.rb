@@ -182,7 +182,7 @@ module CSI
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                profile: profile,
+                profile: this_profile,
                 options: {
                   switches: [
                     "--proxy-server=#{proxy}"
@@ -194,7 +194,7 @@ module CSI
             this_browser = Watir::Browser.new(
               :chrome,
               headless: true,
-              profile: profile
+              profile: this_profile
             )
           end
 
