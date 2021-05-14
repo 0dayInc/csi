@@ -105,7 +105,10 @@ module CSI
 
           this_browser = Watir::Browser.new(
             :chrome,
-            options: { switches: switches }
+            options: {
+              accept_insecure_certs: true,
+              switches: switches
+            }
           )
 
         when :headless_firefox
