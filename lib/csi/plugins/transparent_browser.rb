@@ -63,8 +63,8 @@ module CSI
           # this_profile['devtools.cache.disabled'] = true
           # this_profile['dom.caches.enabled'] = false
 
-          caps = Selenium::WebDriver::Remote::Capabilities.firefox
-          caps[:acceptInsecureCerts] = true
+          # caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          # caps[:acceptInsecureCerts] = true
 
           if proxy
             this_profile['network.proxy.type'] = 1
@@ -85,9 +85,10 @@ module CSI
           args = []
 
           args.push('--devtools') if with_devtools
-          options = Selenium::WebDriver::Firefox::Options.new(args: args)
+          options = Selenium::WebDriver::Firefox::Options.new(args: args, accept_insecure_certs: true)
           options.profile = this_profile
-          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          # driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          driver = Selenium::WebDriver.for(:firefox, options: options)
           this_browser = Watir::Browser.new(driver)
 
         when :chrome
@@ -135,8 +136,8 @@ module CSI
           # this_profile['devtools.cache.disabled'] = true
           # this_profile['dom.caches.enabled'] = false
 
-          caps = Selenium::WebDriver::Remote::Capabilities.firefox
-          caps[:acceptInsecureCerts] = true
+          # caps = Selenium::WebDriver::Remote::Capabilities.firefox
+          # caps[:acceptInsecureCerts] = true
 
           if proxy
             this_profile['network.proxy.type'] = 1
@@ -154,9 +155,10 @@ module CSI
             end
           end
 
-          options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+          options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'], accept_insecure_certs: true)
           options.profile = this_profile
-          driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          # driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
+          driver = Selenium::WebDriver.for(:firefox, options: options)
           this_browser = Watir::Browser.new(driver)
 
         when :headless, :headless_chrome
@@ -170,8 +172,9 @@ module CSI
               this_browser = Watir::Browser.new(
                 :chrome,
                 headless: true,
-                profile: profile,
+                profile: this_profile,
                 options: {
+                  accept_insecure_certs: true,
                   switches: [
                     "--proxy-server=#{proxy}",
                     "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
@@ -184,6 +187,7 @@ module CSI
                 headless: true,
                 profile: this_profile,
                 options: {
+                  accept_insecure_certs: true,
                   switches: [
                     "--proxy-server=#{proxy}"
                   ]
@@ -194,7 +198,10 @@ module CSI
             this_browser = Watir::Browser.new(
               :chrome,
               headless: true,
-              profile: this_profile
+              profile: this_profile,
+              options: {
+                accept_insecure_certs: true
+              }
             )
           end
 
