@@ -56,12 +56,12 @@ module CSI
           # this_profile['dom.max_script_run_time'] = 180
 
           # disable browser cache
-          # this_profile['browser.cache.disk.enable'] = false
-          # this_profile['browser.cache.disk_cache_ssl.enable'] = false
-          # this_profile['browser.cache.memory.enable'] = false
-          # this_profile['browser.cache.offline.enable'] = false
-          # this_profile['devtools.cache.disabled'] = true
-          # this_profile['dom.caches.enabled'] = false
+          this_profile['browser.cache.disk.enable'] = false
+          this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          this_profile['browser.cache.memory.enable'] = false
+          this_profile['browser.cache.offline.enable'] = false
+          this_profile['devtools.cache.disabled'] = true
+          this_profile['dom.caches.enabled'] = false
 
           # caps = Selenium::WebDriver::Remote::Capabilities.firefox
           # caps[:acceptInsecureCerts] = true
@@ -87,11 +87,14 @@ module CSI
           args.push('--devtools') if with_devtools
           options = Selenium::WebDriver::Firefox::Options.new(args: args, accept_insecure_certs: true)
           options.profile = this_profile
-          # driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
-          driver = Selenium::WebDriver.for(:firefox, options: options)
+          driver = Selenium::WebDriver.for(:firefox, capabilities: options)
           this_browser = Watir::Browser.new(driver)
 
         when :chrome
+          this_profile = Selenium::WebDriver::Chrome::Profile.new
+          this_profile['download.prompt_for_download'] = false
+          this_profile['download.default_directory'] = '~/Downloads'
+
           switches = []
           if proxy
             switches.push("--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'") if with_tor
@@ -103,15 +106,16 @@ module CSI
             switches.push('--disable-hang-monitor')
           end
 
-          this_browser = Watir::Browser.new(
-            :chrome,
-            options: {
-              accept_insecure_certs: true,
-              switches: switches
-            }
+          options = Selenium::WebDriver::Chrome::Options.new(
+            args: switches,
+            accept_insecure_certs: true
           )
 
-        when :headless_firefox
+          options.profile = this_profile
+          driver = Selenium::WebDriver.for(:chrome, capabilities: options)
+          this_browser = Watir::Browser.new(driver)
+
+        when :headless, :headless_firefox
           this_profile = Selenium::WebDriver::Firefox::Profile.new
           # Downloads reside in ~/Downloads
           this_profile['browser.download.folderList'] = 1
@@ -132,12 +136,12 @@ module CSI
           # this_profile['dom.max_script_run_time'] = 180
 
           # disable browser cache
-          # this_profile['browser.cache.disk.enable'] = false
-          # this_profile['browser.cache.disk_cache_ssl.enable'] = false
-          # this_profile['browser.cache.memory.enable'] = false
-          # this_profile['browser.cache.offline.enable'] = false
-          # this_profile['devtools.cache.disabled'] = true
-          # this_profile['dom.caches.enabled'] = false
+          this_profile['browser.cache.disk.enable'] = false
+          this_profile['browser.cache.disk_cache_ssl.enable'] = false
+          this_profile['browser.cache.memory.enable'] = false
+          this_profile['browser.cache.offline.enable'] = false
+          this_profile['devtools.cache.disabled'] = true
+          this_profile['dom.caches.enabled'] = false
 
           # caps = Selenium::WebDriver::Remote::Capabilities.firefox
           # caps[:acceptInsecureCerts] = true
@@ -160,53 +164,29 @@ module CSI
 
           options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'], accept_insecure_certs: true)
           options.profile = this_profile
-          # driver = Selenium::WebDriver.for(:firefox, options: options, desired_capabilities: caps)
-          driver = Selenium::WebDriver.for(:firefox, options: options)
+          driver = Selenium::WebDriver.for(:firefox, capabilities: options)
           this_browser = Watir::Browser.new(driver)
 
-        when :headless, :headless_chrome
-          # Chrome headless
+        when :headless_chrome
           this_profile = Selenium::WebDriver::Chrome::Profile.new
           this_profile['download.prompt_for_download'] = false
           this_profile['download.default_directory'] = '~/Downloads'
 
+          switches = []
+          switches.push('-headless')
           if proxy
-            if with_tor
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                profile: this_profile,
-                options: {
-                  accept_insecure_certs: true,
-                  switches: [
-                    "--proxy-server=#{proxy}",
-                    "--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'"
-                  ]
-                }
-              )
-            else
-              this_browser = Watir::Browser.new(
-                :chrome,
-                headless: true,
-                profile: this_profile,
-                options: {
-                  accept_insecure_certs: true,
-                  switches: [
-                    "--proxy-server=#{proxy}"
-                  ]
-                }
-              )
-            end
-          else
-            this_browser = Watir::Browser.new(
-              :chrome,
-              headless: true,
-              profile: this_profile,
-              options: {
-                accept_insecure_certs: true
-              }
-            )
+            switches.push("--host-resolver-rules='MAP * 0.0.0.0 , EXCLUDE #{URI(proxy).host}'") if with_tor
+            switches.push("--proxy-server=#{proxy}")
           end
+
+          options = Selenium::WebDriver::Chrome::Options.new(
+            args: switches,
+            accept_insecure_certs: true
+          )
+
+          options.profile = this_profile
+          driver = Selenium::WebDriver.for(:chrome, capabilities: options)
+          this_browser = Watir::Browser.new(driver)
 
         when :rest
           this_browser = RestClient
