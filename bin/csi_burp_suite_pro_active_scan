@@ -58,7 +58,7 @@ begin
   else
     burp_obj = CSI::Plugins::BurpSuite.start(
       burp_jar_path: burp_jar_path,
-      browser_type: :firefox
+      browser_type: :chrome
     )
   end
 
